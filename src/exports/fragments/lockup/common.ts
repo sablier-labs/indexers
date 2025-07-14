@@ -22,7 +22,6 @@ export namespace Lockup {
     fragment StreamFragmentBase on Stream {
       id
       alias
-      assetDecimalsValue
       cancelable
       canceled
       canceledTime

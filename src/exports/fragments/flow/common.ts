@@ -9,7 +9,6 @@ export namespace Flow {
     fragment StreamFragment on Stream {
       id
       alias
-      assetDecimalsValue
       availableAmount
       category
       chainId

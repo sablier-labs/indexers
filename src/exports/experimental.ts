@@ -10,7 +10,7 @@
  * @see {@link file://./../tests/cron/vendor-equivalence/equivalence.ts}
  */
 import { sepolia } from "sablier/dist/chains";
-import { getIndexer, type Indexer } from "./exports";
+import { getIndexer, type Indexer } from ".";
 
 /**
  * The experimental indexers run on Sepolia.
@@ -30,12 +30,5 @@ export function getExperimentalURL(opts: { protocol: Indexer.Protocol; vendor: I
   if (!indexer?.testingURL) {
     throw new Error(`Sepolia Indexer not found for protocol ${protocol}`);
   }
-
-  // TODO: remove this once The Graph fixes their subgraph
-  // https://thegraph.com/studio/subgraph/sablier-lockup-experimental/endpoints
-  if (protocol === "lockup") {
-    return "https://api.studio.thegraph.com/query/112500/sablier-lockup-experimental/v2.0--v1.0.0-beta.17";
-  }
-
   return indexer.testingURL.replace("sepolia", "experimental");
 }
