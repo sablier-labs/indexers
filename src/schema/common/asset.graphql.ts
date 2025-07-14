@@ -22,7 +22,7 @@ export function getAssetDefs(protocol: Types.Protocol) {
     """
     ERC-20 asset
     """
-    type Asset @entity(immutable: true) {
+    type Asset @entity(immutable: false) {
       """
       Unique identifier: \`{chainId}-{address}\`
       """
