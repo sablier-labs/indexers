@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { chains } from "sablier";
 import type { Indexer } from "../types";
 import { indexers } from "./data";
 

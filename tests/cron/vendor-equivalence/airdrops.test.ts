@@ -1,11 +1,11 @@
-import { chains } from "sablier";
+import { sepolia } from "sablier/dist/chains";
 import { getExperimentalURL } from "../../../src/experimental";
 import * as Envio from "../../../src/exports/queries/airdrops/envio";
 import * as Graph from "../../../src/exports/queries/airdrops/graph";
 import { createEquivalenceTest } from "./equivalence";
 
 createEquivalenceTest({
-  chainId: chains.sepolia.id,
+  chainId: sepolia.id,
   endpoints: {
     envio: getExperimentalURL({ protocol: "airdrops", vendor: "envio" }),
     graph: getExperimentalURL({ protocol: "airdrops", vendor: "graph" }),

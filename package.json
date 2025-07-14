@@ -1,6 +1,6 @@
 {
   "name": "@sablier/indexers",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Data indexers for the Sablier Protocol",
   "author": {
     "name": "Sablier Labs Ltd",
@@ -8,10 +8,10 @@
   },
   "dependencies": {
     "lodash": "^4.17",
-    "sablier": "1.0.0-beta.7"
+    "sablier": "1.0.0-beta.8"
   },
   "peerDependencies": {
-    "sablier": "1.0.0-beta.7"
+    "sablier": "1.0.0-beta.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1",

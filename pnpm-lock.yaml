@@ -12,8 +12,8 @@ importers:
         specifier: ^4.17
         version: 4.17.21
       sablier:
-        specifier: 1.0.0-beta.7
-        version: 1.0.0-beta.7(viem@2.31.4(typescript@5.8.3)(zod@3.25.51))
+        specifier: 1.0.0-beta.8
+        version: 1.0.0-beta.8(viem@2.31.4(typescript@5.8.3)(zod@3.25.51))
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.1
@@ -3695,8 +3695,8 @@ packages:
   rxjs@7.8.2:
     resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
 
-  sablier@1.0.0-beta.7:
-    resolution: {integrity: sha512-MdBx3TRX5d3OCa1oAjdwCm0EmC0oNsFRuq7U0izJrXbivvCSu5UDckznB3Pex1Ytew25nv3sM23GSz0WG1IK1w==}
+  sablier@1.0.0-beta.8:
+    resolution: {integrity: sha512-wROqC/vwe4mOMrSe24Ya01UBJCo/Ct8jJn7w4+D7+A24HwpM1sjtLkIAorVekxGO661WzxmDix6oTeDYqYGYcA==}
     engines: {node: '>=20'}
     peerDependencies:
       viem: ^2.31
@@ -8159,7 +8159,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  sablier@1.0.0-beta.7(viem@2.31.4(typescript@5.8.3)(zod@3.25.51)):
+  sablier@1.0.0-beta.8(viem@2.31.4(typescript@5.8.3)(zod@3.25.51)):
     dependencies:
       lodash: 4.17.21
       viem: 2.31.4(typescript@5.8.3)(zod@3.25.51)

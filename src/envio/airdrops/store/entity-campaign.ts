@@ -33,7 +33,7 @@ export async function createLL(
     streamCliffDuration: params.cliffDuration,
     streamCliffPercentage: params.cliffPercentage,
     streamInitial: Boolean(params.startPercentage && params.startPercentage > 0n),
-    streamInitialPercentage: params.startPercentage ?? 0n,
+    streamInitialPercentage: params.startPercentage ?? undefined,
   };
   await context.Campaign.set(campaign);
   return campaign;

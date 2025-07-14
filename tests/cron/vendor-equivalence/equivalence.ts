@@ -74,7 +74,12 @@ async function fetchEntities(
     const response = await client.request<QueryResponse>(document, variables);
     return getEntities(response);
   } catch (error) {
-    logger.error(JSON.stringify(error, null, 2));
+    try {
+      const stringifiedError = JSON.stringify(error, null, 2);
+      logger.error(`Request failed: ${stringifiedError}`);
+    } catch {
+      logger.error("Request failed:", error);
+    }
     return undefined;
   }
 }
@@ -125,6 +130,9 @@ export function createEquivalenceTest(config: TestConfig) {
 
         expect(envioEntities.length).toBe(graphEntities.length);
         for (let i = 0; i < envioEntities.length; i++) {
+          // Debug by unsetting fields, e.g.
+          // _.unset(envioEntities[i], "sender");
+          // _.unset(graphEntities[i], "sender");
           expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(graphEntities[i]);
         }
 
