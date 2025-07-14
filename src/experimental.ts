@@ -34,7 +34,7 @@ export function getExperimentalURL(opts: { protocol: Indexer.Protocol; vendor: I
   // TODO: remove this once The Graph fixes their subgraph
   // https://thegraph.com/studio/subgraph/sablier-lockup-experimental/endpoints
   if (protocol === "lockup") {
-    return "https://api.studio.thegraph.com/query/112500/sablier-lockup-experimental/v2.0--v1.0.0-beta.14";
+    return "https://api.studio.thegraph.com/query/112500/sablier-lockup-experimental/v2.0--v1.0.0-beta.16";
   }
 
   return indexer.testingURL.replace("sepolia", "experimental");

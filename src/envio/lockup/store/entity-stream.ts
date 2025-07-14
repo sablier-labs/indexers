@@ -48,7 +48,7 @@ export async function createTranched(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateTranche,
+  params: Params.CreateStreamTranched,
 ): Promise<Entity.Stream> {
   const stream = await createBase(context, event, entities, params);
   await context.Stream.set(stream);
