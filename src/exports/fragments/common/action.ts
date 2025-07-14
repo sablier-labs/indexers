@@ -1,5 +1,5 @@
 /**
- * This fragment is common between Flow and Lockup.
+ * This fragment is used only by Flow and Lockup.
  */
 export const ActionFragment = /* GraphQL */ `
   fragment ActionFragment on Action {
@@ -12,6 +12,7 @@ export const ActionFragment = /* GraphQL */ `
     category
     chainId
     contract
+    fee
     from
     hash
     subgraphId

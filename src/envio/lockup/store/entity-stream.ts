@@ -132,7 +132,7 @@ async function createBase(
     category: "Create",
     streamId: streamId,
   });
-  if (params.cancelable) {
+  if (params.cancelable === false) {
     stream = {
       ...stream,
       renounceAction_id: action.id,

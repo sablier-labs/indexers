@@ -6,7 +6,7 @@
 import { chains, Protocol } from "sablier";
 import { Vendor } from "../enums";
 import type { Indexer } from "../types";
-import { envioRecords } from "./envio-records";
+import { envioDeployments } from "./envio-deployments";
 
 const SUPPORTED_CHAINS = [
   /* -------------------------------------------------------------------------- */
@@ -44,18 +44,18 @@ const SUPPORTED_CHAINS = [
 
 function get(protocol: Indexer.Protocol): Indexer[] {
   return SUPPORTED_CHAINS.map((chainId) => {
-    const record = envioRecords[protocol];
+    const deployment = envioDeployments[protocol];
     return {
       chainId,
       endpoint: {
-        id: record.endpoint.id,
-        url: record.endpoint.url,
+        id: deployment.endpoint.id,
+        url: deployment.endpoint.url,
       },
-      explorerURL: record.explorerURL,
+      explorerURL: deployment.explorerURL,
       kind: "official",
       name: `sablier-${protocol}`,
       protocol,
-      testingURL: `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(record.endpoint.url)}`,
+      testingURL: `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(deployment.endpoint.url)}`,
       vendor: Vendor.Envio,
     };
   });

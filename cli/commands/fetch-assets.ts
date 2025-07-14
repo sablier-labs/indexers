@@ -15,7 +15,7 @@ import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { type Sablier, sablier } from "sablier";
 import { RPCData } from "../../src/envio/common/types";
-import { getSablierSubgraph, indexers } from "../../src/exports/indexers";
+import { getIndexerGraph, indexers } from "../../src/exports/indexers";
 import type { Indexer } from "../../src/exports/types";
 import paths from "../../src/paths";
 import { type Types } from "../../src/types";
@@ -111,7 +111,7 @@ async function handleAllChains(protocolArg: string): Promise<void> {
     let totalNew = 0;
     let totalAssets = 0;
     for (const protocol of PROTOCOLS) {
-      const indexer = getSablierSubgraph({ chainId, protocol });
+      const indexer = getIndexerGraph({ chainId, protocol });
       if (!indexer) {
         continue;
       }
@@ -127,7 +127,7 @@ async function handleAllChains(protocolArg: string): Promise<void> {
 async function handleChain(chainArg: string, protocolArg: string): Promise<void> {
   if (protocolArg !== "all") {
     const chain = helpers.getChain(chainArg);
-    const indexer = getSablierSubgraph({ chainId: chain.id, protocol: protocolArg as Types.Protocol });
+    const indexer = getIndexerGraph({ chainId: chain.id, protocol: protocolArg as Types.Protocol });
     if (!indexer) {
       throw new Error(`No indexer found for ${protocolArg} protocol on ${chainArg} chain`);
     }
@@ -139,7 +139,7 @@ async function handleChain(chainArg: string, protocolArg: string): Promise<void>
   let totalNew = 0;
   let totalAssets = 0;
   for (const protocol of PROTOCOLS) {
-    const indexer = getSablierSubgraph({ chainId: chain.id, protocol });
+    const indexer = getIndexerGraph({ chainId: chain.id, protocol });
     if (!indexer) continue;
     const { newCount, totalCount } = await handle(indexer, chain, true);
     totalNew += newCount;

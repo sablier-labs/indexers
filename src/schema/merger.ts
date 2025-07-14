@@ -5,8 +5,10 @@ import { type DocumentNode } from "graphql";
 import { Protocol } from "sablier";
 import { SCHEMA_DIR } from "../paths";
 import { type Types } from "../types";
-import { getAssetDefs, getStreamDefs, getWatcherDefs } from "./common";
+import { getAssetDefs, getWatcherDefs } from "./common";
 import { getEnumDefs } from "./enums";
+import { flowStreamDefs } from "./flow/stream.graphql";
+import { lockupStreamDefs } from "./lockup/stream.graphql";
 
 /**
  * Generates a merged schema for a given protocol.
@@ -38,7 +40,7 @@ export function getMergedSchema(protocol: Types.Protocol): DocumentNode {
     const batchDefs = getDefs("common", "batch");
     gqlDefs.push(actionDefs, batchDefs);
 
-    const streamDefs = getStreamDefs(protocol);
+    const streamDefs = protocol === Protocol.Lockup ? lockupStreamDefs : flowStreamDefs;
     tsDefs.push(streamDefs);
 
     // Defs unique to Lockup

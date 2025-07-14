@@ -17,10 +17,6 @@ export function readContractVersion(): string {
   return readString("version");
 }
 
-/**
- * @todo check if this is the correct way of loading a List type
- * @see https://github.com/graphprotocol/graph-tooling/discussions/2025
- */
 export function readLockups(): string[] {
   const context = dataSource.context();
   const value = context.get("lockups");

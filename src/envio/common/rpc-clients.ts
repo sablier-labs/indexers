@@ -31,17 +31,6 @@ for (const chainId of envioChains) {
   // Add default chain RPC as provided by the Sablier deployments package, which sources it from Viem.
   rpcUrls.push(chain.rpc.default);
 
-  // TODO: add chainlist-rpcs package back when this is merged
-  // https://github.com/actuallymentor/chainlist-rpcs/pull/4
-  // 4. Add public RPCs from chainlist as fallbacks
-  // const publicRpcUrls = getRPCs({ chain_id: chain.id })
-  //   .map((rpc) => {
-  //     const url = typeof rpc === "string" ? rpc : rpc.url;
-  //     return url.startsWith("http") ? url : undefined;
-  //   })
-  //   .filter(Boolean) as string[];
-  // rpcUrls.push(...publicRpcUrls);
-
   // Remove duplicates while preserving order
   const uniqueRpcUrls = _.uniq(rpcUrls);
 

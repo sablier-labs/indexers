@@ -1,3 +1,4 @@
+import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
 
 const CI = Boolean(process.env.CI);
@@ -12,6 +13,7 @@ function getInclude() {
     }
   }
   if (paths.length === 0) {
+    // paths.push("tests/vendor-equivalence/lockup.test.ts");
     paths.push("tests/**/*.test.ts");
   }
 
@@ -31,6 +33,7 @@ function getTimeout() {
 
 export default defineConfig({
   test: {
+    env: loadEnv("", process.cwd(), ""),
     environment: "node",
     globals: true,
     include: getInclude(),

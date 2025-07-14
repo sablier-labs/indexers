@@ -30,9 +30,12 @@ export function createCampaignLL(
   campaign.streamCliffDuration = paramsLL.cliffDuration;
   campaign.streamCliffPercentage = paramsLL.cliffPercentage;
   const startPercentage = paramsLL.startPercentage;
-  if (startPercentage) {
+  if (startPercentage !== null) {
     campaign.streamInitial = startPercentage.gt(ZERO);
     campaign.streamInitialPercentage = startPercentage;
+  } else {
+    campaign.streamInitial = false;
+    campaign.streamInitialPercentage = ZERO;
   }
 
   campaign.save();

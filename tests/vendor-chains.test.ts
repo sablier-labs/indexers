@@ -3,7 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import { Protocol } from "sablier";
 import { describe, expect, it } from "vitest";
-import { getSablierIndexerGraph } from "../src/exports";
+import { getIndexerGraph } from "../src/exports";
 import { envioChains, envioHypersync as envioExcluded } from "../src/exports/indexers/envio";
 import { graphChains } from "../src/exports/indexers/graph";
 import { logger } from "../src/winston";
@@ -17,12 +17,12 @@ describeFn("Vendors", () => {
       const registry = await NetworksRegistry.fromLatestVersion();
       const supportedChainIds = registry.networks.map((c) => {
         const chainId = c.caip2Id.replace("eip155:", "");
-        return Number.parseInt(chainId, 10);
+        return _.toNumber(chainId);
       });
 
       let unsupported = _.difference(graphChains, supportedChainIds);
       unsupported = _.filter(unsupported, (id) => {
-        const indexer = getSablierIndexerGraph({ chainId: id, protocol: Protocol.Lockup });
+        const indexer = getIndexerGraph({ chainId: id, protocol: Protocol.Lockup });
         return indexer?.kind === "official";
       });
 

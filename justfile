@@ -24,8 +24,7 @@ GLOBS_CLEAN_IGNORE := "!src/graph/common/bindings"
 default: full-check
 
 # Build the entire package
-build: (clean "dist") export-schema codegen-gql
-    just build-tsc
+build: (clean "dist") export-schema codegen-gql build-tsc
 alias b := build
 
 # Build the TypeScript package
@@ -42,9 +41,16 @@ alias bt := build-tsc
 clean globs=GLOBS_CLEAN:
     pnpm dlx del-cli "{{ globs }}" "{{ GLOBS_CLEAN_IGNORE }}"
 
-# Codegen all vendors
+# Codegen everything
 [group("codegen")]
 @codegen:
+    just codegen-indexers
+    echo ""
+    just codegen-gql
+
+# Codegen all indexers
+[group("codegen")]
+@codegen-indexers:
     just codegen-envio
     echo ""
     just codegen-graph
@@ -176,7 +182,6 @@ _codegen-graph-bindings protocol:
         --protocol {{ protocol }} \
         --chain {{ chain }}
 
-
 # ---------------------------------------------------------------------------- #
 #                                 RECIPES: GQL                                 #
 # ---------------------------------------------------------------------------- #
@@ -193,19 +198,19 @@ _codegen-graph-bindings protocol:
 [group("codegen")]
 [group("gql")]
 [group("envio")]
-@codegen-gql-envio:
-    pnpm graphql-codegen --config ./graphql-codegen.js --project envioAirdrops
-    pnpm graphql-codegen --config ./graphql-codegen.js --project envioFlow
-    pnpm graphql-codegen --config ./graphql-codegen.js --project envioLockup
+codegen-gql-envio:
+    pnpm graphql-codegen --config ./src/codegen/gql-config/airdrops/envio.ts
+    pnpm graphql-codegen --config ./src/codegen/gql-config/flow/envio.ts
+    pnpm graphql-codegen --config ./src/codegen/gql-config/lockup/envio.ts
 
 # Codegen GraphQL types and queries for Graph indexers
 [group("codegen")]
 [group("gql")]
 [group("graph")]
-@codegen-gql-graph:
-    pnpm graphql-codegen --config ./graphql-codegen.js --project graphAirdrops
-    pnpm graphql-codegen --config ./graphql-codegen.js --project graphFlow
-    pnpm graphql-codegen --config ./graphql-codegen.js --project graphLockup
+codegen-gql-graph:
+    pnpm graphql-codegen --config ./src/codegen/gql-config/airdrops/graph.ts
+    pnpm graphql-codegen --config ./src/codegen/gql-config/flow/graph.ts
+    pnpm graphql-codegen --config ./src/codegen/gql-config/lockup/graph.ts
 
 # ---------------------------------------------------------------------------- #
 #                                RECIPES: PRINT                                #

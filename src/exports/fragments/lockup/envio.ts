@@ -1,9 +1,9 @@
-import { gql } from "../../gql/envio/lockup/gql";
-import { Both } from "./both";
+import { gql } from "../../gql/lockup/envio/gql";
+import { Lockup } from "./common";
 
-export const ActionFragment = gql(Both.ActionFragment);
-export const AssetFragment = gql(Both.AssetFragment);
-export const BatchFragment = gql(Both.BatchFragment);
+export const ActionFragment = gql(Lockup.ActionFragment);
+export const AssetFragment = gql(Lockup.AssetFragment);
+export const BatchFragment = gql(Lockup.BatchFragment);
 
 export const StreamFragment = gql(/* GraphQL */ `
   fragment StreamFragment on Stream {

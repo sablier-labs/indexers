@@ -1,11 +1,14 @@
 /**
- * This fragment is common between Flow and Lockup.
+ * This fragment is used only by Flow and Lockup.
  */
 export const BatchFragment = /* GraphQL */ `
   fragment BatchFragment on Batch {
     id
     hash
-    position
+    timestamp
     size
+    batcher {
+      id
+    }
   }
 `;

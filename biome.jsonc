@@ -5,14 +5,14 @@
     "includes": [
       "**/*.{graphql,js,json,jsonc,mjs,mts,ts}",
       "!node_modules",
-      "!src/graph/**/bindings/**/*.ts",
-      "!src/exports/gql/**/*.ts"
+      "!src/exports/gql/**/*.ts",
+      "!src/graph/**/bindings/**/*.ts"
     ]
   },
   "overrides": [
     /* ------------------------------ YAML CODEGEN ------------------------------ */
     {
-      "includes": ["src/codegen/**/*.ts"],
+      "includes": ["src/codegen/envio-config/**/*.ts", "src/codegen/graph-manifest/**/*.ts"],
       "assist": { "actions": { "source": { "useSortedKeys": "off" } } }
     },
     /* ----------------------------- ASSEMBLYSCRIPT ----------------------------- */
