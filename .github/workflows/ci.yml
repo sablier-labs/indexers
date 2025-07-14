@@ -48,8 +48,8 @@ jobs:
       - name: "Build all Graph indexers as a check"
         run: "just build-graph-indexer"
 
-      - name: "Build the package"
-        run: "just build"
+      - name: "Export the schemas"
+        run: "just export-schema"
 
       - name: "Verify GraphQL schemas haven't changed"
         uses: "tj-actions/verify-changed-files@v20"

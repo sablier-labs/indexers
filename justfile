@@ -24,11 +24,11 @@ GLOBS_CLEAN_IGNORE := "!src/graph/common/bindings"
 default: full-check
 
 # Build the entire package
-build: (clean "dist") export-schema codegen-gql build-tsc
+build: export-schema codegen-gql build-tsc
 alias b := build
 
 # Build the TypeScript package
-build-tsc:
+build-tsc: (clean "dist")
     pnpm tsc -p tsconfig.build.json
 alias bt := build-tsc
 
@@ -60,7 +60,6 @@ clean globs=GLOBS_CLEAN:
 export-schema +globs="src/exports/schemas/*.graphql":
     just cli export-schema
     just biome-write "{{ globs }}"
-
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
 [group("envio")]

@@ -19,9 +19,9 @@ export function getExperimentalURL(opts: { protocol: Indexer.Protocol; vendor: I
   const { protocol, vendor } = opts;
   if (vendor === "envio") {
     const id = {
-      airdrops: "0d7d1ef", // https://envio.dev/app/sablier-labs/merkle-envio
-      flow: "bf9fa98", // https://envio.dev/app/sablier-labs/flow-envio
-      lockup: "b074030", // https://envio.dev/app/sablier-labs/lockup-envio
+      airdrops: "a8a8b3c", // https://envio.dev/app/sablier-labs/merkle-envio
+      flow: "3a1b56e", // https://envio.dev/app/sablier-labs/flow-envio
+      lockup: "52da35e", // https://envio.dev/app/sablier-labs/lockup-envio
     };
     return `https://indexer.hyperindex.xyz/${id[protocol]}/v1/graphql`;
   }
@@ -34,7 +34,7 @@ export function getExperimentalURL(opts: { protocol: Indexer.Protocol; vendor: I
   // TODO: remove this once The Graph fixes their subgraph
   // https://thegraph.com/studio/subgraph/sablier-lockup-experimental/endpoints
   if (protocol === "lockup") {
-    return "https://api.studio.thegraph.com/query/112500/sablier-lockup-experimental/v2.0--v1.0.0-beta.13";
+    return "https://api.studio.thegraph.com/query/112500/sablier-lockup-experimental/v2.0--v1.0.0-beta.14";
   }
 
   return indexer.testingURL.replace("sepolia", "experimental");

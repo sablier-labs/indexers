@@ -72,8 +72,7 @@
     "url": "git+https://github.com/sablier-labs/indexers.git"
   },
   "scripts": {
-    "build-package": "pnpm dlx del-cli dist && pnpm tsc -p tsconfig.build.json",
-    "prepack": "pnpm install --frozen-lockfile && pnpm run build-package",
+    "prepack": "pnpm install --frozen-lockfile && just build",
     "start": "cd ./src/envio/$ENVIO_PROTOCOL && ts-node ./bindings/src/Index.res.js"
   },
   "types": "./dist/index.d.ts"
