@@ -24,13 +24,9 @@ GLOBS_CLEAN_IGNORE := "!src/graph/common/bindings"
 default: full-check
 
 # Build the entire package
-build: export-schema codegen-gql build-tsc
-alias b := build
-
-# Build the TypeScript package
-build-tsc: (clean "dist")
+build: export-schema codegen-gql
     pnpm tsc -p tsconfig.build.json
-alias bt := build-tsc
+alias b := build
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
 [group("envio")]
