@@ -26,6 +26,7 @@ export default defineConfig({
   test: {
     env: loadEnv("", process.cwd(), ""),
     environment: "node",
+    globalSetup: "tests/setup.ts",
     globals: true,
     include: getInclude(),
     retry: getRetry(),

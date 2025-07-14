@@ -1255,11 +1255,6 @@ export type Stream = {
    */
   intactAmount: Scalars['BigInt']['output'];
   /**
-   * Users associated with the stream: recipient, sender, possibly the sender's proxy.
-   *
-   */
-  parties: Array<Scalars['Bytes']['output']>;
-  /**
    * Position in the batch, if available.
    *
    */
@@ -1624,12 +1619,6 @@ export type Stream_Filter = {
   intactAmount_not?: InputMaybe<Scalars['BigInt']['input']>;
   intactAmount_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   or?: InputMaybe<Array<InputMaybe<Stream_Filter>>>;
-  parties?: InputMaybe<Array<Scalars['Bytes']['input']>>;
-  parties_contains?: InputMaybe<Array<Scalars['Bytes']['input']>>;
-  parties_contains_nocase?: InputMaybe<Array<Scalars['Bytes']['input']>>;
-  parties_not?: InputMaybe<Array<Scalars['Bytes']['input']>>;
-  parties_not_contains?: InputMaybe<Array<Scalars['Bytes']['input']>>;
-  parties_not_contains_nocase?: InputMaybe<Array<Scalars['Bytes']['input']>>;
   position?: InputMaybe<Scalars['BigInt']['input']>;
   position_gt?: InputMaybe<Scalars['BigInt']['input']>;
   position_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -1839,7 +1828,6 @@ export enum Stream_OrderBy {
   Initial = 'initial',
   InitialAmount = 'initialAmount',
   IntactAmount = 'intactAmount',
-  Parties = 'parties',
   Position = 'position',
   Proxender = 'proxender',
   Proxied = 'proxied',

@@ -923,7 +923,6 @@ export type Stream = {
   initial?: Maybe<Scalars['Boolean']['output']>;
   initialAmount?: Maybe<Scalars['numeric']['output']>;
   intactAmount: Scalars['numeric']['output'];
-  parties: Array<Scalars['String']['output']>;
   position: Scalars['numeric']['output'];
   proxender?: Maybe<Scalars['String']['output']>;
   proxied: Scalars['Boolean']['output'];
@@ -1046,7 +1045,6 @@ export type Stream_Bool_Exp = {
   initial?: InputMaybe<Boolean_Comparison_Exp>;
   initialAmount?: InputMaybe<Numeric_Comparison_Exp>;
   intactAmount?: InputMaybe<Numeric_Comparison_Exp>;
-  parties?: InputMaybe<String_Array_Comparison_Exp>;
   position?: InputMaybe<Numeric_Comparison_Exp>;
   proxender?: InputMaybe<String_Comparison_Exp>;
   proxied?: InputMaybe<Boolean_Comparison_Exp>;
@@ -1089,7 +1087,6 @@ export type Stream_Max_Order_By = {
   id?: InputMaybe<Order_By>;
   initialAmount?: InputMaybe<Order_By>;
   intactAmount?: InputMaybe<Order_By>;
-  parties?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   proxender?: InputMaybe<Order_By>;
   recipient?: InputMaybe<Order_By>;
@@ -1127,7 +1124,6 @@ export type Stream_Min_Order_By = {
   id?: InputMaybe<Order_By>;
   initialAmount?: InputMaybe<Order_By>;
   intactAmount?: InputMaybe<Order_By>;
-  parties?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   proxender?: InputMaybe<Order_By>;
   recipient?: InputMaybe<Order_By>;
@@ -1173,7 +1169,6 @@ export type Stream_Order_By = {
   initial?: InputMaybe<Order_By>;
   initialAmount?: InputMaybe<Order_By>;
   intactAmount?: InputMaybe<Order_By>;
-  parties?: InputMaybe<Order_By>;
   position?: InputMaybe<Order_By>;
   proxender?: InputMaybe<Order_By>;
   proxied?: InputMaybe<Order_By>;
@@ -1244,8 +1239,6 @@ export enum Stream_Select_Column {
   InitialAmount = 'initialAmount',
   /** column name */
   IntactAmount = 'intactAmount',
-  /** column name */
-  Parties = 'parties',
   /** column name */
   Position = 'position',
   /** column name */
@@ -1375,7 +1368,6 @@ export type Stream_Stream_Cursor_Value_Input = {
   initial?: InputMaybe<Scalars['Boolean']['input']>;
   initialAmount?: InputMaybe<Scalars['numeric']['input']>;
   intactAmount?: InputMaybe<Scalars['numeric']['input']>;
-  parties?: InputMaybe<Array<Scalars['String']['input']>>;
   position?: InputMaybe<Scalars['numeric']['input']>;
   proxender?: InputMaybe<Scalars['String']['input']>;
   proxied?: InputMaybe<Scalars['Boolean']['input']>;
