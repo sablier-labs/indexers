@@ -2,10 +2,10 @@ import { type TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { type DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
-import { expect, it } from "vitest";
-import { type Indexer } from "../../src/exports";
-import type { Order_By, OrderDirection } from "../../src/exports/types";
-import { logger } from "../../src/winston";
+import { describe, expect, it } from "vitest";
+import { type Indexer } from "../../../src/exports";
+import type { Order_By, OrderDirection } from "../../../src/exports/types";
+import { logger } from "../../../src/winston";
 
 type Entities = Array<{ subgraphId: string }>;
 type AirdropsResponse = {
@@ -23,6 +23,7 @@ type EnvioQueryVariables = {
   where: {
     chainId: { _eq: number };
     subgraphId: { _gt: number };
+    timestamp: { _lt: number };
   };
 };
 type GraphQueryVariables = {
@@ -31,6 +32,7 @@ type GraphQueryVariables = {
   where: {
     chainId: number;
     subgraphId_gt: number;
+    timestamp_lt: number;
   };
 };
 
@@ -40,6 +42,7 @@ type TestConfig = {
     envio: string;
     graph: string;
   };
+  protocol: Indexer.Protocol;
   queries: {
     envio: TypedDocumentNode<QueryResponse, EnvioQueryVariables>;
     graph: TypedDocumentNode<QueryResponse, GraphQueryVariables>;
@@ -83,12 +86,17 @@ export function createEquivalenceTest(config: TestConfig) {
   const first = 1000;
   const timeout = 100_000;
 
+  // Locking in a specific timestamp (10 minutes ago) to avoid false positives
+  // when one indexer is lagging behind the other.
+  const now = Math.floor(Date.now() / 1000) - 600;
+
   const envioVariables: EnvioQueryVariables = {
     first,
     orderDirection: "asc" as Order_By,
     where: {
       chainId: { _eq: chainId },
       subgraphId: { _gt: 0 },
+      timestamp: { _lt: now },
     },
   };
 
@@ -98,42 +106,45 @@ export function createEquivalenceTest(config: TestConfig) {
     where: {
       chainId,
       subgraphId_gt: 0,
+      timestamp_lt: now,
     },
   };
 
-  it(
-    "they should be equivalent",
-    async () => {
-      let done = false;
-      let totalCount = 0;
+  describe(`GraphQL equivalence between ${config.protocol} indexers`, () => {
+    it(
+      "they should be equivalent",
+      async () => {
+        let done = false;
+        let totalCount = 0;
 
-      while (!done) {
-        const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio, envioVariables);
-        const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph, graphVariables);
-        if (!envioEntities || !graphEntities) {
-          throw new Error("Failed to fetch data from one of the endpoints");
+        while (!done) {
+          const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio, envioVariables);
+          const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph, graphVariables);
+          if (!envioEntities || !graphEntities) {
+            throw new Error("Failed to fetch data from one of the endpoints");
+          }
+
+          expect(envioEntities.length).toBe(graphEntities.length);
+          for (let i = 0; i < envioEntities.length; i++) {
+            expect(envioEntities[i]).toEqual(graphEntities[i]);
+          }
+
+          totalCount += envioEntities.length;
+
+          if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
+            const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
+            envioVariables.where.subgraphId = { _gt: nextId };
+            graphVariables.where.subgraphId_gt = nextId;
+            return;
+          }
+
+          done = true;
         }
 
-        expect(envioEntities.length).toBe(graphEntities.length);
-        for (let i = 0; i < envioEntities.length; i++) {
-          expect(envioEntities[i]).toEqual(graphEntities[i]);
-        }
-
-        totalCount += envioEntities.length;
-
-        if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
-          const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
-          envioVariables.where.subgraphId = { _gt: nextId };
-          graphVariables.where.subgraphId_gt = nextId;
-          return;
-        }
-
-        done = true;
-      }
-
-      logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
-      expect(totalCount).toBeGreaterThan(0);
-    },
-    timeout,
-  );
+        logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
+        expect(totalCount).toBeGreaterThan(0);
+      },
+      timeout,
+    );
+  });
 }

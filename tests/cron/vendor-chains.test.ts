@@ -3,15 +3,12 @@ import axios from "axios";
 import _ from "lodash";
 import { Protocol } from "sablier";
 import { describe, expect, it } from "vitest";
-import { getIndexerGraph } from "../src/exports";
-import { envioChains, envioHypersync as envioExcluded } from "../src/exports/indexers/envio";
-import { graphChains } from "../src/exports/indexers/graph";
-import { logger } from "../src/winston";
-import { shouldRunTest } from "./helpers";
+import { getIndexerGraph } from "../../src/exports";
+import { envioChains, envioHypersync as envioExcluded } from "../../src/exports/indexers/envio";
+import { graphChains } from "../../src/exports/indexers/graph";
+import { logger } from "../../src/winston";
 
-const describeFn = describe.runIf(shouldRunTest("VITE_VENDOR_CHAINS_TESTS"));
-
-describeFn("Vendors", () => {
+describe("Vendors", () => {
   describe("Graph", () => {
     it("should have the indexer chains supported by The Graph", async () => {
       const registry = await NetworksRegistry.fromLatestVersion();

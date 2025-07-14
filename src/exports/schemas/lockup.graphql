@@ -406,10 +406,6 @@ type Stream @entity(immutable: false) {
   """
   intactAmount: BigInt!
   """
-  Users associated with the stream: recipient, sender, possibly the sender's proxy.
-  """
-  parties: [Bytes!]!
-  """
   Owner of the proxy when the stream is created through a PRBProxy (https://github.com/PaulRBerg/prb-proxy)
   Note that proxy = stream sender, and proxender = owner of proxy
   """

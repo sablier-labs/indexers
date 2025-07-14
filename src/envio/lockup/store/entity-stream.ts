@@ -103,7 +103,6 @@ async function createBase(
     initial: undefined,
     initialAmount: undefined,
     intactAmount: params.depositAmount,
-    parties: _.compact([recipient, sender, params.proxender]),
     position: batch.size,
     proxender: params.proxender,
     proxied: Boolean(params.proxender),

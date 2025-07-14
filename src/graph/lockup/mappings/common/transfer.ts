@@ -22,17 +22,6 @@ export function handleTransfer(event: ethereum.Event, params: Params.TransferNFT
   const currentRecipient = params.from;
   const newRecipient = params.to;
   stream.recipient = newRecipient;
-  const currentParties = stream.parties;
-
-  // An index of -1 means the current recipient was not found in the parties array.
-  const index = currentParties.indexOf(currentRecipient);
-  if (index !== -1) {
-    currentParties[index] = newRecipient;
-    stream.parties = currentParties;
-    stream.save();
-  } else {
-    logError("Current recipient not found in parties array: {}", [currentRecipient.toHexString()]);
-  }
 
   /* --------------------------------- ACTION --------------------------------- */
   Store.Action.create(event, {

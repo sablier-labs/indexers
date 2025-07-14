@@ -6,7 +6,6 @@ repomix
 **/.bin
 **/airdrops/bindings
 **/build
-!cli/commands/build
 **/flow/bindings
 **/generated
 **/lockup/bindings

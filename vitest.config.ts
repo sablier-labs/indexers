@@ -2,33 +2,28 @@ import { loadEnv } from "vite";
 import { defineConfig } from "vitest/config";
 
 const CI = Boolean(process.env.CI);
-const VITE_VENDOR_CHAINS_TESTS = Boolean(process.env.VITE_VENDOR_CHAINS_TESTS);
+const CRON_TESTS = Boolean(process.env.CRON_TESTS);
 
 function getInclude() {
-  const paths: string[] = [];
-
-  if (CI) {
-    if (VITE_VENDOR_CHAINS_TESTS) {
-      paths.push("tests/vendor-chains.test.ts");
-    }
-  }
-  if (paths.length === 0) {
-    // paths.push("tests/vendor-equivalence/lockup.test.ts");
-    paths.push("tests/**/*.test.ts");
+  if (!CI) {
+    return ["tests/**/*.test.ts", "!tests/cron/**/*.ts"];
   }
 
-  return paths;
+  if (CRON_TESTS) {
+    return ["tests/cron/**/*.test.ts"];
+  }
+
+  return ["tests/**/*.test.ts"];
 }
 
 /**
- * These tests perform JSON-RPC calls to external services, which are flaky, so we need to retry them.
+ * The CI cron tests perform JSON-RPC calls to external services, which are flaky, so we have to retry them.
  */
 function getRetry() {
-  return VITE_VENDOR_CHAINS_TESTS ? 10 : 0;
+  return !CI ? 10 : 0;
 }
-
 function getTimeout() {
-  return !CI ? 10_000 : 60_000; // 10 seconds normally, 1 minute in CI
+  return !CI ? 10_000 : 100_000; // 10 seconds normally, 100 seconds in CI
 }
 
 export default defineConfig({

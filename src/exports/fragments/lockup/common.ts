@@ -40,7 +40,6 @@ export namespace Lockup {
       initial
       initialAmount
       intactAmount
-      parties
       position
       proxender
       proxied

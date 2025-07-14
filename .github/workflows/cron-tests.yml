@@ -2,7 +2,7 @@ name: "Cron: Tests"
 
 on:
   schedule:
-    - cron: "0 4 * * 0" # at 04:00 UTC every Sunday
+    - cron: "0 4 * * *" # at 04:00 UTC every day
   workflow_dispatch:
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
 
       - name: "Run the tests"
         env:
-          VITE_VENDOR_CHAINS_TESTS: true
+          CRON_TESTS: true
         run: "just test"
 
       - name: "Add summary"

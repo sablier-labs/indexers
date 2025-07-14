@@ -53,24 +53,16 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   /* --------------------------------- STREAM --------------------------------- */
   const currentRecipient = event.params.from.toLowerCase();
   const newRecipient = event.params.to.toLowerCase();
-  if (stream.parties.includes(currentRecipient)) {
-    const updatedStream = {
-      ...stream,
-      parties: _.without(stream.parties, currentRecipient).concat(newRecipient),
-      recipient: newRecipient,
-    };
-    context.Stream.set(updatedStream);
-  } else {
-    context.log.error("Current recipient not found in parties array", {
-      currentRecipient,
-      parties: stream.parties,
-    });
-  }
+  const updatedStream = {
+    ...stream,
+    recipient: newRecipient,
+  };
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
   await Store.Action.create(context, event, watcher, {
-    addressA: event.params.from,
-    addressB: event.params.to,
+    addressA: currentRecipient,
+    addressB: newRecipient,
     category: "Transfer",
     streamId: stream.id,
   });
