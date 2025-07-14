@@ -64,8 +64,8 @@ export async function updateAdmin(
   const asset = await context.Asset.get(campaign.asset_id);
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
-    admin: newAdmin,
-    nickname: getNickname(newAdmin, campaign.name, asset),
+    admin: newAdmin.toLowerCase(),
+    nickname: getNickname(newAdmin.toLowerCase(), campaign.name, asset),
   };
   await context.Campaign.set(updatedCampaign);
 }
@@ -131,7 +131,7 @@ async function createBaseCampaign(
     ipfsCID: params.ipfsCID,
     lockup: undefined,
     name: params.name,
-    nickname: getNickname(params.admin, params.name, entities.asset),
+    nickname: getNickname(params.admin.toLowerCase(), params.name, entities.asset),
     position: entities.factory.campaignCounter,
     root: params.merkleRoot,
     streamCancelable: undefined,

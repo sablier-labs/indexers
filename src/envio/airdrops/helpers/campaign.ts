@@ -14,8 +14,8 @@ export function getNickname(
 ): string {
   const symbol = asset?.symbol ?? "Unknown";
   if (!campaignName) {
-    const prefix = campaignAdmin.slice(0, 6);
-    const suffix = campaignAdmin.slice(-4);
+    const prefix = campaignAdmin.slice(0, 6).toLowerCase();
+    const suffix = campaignAdmin.slice(-4).toLowerCase();
     return `${symbol} by ${prefix}..${suffix}`;
   }
   return `${symbol} in ${campaignName}`;
