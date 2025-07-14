@@ -22,6 +22,7 @@ export function handleTransfer(event: ethereum.Event, params: Params.TransferNFT
   const currentRecipient = params.from;
   const newRecipient = params.to;
   stream.recipient = newRecipient;
+  stream.save();
 
   /* --------------------------------- ACTION --------------------------------- */
   Store.Action.create(event, {

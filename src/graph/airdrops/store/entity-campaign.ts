@@ -35,7 +35,6 @@ export function createCampaignLL(
     campaign.streamInitialPercentage = startPercentage;
   } else {
     campaign.streamInitial = false;
-    campaign.streamInitialPercentage = ZERO;
   }
 
   campaign.save();
@@ -142,9 +141,11 @@ function initLockupCampaign(campaign: Entity.Campaign, params: Params.CreateCamp
   campaign.streamTransferable = params.transferable;
 
   const startTime = params.startTime;
-  if (startTime) {
+  if (startTime !== null) {
     campaign.streamStart = startTime.gt(ZERO);
     campaign.streamStartTime = startTime;
+  } else {
+    campaign.streamStart = false;
   }
 
   return campaign;

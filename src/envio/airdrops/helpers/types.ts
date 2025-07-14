@@ -50,12 +50,14 @@ export namespace Params {
   };
 
   export type CreateCampaignLL = CreateCampaignLockup & {
+    category: "LockupLinear";
     cliffDuration: bigint;
     cliffPercentage: bigint | undefined;
     startPercentage: bigint | undefined;
   };
 
   export type CreateCampaignLT = CreateCampaignLockup & {
+    category: "LockupTranched";
     tranchesWithPercentages: TrancheWithPercentage[];
   };
 }

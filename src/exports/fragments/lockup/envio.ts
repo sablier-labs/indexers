@@ -8,10 +8,10 @@ export const BatchFragment = gql(Lockup.BatchFragment);
 export const StreamFragment = gql(/* GraphQL */ `
   fragment StreamFragment on Stream {
     ...StreamFragmentBase
-    segments(limit: 1000) {
+    segments(limit: 1000, order_by: { position: asc }) {
       ...SegmentFragment
     }
-    tranches(limit: 1000) {
+    tranches(limit: 1000, order_by: { position: asc }) {
       ...TrancheFragment
     }
   }

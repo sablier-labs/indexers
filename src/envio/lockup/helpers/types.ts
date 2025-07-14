@@ -34,16 +34,19 @@ export namespace Params {
   };
 
   export type CreateStreamLinear = CreateStreamCommon & {
+    category: "LockupLinear";
     cliffTime: bigint;
     unlockAmountCliff?: bigint; // v2.0 and above
     unlockAmountStart?: bigint; // v2.0 and above
   };
 
   export type CreateStreamDynamic = CreateStreamCommon & {
+    category: "LockupDynamic";
     segments: Segment[];
   };
 
-  export type CreateTranche = CreateStreamCommon & {
+  export type CreateStreamTranched = CreateStreamCommon & {
+    category: "LockupTranched";
     tranches: Tranche[];
   };
 

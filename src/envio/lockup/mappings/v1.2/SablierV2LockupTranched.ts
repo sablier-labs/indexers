@@ -1,6 +1,6 @@
-import { Lockup as enums } from "../../../../schema/enums";
 import { Contract } from "../../bindings";
 import { convertTranches } from "../../helpers";
+import { type Params } from "../../helpers/types";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 import { createTranchedStream } from "../common/create-stream";
 import { Loader } from "../common/loader";
@@ -47,10 +47,10 @@ event CreateLockupTranchedStream(
 */
 Contract.LockupTranched_v1_2.CreateLockupTranchedStream.handlerWithLoader({
   handler: async ({ context, event, loaderReturn }) => {
-    const params = {
+    const params: Params.CreateStreamTranched = {
       asset: event.params.asset,
       cancelable: event.params.cancelable,
-      category: enums.StreamCategory.LockupTranched,
+      category: "LockupTranched",
       depositAmount: event.params.amounts[0],
       endTime: event.params.timestamps[1],
       funder: event.params.funder,

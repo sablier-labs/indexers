@@ -34,7 +34,7 @@ export async function createDynamicStream(input: Input<Params.CreateStreamDynami
   return stream;
 }
 
-export async function createTranchedStream(input: Input<Params.CreateTranche>): Promise<Entity.Stream> {
+export async function createTranchedStream(input: Input<Params.CreateStreamTranched>): Promise<Entity.Stream> {
   const { context, event, loaderReturn, params } = input;
 
   const entities = await createAssociatedEntities(context, event, loaderReturn, params);

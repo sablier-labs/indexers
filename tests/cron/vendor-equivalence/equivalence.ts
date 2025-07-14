@@ -110,41 +110,39 @@ export function createEquivalenceTest(config: TestConfig) {
     },
   };
 
-  describe(`GraphQL equivalence between ${config.protocol} indexers`, () => {
-    it(
-      "they should be equivalent",
-      async () => {
-        let done = false;
-        let totalCount = 0;
+  it(
+    `GraphQL equivalence between ${config.protocol} indexers`,
+    async () => {
+      let done = false;
+      let totalCount = 0;
 
-        while (!done) {
-          const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio, envioVariables);
-          const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph, graphVariables);
-          if (!envioEntities || !graphEntities) {
-            throw new Error("Failed to fetch data from one of the endpoints");
-          }
-
-          expect(envioEntities.length).toBe(graphEntities.length);
-          for (let i = 0; i < envioEntities.length; i++) {
-            expect(envioEntities[i]).toEqual(graphEntities[i]);
-          }
-
-          totalCount += envioEntities.length;
-
-          if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
-            const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
-            envioVariables.where.subgraphId = { _gt: nextId };
-            graphVariables.where.subgraphId_gt = nextId;
-            return;
-          }
-
-          done = true;
+      while (!done) {
+        const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio, envioVariables);
+        const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph, graphVariables);
+        if (!envioEntities || !graphEntities) {
+          throw new Error("Failed to fetch data from one of the endpoints");
         }
 
-        logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
-        expect(totalCount).toBeGreaterThan(0);
-      },
-      timeout,
-    );
-  });
+        expect(envioEntities.length).toBe(graphEntities.length);
+        for (let i = 0; i < envioEntities.length; i++) {
+          expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(graphEntities[i]);
+        }
+
+        totalCount += envioEntities.length;
+
+        if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
+          const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
+          envioVariables.where.subgraphId = { _gt: nextId };
+          graphVariables.where.subgraphId_gt = nextId;
+          return;
+        }
+
+        done = true;
+      }
+
+      logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
+      expect(totalCount).toBeGreaterThan(0);
+    },
+    timeout,
+  );
 }

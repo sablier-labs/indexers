@@ -1,5 +1,5 @@
 import { CreateMerkleLT } from "../../../bindings/SablierMerkleFactory_v1_3/SablierMerkleFactory";
-import { SablierMerkleLT_v1_3 as TemplateLT_v1_3 } from "../../../bindings/templates";
+import { SablierMerkleLT_v1_3 as TemplateLT } from "../../../bindings/templates";
 import { convertTranchesV1_3 } from "../../../helpers";
 import { handleCreateMerkleLT } from "../../common";
 
@@ -8,7 +8,7 @@ export function handle_SablierMerkleFactory_v1_3_CreateMerkleLT(event: CreateMer
   const baseParams = params.baseParams;
 
   handleCreateMerkleLT(
-    TemplateLT_v1_3.createWithContext,
+    TemplateLT.createWithContext,
     event,
     {
       admin: baseParams.initialAdmin,

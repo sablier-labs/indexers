@@ -10,7 +10,7 @@ export const TrancheFragment = gql(Airdrops.TrancheFragment);
 export const CampaignFragment = gql(/* GraphQL */ `
   fragment CampaignFragment on Campaign {
     ...CampaignFragmentBase
-    streamTranches(limit: 1000) {
+    streamTranches(limit: 1000, order_by: { position: asc }) {
       ...TrancheFragment
     }
   }

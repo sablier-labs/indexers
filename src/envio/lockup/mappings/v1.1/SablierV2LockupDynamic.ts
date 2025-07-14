@@ -1,6 +1,6 @@
-import { Lockup as enums } from "../../../../schema/enums";
 import { Contract } from "../../bindings";
 import { convertSegments } from "../../helpers";
+import { type Params } from "../../helpers/types";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 import { createDynamicStream } from "../common/create-stream";
 import { Loader } from "../common/loader";
@@ -48,10 +48,10 @@ event CreateLockupDynamicStream(
 */
 Contract.LockupDynamic_v1_1.CreateLockupDynamicStream.handlerWithLoader({
   handler: async ({ context, event, loaderReturn }) => {
-    const params = {
+    const params: Params.CreateStreamDynamic = {
       asset: event.params.asset,
       cancelable: event.params.cancelable,
-      category: enums.StreamCategory.LockupDynamic,
+      category: "LockupDynamic",
       depositAmount: event.params.amounts[0],
       endTime: event.params.range[1],
       funder: event.params.funder,

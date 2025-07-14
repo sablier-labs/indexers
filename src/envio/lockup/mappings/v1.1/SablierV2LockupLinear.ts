@@ -1,5 +1,5 @@
-import { Lockup as enums } from "../../../../schema/enums";
 import { Contract } from "../../bindings";
+import { type Params } from "../../helpers/types";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 import { createLinearStream } from "../common/create-stream";
 import { Loader } from "../common/loader";
@@ -40,10 +40,10 @@ event CreateLockupLinearStream(
 */
 Contract.LockupLinear_v1_1.CreateLockupLinearStream.handlerWithLoader({
   handler: async ({ context, event, loaderReturn }) => {
-    const params = {
+    const params: Params.CreateStreamLinear = {
       asset: event.params.asset,
       cancelable: event.params.cancelable,
-      category: enums.StreamCategory.LockupLinear,
+      category: "LockupLinear",
       cliffTime: event.params.range[1],
       depositAmount: event.params.amounts[0],
       endTime: event.params.range[2],
