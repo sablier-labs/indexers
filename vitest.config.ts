@@ -5,15 +5,11 @@ const CI = Boolean(process.env.CI);
 const CRON_TESTS = Boolean(process.env.CRON_TESTS);
 
 function getInclude() {
-  if (!CI) {
-    return ["tests/**/*.test.ts", "!tests/cron/**/*.ts"];
-  }
-
-  if (CRON_TESTS) {
+  if (CI && CRON_TESTS) {
     return ["tests/cron/**/*.test.ts"];
   }
 
-  return ["tests/**/*.test.ts"];
+  return ["tests/**/*.test.ts", "!tests/cron/**/*.ts"];
 }
 
 /**
