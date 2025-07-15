@@ -142,7 +142,7 @@ export function createEquivalenceTest(config: TestConfig) {
           const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
           envioVariables.where.subgraphId = { _gt: nextId };
           graphVariables.where.subgraphId_gt = nextId;
-          return;
+          continue;
         }
 
         done = true;
