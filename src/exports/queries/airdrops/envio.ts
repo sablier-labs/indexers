@@ -150,6 +150,7 @@ export const getCampaignsWithActivities = gql(/* GraphQL */ `
 export const getCampaignsWithActionsAndActivities = gql(/* GraphQL */ `
   query getCampaignsWithActionsAndActivities($first: Int!, $orderDirection: order_by!, $where: Campaign_bool_exp) {
     campaigns: Campaign(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where
