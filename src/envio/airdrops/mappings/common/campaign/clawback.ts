@@ -46,20 +46,20 @@ type Handler<T> = HandlerLL_v1_1<T> & HandlerLL_v1_2<T> & HandlerLL_v1_3<T> & Ha
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { campaign, watcher } = loaderReturn;
 
+  /* -------------------------------- CAMPAIGN -------------------------------- */
+  Store.Campaign.updateClawback(context, event, campaign);
+
   /* --------------------------------- ACTION --------------------------------- */
   const entities = { campaign, watcher };
-  const action = await Store.Action.create(context, event, entities, {
+  Store.Action.create(context, event, entities, {
     category: "Clawback",
     clawbackAmount: event.params.amount,
     clawbackFrom: event.params.admin,
     clawbackTo: event.params.to,
   });
 
-  /* -------------------------------- CAMPAIGN -------------------------------- */
-  await Store.Campaign.updateClawback(context, event, campaign, action.id);
-
   /* --------------------------------- WATCHER -------------------------------- */
-  await Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */

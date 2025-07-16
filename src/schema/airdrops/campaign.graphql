@@ -9,7 +9,7 @@ type Campaign @entity(immutable: false) {
   """
   id: String!
   """
-  The id of the chain, e.g., 137 for Polygon.
+  The chain ID where the campaign was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
   """
@@ -102,7 +102,7 @@ type Campaign @entity(immutable: false) {
   """
   factory: Factory!
   """
-  Minimum fee charged by this campaign, denominated in the native token of the chain, e.g., ETH for Ethereum Mainnet.
+  Minimum fee charged by this campaign, denominated in the native token of the chain (e.g., ETH for Mainnet).
   Only available in v1.3 and later
   See https://docs.sablier.com/concepts/fees
   """

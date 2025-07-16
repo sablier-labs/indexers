@@ -1,3 +1,4 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Entity } from "../../bindings";
 import type {
@@ -15,16 +16,18 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   const { stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
-  let updatedStream: Entity.Stream = {
+  const updatedStream: Entity.Stream = {
     ...stream,
     cancelable: false,
     canceled: true,
+    canceledAction_id: Id.action(event),
     canceledTime: BigInt(event.block.timestamp),
     intactAmount: event.params.recipientAmount,
   };
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const action = await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.sender,
     addressB: event.params.recipient,
     amountA: event.params.senderAmount,
@@ -32,14 +35,9 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
     category: "Cancel",
     streamId: stream.id,
   });
-  updatedStream = {
-    ...updatedStream,
-    canceledAction_id: action.id,
-  };
-  await context.Stream.set(updatedStream);
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 export const cancelStream = { handler, loader: Loader.base };

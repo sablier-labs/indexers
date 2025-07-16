@@ -1,6 +1,7 @@
 import { Contract } from "../../../bindings";
 import { type Params } from "../../../helpers/types";
-import { createLinearStream } from "../../common/create-stream";
+import { Store } from "../../../store";
+import { createStream } from "../../common/create-stream";
 import { Loader } from "../../common/loader";
 
 /*
@@ -62,8 +63,9 @@ Contract.Lockup_v2_0.CreateLockupLinearStream.handlerWithLoader({
       unlockAmountCliff: event.params.unlockAmounts[1],
       unlockAmountStart: event.params.unlockAmounts[0],
     };
-    await createLinearStream({
+    createStream({
       context,
+      createInStore: Store.Stream.createLinear,
       event,
       loaderReturn,
       params,

@@ -1,8 +1,8 @@
-import { Lockup as enums } from "../../../../../schema/enums";
 import { Contract } from "../../../bindings";
 import { convertTranches } from "../../../helpers";
 import { type Params } from "../../../helpers/types";
-import { createTranchedStream } from "../../common/create-stream";
+import { Store } from "../../../store";
+import { createStream } from "../../common/create-stream";
 import { Loader } from "../../common/loader";
 
 /*
@@ -61,8 +61,9 @@ Contract.Lockup_v2_0.CreateLockupTranchedStream.handlerWithLoader({
       tranches: convertTranches(event.params.tranches),
       transferable: commonParams[6],
     };
-    await createTranchedStream({
+    createStream({
       context,
+      createInStore: Store.Stream.createTranched,
       event,
       loaderReturn,
       params,

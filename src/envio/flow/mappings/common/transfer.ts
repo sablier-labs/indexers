@@ -1,4 +1,5 @@
 import { ADDRESS_ZERO } from "../../../common/constants";
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import { type Entity } from "../../bindings";
 import type {
@@ -18,6 +19,11 @@ type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
 
 type LoaderReturn = {
   stream?: Entity.Stream;
+  users: {
+    caller?: Entity.User;
+    currentRecipient?: Entity.User;
+    newRecipient?: Entity.User;
+  };
   watcher?: Entity.Watcher;
 };
 
@@ -27,11 +33,21 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   if (event.params.from === ADDRESS_ZERO) {
     return {
       stream: undefined,
+      users: {
+        caller: undefined,
+        currentRecipient: undefined,
+        newRecipient: undefined,
+      },
       watcher: undefined,
     };
   }
-  const { stream, watcher } = await LoaderBase.base({ context, event });
-  return { stream, watcher };
+  const { caller, stream, watcher } = await LoaderBase.base({ context, event });
+  const users = {
+    caller,
+    currentRecipient: await context.User.get(Id.user(event.chainId, event.params.from)),
+    newRecipient: await context.User.get(Id.user(event.chainId, event.params.to)),
+  };
+  return { stream, users, watcher };
 };
 
 /* -------------------------------------------------------------------------- */
@@ -41,7 +57,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 export const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, watcher } = loaderReturn;
+  const { stream, users, watcher } = loaderReturn;
   if (!stream || !watcher) {
     return;
   }
@@ -51,10 +67,10 @@ export const handler: Handler<LoaderReturn> = async ({ context, event, loaderRet
   if (event.params.from === ADDRESS_ZERO) {
     return;
   }
-
-  /* --------------------------------- STREAM --------------------------------- */
   const currentRecipient = event.params.from.toLowerCase();
   const newRecipient = event.params.to.toLowerCase();
+
+  /* --------------------------------- STREAM --------------------------------- */
   const updatedStream = {
     ...stream,
     recipient: newRecipient,
@@ -62,7 +78,7 @@ export const handler: Handler<LoaderReturn> = async ({ context, event, loaderRet
   context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: currentRecipient,
     addressB: newRecipient,
     category: "Transfer",
@@ -70,7 +86,14 @@ export const handler: Handler<LoaderReturn> = async ({ context, event, loaderRet
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.update(context, event, users.caller);
+  CommonStore.User.update(context, event, users.currentRecipient);
+  if (currentRecipient !== newRecipient) {
+    CommonStore.User.createOrUpdate(context, event, users.newRecipient, event.params.to);
+  }
 };
 
 /* -------------------------------------------------------------------------- */

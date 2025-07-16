@@ -22,10 +22,6 @@ export function getWatcherDefs(protocol: Types.Protocol) {
       chainId: BigInt!
 
       """
-      Used for debugging purposes. They are normally empty.
-      """
-      logs: [String!]
-      """
       Global counter.
       """
       ${counterField}Counter: BigInt!

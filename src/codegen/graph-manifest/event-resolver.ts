@@ -1,6 +1,5 @@
 import type { AbiEventParameter } from "abitype";
 import * as fs from "fs-extra";
-import _ from "lodash";
 import { type Abi, type AbiEvent, type AbiParameter, getAbiItem } from "viem";
 import { sanitizeContractName } from "../../helpers";
 import paths from "../../paths";

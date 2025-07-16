@@ -1,34 +1,31 @@
-import _ from "lodash";
 import { Version } from "sablier";
 import type { Envio } from "../../common/bindings";
 import { getContract } from "../../common/deployments";
 import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
-import { CommonStore } from "../../common/store";
 import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";
-import { create as createAction } from "./entity-action";
 import { update as updateBatch } from "./entity-batch";
 
-export async function createDynamic(
+export function createDynamic(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamDynamic,
-): Promise<Entity.Stream> {
-  const stream = await createBase(context, event, entities, params);
-  await context.Stream.set(stream);
-  await addSegments(context, stream, params.segments);
+): Entity.Stream {
+  const stream = createBase(context, event, entities, params);
+  context.Stream.set(stream);
+  addSegments(context, stream, params.segments);
   return stream;
 }
 
-export async function createLinear(
+export function createLinear(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamLinear,
-): Promise<Entity.Stream> {
-  const baseStream = await createBase(context, event, entities, params);
+): Entity.Stream {
+  const baseStream = createBase(context, event, entities, params);
 
   const cliff = addCliff(baseStream, params);
   const initial = addInitial(params);
@@ -40,19 +37,19 @@ export async function createLinear(
     ...initial,
     ...shape,
   };
-  await context.Stream.set(stream);
+  context.Stream.set(stream);
   return stream;
 }
 
-export async function createTranched(
+export function createTranched(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamTranched,
-): Promise<Entity.Stream> {
-  const stream = await createBase(context, event, entities, params);
-  await context.Stream.set(stream);
-  await addTranches(context, stream, params.tranches);
+): Entity.Stream {
+  const stream = createBase(context, event, entities, params);
+  context.Stream.set(stream);
+  addTranches(context, stream, params.tranches);
   return stream;
 }
 
@@ -60,12 +57,12 @@ export async function createTranched(
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
 
-async function createBase(
+function createBase(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamCommon,
-): Promise<Entity.Stream> {
+): Entity.Stream {
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.streamCounter;
@@ -119,28 +116,15 @@ async function createBase(
     version: lockup.version,
     withdrawnAmount: 0n,
   };
-
-  /* ---------------------------------- BATCH --------------------------------- */
-  await updateBatch(context, event, batch, batcher);
-
-  /* --------------------------------- ACTION --------------------------------- */
-  const action = await createAction(context, event, watcher, {
-    addressA: params.sender,
-    addressB: params.recipient,
-    amountA: params.depositAmount,
-    category: "Create",
-    streamId: streamId,
-  });
   if (params.cancelable === false) {
     stream = {
       ...stream,
-      renounceAction_id: action.id,
+      renounceAction_id: Id.action(event),
       renounceTime: now,
     };
   }
-
-  /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementCounters(context, entities.watcher);
+  /* ---------------------------------- BATCH --------------------------------- */
+  updateBatch(context, event, batch, batcher);
 
   return stream;
 }
@@ -234,7 +218,7 @@ function addLinearShape(stream: Entity.Stream, cliff?: boolean): Pick<Entity.Str
   }
 }
 
-async function addSegments(context: Context.Handler, stream: Entity.Stream, segments: Segment[]): Promise<void> {
+function addSegments(context: Context.Handler, stream: Entity.Stream, segments: Segment[]): void {
   let streamed = 0n;
 
   // The start time of the stream is the first segment's start time
@@ -255,14 +239,14 @@ async function addSegments(context: Context.Handler, stream: Entity.Stream, segm
       startTime: previous.milestone,
       stream_id: stream.id,
     };
-    await context.Segment.set(segment);
+    context.Segment.set(segment);
 
     streamed += current.amount;
     previous = current;
   }
 }
 
-async function addTranches(context: Context.Handler, stream: Entity.Stream, tranches: Tranche[]): Promise<void> {
+function addTranches(context: Context.Handler, stream: Entity.Stream, tranches: Tranche[]): void {
   let streamedAmount = 0n;
 
   // The start time of the stream is the first tranche's start time
@@ -281,7 +265,7 @@ async function addTranches(context: Context.Handler, stream: Entity.Stream, tran
       startTime: previous.timestamp,
       stream_id: stream.id,
     };
-    await context.Tranche.set(tranche);
+    context.Tranche.set(tranche);
 
     streamedAmount += tranche.amount;
     previous = current;

@@ -1,4 +1,4 @@
-import { Address, dataSource } from "@graphprotocol/graph-ts";
+import { Address } from "@graphprotocol/graph-ts";
 import { ZERO } from "../../common/constants";
 import { readChainId, readContractAlias } from "../../common/context";
 import { Id } from "../../common/id";

@@ -7,61 +7,53 @@ import { CommonStore } from "../../../common/store";
 import { type Context, type Entity } from "../../bindings";
 import { type Params } from "../../helpers/types";
 import { Store } from "../../store";
+import { create as createAction } from "../../store/entity-action";
 import { type Loader } from "./loader";
 
 type Input<P extends Params.CreateStreamCommon> = {
   context: Context.Handler;
+  createInStore: (
+    context: Context.Handler,
+    event: Envio.Event,
+    entities: Params.CreateEntities,
+    params: P,
+  ) => Entity.Stream;
   event: Envio.Event;
   loaderReturn: Loader.CreateReturn;
   params: P;
 };
 
-export async function createLinearStream(input: Input<Params.CreateStreamLinear>): Promise<Entity.Stream> {
-  const { context, event, loaderReturn, params } = input;
+export function createStream<P extends Params.CreateStreamCommon>(input: Input<P>): Entity.Stream {
+  const { context, createInStore, event, loaderReturn, params } = input;
 
-  const entities = await createAssociatedEntities(context, event, loaderReturn, params);
-  const stream = await Store.Stream.createLinear(context, event, entities, params);
-
-  return stream;
-}
-
-export async function createDynamicStream(input: Input<Params.CreateStreamDynamic>): Promise<Entity.Stream> {
-  const { context, event, loaderReturn, params } = input;
-
-  const entities = await createAssociatedEntities(context, event, loaderReturn, params);
-  const stream = await Store.Stream.createDynamic(context, event, entities, params);
-
-  return stream;
-}
-
-export async function createTranchedStream(input: Input<Params.CreateStreamTranched>): Promise<Entity.Stream> {
-  const { context, event, loaderReturn, params } = input;
-
-  const entities = await createAssociatedEntities(context, event, loaderReturn, params);
-  const stream = await Store.Stream.createTranched(context, event, entities, params);
-
-  return stream;
-}
-
-/* -------------------------------------------------------------------------- */
-/*                               INTERNAL LOGIC                               */
-/* -------------------------------------------------------------------------- */
-
-async function createAssociatedEntities(
-  context: Context.Handler,
-  event: Envio.Event,
-  loaderReturn: Loader.CreateReturn,
-  params: {
-    asset: string;
-    sender: string;
-  },
-): Promise<Params.CreateEntities> {
-  const { entities, rpcData } = loaderReturn;
-  return {
+  /* --------------------------------- STREAM --------------------------------- */
+  const entities = {
     asset:
-      entities.asset ?? (await CommonStore.Asset.create(context, event.chainId, params.asset, rpcData.assetMetadata)),
-    batch: entities.batch ?? (await Store.Batch.create(event, params.sender)),
-    batcher: entities.batcher ?? (await Store.Batcher.create(context, event, params.sender)),
-    watcher: entities.watcher ?? CommonStore.Watcher.create(event.chainId),
+      loaderReturn.entities.asset ??
+      CommonStore.Asset.create(context, event.chainId, params.asset, loaderReturn.rpcData.assetMetadata),
+    batch: loaderReturn.entities.batch ?? Store.Batch.create(event, params.sender),
+    batcher: loaderReturn.entities.batcher ?? Store.Batcher.create(context, event, params.sender),
+    users: loaderReturn.entities.users,
+    watcher: loaderReturn.entities.watcher ?? CommonStore.Watcher.create(context, event.chainId),
   };
+  const stream = createInStore(context, event, entities, params);
+
+  /* --------------------------------- ACTION --------------------------------- */
+  createAction(context, event, entities.watcher, {
+    addressA: params.sender,
+    addressB: params.recipient,
+    amountA: params.depositAmount,
+    category: "Create",
+    streamId: stream.id,
+  });
+
+  /* --------------------------------- WATCHER -------------------------------- */
+  CommonStore.Watcher.incrementCounters(context, entities.watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.createOrUpdate(context, event, entities.users.funder, stream.funder);
+  CommonStore.User.createOrUpdate(context, event, entities.users.recipient, stream.recipient);
+  CommonStore.User.createOrUpdate(context, event, entities.users.sender, stream.sender);
+
+  return stream;
 }

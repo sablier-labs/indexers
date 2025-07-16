@@ -52,16 +52,16 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   }
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  await Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
+  Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
 
   /* --------------------------------- ACTION --------------------------------- */
   const entities = { campaign, watcher };
-  await Store.Action.create(context, event, entities, {
+  Store.Action.create(context, event, entities, {
     category: "TransferAdmin",
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */

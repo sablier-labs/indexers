@@ -44,6 +44,7 @@ import type {
   Segment as EntitySegment,
   Stream as EntityStream,
   Tranche as EntityTranche,
+  User as EntityUser,
   Watcher as EntityWatcher,
 } from "./bindings/src/Types.gen";
 
@@ -55,5 +56,6 @@ export namespace Entity {
   export type Segment = EntitySegment;
   export type Stream = EntityStream;
   export type Tranche = EntityTranche;
+  export type User = EntityUser;
   export type Watcher = EntityWatcher;
 }

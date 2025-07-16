@@ -20,6 +20,11 @@ type LoaderReturn = {
   assetMetadata: RPCData.ERC20Metadata;
   batch?: Entity.Batch;
   batcher?: Entity.Batcher;
+  users: {
+    creator?: Entity.User;
+    recipient?: Entity.User;
+    sender?: Entity.User;
+  };
   watcher?: Entity.Watcher;
 };
 
@@ -39,6 +44,12 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const batcherId = Id.batcher(event.chainId, event.params.sender);
   const batcher = await context.Batcher.get(batcherId);
 
+  const users = {
+    creator: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+    recipient: await context.User.get(Id.user(event.chainId, event.params.recipient)),
+    sender: await context.User.get(Id.user(event.chainId, event.params.sender)),
+  };
+
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.get(watcherId);
 
@@ -47,6 +58,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
     assetMetadata,
     batch,
     batcher,
+    users,
     watcher,
   };
 };
@@ -60,15 +72,14 @@ type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { assetMetadata } = loaderReturn;
   const entities = {
-    asset:
-      loaderReturn.asset ?? (await CommonStore.Asset.create(context, event.chainId, event.params.token, assetMetadata)),
-    batch: loaderReturn.batch ?? (await Store.Batch.create(event, event.params.sender)),
-    batcher: loaderReturn.batcher ?? (await Store.Batcher.create(context, event, event.params.sender)),
-    watcher: loaderReturn.watcher ?? CommonStore.Watcher.create(event.chainId),
+    asset: loaderReturn.asset ?? CommonStore.Asset.create(context, event.chainId, event.params.token, assetMetadata),
+    batch: loaderReturn.batch ?? Store.Batch.create(event, event.params.sender),
+    batcher: loaderReturn.batcher ?? Store.Batcher.create(context, event, event.params.sender),
+    users: loaderReturn.users,
+    watcher: loaderReturn.watcher ?? CommonStore.Watcher.create(context, event.chainId),
   };
-
   /* --------------------------------- STREAM --------------------------------- */
-  const stream = await Store.Stream.create(context, event, entities, {
+  const stream = Store.Stream.create(context, event, entities, {
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,
     sender: event.params.sender,
@@ -77,7 +88,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, entities.watcher, {
+  Store.Action.create(context, event, entities.watcher, {
     addressA: event.params.sender,
     addressB: event.params.recipient,
     amountA: event.params.ratePerSecond,
@@ -86,7 +97,12 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementCounters(context, entities.watcher);
+  CommonStore.Watcher.incrementCounters(context, entities.watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.createOrUpdate(context, event, entities.users.creator, stream.creator);
+  CommonStore.User.createOrUpdate(context, event, entities.users.recipient, stream.recipient);
+  CommonStore.User.createOrUpdate(context, event, entities.users.sender, stream.sender);
 };
 
 /* -------------------------------------------------------------------------- */

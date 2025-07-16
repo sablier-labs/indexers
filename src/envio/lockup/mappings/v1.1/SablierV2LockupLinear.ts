@@ -1,7 +1,8 @@
 import { Contract } from "../../bindings";
 import { type Params } from "../../helpers/types";
+import { Store } from "../../store";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
-import { createLinearStream } from "../common/create-stream";
+import { createStream } from "../common/create-stream";
 import { Loader } from "../common/loader";
 
 Contract.LockupLinear_v1_1.ApprovalForAll.handlerWithLoader(approvalForAll);
@@ -54,8 +55,9 @@ Contract.LockupLinear_v1_1.CreateLockupLinearStream.handlerWithLoader({
       tokenId: event.params.streamId,
       transferable: event.params.transferable,
     };
-    await createLinearStream({
+    createStream({
       context,
+      createInStore: Store.Stream.createLinear,
       event,
       loaderReturn,
       params,

@@ -1,8 +1,9 @@
 import { Contract } from "../../bindings";
 import { convertSegments } from "../../helpers";
 import { type Params } from "../../helpers/types";
+import { Store } from "../../store";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
-import { createDynamicStream } from "../common/create-stream";
+import { createStream } from "../common/create-stream";
 import { Loader } from "../common/loader";
 
 Contract.LockupDynamic_v1_2.ApprovalForAll.handlerWithLoader(approvalForAll);
@@ -62,8 +63,9 @@ Contract.LockupDynamic_v1_2.CreateLockupDynamicStream.handlerWithLoader({
       tokenId: event.params.streamId,
       transferable: event.params.transferable,
     };
-    await createDynamicStream({
+    createStream({
       context,
+      createInStore: Store.Stream.createDynamic,
       event,
       loaderReturn,
       params,

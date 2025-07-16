@@ -227,7 +227,7 @@ codegen-gql-graph:
     echo "Available protocol arguments: all, flow, lockup, airdrops"
 
 # ---------------------------------------------------------------------------- #
-#                           RECIPES: PRIVATE HELPERS                           #
+#                               INTERNAL HELPERS                               #
 # ---------------------------------------------------------------------------- #
 
 # Helper to run CLI commands through the main entry point

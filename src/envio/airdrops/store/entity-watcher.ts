@@ -9,24 +9,23 @@ export function create(chainId: number): Entity.Watcher {
     campaignCounter: 1n,
     chainId: BigInt(chainId),
     id: chainId.toString(),
-    logs: [],
   };
   return watcher;
 }
 
-export async function incrementActionCounter(context: Context.Handler, watcher: Entity.Watcher): Promise<void> {
+export function incrementActionCounter(context: Context.Handler, watcher: Entity.Watcher): void {
   const updatedWatcher = {
     ...watcher,
     actionCounter: watcher.actionCounter + 1n,
   };
-  await context.Watcher.set(updatedWatcher);
+  context.Watcher.set(updatedWatcher);
 }
 
-export async function incrementCounters(context: Context.Handler, watcher: Entity.Watcher): Promise<void> {
+export function incrementCounters(context: Context.Handler, watcher: Entity.Watcher): void {
   const updatedWatcher = {
     ...watcher,
     actionCounter: watcher.actionCounter + 1n,
     campaignCounter: watcher.campaignCounter + 1n,
   };
-  await context.Watcher.set(updatedWatcher);
+  context.Watcher.set(updatedWatcher);
 }

@@ -1,4 +1,4 @@
-import { BigInt, Bytes, dataSource, ethereum } from "@graphprotocol/graph-ts";
+import { BigInt, dataSource, ethereum } from "@graphprotocol/graph-ts";
 import { LOCKUP_V1_0, LOCKUP_V1_1, LOCKUP_V1_2, LOCKUP_V2_0, ONE, ZERO } from "../../common/constants";
 import { readChainId, readContractVersion } from "../../common/context";
 import { Id } from "../../common/id";

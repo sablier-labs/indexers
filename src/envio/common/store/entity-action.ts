@@ -2,14 +2,14 @@ import type { Common, Envio } from "../bindings";
 import { Id } from "../id";
 import type { CommonParams } from "../types";
 
-export async function create<TAction extends Common.StreamAction>(
+export function create<TAction extends Common.StreamAction>(
   context: {
-    Action: { set: (action: TAction) => void | Promise<void> };
+    Action: { set: (action: TAction) => void };
   },
   event: Envio.Event,
   watcher: Common.StreamWatcher,
   params: CommonParams.Action,
-): Promise<TAction> {
+): TAction {
   const id = Id.action(event);
 
   const action: Common.StreamAction = {
@@ -29,7 +29,7 @@ export async function create<TAction extends Common.StreamAction>(
     subgraphId: watcher.actionCounter,
     timestamp: BigInt(event.block.timestamp),
   };
-  await context.Action.set(action as TAction);
+  context.Action.set(action as TAction);
 
   return action as TAction;
 }

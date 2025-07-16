@@ -72,7 +72,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handlerWithLoader({
       totalDuration: event.params.streamDurations[1],
       transferable: baseParams[7],
     };
-    await createMerkleLL({
+    createMerkleLL({
       context,
       event,
       loaderReturn,

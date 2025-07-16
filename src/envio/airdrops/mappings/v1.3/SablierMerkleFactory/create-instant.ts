@@ -51,7 +51,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handlerWithLoader({
       name: baseParams[5],
       recipientCount: event.params.recipientCount,
     };
-    await createMerkleInstant({
+    createMerkleInstant({
       context,
       event,
       loaderReturn,

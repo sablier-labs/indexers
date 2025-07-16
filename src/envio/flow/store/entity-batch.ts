@@ -3,7 +3,7 @@ import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import { update as updateBatcher } from "./entity-batcher";
 
-export async function create(event: Envio.Event, sender: Envio.Address): Promise<Entity.Batch> {
+export function create(event: Envio.Event, sender: Envio.Address): Entity.Batch {
   const id = Id.batch(event, sender);
   const batch: Entity.Batch = {
     batcher_id: undefined,
@@ -25,16 +25,16 @@ export async function create(event: Envio.Event, sender: Envio.Address): Promise
  *
  * The rationale is that creating the batch entity makes sense only if there are at least 2 streams.
  */
-export async function update(
+export function update(
   context: Context.Handler,
   event: Envio.Event,
   batch: Entity.Batch,
   batcher: Entity.Batcher,
-): Promise<void> {
+): void {
   const newBatchSize = batch.size + 1n;
 
   if (newBatchSize === 2n) {
-    const updatedBatcher = await updateBatcher(context, batcher);
+    const updatedBatcher = updateBatcher(context, batcher);
     const updatedBatch: Entity.Batch = {
       ...batch,
       batcher_id: batcher.id,
@@ -43,12 +43,12 @@ export async function update(
       size: newBatchSize,
       timestamp: BigInt(event.block.timestamp),
     };
-    await context.Batch.set(updatedBatch);
+    context.Batch.set(updatedBatch);
   } else {
     const updatedBatch: Entity.Batch = {
       ...batch,
       size: newBatchSize,
     };
-    await context.Batch.set(updatedBatch);
+    context.Batch.set(updatedBatch);
   }
 }

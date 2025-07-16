@@ -39,7 +39,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   const { watcher } = loaderReturn;
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.owner,
     addressB: event.params.operator,
     amountA: event.params.approved ? 1n : 0n,
@@ -47,7 +47,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */

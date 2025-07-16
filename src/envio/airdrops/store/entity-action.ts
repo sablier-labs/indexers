@@ -3,12 +3,12 @@ import { Id } from "../../common/id";
 import type { Context, Entity, Enum } from "../bindings";
 import type { Params } from "../helpers/types";
 
-export async function create(
+export function create(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.ActionEntities,
   params: Params.Action,
-): Promise<Entity.Action> {
+): Entity.Action {
   const action: Entity.Action = {
     block: BigInt(event.block.number),
     campaign_id: entities.campaign.id,
@@ -29,6 +29,6 @@ export async function create(
     subgraphId: entities.watcher.actionCounter,
     timestamp: BigInt(event.block.timestamp),
   };
-  await context.Action.set(action);
+  context.Action.set(action);
   return action;
 }

@@ -28,10 +28,10 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
     intactAmount,
     withdrawnAmount: totalWithdrawnAmount,
   };
-  await context.Stream.set(updatedStream);
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.transaction.from?.toLowerCase(),
     addressB: event.params.to,
     amountB: event.params.amount,
@@ -40,7 +40,7 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 export const withdrawStream = { handler, loader: Loader.base };

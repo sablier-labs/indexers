@@ -17,9 +17,10 @@ import { lockupStreamDefs } from "./lockup/stream.graphql";
  * @returns A merged schema for the given protocol.
  */
 export function getMergedSchema(protocol: Types.Protocol): DocumentNode {
-  const gqlDefs: string[] = [];
-
   // Defs common to all protocols
+  const userDefs = getDefs("common", "user");
+  const gqlDefs: string[] = [userDefs];
+
   const enumDefs = getEnumDefs(protocol);
   const assetDefs = getAssetDefs(protocol);
   const watcherDefs = getWatcherDefs(protocol);
@@ -38,7 +39,7 @@ export function getMergedSchema(protocol: Types.Protocol): DocumentNode {
   else {
     const actionDefs = getDefs("common", "action");
     const batchDefs = getDefs("common", "batch");
-    gqlDefs.push(actionDefs, batchDefs);
+    gqlDefs.push(actionDefs, batchDefs, userDefs);
 
     const streamDefs = protocol === Protocol.Lockup ? lockupStreamDefs : flowStreamDefs;
     tsDefs.push(streamDefs);

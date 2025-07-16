@@ -1,8 +1,9 @@
 import { Contract } from "../../bindings";
 import { convertTranches } from "../../helpers";
 import { type Params } from "../../helpers/types";
+import { Store } from "../../store";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
-import { createTranchedStream } from "../common/create-stream";
+import { createStream } from "../common/create-stream";
 import { Loader } from "../common/loader";
 
 Contract.LockupTranched_v1_2.ApprovalForAll.handlerWithLoader(approvalForAll);
@@ -61,8 +62,9 @@ Contract.LockupTranched_v1_2.CreateLockupTranchedStream.handlerWithLoader({
       tranches: convertTranches(event.params.tranches),
       transferable: event.params.transferable,
     };
-    await createTranchedStream({
+    createStream({
       context,
+      createInStore: Store.Stream.createTranched,
       event,
       loaderReturn,
       params,

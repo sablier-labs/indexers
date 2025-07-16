@@ -70,7 +70,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.handlerWithLoader({
       tranchesWithPercentages: convertTranches(event.params.tranchesWithPercentages),
       transferable: event.params.transferable,
     };
-    await createMerkleLT({
+    createMerkleLT({
       context,
       event,
       loaderReturn,

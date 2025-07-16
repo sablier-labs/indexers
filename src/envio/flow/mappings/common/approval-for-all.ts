@@ -1,3 +1,4 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Entity } from "../../bindings";
 import type {
@@ -13,14 +14,23 @@ import { Store } from "../../store";
 /* -------------------------------------------------------------------------- */
 
 type LoaderReturn = {
+  users: {
+    owner?: Entity.User;
+    operator?: Entity.User;
+  };
   watcher: Entity.Watcher;
 };
 
 type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+  const users = {
+    operator: await context.User.get(Id.user(event.chainId, event.params.operator)),
+    owner: await context.User.get(Id.user(event.chainId, event.params.owner)),
+  };
   const watcher = await context.Watcher.getOrThrow(event.chainId.toString());
   return {
+    users,
     watcher,
   };
 };
@@ -32,10 +42,10 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { watcher } = loaderReturn;
+  const { users, watcher } = loaderReturn;
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.owner,
     addressB: event.params.operator,
     amountA: event.params.approved ? 1n : 0n,
@@ -43,7 +53,11 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.update(context, event, users.owner);
+  CommonStore.User.createOrUpdate(context, event, users.operator, event.params.operator);
 };
 
 /* -------------------------------------------------------------------------- */

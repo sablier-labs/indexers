@@ -86,5 +86,7 @@
     "decimals": 18,
     "name": "[object Object]",
     "symbol": "[object Object]"
-  }
+  },
+  "0x1a03c6dd80fb048e449bff3e9319bc3cdaf118e5": { "decimals": 18, "name": "TestJuly9", "symbol": "TJ9" },
+  "0x8b194370825e37b33373e74a41009161808c1488": { "decimals": 18, "name": "Velvet", "symbol": "VELVET" }
 }

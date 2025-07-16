@@ -1,0 +1,64 @@
+"""
+A user is an address that has interacted with at least one Sablier contract.
+
+This includes:
+
+- Stream creators and senders
+- Stream recipients
+- Airdrop creators and claimers
+- Anyone who withdraws from streams or claims airdrops on behalf of others
+
+Notes:
+
+- This is an internal entity we use for analytics. It's not used in the Sablier UI.
+- Currently implemented only in Envio mappings.
+- May be enhanced with derived relations in the future. See https://github.com/sablier-labs/indexers/issues/159
+"""
+type User @entity(immutable: false) {
+  """
+  Unique identifier: `{chainId}-{address}`
+  """
+  id: ID!
+
+  """
+  The address of the user.
+  """
+  address: Bytes!
+
+  """
+  The chain ID where this user was observed (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+
+  """
+  Total Sablier fees paid by this user in the chain's native token (e.g., ETH on Mainnet).
+  Note: Fees are paid by `msg.sender`, so this user may not be the stream recipient or airdrop claimer.
+  """
+  cumulativeFees: BigInt!
+
+  """
+  Unix timestamp when the user was first observed.
+  """
+  firstSeenTimestamp: BigInt!
+
+  """
+  Transaction hash where the user was first observed.
+  """
+  firstSeenTxHash: Bytes!
+
+  """
+  Whether the user exclusively interacted with an airdrop contract as a claimer.
+  This flag is set to false once the user interacts with other Sablier contracts.
+  """
+  isAirdropClaimer: Boolean!
+
+  """
+  Unix timestamp when the user was last observed.
+  """
+  lastSeenTimestamp: BigInt!
+
+  """
+  Transaction hash where the user was last observed.
+  """
+  lastSeenTxHash: Bytes!
+}

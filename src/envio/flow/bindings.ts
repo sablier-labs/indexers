@@ -27,6 +27,7 @@ import type {
   Batch as EntityBatch,
   Batcher as EntityBatcher,
   Stream as EntityStream,
+  User as EntityUser,
   Watcher as EntityWatcher,
 } from "./bindings/src/Types.gen";
 
@@ -36,5 +37,6 @@ export namespace Entity {
   export type Batch = EntityBatch;
   export type Batcher = EntityBatcher;
   export type Stream = EntityStream;
+  export type User = EntityUser;
   export type Watcher = EntityWatcher;
 }

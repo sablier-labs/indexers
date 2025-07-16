@@ -28,4 +28,9 @@ export namespace CommonParams {
     category: FlowEnum.ActionCategory | LockupEnum.ActionCategory;
     streamId?: string;
   };
+
+  export type User = {
+    address: string;
+    isAirdropClaimer?: boolean;
+  };
 }

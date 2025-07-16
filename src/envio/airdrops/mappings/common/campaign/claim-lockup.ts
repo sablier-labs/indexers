@@ -56,13 +56,13 @@ type Handler<T> = HandlerLL_v1_1<T> & HandlerLL_v1_2<T> & HandlerLL_v1_3<T> & Ha
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { campaign, watcher, factory } = loaderReturn;
-  const activity = loaderReturn.activity ?? (await Store.Activity.create(context, event, campaign.id));
+  const activity = loaderReturn.activity ?? Store.Activity.create(context, event, campaign.id);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  await Store.Campaign.updateClaimed(context, campaign, event.params.amount);
+  Store.Campaign.updateClaimed(context, campaign, event.params.amount);
 
   /* -------------------------------- ACTIVITY -------------------------------- */
-  await Store.Activity.update(context, activity, event.params.amount);
+  Store.Activity.update(context, activity, event.params.amount);
 
   /* --------------------------------- ACTION --------------------------------- */
   let fee: bigint | undefined;
@@ -70,7 +70,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
     fee = event.transaction.value;
   }
   const entities = { campaign, watcher };
-  await Store.Action.create(context, event, entities, {
+  Store.Action.create(context, event, entities, {
     category: "Claim",
     claimAmount: event.params.amount,
     claimIndex: event.params.index,
@@ -81,7 +81,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */

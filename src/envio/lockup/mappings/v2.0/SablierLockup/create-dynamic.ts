@@ -1,7 +1,8 @@
 import { Contract } from "../../../bindings";
 import { convertSegments } from "../../../helpers";
 import { type Params } from "../../../helpers/types";
-import { createDynamicStream } from "../../common/create-stream";
+import { Store } from "../../../store";
+import { createStream } from "../../common/create-stream";
 import { Loader } from "../../common/loader";
 
 /*
@@ -61,8 +62,9 @@ Contract.Lockup_v2_0.CreateLockupDynamicStream.handlerWithLoader({
       tokenId: event.params.streamId,
       transferable: commonParams[6],
     };
-    await createDynamicStream({
+    createStream({
       context,
+      createInStore: Store.Stream.createDynamic,
       event,
       loaderReturn,
       params,

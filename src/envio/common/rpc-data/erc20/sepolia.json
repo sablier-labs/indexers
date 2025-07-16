@@ -332,5 +332,6 @@
   "0x7b79995e5f793a07bc00c21412e50ecae098e7f9": { "decimals": 18, "name": "Wrapped Ether", "symbol": "WETH" },
   "0x98cec103ae046a31420508eabe1494e71c3ee7a3": { "decimals": 18, "name": "Wrapped Ether", "symbol": "WETH" },
   "0xd129cfa01f5309b6aaa91c4250cc9c7b0465630e": { "decimals": 6, "name": "WrapperTest_aUSDC", "symbol": "WTST_aUSDC" },
-  "0xb4a94e90a832b694da215f6687b034aa9f451161": { "decimals": 0, "name": "My NFT", "symbol": "MY-NFT" }
+  "0xb4a94e90a832b694da215f6687b034aa9f451161": { "decimals": 0, "name": "My NFT", "symbol": "MY-NFT" },
+  "0x2061cd8947863e4b0a7e070309507b9f93deed17": { "decimals": 18, "name": "Stake Token", "symbol": "STAKE" }
 }

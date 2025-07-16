@@ -1,4 +1,4 @@
-import type { Envio } from "../../common/bindings";
+import type { Common, Envio } from "../../common/bindings";
 import type { Entity, Enum } from "../bindings";
 
 export namespace Params {
@@ -14,6 +14,11 @@ export namespace Params {
     asset: Entity.Asset;
     batch: Entity.Batch;
     batcher: Entity.Batcher;
+    users: {
+      funder?: Common.User;
+      recipient?: Common.User;
+      sender?: Common.User;
+    };
     watcher: Entity.Watcher;
   };
 

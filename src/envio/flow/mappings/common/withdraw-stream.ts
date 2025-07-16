@@ -9,7 +9,7 @@ import { Loader } from "./loader";
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, watcher } = loaderReturn;
+  const { caller, stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
   const withdrawAmount = event.params.withdrawAmount;
@@ -21,7 +21,7 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.caller,
     addressB: event.params.to,
     amountA: withdrawAmount,
@@ -30,7 +30,10 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.createOrUpdate(context, event, caller, event.transaction.from);
 };
 
 export const withdrawStream = { handler, loader: Loader.base };

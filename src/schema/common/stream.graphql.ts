@@ -11,7 +11,7 @@ export const streamDefs = /* GraphQL */ `
   alias: String!
 
   """
-  The id of the chain, e.g., 137 for Polygon.
+  The chain ID where the stream was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
 
@@ -67,7 +67,7 @@ export const streamDefs = /* GraphQL */ `
   category: StreamCategory!
 
   """
-  The contract the stream originates from.
+  The address of the contract the stream originates from.
   """
   contract: Bytes!
 

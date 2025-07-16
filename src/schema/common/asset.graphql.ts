@@ -32,7 +32,7 @@ export function getAssetDefs(protocol: Types.Protocol) {
       """
       address: Bytes!
       """
-      The id of the chain, e.g. 137 for Polygon.
+      The chain ID where the asset exists (e.g., 137 for Polygon).
       """
       chainId: BigInt!
       """

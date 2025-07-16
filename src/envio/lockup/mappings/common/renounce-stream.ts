@@ -1,3 +1,4 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Entity } from "../../bindings";
 import type {
@@ -15,25 +16,21 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   const { stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
-  let updatedStream: Entity.Stream = {
+  const updatedStream: Entity.Stream = {
     ...stream,
     cancelable: false,
+    renounceAction_id: Id.action(event),
     renounceTime: BigInt(event.block.timestamp),
   };
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const action = await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     category: "Renounce",
     streamId: stream.id,
   });
-  updatedStream = {
-    ...updatedStream,
-    renounceAction_id: action.id,
-  };
-  await context.Stream.set(updatedStream);
-
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 export const renounceStream = { handler, loader: Loader.base };

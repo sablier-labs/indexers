@@ -828,5 +828,8 @@
   "0xd6aa74b7d3c416a1fea5f84b8949409ac428708c": { "decimals": 18, "name": "BAZOOP", "symbol": "ZOOP" },
   "0xbdc27118ca76b375c6887b0ff068afb03dfc21a0": { "decimals": 18, "name": "Arbus by Virtuals", "symbol": "ARBUS" },
   "0x8e306e02ec1effc4fdad3f952fbeeebf3730ae19": { "decimals": 18, "name": "AthenaX9", "symbol": "AiX9" },
-  "0x09f3f0ee2cf938f56bc664ce85152209a7457b07": { "decimals": 18, "name": "ArtBaby", "symbol": "ARTBABY" }
+  "0x09f3f0ee2cf938f56bc664ce85152209a7457b07": { "decimals": 18, "name": "ArtBaby", "symbol": "ARTBABY" },
+  "0xa77e22bfaee006d4f9dc2c20d7d337b05125c282": { "decimals": 18, "name": "Tren Finance v2", "symbol": "TREN" },
+  "0x24c91e5e9eb13e72db41ebc5816af7f259647b07": { "decimals": 18, "name": "Myceliyou", "symbol": "MYU" },
+  "0x6d96f18f00b815b2109a3766e79f6a7ad7785624": { "decimals": 18, "name": "Patience Token", "symbol": "PATIENCE" }
 }

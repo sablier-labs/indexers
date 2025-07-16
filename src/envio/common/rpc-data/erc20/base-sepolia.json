@@ -112,5 +112,11 @@
   "0xf45b4de5c02a7fd2cb137145fb52e7d6d5a9a32e": { "decimals": 18, "name": "mfercoin", "symbol": "mfer" },
   "0xa7954bd715776e29fb864ab35680bac9fa08eacd": { "decimals": 18, "name": "Cat Token", "symbol": "CAT" },
   "0xe0614c6215f436dff973671161ce0a7eaa08826e": { "decimals": 18, "name": "FluffyCoin", "symbol": "FULL" },
-  "0xd590184838e7eea2e27c07399ce0f44e9346d54c": { "decimals": 18, "name": "DOINEL", "symbol": "MACAROINEL" }
+  "0xd590184838e7eea2e27c07399ce0f44e9346d54c": { "decimals": 18, "name": "DOINEL", "symbol": "MACAROINEL" },
+  "0x030996ec60617fe293b4a51c97be0973c9ecdf33": { "decimals": 18, "name": "toby", "symbol": "toby" },
+  "0x07b8ff46cc6e366fe12e4d3d47825000d9948ecd": { "decimals": 18, "name": "Degen", "symbol": "DEGEN" },
+  "0x7f54613f339d15424e9ade87967bae40b23fa7f6": { "decimals": 18, "name": "Sapien Token", "symbol": "SAPIEN" },
+  "0xd4f8fbf4d1b2878c299498faaa3cfd4de3c36e10": { "decimals": 18, "name": "BNPLVoucher", "symbol": "vBNPL" },
+  "0x856016bc4356b132df1d80b472f0bbdf2fcf4614": { "decimals": 18, "name": "someERC20", "symbol": "ER" },
+  "0x7420eaf469076c76045d0fc8d67fe1c60fa3424a": { "decimals": 18, "name": "BNPLVoucher", "symbol": "vBNPL" }
 }

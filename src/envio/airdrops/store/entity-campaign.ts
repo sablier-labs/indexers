@@ -2,29 +2,29 @@ import type { Envio } from "../../common/bindings";
 import { getContractVersion } from "../../common/deployments";
 import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
-import type { Context, Entity, Enum } from "../bindings";
+import type { Context, Entity } from "../bindings";
 import { getNickname } from "../helpers/campaign";
 import type { Params } from "../helpers/types";
 import { createTranchesWithPercentages } from "./entity-tranche";
 
-export async function createInstant(
+export function createInstant(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignBase,
-): Promise<Entity.Campaign> {
-  const campaign = await createBaseCampaign(context, event, entities, params);
-  await context.Campaign.set(campaign);
+): Entity.Campaign {
+  const campaign = createBaseCampaign(context, event, entities, params);
+  context.Campaign.set(campaign);
   return campaign;
 }
 
-export async function createLL(
+export function createLL(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignLL,
-): Promise<Entity.Campaign> {
-  let campaign = await createBaseCampaign(context, event, entities, params);
+): Entity.Campaign {
+  let campaign = createBaseCampaign(context, event, entities, params);
   const lockupCampaign = createLockupCampaign(params);
   campaign = {
     ...campaign,
@@ -35,24 +35,24 @@ export async function createLL(
     streamInitial: Boolean(params.startPercentage && params.startPercentage > 0n),
     streamInitialPercentage: params.startPercentage ?? undefined,
   };
-  await context.Campaign.set(campaign);
+  context.Campaign.set(campaign);
   return campaign;
 }
 
-export async function createLT(
+export function createLT(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignLT,
-): Promise<Entity.Campaign> {
-  let campaign = await createBaseCampaign(context, event, entities, params);
+): Entity.Campaign {
+  let campaign = createBaseCampaign(context, event, entities, params);
   const lockupCampaign = createLockupCampaign(params);
   campaign = {
     ...campaign,
     ...lockupCampaign,
   };
-  await context.Campaign.set(campaign);
-  await createTranchesWithPercentages(context, campaign, params.tranchesWithPercentages);
+  context.Campaign.set(campaign);
+  createTranchesWithPercentages(context, campaign, params.tranchesWithPercentages);
   return campaign;
 }
 
@@ -62,51 +62,47 @@ export async function updateAdmin(
   newAdmin: Envio.Address,
 ): Promise<void> {
   const asset = await context.Asset.get(campaign.asset_id);
+  if (!asset) {
+    context.log.error("Asset not found", { asset_id: campaign.asset_id });
+    return;
+  }
+
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
     admin: newAdmin.toLowerCase(),
     nickname: getNickname(newAdmin.toLowerCase(), campaign.name, asset),
   };
-  await context.Campaign.set(updatedCampaign);
+  context.Campaign.set(updatedCampaign);
 }
 
-export async function updateClaimed(
-  context: Context.Handler,
-  campaign: Entity.Campaign,
-  amount: bigint,
-): Promise<void> {
+export function updateClaimed(context: Context.Handler, campaign: Entity.Campaign, amount: bigint): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
     claimedAmount: campaign.claimedAmount + amount,
     claimedCount: campaign.claimedCount + 1n,
   };
-  await context.Campaign.set(updatedCampaign);
+  context.Campaign.set(updatedCampaign);
 }
 
-export async function updateClawback(
-  context: Context.Handler,
-  event: Envio.Event,
-  campaign: Entity.Campaign,
-  actionId: string,
-): Promise<void> {
+export function updateClawback(context: Context.Handler, event: Envio.Event, campaign: Entity.Campaign): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
-    clawbackAction_id: actionId,
+    clawbackAction_id: Id.action(event),
     clawbackTime: BigInt(event.block.timestamp),
   };
-  await context.Campaign.set(updatedCampaign);
+  context.Campaign.set(updatedCampaign);
 }
 
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
 
-async function createBaseCampaign(
+function createBaseCampaign(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignBase,
-): Promise<Entity.Campaign> {
+): Entity.Campaign {
   const factoryVersion = getContractVersion("airdrops", event.chainId, entities.factory.address);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
@@ -156,7 +152,7 @@ async function createBaseCampaign(
     ...entities.factory,
     campaignCounter: entities.factory.campaignCounter + 1n,
   };
-  await context.Factory.set(updatedFactory);
+  context.Factory.set(updatedFactory);
 
   return campaign;
 }

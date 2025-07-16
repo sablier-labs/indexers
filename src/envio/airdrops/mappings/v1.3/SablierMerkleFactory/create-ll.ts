@@ -76,7 +76,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handlerWithLoader({
       totalDuration: event.params.schedule[4],
       transferable: event.params.transferable,
     };
-    await createMerkleLL({
+    createMerkleLL({
       context,
       event,
       loaderReturn,

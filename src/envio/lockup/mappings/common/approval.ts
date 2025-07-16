@@ -14,7 +14,7 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   const { stream, watcher } = loaderReturn;
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.owner,
     addressB: event.params.approved,
     category: "Approval",
@@ -22,7 +22,7 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 export const approval = { handler, loader: Loader.base };

@@ -1,3 +1,4 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Entity } from "../../bindings";
 import type {
@@ -10,7 +11,7 @@ import { Loader } from "./loader";
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, watcher } = loaderReturn;
+  const { caller: sender, stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
 
@@ -20,33 +21,33 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   const streamedAmount = stream.ratePerSecond * elapsedTime;
   const snapshotAmount = stream.snapshotAmount + streamedAmount;
 
-  let updatedStream: Entity.Stream = {
+  const updatedStream: Entity.Stream = {
     ...stream,
+    lastAdjustmentAction_id: Id.action(event),
     lastAdjustmentTimestamp: now,
     paused: true,
+    pausedAction_id: Id.action(event),
     pausedTime: now,
     ratePerSecond: 0n,
     snapshotAmount,
   };
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
 
-  const action = await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.recipient,
     addressB: event.params.sender,
     amountA: event.params.totalDebt,
     category: "Pause",
     streamId: stream.id,
   });
-  updatedStream = {
-    ...updatedStream,
-    lastAdjustmentAction_id: action.id,
-    pausedAction_id: action.id,
-  };
-  context.Stream.set(updatedStream);
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.update(context, event, sender);
 };
 
 export const pauseStream = { handler, loader: Loader.base };

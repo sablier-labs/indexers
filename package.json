@@ -7,7 +7,6 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "lodash": "^4.17",
     "sablier": "1.0.0-beta.8"
   },
   "peerDependencies": {
@@ -34,7 +33,7 @@
     "assemblyscript": "^0.28.3",
     "axios": "^1.10",
     "commander": "^14.0",
-    "envio": "2.25.0",
+    "envio": "2.25.2",
     "execa": "5.1.1",
     "fs-extra": "^11.3",
     "graphql": "^16.11",
@@ -43,6 +42,7 @@
     "husky": "^9.1",
     "js-yaml": "^4.1",
     "lint-staged": "^16.1",
+    "lodash": "^4.17",
     "ora": "^8.2",
     "prettier": "^3.6",
     "prom-client": "^15.1",

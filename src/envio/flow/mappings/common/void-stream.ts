@@ -1,3 +1,4 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Entity } from "../../bindings";
 import type {
@@ -11,7 +12,7 @@ import { Loader } from "./loader";
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, watcher } = loaderReturn;
+  const { caller: sender, stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
 
@@ -25,21 +26,25 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
   const maxAvailable = withdrawnAmount + availableAmount;
 
-  let updatedStream: Entity.Stream = {
+  const updatedStream: Entity.Stream = {
     ...stream,
     depletionTime: 0n,
     forgivenDebt: event.params.writtenOffDebt,
+    lastAdjustmentAction_id: Id.action(event),
     lastAdjustmentTimestamp: BigInt(event.block.timestamp),
     paused: true,
+    pausedAction_id: Id.action(event),
     pausedTime: BigInt(event.block.timestamp),
     ratePerSecond: 0n,
     snapshotAmount: maxAvailable < snapshotAmount ? maxAvailable : snapshotAmount,
     voided: true,
+    voidedAction_id: Id.action(event),
     voidedTime: BigInt(event.block.timestamp),
   };
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const action = await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: event.params.recipient,
     addressB: event.params.sender,
     amountA: event.params.newTotalDebt,
@@ -47,16 +52,12 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
     category: "Void",
     streamId: stream.id,
   });
-  updatedStream = {
-    ...updatedStream,
-    lastAdjustmentAction_id: action.id,
-    pausedAction_id: action.id,
-    voidedAction_id: action.id,
-  };
-  context.Stream.set(updatedStream);
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.update(context, event, sender);
 };
 
 export const voidStream = { handler, loader: Loader.base };

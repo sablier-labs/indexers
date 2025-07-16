@@ -200,5 +200,7 @@
   "0x913c61ec3573e5e4ee6488552535fb1be84ff2ac": { "decimals": 18, "name": "Xave Token", "symbol": "XAV" },
   "0x90a181741921b244f89e67ce018a867ee9166191": { "decimals": 18, "name": "YEET", "symbol": "YEET" },
   "0x24b27d54cf27822573d58a9a4cf3d204ac4641fd": { "decimals": 18, "name": "YYYY", "symbol": "YYYY" },
-  "0xe4e4bd256d3c46c8f4f552b5e90a70b468629998": { "decimals": 18, "name": "Spectre Protocol", "symbol": "SPECTRE" }
+  "0xe4e4bd256d3c46c8f4f552b5e90a70b468629998": { "decimals": 18, "name": "Spectre Protocol", "symbol": "SPECTRE" },
+  "0xaaf6870d6a6939ca71e2c2792455caeab4535970": { "decimals": 18, "name": "TestToken", "symbol": "TT" },
+  "0x9261330c6a2b472c58dbc149ca9dfc20e6861d66": { "decimals": 18, "name": "SUMMIT", "symbol": "SUMMIT" }
 }

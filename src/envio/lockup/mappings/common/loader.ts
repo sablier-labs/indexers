@@ -92,6 +92,11 @@ export namespace Loader {
       asset?: Entity.Asset;
       batch?: Entity.Batch;
       batcher?: Entity.Batcher;
+      users: {
+        funder?: Entity.User;
+        recipient?: Entity.User;
+        sender?: Entity.User;
+      };
       watcher?: Entity.Watcher;
     };
     rpcData: {
@@ -102,6 +107,7 @@ export namespace Loader {
 
   type EventParams = {
     asset: Envio.Address;
+    recipient: Envio.Address;
     sender: Envio.Address;
   };
 
@@ -135,6 +141,11 @@ export namespace Loader {
         asset,
         batch,
         batcher,
+        users: {
+          funder: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+          recipient: await context.User.get(Id.user(event.chainId, params.recipient)),
+          sender: await context.User.get(Id.user(event.chainId, params.sender)),
+        },
         watcher,
       },
       rpcData: {
@@ -163,6 +174,7 @@ export namespace Loader {
   const createV2_0: CreateV2_0<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
     return loaderForCreate(context, event, {
       asset: event.params.commonParams[4],
+      recipient: event.params.commonParams[2],
       sender: event.params.commonParams[1],
     });
   };

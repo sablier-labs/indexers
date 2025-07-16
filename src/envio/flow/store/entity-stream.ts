@@ -1,4 +1,3 @@
-import _ from "lodash";
 import type { Envio } from "../../common/bindings";
 import { getContract } from "../../common/deployments";
 import { Id } from "../../common/id";
@@ -6,12 +5,12 @@ import type { Context, Entity } from "../bindings";
 import { type Params } from "../helpers/types";
 import { update as updateBatch } from "./entity-batch";
 
-export async function create(
+export function create(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.Create,
-): Promise<Entity.Stream> {
+): Entity.Stream {
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.streamCounter;
@@ -58,10 +57,10 @@ export async function create(
     voidedTime: undefined,
     withdrawnAmount: 0n,
   };
-  await context.Stream.set(stream);
+  context.Stream.set(stream);
 
   /* ---------------------------------- BATCH --------------------------------- */
-  await updateBatch(context, event, batch, batcher);
+  updateBatch(context, event, batch, batcher);
 
   return stream;
 }

@@ -19,7 +19,7 @@ type Action @entity(immutable: true) {
   block: BigInt!
 
   """
-  The id of the chain, e.g. 137 for Polygon.
+  The chain ID where the action was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
 
@@ -50,7 +50,7 @@ type Action @entity(immutable: true) {
   contract: Bytes!
 
   """
-  The Sablier fee paid in the native token of the chain, e.g., ETH for Ethereum Mainnet.
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
   See https://docs.sablier.com/concepts/fees
   """
   fee: BigInt

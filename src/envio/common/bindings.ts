@@ -40,8 +40,19 @@ export namespace Common {
     readonly actionCounter: bigint;
     readonly chainId: bigint;
     readonly id: string;
-    readonly logs: undefined | string[];
     readonly streamCounter: bigint;
+  };
+
+  export type User = {
+    readonly address: string;
+    readonly chainId: bigint;
+    readonly cumulativeFees: bigint;
+    readonly firstSeenTimestamp: bigint;
+    readonly firstSeenTxHash: string;
+    readonly id: string;
+    readonly isAirdropClaimer: boolean;
+    readonly lastSeenTimestamp: bigint;
+    readonly lastSeenTxHash: string;
   };
 }
 

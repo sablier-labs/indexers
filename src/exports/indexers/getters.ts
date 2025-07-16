@@ -1,4 +1,3 @@
-import _ from "lodash";
 import type { Indexer } from "../types";
 import { indexers } from "./data";
 
@@ -9,9 +8,9 @@ type V = Indexer.Vendor;
 export function getIndexer(opts: { chainId: number; protocol: P; vendor: V }): I | undefined {
   const { chainId, protocol, vendor } = opts;
   if (vendor === "envio") {
-    return _.find(indexers.envio[protocol], (c) => c.chainId === chainId);
+    return indexers.envio[protocol].find((c) => c.chainId === chainId);
   } else {
-    return _.find(indexers.graph[protocol], (c) => c.chainId === chainId);
+    return indexers.graph[protocol].find((c) => c.chainId === chainId);
   }
 }
 export const getIndexerGraph = (opts: { chainId: number; protocol: P }): I | undefined =>

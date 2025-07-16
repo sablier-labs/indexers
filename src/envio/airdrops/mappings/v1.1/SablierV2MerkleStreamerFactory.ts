@@ -66,7 +66,7 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handlerWithLo
       totalDuration: event.params.streamDurations[1],
       transferable: event.params.transferable,
     };
-    await createMerkleLL({
+    createMerkleLL({
       context,
       event,
       loaderReturn,

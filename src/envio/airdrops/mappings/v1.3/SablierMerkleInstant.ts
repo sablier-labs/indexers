@@ -26,20 +26,20 @@ Contract.Campaign.MerkleInstant_v1_3.Claim.handlerWithLoader({
   },
   handler: async ({ context, event, loaderReturn }) => {
     const { campaign, watcher } = loaderReturn;
-    const activity = loaderReturn.activity ?? (await Store.Activity.create(context, event, campaign.id));
+    const activity = loaderReturn.activity ?? Store.Activity.create(context, event, campaign.id);
 
     /* -------------------------------- CAMPAIGN -------------------------------- */
-    await Store.Campaign.updateClaimed(context, campaign, event.params.amount);
+    Store.Campaign.updateClaimed(context, campaign, event.params.amount);
 
     /* -------------------------------- ACTIVITY -------------------------------- */
-    await Store.Activity.update(context, activity, event.params.amount);
+    Store.Activity.update(context, activity, event.params.amount);
 
     /* --------------------------------- ACTION --------------------------------- */
     const actionEntities = {
       campaign,
       watcher,
     };
-    await Store.Action.create(context, event, actionEntities, {
+    Store.Action.create(context, event, actionEntities, {
       category: "Claim",
       claimAmount: event.params.amount,
       claimIndex: event.params.index,
@@ -48,6 +48,6 @@ Contract.Campaign.MerkleInstant_v1_3.Claim.handlerWithLoader({
     });
 
     /* --------------------------------- WATCHER -------------------------------- */
-    await Store.Watcher.incrementActionCounter(context, watcher);
+    Store.Watcher.incrementActionCounter(context, watcher);
   },
 });

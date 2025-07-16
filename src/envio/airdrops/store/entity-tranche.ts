@@ -1,11 +1,11 @@
 import { type Context, type Entity } from "../bindings";
 import { type TrancheWithPercentage } from "../helpers/types";
 
-export async function createTranchesWithPercentages(
+export function createTranchesWithPercentages(
   context: Context.Handler,
   campaign: Entity.Campaign,
   tranches: TrancheWithPercentage[],
-): Promise<void> {
+): void {
   // The start time of the stream is the first tranche's start time, so we use zero for the initial duration.
   let previous = { duration: 0n, unlockPercentage: 0n };
 
@@ -24,7 +24,7 @@ export async function createTranchesWithPercentages(
       startDuration: previous.duration,
       startPercentage: previous.unlockPercentage,
     };
-    await context.Tranche.set(tranche);
+    context.Tranche.set(tranche);
 
     previous = current;
   }

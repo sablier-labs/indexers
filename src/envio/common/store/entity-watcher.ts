@@ -1,36 +1,38 @@
+import type { Logger } from "envio";
 import type { Common } from "../bindings";
 
 type WatcherContext = {
-  Watcher: { set: (watcher: Common.StreamWatcher) => void | Promise<void> };
+  log: Logger;
+  Watcher: { set: (watcher: Common.StreamWatcher) => void };
 };
 
 /**
- * The entity is not set here because it will be set later in the `update` function.
+ * The entity is not set here because it will be set later in one of the functions below.
  */
-export function create(chainId: number): Common.StreamWatcher {
+export function create(context: WatcherContext, chainId: number): Common.StreamWatcher {
   const watcher: Common.StreamWatcher = {
     actionCounter: 1n,
     chainId: BigInt(chainId),
     id: chainId.toString(),
-    logs: [],
     streamCounter: 1n,
   };
+  context.Watcher.set(watcher);
   return watcher;
 }
 
-export async function incrementActionCounter(context: WatcherContext, watcher: Common.StreamWatcher): Promise<void> {
+export function incrementActionCounter(context: WatcherContext, watcher: Common.StreamWatcher): void {
   const updatedWatcher = {
     ...watcher,
     actionCounter: watcher.actionCounter + 1n,
   };
-  await context.Watcher.set(updatedWatcher);
+  context.Watcher.set(updatedWatcher);
 }
 
-export async function incrementCounters(context: WatcherContext, watcher: Common.StreamWatcher): Promise<void> {
+export function incrementCounters(context: WatcherContext, watcher: Common.StreamWatcher): void {
   const updatedWatcher = {
     ...watcher,
     actionCounter: watcher.actionCounter + 1n,
     streamCounter: watcher.streamCounter + 1n,
   };
-  await context.Watcher.set(updatedWatcher);
+  context.Watcher.set(updatedWatcher);
 }

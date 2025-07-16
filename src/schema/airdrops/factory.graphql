@@ -24,7 +24,7 @@ type Factory @entity(immutable: false) {
   campaignCounter: BigInt!
 
   """
-  The id of the chain, e.g., 137 for Polygon.
+  The chain ID where the factory was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
 

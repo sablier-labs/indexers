@@ -10,5 +10,7 @@
     "symbol": "50WBERA-50HONEY-WEIGHTED"
   },
   "0x6969696969696969696969696969696969696969": { "decimals": 18, "name": "Wrapped Bera", "symbol": "WBERA" },
-  "0x7dcc39b4d1c53cb31e1abc0e358b43987fef80f7": { "decimals": 18, "name": "Wrapped eETH", "symbol": "weETH" }
+  "0x7dcc39b4d1c53cb31e1abc0e358b43987fef80f7": { "decimals": 18, "name": "Wrapped eETH", "symbol": "weETH" },
+  "0x6f3e9215926ab700669f0f5131f0e75bb0fad1ac": { "decimals": 18, "name": "Berries", "symbol": "BERRIES" },
+  "0x5b4ced79ac236ef77ef5b7ea07860037200f20c9": { "decimals": 18, "name": "Test", "symbol": "TEST" }
 }

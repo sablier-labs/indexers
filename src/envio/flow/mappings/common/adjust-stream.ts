@@ -1,3 +1,4 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type {
   SablierFlow_v1_0_AdjustFlowStream_handler as Handler_v1_0,
@@ -14,7 +15,7 @@ import { Loader } from "./loader";
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, watcher } = loaderReturn;
+  const { caller: sender, stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
   const now = BigInt(event.block.timestamp);
@@ -32,29 +33,29 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
     depletionTime = now + extraAmount / event.params.newRatePerSecond;
   }
 
-  let updatedStream = {
+  const updatedStream = {
     ...stream,
     depletionTime,
+    lastAdjustmentAction_id: Id.action(event),
     lastAdjustmentTimestamp: now,
     ratePerSecond: event.params.newRatePerSecond,
     snapshotAmount,
   };
+  context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const action = await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     amountA: event.params.oldRatePerSecond,
     amountB: event.params.newRatePerSecond,
     category: "Adjust",
     streamId: stream.id,
   });
-  updatedStream = {
-    ...updatedStream,
-    lastAdjustmentAction_id: action.id,
-  };
-  context.Stream.set(updatedStream);
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  CommonStore.User.update(context, event, sender);
 };
 
 /* -------------------------------------------------------------------------- */

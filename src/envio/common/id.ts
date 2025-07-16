@@ -87,4 +87,15 @@ export namespace Id {
   export function streamAlias(contractAlias: Envio.Address, chainId: number, tokenId: bigint): string {
     return `${contractAlias}-${chainId}-${tokenId}`;
   }
+
+  /**
+   * @example
+   * 137-0x0298f4332e3857631385b39766325058a93e249f
+   */
+  export function user(chainId: number, address?: Envio.Address): string {
+    if (!address) {
+      return "";
+    }
+    return `${chainId}-${address.toLowerCase()}`;
+  }
 }

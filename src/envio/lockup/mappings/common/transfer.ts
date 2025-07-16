@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { ADDRESS_ZERO } from "../../../common/constants";
 import { CommonStore } from "../../../common/store";
 import { type Entity } from "../../bindings";
@@ -60,7 +59,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  await Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, watcher, {
     addressA: currentRecipient,
     addressB: newRecipient,
     category: "Transfer",
@@ -68,7 +67,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  await CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */
