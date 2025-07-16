@@ -1,6 +1,5 @@
 import type { Envio } from "../../common/bindings";
 import { getContractVersion } from "../../common/deployments";
-import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import type { Context, Entity, Enum } from "../bindings";
 import { getNickname } from "../helpers/campaign";
@@ -165,7 +164,7 @@ function createLockupCampaign(params: Params.CreateCampaignLockup): Partial<Enti
   return {
     lockup: params.lockup.toLowerCase(),
     streamCancelable: params.cancelable,
-    streamShape: params.shape ? sanitizeString(params.shape) : undefined,
+    streamShape: params.shape,
     streamStart: Boolean(params.startTime && params.startTime > 0n),
     streamStartTime: params.startTime,
     streamTotalDuration: params.totalDuration,

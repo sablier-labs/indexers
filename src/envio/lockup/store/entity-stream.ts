@@ -2,7 +2,6 @@ import _ from "lodash";
 import { Version } from "sablier";
 import type { Envio } from "../../common/bindings";
 import { getContract } from "../../common/deployments";
-import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import { CommonStore } from "../../common/store";
 import type { Context, Entity } from "../bindings";
@@ -110,7 +109,7 @@ async function createBase(
     renounceAction_id: undefined,
     renounceTime: undefined,
     sender,
-    shape: params.shape ? sanitizeString(params.shape) : undefined,
+    shape: params.shape,
     startTime: params.startTime,
     subgraphId: counter,
     timestamp: now,
