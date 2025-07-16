@@ -12,7 +12,7 @@ createEquivalenceTest({
   },
   protocol: "airdrops",
   queries: {
-    envio: Envio.getCampaignsWithActionsAndActivities,
-    graph: Graph.getCampaignsWithActionsAndActivities,
+    envio: [Envio.getCampaignsWithActivities, Envio.getActions],
+    graph: [Graph.getCampaignsWithActivities, Graph.getActions],
   },
 });

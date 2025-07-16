@@ -7,6 +7,7 @@ import { gql } from "../../gql/airdrops/envio/gql";
 export const getActions = gql(/* GraphQL */ `
   query getActions($first: Int!, $orderDirection: order_by!, $where: Action_bool_exp) {
     actions: Action(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where
@@ -108,6 +109,7 @@ export const getCampaignWithActions = gql(/* GraphQL */ `
 export const getCampaigns = gql(/* GraphQL */ `
   query getCampaigns($first: Int!, $orderDirection: order_by!, $where: Campaign_bool_exp) {
     campaigns: Campaign(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where
@@ -120,6 +122,7 @@ export const getCampaigns = gql(/* GraphQL */ `
 export const getCampaignsWithActions = gql(/* GraphQL */ `
   query getCampaignsWithActions($first: Int!, $orderDirection: order_by!, $where: Campaign_bool_exp) {
     campaigns: Campaign(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where
@@ -135,6 +138,7 @@ export const getCampaignsWithActions = gql(/* GraphQL */ `
 export const getCampaignsWithActivities = gql(/* GraphQL */ `
   query getCampaignsWithActivities($first: Int!, $orderDirection: order_by!, $where: Campaign_bool_exp) {
     campaigns: Campaign(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where

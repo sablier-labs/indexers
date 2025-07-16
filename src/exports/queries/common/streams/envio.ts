@@ -24,7 +24,7 @@ export const getStreamWithActions = /* GraphQL */ `
   query getStreamWithActions($streamId: String!) {
     stream: Stream_by_pk(id: $streamId) {
       ...StreamFragment
-      actions(limit: 1000, order_by: { subgraphId: asc }) {
+      actions(limit: 1000, distinct_on: [subgraphId], order_by: { subgraphId: asc }) {
         ...ActionFragment
       }
     }
@@ -38,6 +38,7 @@ export const getStreamWithActions = /* GraphQL */ `
 export const getStreams = /* GraphQL */ `
   query getStreams($first: Int!, $orderDirection: order_by!, $where: Stream_bool_exp) {
     streams: Stream(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where
@@ -50,12 +51,13 @@ export const getStreams = /* GraphQL */ `
 export const getStreamsWithActions = /* GraphQL */ `
   query getStreamsWithActions($first: Int!, $orderDirection: order_by!, $where: Stream_bool_exp) {
     streams: Stream(
+      distinct_on: [subgraphId]
       limit: $first
       order_by: { subgraphId: $orderDirection }
       where: $where
     ) {
       ...StreamFragment
-      actions(limit: 1000, order_by: { subgraphId: asc }) {
+      actions(limit: 1000, distinct_on: [subgraphId], order_by: { subgraphId: asc }) {
         ...ActionFragment
       }
     }

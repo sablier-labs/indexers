@@ -10,12 +10,12 @@ export function handleRenounceLockupStream(event: ethereum.Event, params: Params
     return;
   }
 
-  /* --------------------------------- ACTION --------------------------------- */
-  const action = Store.Action.create(event, { category: "Renounce", streamId: stream.id } as CommonParams.Action);
-
   /* --------------------------------- STREAM --------------------------------- */
   stream.cancelable = false;
-  stream.renounceAction = action.id;
   stream.renounceTime = event.block.timestamp;
+
+  /* --------------------------------- ACTION --------------------------------- */
+  const action = Store.Action.create(event, { category: "Renounce", streamId: stream.id } as CommonParams.Action);
+  stream.renounceAction = action.id;
   stream.save();
 }

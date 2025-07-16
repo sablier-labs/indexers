@@ -2,20 +2,22 @@ import { type TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { type DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { type Indexer } from "../../../src/exports";
 import type { Order_By, OrderDirection } from "../../../src/exports/types";
 import { logger } from "../../../src/winston";
 
 type Entities = Array<{ subgraphId: string }>;
-type AirdropsResponse = {
+type ActionsResponse = {
+  actions: Entities;
+};
+type CampaignsResponse = {
   campaigns: Entities;
 };
-
-type FlowAndLockupResponse = {
+type StreamsResponse = {
   streams: Entities;
 };
-type QueryResponse = AirdropsResponse | FlowAndLockupResponse;
+type QueryResponse = CampaignsResponse | StreamsResponse | ActionsResponse;
 
 type EnvioQueryVariables = {
   first: number;
@@ -44,13 +46,13 @@ type TestConfig = {
   };
   protocol: Indexer.Protocol;
   queries: {
-    envio: TypedDocumentNode<QueryResponse, EnvioQueryVariables>;
-    graph: TypedDocumentNode<QueryResponse, GraphQueryVariables>;
+    envio: Array<TypedDocumentNode<QueryResponse, EnvioQueryVariables>>;
+    graph: Array<TypedDocumentNode<QueryResponse, GraphQueryVariables>>;
   };
 };
 
 function getEntities(response: QueryResponse): Entities {
-  return "campaigns" in response ? response.campaigns : response.streams;
+  return "campaigns" in response ? response.campaigns : "streams" in response ? response.streams : response.actions;
 }
 
 async function fetchEntities(
@@ -121,35 +123,37 @@ export function createEquivalenceTest(config: TestConfig) {
       let done = false;
       let totalCount = 0;
 
-      while (!done) {
-        const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio, envioVariables);
-        const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph, graphVariables);
-        if (!envioEntities || !graphEntities) {
-          throw new Error("Failed to fetch data from one of the endpoints");
+      for (let i = 0; i < queries.envio.length; i++) {
+        while (!done) {
+          const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio[i], envioVariables);
+          const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph[i], graphVariables);
+          if (!envioEntities || !graphEntities) {
+            throw new Error("Failed to fetch data from one of the endpoints");
+          }
+
+          expect(envioEntities.length).toBe(graphEntities.length);
+          for (let i = 0; i < envioEntities.length; i++) {
+            // Debug by unsetting fields, e.g.
+            // _.unset(envioEntities[i], "sender");
+            // _.unset(graphEntities[i], "sender");
+            expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(graphEntities[i]);
+          }
+
+          totalCount += envioEntities.length;
+
+          if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
+            const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
+            envioVariables.where.subgraphId = { _gt: nextId };
+            graphVariables.where.subgraphId_gt = nextId;
+            continue;
+          }
+
+          done = true;
         }
-
-        expect(envioEntities.length).toBe(graphEntities.length);
-        for (let i = 0; i < envioEntities.length; i++) {
-          // Debug by unsetting fields, e.g.
-          // _.unset(envioEntities[i], "sender");
-          // _.unset(graphEntities[i], "sender");
-          expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(graphEntities[i]);
-        }
-
-        totalCount += envioEntities.length;
-
-        if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
-          const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
-          envioVariables.where.subgraphId = { _gt: nextId };
-          graphVariables.where.subgraphId_gt = nextId;
-          continue;
-        }
-
-        done = true;
       }
 
-      logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
       expect(totalCount).toBeGreaterThan(0);
+      logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
     },
     timeout,
   );

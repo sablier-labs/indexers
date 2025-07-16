@@ -5,7 +5,7 @@ import { getContract } from "../../common/deployments";
 import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import { CommonStore } from "../../common/store";
-import type { Context, Entity, Enum } from "../bindings";
+import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";
 import { create as createAction } from "./entity-action";
 import { update as updateBatch } from "./entity-batch";
@@ -88,7 +88,7 @@ async function createBase(
     canceled: false,
     canceledAction_id: undefined,
     canceledTime: undefined,
-    category: params.category as Enum.StreamCategory,
+    category: params.category,
     chainId: BigInt(event.chainId),
     cliff: undefined,
     cliffAmount: undefined,

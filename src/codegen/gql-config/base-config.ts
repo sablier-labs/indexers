@@ -30,7 +30,10 @@ function getDocumentsPaths(vendor: V, protocol: P) {
   }
 
   const fragments = [join(FRAGMENTS_DIR, "common", "action.ts"), join(FRAGMENTS_DIR, "common", "batch.ts")];
-  const queries = [join(QUERIES_DIR, "common", "streams", `${vendor}.ts`)];
+  const queries = [
+    join(QUERIES_DIR, "common", "streams", `${vendor}.ts`),
+    join(QUERIES_DIR, "common", "actions", `${vendor}.ts`),
+  ];
   return [...base, ...fragments, ...queries];
 }
 

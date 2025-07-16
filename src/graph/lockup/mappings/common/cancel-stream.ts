@@ -12,6 +12,12 @@ export function handleCancelLockupStream(event: ethereum.Event, params: Params.C
     return;
   }
 
+  /* --------------------------------- STREAM --------------------------------- */
+  stream.cancelable = false;
+  stream.canceled = true;
+  stream.canceledTime = event.block.timestamp;
+  stream.intactAmount = params.recipientAmount; // The only amount remaining in the stream is the recipient amount
+
   /* --------------------------------- ACTION --------------------------------- */
   const action = Store.Action.create(event, {
     addressA: params.sender,
@@ -21,12 +27,6 @@ export function handleCancelLockupStream(event: ethereum.Event, params: Params.C
     category: "Cancel",
     streamId: stream.id,
   } as CommonParams.Action);
-
-  /* --------------------------------- STREAM --------------------------------- */
-  stream.cancelable = false;
-  stream.canceled = true;
   stream.canceledAction = action.id;
-  stream.canceledTime = event.block.timestamp;
-  stream.intactAmount = params.recipientAmount; // The only amount remaining in the stream is the recipient amount
   stream.save();
 }

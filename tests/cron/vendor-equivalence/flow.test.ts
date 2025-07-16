@@ -12,7 +12,7 @@ createEquivalenceTest({
   },
   protocol: "flow",
   queries: {
-    envio: Envio.getStreamsWithActions,
-    graph: Graph.getStreamsWithActions,
+    envio: [Envio.getStreams, Envio.getActions],
+    graph: [Graph.getStreams, Graph.getActions],
   },
 });

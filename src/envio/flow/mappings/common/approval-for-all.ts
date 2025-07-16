@@ -1,4 +1,5 @@
-import { type Entity } from "../../bindings";
+import { CommonStore } from "../../../common/store";
+import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_ApprovalForAll_handler as Handler_v1_0,
   SablierFlow_v1_1_ApprovalForAll_handler as Handler_v1_1,
@@ -33,12 +34,16 @@ type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { watcher } = loaderReturn;
 
+  /* --------------------------------- ACTION --------------------------------- */
   await Store.Action.create(context, event, watcher, {
     addressA: event.params.owner,
     addressB: event.params.operator,
     amountA: event.params.approved ? 1n : 0n,
     category: "ApprovalForAll",
   });
+
+  /* --------------------------------- WATCHER -------------------------------- */
+  await CommonStore.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */
