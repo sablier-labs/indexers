@@ -24,9 +24,13 @@ export namespace EnvioConfig {
     address?: Sablier.Address | Sablier.Address[];
   };
 
+  /**
+   * @see https://docs.envio.dev/docs/HyperIndex/rpc-sync#advanced-rpc-configuration
+   */
   export type NetworkRPC = {
     url: string;
-    for: "fallback";
+    for: "fallback" | "sync";
+    initial_block_interval?: number;
     interval_ceiling?: number;
   };
 

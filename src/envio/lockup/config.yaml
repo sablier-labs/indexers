@@ -201,6 +201,29 @@ networks:
         name: "SablierV2LockupTranched_v1_2"
       - address: "0xb5d78dd3276325f5faf3106cc4acc56e28e0fe3b"
         name: "SablierLockup_v2_0"
+  - id: 81457
+    start_block: 243844
+    rpc:
+      - url: "https://blast-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        for: "fallback"
+      - url: "https://blast-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        for: "fallback"
+      - url: "https://rpc.blast.io"
+        for: "fallback"
+        interval_ceiling: 5000
+    contracts:
+      - address: "0xdf578c2c70a86945999c65961417057363530a1c"
+        name: "SablierV2LockupDynamic_v1_1"
+      - address: "0xcb099efc90e88690e287259410b9ae63e1658cc6"
+        name: "SablierV2LockupLinear_v1_1"
+      - address: "0xa705de617673e2fe63a4ea0e58c26897601d32a5"
+        name: "SablierV2LockupDynamic_v1_2"
+      - address: "0x9b1468d29b4a5869f00c92517c57f8656e928b93"
+        name: "SablierV2LockupLinear_v1_2"
+      - address: "0x91fb72e5297e2728c10fde73bde74a4888a68570"
+        name: "SablierV2LockupTranched_v1_2"
+      - address: "0xdbb6e9653d7e41766712db22eb08ed3f21009fdd"
+        name: "SablierLockup_v2_0"
   - id: 80094
     start_block: 780094
     rpc:
@@ -254,6 +277,15 @@ networks:
         name: "SablierV2LockupTranched_v1_2"
       - address: "0x711900e5f55d427cd88e5e3fcae54ccf02de71f4"
         name: "SablierLockup_v2_0"
+  - id: 478
+    start_block: 3359301
+    rpc:
+      - url: "https://rpc.form.network/http"
+        for: "sync"
+        interval_ceiling: 5000
+    contracts:
+      - address: "0xa2dd5e785aa0225d681416884d395c7e22d92850"
+        name: "SablierLockup_v2_0"
   - id: 100
     start_block: 28766600
     rpc:
@@ -278,6 +310,40 @@ networks:
       - address: "0x59a4b7255a5d01247837600e7828a6f77f664b34"
         name: "SablierV2LockupTranched_v1_2"
       - address: "0x007af5dc7b1caa66cf7ebcc01e2e6ba4d55d3e92"
+        name: "SablierLockup_v2_0"
+  - id: 4689
+    start_block: 31786505
+    rpc:
+      - url: "https://babel-api.mainnet.iotex.io"
+        for: "sync"
+        interval_ceiling: 5000
+    contracts:
+      - address: "0x6fcab41e3b62d05ab4fc729586cb06af2a2662d0"
+        name: "SablierV2LockupDynamic_v1_2"
+      - address: "0x84f092cf4d7d36c2d4987f672df81a39200a7146"
+        name: "SablierV2LockupLinear_v1_2"
+      - address: "0x179536f3289fb50076968b339c7ef0dc0b38e3af"
+        name: "SablierV2LockupTranched_v1_2"
+      - address: "0xcaf51434a0af3c43cd5569bc5ecc5aa21d28086e"
+        name: "SablierLockup_v2_0"
+  - id: 1890
+    start_block: 63524930
+    rpc:
+      - url: "https://replicator.phoenix.lightlink.io/rpc/v1"
+        for: "sync"
+        interval_ceiling: 5000
+    contracts:
+      - address: "0x49d753422ff05daa291a9efa383e4f57daead889"
+        name: "SablierV2LockupDynamic_v1_1"
+      - address: "0x17c4f98c40e69a6a0d5c42b11e3733f076a99e20"
+        name: "SablierV2LockupLinear_v1_1"
+      - address: "0xaa05e418fb7851c211351c65435f1b17cbfa88bf"
+        name: "SablierV2LockupDynamic_v1_2"
+      - address: "0x6329591464fa6721c8e1c1271e4c6c41531aea6b"
+        name: "SablierV2LockupLinear_v1_2"
+      - address: "0x83403c6426e6d044bf3b84ec1c007db211aaa140"
+        name: "SablierV2LockupTranched_v1_2"
+      - address: "0x6c65aaf03186d1da60127d3d7792cf36ed99d909"
         name: "SablierLockup_v2_0"
   - id: 59144
     start_block: 7728316
@@ -435,6 +501,17 @@ networks:
       - address: "0xb0f78ddc01d829d8b567821eb193de8082b57d9d"
         name: "SablierV2LockupTranched_v1_2"
       - address: "0xcb0b1f1d116ed62135848d8c90eb61afda936da8"
+        name: "SablierLockup_v2_0"
+  - id: 1329
+    start_block: 138913911
+    rpc:
+      - url: "https://sei-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        for: "sync"
+      - url: "https://evm-rpc.sei-apis.com/"
+        for: "fallback"
+        interval_ceiling: 5000
+    contracts:
+      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
         name: "SablierLockup_v2_0"
   - id: 50104
     start_block: 11275708

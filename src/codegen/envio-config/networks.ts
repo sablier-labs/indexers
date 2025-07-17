@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { sablier } from "sablier";
 import { indexedContracts } from "../../contracts";
-import { envioChains, envioHypersync } from "../../exports/indexers/envio";
+import { envioChains } from "../../exports/indexers/envio";
 import { sanitizeContractName } from "../../helpers";
 import type { Types } from "../../types";
 import { logger, messages } from "../../winston";
@@ -11,15 +11,18 @@ import type { EnvioConfig } from "./config-types";
 export function createNetworks(protocol: Types.Protocol): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];
 
-  for (const chainId of envioChains) {
-    const { contracts, startBlock } = extractContracts(protocol, chainId);
-    const hypersyncURL = envioHypersync[chainId];
-    const hypersync_config = hypersyncURL ? { url: hypersyncURL } : undefined;
+  for (const chain of envioChains) {
+    const { contracts, startBlock } = extractContracts(protocol, chain.id);
+    const hypersync_config = chain.config?.hypersync
+      ? { url: `https://${chain.config.hypersync}.hypersync.xyz` }
+      : undefined;
+    const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
+
     networks.push({
-      id: chainId,
+      id: chain.id,
       start_block: startBlock,
       hypersync_config,
-      rpc: getFallbackRPCs(chainId),
+      rpc,
       contracts,
     });
   }
@@ -35,31 +38,36 @@ export function createNetworks(protocol: Types.Protocol): EnvioConfig.Network[] 
  * Will return an URL like this: https://mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}
  * The API key will be loaded from the .env file.
  */
-function getFallbackRPCs(chainId: number): EnvioConfig.NetworkRPC[] {
-  const fallbackRPCs: EnvioConfig.NetworkRPC[] = [];
+function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
+  const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
 
   if (chain.rpc.infura && process.env.ENVIO_INFURA_API_KEY) {
-    fallbackRPCs.push({
+    RPCs.push({
       url: chain.rpc.infura("{ENVIO_INFURA_API_KEY}"),
       for: "fallback",
     });
   }
 
   if (chain.rpc.alchemy && process.env.ENVIO_ALCHEMY_API_KEY) {
-    fallbackRPCs.push({
+    RPCs.push({
       url: chain.rpc.alchemy("{ENVIO_ALCHEMY_API_KEY}"),
       for: "fallback",
     });
   }
 
-  fallbackRPCs.push({
+  RPCs.push({
     url: chain.rpc.default,
     for: "fallback",
-    interval_ceiling: 5000, // https://github.com/enviodev/hyperindex/issues/603
+    initial_block_interval: 2000,
+    interval_ceiling: 2000, // https://github.com/enviodev/hyperindex/issues/603
   });
 
-  return fallbackRPCs;
+  if (rpcOnly) {
+    RPCs[0].for = "sync";
+  }
+
+  return RPCs;
 }
 
 type ExtractContractsReturn = {

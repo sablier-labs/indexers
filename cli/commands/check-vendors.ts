@@ -2,11 +2,11 @@ import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import axios from "axios";
 import { type Command } from "commander";
 import { sablier } from "sablier";
-import { envioHypersync as envioExcluded } from "../../src/exports/indexers/envio";
+import { envioChains } from "../../src/exports/indexers/envio";
 import * as helpers from "../helpers";
 
 export function createCheckVendorsCommand(): Command {
-  const command = helpers.createBaseCmd("Check if a chain is supported by The Graph and Envio");
+  const command = helpers.createBaseCmd("Check if a chain is supported by The Graph and Envio Hypersync");
 
   command.option("--chain-id <number>", "Chain ID to check").action(async (options: { chainId?: string }) => {
     if (!options.chainId) {
@@ -36,7 +36,7 @@ export const checkVendorsCmd = createCheckVendorsCommand();
 
 async function checkEnvioSupport(chainId: number): Promise<void> {
   console.log("Envio:");
-  if (envioExcluded[chainId]) {
+  if (envioChains.some((c) => c.id === chainId && c.config?.hypersync)) {
     console.log(`   ⚠️  Chain is supported but not listed in the API`);
     return;
   }
@@ -45,10 +45,10 @@ async function checkEnvioSupport(chainId: number): Promise<void> {
     const response = await axios.get<Array<{ chain_id: number }>>("https://chains.hyperquery.xyz/active_chains");
     const supportedChainIds = response.data.map((c) => c.chain_id);
 
-    const isEnvioSupported = supportedChainIds.includes(chainId) && !envioExcluded[chainId];
+    const isEnvioSupported = supportedChainIds.includes(chainId);
     console.log(`   ${isEnvioSupported ? "✅" : "❌"} ${isEnvioSupported ? "Supported" : "Not supported"}\n`);
   } catch (error) {
-    console.log(`   ⚠️  Error checking Envio: ${error instanceof Error ? error.message : String(error)}`);
+    console.log(`   ⚠️  Error checking Envio HyperSync: ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 

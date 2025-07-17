@@ -4,7 +4,7 @@ import _ from "lodash";
 import { Protocol } from "sablier";
 import { describe, expect, it } from "vitest";
 import { getIndexerGraph } from "../../src/exports";
-import { envioChains, envioHypersync as envioExcluded } from "../../src/exports/indexers/envio";
+import { envioChains } from "../../src/exports/indexers/envio";
 import { graphChains } from "../../src/exports/indexers/graph";
 import { logger } from "../../src/winston";
 
@@ -37,8 +37,10 @@ describe("Vendors", () => {
       const response = await axios.get<Array<{ chain_id: number }>>("https://chains.hyperquery.xyz/active_chains");
       const supportedChainIds = response.data.map((c) => c.chain_id);
 
-      let unsupported = _.difference(envioChains, supportedChainIds);
-      unsupported = _.filter(unsupported, (id) => !envioExcluded[id]);
+      // Chains that use RPC as a data source are not supported by Envio.
+      const unsupported = envioChains.filter((c) => {
+        return !supportedChainIds.includes(c.id) && !c.config?.hypersync && !c.config?.rpcOnly;
+      });
 
       if (unsupported.length > 0) {
         logger.warn(`Chain IDs used by the Sablier Indexers but not supported by Envio: ${unsupported}`);

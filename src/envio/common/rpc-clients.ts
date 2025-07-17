@@ -11,9 +11,9 @@ import { CriticalError } from "./errors";
 const clients: PublicClient[] = [];
 
 // Initialize RPC clients for all supported chains
-for (const chainId of envioChains) {
+for (const envioChain of envioChains) {
   // Get chain configuration from Sablier deployments
-  const chain = sablier.chains.getOrThrow(chainId);
+  const chain = sablier.chains.getOrThrow(envioChain.id);
 
   // Build priority-ordered list of RPC URLs
   const rpcUrls: string[] = [];
