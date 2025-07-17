@@ -7,7 +7,7 @@ See https://thegraph.com/docs/en/subgraphs/developing/creating/ql-schema/#defini
 """
 type Batch @entity(immutable: true) {
   """
-  Unique identifier: `{chainId}-{txHash}-{batcher}`
+  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
   """
   id: String!
 
@@ -49,7 +49,7 @@ Sender address that created batches.
 """
 type Batcher @entity(immutable: false) {
   """
-  Unique identifier: `{chainId}-{sender}`
+  Unique identifier: `batcher-{chainId}-{sender}`
   """
   id: String!
 

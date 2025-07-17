@@ -6,6 +6,6 @@ export * from "./deposit-stream";
 export * from "./pause-stream";
 export * from "./refund-stream";
 export * from "./restart-stream";
-export * from "./transfer";
+export * from "./transfer-stream";
 export * from "./void-stream";
 export * from "./withdraw-stream";

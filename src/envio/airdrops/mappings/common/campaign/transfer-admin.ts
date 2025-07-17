@@ -1,5 +1,6 @@
-import { ADDRESS_ZERO } from "../../../../common/constants";
+import { zeroAddress } from "viem";
 import { Id } from "../../../../common/id";
+import { CommonStore } from "../../../../common/store";
 import { type Entity } from "../../../bindings";
 import type {
   SablierV2MerkleStreamerLL_v1_1_TransferAdmin_handler as Handler_v1_1,
@@ -15,26 +16,37 @@ import { Store } from "../../../store";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 type LoaderReturn = {
-  campaign?: Entity.Campaign;
-  watcher?: Entity.Watcher;
+  campaign: Entity.Campaign;
+  users: {
+    caller?: Entity.User;
+    oldAdmin?: Entity.User;
+    newAdmin?: Entity.User;
+  };
+  watcher: Entity.Watcher;
 };
 
 type Loader<T> = Loader_v1_1<T> & Loader_v1_2<T> & Loader_v1_3<T>;
 
-export const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+export const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
   // Starting with v1.3, the constructor emits a TransferAdmin event.
-  if (event.params.oldAdmin === ADDRESS_ZERO) {
-    return { campaign: undefined, watcher: undefined };
+  if (event.params.oldAdmin === zeroAddress) {
+    return undefined;
   }
-
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const campaign = await context.Campaign.getOrThrow(campaignId);
+
+  const users = {
+    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+    newAdmin: await context.User.get(Id.user(event.chainId, event.params.newAdmin)),
+    oldAdmin: await context.User.get(Id.user(event.chainId, event.params.oldAdmin)),
+  };
 
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.getOrThrow(watcherId);
 
   return {
     campaign,
+    users,
     watcher,
   };
 };
@@ -45,23 +57,30 @@ export const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 
 type Handler<T> = Handler_v1_1<T> & Handler_v1_2<T> & Handler_v1_3<T>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { campaign, watcher } = loaderReturn;
-  if (!campaign || !watcher) {
+const handler: Handler<LoaderReturn | undefined> = async ({ context, event, loaderReturn }) => {
+  if (!loaderReturn) {
     return;
   }
+  const { campaign, users, watcher } = loaderReturn;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const entities = { campaign, watcher };
-  Store.Action.create(context, event, entities, {
+  Store.Action.create(context, event, watcher, {
+    campaignId: campaign.id,
     category: "TransferAdmin",
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
   Store.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: users.caller },
+    { address: event.params.oldAdmin, entity: users.oldAdmin },
+    { address: event.params.newAdmin, entity: users.newAdmin },
+  ]);
 };
 
 /* -------------------------------------------------------------------------- */

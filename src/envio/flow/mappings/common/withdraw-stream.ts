@@ -1,15 +1,52 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
+import { type Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_WithdrawFromFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_WithdrawFromFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_0_WithdrawFromFlowStream_loader as Loader_v1_0,
+  SablierFlow_v1_1_WithdrawFromFlowStream_loader as Loader_v1_1,
 } from "../../bindings/src/Types.gen";
-import { Store } from "../../store";
-import { Loader } from "./loader";
+import { Loader as LoaderBase } from "./loader";
+
+/* -------------------------------------------------------------------------- */
+/*                                   LOADER                                   */
+/* -------------------------------------------------------------------------- */
+
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+
+type LoaderReturn = {
+  revenue?: Entity.Revenue;
+  stream: Entity.Stream;
+  users: {
+    caller?: Entity.User;
+    to?: Entity.User;
+  };
+  watcher: Entity.Watcher;
+};
+
+const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+  const { stream, users: baseUsers, watcher } = await LoaderBase.base({ context, event });
+
+  const revenueId = Id.revenue(event.chainId, event.block.timestamp);
+  const revenue = await context.Revenue.get(revenueId);
+
+  const users = {
+    caller: baseUsers.caller,
+    to: await context.User.get(Id.user(event.chainId, event.params.to)),
+  };
+
+  return { revenue, stream, users, watcher };
+};
+
+/* -------------------------------------------------------------------------- */
+/*                                   HANDLER                                  */
+/* -------------------------------------------------------------------------- */
 
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { caller, stream, watcher } = loaderReturn;
+const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
+  const { revenue, stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
   const withdrawAmount = event.params.withdrawAmount;
@@ -21,7 +58,7 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  CommonStore.Action.create(context, event, watcher, {
     addressA: event.params.caller,
     addressB: event.params.to,
     amountA: withdrawAmount,
@@ -33,7 +70,13 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   CommonStore.Watcher.incrementActionCounter(context, watcher);
 
   /* ---------------------------------- USER ---------------------------------- */
-  CommonStore.User.createOrUpdate(context, event, caller, event.transaction.from);
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: users.caller },
+    { address: event.params.to, entity: users.to },
+  ]);
+
+  /* -------------------------------- REVENUE --------------------------------- */
+  await CommonStore.Revenue.createOrUpdate(context, event, revenue);
 };
 
-export const withdrawStream = { handler, loader: Loader.base };
+export const withdrawStream = { handler, loader };

@@ -41,6 +41,7 @@ import type {
   Asset as EntityAsset,
   Batch as EntityBatch,
   Batcher as EntityBatcher,
+  Revenue as EntityRevenue,
   Segment as EntitySegment,
   Stream as EntityStream,
   Tranche as EntityTranche,
@@ -53,6 +54,7 @@ export namespace Entity {
   export type Asset = EntityAsset;
   export type Batch = EntityBatch;
   export type Batcher = EntityBatcher;
+  export type Revenue = EntityRevenue;
   export type Segment = EntitySegment;
   export type Stream = EntityStream;
   export type Tranche = EntityTranche;

@@ -1,6 +1,7 @@
 import type { Enum as FlowEnum } from "../flow/bindings";
 import type { Enum as LockupEnum } from "../lockup/bindings";
 import type { Envio } from "./bindings";
+import type { CommonEntities } from "./entities";
 
 export namespace RPCData {
   export enum Category {
@@ -30,7 +31,8 @@ export namespace CommonParams {
   };
 
   export type User = {
-    address: string;
-    isAirdropClaimer?: boolean;
+    address?: string;
+    entity?: CommonEntities.User;
+    isAirdropClaim?: boolean;
   };
 }

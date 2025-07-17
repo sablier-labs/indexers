@@ -46,8 +46,11 @@ export namespace Loader {
     Withdraw_v1_1<T>;
 
   export type BaseReturn = {
-    caller?: Entity.User;
     stream: Entity.Stream;
+    users: {
+      caller?: Entity.User; // event.transaction.from, same as tx.origin
+      sender?: Entity.User; // msg.sender
+    };
     watcher: Entity.Watcher;
   };
 
@@ -60,16 +63,20 @@ export namespace Loader {
     } else {
       throw new Error("Neither tokenId nor streamId found in event params");
     }
-    const callerId = Id.user(event.chainId, event.transaction.from);
-    const caller = await context.User.get(callerId);
-
     const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
     const stream = await context.Stream.getOrThrow(streamId);
 
-    const watcher = await context.Watcher.getOrThrow(event.chainId.toString());
+    const users = {
+      caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+      sender: await context.User.get(Id.user(event.chainId, stream.sender)),
+    };
+
+    const watcherId = event.chainId.toString();
+    const watcher = await context.Watcher.getOrThrow(watcherId);
+
     return {
-      caller,
       stream,
+      users,
       watcher,
     };
   };

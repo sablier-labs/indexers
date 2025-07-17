@@ -8,6 +8,7 @@ export namespace Params {
   };
 
   export type Action = {
+    campaignId: string;
     category: Enum.ActionCategory;
     claimAmount?: bigint;
     claimIndex?: bigint;
@@ -23,6 +24,10 @@ export namespace Params {
   export type CreateEntities = {
     asset: Entity.Asset;
     factory: Entity.Factory;
+    users: {
+      admin?: Entity.User;
+      caller?: Entity.User;
+    };
     watcher: Entity.Watcher;
   };
 

@@ -1,18 +1,19 @@
-import type { Common, Envio } from "../bindings";
+import type { Envio } from "../bindings";
+import type { CommonEntities } from "../entities";
 import { Id } from "../id";
 import type { CommonParams } from "../types";
 
-export function create<TAction extends Common.StreamAction>(
+export function create<TAction extends CommonEntities.StreamAction>(
   context: {
     Action: { set: (action: TAction) => void };
   },
   event: Envio.Event,
-  watcher: Common.StreamWatcher,
+  watcher: CommonEntities.StreamWatcher,
   params: CommonParams.Action,
 ): TAction {
   const id = Id.action(event);
 
-  const action: Common.StreamAction = {
+  const action: CommonEntities.StreamAction = {
     addressA: params.addressA?.toLowerCase(),
     addressB: params.addressB?.toLowerCase(),
     amountA: params.amountA,

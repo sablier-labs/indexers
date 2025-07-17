@@ -831,5 +831,10 @@
   "0x09f3f0ee2cf938f56bc664ce85152209a7457b07": { "decimals": 18, "name": "ArtBaby", "symbol": "ARTBABY" },
   "0xa77e22bfaee006d4f9dc2c20d7d337b05125c282": { "decimals": 18, "name": "Tren Finance v2", "symbol": "TREN" },
   "0x24c91e5e9eb13e72db41ebc5816af7f259647b07": { "decimals": 18, "name": "Myceliyou", "symbol": "MYU" },
-  "0x6d96f18f00b815b2109a3766e79f6a7ad7785624": { "decimals": 18, "name": "Patience Token", "symbol": "PATIENCE" }
+  "0x6d96f18f00b815b2109a3766e79f6a7ad7785624": { "decimals": 18, "name": "Patience Token", "symbol": "PATIENCE" },
+  "0x58db197e91bc8cf1587f75850683e4bd0730e6bf": { "decimals": 18, "name": "Axelrod by Virtuals", "symbol": "AXR" },
+  "0x5b0af37457dab8b990c32ccb1b91386abe333b05": { "decimals": 18, "name": "WOWOW", "symbol": "WOWOW" },
+  "0x83ba24c452c72512ac96e8c62878d7ee0e4c0225": { "decimals": 18, "name": "CRAZYWORK", "symbol": "CRAZYWORK" },
+  "0x08c716081f6beec9f3451016608dd8a3c2d929e6": { "decimals": 18, "name": "OMKARSETH", "symbol": "OKSTH" },
+  "0xf9569cfb8fd265e91aa478d86ae8c78b8af55df4": { "decimals": 18, "name": "Auki Token", "symbol": "AUKI" }
 }

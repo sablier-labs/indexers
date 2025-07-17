@@ -61,7 +61,7 @@ Contract.Lockup_v2_0.CreateLockupTranchedStream.handlerWithLoader({
       tranches: convertTranches(event.params.tranches),
       transferable: commonParams[6],
     };
-    createStream({
+    await createStream({
       context,
       createInStore: Store.Stream.createTranched,
       event,

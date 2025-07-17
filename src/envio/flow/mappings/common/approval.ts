@@ -7,7 +7,6 @@ import type {
   SablierFlow_v1_0_Approval_loader as Loader_v1_0,
   SablierFlow_v1_1_Approval_loader as Loader_v1_1,
 } from "../../bindings/src/Types.gen";
-import { Store } from "../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   LOADER                                   */
@@ -17,6 +16,7 @@ type LoaderReturn = {
   stream: Entity.Stream;
   users: {
     approved?: Entity.User;
+    caller?: Entity.User;
     owner?: Entity.User;
   };
   watcher: Entity.Watcher;
@@ -30,10 +30,13 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 
   const users = {
     approved: await context.User.get(Id.user(event.chainId, event.params.approved)),
+    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
     owner: await context.User.get(Id.user(event.chainId, event.params.owner)),
   };
 
-  const watcher = await context.Watcher.getOrThrow(event.chainId.toString());
+  const watcherId = event.chainId.toString();
+  const watcher = await context.Watcher.getOrThrow(watcherId);
+
   return {
     stream,
     users,
@@ -48,10 +51,10 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { users, stream, watcher } = loaderReturn;
+  const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  CommonStore.Action.create(context, event, watcher, {
     addressA: event.params.owner,
     addressB: event.params.approved,
     category: "Approval",
@@ -62,8 +65,12 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   CommonStore.Watcher.incrementActionCounter(context, watcher);
 
   /* ---------------------------------- USER ---------------------------------- */
-  CommonStore.User.update(context, event, users.owner);
-  CommonStore.User.createOrUpdate(context, event, users.approved, event.params.approved);
+  // See https://github.com/OpenZeppelin/openzeppelin-contracts/blob/e4f7021/contracts/token/ERC721/ERC721.sol#L391-L425
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: users.caller },
+    { address: event.params.owner, entity: users.owner },
+    { address: event.params.approved, entity: users.approved },
+  ]);
 };
 
 export const approval = { handler, loader };

@@ -24,7 +24,7 @@ export function getAssetDefs(protocol: Types.Protocol) {
     """
     type Asset @entity(immutable: false) {
       """
-      Unique identifier: \`{chainId}-{address}\`
+      Unique identifier: \`asset-{chainId}-{address}\`
       """
       id: String!
       """

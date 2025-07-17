@@ -76,8 +76,9 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
     batch: loaderReturn.batch ?? Store.Batch.create(event, event.params.sender),
     batcher: loaderReturn.batcher ?? Store.Batcher.create(context, event, event.params.sender),
     users: loaderReturn.users,
-    watcher: loaderReturn.watcher ?? CommonStore.Watcher.create(context, event.chainId),
+    watcher: loaderReturn.watcher ?? CommonStore.Watcher.create(event.chainId),
   };
+
   /* --------------------------------- STREAM --------------------------------- */
   const stream = Store.Stream.create(context, event, entities, {
     ratePerSecond: event.params.ratePerSecond,
@@ -88,7 +89,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   });
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, entities.watcher, {
+  CommonStore.Action.create(context, event, entities.watcher, {
     addressA: event.params.sender,
     addressB: event.params.recipient,
     amountA: event.params.ratePerSecond,
@@ -100,9 +101,11 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   CommonStore.Watcher.incrementCounters(context, entities.watcher);
 
   /* ---------------------------------- USER ---------------------------------- */
-  CommonStore.User.createOrUpdate(context, event, entities.users.creator, stream.creator);
-  CommonStore.User.createOrUpdate(context, event, entities.users.recipient, stream.recipient);
-  CommonStore.User.createOrUpdate(context, event, entities.users.sender, stream.sender);
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: stream.creator, entity: entities.users.creator },
+    { address: stream.recipient, entity: entities.users.recipient },
+    { address: stream.sender, entity: entities.users.sender },
+  ]);
 };
 
 /* -------------------------------------------------------------------------- */

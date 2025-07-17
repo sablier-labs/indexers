@@ -227,13 +227,12 @@ function addSegments(context: Context.Handler, stream: Entity.Stream, segments: 
   for (let i = 0; i < segments.length; i++) {
     const current = segments[i];
 
-    const id = `${stream.id}-${i.toString()}`;
     const segment: Entity.Segment = {
       amount: current.amount,
       endAmount: streamed + current.amount,
       endTime: current.milestone,
       exponent: current.exponent,
-      id,
+      id: Id.segment(stream.id, i),
       position: BigInt(i),
       startAmount: streamed,
       startTime: previous.milestone,
@@ -254,12 +253,11 @@ function addTranches(context: Context.Handler, stream: Entity.Stream, tranches: 
 
   for (let i = 0; i < tranches.length; i++) {
     const current = tranches[i];
-    const id = `${stream.id}-${i.toString()}`;
     const tranche: Entity.Tranche = {
       amount: current.amount,
       endAmount: streamedAmount + current.amount,
       endTime: current.timestamp,
-      id,
+      id: Id.tranche(stream.id, i),
       position: BigInt(i),
       startAmount: streamedAmount,
       startTime: previous.timestamp,

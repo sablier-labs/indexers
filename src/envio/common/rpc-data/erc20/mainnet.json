@@ -500,5 +500,8 @@
   "0x8258df28cbaa51199c0a8b7e1de1d669e4be9fc1": { "decimals": 9, "name": "Zodor", "symbol": "ZOD" },
   "0xcccccccccc33d538dbc2ee4feab0a7a1ff4e8a94": { "decimals": 18, "name": "Centrifuge", "symbol": "CFG" },
   "0x25ed873e64edc5d9769e2037f7098c110efd6111": { "decimals": 18, "name": "UA1", "symbol": "UA1" },
-  "0x5a84fa4033b865543c5208f8c9786eda476a4102": { "decimals": 9, "name": "Websync", "symbol": "WEBS" }
+  "0x5a84fa4033b865543c5208f8c9786eda476a4102": { "decimals": 9, "name": "Websync", "symbol": "WEBS" },
+  "0x3b50805453023a91a8bf641e279401a0b23fa6f9": { "decimals": 18, "name": "Renzo", "symbol": "REZ" },
+  "0xf46e4f72db2b59da43c23a1c85707a6d6d822ec6": { "decimals": 9, "name": "MESH AI", "symbol": "MESH" },
+  "0xfc60fc0145d7330e5abcfc52af7b043a1ce18e7d": { "decimals": 18, "name": "GVNR", "symbol": "GVNR" }
 }

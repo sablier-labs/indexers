@@ -108,7 +108,7 @@ function getContext(params: CreateSourcesParams): GraphManifest.Context | undefi
  * @returns An array of entity names available in the merged schema.
  */
 export function getEntities(protocol: Types.Protocol): string[] {
-  const schema = getMergedSchema(protocol);
+  const schema = getMergedSchema("graph", protocol);
 
   const entityNames: string[] = [];
 

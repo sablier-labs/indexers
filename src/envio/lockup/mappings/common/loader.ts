@@ -62,6 +62,10 @@ export namespace Loader {
 
   export type BaseReturn = {
     stream: Entity.Stream;
+    users: {
+      caller?: Entity.User; // event.transaction.from, same as tx.origin
+      sender?: Entity.User; // msg.sender
+    };
     watcher: Entity.Watcher;
   };
 
@@ -76,9 +80,18 @@ export namespace Loader {
     }
     const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
     const stream = await context.Stream.getOrThrow(streamId);
-    const watcher = await context.Watcher.getOrThrow(event.chainId.toString());
+
+    const users = {
+      caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+      sender: await context.User.get(Id.user(event.chainId, stream.sender)),
+    };
+
+    const watcherId = event.chainId.toString();
+    const watcher = await context.Watcher.getOrThrow(watcherId);
+
     return {
       stream,
+      users,
       watcher,
     };
   };
@@ -170,6 +183,9 @@ export namespace Loader {
     return loaderForCreate(context, event, event.params);
   };
 
+  /**
+   * @see {@link: file://./../v2.0/SablierLockup/create-linear.ts}
+   */
   type CreateV2_0<T> = CreateDynamic_v2_0<T> & CreateLinear_v2_0<T> & CreateTranched_v2_0<T>;
   const createV2_0: CreateV2_0<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
     return loaderForCreate(context, event, {

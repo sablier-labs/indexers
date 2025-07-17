@@ -1,79 +1,159 @@
+import _ from "lodash";
+import { Version } from "sablier";
 import type { Envio } from "../../../../common/bindings";
+import { Effects } from "../../../../common/effects";
+import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
-import type { Context } from "../../../bindings";
+import { type RPCData } from "../../../../common/types";
+import type { Context, Entity } from "../../../bindings";
+import type {
+  SablierMerkleFactory_v1_3_CreateMerkleInstant_loader as CreateInstant_v1_3,
+  SablierV2MerkleStreamerFactory_v1_1_CreateMerkleStreamerLL_loader as CreateLL_v1_1,
+  SablierV2MerkleLockupFactory_v1_2_CreateMerkleLL_loader as CreateLL_v1_2,
+  SablierMerkleFactory_v1_3_CreateMerkleLL_loader as CreateLL_v1_3,
+  SablierV2MerkleLockupFactory_v1_2_CreateMerkleLT_loader as CreateLT_v1_2,
+  SablierMerkleFactory_v1_3_CreateMerkleLT_loader as CreateLT_v1_3,
+} from "../../../bindings/src/Types.gen";
 import { isOfficialLockup } from "../../../helpers";
 import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
-import { type Loader } from "../../common/loader";
+
+/* -------------------------------------------------------------------------- */
+/*                                   LOADER                                   */
+/* -------------------------------------------------------------------------- */
+
+export namespace Loader {
+  export type CreateReturn = {
+    entities: {
+      asset?: Entity.Asset;
+      factory?: Entity.Factory;
+      users: {
+        admin?: Entity.User;
+        caller?: Entity.User;
+      };
+      watcher?: Entity.Watcher;
+    };
+    rpcData: {
+      assetMetadata: RPCData.ERC20Metadata;
+    };
+  };
+
+  type EventParams = {
+    admin: Envio.Address;
+    asset: Envio.Address;
+  };
+
+  async function loader(context: Context.Loader, event: Envio.Event, params: EventParams): Promise<CreateReturn> {
+    const assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
+      address: params.asset,
+      chainId: event.chainId,
+    });
+    const assetId = Id.asset(event.chainId, params.asset);
+    const asset = await context.Asset.get(assetId);
+
+    const factoryId = event.srcAddress;
+    const factory = await context.Factory.get(factoryId);
+
+    const users = {
+      admin: await context.User.get(Id.user(event.chainId, params.admin)),
+      caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+    };
+
+    const watcherId = event.chainId.toString();
+    const watcher = await context.Watcher.get(watcherId);
+    return {
+      entities: {
+        asset,
+        factory,
+        users,
+        watcher,
+      },
+      rpcData: {
+        assetMetadata,
+      },
+    };
+  }
+
+  type CreateV1_1<T> = CreateLL_v1_1<T>;
+  const createV1_1: CreateV1_1<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loader(context, event, event.params);
+  };
+
+  /**
+   * @see {@link: file://./../../v1.2/SablierV2MerkleLockupFactory/create-ll.ts}
+   */
+  type CreateV1_2<T> = CreateLL_v1_2<T> & CreateLT_v1_2<T>;
+  const createV1_2: CreateV1_2<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loader(context, event, {
+      admin: event.params.baseParams[3],
+      asset: event.params.baseParams[0],
+    });
+  };
+
+  /**
+   * @see {@link: file://./../../v1.3/SablierMerkleFactory/create-instant.ts}
+   */
+  type CreateV1_3<T> = CreateInstant_v1_3<T> & CreateLL_v1_3<T> & CreateLT_v1_3<T>;
+  const createV1_3: CreateV1_3<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loader(context, event, {
+      admin: event.params.baseParams[2],
+      asset: event.params.baseParams[0],
+    });
+  };
+
+  export const create = {
+    [Version.Airdrops.V1_1]: createV1_1,
+    [Version.Airdrops.V1_2]: createV1_2,
+    [Version.Airdrops.V1_3]: createV1_3,
+  };
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                   MAPPING                                  */
+/* -------------------------------------------------------------------------- */
 
 type Input<P extends Params.CreateCampaignBase> = {
   context: Context.Handler;
+  createInStore: (
+    context: Context.Handler,
+    event: Envio.Event,
+    entities: Params.CreateEntities,
+    params: P,
+  ) => Entity.Campaign;
   event: Envio.Event;
   loaderReturn: Loader.CreateReturn;
   params: P;
 };
 
-/* -------------------------------------------------------------------------- */
-/*                               MERKLE INSTANT                               */
-/* -------------------------------------------------------------------------- */
-
-export function createMerkleInstant(input: Input<Params.CreateCampaignBase>): void {
-  const { context, event, loaderReturn, params } = input;
+export async function createMerkle<P extends Params.CreateCampaignBase>(input: Input<P>): Promise<void> {
+  const { context, createInStore, event, loaderReturn, params } = input;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  const createEntities = getOrCreateEntities(context, event, loaderReturn, params);
-  const campaign = Store.Campaign.createInstant(context, event, createEntities, params);
-
-  /* --------------------------------- ACTION --------------------------------- */
-  const actionEntities = { campaign, ...createEntities };
-  Store.Action.create(context, event, actionEntities, { category: "Create" });
-
-  /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementCounters(context, createEntities.watcher);
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                  MERKLE LL                                 */
-/* -------------------------------------------------------------------------- */
-
-export function createMerkleLL(input: Input<Params.CreateCampaignLL>): void {
-  const { context, event, loaderReturn, params } = input;
-
-  /* -------------------------------- CAMPAIGN -------------------------------- */
-  if (!isOfficialLockup(context.log, event, params.lockup)) {
-    return;
+  // For lockup campaigns, check if it's an official lockup before proceeding.
+  if (_.has(params, "lockup")) {
+    const lockupAddress = _.get(params, "lockup") as Envio.Address;
+    if (!isOfficialLockup(context.log, event, lockupAddress)) {
+      return;
+    }
   }
-  const createEntities = getOrCreateEntities(context, event, loaderReturn, params);
-  const campaign = Store.Campaign.createLL(context, event, createEntities, params);
+
+  const entities = getOrCreateEntities(context, event, loaderReturn, params);
+  const campaign = createInStore(context, event, entities, params);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const actionEntities = { campaign, ...createEntities };
-  Store.Action.create(context, event, actionEntities, { category: "Create" });
+  Store.Action.create(context, event, entities.watcher, {
+    campaignId: campaign.id,
+    category: "Create",
+  });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementCounters(context, createEntities.watcher);
-}
+  Store.Watcher.incrementCounters(context, entities.watcher);
 
-/* -------------------------------------------------------------------------- */
-/*                                  MERKLE LT                                 */
-/* -------------------------------------------------------------------------- */
-
-export function createMerkleLT(input: Input<Params.CreateCampaignLT>): void {
-  const { context, event, loaderReturn, params } = input;
-
-  /* -------------------------------- CAMPAIGN -------------------------------- */
-  if (!isOfficialLockup(context.log, event, params.lockup)) {
-    return;
-  }
-  const createEntities = getOrCreateEntities(context, event, loaderReturn, params);
-  const campaign = Store.Campaign.createLT(context, event, createEntities, params);
-
-  /* --------------------------------- ACTION --------------------------------- */
-  const actionEntities = { campaign, ...createEntities };
-  Store.Action.create(context, event, actionEntities, { category: "Create" });
-
-  /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementCounters(context, createEntities.watcher);
+  /* ---------------------------------- USER ---------------------------------- */
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: entities.users.caller },
+    { address: params.admin, entity: entities.users.admin },
+  ]);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -90,6 +170,7 @@ function getOrCreateEntities(
   return {
     asset: entities.asset ?? CommonStore.Asset.create(context, event.chainId, params.asset, rpcData.assetMetadata),
     factory: entities.factory ?? Store.Factory.create(context, event.chainId, event.srcAddress),
+    users: entities.users,
     watcher: entities.watcher ?? Store.Watcher.create(event.chainId),
   };
 }

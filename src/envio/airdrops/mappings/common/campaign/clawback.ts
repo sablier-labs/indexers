@@ -1,4 +1,5 @@
 import { Id } from "../../../../common/id";
+import { CommonStore } from "../../../../common/store";
 import type { Entity } from "../../../bindings";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Clawback_handler as HandlerLL_v1_1,
@@ -19,6 +20,10 @@ import { Store } from "../../../store";
 /* -------------------------------------------------------------------------- */
 type LoaderReturn = {
   campaign: Entity.Campaign;
+  users: {
+    admin?: Entity.User;
+    caller?: Entity.User;
+  };
   watcher: Entity.Watcher;
 };
 
@@ -28,11 +33,17 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const campaign = await context.Campaign.getOrThrow(campaignId);
 
+  const users = {
+    admin: await context.User.get(Id.user(event.chainId, event.params.admin)),
+    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+  };
+
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.getOrThrow(watcherId);
 
   return {
     campaign,
+    users,
     watcher,
   };
 };
@@ -44,14 +55,14 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 type Handler<T> = HandlerLL_v1_1<T> & HandlerLL_v1_2<T> & HandlerLL_v1_3<T> & HandlerLT_v1_2<T> & HandlerLT_v1_3<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { campaign, watcher } = loaderReturn;
+  const { campaign, users, watcher } = loaderReturn;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateClawback(context, event, campaign);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const entities = { campaign, watcher };
-  Store.Action.create(context, event, entities, {
+  Store.Action.create(context, event, watcher, {
+    campaignId: campaign.id,
     category: "Clawback",
     clawbackAmount: event.params.amount,
     clawbackFrom: event.params.admin,
@@ -60,6 +71,12 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
 
   /* --------------------------------- WATCHER -------------------------------- */
   Store.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: users.caller },
+    { address: event.params.admin, entity: users.admin },
+  ]);
 };
 
 /* -------------------------------------------------------------------------- */

@@ -88,5 +88,9 @@
     "symbol": "[object Object]"
   },
   "0x1a03c6dd80fb048e449bff3e9319bc3cdaf118e5": { "decimals": 18, "name": "TestJuly9", "symbol": "TJ9" },
-  "0x8b194370825e37b33373e74a41009161808c1488": { "decimals": 18, "name": "Velvet", "symbol": "VELVET" }
+  "0x8b194370825e37b33373e74a41009161808c1488": { "decimals": 18, "name": "Velvet", "symbol": "VELVET" },
+  "0x26b5555377c2943408e2eda15a5a05091a1789c1": { "decimals": 18, "name": "FarmAI", "symbol": "FarmAI" },
+  "0x9557d44d2c1c5209cb600e51c9bd859989d2867f": { "decimals": 18, "name": "VELVET", "symbol": "VLT" },
+  "0x010a8cc90b07f98bba09ed02256c5cdead89920c": { "decimals": 18, "name": "Mock Token", "symbol": "MTK" },
+  "0x5c7405b205ed7e9c38216958c15476be91d54618": { "decimals": 18, "name": "TestV", "symbol": "TV" }
 }

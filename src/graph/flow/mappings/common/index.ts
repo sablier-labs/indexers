@@ -6,6 +6,6 @@ export { handleDepositFlowStream } from "./deposit-stream";
 export { handlePauseFlowStream } from "./pause-stream";
 export { handleRefundFromFlowStream } from "./refund-stream";
 export { handleRestartFlowStream } from "./restart-stream";
-export { handleTransfer } from "./transfer";
+export { handleTransfer } from "./transfer-stream";
 export { handleVoidFlowStream } from "./void-stream";
 export { handleWithdrawFromFlowStream } from "./withdraw-stream";

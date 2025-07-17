@@ -85,7 +85,7 @@ function generateAllProtocolSchemas(vendor: Types.Vendor, skipLogs: boolean = fa
  * @returns Result of the schema generation
  */
 function generateSchema(vendor: Types.Vendor, protocol: Types.Protocol): void {
-  const mergedSchema = print(getMergedSchema(protocol));
+  const mergedSchema = print(getMergedSchema(vendor, protocol));
   const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
 
   const outputPath = paths.schema(vendor, protocol);

@@ -70,6 +70,7 @@ export namespace Lockup {
  */
 export function getEnumDefs(protocol: Types.Protocol): DocumentNode {
   const enumDefs: string[] = [];
+
   switch (protocol) {
     case Protocol.Airdrops:
       enumDefs.push(
@@ -84,10 +85,14 @@ export function getEnumDefs(protocol: Types.Protocol): DocumentNode {
       enumDefs.push(getEnum(Lockup.ActionCategory, "ActionCategory"), getEnum(Lockup.StreamCategory, "StreamCategory"));
       break;
   }
+
   return gql`${enumDefs.join("\n")}`;
 }
 
-function getEnum<T extends Record<string, string>>(enumObj: T, name: string): string {
+/**
+ * @todo: unit test this function.
+ */
+export function getEnum<T extends Record<string, string>>(enumObj: T, name: string): string {
   const enumValues = _.keys(enumObj)
     .map((key) => `  ${enumObj[key]}`)
     .join("\n");

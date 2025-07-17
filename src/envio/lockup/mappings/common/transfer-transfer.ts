@@ -1,4 +1,5 @@
-import { ADDRESS_ZERO } from "../../../common/constants";
+import { zeroAddress } from "viem";
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import { type Entity } from "../../bindings";
 import type {
@@ -11,7 +12,6 @@ import type {
   SablierV2LockupLinear_v1_2_Transfer_loader as Loader_v1_2,
   SablierLockup_v2_0_Transfer_loader as Loader_v2_0,
 } from "../../bindings/src/Types.gen";
-import { Store } from "../../store";
 import { Loader as LoaderBase } from "./loader";
 
 /* -------------------------------------------------------------------------- */
@@ -21,21 +21,28 @@ import { Loader as LoaderBase } from "./loader";
 type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T> & Loader_v2_0<T>;
 
 type LoaderReturn = {
-  stream?: Entity.Stream;
-  watcher?: Entity.Watcher;
+  stream: Entity.Stream;
+  users: {
+    caller?: Entity.User;
+    currentRecipient: Entity.User;
+    newRecipient?: Entity.User;
+  };
+  watcher: Entity.Watcher;
 };
 
-const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
   // Exclude `Transfer` events emitted by the initial mint transaction.
   // See https://github.com/sablier-labs/indexers/issues/18
-  if (event.params.from === ADDRESS_ZERO) {
-    return {
-      stream: undefined,
-      watcher: undefined,
-    };
+  if (event.params.from === zeroAddress) {
+    return undefined;
   }
-  const { stream, watcher } = await LoaderBase.base({ context, event });
-  return { stream, watcher };
+  const { stream, users: baseUsers, watcher } = await LoaderBase.base({ context, event });
+  const users = {
+    caller: baseUsers.caller,
+    currentRecipient: await context.User.getOrThrow(Id.user(event.chainId, event.params.from)),
+    newRecipient: await context.User.get(Id.user(event.chainId, event.params.to)),
+  };
+  return { stream, users, watcher };
 };
 
 /* -------------------------------------------------------------------------- */
@@ -43,11 +50,11 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /* -------------------------------------------------------------------------- */
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T> & Handler_v2_0<T>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, watcher } = loaderReturn;
-  if (!stream || !watcher) {
+const handler: Handler<LoaderReturn | undefined> = async ({ context, event, loaderReturn }) => {
+  if (!loaderReturn) {
     return;
   }
+  const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
   const currentRecipient = event.params.from.toLowerCase();
@@ -59,7 +66,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  CommonStore.Action.create(context, event, watcher, {
     addressA: currentRecipient,
     addressB: newRecipient,
     category: "Transfer",
@@ -68,6 +75,14 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
 
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementActionCounter(context, watcher);
+
+  /* ---------------------------------- USER ---------------------------------- */
+  // See https://github.com/OpenZeppelin/openzeppelin-contracts/blob/e4f7021/contracts/token/ERC721/ERC721.sol#L115-L129
+  await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: users.caller },
+    { address: currentRecipient, entity: users.currentRecipient },
+    { address: newRecipient, entity: users.newRecipient },
+  ]);
 };
 
 /* -------------------------------------------------------------------------- */

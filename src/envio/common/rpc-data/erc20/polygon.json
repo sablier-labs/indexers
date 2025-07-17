@@ -122,5 +122,6 @@
   "0x90265b9a74c953a6ca217e59c79d707e3f45a9f1": { "decimals": 2, "name": "XUSDT", "symbol": "XUSDT" },
   "0x086373fad3447f7f86252fb59d56107e9e0faafa": { "decimals": 18, "name": "Yup", "symbol": "YUP" },
   "0x18a20d7d163621a48f8ea2e097c14cd5c28a9955": { "decimals": 18, "name": "Test Token", "symbol": "TESTX" },
-  "0xa8a85d99519846f145b73a450a09019ef6747518": { "decimals": 18, "name": "Play wallet", "symbol": "Rvc" }
+  "0xa8a85d99519846f145b73a450a09019ef6747518": { "decimals": 18, "name": "Play wallet", "symbol": "Rvc" },
+  "0x9a06db14d639796b25a6cec6a1bf614fd98815ec": { "decimals": 18, "name": "$ZKP Token", "symbol": "$ZKP" }
 }

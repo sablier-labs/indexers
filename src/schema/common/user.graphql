@@ -10,13 +10,13 @@ This includes:
 
 Notes:
 
+- Only implemented in Envio.
 - This is an internal entity we use for analytics. It's not used in the Sablier UI.
-- Currently implemented only in Envio mappings.
 - May be enhanced with derived relations in the future. See https://github.com/sablier-labs/indexers/issues/159
 """
 type User @entity(immutable: false) {
   """
-  Unique identifier: `{chainId}-{address}`
+  Unique identifier: `user-{chainId}-{address}`
   """
   id: ID!
 
@@ -26,39 +26,56 @@ type User @entity(immutable: false) {
   address: Bytes!
 
   """
-  The chain ID where this user was observed (e.g., 137 for Polygon).
+  The chain ID where this user was active (e.g., 137 for Polygon).
   """
   chainId: BigInt!
 
   """
-  Total Sablier fees paid by this user in the chain's native token (e.g., ETH on Mainnet).
-  Note: Fees are paid by `msg.sender`, so this user may not be the stream recipient or airdrop claimer.
-  """
-  cumulativeFees: BigInt!
-
-  """
-  Unix timestamp when the user was first observed.
-  """
-  firstSeenTimestamp: BigInt!
-
-  """
-  Transaction hash where the user was first observed.
-  """
-  firstSeenTxHash: Bytes!
-
-  """
-  Whether the user exclusively interacted with an airdrop contract as a claimer.
+  Whether the user exclusively interacted with Sablier as an airdrop claimer.
   This flag is set to false once the user interacts with other Sablier contracts.
   """
-  isAirdropClaimer: Boolean!
+  isOnlyAirdropClaimer: Boolean!
 
   """
-  Unix timestamp when the user was last observed.
+  User transactions.
   """
-  lastSeenTimestamp: BigInt!
+  transactions: [UserTransaction!]! @derivedFrom(field: "user")
+}
+
+type UserTransaction @entity(immutable: true) {
+  """
+  Unique identifier: `{userId}-{txHash}`
+  """
+  id: ID!
 
   """
-  Transaction hash where the user was last observed.
+  Block number of the transaction.
   """
-  lastSeenTxHash: Bytes!
+  block: BigInt!
+
+  """
+  The fee paid by the user denominated in the chain's native token (e.g., ETH on Mainnet).
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  fee: Float!
+
+  """
+  Hash of the transaction.
+  """
+  hash: Bytes!
+
+  """
+  Whether the transaction was an airdrop claim.
+  """
+  isAirdropClaim: Boolean!
+
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: BigInt!
+
+  """
+  The user involved in the transaction.
+  """
+  user: User!
 }

@@ -4,8 +4,7 @@ import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import { getNickname } from "../helpers/campaign";
-import type { Params } from "../helpers/types";
-import { createTranchesWithPercentages } from "./entity-tranche";
+import type { Params, TrancheWithPercentage } from "../helpers/types";
 
 export function createInstant(
   context: Context.Handler,
@@ -52,7 +51,7 @@ export function createLT(
     ...lockupCampaign,
   };
   context.Campaign.set(campaign);
-  createTranchesWithPercentages(context, campaign, params.tranchesWithPercentages);
+  addTranchesWithPercentages(context, campaign, params.tranchesWithPercentages);
   return campaign;
 }
 
@@ -155,6 +154,38 @@ function createBaseCampaign(
   context.Factory.set(updatedFactory);
 
   return campaign;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               INTERNAL LOGIC                               */
+/* -------------------------------------------------------------------------- */
+
+function addTranchesWithPercentages(
+  context: Context.Handler,
+  campaign: Entity.Campaign,
+  tranches: TrancheWithPercentage[],
+): void {
+  // The start time of the stream is the first tranche's start time, so we use zero for the initial duration.
+  let previous = { duration: 0n, unlockPercentage: 0n };
+
+  for (let i = 0; i < tranches.length; i++) {
+    const current = tranches[i];
+
+    const tranche: Entity.Tranche = {
+      campaign_id: campaign.id,
+      duration: current.duration,
+      endDuration: previous.duration + current.duration,
+      endPercentage: previous.unlockPercentage + current.unlockPercentage,
+      id: Id.trancheCampaign(campaign.id, i),
+      percentage: current.unlockPercentage,
+      position: BigInt(i),
+      startDuration: previous.duration,
+      startPercentage: previous.unlockPercentage,
+    };
+    context.Tranche.set(tranche);
+
+    previous = current;
+  }
 }
 
 function createLockupCampaign(params: Params.CreateCampaignLockup): Partial<Entity.Campaign> {

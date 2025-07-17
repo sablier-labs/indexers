@@ -1,16 +1,17 @@
-import type { Common, Envio } from "../bindings";
+import type { Envio } from "../bindings";
+import type { CommonEntities } from "../entities";
 import { Id } from "../id";
 import type { RPCData } from "../types";
 
-type AssetContext = { Asset: { set: (asset: Common.Asset) => void } };
+type AssetContext = { Asset: { set: (asset: CommonEntities.Asset) => void } };
 
 export function create(
   context: AssetContext,
   chainId: number,
   assetAddress: Envio.Address,
   metadata: RPCData.ERC20Metadata,
-): Common.Asset {
-  const asset: Common.Asset = {
+): CommonEntities.Asset {
+  const asset: CommonEntities.Asset = {
     address: assetAddress.toLowerCase(),
     chainId: BigInt(chainId),
     decimals: BigInt(metadata.decimals),

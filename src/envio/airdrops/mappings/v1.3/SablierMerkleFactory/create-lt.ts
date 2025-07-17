@@ -1,8 +1,8 @@
 import { Contract } from "../../../bindings";
 import { convertTranches, isOfficialLockup } from "../../../helpers";
 import { type Params } from "../../../helpers/types";
-import { createMerkleLT } from "../../common";
-import { Loader } from "../../common/loader";
+import { Store } from "../../../store";
+import { createMerkle, Loader } from "../../common/factory/create-merkle";
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.contractRegister(({ context, event }) => {
   const lockupAddress = event.params.lockup;
@@ -70,8 +70,9 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.handlerWithLoader({
       tranchesWithPercentages: convertTranches(event.params.tranchesWithPercentages),
       transferable: event.params.transferable,
     };
-    createMerkleLT({
+    await createMerkle({
       context,
+      createInStore: Store.Campaign.createLT,
       event,
       loaderReturn,
       params,

@@ -62,7 +62,7 @@ Contract.Lockup_v2_0.CreateLockupDynamicStream.handlerWithLoader({
       tokenId: event.params.streamId,
       transferable: commonParams[6],
     };
-    createStream({
+    await createStream({
       context,
       createInStore: Store.Stream.createDynamic,
       event,

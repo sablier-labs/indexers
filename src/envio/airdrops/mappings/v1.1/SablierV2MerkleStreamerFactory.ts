@@ -1,7 +1,7 @@
 import { Contract } from "../../bindings";
 import { isOfficialLockup, type Params } from "../../helpers";
-import { createMerkleLL } from "../common";
-import { Loader } from "../common/loader";
+import { Store } from "../../store";
+import { createMerkle, Loader } from "../common/factory/create-merkle";
 
 Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.contractRegister(({ context, event }) => {
   const lockupAddress = event.params.lockupLinear;
@@ -66,8 +66,9 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handlerWithLo
       totalDuration: event.params.streamDurations[1],
       transferable: event.params.transferable,
     };
-    createMerkleLL({
+    await createMerkle({
       context,
+      createInStore: Store.Campaign.createLL,
       event,
       loaderReturn,
       params,

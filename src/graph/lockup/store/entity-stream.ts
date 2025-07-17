@@ -229,7 +229,7 @@ function addSegments(stream: Entity.Stream, segments: Segment[]): Entity.Stream 
   for (let i = 0; i < segments.length; i++) {
     const current = segments[i];
 
-    const id = `${stream.id}-${i.toString()}`;
+    const id = Id.segment(stream.id, i);
     const segment = new Entity.Segment(id);
     segment.position = BigInt.fromI32(i);
     segment.stream = stream.id;
@@ -260,7 +260,7 @@ function addTranches(stream: Entity.Stream, tranches: Tranche[]): void {
   for (let i = 0; i < tranches.length; i++) {
     const current = tranches[i];
 
-    const id = `${stream.id}-${i.toString()}`;
+    const id = Id.tranche(stream.id, i);
     const tranche = new Entity.Tranche(id);
     tranche.stream = stream.id;
     tranche.position = BigInt.fromU32(i);

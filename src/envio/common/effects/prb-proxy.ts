@@ -2,10 +2,11 @@ import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
 import _ from "lodash";
 import { Version } from "sablier";
+import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";
 import type { Envio } from "../bindings";
-import { ADDRESS_ZERO, PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../constants";
+import { PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../constants";
 import { getContractVersion } from "../deployments";
 import { getClient } from "../rpc-clients";
 import { initDataEntry } from "../rpc-data";
@@ -79,12 +80,12 @@ async function fetchProxyOwner(
 
     // See https://github.com/sablier-labs/indexers/issues/148
     let reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_1, owner);
-    if (!reverse || reverse === ADDRESS_ZERO) {
+    if (!reverse || reverse === zeroAddress) {
       reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_0, owner);
     }
 
     // Check that the registry knows about the proxy.
-    if (!reverse || reverse === ADDRESS_ZERO) {
+    if (!reverse || reverse === zeroAddress) {
       logger.error("Could not verify owner for proxy", {
         chainId,
         owner,

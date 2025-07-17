@@ -3,7 +3,7 @@ See https://docs.sablier.com/concepts/lockup/tranches
 """
 type Tranche @entity(immutable: true) {
   """
-  Unique identifier: `{streamId}-{position}`
+  Unique identifier: `tranche-{streamId}-{position}`
   """
   id: String!
 

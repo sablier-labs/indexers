@@ -113,5 +113,6 @@
   "0x93fa0b88c0c78e45980fa74cdd87469311b7b3e4": { "decimals": 18, "name": "XBorg", "symbol": "XBG" },
   "0x2bdc7b5bcb8ac8aa8c18cb6a42a9a5d250893e36": { "decimals": 18, "name": "VILLAIN", "symbol": "VILLAIN" },
   "0xc87b37a581ec3257b734886d9d3a581f5a9d056c": { "decimals": 18, "name": "Aethir Token", "symbol": "ATH" },
-  "0xb638f8eb4f242eb1883de8553998aa89624e9e81": { "decimals": 9, "name": "VNX", "symbol": "VNX" }
+  "0xb638f8eb4f242eb1883de8553998aa89624e9e81": { "decimals": 9, "name": "VNX", "symbol": "VNX" },
+  "0x4883c8f0529f37e40ebea870f3c13cdfad5d01f8": { "decimals": 18, "name": "VNX Euro", "symbol": "VEUR" }
 }

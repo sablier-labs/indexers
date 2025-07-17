@@ -3,7 +3,7 @@ Entity for Merkle factories, which deploy campaigns.
 """
 type Factory @entity(immutable: false) {
   """
-  Unique identifier: `{chainId}-{address}`
+  Unique identifier: `factory-{chainId}-{address}`
   """
   id: String!
 

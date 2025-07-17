@@ -41,15 +41,14 @@ alias cc := codegen-config
 alias cs := codegen-schema
 
 # Envio CLI: dev, start, stop
-@envio command tui_off="false":
-    just _envio {{ command }} {{ tui_off }}
-
-# ---------------------------------------------------------------------------- #
-#                               RECIPES: HELPERS                               #
-# ---------------------------------------------------------------------------- #
-
-_envio command tui_off:
-    TUI_OFF={{ tui_off }} \
+envio command tui_mode="tui_on":
+    #!/usr/bin/env sh
+    set -a
+    if [ "{{ tui_mode }}" = "tui_off" ]; then
+        TUI_OFF=true
+    else
+        TUI_OFF=false
+    fi
     pnpm envio {{ command }} \
     --config {{ justfile_dir() }}/config.yaml \
     --output-directory {{ justfile_dir() }}/bindings

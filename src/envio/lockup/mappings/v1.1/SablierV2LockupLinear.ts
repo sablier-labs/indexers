@@ -55,7 +55,7 @@ Contract.LockupLinear_v1_1.CreateLockupLinearStream.handlerWithLoader({
       tokenId: event.params.streamId,
       transferable: event.params.transferable,
     };
-    createStream({
+    await createStream({
       context,
       createInStore: Store.Stream.createLinear,
       event,

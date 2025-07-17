@@ -2,18 +2,9 @@ import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
 import type { Entity } from "../../../bindings";
 import type {
-  SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
-  SablierV2MerkleLL_v1_2_Claim_handler as HandlerLL_v1_2,
-  SablierMerkleLL_v1_3_Claim_handler as HandlerLL_v1_3,
-  SablierV2MerkleLT_v1_2_Claim_handler as HandlerLT_v1_2,
-  SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
-  SablierV2MerkleStreamerLL_v1_1_Claim_loader as LoaderLL_v1_1,
-  SablierV2MerkleLL_v1_2_Claim_loader as LoaderLL_v1_2,
-  SablierMerkleLL_v1_3_Claim_loader as LoaderLL_v1_3,
-  SablierV2MerkleLT_v1_2_Claim_loader as LoaderLT_v1_2,
-  SablierMerkleLT_v1_3_Claim_loader as LoaderLT_v1_3,
+  SablierMerkleInstant_v1_3_Claim_handler,
+  SablierMerkleInstant_v1_3_Claim_loader,
 } from "../../../bindings/src/Types.gen";
-import { isVersionWithFees } from "../../../helpers";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
@@ -23,7 +14,6 @@ import { Store } from "../../../store";
 type LoaderReturn = {
   activity?: Entity.Activity;
   campaign: Entity.Campaign;
-  factory: Entity.Factory;
   revenue?: Entity.Revenue;
   users: {
     caller?: Entity.User;
@@ -32,7 +22,7 @@ type LoaderReturn = {
   watcher: Entity.Watcher;
 };
 
-type Loader<T> = LoaderLL_v1_1<T> & LoaderLL_v1_2<T> & LoaderLL_v1_3<T> & LoaderLT_v1_2<T> & LoaderLT_v1_3<T>;
+type Loader<T> = SablierMerkleInstant_v1_3_Claim_loader<T>;
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const activityId = Id.activity(event);
   const activity = await context.Activity.get(activityId);
@@ -51,13 +41,9 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.getOrThrow(watcherId);
 
-  const factoryId = campaign.factory_id;
-  const factory = await context.Factory.getOrThrow(factoryId);
-
   return {
     activity,
     campaign,
-    factory,
     revenue,
     users,
     watcher,
@@ -68,10 +54,10 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = HandlerLL_v1_1<T> & HandlerLL_v1_2<T> & HandlerLL_v1_3<T> & HandlerLT_v1_2<T> & HandlerLT_v1_3<T>;
+type Handler<T> = SablierMerkleInstant_v1_3_Claim_handler<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
-  const { campaign, factory, revenue, users, watcher } = loaderReturn;
+  const { campaign, revenue, users, watcher } = loaderReturn;
   const activity = loaderReturn.activity ?? Store.Activity.create(context, event, campaign.id);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
@@ -81,19 +67,13 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   Store.Activity.update(context, activity, event.params.amount);
 
   /* --------------------------------- ACTION --------------------------------- */
-  let fee: bigint | undefined;
-  if (isVersionWithFees(event.chainId, factory.address)) {
-    fee = event.transaction.value;
-  }
   Store.Action.create(context, event, watcher, {
     campaignId: campaign.id,
     category: "Claim",
     claimAmount: event.params.amount,
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
-    claimStreamId: campaign.lockup ? Id.stream(campaign.lockup, event.chainId, event.params.streamId) : undefined,
-    claimTokenId: BigInt(event.params.streamId),
-    fee,
+    fee: event.transaction.value,
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
@@ -113,4 +93,4 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
 /*                                   EXPORT                                   */
 /* -------------------------------------------------------------------------- */
 
-export const claimLockup = { handler, loader };
+export const claimInstant = { handler, loader };

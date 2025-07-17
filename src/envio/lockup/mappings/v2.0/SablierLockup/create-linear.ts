@@ -63,7 +63,7 @@ Contract.Lockup_v2_0.CreateLockupLinearStream.handlerWithLoader({
       unlockAmountCliff: event.params.unlockAmounts[1],
       unlockAmountStart: event.params.unlockAmounts[0],
     };
-    createStream({
+    await createStream({
       context,
       createInStore: Store.Stream.createLinear,
       event,

@@ -3,7 +3,7 @@ A generic entity for tracking protocol actions. There may be multiple actions fo
 """
 type Action @entity(immutable: true) {
   """
-  Unique identifier: `{txHash}-{blockLogIndex}`
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
   """
   id: String!
 

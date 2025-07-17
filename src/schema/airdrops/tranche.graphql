@@ -3,7 +3,7 @@ Used in Merkle Lockup campaigns for the vesting schedule.
 """
 type Tranche @entity(immutable: true) {
   """
-  Unique identifier: `{campaignId}-{position}`
+  Unique identifier: `tranche-{campaignId}-{position}`
   """
   id: String!
 

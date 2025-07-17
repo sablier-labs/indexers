@@ -14,8 +14,8 @@ export function create(context: Context.Handler, event: Envio.Event, campaignId:
     id: `activity-${campaignId}-${day}`,
     timestamp: BigInt(timestamp),
   };
-
   context.Activity.set(activity);
+
   return activity;
 }
 
@@ -26,5 +26,6 @@ export function update(context: Context.Handler, activity: Entity.Activity, amou
     claims: activity.claims + 1n,
   };
   context.Activity.set(updatedActivity);
+
   return updatedActivity;
 }

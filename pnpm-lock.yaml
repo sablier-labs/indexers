@@ -41,7 +41,7 @@ importers:
         version: 0.7.1
       '@sablier/devkit':
         specifier: github:sablier-labs/devkit#main
-        version: https://codeload.github.com/sablier-labs/devkit/tar.gz/bf484ce28cfc7d83c7b63b3190154b24f9dd2fe2
+        version: https://codeload.github.com/sablier-labs/devkit/tar.gz/60c10da0e59f60083a94b7623a7f1244373a24f0
       '@types/fs-extra':
         specifier: ^11.0
         version: 11.0.4
@@ -69,9 +69,15 @@ importers:
       axios:
         specifier: ^1.10
         version: 1.10.0
+      bignumber.js:
+        specifier: ^9.3.1
+        version: 9.3.1
       commander:
         specifier: ^14.0
         version: 14.0.0
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       envio:
         specifier: 2.25.2
         version: 2.25.2(typescript@5.8.3)(zod@3.25.51)
@@ -1349,8 +1355,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/bf484ce28cfc7d83c7b63b3190154b24f9dd2fe2':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/devkit/tar.gz/bf484ce28cfc7d83c7b63b3190154b24f9dd2fe2}
+  '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/60c10da0e59f60083a94b7623a7f1244373a24f0':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/devkit/tar.gz/60c10da0e59f60083a94b7623a7f1244373a24f0}
     version: 0.0.0
 
   '@scure/base@1.1.9':
@@ -1674,6 +1680,9 @@ packages:
   bignumber.js@9.1.2:
     resolution: {integrity: sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==}
 
+  bignumber.js@9.3.1:
+    resolution: {integrity: sha512-Ko0uX15oIUS7wJ3Rb30Fs6SkVbLmPBAKdlm7q9+ak9bbIeFf0MwuBsQV6z7+X768/cHsfg+WlysDWJcmthjsjQ==}
+
   binaryen@102.0.0-nightly.20211028:
     resolution: {integrity: sha512-GCJBVB5exbxzzvyt8MGDv/MeUjs6gkXDvf4xOIItRBptYl0Tz5sm1o/uG95YK0L0VeG5ajDu3hRtkBP2kzqC5w==}
     hasBin: true
@@ -1988,6 +1997,9 @@ packages:
 
   dateformat@4.6.3:
     resolution: {integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -5672,7 +5684,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.44.0':
     optional: true
 
-  '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/bf484ce28cfc7d83c7b63b3190154b24f9dd2fe2': {}
+  '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/60c10da0e59f60083a94b7623a7f1244373a24f0': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5985,6 +5997,8 @@ snapshots:
   base64-js@1.5.1: {}
 
   bignumber.js@9.1.2: {}
+
+  bignumber.js@9.3.1: {}
 
   binaryen@102.0.0-nightly.20211028: {}
 
@@ -6337,6 +6351,8 @@ snapshots:
   date-fns@3.3.1: {}
 
   dateformat@4.6.3: {}
+
+  dayjs@1.11.13: {}
 
   debounce@1.2.1: {}
 

@@ -1,7 +1,7 @@
 import { Contract } from "../../../bindings";
 import type { Params } from "../../../helpers/types";
-import { createMerkleInstant } from "../../common/factory";
-import { Loader } from "../../common/loader";
+import { Store } from "../../../store";
+import { createMerkle, Loader } from "../../common/factory/create-merkle";
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.contractRegister(({ event, context }) => {
   context.addSablierMerkleInstant_v1_3(event.params.merkleInstant);
@@ -51,8 +51,9 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handlerWithLoader({
       name: baseParams[5],
       recipientCount: event.params.recipientCount,
     };
-    createMerkleInstant({
+    await createMerkle({
       context,
+      createInStore: Store.Campaign.createInstant,
       event,
       loaderReturn,
       params,
