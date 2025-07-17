@@ -110,7 +110,8 @@ networks:
         for: "fallback"
       - url: "https://api.mainnet.abs.xyz"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xc69c06c030e825ede13f1486078aa9a2e2aaffaf"
         name: "SablierV2LockupDynamic_v1_2"
@@ -129,7 +130,8 @@ networks:
         for: "fallback"
       - url: "https://arb1.arbitrum.io/rpc"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xa9efbef1a35ff80041f567391bdc9813b2d50197"
         name: "SablierV2LockupDynamic_v1_0"
@@ -156,7 +158,8 @@ networks:
         for: "fallback"
       - url: "https://api.avax.network/ext/bc/C/rpc"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x665d1c8337f1035cfbe13dd94bb669110b975f5f"
         name: "SablierV2LockupDynamic_v1_0"
@@ -183,7 +186,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.base.org"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x645b00960dc352e699f89a81fc845c0c645231cf"
         name: "SablierV2LockupDynamic_v1_0"
@@ -210,7 +214,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.blast.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xdf578c2c70a86945999c65961417057363530a1c"
         name: "SablierV2LockupDynamic_v1_1"
@@ -231,7 +236,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.berachain.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xc19a2542156b5d7960e0ef46e9787e7d336cf428"
         name: "SablierLockup_v2_0"
@@ -244,7 +250,8 @@ networks:
         for: "fallback"
       - url: "https://56.rpc.thirdweb.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xf2f3fef2454dca59eca929d2d8cd2a8669cc6214"
         name: "SablierV2LockupDynamic_v1_0"
@@ -267,7 +274,8 @@ networks:
     rpc:
       - url: "https://rpc.chiliz.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xcff4a803b0bf55dd1be38fb96088478f3d2eecf2"
         name: "SablierV2LockupDynamic_v1_2"
@@ -282,7 +290,8 @@ networks:
     rpc:
       - url: "https://rpc.form.network/http"
         for: "sync"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xa2dd5e785aa0225d681416884d395c7e22d92850"
         name: "SablierLockup_v2_0"
@@ -293,7 +302,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.gnosischain.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xeb148e4ec13aaa65328c0ba089a278138e9e53f9"
         name: "SablierV2LockupDynamic_v1_0"
@@ -316,7 +326,8 @@ networks:
     rpc:
       - url: "https://babel-api.mainnet.iotex.io"
         for: "sync"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x6fcab41e3b62d05ab4fc729586cb06af2a2662d0"
         name: "SablierV2LockupDynamic_v1_2"
@@ -331,7 +342,8 @@ networks:
     rpc:
       - url: "https://replicator.phoenix.lightlink.io/rpc/v1"
         for: "sync"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x49d753422ff05daa291a9efa383e4f57daead889"
         name: "SablierV2LockupDynamic_v1_1"
@@ -354,7 +366,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.linea.build"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xf2e46b249cfe09c2b3a2022dc81e0bb4be3336f1"
         name: "SablierV2LockupDynamic_v1_2"
@@ -373,7 +386,8 @@ networks:
         for: "fallback"
       - url: "https://eth.merkle.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x39efdc3dbb57b2388ccc4bb40ac4cb1226bc9e44"
         name: "SablierV2LockupDynamic_v1_0"
@@ -396,7 +410,8 @@ networks:
     rpc:
       - url: "https://mainnet.mode.network"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x704552099f5ad679294d337638b9a57fd4726f52"
         name: "SablierV2LockupDynamic_v1_2"
@@ -411,7 +426,8 @@ networks:
     rpc:
       - url: "https://rpc.morphl2.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x946654ab30dd6ed10236c89f2c8b2719df653691"
         name: "SablierV2LockupDynamic_v1_2"
@@ -430,7 +446,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.optimism.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x6f68516c21e248cddfaf4898e66b2b0adee0e0d6"
         name: "SablierV2LockupDynamic_v1_0"
@@ -457,7 +474,8 @@ networks:
         for: "fallback"
       - url: "https://polygon-rpc.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x7313addb53f96a4f710d3b91645c62b434190725"
         name: "SablierV2LockupDynamic_v1_0"
@@ -484,7 +502,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.scroll.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xde6a30d851efd0fc2a9c922f294801cfd5fcb3a1"
         name: "SablierV2LockupDynamic_v1_0"
@@ -509,7 +528,8 @@ networks:
         for: "sync"
       - url: "https://evm-rpc.sei-apis.com/"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
         name: "SablierLockup_v2_0"
@@ -518,7 +538,8 @@ networks:
     rpc:
       - url: "https://rpc.sophon.xyz"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
         name: "SablierLockup_v2_0"
@@ -529,7 +550,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.superseed.xyz"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x1fa500262b352d821b4e1c933a20f2242b45383d"
         name: "SablierV2LockupDynamic_v1_2"
@@ -546,7 +568,8 @@ networks:
     rpc:
       - url: "https://rpc.tangle.tools"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x946654ab30dd6ed10236c89f2c8b2719df653691"
         name: "SablierV2LockupDynamic_v1_2"
@@ -565,7 +588,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.unichain.org/"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x26c341c4d79ba8f6bfb450a49e9165c936316b14"
         name: "SablierLockup_v2_0"
@@ -574,7 +598,8 @@ networks:
     rpc:
       - url: "https://rpc.xdcrpc.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x489e0dc5e62a751a2b209f1cc03e189fd6257176"
         name: "SablierLockup_v2_0"
@@ -587,7 +612,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.era.zksync.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xe6c7324bea8474209103e407779eec600c07cf3f"
         name: "SablierV2LockupDynamic_v1_1"
@@ -608,7 +634,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia-rollup.arbitrum.io/rpc"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x7938c18a59fad2ba11426acfbe8d74f0f598a4d2"
         name: "SablierV2LockupDynamic_v1_0"
@@ -635,7 +662,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia.base.org"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xf46d5fa9bfc964e8d06846c8739aec69bc06344d"
         name: "SablierV2LockupDynamic_v1_1"
@@ -658,7 +686,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia.optimism.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xf9e4095c1dfc058b34135c5c48cae66a8d2b3aa5"
         name: "SablierV2LockupDynamic_v1_1"
@@ -681,7 +710,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia.drpc.org"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x421e1e7a53ff360f70a2d02037ee394fa474e035"
         name: "SablierV2LockupDynamic_v1_0"

@@ -50,7 +50,8 @@ networks:
         for: "fallback"
       - url: "https://api.mainnet.abs.xyz"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x001f1408515ccd5c1a19a682455ed4efa39dadd6"
         name: "SablierFlow_v1_0"
@@ -65,7 +66,8 @@ networks:
         for: "fallback"
       - url: "https://arb1.arbitrum.io/rpc"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x18a12a7035aa56240bcd236bc019aa245dcc015a"
         name: "SablierFlow_v1_0"
@@ -80,7 +82,8 @@ networks:
         for: "fallback"
       - url: "https://api.avax.network/ext/bc/C/rpc"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x8c172e42c06302e3cfe555dc4d6b71a756ee186b"
         name: "SablierFlow_v1_0"
@@ -95,7 +98,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.base.org"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x1a9adc0e2114c8407cc31669baafeee031d15dd2"
         name: "SablierFlow_v1_0"
@@ -110,7 +114,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.blast.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xfdac2799644141856e20e021ac06f231cafc731f"
         name: "SablierFlow_v1_0"
@@ -123,7 +128,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.berachain.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xa031544946ed769377128fbd961c9d621c4b4179"
         name: "SablierFlow_v1_1"
@@ -136,7 +142,8 @@ networks:
         for: "fallback"
       - url: "https://56.rpc.thirdweb.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xfce01f79247cf450062545e7155d7bd568551d0e"
         name: "SablierFlow_v1_0"
@@ -147,7 +154,8 @@ networks:
     rpc:
       - url: "https://rpc.chiliz.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x9efc8663cab0e2d97ad17c9fbfc8392445517e94"
         name: "SablierFlow_v1_0"
@@ -158,7 +166,8 @@ networks:
     rpc:
       - url: "https://rpc.form.network/http"
         for: "sync"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x5dd399bb320412df92df5c10484d3f8d481fe231"
         name: "SablierFlow_v1_1"
@@ -169,7 +178,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.gnosischain.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x5515f774a4db42820802333ba575f68a6e85bd13"
         name: "SablierFlow_v1_0"
@@ -180,7 +190,8 @@ networks:
     rpc:
       - url: "https://babel-api.mainnet.iotex.io"
         for: "sync"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x1ddc1c21cd39c2fa16366e6036c95342a31831ba"
         name: "SablierFlow_v1_0"
@@ -191,7 +202,8 @@ networks:
     rpc:
       - url: "https://replicator.phoenix.lightlink.io/rpc/v1"
         for: "sync"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x46fa0164c5af9382d330e5a245a2ca8a18398950"
         name: "SablierFlow_v1_0"
@@ -206,7 +218,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.linea.build"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x949bfa08f1632432a2656a9db17ca34d54da8296"
         name: "SablierFlow_v1_0"
@@ -221,7 +234,8 @@ networks:
         for: "fallback"
       - url: "https://eth.merkle.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x2d9221a63e12aa796619cb381ec4a71b201281f5"
         name: "SablierFlow_v1_0"
@@ -232,7 +246,8 @@ networks:
     rpc:
       - url: "https://mainnet.mode.network"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x75970dde488431fc4961494569def3269f20d6b3"
         name: "SablierFlow_v1_0"
@@ -243,7 +258,8 @@ networks:
     rpc:
       - url: "https://rpc.morphl2.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xfe6972d0ae797fae343e5a58d0c7d8513937f092"
         name: "SablierFlow_v1_0"
@@ -258,7 +274,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.optimism.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x906356e4e6410ea0a97dbc5b071cf394ab0dcd69"
         name: "SablierFlow_v1_0"
@@ -273,7 +290,8 @@ networks:
         for: "fallback"
       - url: "https://polygon-rpc.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xcf2d812d5aad4e6fec3b05850ff056b21159d496"
         name: "SablierFlow_v1_0"
@@ -288,7 +306,8 @@ networks:
         for: "fallback"
       - url: "https://rpc.scroll.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x66826f53bffeaab71adc7fe1a77e86f8268848d8"
         name: "SablierFlow_v1_0"
@@ -301,7 +320,8 @@ networks:
         for: "sync"
       - url: "https://evm-rpc.sei-apis.com/"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xdef70082ebda4944a55311624900e42a720b4ec9"
         name: "SablierFlow_v1_1"
@@ -310,7 +330,8 @@ networks:
     rpc:
       - url: "https://rpc.sophon.xyz"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x20c9a3e27322fc2b21ced430d1b2e12d90804db6"
         name: "SablierFlow_v1_1"
@@ -321,7 +342,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.superseed.xyz"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x4f5f9b3fb57bba43aaf90e3f71d8f8f384e88e20"
         name: "SablierFlow_v1_0"
@@ -334,7 +356,8 @@ networks:
     rpc:
       - url: "https://rpc.tangle.tools"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xcff4a803b0bf55dd1be38fb96088478f3d2eecf2"
         name: "SablierFlow_v1_0"
@@ -349,7 +372,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.unichain.org/"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x9797b40340be0bfc9ec0dbb8712627bcdd17e771"
         name: "SablierFlow_v1_1"
@@ -358,7 +382,8 @@ networks:
     rpc:
       - url: "https://rpc.xdcrpc.com"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xd6482334242862951da3e730f818c3f6e3f45a30"
         name: "SablierFlow_v1_1"
@@ -371,7 +396,8 @@ networks:
         for: "fallback"
       - url: "https://mainnet.era.zksync.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x015899a075b7c181e357cd0ed000683dbb4f1fce"
         name: "SablierFlow_v1_0"
@@ -384,7 +410,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia-rollup.arbitrum.io/rpc"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x781b3b2527f2a0a1e6b429161f2717a8a28b9f46"
         name: "SablierFlow_v1_0"
@@ -399,7 +426,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia.base.org"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0xd5f78708d83ac2bc8734a8cdf2d112c1bb3b62a2"
         name: "SablierFlow_v1_0"
@@ -414,7 +442,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia.optimism.io"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x417db0f2bd020fc4d6bccea6b2bb6be0c541862e"
         name: "SablierFlow_v1_0"
@@ -429,7 +458,8 @@ networks:
         for: "fallback"
       - url: "https://sepolia.drpc.org"
         for: "fallback"
-        interval_ceiling: 5000
+        initial_block_interval: 2000
+        interval_ceiling: 2000
     contracts:
       - address: "0x5ae8c13f6ae094887322012425b34b0919097d8a"
         name: "SablierFlow_v1_0"
