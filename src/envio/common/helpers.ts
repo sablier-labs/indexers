@@ -23,9 +23,7 @@ export function getDateTimestamp(timestampInSeconds: number): Date {
  * the Unix epoch.
  */
 export function getDay(timestamp: number): bigint {
-  const utcDate = dayjs.unix(timestamp).utc();
-  const epochDate = dayjs.unix(0).utc();
-  return BigInt(utcDate.diff(epochDate, "day"));
+  return BigInt(timestamp) / (60n * 60n * 24n); // 60 seconds * 60 minutes * 24 hours
 }
 
 /**

@@ -1,5 +1,7 @@
 import { BigInt, ethereum } from "@graphprotocol/graph-ts";
 import { ONE } from "../../common/constants";
+import { getDay } from "../../common/helpers";
+import { Id } from "../../common/id";
 import * as Entity from "../bindings/schema";
 
 export function createOrUpdateActivity(
@@ -8,8 +10,8 @@ export function createOrUpdateActivity(
   amount: BigInt,
 ): Entity.Activity {
   const timestamp = event.block.timestamp;
-  const day = timestamp.toU32() / (60 * 60 * 24); // 60 seconds * 60 minutes * 24 hours
-  const id = `activity-${campaign.id}-${day}`;
+  const day = getDay(timestamp);
+  const id = Id.activity(event);
 
   let activity = Entity.Activity.load(id);
   if (activity === null) {
@@ -17,7 +19,7 @@ export function createOrUpdateActivity(
     activity.amount = amount;
     activity.campaign = campaign.id;
     activity.claims = ONE;
-    activity.day = BigInt.fromU32(day);
+    activity.day = day;
     activity.timestamp = timestamp;
   } else {
     activity.amount = activity.amount.plus(amount);

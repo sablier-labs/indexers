@@ -1,5 +1,6 @@
 import { Address, BigInt, ethereum } from "@graphprotocol/graph-ts";
 import { readChainId, readContractAlias } from "./context";
+import { getDay } from "./helpers";
 
 export namespace Id {
   /* -------------------------------------------------------------------------- */
@@ -70,7 +71,7 @@ export namespace Id {
   export function activity(event: ethereum.Event): string {
     const campaignId = campaign(event.address);
     const timestamp = event.block.timestamp;
-    const day = timestamp.div(BigInt.fromI32(60 * 60 * 24)); // 60 seconds * 60 minutes * 24 hours
+    const day = getDay(timestamp);
     return `activity-${campaignId}-${day.toString()}`;
   }
 
