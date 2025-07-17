@@ -20,7 +20,7 @@ type LoaderReturn = {
   stream: Entity.Stream;
   users: {
     caller?: Entity.User;
-    currentRecipient: Entity.User;
+    currentRecipient?: Entity.User;
     newRecipient?: Entity.User;
   };
   watcher: Entity.Watcher;
@@ -35,7 +35,7 @@ const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
   const { stream, users: baseUsers, watcher } = await LoaderBase.base({ context, event });
   const users = {
     caller: baseUsers.caller,
-    currentRecipient: await context.User.getOrThrow(Id.user(event.chainId, event.params.from)),
+    currentRecipient: await context.User.get(Id.user(event.chainId, event.params.from)),
     newRecipient: await context.User.get(Id.user(event.chainId, event.params.to)),
   };
   return { stream, users, watcher };
