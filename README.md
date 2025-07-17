@@ -9,8 +9,6 @@
 [twitter-badge]: https://img.shields.io/twitter/follow/Sablier
 [twitter]: https://x.com/Sablier
 
-# Sablier Indexers 🚀
-
 Data indexers for [Sablier](https://sablier.com) protocol for onchain token distribution. The indexers monitor Sablier's
 smart contract events and transform them into structured, queryable data via GraphQL. The data is used to power the
 [Sablier Interface](https://app.sablier.com).
