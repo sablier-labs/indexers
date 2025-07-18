@@ -15,6 +15,7 @@ export namespace Params {
     batch: Entity.Batch;
     batcher: Entity.Batcher;
     users: {
+      caller?: Entity.User;
       funder?: Entity.User;
       recipient?: Entity.User;
       sender?: Entity.User;

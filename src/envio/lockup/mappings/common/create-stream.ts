@@ -43,6 +43,7 @@ export async function createStream<P extends Params.CreateStreamCommon>(input: I
 
   /* ---------------------------------- USER ---------------------------------- */
   await CommonStore.User.createOrUpdate(context, event, [
+    { address: event.transaction.from, entity: entities.users.caller },
     { address: stream.funder, entity: entities.users.funder },
     { address: stream.recipient, entity: entities.users.recipient },
     { address: stream.sender, entity: entities.users.sender },

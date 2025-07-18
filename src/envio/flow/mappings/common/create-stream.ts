@@ -21,7 +21,7 @@ type LoaderReturn = {
   batch?: Entity.Batch;
   batcher?: Entity.Batcher;
   users: {
-    creator?: Entity.User;
+    caller?: Entity.User;
     recipient?: Entity.User;
     sender?: Entity.User;
   };
@@ -45,7 +45,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const batcher = await context.Batcher.get(batcherId);
 
   const users = {
-    creator: await context.User.get(Id.user(event.chainId, event.transaction.from)),
+    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
     recipient: await context.User.get(Id.user(event.chainId, event.params.recipient)),
     sender: await context.User.get(Id.user(event.chainId, event.params.sender)),
   };
@@ -102,9 +102,9 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
 
   /* ---------------------------------- USER ---------------------------------- */
   await CommonStore.User.createOrUpdate(context, event, [
-    { address: stream.creator, entity: entities.users.creator },
-    { address: stream.recipient, entity: entities.users.recipient },
-    { address: stream.sender, entity: entities.users.sender },
+    { address: event.transaction.from, entity: entities.users.caller },
+    { address: event.params.recipient, entity: entities.users.recipient },
+    { address: event.params.sender, entity: entities.users.sender },
   ]);
 };
 

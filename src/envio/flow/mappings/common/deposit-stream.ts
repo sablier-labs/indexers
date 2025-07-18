@@ -1,14 +1,48 @@
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
+import { type Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_DepositFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_DepositFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_0_DepositFlowStream_loader as Loader_v1_0,
+  SablierFlow_v1_1_DepositFlowStream_loader as Loader_v1_1,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
-import { Loader } from "./loader";
+import { Loader as LoaderBase } from "./loader";
+
+/* -------------------------------------------------------------------------- */
+/*                                   LOADER                                   */
+/* -------------------------------------------------------------------------- */
+
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+
+type LoaderReturn = {
+  stream: Entity.Stream;
+  users: {
+    caller?: Entity.User;
+    funder?: Entity.User;
+    sender?: Entity.User;
+  };
+  watcher: Entity.Watcher;
+};
+
+const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+  const { stream, users: baseUsers, watcher } = await LoaderBase.base({ context, event });
+  const users = {
+    caller: baseUsers.caller,
+    funder: await context.User.get(Id.user(event.chainId, event.params.funder)),
+    sender: baseUsers.sender,
+  };
+  return { stream, users, watcher };
+};
+
+/* -------------------------------------------------------------------------- */
+/*                                   HANDLER                                  */
+/* -------------------------------------------------------------------------- */
 
 type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
+const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
@@ -54,8 +88,9 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
   /* ---------------------------------- USER ---------------------------------- */
   await CommonStore.User.createOrUpdate(context, event, [
     { address: event.transaction.from, entity: users.caller },
+    { address: event.params.funder, entity: users.funder },
     { address: stream.sender, entity: users.sender },
   ]);
 };
 
-export const depositStream = { handler, loader: Loader.base };
+export const depositStream = { handler, loader };
