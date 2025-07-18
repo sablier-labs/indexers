@@ -5,6 +5,7 @@
     "includes": [
       "**/*.{graphql,js,json,jsonc,mjs,mts,ts}",
       "!node_modules",
+      "!src/envio/common/rpc-data/**/*.json",
       "!src/exports/gql/**/*.ts",
       "!src/graph/**/bindings/**/*.ts"
     ]

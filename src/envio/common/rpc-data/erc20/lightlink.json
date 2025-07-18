@@ -1,7 +1,1 @@
-{
-  "0x04e4929b89fc1483b6c6839c4455abe1c1caa811": { "decimals": 18, "name": "Elektrik", "symbol": "ELTK.e" },
-  "0xd9d7123552fa2bedb2348bb562576d67f6e8e96e": { "decimals": 18, "name": "LightLink", "symbol": "LL.e" },
-  "0x9efc8663cab0e2d97ad17c9fbfc8392445517e94": { "decimals": 18, "name": "Test Token", "symbol": "TKN" },
-  "0x18fb38404dadee1727be4b805c5b242b5413fa40": { "decimals": 6, "name": "USD Coin", "symbol": "USDC.e" },
-  "0x81a1f39f7394c4849e4261aa02aac73865d13774": { "decimals": 18, "name": "Wrapped BNB", "symbol": "WBNB.b" }
-}
+{"0x04e4929b89fc1483b6c6839c4455abe1c1caa811":{"decimals":18,"name":"Elektrik","symbol":"ELTK.e"},"0xd9d7123552fa2bedb2348bb562576d67f6e8e96e":{"decimals":18,"name":"LightLink","symbol":"LL.e"},"0x9efc8663cab0e2d97ad17c9fbfc8392445517e94":{"decimals":18,"name":"Test Token","symbol":"TKN"},"0x18fb38404dadee1727be4b805c5b242b5413fa40":{"decimals":6,"name":"USD Coin","symbol":"USDC.e"},"0x81a1f39f7394c4849e4261aa02aac73865d13774":{"decimals":18,"name":"Wrapped BNB","symbol":"WBNB.b"}}

@@ -1,7 +1,1 @@
-{
-  "0xdfc7c877a950e49d2610114102175a06c2e3167a": { "decimals": 18, "name": "Mode", "symbol": "MODE" },
-  "0x3d664b2da905ddd0db931982fd9a759ea950d6e1": { "decimals": 18, "name": "Test ERC20 token", "symbol": "TKN" },
-  "0xf0f161fda2712db8b566946122a5af183995e2ed": { "decimals": 6, "name": "Tether USD", "symbol": "USDT" },
-  "0xd988097fb8612cc24eec14542bc03424c656005f": { "decimals": 6, "name": "USD Coin", "symbol": "USDC" },
-  "0x4200000000000000000000000000000000000006": { "decimals": 18, "name": "Wrapped Ether", "symbol": "WETH" }
-}
+{"0xdfc7c877a950e49d2610114102175a06c2e3167a":{"decimals":18,"name":"Mode","symbol":"MODE"},"0x3d664b2da905ddd0db931982fd9a759ea950d6e1":{"decimals":18,"name":"Test ERC20 token","symbol":"TKN"},"0xf0f161fda2712db8b566946122a5af183995e2ed":{"decimals":6,"name":"Tether USD","symbol":"USDT"},"0xd988097fb8612cc24eec14542bc03424c656005f":{"decimals":6,"name":"USD Coin","symbol":"USDC"},"0x4200000000000000000000000000000000000006":{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}}

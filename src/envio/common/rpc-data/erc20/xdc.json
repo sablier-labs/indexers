@@ -1,8 +1,1 @@
-{
-  "0x6168664ffc0a22cc4e9df7cb7247dcbb0c066169": { "decimals": 18, "name": "0xFútbol", "symbol": "FUTBOL" },
-  "0x9640ebf3807401a3c9e4a290e6ac0678e23c9985": { "decimals": 18, "name": "Frac Ecosystem Token", "symbol": "FRAC" },
-  "0x678adf7955d8f6dcaa9e2fcc1c5ba70bccc464e6": { "decimals": 18, "name": "Gama Coin", "symbol": "GAMA" },
-  "0x23db6050336b16fc7d7030956b03214537e55f2e": { "decimals": 18, "name": "VitalVEDA", "symbol": "VVFIT" },
-  "0x951857744785e80e2de051c32ee7b25f9c458c42": { "decimals": 18, "name": "Wrapped XDC", "symbol": "WXDC" },
-  "0x2d1c02cf9e7a1659b82185fef243078bfd237b23": { "decimals": 18, "name": "Roxonn Token", "symbol": "ROXN" }
-}
+{"0x6168664ffc0a22cc4e9df7cb7247dcbb0c066169":{"decimals":18,"name":"0xFútbol","symbol":"FUTBOL"},"0x9640ebf3807401a3c9e4a290e6ac0678e23c9985":{"decimals":18,"name":"Frac Ecosystem Token","symbol":"FRAC"},"0x678adf7955d8f6dcaa9e2fcc1c5ba70bccc464e6":{"decimals":18,"name":"Gama Coin","symbol":"GAMA"},"0x23db6050336b16fc7d7030956b03214537e55f2e":{"decimals":18,"name":"VitalVEDA","symbol":"VVFIT"},"0x951857744785e80e2de051c32ee7b25f9c458c42":{"decimals":18,"name":"Wrapped XDC","symbol":"WXDC"},"0x2d1c02cf9e7a1659b82185fef243078bfd237b23":{"decimals":18,"name":"Roxonn Token","symbol":"ROXN"}}

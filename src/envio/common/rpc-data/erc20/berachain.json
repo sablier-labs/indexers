@@ -1,16 +1,1 @@
-{
-  "0x101591970a0969b25e79653b3bc072f9c7582c16": { "decimals": 18, "name": "Bape Society", "symbol": "BAPE" },
-  "0x9fab26f1e29485e2e640291c78de277311a73e06": { "decimals": 18, "name": "BEAR", "symbol": "BEAR" },
-  "0xa452810a4215fccc834ed241e6667f519b9856ec": { "decimals": 18, "name": "Berabot", "symbol": "BBOT" },
-  "0x28e0e3b9817012b356119df9e217c25932d609c2": { "decimals": 18, "name": "Burr Governance Token", "symbol": "BURR" },
-  "0xab281bbc2bc34a1f202ddff17ffd1c00edf73f3a": { "decimals": 18, "name": "Test Token", "symbol": "TST" },
-  "0x2c4a603a2aa5596287a06886862dc29d56dbc354": {
-    "decimals": 18,
-    "name": "WBERA | HONEY",
-    "symbol": "50WBERA-50HONEY-WEIGHTED"
-  },
-  "0x6969696969696969696969696969696969696969": { "decimals": 18, "name": "Wrapped Bera", "symbol": "WBERA" },
-  "0x7dcc39b4d1c53cb31e1abc0e358b43987fef80f7": { "decimals": 18, "name": "Wrapped eETH", "symbol": "weETH" },
-  "0x6f3e9215926ab700669f0f5131f0e75bb0fad1ac": { "decimals": 18, "name": "Berries", "symbol": "BERRIES" },
-  "0x5b4ced79ac236ef77ef5b7ea07860037200f20c9": { "decimals": 18, "name": "Test", "symbol": "TEST" }
-}
+{"0x101591970a0969b25e79653b3bc072f9c7582c16":{"decimals":18,"name":"Bape Society","symbol":"BAPE"},"0x9fab26f1e29485e2e640291c78de277311a73e06":{"decimals":18,"name":"BEAR","symbol":"BEAR"},"0xa452810a4215fccc834ed241e6667f519b9856ec":{"decimals":18,"name":"Berabot","symbol":"BBOT"},"0x28e0e3b9817012b356119df9e217c25932d609c2":{"decimals":18,"name":"Burr Governance Token","symbol":"BURR"},"0xab281bbc2bc34a1f202ddff17ffd1c00edf73f3a":{"decimals":18,"name":"Test Token","symbol":"TST"},"0x2c4a603a2aa5596287a06886862dc29d56dbc354":{"decimals":18,"name":"WBERA | HONEY","symbol":"50WBERA-50HONEY-WEIGHTED"},"0x6969696969696969696969696969696969696969":{"decimals":18,"name":"Wrapped Bera","symbol":"WBERA"},"0x7dcc39b4d1c53cb31e1abc0e358b43987fef80f7":{"decimals":18,"name":"Wrapped eETH","symbol":"weETH"},"0x6f3e9215926ab700669f0f5131f0e75bb0fad1ac":{"decimals":18,"name":"Berries","symbol":"BERRIES"},"0x5b4ced79ac236ef77ef5b7ea07860037200f20c9":{"decimals":18,"name":"Test","symbol":"TEST"}}
