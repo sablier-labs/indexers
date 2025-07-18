@@ -44,7 +44,6 @@ const SUPPORTED_CHAINS = [
   get(chains.chiliz.id),
   get(chains.form.id, { rpcOnly: true }),
   get(chains.gnosis.id),
-  get(chains.iotex.id, { rpcOnly: true }),
   get(chains.lightlink.id, { rpcOnly: true }),
   get(chains.linea.id),
   get(chains.mainnet.id),
