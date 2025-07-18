@@ -321,22 +321,6 @@ networks:
         name: "SablierV2LockupTranched_v1_2"
       - address: "0x007af5dc7b1caa66cf7ebcc01e2e6ba4d55d3e92"
         name: "SablierLockup_v2_0"
-  - id: 4689
-    start_block: 31786505
-    rpc:
-      - url: "https://babel-api.mainnet.iotex.io"
-        for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-    contracts:
-      - address: "0x6fcab41e3b62d05ab4fc729586cb06af2a2662d0"
-        name: "SablierV2LockupDynamic_v1_2"
-      - address: "0x84f092cf4d7d36c2d4987f672df81a39200a7146"
-        name: "SablierV2LockupLinear_v1_2"
-      - address: "0x179536f3289fb50076968b339c7ef0dc0b38e3af"
-        name: "SablierV2LockupTranched_v1_2"
-      - address: "0xcaf51434a0af3c43cd5569bc5ecc5aa21d28086e"
-        name: "SablierLockup_v2_0"
   - id: 1890
     start_block: 63524930
     rpc:

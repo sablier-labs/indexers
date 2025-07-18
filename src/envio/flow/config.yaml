@@ -185,18 +185,6 @@ networks:
         name: "SablierFlow_v1_0"
       - address: "0x34bc0c2bf1f2da51c65cd821ba4133afcacdb8f5"
         name: "SablierFlow_v1_1"
-  - id: 4689
-    start_block: 33533023
-    rpc:
-      - url: "https://babel-api.mainnet.iotex.io"
-        for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-    contracts:
-      - address: "0x1ddc1c21cd39c2fa16366e6036c95342a31831ba"
-        name: "SablierFlow_v1_0"
-      - address: "0xcd8871a22640c57ba36984fb57e9c794f5df7f40"
-        name: "SablierFlow_v1_1"
   - id: 1890
     start_block: 116397460
     rpc:

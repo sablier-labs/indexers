@@ -279,23 +279,6 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-  - id: 4689
-    start_block: 31787815
-    rpc:
-      - url: "https://babel-api.mainnet.iotex.io"
-        for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-    contracts:
-      - address: "0xf978034bb3cab5fe88d23db5cb38d510485dab90"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xf08548b1a6db590fec6f1b95e6b41d17791767c2"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
   - id: 1890
     start_block: 63526311
     rpc:
