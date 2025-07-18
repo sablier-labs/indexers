@@ -1,7 +1,19 @@
+/**
+ * Memory-optimized RPC data cache management.
+ *
+ * Key optimizations:
+ * 1. No in-memory cache - data is read from disk on demand
+ * 2. Direct file reads instead of keeping entire JSON in memory
+ * 3. Manual shallow merging instead of lodash deep merge
+ * 4. Atomic writes using temp file + rename to prevent corruption
+ *
+ * These changes prevent OOM errors when dealing with large JSON files (>50KB)
+ * containing hundreds of token metadata entries.
+ */
+
+import * as fs from "node:fs";
 import * as path from "node:path";
 import type { Logger } from "envio";
-import * as fs from "fs-extra";
-import _ from "lodash";
 import { sablier } from "sablier";
 import type { Envio } from "./bindings";
 import type { RPCData } from "./types";
@@ -21,8 +33,6 @@ export class DataEntry<C extends RPCData.Category> {
   private static readonly BASE_DIR = path.join(__dirname, "rpc-data");
   private static readonly ENCODING = "utf8" as const;
 
-  private data: ShapeMap[C] = {};
-
   constructor(
     public readonly category: C,
     public readonly chainId: number,
@@ -32,16 +42,12 @@ export class DataEntry<C extends RPCData.Category> {
     this.file = path.join(DataEntry.BASE_DIR, category, `${chain.slug}.json`);
 
     this.preflight();
-    this.load();
   }
 
-  private load(): void {
-    try {
-      const raw = fs.readFileSync(this.file, DataEntry.ENCODING);
-      this.data = JSON.parse(raw);
-    } catch (error) {
-      this.logError(error, `Failed reading data from cache file`);
-      this.data = {};
+  private preflight() {
+    const fileExists = fs.existsSync(this.file);
+    if (!fileExists) {
+      fs.writeFileSync(this.file, "{}", DataEntry.ENCODING);
     }
   }
 
@@ -54,15 +60,15 @@ export class DataEntry<C extends RPCData.Category> {
     });
   }
 
-  private preflight() {
-    const fileExists = fs.existsSync(this.file);
-    if (!fileExists) {
-      fs.writeFileSync(this.file, "{}", DataEntry.ENCODING);
-    }
-  }
-
   public read<K extends keyof ShapeMap[C]>(key: K): ShapeMap[C][K] | undefined {
-    return this.data[key];
+    try {
+      const raw = fs.readFileSync(this.file, DataEntry.ENCODING);
+      const data: ShapeMap[C] = JSON.parse(raw);
+      return data[key];
+    } catch (error) {
+      this.logError(error, `Failed reading data from cache file`);
+      return undefined;
+    }
   }
 
   public write(newData: Partial<ShapeMap[C]>): void {
@@ -71,9 +77,28 @@ export class DataEntry<C extends RPCData.Category> {
     if (ENVIO_ENVIRONMENT !== "development") {
       return;
     }
-    this.data = _.merge({}, this.data, newData);
+
     try {
-      fs.writeFileSync(this.file, JSON.stringify(this.data), DataEntry.ENCODING);
+      // Read existing data
+      let existingData: ShapeMap[C] = {};
+      try {
+        const raw = fs.readFileSync(this.file, DataEntry.ENCODING);
+        existingData = JSON.parse(raw);
+      } catch {
+        // File doesn't exist or is corrupted, start fresh
+        existingData = {} as ShapeMap[C];
+      }
+
+      // Merge data manually to avoid deep cloning
+      const mergedData = { ...existingData };
+      for (const [key, value] of Object.entries(newData)) {
+        mergedData[key as keyof ShapeMap[C]] = value as ShapeMap[C][keyof ShapeMap[C]];
+      }
+
+      // Write atomically to avoid corruption
+      const tempFile = `${this.file}.tmp`;
+      fs.writeFileSync(tempFile, JSON.stringify(mergedData), DataEntry.ENCODING);
+      fs.renameSync(tempFile, this.file);
     } catch (error) {
       this.logError(error, `Failed writing data to cache file`);
     }

@@ -34,7 +34,7 @@ export function isOfficialLockup(logger: Envio.Logger, event: Envio.Event, addre
     protocol: "lockup",
   });
   if (!contract) {
-    logger.info("Unknown or incorrect Lockup address used for creating airdrop campaign", {
+    logger.debug("Unknown or incorrect Lockup address used for creating airdrop campaign", {
       chainId: event.chainId,
       factory: event.srcAddress,
       lockup: address,
