@@ -10,5 +10,6 @@
   "0x3d43fa16fa4585f7967dff1632ec64a3329d94b3": { "owner": "0x5b8c65ffa85ff42695b2f96a3b6eb6e45bbb4add" },
   "0x4b368d71ff13cc6558b2d8b676a38c7ad513fe5a": { "owner": "0xfce3fa1795b18bb06a7b2ca64ff4a019fc9136e9" },
   "0x6a3f263463ace3535b1ad2d16313e6cf959a12d9": { "owner": "0x5fc2a6e3867534750bc43d0a719d8da7f9be78be" },
-  "0xa062f14c62a227fb2e87c127dc60b8a845f6694d": { "owner": "0x53e6fb2dca9fa9cb7c6a8964f2fe7bac500d9b38" }
+  "0xa062f14c62a227fb2e87c127dc60b8a845f6694d": { "owner": "0x53e6fb2dca9fa9cb7c6a8964f2fe7bac500d9b38" },
+  "0x2ebf9ec65f0f8c54ffd880c02b4a38a5dc466f18": { "owner": "0xa0f031f23852796addb0415b113ca99a2dad4d33" }
 }

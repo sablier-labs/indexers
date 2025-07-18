@@ -1,4 +1,5 @@
 {
   "0xfbf489bb4783d4b1b2e7d07ba39873fb8068507d": { "decimals": 6, "name": "USDC", "symbol": "USDC" },
-  "0x688da80dfe2916c0a0aa360323e52aa5881adb78": { "decimals": 18, "name": "Form", "symbol": "FORM" }
+  "0x688da80dfe2916c0a0aa360323e52aa5881adb78": { "decimals": 18, "name": "Form", "symbol": "FORM" },
+  "0x92fc05e49c27884d554d98a5c01ff0894a9dc29a": { "decimals": 18, "name": "Test TKN", "symbol": "TKN" }
 }
