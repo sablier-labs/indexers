@@ -1,7 +1,7 @@
 import { sepolia } from "sablier/dist/chains";
-import { getExperimentalURL } from "../../../src/exports/experimental";
-import * as Envio from "../../../src/exports/queries/airdrops/envio";
-import * as Graph from "../../../src/exports/queries/airdrops/graph";
+import { getExperimentalURL } from "../../../src/experimental";
+import * as Envio from "../../../src/queries/airdrops/envio";
+import * as Graph from "../../../src/queries/airdrops/graph";
 import { createEquivalenceTest } from "./equivalence";
 
 createEquivalenceTest({

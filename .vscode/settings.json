@@ -11,8 +11,8 @@
     "**/lockup/bindings": true,
     "dist": true,
     "node_modules": true,
-    "src/exports/gql/**/*.ts": true,
-    "src/exports/schemas/*.graphql": true,
+    "src/gql/**/*.ts": true,
+    "src/schemas/*.graphql": true,
     "**/schema.graphql": true
   },
   "[graphql][javascript][json][jsonc][typescript]": {

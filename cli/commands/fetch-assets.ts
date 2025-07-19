@@ -14,12 +14,12 @@ import * as fs from "fs-extra";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { type Sablier, sablier } from "sablier";
-import { RPCData } from "../../src/envio/common/types";
-import { getIndexerGraph, indexers } from "../../src/exports/indexers";
-import type { Indexer } from "../../src/exports/types";
-import paths from "../../src/paths";
-import { type Types } from "../../src/types";
-import { logger } from "../../src/winston";
+import { RPCData } from "../../envio/common/types";
+import paths from "../../lib/paths";
+import { type Types } from "../../lib/types";
+import { logger } from "../../lib/winston";
+import { getIndexerGraph, indexers } from "../../src/indexers";
+import type { Indexer } from "../../src/types";
 import { PROTOCOLS } from "../constants";
 import * as helpers from "../helpers";
 

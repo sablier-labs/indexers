@@ -1,7 +1,7 @@
 {
   "$schema": "https://repomix.com/schemas/latest/schema.json",
   "ignore": {
-    "customPatterns": ["src/abi/**", "src/graph/common/bindings/**"],
+    "customPatterns": ["abi/**", "graph/common/bindings/**"],
     "useDefaultPatterns": true,
     "useGitignore": true
   },

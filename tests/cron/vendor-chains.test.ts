@@ -3,10 +3,10 @@ import axios from "axios";
 import _ from "lodash";
 import { Protocol } from "sablier";
 import { describe, expect, it } from "vitest";
-import { getIndexerGraph } from "../../src/exports";
-import { envioChains } from "../../src/exports/indexers/envio";
-import { graphChains } from "../../src/exports/indexers/graph";
-import { logger } from "../../src/winston";
+import { logger } from "../../lib/winston";
+import { getIndexerGraph } from "../../src";
+import { envioChains } from "../../src/indexers/envio";
+import { graphChains } from "../../src/indexers/graph";
 
 describe("Vendors", () => {
   describe("Graph", () => {

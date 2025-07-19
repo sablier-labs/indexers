@@ -2,7 +2,7 @@ import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import axios from "axios";
 import { type Command } from "commander";
 import { sablier } from "sablier";
-import { envioChains } from "../../src/exports/indexers/envio";
+import { envioChains } from "../../src/indexers/envio";
 import * as helpers from "../helpers";
 
 export function createCheckVendorsCommand(): Command {

@@ -15,10 +15,10 @@ import * as path from "node:path";
 import { type Command } from "commander";
 import * as fs from "fs-extra";
 import _ from "lodash";
-import { createGraphManifest } from "../../../src/codegen/graph-manifest";
-import { graphChains } from "../../../src/exports/indexers/graph";
-import paths from "../../../src/paths";
-import type { Types } from "../../../src/types";
+import { createGraphManifest } from "../../../codegen/graph-manifest";
+import paths from "../../../lib/paths";
+import type { Types } from "../../../lib/types";
+import { graphChains } from "../../../src/indexers/graph";
 import { PROTOCOLS } from "../../constants";
 import * as helpers from "../../helpers";
 

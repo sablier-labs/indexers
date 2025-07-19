@@ -1,8 +1,8 @@
 import { type Command } from "commander";
 import * as fs from "fs-extra";
 import { print } from "graphql";
-import paths from "../../src/paths";
-import { getMergedSchema } from "../../src/schema";
+import paths from "../../lib/paths";
+import { getMergedSchema } from "../../schema";
 import { PROTOCOLS } from "../constants";
 import * as helpers from "../helpers";
 

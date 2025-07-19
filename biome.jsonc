@@ -4,21 +4,21 @@
   "files": {
     "includes": [
       "**/*.{graphql,js,json,jsonc,mjs,mts,ts}",
+      "!envio/common/rpc-data/**/*.json",
+      "!graph/**/bindings/**/*.ts",
       "!node_modules",
-      "!src/envio/common/rpc-data/**/*.json",
-      "!src/exports/gql/**/*.ts",
-      "!src/graph/**/bindings/**/*.ts"
+      "!src/gql/**/*.ts"
     ]
   },
   "overrides": [
     /* ------------------------------ YAML CODEGEN ------------------------------ */
     {
-      "includes": ["src/codegen/envio-config/**/*.ts", "src/codegen/graph-manifest/**/*.ts"],
+      "includes": ["codegen/envio-config/**/*.ts", "codegen/graph-manifest/**/*.ts"],
       "assist": { "actions": { "source": { "useSortedKeys": "off" } } }
     },
     /* ----------------------------- ASSEMBLYSCRIPT ----------------------------- */
     {
-      "includes": ["**/src/graph/**/*.ts"],
+      "includes": ["graph/**/*.ts"],
       "linter": {
         "rules": {
           "complexity": { "useOptionalChain": "off" },

@@ -5,8 +5,8 @@ import fs from "fs-extra";
 import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
-import { getGraphChainSlug } from "../../src/exports/indexers/graph";
-import paths, { SRC_DIR } from "../../src/paths";
+import paths, { ROOT_DIR } from "../../lib/paths";
+import { getGraphChainSlug } from "../../src/indexers/graph";
 
 import * as helpers from "../helpers";
 
@@ -86,7 +86,7 @@ export function createDeployAllGraphCommand(): Command {
           "pnpm",
           ["graph", "deploy", "--version-label", versionLabel, indexerName, manifestPath],
           {
-            cwd: path.join(SRC_DIR, "graph", protocol),
+            cwd: path.join(ROOT_DIR, "graph", protocol),
           },
         );
         spinner.stop();

@@ -11,9 +11,9 @@
 import { type Command } from "commander";
 import * as fs from "fs-extra";
 import _ from "lodash";
-import { createEnvioConfig } from "../../../src/codegen/envio-config";
-import paths from "../../../src/paths";
-import type { Types } from "../../../src/types";
+import { createEnvioConfig } from "../../../codegen/envio-config";
+import paths from "../../../lib/paths";
+import type { Types } from "../../../lib/types";
 import { PROTOCOLS } from "../../constants";
 import * as helpers from "../../helpers";
 

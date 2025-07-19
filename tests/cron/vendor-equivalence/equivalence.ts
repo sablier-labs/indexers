@@ -3,9 +3,9 @@ import { type DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { expect, it } from "vitest";
-import { type Indexer } from "../../../src/exports";
-import type { Order_By, OrderDirection } from "../../../src/exports/types";
-import { logger } from "../../../src/winston";
+import { logger } from "../../../lib/winston";
+import { type Indexer } from "../../../src";
+import type { Order_By, OrderDirection } from "../../../src/types";
 
 type Entities = Array<{ subgraphId: string }>;
 type ActionsResponse = {

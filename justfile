@@ -14,7 +14,7 @@ export LOG_LEVEL := env("LOG_LEVEL", "info")
 # ---------------------------------------------------------------------------- #
 
 GLOBS_CLEAN := "**/{.logs,bindings,build,generated}"
-GLOBS_CLEAN_IGNORE := "!src/graph/common/bindings"
+GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
@@ -51,9 +51,9 @@ clean globs=GLOBS_CLEAN:
     echo ""
     just codegen-graph
 
-# Export the schemas to the ./src/exports directory
+# Export the schemas to the ./src directory
 # lint-staged will call this recipe and pass the globs to it
-export-schema +globs="src/exports/schemas/*.graphql":
+export-schema +globs="src/schemas/*.graphql":
     just cli export-schema
     just biome-write "{{ globs }}"
 
@@ -71,7 +71,7 @@ export-schema +globs="src/exports/schemas/*.graphql":
     just cli codegen schema \
         --vendor {{ vendor }} \
         --protocol {{ protocol }}
-    just biome-write "src/envio/**/*.graphql"
+    just biome-write "envio/**/*.graphql"
 
 # Setup Husky
 setup:
@@ -109,7 +109,7 @@ alias t := test
 
 _codegen-envio-bindings protocol:
     #!/usr/bin/env sh
-    protocol_dir="src/envio/{{ protocol }}"
+    protocol_dir="envio/{{ protocol }}"
     pnpm envio codegen \
         --config $protocol_dir/config.yaml \
         --output-directory $protocol_dir/bindings
@@ -132,10 +132,10 @@ _codegen-envio-bindings protocol:
 
 _build-graph-indexer protocol: (codegen-graph protocol)
     #!/usr/bin/env sh
-    manifest_path=src/graph/{{ protocol }}/manifests/mainnet.yaml
+    manifest_path=graph/{{ protocol }}/manifests/mainnet.yaml
     pnpm graph build \
         $manifest_path \
-        --output-dir src/graph/{{ protocol }}/build
+        --output-dir graph/{{ protocol }}/build
     echo "✅ Built Graph indexer"
 
 # Codegen everything for the Graph indexer (order matters):
@@ -161,7 +161,7 @@ _build-graph-indexer protocol: (codegen-graph protocol)
 
 _codegen-graph-bindings protocol:
     #!/usr/bin/env sh
-    protocol_dir="src/graph/{{ protocol }}"
+    protocol_dir="graph/{{ protocol }}"
     bindings_dir=$protocol_dir/bindings
     pnpm dlx del-cli $bindings_dir
     pnpm graph codegen \
@@ -194,18 +194,18 @@ _codegen-graph-bindings protocol:
 [group("gql")]
 [group("envio")]
 codegen-gql-envio:
-    pnpm graphql-codegen --config ./src/codegen/gql-config/airdrops/envio.ts
-    pnpm graphql-codegen --config ./src/codegen/gql-config/flow/envio.ts
-    pnpm graphql-codegen --config ./src/codegen/gql-config/lockup/envio.ts
+    pnpm graphql-codegen --config ./codegen/gql-config/airdrops/envio.ts
+    pnpm graphql-codegen --config ./codegen/gql-config/flow/envio.ts
+    pnpm graphql-codegen --config ./codegen/gql-config/lockup/envio.ts
 
 # Codegen GraphQL types and queries for Graph indexers
 [group("codegen")]
 [group("gql")]
 [group("graph")]
 codegen-gql-graph:
-    pnpm graphql-codegen --config ./src/codegen/gql-config/airdrops/graph.ts
-    pnpm graphql-codegen --config ./src/codegen/gql-config/flow/graph.ts
-    pnpm graphql-codegen --config ./src/codegen/gql-config/lockup/graph.ts
+    pnpm graphql-codegen --config ./codegen/gql-config/airdrops/graph.ts
+    pnpm graphql-codegen --config ./codegen/gql-config/flow/graph.ts
+    pnpm graphql-codegen --config ./codegen/gql-config/lockup/graph.ts
 
 # ---------------------------------------------------------------------------- #
 #                                RECIPES: PRINT                                #

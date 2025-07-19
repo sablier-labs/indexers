@@ -3,8 +3,8 @@ import { Command } from "commander";
 import * as yaml from "js-yaml";
 import { type Sablier, sablier } from "sablier";
 import stripAnsi from "strip-ansi";
-import type { EnvioConfig } from "../src/codegen/envio-config/config-types";
-import type { GraphManifest } from "../src/codegen/graph-manifest/manifest-types";
+import type { EnvioConfig } from "../codegen/envio-config/config-types";
+import type { GraphManifest } from "../codegen/graph-manifest/manifest-types";
 import { AUTOGEN_COMMENT, PROTOCOLS, VENDORS } from "./constants";
 import type { ProtocolArg, VendorArg } from "./types";
 

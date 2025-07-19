@@ -1,8 +1,8 @@
 import { type Command } from "commander";
 import _ from "lodash";
 import { sablier } from "sablier";
-import { indexers } from "../../src/exports/indexers/data";
-import { getGraphChainSlug } from "../../src/exports/indexers/graph";
+import { indexers } from "../../src/indexers/data";
+import { getGraphChainSlug } from "../../src/indexers/graph";
 import * as helpers from "../helpers";
 
 export function createPrintChainsCommand(): Command {
