@@ -14,7 +14,7 @@
  * @example
  * Run with file output by setting the LOG_FILE_PATH environment variable:
  *
- * LOG_FILE_PATH=./logs/example.log pnpm tsx cli/your-script.ts
+ * LOG_FILE_PATH=./.logs/example.log pnpm tsx cli/your-script.ts
  *
  * logger.info("Check your logs directory if LOG_FILE_PATH was set");
  *

@@ -1,6 +1,6 @@
 # Directories
+.logs
 dist
-logs
 node_modules
 repomix
 **/.bin

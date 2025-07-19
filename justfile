@@ -13,7 +13,7 @@ export LOG_LEVEL := env("LOG_LEVEL", "info")
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
-GLOBS_CLEAN := "**/{bindings,build,generated,logs}"
+GLOBS_CLEAN := "**/{.logs,bindings,build,generated}"
 GLOBS_CLEAN_IGNORE := "!src/graph/common/bindings"
 
 # ---------------------------------------------------------------------------- #
