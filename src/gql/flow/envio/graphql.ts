@@ -16,6 +16,7 @@ export type Scalars = {
   Float: { input: number; output: number; }
   actioncategory: { input: any; output: any; }
   contract_type: { input: any; output: any; }
+  float8: { input: any; output: any; }
   jsonb: { input: any; output: any; }
   numeric: { input: any; output: any; }
   streamcategory: { input: any; output: any; }
@@ -661,6 +662,265 @@ export type Int_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+/** columns and relationships of "Revenue" */
+export type Revenue = {
+  __typename?: 'Revenue';
+  amount: Scalars['float8']['output'];
+  chainId: Scalars['numeric']['output'];
+  currency: Scalars['String']['output'];
+  date: Scalars['String']['output'];
+  dateTimestamp: Scalars['timestamptz']['output'];
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  id: Scalars['String']['output'];
+  /** An array relationship */
+  transactions: Array<RevenueTransaction>;
+};
+
+
+/** columns and relationships of "Revenue" */
+export type RevenueTransactionsArgs = {
+  distinct_on?: InputMaybe<Array<RevenueTransaction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<RevenueTransaction_Order_By>>;
+  where?: InputMaybe<RevenueTransaction_Bool_Exp>;
+};
+
+/** columns and relationships of "RevenueTransaction" */
+export type RevenueTransaction = {
+  __typename?: 'RevenueTransaction';
+  amount: Scalars['float8']['output'];
+  block: Scalars['numeric']['output'];
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  hash: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  /** An object relationship */
+  revenue?: Maybe<Revenue>;
+  revenue_id: Scalars['String']['output'];
+  timestamp: Scalars['numeric']['output'];
+};
+
+/** order by aggregate values of table "RevenueTransaction" */
+export type RevenueTransaction_Aggregate_Order_By = {
+  avg?: InputMaybe<RevenueTransaction_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<RevenueTransaction_Max_Order_By>;
+  min?: InputMaybe<RevenueTransaction_Min_Order_By>;
+  stddev?: InputMaybe<RevenueTransaction_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<RevenueTransaction_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<RevenueTransaction_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<RevenueTransaction_Sum_Order_By>;
+  var_pop?: InputMaybe<RevenueTransaction_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<RevenueTransaction_Var_Samp_Order_By>;
+  variance?: InputMaybe<RevenueTransaction_Variance_Order_By>;
+};
+
+/** order by avg() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Avg_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "RevenueTransaction". All fields are combined with a logical 'AND'. */
+export type RevenueTransaction_Bool_Exp = {
+  _and?: InputMaybe<Array<RevenueTransaction_Bool_Exp>>;
+  _not?: InputMaybe<RevenueTransaction_Bool_Exp>;
+  _or?: InputMaybe<Array<RevenueTransaction_Bool_Exp>>;
+  amount?: InputMaybe<Float8_Comparison_Exp>;
+  block?: InputMaybe<Numeric_Comparison_Exp>;
+  db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  hash?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  revenue?: InputMaybe<Revenue_Bool_Exp>;
+  revenue_id?: InputMaybe<String_Comparison_Exp>;
+  timestamp?: InputMaybe<Numeric_Comparison_Exp>;
+};
+
+/** order by max() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Max_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  revenue_id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Min_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  revenue_id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "RevenueTransaction". */
+export type RevenueTransaction_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  revenue?: InputMaybe<Revenue_Order_By>;
+  revenue_id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "RevenueTransaction" */
+export enum RevenueTransaction_Select_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  Block = 'block',
+  /** column name */
+  DbWriteTimestamp = 'db_write_timestamp',
+  /** column name */
+  Hash = 'hash',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  RevenueId = 'revenue_id',
+  /** column name */
+  Timestamp = 'timestamp'
+}
+
+/** order by stddev() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Stddev_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by stddev_pop() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Stddev_Pop_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by stddev_samp() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Stddev_Samp_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "RevenueTransaction" */
+export type RevenueTransaction_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: RevenueTransaction_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RevenueTransaction_Stream_Cursor_Value_Input = {
+  amount?: InputMaybe<Scalars['float8']['input']>;
+  block?: InputMaybe<Scalars['numeric']['input']>;
+  db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  hash?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  revenue_id?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['numeric']['input']>;
+};
+
+/** order by sum() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Sum_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by var_pop() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Var_Pop_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by var_samp() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Var_Samp_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by variance() on columns of table "RevenueTransaction" */
+export type RevenueTransaction_Variance_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  block?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "Revenue". All fields are combined with a logical 'AND'. */
+export type Revenue_Bool_Exp = {
+  _and?: InputMaybe<Array<Revenue_Bool_Exp>>;
+  _not?: InputMaybe<Revenue_Bool_Exp>;
+  _or?: InputMaybe<Array<Revenue_Bool_Exp>>;
+  amount?: InputMaybe<Float8_Comparison_Exp>;
+  chainId?: InputMaybe<Numeric_Comparison_Exp>;
+  currency?: InputMaybe<String_Comparison_Exp>;
+  date?: InputMaybe<String_Comparison_Exp>;
+  dateTimestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+  db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  transactions?: InputMaybe<RevenueTransaction_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "Revenue". */
+export type Revenue_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  chainId?: InputMaybe<Order_By>;
+  currency?: InputMaybe<Order_By>;
+  date?: InputMaybe<Order_By>;
+  dateTimestamp?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  transactions_aggregate?: InputMaybe<RevenueTransaction_Aggregate_Order_By>;
+};
+
+/** select columns of table "Revenue" */
+export enum Revenue_Select_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  ChainId = 'chainId',
+  /** column name */
+  Currency = 'currency',
+  /** column name */
+  Date = 'date',
+  /** column name */
+  DateTimestamp = 'dateTimestamp',
+  /** column name */
+  DbWriteTimestamp = 'db_write_timestamp',
+  /** column name */
+  Id = 'id'
+}
+
+/** Streaming cursor of the table "Revenue" */
+export type Revenue_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Revenue_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Revenue_Stream_Cursor_Value_Input = {
+  amount?: InputMaybe<Scalars['float8']['input']>;
+  chainId?: InputMaybe<Scalars['numeric']['input']>;
+  currency?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  dateTimestamp?: InputMaybe<Scalars['timestamptz']['input']>;
+  db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** columns and relationships of "Stream" */
 export type Stream = {
   __typename?: 'Stream';
@@ -1209,23 +1469,6 @@ export type Stream_Variance_Order_By = {
 };
 
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
-export type String_Array_Comparison_Exp = {
-  /** is the array contained in the given array value */
-  _contained_in?: InputMaybe<Array<Scalars['String']['input']>>;
-  /** does the array contain the given value */
-  _contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  _eq?: InputMaybe<Array<Scalars['String']['input']>>;
-  _gt?: InputMaybe<Array<Scalars['String']['input']>>;
-  _gte?: InputMaybe<Array<Scalars['String']['input']>>;
-  _in?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
-  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
-  _lt?: InputMaybe<Array<Scalars['String']['input']>>;
-  _lte?: InputMaybe<Array<Scalars['String']['input']>>;
-  _neq?: InputMaybe<Array<Scalars['String']['input']>>;
-  _nin?: InputMaybe<Array<Array<Scalars['String']['input']>>>;
-};
-
-/** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type String_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['String']['input']>;
   _gt?: InputMaybe<Scalars['String']['input']>;
@@ -1258,6 +1501,355 @@ export type String_Comparison_Exp = {
   _similar?: InputMaybe<Scalars['String']['input']>;
 };
 
+/** columns and relationships of "User" */
+export type User = {
+  __typename?: 'User';
+  address: Scalars['String']['output'];
+  chainId: Scalars['numeric']['output'];
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  id: Scalars['String']['output'];
+  isOnlyAirdropClaimer: Scalars['Boolean']['output'];
+  /** An array relationship */
+  transactions: Array<UserTransaction>;
+};
+
+
+/** columns and relationships of "User" */
+export type UserTransactionsArgs = {
+  distinct_on?: InputMaybe<Array<UserTransaction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<UserTransaction_Order_By>>;
+  where?: InputMaybe<UserTransaction_Bool_Exp>;
+};
+
+/** columns and relationships of "UserTransaction" */
+export type UserTransaction = {
+  __typename?: 'UserTransaction';
+  block: Scalars['numeric']['output'];
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  fee: Scalars['float8']['output'];
+  hash: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  isAirdropClaim: Scalars['Boolean']['output'];
+  timestamp: Scalars['numeric']['output'];
+  /** An object relationship */
+  user?: Maybe<User>;
+  user_id: Scalars['String']['output'];
+};
+
+/** order by aggregate values of table "UserTransaction" */
+export type UserTransaction_Aggregate_Order_By = {
+  avg?: InputMaybe<UserTransaction_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<UserTransaction_Max_Order_By>;
+  min?: InputMaybe<UserTransaction_Min_Order_By>;
+  stddev?: InputMaybe<UserTransaction_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<UserTransaction_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<UserTransaction_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<UserTransaction_Sum_Order_By>;
+  var_pop?: InputMaybe<UserTransaction_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<UserTransaction_Var_Samp_Order_By>;
+  variance?: InputMaybe<UserTransaction_Variance_Order_By>;
+};
+
+/** order by avg() on columns of table "UserTransaction" */
+export type UserTransaction_Avg_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "UserTransaction". All fields are combined with a logical 'AND'. */
+export type UserTransaction_Bool_Exp = {
+  _and?: InputMaybe<Array<UserTransaction_Bool_Exp>>;
+  _not?: InputMaybe<UserTransaction_Bool_Exp>;
+  _or?: InputMaybe<Array<UserTransaction_Bool_Exp>>;
+  block?: InputMaybe<Numeric_Comparison_Exp>;
+  db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  fee?: InputMaybe<Float8_Comparison_Exp>;
+  hash?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  isAirdropClaim?: InputMaybe<Boolean_Comparison_Exp>;
+  timestamp?: InputMaybe<Numeric_Comparison_Exp>;
+  user?: InputMaybe<User_Bool_Exp>;
+  user_id?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** order by max() on columns of table "UserTransaction" */
+export type UserTransaction_Max_Order_By = {
+  block?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "UserTransaction" */
+export type UserTransaction_Min_Order_By = {
+  block?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "UserTransaction". */
+export type UserTransaction_Order_By = {
+  block?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  isAirdropClaim?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  user?: InputMaybe<User_Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "UserTransaction" */
+export enum UserTransaction_Select_Column {
+  /** column name */
+  Block = 'block',
+  /** column name */
+  DbWriteTimestamp = 'db_write_timestamp',
+  /** column name */
+  Fee = 'fee',
+  /** column name */
+  Hash = 'hash',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsAirdropClaim = 'isAirdropClaim',
+  /** column name */
+  Timestamp = 'timestamp',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** order by stddev() on columns of table "UserTransaction" */
+export type UserTransaction_Stddev_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by stddev_pop() on columns of table "UserTransaction" */
+export type UserTransaction_Stddev_Pop_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by stddev_samp() on columns of table "UserTransaction" */
+export type UserTransaction_Stddev_Samp_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "UserTransaction" */
+export type UserTransaction_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: UserTransaction_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type UserTransaction_Stream_Cursor_Value_Input = {
+  block?: InputMaybe<Scalars['numeric']['input']>;
+  db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  fee?: InputMaybe<Scalars['float8']['input']>;
+  hash?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  isAirdropClaim?: InputMaybe<Scalars['Boolean']['input']>;
+  timestamp?: InputMaybe<Scalars['numeric']['input']>;
+  user_id?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** order by sum() on columns of table "UserTransaction" */
+export type UserTransaction_Sum_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by var_pop() on columns of table "UserTransaction" */
+export type UserTransaction_Var_Pop_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by var_samp() on columns of table "UserTransaction" */
+export type UserTransaction_Var_Samp_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** order by variance() on columns of table "UserTransaction" */
+export type UserTransaction_Variance_Order_By = {
+  block?: InputMaybe<Order_By>;
+  fee?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+};
+
+/** aggregated selection of "User" */
+export type User_Aggregate = {
+  __typename?: 'User_aggregate';
+  aggregate?: Maybe<User_Aggregate_Fields>;
+  nodes: Array<User>;
+};
+
+/** aggregate fields of "User" */
+export type User_Aggregate_Fields = {
+  __typename?: 'User_aggregate_fields';
+  avg?: Maybe<User_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<User_Max_Fields>;
+  min?: Maybe<User_Min_Fields>;
+  stddev?: Maybe<User_Stddev_Fields>;
+  stddev_pop?: Maybe<User_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<User_Stddev_Samp_Fields>;
+  sum?: Maybe<User_Sum_Fields>;
+  var_pop?: Maybe<User_Var_Pop_Fields>;
+  var_samp?: Maybe<User_Var_Samp_Fields>;
+  variance?: Maybe<User_Variance_Fields>;
+};
+
+
+/** aggregate fields of "User" */
+export type User_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate avg on columns */
+export type User_Avg_Fields = {
+  __typename?: 'User_avg_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Boolean expression to filter rows from the table "User". All fields are combined with a logical 'AND'. */
+export type User_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Bool_Exp>>;
+  _not?: InputMaybe<User_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Bool_Exp>>;
+  address?: InputMaybe<String_Comparison_Exp>;
+  chainId?: InputMaybe<Numeric_Comparison_Exp>;
+  db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  isOnlyAirdropClaimer?: InputMaybe<Boolean_Comparison_Exp>;
+  transactions?: InputMaybe<UserTransaction_Bool_Exp>;
+};
+
+/** aggregate max on columns */
+export type User_Max_Fields = {
+  __typename?: 'User_max_fields';
+  address?: Maybe<Scalars['String']['output']>;
+  chainId?: Maybe<Scalars['numeric']['output']>;
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+};
+
+/** aggregate min on columns */
+export type User_Min_Fields = {
+  __typename?: 'User_min_fields';
+  address?: Maybe<Scalars['String']['output']>;
+  chainId?: Maybe<Scalars['numeric']['output']>;
+  db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+};
+
+/** Ordering options when selecting data from "User". */
+export type User_Order_By = {
+  address?: InputMaybe<Order_By>;
+  chainId?: InputMaybe<Order_By>;
+  db_write_timestamp?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  isOnlyAirdropClaimer?: InputMaybe<Order_By>;
+  transactions_aggregate?: InputMaybe<UserTransaction_Aggregate_Order_By>;
+};
+
+/** select columns of table "User" */
+export enum User_Select_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  ChainId = 'chainId',
+  /** column name */
+  DbWriteTimestamp = 'db_write_timestamp',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsOnlyAirdropClaimer = 'isOnlyAirdropClaimer'
+}
+
+/** aggregate stddev on columns */
+export type User_Stddev_Fields = {
+  __typename?: 'User_stddev_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type User_Stddev_Pop_Fields = {
+  __typename?: 'User_stddev_pop_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type User_Stddev_Samp_Fields = {
+  __typename?: 'User_stddev_samp_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
+/** Streaming cursor of the table "User" */
+export type User_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: User_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type User_Stream_Cursor_Value_Input = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  chainId?: InputMaybe<Scalars['numeric']['input']>;
+  db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  isOnlyAirdropClaimer?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate sum on columns */
+export type User_Sum_Fields = {
+  __typename?: 'User_sum_fields';
+  chainId?: Maybe<Scalars['numeric']['output']>;
+};
+
+/** aggregate var_pop on columns */
+export type User_Var_Pop_Fields = {
+  __typename?: 'User_var_pop_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate var_samp on columns */
+export type User_Var_Samp_Fields = {
+  __typename?: 'User_var_samp_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
+/** aggregate variance on columns */
+export type User_Variance_Fields = {
+  __typename?: 'User_variance_fields';
+  chainId?: Maybe<Scalars['Float']['output']>;
+};
+
 /** columns and relationships of "Watcher" */
 export type Watcher = {
   __typename?: 'Watcher';
@@ -1265,7 +1857,6 @@ export type Watcher = {
   chainId: Scalars['numeric']['output'];
   db_write_timestamp?: Maybe<Scalars['timestamp']['output']>;
   id: Scalars['String']['output'];
-  logs?: Maybe<Array<Scalars['String']['output']>>;
   streamCounter: Scalars['numeric']['output'];
 };
 
@@ -1278,7 +1869,6 @@ export type Watcher_Bool_Exp = {
   chainId?: InputMaybe<Numeric_Comparison_Exp>;
   db_write_timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
   id?: InputMaybe<String_Comparison_Exp>;
-  logs?: InputMaybe<String_Array_Comparison_Exp>;
   streamCounter?: InputMaybe<Numeric_Comparison_Exp>;
 };
 
@@ -1288,7 +1878,6 @@ export type Watcher_Order_By = {
   chainId?: InputMaybe<Order_By>;
   db_write_timestamp?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  logs?: InputMaybe<Order_By>;
   streamCounter?: InputMaybe<Order_By>;
 };
 
@@ -1302,8 +1891,6 @@ export enum Watcher_Select_Column {
   DbWriteTimestamp = 'db_write_timestamp',
   /** column name */
   Id = 'id',
-  /** column name */
-  Logs = 'logs',
   /** column name */
   StreamCounter = 'streamCounter'
 }
@@ -1322,7 +1909,6 @@ export type Watcher_Stream_Cursor_Value_Input = {
   chainId?: InputMaybe<Scalars['numeric']['input']>;
   db_write_timestamp?: InputMaybe<Scalars['timestamp']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
-  logs?: InputMaybe<Array<Scalars['String']['input']>>;
   streamCounter?: InputMaybe<Scalars['numeric']['input']>;
 };
 
@@ -1662,6 +2248,19 @@ export type Event_Sync_State_Stream_Cursor_Value_Input = {
   log_index?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+export type Float8_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['float8']['input']>;
+  _gt?: InputMaybe<Scalars['float8']['input']>;
+  _gte?: InputMaybe<Scalars['float8']['input']>;
+  _in?: InputMaybe<Array<Scalars['float8']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['float8']['input']>;
+  _lte?: InputMaybe<Scalars['float8']['input']>;
+  _neq?: InputMaybe<Scalars['float8']['input']>;
+  _nin?: InputMaybe<Array<Scalars['float8']['input']>>;
+};
+
 export type Jsonb_Cast_Exp = {
   String?: InputMaybe<String_Comparison_Exp>;
 };
@@ -1805,10 +2404,28 @@ export type Query_Root = {
   Batcher: Array<Batcher>;
   /** fetch data from the table: "Batcher" using primary key columns */
   Batcher_by_pk?: Maybe<Batcher>;
+  /** fetch data from the table: "Revenue" */
+  Revenue: Array<Revenue>;
+  /** fetch data from the table: "RevenueTransaction" */
+  RevenueTransaction: Array<RevenueTransaction>;
+  /** fetch data from the table: "RevenueTransaction" using primary key columns */
+  RevenueTransaction_by_pk?: Maybe<RevenueTransaction>;
+  /** fetch data from the table: "Revenue" using primary key columns */
+  Revenue_by_pk?: Maybe<Revenue>;
   /** fetch data from the table: "Stream" */
   Stream: Array<Stream>;
   /** fetch data from the table: "Stream" using primary key columns */
   Stream_by_pk?: Maybe<Stream>;
+  /** fetch data from the table: "User" */
+  User: Array<User>;
+  /** fetch data from the table: "UserTransaction" */
+  UserTransaction: Array<UserTransaction>;
+  /** fetch data from the table: "UserTransaction" using primary key columns */
+  UserTransaction_by_pk?: Maybe<UserTransaction>;
+  /** fetch aggregated fields from the table: "User" */
+  User_aggregate: User_Aggregate;
+  /** fetch data from the table: "User" using primary key columns */
+  User_by_pk?: Maybe<User>;
   /** fetch data from the table: "Watcher" */
   Watcher: Array<Watcher>;
   /** fetch data from the table: "Watcher" using primary key columns */
@@ -1896,6 +2513,34 @@ export type Query_RootBatcher_By_PkArgs = {
 };
 
 
+export type Query_RootRevenueArgs = {
+  distinct_on?: InputMaybe<Array<Revenue_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Revenue_Order_By>>;
+  where?: InputMaybe<Revenue_Bool_Exp>;
+};
+
+
+export type Query_RootRevenueTransactionArgs = {
+  distinct_on?: InputMaybe<Array<RevenueTransaction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<RevenueTransaction_Order_By>>;
+  where?: InputMaybe<RevenueTransaction_Bool_Exp>;
+};
+
+
+export type Query_RootRevenueTransaction_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Query_RootRevenue_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type Query_RootStreamArgs = {
   distinct_on?: InputMaybe<Array<Stream_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1906,6 +2551,43 @@ export type Query_RootStreamArgs = {
 
 
 export type Query_RootStream_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Query_RootUserArgs = {
+  distinct_on?: InputMaybe<Array<User_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Order_By>>;
+  where?: InputMaybe<User_Bool_Exp>;
+};
+
+
+export type Query_RootUserTransactionArgs = {
+  distinct_on?: InputMaybe<Array<UserTransaction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<UserTransaction_Order_By>>;
+  where?: InputMaybe<UserTransaction_Bool_Exp>;
+};
+
+
+export type Query_RootUserTransaction_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Query_RootUser_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Order_By>>;
+  where?: InputMaybe<User_Bool_Exp>;
+};
+
+
+export type Query_RootUser_By_PkArgs = {
   id: Scalars['String']['input'];
 };
 
@@ -2181,12 +2863,38 @@ export type Subscription_Root = {
   Batcher_by_pk?: Maybe<Batcher>;
   /** fetch data from the table in a streaming manner: "Batcher" */
   Batcher_stream: Array<Batcher>;
+  /** fetch data from the table: "Revenue" */
+  Revenue: Array<Revenue>;
+  /** fetch data from the table: "RevenueTransaction" */
+  RevenueTransaction: Array<RevenueTransaction>;
+  /** fetch data from the table: "RevenueTransaction" using primary key columns */
+  RevenueTransaction_by_pk?: Maybe<RevenueTransaction>;
+  /** fetch data from the table in a streaming manner: "RevenueTransaction" */
+  RevenueTransaction_stream: Array<RevenueTransaction>;
+  /** fetch data from the table: "Revenue" using primary key columns */
+  Revenue_by_pk?: Maybe<Revenue>;
+  /** fetch data from the table in a streaming manner: "Revenue" */
+  Revenue_stream: Array<Revenue>;
   /** fetch data from the table: "Stream" */
   Stream: Array<Stream>;
   /** fetch data from the table: "Stream" using primary key columns */
   Stream_by_pk?: Maybe<Stream>;
   /** fetch data from the table in a streaming manner: "Stream" */
   Stream_stream: Array<Stream>;
+  /** fetch data from the table: "User" */
+  User: Array<User>;
+  /** fetch data from the table: "UserTransaction" */
+  UserTransaction: Array<UserTransaction>;
+  /** fetch data from the table: "UserTransaction" using primary key columns */
+  UserTransaction_by_pk?: Maybe<UserTransaction>;
+  /** fetch data from the table in a streaming manner: "UserTransaction" */
+  UserTransaction_stream: Array<UserTransaction>;
+  /** fetch aggregated fields from the table: "User" */
+  User_aggregate: User_Aggregate;
+  /** fetch data from the table: "User" using primary key columns */
+  User_by_pk?: Maybe<User>;
+  /** fetch data from the table in a streaming manner: "User" */
+  User_stream: Array<User>;
   /** fetch data from the table: "Watcher" */
   Watcher: Array<Watcher>;
   /** fetch data from the table: "Watcher" using primary key columns */
@@ -2316,6 +3024,48 @@ export type Subscription_RootBatcher_StreamArgs = {
 };
 
 
+export type Subscription_RootRevenueArgs = {
+  distinct_on?: InputMaybe<Array<Revenue_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Revenue_Order_By>>;
+  where?: InputMaybe<Revenue_Bool_Exp>;
+};
+
+
+export type Subscription_RootRevenueTransactionArgs = {
+  distinct_on?: InputMaybe<Array<RevenueTransaction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<RevenueTransaction_Order_By>>;
+  where?: InputMaybe<RevenueTransaction_Bool_Exp>;
+};
+
+
+export type Subscription_RootRevenueTransaction_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootRevenueTransaction_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<RevenueTransaction_Stream_Cursor_Input>>;
+  where?: InputMaybe<RevenueTransaction_Bool_Exp>;
+};
+
+
+export type Subscription_RootRevenue_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootRevenue_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Revenue_Stream_Cursor_Input>>;
+  where?: InputMaybe<Revenue_Bool_Exp>;
+};
+
+
 export type Subscription_RootStreamArgs = {
   distinct_on?: InputMaybe<Array<Stream_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2334,6 +3084,57 @@ export type Subscription_RootStream_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Stream_Stream_Cursor_Input>>;
   where?: InputMaybe<Stream_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserArgs = {
+  distinct_on?: InputMaybe<Array<User_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Order_By>>;
+  where?: InputMaybe<User_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserTransactionArgs = {
+  distinct_on?: InputMaybe<Array<UserTransaction_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<UserTransaction_Order_By>>;
+  where?: InputMaybe<UserTransaction_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserTransaction_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootUserTransaction_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<UserTransaction_Stream_Cursor_Input>>;
+  where?: InputMaybe<UserTransaction_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Order_By>>;
+  where?: InputMaybe<User_Bool_Exp>;
+};
+
+
+export type Subscription_RootUser_By_PkArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type Subscription_RootUser_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<User_Stream_Cursor_Input>>;
+  where?: InputMaybe<User_Bool_Exp>;
 };
 
 

@@ -66,7 +66,7 @@ export type Action = {
    */
   category: ActionCategory;
   /**
-   * The id of the chain, e.g. 137 for Polygon.
+   * The chain ID where the action was created (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
@@ -76,7 +76,7 @@ export type Action = {
    */
   contract: Scalars['Bytes']['output'];
   /**
-   * The Sablier fee paid in the native token of the chain, e.g., ETH for Ethereum Mainnet.
+   * The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
    * See https://docs.sablier.com/concepts/fees
    *
    */
@@ -92,7 +92,7 @@ export type Action = {
    */
   hash: Scalars['Bytes']['output'];
   /**
-   * Unique identifier: `{txHash}-{blockLogIndex}`
+   * Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
    *
    */
   id: Scalars['String']['output'];
@@ -350,7 +350,7 @@ export type Asset = {
    */
   address: Scalars['Bytes']['output'];
   /**
-   * The id of the chain, e.g. 137 for Polygon.
+   * The chain ID where the asset exists (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
@@ -360,7 +360,7 @@ export type Asset = {
    */
   decimals: Scalars['BigInt']['output'];
   /**
-   * Unique identifier: `{chainId}-{address}`
+   * Unique identifier: `asset-{chainId}-{address}`
    *
    */
   id: Scalars['String']['output'];
@@ -519,7 +519,7 @@ export type Batch = {
    */
   hash?: Maybe<Scalars['Bytes']['output']>;
   /**
-   * Unique identifier: `{chainId}-{txHash}-{batcher}`
+   * Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
    *
    */
   id: Scalars['String']['output'];
@@ -674,7 +674,7 @@ export type Batcher = {
    */
   batches: Array<Batch>;
   /**
-   * Unique identifier: `{chainId}-{sender}`
+   * Unique identifier: `batcher-{chainId}-{sender}`
    *
    */
   id: Scalars['String']['output'];
@@ -922,12 +922,12 @@ export type Stream = {
    */
   category: StreamCategory;
   /**
-   * The id of the chain, e.g., 137 for Polygon.
+   * The chain ID where the stream was created (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
   /**
-   * The contract the stream originates from.
+   * The address of the contract the stream originates from.
    *
    */
   contract: Scalars['Bytes']['output'];
@@ -1577,11 +1577,6 @@ export type Watcher = {
    */
   id: Scalars['String']['output'];
   /**
-   * Used for debugging purposes. They are normally empty.
-   *
-   */
-  logs?: Maybe<Array<Scalars['String']['output']>>;
-  /**
    * Global counter.
    *
    */
@@ -1628,12 +1623,6 @@ export type Watcher_Filter = {
   id_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   id_starts_with?: InputMaybe<Scalars['String']['input']>;
   id_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  logs?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_not?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_not_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_not_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
   or?: InputMaybe<Array<InputMaybe<Watcher_Filter>>>;
   streamCounter?: InputMaybe<Scalars['BigInt']['input']>;
   streamCounter_gt?: InputMaybe<Scalars['BigInt']['input']>;
@@ -1649,7 +1638,6 @@ export enum Watcher_OrderBy {
   ActionCounter = 'actionCounter',
   ChainId = 'chainId',
   Id = 'id',
-  Logs = 'logs',
   StreamCounter = 'streamCounter'
 }
 

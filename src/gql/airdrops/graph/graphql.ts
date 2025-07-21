@@ -51,7 +51,7 @@ export type Action = {
    */
   category: ActionCategory;
   /**
-   * The id of the chain, e.g., 137 for Polygon.
+   * The chain ID where the action was created (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
@@ -96,7 +96,7 @@ export type Action = {
    */
   clawbackTo?: Maybe<Scalars['Bytes']['output']>;
   /**
-   * The Sablier fee paid in the native token of the chain, e.g., ETH for Ethereum Mainnet.
+   * The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
    * See https://docs.sablier.com/concepts/fees
    *
    */
@@ -112,7 +112,7 @@ export type Action = {
    */
   hash: Scalars['Bytes']['output'];
   /**
-   * Unique identifier: `{txHash}-{blockLogIndex}`
+   * Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
    *
    */
   id: Scalars['String']['output'];
@@ -567,7 +567,7 @@ export type Asset = {
    */
   campaigns: Array<Campaign>;
   /**
-   * The id of the chain, e.g. 137 for Polygon.
+   * The chain ID where the asset exists (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
@@ -577,7 +577,7 @@ export type Asset = {
    */
   decimals: Scalars['BigInt']['output'];
   /**
-   * Unique identifier: `{chainId}-{address}`
+   * Unique identifier: `asset-{chainId}-{address}`
    *
    */
   id: Scalars['String']['output'];
@@ -762,7 +762,7 @@ export type Campaign = {
    */
   category: CampaignCategory;
   /**
-   * The id of the chain, e.g., 137 for Polygon.
+   * The chain ID where the campaign was created (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
@@ -802,7 +802,7 @@ export type Campaign = {
    */
   factory: Factory;
   /**
-   * Minimum fee charged by this campaign, denominated in the native token of the chain, e.g., ETH for Ethereum Mainnet.
+   * Minimum fee charged by this campaign, denominated in the native token of the chain (e.g., ETH for Mainnet).
    * Only available in v1.3 and later
    * See https://docs.sablier.com/concepts/fees
    *
@@ -1478,12 +1478,12 @@ export type Factory = {
    */
   campaigns: Array<Campaign>;
   /**
-   * The id of the chain, e.g., 137 for Polygon.
+   * The chain ID where the factory was created (e.g., 137 for Polygon).
    *
    */
   chainId: Scalars['BigInt']['output'];
   /**
-   * Unique identifier: `{chainId}-{address}`
+   * Unique identifier: `factory-{chainId}-{address}`
    *
    */
   id: Scalars['String']['output'];
@@ -1769,7 +1769,7 @@ export type Tranche = {
    */
   endPercentage: Scalars['BigInt']['output'];
   /**
-   * Unique identifier: `{campaignId}-{position}`
+   * Unique identifier: `tranche-{campaignId}-{position}`
    *
    */
   id: Scalars['String']['output'];
@@ -1967,11 +1967,6 @@ export type Watcher = {
    *
    */
   id: Scalars['String']['output'];
-  /**
-   * Used for debugging purposes. They are normally empty.
-   *
-   */
-  logs?: Maybe<Array<Scalars['String']['output']>>;
 };
 
 export type Watcher_Filter = {
@@ -2022,12 +2017,6 @@ export type Watcher_Filter = {
   id_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   id_starts_with?: InputMaybe<Scalars['String']['input']>;
   id_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
-  logs?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_not?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_not_contains?: InputMaybe<Array<Scalars['String']['input']>>;
-  logs_not_contains_nocase?: InputMaybe<Array<Scalars['String']['input']>>;
   or?: InputMaybe<Array<InputMaybe<Watcher_Filter>>>;
 };
 
@@ -2035,8 +2024,7 @@ export enum Watcher_OrderBy {
   ActionCounter = 'actionCounter',
   CampaignCounter = 'campaignCounter',
   ChainId = 'chainId',
-  Id = 'id',
-  Logs = 'logs'
+  Id = 'id'
 }
 
 export type _Block_ = {
