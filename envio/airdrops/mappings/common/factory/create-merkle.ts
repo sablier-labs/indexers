@@ -44,9 +44,22 @@ export namespace Loader {
   };
 
   async function loader(context: Context.Loader, event: Envio.Event, params: EventParams): Promise<CreateReturn> {
-    let assetMetadata: RPCData.ERC20Metadata;
     const assetId = Id.asset(event.chainId, params.asset);
-    const asset = await context.Asset.get(assetId);
+    const factoryId = event.srcAddress;
+    const watcherId = event.chainId.toString();
+
+    const [asset, factory, watcher] = await Promise.all([
+      context.Asset.get(assetId),
+      context.Factory.get(factoryId),
+      context.Watcher.get(watcherId),
+    ]);
+
+    const [admin, caller] = await Promise.all([
+      context.User.get(Id.user(event.chainId, params.admin)),
+      context.User.get(Id.user(event.chainId, event.transaction.from)),
+    ]);
+
+    let assetMetadata: RPCData.ERC20Metadata;
     if (asset) {
       assetMetadata = {
         decimals: Number(asset.decimals),
@@ -60,21 +73,11 @@ export namespace Loader {
       });
     }
 
-    const factoryId = event.srcAddress;
-    const factory = await context.Factory.get(factoryId);
-
-    const users = {
-      admin: await context.User.get(Id.user(event.chainId, params.admin)),
-      caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-    };
-
-    const watcherId = event.chainId.toString();
-    const watcher = await context.Watcher.get(watcherId);
     return {
       entities: {
         asset,
         factory,
-        users,
+        users: { admin, caller },
         watcher,
       },
       rpcData: {

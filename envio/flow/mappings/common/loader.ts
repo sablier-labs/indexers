@@ -64,19 +64,21 @@ export namespace Loader {
       throw new Error("Neither tokenId nor streamId found in event params");
     }
     const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
-    const stream = await context.Stream.getOrThrow(streamId);
-
-    const users = {
-      caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-      sender: await context.User.get(Id.user(event.chainId, stream.sender)),
-    };
-
     const watcherId = event.chainId.toString();
-    const watcher = await context.Watcher.getOrThrow(watcherId);
+
+    const [stream, watcher] = await Promise.all([
+      context.Stream.getOrThrow(streamId),
+      context.Watcher.getOrThrow(watcherId),
+    ]);
+
+    const [caller, sender] = await Promise.all([
+      context.User.get(Id.user(event.chainId, event.transaction.from)),
+      context.User.get(Id.user(event.chainId, stream.sender)),
+    ]);
 
     return {
       stream,
-      users,
+      users: { caller, sender },
       watcher,
     };
   };

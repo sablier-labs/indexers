@@ -33,9 +33,7 @@ export async function createOrUpdate(
     return;
   }
 
-  _.forEach(users, async (user) => {
-    await upsert(context, event, user);
-  });
+  await Promise.all(users.map((user) => upsert(context, event, user)));
 }
 
 async function upsert(context: UserContext, event: Envio.Event, params: CommonParams.User): Promise<void> {

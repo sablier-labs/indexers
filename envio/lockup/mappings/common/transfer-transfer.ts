@@ -37,12 +37,11 @@ const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
     return undefined;
   }
   const { stream, users: baseUsers, watcher } = await LoaderBase.base({ context, event });
-  const users = {
-    caller: baseUsers.caller,
-    currentRecipient: await context.User.get(Id.user(event.chainId, event.params.from)),
-    newRecipient: await context.User.get(Id.user(event.chainId, event.params.to)),
-  };
-  return { stream, users, watcher };
+  const [currentRecipient, newRecipient] = await Promise.all([
+    context.User.get(Id.user(event.chainId, event.params.from)),
+    context.User.get(Id.user(event.chainId, event.params.to)),
+  ]);
+  return { stream, users: { caller: baseUsers.caller, currentRecipient, newRecipient }, watcher };
 };
 
 /* -------------------------------------------------------------------------- */

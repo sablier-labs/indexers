@@ -79,19 +79,21 @@ export namespace Loader {
       throw new Error("Neither tokenId nor streamId found in event params");
     }
     const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
-    const stream = await context.Stream.getOrThrow(streamId);
-
-    const users = {
-      caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-      sender: await context.User.get(Id.user(event.chainId, stream.sender)),
-    };
-
     const watcherId = event.chainId.toString();
-    const watcher = await context.Watcher.getOrThrow(watcherId);
+
+    const [stream, watcher] = await Promise.all([
+      context.Stream.getOrThrow(streamId),
+      context.Watcher.getOrThrow(watcherId),
+    ]);
+
+    const [caller, sender] = await Promise.all([
+      context.User.get(Id.user(event.chainId, event.transaction.from)),
+      context.User.get(Id.user(event.chainId, stream.sender)),
+    ]);
 
     return {
       stream,
-      users,
+      users: { caller, sender },
       watcher,
     };
   };
@@ -131,9 +133,25 @@ export namespace Loader {
     event: Envio.Event,
     params: EventParams,
   ): Promise<CreateReturn> {
-    let assetMetadata: RPCData.ERC20Metadata;
     const assetId = Id.asset(event.chainId, params.asset);
-    const asset = await context.Asset.get(assetId);
+    const batchId = Id.batch(event, params.sender);
+    const batcherId = Id.batcher(event.chainId, params.sender);
+    const watcherId = event.chainId.toString();
+
+    const [asset, batch, batcher, watcher] = await Promise.all([
+      context.Asset.get(assetId),
+      context.Batch.get(batchId),
+      context.Batcher.get(batcherId),
+      context.Watcher.get(watcherId),
+    ]);
+    const [caller, funder, recipient, sender] = await Promise.all([
+      context.User.get(Id.user(event.chainId, event.transaction.from)),
+      context.User.get(Id.user(event.chainId, params.funder)),
+      context.User.get(Id.user(event.chainId, params.recipient)),
+      context.User.get(Id.user(event.chainId, params.sender)),
+    ]);
+
+    let assetMetadata: RPCData.ERC20Metadata;
     if (asset) {
       assetMetadata = {
         decimals: Number(asset.decimals),
@@ -147,29 +165,22 @@ export namespace Loader {
       });
     }
 
-    const batchId = Id.batch(event, params.sender);
-    const batch = await context.Batch.get(batchId);
-
-    const batcherId = Id.batcher(event.chainId, params.sender);
-    const batcher = await context.Batcher.get(batcherId);
     const proxender = await context.effect(Effects.PRBProxy.readOrFetchProxender, {
       chainId: event.chainId,
       lockupAddress: event.srcAddress,
       streamSender: params.sender,
     });
 
-    const watcherId = event.chainId.toString();
-    const watcher = await context.Watcher.get(watcherId);
     return {
       entities: {
         asset,
         batch,
         batcher,
         users: {
-          caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-          funder: await context.User.get(Id.user(event.chainId, params.funder)),
-          recipient: await context.User.get(Id.user(event.chainId, params.recipient)),
-          sender: await context.User.get(Id.user(event.chainId, params.sender)),
+          caller,
+          funder,
+          recipient,
+          sender,
         },
         watcher,
       },

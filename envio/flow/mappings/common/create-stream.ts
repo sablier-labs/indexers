@@ -1,3 +1,4 @@
+// import { Effects } from "../../../common/effects";
 import { Effects } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
@@ -31,9 +32,24 @@ type LoaderReturn = {
 type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
-  let assetMetadata: RPCData.ERC20Metadata;
   const assetId = Id.asset(event.chainId, event.params.token);
-  const asset = await context.Asset.get(assetId);
+  const batchId = Id.batch(event, event.params.sender);
+  const batcherId = Id.batcher(event.chainId, event.params.sender);
+  const watcherId = event.chainId.toString();
+
+  const [asset, batch, batcher, watcher] = await Promise.all([
+    context.Asset.get(assetId),
+    context.Batch.get(batchId),
+    context.Batcher.get(batcherId),
+    context.Watcher.get(watcherId),
+  ]);
+  const [caller, recipient, sender] = await Promise.all([
+    context.User.get(Id.user(event.chainId, event.transaction.from)),
+    context.User.get(Id.user(event.chainId, event.params.recipient)),
+    context.User.get(Id.user(event.chainId, event.params.sender)),
+  ]);
+
+  let assetMetadata: RPCData.ERC20Metadata;
   if (asset) {
     assetMetadata = {
       decimals: Number(asset.decimals),
@@ -47,27 +63,12 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
     });
   }
 
-  const batchId = Id.batch(event, event.params.sender);
-  const batch = await context.Batch.get(batchId);
-
-  const batcherId = Id.batcher(event.chainId, event.params.sender);
-  const batcher = await context.Batcher.get(batcherId);
-
-  const users = {
-    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-    recipient: await context.User.get(Id.user(event.chainId, event.params.recipient)),
-    sender: await context.User.get(Id.user(event.chainId, event.params.sender)),
-  };
-
-  const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.get(watcherId);
-
   return {
     asset,
     assetMetadata,
     batch,
     batcher,
-    users,
+    users: { caller, recipient, sender },
     watcher,
   };
 };

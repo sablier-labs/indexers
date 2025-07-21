@@ -31,15 +31,17 @@ type Loader<T> = LoaderLL_v1_1<T> & LoaderLL_v1_2<T> & LoaderLL_v1_3<T> & Loader
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
-  const campaign = await context.Campaign.getOrThrow(campaignId);
+  const watcherId = event.chainId.toString();
+
+  const [campaign, watcher] = await Promise.all([
+    context.Campaign.getOrThrow(campaignId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
 
   const users = {
     admin: await context.User.get(Id.user(event.chainId, event.params.admin)),
     caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
   };
-
-  const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.getOrThrow(watcherId);
 
   return {
     campaign,

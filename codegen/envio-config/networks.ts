@@ -56,11 +56,13 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
     });
   }
 
-  RPCs.push({
-    for: "fallback",
-    initial_block_interval: 2000,
-    interval_ceiling: 2000, // https://github.com/enviodev/hyperindex/issues/603
-    url: chain.rpc.default,
+  _.forEach(chain.rpc.defaults, (url) => {
+    RPCs.push({
+      for: "fallback",
+      initial_block_interval: 2000,
+      interval_ceiling: 2000, // https://github.com/enviodev/hyperindex/issues/603
+      url,
+    });
   });
 
   if (rpcOnly) {

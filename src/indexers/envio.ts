@@ -42,9 +42,7 @@ const SUPPORTED_CHAINS = [
   get(chains.berachain.id),
   get(chains.bsc.id),
   get(chains.chiliz.id),
-  get(chains.form.id, { rpcOnly: true }),
   get(chains.gnosis.id),
-  get(chains.lightlink.id, { rpcOnly: true }),
   get(chains.linea.id),
   get(chains.mainnet.id),
   get(chains.mode.id),
@@ -52,7 +50,6 @@ const SUPPORTED_CHAINS = [
   get(chains.optimism.id),
   get(chains.polygon.id),
   get(chains.scroll.id),
-  get(chains.sei.id, { rpcOnly: true }),
   get(chains.sophon.id),
   get(chains.superseed.id),
   get(chains.tangle.id, { hypersync: "tangle" }),
@@ -94,4 +91,4 @@ export const envio: Record<Indexer.Protocol, Indexer[]> = {
 } as const;
 
 export const envioChains = SUPPORTED_CHAINS;
-export const envioChainIds = SUPPORTED_CHAINS.map((chain) => chain.id);
+export const envioChainIds = SUPPORTED_CHAINS.map((c) => c.id);

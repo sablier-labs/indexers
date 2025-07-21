@@ -35,31 +35,29 @@ type LoaderReturn = {
 type Loader<T> = LoaderLL_v1_1<T> & LoaderLL_v1_2<T> & LoaderLL_v1_3<T> & LoaderLT_v1_2<T> & LoaderLT_v1_3<T>;
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const activityId = Id.activity(event);
-  const activity = await context.Activity.get(activityId);
-
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
-  const campaign = await context.Campaign.getOrThrow(campaignId);
-
   const revenueId = Id.revenue(event.chainId, event.block.timestamp);
-  const revenue = await context.Revenue.get(revenueId);
-
-  const users = {
-    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-    recipient: await context.User.get(Id.user(event.chainId, event.params.recipient)),
-  };
-
   const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.getOrThrow(watcherId);
 
-  const factoryId = campaign.factory_id;
-  const factory = await context.Factory.getOrThrow(factoryId);
+  const [activity, campaign, revenue, watcher] = await Promise.all([
+    context.Activity.get(activityId),
+    context.Campaign.getOrThrow(campaignId),
+    context.Revenue.get(revenueId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
+
+  const factory = await context.Factory.getOrThrow(campaign.factory_id);
+  const [caller, recipient] = await Promise.all([
+    context.User.get(Id.user(event.chainId, event.transaction.from)),
+    context.User.get(Id.user(event.chainId, event.params.recipient)),
+  ]);
 
   return {
     activity,
     campaign,
     factory,
     revenue,
-    users,
+    users: { caller, recipient },
     watcher,
   };
 };

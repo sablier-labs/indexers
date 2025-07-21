@@ -280,18 +280,16 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.chiliz.com"
-    start_block: 19125587
-  - contracts:
-      - address: "0xa2dd5e785aa0225d681416884d395c7e22d92850"
-        name: "SablierLockup_v2_0"
-    id: 478
-    rpc:
-      - for: "sync"
+        url: "https://rpc.ankr.com/chiliz"
+      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.form.network/http"
-    start_block: 3359301
+        url: "https://chiliz-rpc.publicnode.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.chiliz.com"
+    start_block: 19125587
   - contracts:
       - address: "0xeb148e4ec13aaa65328c0ba089a278138e9e53f9"
         name: "SablierV2LockupDynamic_v1_0"
@@ -318,26 +316,6 @@ networks:
         interval_ceiling: 2000
         url: "https://rpc.gnosischain.com"
     start_block: 28766600
-  - contracts:
-      - address: "0x49d753422ff05daa291a9efa383e4f57daead889"
-        name: "SablierV2LockupDynamic_v1_1"
-      - address: "0x17c4f98c40e69a6a0d5c42b11e3733f076a99e20"
-        name: "SablierV2LockupLinear_v1_1"
-      - address: "0xaa05e418fb7851c211351c65435f1b17cbfa88bf"
-        name: "SablierV2LockupDynamic_v1_2"
-      - address: "0x6329591464fa6721c8e1c1271e4c6c41531aea6b"
-        name: "SablierV2LockupLinear_v1_2"
-      - address: "0x83403c6426e6d044bf3b84ec1c007db211aaa140"
-        name: "SablierV2LockupTranched_v1_2"
-      - address: "0x6c65aaf03186d1da60127d3d7792cf36ed99d909"
-        name: "SablierLockup_v2_0"
-    id: 1890
-    rpc:
-      - for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://replicator.phoenix.lightlink.io/rpc/v1"
-    start_block: 63524930
   - contracts:
       - address: "0xf2e46b249cfe09c2b3a2022dc81e0bb4be3336f1"
         name: "SablierV2LockupDynamic_v1_2"
@@ -502,18 +480,6 @@ networks:
         interval_ceiling: 2000
         url: "https://rpc.scroll.io"
     start_block: 500707
-  - contracts:
-      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
-        name: "SablierLockup_v2_0"
-    id: 1329
-    rpc:
-      - for: "sync"
-        url: "https://sei-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://evm-rpc.sei-apis.com/"
-    start_block: 138913911
   - contracts:
       - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
         name: "SablierLockup_v2_0"

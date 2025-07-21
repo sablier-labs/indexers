@@ -26,20 +26,22 @@ type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const streamId = Id.stream(event.srcAddress, event.chainId, event.params.tokenId);
-  const stream = await context.Stream.getOrThrow(streamId);
-
-  const users = {
-    approved: await context.User.get(Id.user(event.chainId, event.params.approved)),
-    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-    owner: await context.User.get(Id.user(event.chainId, event.params.owner)),
-  };
-
   const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.getOrThrow(watcherId);
+
+  const [stream, watcher] = await Promise.all([
+    context.Stream.getOrThrow(streamId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
+
+  const [approved, caller, owner] = await Promise.all([
+    context.User.get(Id.user(event.chainId, event.params.approved)),
+    context.User.get(Id.user(event.chainId, event.transaction.from)),
+    context.User.get(Id.user(event.chainId, event.params.owner)),
+  ]);
 
   return {
     stream,
-    users,
+    users: { approved, caller, owner },
     watcher,
   };
 };

@@ -33,16 +33,18 @@ export const loader: Loader<LoaderReturn | undefined> = async ({ context, event 
     return undefined;
   }
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
-  const campaign = await context.Campaign.getOrThrow(campaignId);
+  const watcherId = event.chainId.toString();
+
+  const [campaign, watcher] = await Promise.all([
+    context.Campaign.getOrThrow(campaignId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
 
   const users = {
     caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
     newAdmin: await context.User.get(Id.user(event.chainId, event.params.newAdmin)),
     oldAdmin: await context.User.get(Id.user(event.chainId, event.params.oldAdmin)),
   };
-
-  const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.getOrThrow(watcherId);
 
   return {
     campaign,

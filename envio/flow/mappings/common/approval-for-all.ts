@@ -24,17 +24,17 @@ type LoaderReturn = {
 type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
-  const users = {
-    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-    operator: await context.User.get(Id.user(event.chainId, event.params.operator)),
-    owner: await context.User.get(Id.user(event.chainId, event.params.owner)),
-  };
+  const [caller, operator, owner] = await Promise.all([
+    context.User.get(Id.user(event.chainId, event.transaction.from)),
+    context.User.get(Id.user(event.chainId, event.params.operator)),
+    context.User.get(Id.user(event.chainId, event.params.owner)),
+  ]);
 
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.getOrThrow(watcherId);
 
   return {
-    users,
+    users: { caller, operator, owner },
     watcher,
   };
 };

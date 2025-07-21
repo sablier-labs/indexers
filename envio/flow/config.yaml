@@ -156,18 +156,16 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.chiliz.com"
-    start_block: 19125673
-  - contracts:
-      - address: "0x5dd399bb320412df92df5c10484d3f8d481fe231"
-        name: "SablierFlow_v1_1"
-    id: 478
-    rpc:
-      - for: "sync"
+        url: "https://rpc.ankr.com/chiliz"
+      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.form.network/http"
-    start_block: 3359543
+        url: "https://chiliz-rpc.publicnode.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.chiliz.com"
+    start_block: 19125673
   - contracts:
       - address: "0x5515f774a4db42820802333ba575f68a6e85bd13"
         name: "SablierFlow_v1_0"
@@ -182,18 +180,6 @@ networks:
         interval_ceiling: 2000
         url: "https://rpc.gnosischain.com"
     start_block: 37356094
-  - contracts:
-      - address: "0x46fa0164c5af9382d330e5a245a2ca8a18398950"
-        name: "SablierFlow_v1_0"
-      - address: "0x89d964e0b508234bcfdc7a32ae0aa0356f422b70"
-        name: "SablierFlow_v1_1"
-    id: 1890
-    rpc:
-      - for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://replicator.phoenix.lightlink.io/rpc/v1"
-    start_block: 116397460
   - contracts:
       - address: "0x949bfa08f1632432a2656a9db17ca34d54da8296"
         name: "SablierFlow_v1_0"
@@ -298,18 +284,6 @@ networks:
         interval_ceiling: 2000
         url: "https://rpc.scroll.io"
     start_block: 11643209
-  - contracts:
-      - address: "0xdef70082ebda4944a55311624900e42a720b4ec9"
-        name: "SablierFlow_v1_1"
-    id: 1329
-    rpc:
-      - for: "sync"
-        url: "https://sei-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://evm-rpc.sei-apis.com/"
-    start_block: 138911958
   - contracts:
       - address: "0x20c9a3e27322fc2b21ced430d1b2e12d90804db6"
         name: "SablierFlow_v1_1"

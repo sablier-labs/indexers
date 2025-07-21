@@ -1,56 +1,49 @@
 import { experimental_createEffect, S } from "envio";
-import _ from "lodash";
 import { erc20Abi, erc20Abi_bytes32, hexToString, trim } from "viem";
+import { sanitizeString } from "../../../lib/helpers";
 import type { Envio } from "../bindings";
 import { DECIMALS_DEFAULT } from "../constants";
 import { getClient } from "../rpc-clients";
-import { initDataEntry } from "../rpc-data";
-import { RPCData } from "../types";
+import { type RPCData } from "../types";
 
 const UNKNOWN = {
-  decimals: 0,
+  decimals: DECIMALS_DEFAULT,
   name: "Unknown",
-  symbol: "Unknown",
+  symbol: "UNKNOWN",
 };
 
-const input = {
-  address: S.string,
-  chainId: S.number,
-};
-
-const output = S.schema({
-  decimals: S.number,
-  name: S.string,
-  symbol: S.string,
-});
+// We alias the unknown token metadata as "0" to optimize the cache file size.
+const TokenMetadata = S.union([
+  S.shape(S.schema(0), (_) => ({
+    decimals: UNKNOWN.decimals,
+    name: UNKNOWN.name,
+    symbol: UNKNOWN.symbol,
+  })),
+  {
+    decimals: S.number,
+    name: S.string,
+    symbol: S.string,
+  },
+]);
 
 /**
  * Reads the ERC-20 metadata from the cache or, if not found, fetches it from the RPC.
- * If the metadata is not found, it is not written to the cache.
+ * We use a tuple instead of an object to optimize the cache file size.
  *
  * @see https://docs.envio.dev/docs/HyperIndex/event-handlers#contexteffect-experimental
  */
 export const readOrFetchMetadata = experimental_createEffect(
   {
-    input,
+    input: S.tuple((t) => ({
+      address: t.item(0, S.string),
+      chainId: t.item(1, S.number),
+    })),
     name: "readOrFetchMetadata",
-    output,
+    output: TokenMetadata,
   },
   async ({ context, input }) => {
-    // Check the cache first.
-    const dataKey = input.address.toLowerCase();
-    const data = initDataEntry(RPCData.Category.ERC20, input.chainId, context.log);
-    const cachedMetadata = data.read(dataKey);
-    if (!_.isEmpty(cachedMetadata)) {
-      return cachedMetadata;
-    }
-
-    // Otherwise, fetch the metadata from the RPC.
     try {
       const metadata = await fetch(input.chainId, input.address);
-      if (metadata.name !== UNKNOWN.name) {
-        data.write({ [dataKey]: metadata });
-      }
       return metadata;
     } catch (error) {
       context.log.error("Failed to fetch ERC-20 metadata", {
@@ -103,7 +96,7 @@ async function fetch(chainId: number, address: Envio.Address): Promise<RPCData.E
 
   const decimals = results[0].result ?? DECIMALS_DEFAULT;
   if (results[1].status !== "failure" && results[2].status !== "failure") {
-    const metadata = { decimals, name: String(results[1].result), symbol: String(results[2].result) };
+    const metadata = { decimals, name: sanitizeString(results[1].result), symbol: sanitizeString(results[2].result) };
     return metadata;
   }
 
@@ -138,9 +131,9 @@ async function fetchBytes32(chainId: number, address: Envio.Address): Promise<RP
     return hexToString(trimmed);
   };
 
-  const decimals = results[0].result ?? DECIMALS_DEFAULT;
-  const name = results[1].result ? fromHex(results[1].result) : UNKNOWN.name;
-  const symbol = results[2].result ? fromHex(results[2].result) : UNKNOWN.symbol;
+  const decimals = results[0].result ?? UNKNOWN.decimals;
+  const name = results[1].result ? sanitizeString(fromHex(results[1].result)) : UNKNOWN.name;
+  const symbol = results[2].result ? sanitizeString(fromHex(results[2].result)) : UNKNOWN.symbol;
 
   return {
     decimals,

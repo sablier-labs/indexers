@@ -26,17 +26,13 @@ type LoaderReturn = {
 };
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
-  const { stream, users: baseUsers, watcher } = await LoaderBase.base({ context, event });
-
   const revenueId = Id.revenue(event.chainId, event.block.timestamp);
-  const revenue = await context.Revenue.get(revenueId);
-
-  const users = {
-    caller: baseUsers.caller,
-    to: await context.User.get(Id.user(event.chainId, event.params.to)),
-  };
-
-  return { revenue, stream, users, watcher };
+  const [revenue, to, { stream, users: baseUsers, watcher }] = await Promise.all([
+    context.Revenue.get(revenueId),
+    context.User.get(Id.user(event.chainId, event.params.to)),
+    LoaderBase.base({ context, event }),
+  ]);
+  return { revenue, stream, users: { caller: baseUsers.caller, to }, watcher };
 };
 
 /* -------------------------------------------------------------------------- */
