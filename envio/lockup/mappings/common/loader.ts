@@ -131,12 +131,21 @@ export namespace Loader {
     event: Envio.Event,
     params: EventParams,
   ): Promise<CreateReturn> {
-    const assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
-      address: params.asset,
-      chainId: event.chainId,
-    });
+    let assetMetadata: RPCData.ERC20Metadata;
     const assetId = Id.asset(event.chainId, params.asset);
     const asset = await context.Asset.get(assetId);
+    if (asset) {
+      assetMetadata = {
+        decimals: Number(asset.decimals),
+        name: asset.name,
+        symbol: asset.symbol,
+      };
+    } else {
+      assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
+        address: params.asset,
+        chainId: event.chainId,
+      });
+    }
 
     const batchId = Id.batch(event, params.sender);
     const batch = await context.Batch.get(batchId);

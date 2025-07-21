@@ -31,12 +31,21 @@ type LoaderReturn = {
 type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
-  const assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
-    address: event.params.token,
-    chainId: event.chainId,
-  });
+  let assetMetadata: RPCData.ERC20Metadata;
   const assetId = Id.asset(event.chainId, event.params.token);
   const asset = await context.Asset.get(assetId);
+  if (asset) {
+    assetMetadata = {
+      decimals: Number(asset.decimals),
+      name: asset.name,
+      symbol: asset.symbol,
+    };
+  } else {
+    assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
+      address: event.params.token,
+      chainId: event.chainId,
+    });
+  }
 
   const batchId = Id.batch(event, event.params.sender);
   const batch = await context.Batch.get(batchId);
