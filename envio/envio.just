@@ -1,4 +1,4 @@
-mod root "../../justfile"
+mod root "../justfile"
 
 set allow-duplicate-variables := true
 set shell := ["bash", "-euo", "pipefail", "-c"]

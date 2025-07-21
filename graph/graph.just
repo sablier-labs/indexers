@@ -1,4 +1,4 @@
-mod root "../../justfile"
+mod root "../justfile"
 
 set allow-duplicate-variables := true
 set dotenv-path := "{{ source_dir() }}/../../.env"
