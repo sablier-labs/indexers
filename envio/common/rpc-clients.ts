@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { sablier } from "sablier";
 import { createPublicClient, fallback, http, type PublicClient } from "viem";
-import { envioChains } from "../../exports/indexers/envio";
+import { envioChains } from "../../src/indexers/envio";
 import { CriticalError } from "./errors";
 
 /**
