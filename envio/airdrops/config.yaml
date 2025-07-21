@@ -234,6 +234,8 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
+    hypersync_config:
+      url: "https://chiliz.hypersync.xyz"
     id: 88888
     rpc:
       - for: "fallback"
@@ -528,28 +530,6 @@ networks:
         url: "https://mainnet.era.zksync.io"
     start_block: 33148970
   - contracts:
-      - address: "0xcc87b1a4de285832f226bd585bd54a2184d32105"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0xa11561f9e418f2c431b411e1ca22fd3f85d4c831"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x465e9218c1a8d36169e0c40c01b856a83ce44153"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 421614
-    rpc:
-      - for: "fallback"
-        url: "https://arbitrum-sepolia.infura.io/v3/{ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://sepolia-rollup.arbitrum.io/rpc"
-    start_block: 2972055
-  - contracts:
       - address: "0xf632521bbab0dbc2bef169865e6c8e285afe0a42"
         name: "SablierV2MerkleStreamerFactory_v1_1"
       - name: "SablierV2MerkleStreamerLL_v1_1"
@@ -573,30 +553,6 @@ networks:
         interval_ceiling: 2000
         url: "https://sepolia.base.org"
     start_block: 7545874
-  - contracts:
-      - address: "0x9b6cc73522f22ad3f2f8187e892a51b95f1a0e8a"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x6cbe6e298a9354306e6ee65f63ff85cfa7062a39"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x2934a7addc3000d1625ed1e8d21c070a89073702"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 11155420
-    rpc:
-      - for: "fallback"
-        url: "https://optimism-sepolia.infura.io/v3/{ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
-        url: "https://opt-sepolia.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://sepolia.optimism.io"
-    start_block: 7452590
   - contracts:
       - address: "0xbacc1d151a78eed71d504f701c25e8739dc0262d"
         name: "SablierV2MerkleStreamerFactory_v1_1"

@@ -57,7 +57,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
       symbol: asset.symbol,
     };
   } else {
-    assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
+    assetMetadata = await context.effect(Effects.TokenMetadata.readOrFetchMetadata, {
       address: event.params.token,
       chainId: event.chainId,
     });

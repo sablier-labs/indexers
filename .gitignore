@@ -13,7 +13,8 @@ repomix
 # Files
 *.log
 *.tsbuildinfo
-.env*
+.env
+.env.*
 !.env.example
 graph/**/schema.graphql
 graph/**/manifests/**/*.yaml

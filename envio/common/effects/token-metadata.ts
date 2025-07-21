@@ -34,11 +34,13 @@ const TokenMetadata = S.union([
  */
 export const readOrFetchMetadata = experimental_createEffect(
   {
+    cache: true,
+    // biome-ignore assist/source/useSortedKeys: order matters
     input: S.tuple((t) => ({
-      address: t.item(0, S.string),
-      chainId: t.item(1, S.number),
+      chainId: t.item(0, S.number),
+      address: t.item(1, S.string),
     })),
-    name: "readOrFetchMetadata",
+    name: "tokenMetadata",
     output: TokenMetadata,
   },
   async ({ context, input }) => {

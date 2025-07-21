@@ -41,7 +41,7 @@ const SUPPORTED_CHAINS = [
   get(chains.blast.id),
   get(chains.berachain.id),
   get(chains.bsc.id),
-  get(chains.chiliz.id),
+  get(chains.chiliz.id, { hypersync: "chiliz" }),
   get(chains.gnosis.id),
   get(chains.linea.id),
   get(chains.mainnet.id),
@@ -59,9 +59,7 @@ const SUPPORTED_CHAINS = [
   /* -------------------------------------------------------------------------- */
   /*                                  TESTNETS                                  */
   /* -------------------------------------------------------------------------- */
-  get(chains.arbitrumSepolia.id),
   get(chains.baseSepolia.id),
-  get(chains.optimismSepolia.id),
   get(chains.sepolia.id),
 ] as const;
 

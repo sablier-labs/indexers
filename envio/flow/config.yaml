@@ -151,6 +151,8 @@ networks:
         name: "SablierFlow_v1_0"
       - address: "0x28eab88ee8a951f78e1028557d0c3fd97af61a33"
         name: "SablierFlow_v1_1"
+    hypersync_config:
+      url: "https://chiliz.hypersync.xyz"
     id: 88888
     rpc:
       - for: "fallback"
@@ -363,20 +365,6 @@ networks:
         url: "https://mainnet.era.zksync.io"
     start_block: 50572220
   - contracts:
-      - address: "0x781b3b2527f2a0a1e6b429161f2717a8a28b9f46"
-        name: "SablierFlow_v1_0"
-      - address: "0xf9cbffae10010475a2800a5efc11f4d4780ca48d"
-        name: "SablierFlow_v1_1"
-    id: 421614
-    rpc:
-      - for: "fallback"
-        url: "https://arbitrum-sepolia.infura.io/v3/{ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://sepolia-rollup.arbitrum.io/rpc"
-    start_block: 103460016
-  - contracts:
       - address: "0xd5f78708d83ac2bc8734a8cdf2d112c1bb3b62a2"
         name: "SablierFlow_v1_0"
       - address: "0xfb6b72a5988a7701a9090c56936269241693a9cc"
@@ -392,22 +380,6 @@ networks:
         interval_ceiling: 2000
         url: "https://sepolia.base.org"
     start_block: 18780695
-  - contracts:
-      - address: "0x417db0f2bd020fc4d6bccea6b2bb6be0c541862e"
-        name: "SablierFlow_v1_0"
-      - address: "0x77873085a88189c8b82b3a01bcbc294108d02805"
-        name: "SablierFlow_v1_1"
-    id: 11155420
-    rpc:
-      - for: "fallback"
-        url: "https://optimism-sepolia.infura.io/v3/{ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
-        url: "https://opt-sepolia.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://sepolia.optimism.io"
-    start_block: 20763576
   - contracts:
       - address: "0x5ae8c13f6ae094887322012425b34b0919097d8a"
         name: "SablierFlow_v1_0"

@@ -67,7 +67,7 @@ export namespace Loader {
         symbol: asset.symbol,
       };
     } else {
-      assetMetadata = await context.effect(Effects.ERC20.readOrFetchMetadata, {
+      assetMetadata = await context.effect(Effects.TokenMetadata.readOrFetchMetadata, {
         address: params.asset,
         chainId: event.chainId,
       });
