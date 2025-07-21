@@ -73,6 +73,7 @@ function createBase(
   const lockup = getContract("lockup", event.chainId, event.srcAddress);
 
   /* --------------------------------- STREAM --------------------------------- */
+  const isProxied = Boolean(params.proxender && params.proxender !== NOT_AVAILABLE);
   const recipient = params.recipient.toLowerCase();
   const sender = params.sender.toLowerCase();
 
@@ -102,8 +103,8 @@ function createBase(
     initialAmount: undefined,
     intactAmount: params.depositAmount,
     position: batch.size,
-    proxender: params.proxender === NOT_AVAILABLE ? undefined : params.proxender,
-    proxied: params.proxender !== NOT_AVAILABLE,
+    proxender: isProxied ? params.proxender : undefined,
+    proxied: isProxied,
     recipient,
     renounceAction_id: undefined,
     renounceTime: undefined,
