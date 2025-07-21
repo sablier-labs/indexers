@@ -13,3 +13,9 @@ export const PRB_PROXY_REGISTRY_v4_0_1: Envio.Address = "0x584009e9ede26e212182c
 
 export const DECIMALS_18 = 18n;
 export const DECIMALS_DEFAULT = 0;
+
+/* -------------------------------------------------------------------------- */
+/*                                    MISC                                    */
+/* -------------------------------------------------------------------------- */
+
+export const NOT_AVAILABLE = "n/a";

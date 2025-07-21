@@ -1,8 +1,8 @@
 import { Version } from "sablier";
 import { sanitizeString } from "../../../lib/helpers";
 import type { Envio } from "../../common/bindings";
+import { NOT_AVAILABLE } from "../../common/constants";
 import { getContract } from "../../common/deployments";
-
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";
@@ -102,8 +102,8 @@ function createBase(
     initialAmount: undefined,
     intactAmount: params.depositAmount,
     position: batch.size,
-    proxender: params.proxender,
-    proxied: Boolean(params.proxender),
+    proxender: params.proxender === NOT_AVAILABLE ? undefined : params.proxender,
+    proxied: params.proxender !== NOT_AVAILABLE,
     recipient,
     renounceAction_id: undefined,
     renounceTime: undefined,

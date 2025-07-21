@@ -5,11 +5,9 @@ import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";
 import type { Envio } from "../bindings";
-import { PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../constants";
+import { NOT_AVAILABLE, PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../constants";
 import { getContractVersion } from "../deployments";
 import { getClient } from "../rpc-clients";
-
-const NOT_AVAILABLE = "n/a";
 
 /**
  * Reads the proxy owner from the cache or, if not found, fetches it from the RPC.

@@ -7,8 +7,9 @@ import { logError } from "../../common/logger";
  * The proxender is the owner of the proxy that is the sender of the stream.
  */
 export function loadProxender(streamSender: Address): Address | null {
-  const proxy = PRBProxy.bind(streamSender);
-  const owner = proxy.try_owner();
+  const proxy = streamSender;
+  const proxyContract = PRBProxy.bind(proxy);
+  const owner = proxyContract.try_owner();
 
   // If the call reverted, it means that the stream sender is not a proxy.
   if (owner.reverted) {
@@ -25,7 +26,7 @@ export function loadProxender(streamSender: Address): Address | null {
     reverse = registry.try_getProxy(owner.value);
   }
 
-  if (reverse.reverted || !reverse.value.equals(streamSender)) {
+  if (reverse.reverted || !reverse.value.equals(proxy)) {
     logError("Could not verify owner for proxy {}", [streamSender.toHexString()]);
     return null;
   }

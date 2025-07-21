@@ -144,7 +144,7 @@ export const getCampaignsWithActivities = gql(/* GraphQL */ `
       where: $where
     ) {
       ...CampaignFragment
-      activities(limit: 1000, order_by: { timestamp: desc }) {
+      activities(limit: 1000, order_by: { timestamp: asc }) {
         ...ActivityFragment
       }
     }
