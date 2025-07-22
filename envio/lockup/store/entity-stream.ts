@@ -210,7 +210,7 @@ function addLinearShape(stream: Entity.Stream, cliff?: boolean): Pick<Entity.Str
   const isV1_1 = stream.version === Version.Lockup.V1_1;
   const isV1_2 = stream.version === Version.Lockup.V1_2;
   if (!isV1_0 && !isV1_1 && !isV1_2) {
-    return stream;
+    return { shape: stream.shape };
   }
 
   if (cliff) {
