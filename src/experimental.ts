@@ -19,9 +19,9 @@ export function getExperimentalURL(opts: { protocol: Indexer.Protocol; vendor: I
   const { protocol, vendor } = opts;
   if (vendor === "envio") {
     const id = {
-      airdrops: "d29e623", // https://envio.dev/app/sablier-labs/merkle-envio
-      flow: "8f9917f", // https://envio.dev/app/sablier-labs/flow-envio
-      lockup: "e2aa166", // https://envio.dev/app/sablier-labs/lockup-envio
+      airdrops: "09a23f5", // https://envio.dev/app/sablier-labs/merkle-envio
+      flow: "5b2644c", // https://envio.dev/app/sablier-labs/flow-envio
+      lockup: "7c02979", // https://envio.dev/app/sablier-labs/lockup-envio
     };
     return `https://indexer.hyperindex.xyz/${id[protocol]}/v1/graphql`;
   }
