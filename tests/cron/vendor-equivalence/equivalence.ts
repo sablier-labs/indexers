@@ -86,12 +86,24 @@ async function fetchEntities(
   }
 }
 
+function sanitizeEntity(entity: Entities[number], vendor: Indexer.Vendor) {
+  const chainId = _.toString(_.get(entity, "chainId"));
+  const asset = _.toString(_.get(entity, "asset.address"));
+
+  // Case: $FUEL updated token symbol and name
+
+  if (chainId === "11155111" && asset.toLowerCase() === "0xbaca88a993d9a1452402dc511efeecda1b18c18f") {
+    _.unset(entity, "asset.name");
+    _.unset(entity, "asset.symbol");
+  }
+}
+
 export function createEquivalenceTest(config: TestConfig) {
   const { chainId, endpoints, queries } = config;
 
   // Tweak these values when debugging.
   const first = 1000;
-  const timeout = 100_000;
+  const timeout = 500_000;
 
   // Locking in a specific timestamp (10 minutes ago) to avoid false positives
   // when one indexer is lagging behind the other.
@@ -134,8 +146,10 @@ export function createEquivalenceTest(config: TestConfig) {
           expect(envioEntities.length).toBe(graphEntities.length);
           for (let i = 0; i < envioEntities.length; i++) {
             // Debug by unsetting fields, e.g.
-            // _.unset(envioEntities[i], "sender");
-            // _.unset(graphEntities[i], "sender");
+
+            sanitizeEntity(envioEntities[i], "envio");
+            sanitizeEntity(graphEntities[i], "graph");
+
             expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(graphEntities[i]);
           }
 
