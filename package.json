@@ -7,6 +7,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
+    "install": "^0.13.0",
     "sablier": "1.0.0-beta.10"
   },
   "peerDependencies": {
