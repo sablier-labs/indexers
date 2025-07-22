@@ -112,7 +112,7 @@ networks:
     id: 2741
     rpc:
       - for: "fallback"
-        url: "https://abstract-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://abstract-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -138,9 +138,9 @@ networks:
     id: 42161
     rpc:
       - for: "fallback"
-        url: "https://arbitrum-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://arbitrum-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://arb-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://arb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -166,9 +166,9 @@ networks:
     id: 43114
     rpc:
       - for: "fallback"
-        url: "https://avalanche-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://avalanche-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://avax-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://avax-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -194,9 +194,9 @@ networks:
     id: 8453
     rpc:
       - for: "fallback"
-        url: "https://base-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://base-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://base-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://base-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -218,9 +218,9 @@ networks:
     id: 81457
     rpc:
       - for: "fallback"
-        url: "https://blast-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://blast-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://blast-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://blast-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -232,7 +232,7 @@ networks:
     id: 80094
     rpc:
       - for: "fallback"
-        url: "https://berachain-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://berachain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -258,9 +258,9 @@ networks:
     id: 56
     rpc:
       - for: "fallback"
-        url: "https://bsc-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://bsc-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://bnb-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://bnb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -312,7 +312,7 @@ networks:
     id: 100
     rpc:
       - for: "fallback"
-        url: "https://gnosis-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://gnosis-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -330,9 +330,9 @@ networks:
     id: 59144
     rpc:
       - for: "fallback"
-        url: "https://linea-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://linea-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://linea-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://linea-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -358,9 +358,9 @@ networks:
     id: 1
     rpc:
       - for: "fallback"
-        url: "https://mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://eth-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -418,9 +418,9 @@ networks:
     id: 10
     rpc:
       - for: "fallback"
-        url: "https://optimism-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://optimism-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://opt-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://opt-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -446,9 +446,9 @@ networks:
     id: 137
     rpc:
       - for: "fallback"
-        url: "https://polygon-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://polygon-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://polygon-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://polygon-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -474,9 +474,9 @@ networks:
     id: 534352
     rpc:
       - for: "fallback"
-        url: "https://scroll-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://scroll-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://scroll-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://scroll-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -504,7 +504,7 @@ networks:
     id: 5330
     rpc:
       - for: "fallback"
-        url: "https://superseed-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -534,9 +534,9 @@ networks:
     id: 130
     rpc:
       - for: "fallback"
-        url: "https://unichain-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://unichain-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://unichain-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://unichain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -568,9 +568,9 @@ networks:
     id: 324
     rpc:
       - for: "fallback"
-        url: "https://zksync-mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://zksync-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://zksync-mainnet.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://zksync-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -592,9 +592,9 @@ networks:
     id: 84532
     rpc:
       - for: "fallback"
-        url: "https://base-sepolia.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://base-sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://base-sepolia.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://base-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -620,9 +620,9 @@ networks:
     id: 11155111
     rpc:
       - for: "fallback"
-        url: "https://sepolia.infura.io/v3/{ENVIO_INFURA_API_KEY}"
+        url: "https://sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://eth-sepolia.g.alchemy.com/v2/{ENVIO_ALCHEMY_API_KEY}"
+        url: "https://eth-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000

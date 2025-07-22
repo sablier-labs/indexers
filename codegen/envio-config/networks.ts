@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noTemplateCurlyInString: $ sign needed in string */
 import _ from "lodash";
 import { sablier } from "sablier";
 import { indexedContracts } from "../../contracts";
@@ -35,7 +36,7 @@ export function createNetworks(protocol: Types.Protocol): EnvioConfig.Network[] 
 /* -------------------------------------------------------------------------- */
 
 /**
- * Will return an URL like this: https://mainnet.infura.io/v3/{ENVIO_INFURA_API_KEY}
+ * Will return an URL like this: https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}
  * The API key will be loaded from the .env file.
  */
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
@@ -45,14 +46,14 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
   if (chain.rpc.infura && process.env.ENVIO_INFURA_API_KEY) {
     RPCs.push({
       for: "fallback",
-      url: chain.rpc.infura("{ENVIO_INFURA_API_KEY}"),
+      url: chain.rpc.infura("${ENVIO_INFURA_API_KEY}"),
     });
   }
 
   if (chain.rpc.alchemy && process.env.ENVIO_ALCHEMY_API_KEY) {
     RPCs.push({
       for: "fallback",
-      url: chain.rpc.alchemy("{ENVIO_ALCHEMY_API_KEY}"),
+      url: chain.rpc.alchemy("${ENVIO_ALCHEMY_API_KEY}"),
     });
   }
 
