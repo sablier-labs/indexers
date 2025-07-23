@@ -40,9 +40,9 @@ export const SegmentFragment_Envio = gql/* GraphQL */ `
     position
     amount
     exponent
-    milestone
+    #milestone
     endTime
-    # startTime
+    startTime
     startAmount
     endAmount
   }
@@ -63,9 +63,9 @@ export const TrancheFragment_Envio = gql/* GraphQL */ `
     # id
     position
     amount
-    timestamp
+    #timestamp
     endTime
-    # startTime
+    startTime
     endAmount
     startAmount
   }
@@ -75,7 +75,7 @@ export const StreamFragment_Envio = gql/* GraphQL */ `
   fragment StreamFragment on Stream {
     id
     tokenId
-    # subgraphId
+    subgraphId
     chainId
     # alias
     category
@@ -85,13 +85,13 @@ export const StreamFragment_Envio = gql/* GraphQL */ `
     hash
     timestamp
     depositAmount
-    # startTime
+    startTime
     endTime
     # cliff
-    # cliffTime
-    # cliffAmount
+    cliffTime
+    cliffAmount
     cancelable
-    # renounceTime
+    renounceTime
     canceled
     canceledTime
     withdrawnAmount
@@ -158,7 +158,7 @@ export const SegmentFragment_TheGraph = gql/* GraphQL */ `
     position
     amount
     exponent
-    milestone
+    #milestone
     endTime
     startTime
     startAmount
@@ -180,7 +180,7 @@ export const TrancheFragment_TheGraph = gql/* GraphQL */ `
   fragment TrancheFragment on Tranche {
     position
     amount
-    timestamp
+    #timestamp
     endTime
     startTime
     endAmount

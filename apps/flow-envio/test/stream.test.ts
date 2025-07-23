@@ -747,7 +747,7 @@ describe(`Streams (Chain Id: ${chainId}, Envio: ${configuration.endpoint.Envio})
 });
 
 describe(`Campaigns pre and post refactor - The Graph -`, () => {
-  test("All entries are the same (asc)", async () => {
+  test.only("All entries are the same (asc)", async () => {
     const received = { streams: [] } as ReturnType<typeof cleanup.streams>;
     const expected = { streams: [] } as ReturnType<typeof cleanup.streams>;
 
@@ -807,8 +807,8 @@ describe(`Campaigns pre and post refactor - The Graph -`, () => {
   }, 1000000 /* test is sometimes slow due to query to theGraph */);
 });
 
-describe.only(`Campaigns pre and post refactor - Envio -`, () => {
-  test.only("First 100 results before subgraphId are the same", async () => {
+describe(`Campaigns pre and post refactor - Envio -`, () => {
+  test("First 100 results before subgraphId are the same", async () => {
     const variables = {
       first: 1,
       subgraphId: 3,
@@ -836,7 +836,7 @@ describe.only(`Campaigns pre and post refactor - Envio -`, () => {
     expect(received.streams.length).toEqual(expected.streams.length);
     expect(received.streams).toEqual(expected.streams);
   });
-  test("All entries are the same (asc)", async () => {
+  test.only("All entries are the same (asc)", async () => {
     const received = { streams: [] } as ReturnType<typeof cleanup.streams>;
     const expected = { streams: [] } as ReturnType<typeof cleanup.streams>;
 

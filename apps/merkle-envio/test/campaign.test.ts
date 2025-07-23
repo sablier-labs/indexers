@@ -300,7 +300,7 @@ describe(`Campaigns (Chain Id: ${chainId}, Envio: ${configuration.endpoint.Envio
 });
 
 describe(`Campaigns pre and post refactor - The Graph-`, () => {
-  test("All entries are the same (asc)", async () => {
+  test.only("All entries are the same (asc)", async () => {
     const received = { campaigns: [] } as ReturnType<typeof cleanup.campaigns>;
     const expected = { campaigns: [] } as ReturnType<typeof cleanup.campaigns>;
 
@@ -360,7 +360,7 @@ describe(`Campaigns pre and post refactor - The Graph-`, () => {
   }, 500000 /* test is sometimes slow due to query to theGraph */);
 });
 
-describe.only(`Campaigns pre and post refactor - Envio-`, () => {
+describe(`Campaigns pre and post refactor - Envio-`, () => {
   test("First 100 results before subgraphId are the same", async () => {
     const variables = {
       first: 100,

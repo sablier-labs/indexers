@@ -51,7 +51,7 @@ export async function EnvioRefactored(
   document: string,
   variables?: Record<string, unknown>,
 ) {
-  return toEnvio(await request("https://indexer.hyperindex.xyz/a58a0ae/v1/graphql", document, variables));
+  return toEnvio(await request("https://indexer.hyperindex.xyz/1a7ade4/v1/graphql", document, variables));
 }
 
 export async function TheGraph(

@@ -59,7 +59,6 @@ export const ActivityFragment_Envio = gql/* GraphQL */ `
 
 export const TrancheFragment_Envio = gql/* GraphQL */ `
   fragment TrancheFragment on Tranche {
-    id
     position
     percentage
     duration

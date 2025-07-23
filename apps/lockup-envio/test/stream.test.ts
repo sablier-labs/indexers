@@ -753,7 +753,7 @@ describe(`Streams (Chain Id: ${chainId}, Envio: ${configuration.endpoint.Envio})
 });
 
 describe(`Streams pre and post refactor -The GRAPH-`, () => {
-  test("First 100 results before subgraphId are the same", async () => {
+  test.only("First 100 results before subgraphId are the same", async () => {
     const variables = {
       first: 100,
       skip: 0,
