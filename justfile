@@ -73,7 +73,7 @@ export-schema +globs="src/schemas/*.graphql":
         --protocol {{ protocol }}
     just biome-write "envio/**/*.graphql"
 
-# Setup Husky
+# Setup Husky - you should run this the first time you clone the repo
 setup:
     pnpm husky
 

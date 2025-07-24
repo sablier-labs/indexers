@@ -1,3 +1,5 @@
+# NOTE: this file is not meant to be run directly.
+# Go to each indexer's directory and run `just --list` to see the available recipes.
 mod root "../justfile"
 
 set allow-duplicate-variables := true
@@ -8,9 +10,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 # ---------------------------------------------------------------------------- #
 
 # Install Ni: https://github.com/antfu-collective/ni
-na := require("na")
 ni := require("ni")
-nlx := require("nlx")
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
