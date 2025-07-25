@@ -2,6 +2,7 @@ import { type TypedDocumentNode } from "@graphql-typed-document-node/core";
 import { type DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
+import { mainnet, sepolia } from "sablier/dist/chains";
 import { expect, it } from "vitest";
 import { logger } from "../../../lib/winston";
 import { type Indexer } from "../../../src";
@@ -91,14 +92,34 @@ async function fetchEntities(
  * number of the transaction. This is why we need to sanitize some entities.
  */
 function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
-  const chainId = _.toString(_.get(entity, "chainId"));
-  const asset = _.toString(_.get(entity, "asset.address"));
+  const chainId = _.toNumber(_.get(entity, "chainId"));
+  const asset = _.toString(_.get(entity, "asset.address"))?.toLowerCase();
 
-  // $FUEL updated its token metadata at block 7695199.
-
-  if (chainId === "11155111" && asset === "0xbaca88a993d9a1452402dc511efeecda1b18c18f") {
+  const removeEditedAssetDetails = () => {
     _.unset(entity, "asset.name");
     _.unset(entity, "asset.symbol");
+  };
+
+  switch (chainId) {
+    case sepolia.id: {
+      switch (asset) {
+        // $FUEL updated its token metadata at block 7695199.
+        case "0xbaca88a993d9a1452402dc511efeecda1b18c18f":
+          removeEditedAssetDetails();
+      }
+
+      break;
+    }
+    case mainnet.id: {
+      switch (asset) {
+        // $NGL updated its token metadata
+        case "0x12652c6d93fdb6f4f37d48a8687783c782bb0d10":
+        // viraliquid updated its token metadata
+        case "0x3f2d4250e253c656bcf7750da03a94bff667ab46":
+          removeEditedAssetDetails();
+      }
+      break;
+    }
   }
 }
 
