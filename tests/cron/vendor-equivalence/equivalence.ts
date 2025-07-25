@@ -86,13 +86,17 @@ async function fetchEntities(
   }
 }
 
-function sanitizeEntity(entity: Entities[number], vendor: Indexer.Vendor) {
+/**
+ * Envio fetches the metadata using the latest block number, whereas The Graph fetches the metadata using the block
+ * number of the transaction. This is why we need to sanitize some entities.
+ */
+function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
   const chainId = _.toString(_.get(entity, "chainId"));
   const asset = _.toString(_.get(entity, "asset.address"));
 
-  // Case: $FUEL updated token symbol and name
+  // $FUEL updated its token metadata at block 7695199.
 
-  if (chainId === "11155111" && asset.toLowerCase() === "0xbaca88a993d9a1452402dc511efeecda1b18c18f") {
+  if (chainId === "11155111" && asset === "0xbaca88a993d9a1452402dc511efeecda1b18c18f") {
     _.unset(entity, "asset.name");
     _.unset(entity, "asset.symbol");
   }
@@ -105,8 +109,7 @@ export function createEquivalenceTest(config: TestConfig) {
   const first = 1000;
   const timeout = 500_000;
 
-  // Locking in a specific timestamp (10 minutes ago) to avoid false positives
-  // when one indexer is lagging behind the other.
+  // Locking in a timestamp (10 minutes ago) to avoid false positives when one indexer is lagging behind the other.
   const now = Math.floor(Date.now() / 1000) - 600;
 
   const envioVariables: EnvioQueryVariables = {

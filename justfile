@@ -82,9 +82,9 @@ test args="--silent":
     pnpm vitest run {{ args }}
 alias t := test
 
-test-equivalence:
-    CI=true CRON_TESTS=true pnpm vitest run
-
+# Run cron tests
+test-cron:
+    CRON_TESTS=true pnpm vitest run
 
 # ---------------------------------------------------------------------------- #
 #                                RECIPES: ENVIO                                #
