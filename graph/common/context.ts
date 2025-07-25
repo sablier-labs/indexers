@@ -1,5 +1,5 @@
 /**
- * @see {@link file://./../../types.ts}
+ * @see {@link file://./../../lib/types.ts}
  * @see https://thegraph.com/docs/en/subgraphs/developing/creating/subgraph-manifest/#data-source-context
  */
 import { BigInt, dataSource } from "@graphprotocol/graph-ts";

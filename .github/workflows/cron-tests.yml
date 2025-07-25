@@ -22,7 +22,7 @@ jobs:
 
       - name: "Run the tests"
         env:
-          CRON_TESTS: true
+          TEST_VENDORS: true
         run: "just test"
 
       - name: "Add summary"

@@ -2,7 +2,7 @@ import { sepolia } from "sablier/dist/chains";
 import { getExperimentalURL } from "../../../src/experimental";
 import * as Envio from "../../../src/queries/flow/envio";
 import * as Graph from "../../../src/queries/flow/graph";
-import { createEquivalenceTest } from "./equivalence";
+import { createEquivalenceTest } from "./create-test";
 
 createEquivalenceTest({
   chainId: sepolia.id,

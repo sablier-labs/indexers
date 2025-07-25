@@ -3,11 +3,11 @@
  * features before they are released. They run on the Sepolia testnet.
  *
  * The experimental indexers are used for generating the GraphQL bindings in:
- * @see {@link file://./exports/gql/flow/envio/gql.ts}
- * @see {@link file://./exports/gql/flow/graph/gql.ts}
+ * @see {@link file://./gql/flow/envio/gql.ts}
+ * @see {@link file://./gql/flow/graph/gql.ts}
  *
  * As well as for the equivalence tests in:
- * @see {@link file://./../tests/cron/vendor-equivalence/equivalence.ts}
+ * @see {@link file://./../tests/vendors/equivalence/create-test.ts}
  */
 import { sepolia } from "sablier/dist/chains";
 import { getIndexer, type Indexer } from ".";
