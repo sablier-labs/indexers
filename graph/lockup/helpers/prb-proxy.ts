@@ -21,7 +21,7 @@ export function loadProxender(streamSender: Address): Address | null {
   let reverse = registry.try_getProxy(owner.value);
 
   // See https://github.com/sablier-labs/indexers/issues/148
-  if (reverse.reverted || !reverse.value.equals(Address.zero())) {
+  if (reverse.reverted || reverse.value.equals(Address.zero()) || !reverse.value.equals(proxy)) {
     registry = PRBProxyRegistry.bind(PRB_PROXY_REGISTRY_v4_0_0);
     reverse = registry.try_getProxy(owner.value);
   }

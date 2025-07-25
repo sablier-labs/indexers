@@ -64,7 +64,7 @@ async function fetchProxyOwner(
 
     // See https://github.com/sablier-labs/indexers/issues/148
     let reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_1, owner);
-    if (!reverse || reverse === zeroAddress) {
+    if (!reverse || reverse === zeroAddress || reverse !== proxy) {
       reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_0, owner);
     }
 
