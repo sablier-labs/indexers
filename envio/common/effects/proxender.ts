@@ -62,10 +62,21 @@ async function fetchProxyOwner(
     });
     const owner = (ownerResult as Envio.Address).toLowerCase();
 
+    const knownOwner = "0xc517d5bcb3a5591d21321acb90a7666805bf063c".toLowerCase();
     // See https://github.com/sablier-labs/indexers/issues/148
     let reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_1, owner);
+    if (owner === knownOwner) {
+      logger.info("First reverse result, proxy", {
+        proxy,
+        reverse,
+      });
+    }
     if (!reverse || reverse === zeroAddress || reverse !== proxy) {
       reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_0, owner);
+      logger.info("Second reverse result, proxy", {
+        proxy,
+        reverse,
+      });
     }
 
     // Check that the registry knows about the proxy.
