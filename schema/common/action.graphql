@@ -1,0 +1,84 @@
+"""
+A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
+"""
+type Action @entity(immutable: true) {
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+
+  # -------------------------------- Transaction ------------------------------- #
+  """
+  Block number of the Ethereum transaction.
+  """
+  block: BigInt!
+
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+
+  """
+  The msg.sender of the Ethereum transaction.
+  """
+  from: Bytes!
+
+  """
+  Hash of the Ethereum transaction.
+  """
+  hash: Bytes!
+
+  """
+  Unix timestamp of the Ethereum transaction.
+  """
+  timestamp: BigInt!
+
+  # --------------------------------- Metadata --------------------------------- #
+  """
+  Category of action, e.g., Deposit.
+  """
+  category: ActionCategory!
+
+  """
+  Contract through which the action was triggered.
+  """
+  contract: Bytes!
+
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+
+  """
+  Stream linked to this action, if any.
+  """
+  stream: Stream
+
+  # --------------------------------- Addresses -------------------------------- #
+  """
+  Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
+  """
+  addressA: Bytes
+
+  """
+  Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
+  """
+  addressB: Bytes
+
+  # ---------------------------------- Amounts --------------------------------- #
+  """
+  1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
+  """
+  amountA: BigInt
+
+  """
+  2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
+  """
+  amountB: BigInt
+}

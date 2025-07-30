@@ -1,0 +1,476 @@
+enum ActionCategory {
+  Approval
+  ApprovalForAll
+  Adjust
+  Create
+  Deposit
+  Pause
+  Refund
+  Restart
+  Transfer
+  Void
+  Withdraw
+}
+
+enum StreamCategory {
+  Flow
+}
+
+"""
+ERC-20 asset
+"""
+type Asset @entity(immutable: false) {
+  """
+  Unique identifier: `asset-{chainId}-{address}`
+  """
+  id: String!
+  """
+  Address of the ERC-20 token.
+  """
+  address: Bytes!
+  """
+  The chain ID where the asset exists (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Decimals of the ERC20 token.
+  """
+  decimals: BigInt!
+  """
+  Name of the ERC20 token.
+  """
+  name: String!
+  """
+  Symbol of the ERC20 token.
+  """
+  symbol: String!
+  """
+  Streams that rely on this token
+  """
+  streams: [Stream!]! @derivedFrom(field: "asset")
+}
+
+type Watcher @entity(immutable: false) {
+  """
+  The chain ID. There is one watcher per subgraph.
+  """
+  id: String!
+  """
+  Global counter for actions.
+  """
+  actionCounter: BigInt!
+  """
+  Alias for id.
+  """
+  chainId: BigInt!
+  """
+  Global counter.
+  """
+  streamCounter: BigInt!
+}
+
+type Stream @entity(immutable: false) {
+  """
+  Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
+  """
+  id: String!
+  """
+  Like the id: `{contractAlias}-{chainId}-{tokenId}`
+  """
+  alias: String!
+  """
+  The chain ID where the stream was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  🚨 This may change if new data sources are added and the chronological order of streams changes.
+  """
+  subgraphId: BigInt!
+  """
+  The id provided by the Lockup contract. This is the ERC-721 tokenId.
+  """
+  tokenId: BigInt!
+  """
+  Hash of the Ethereum transaction that created this stream.
+  """
+  hash: Bytes!
+  """
+  Unix timestamp of the Ethereum transaction that created this stream.
+  """
+  timestamp: BigInt!
+  """
+  Actions triggered by this stream.
+  """
+  actions: [Action!]! @derivedFrom(field: "stream")
+  """
+  ERC-20 token distributed via this stream.
+  """
+  asset: Asset!
+  """
+  ERC-20 token decimals. Stored here to avoid loading the asset entity on each stream.
+  Note: the "Value" suffix is added because of a bug in GraphQL Code Generator.
+  """
+  assetDecimalsValue: BigInt!
+  """
+  The batch the stream may be part of.
+  Note: this is available only when created within a batch create transaction.
+  """
+  batch: Batch!
+  """
+  Category used for sorting.
+  """
+  category: StreamCategory!
+  """
+  The address of the contract the stream originates from.
+  """
+  contract: Bytes!
+  """
+  Position in the batch, if available.
+  """
+  position: BigInt!
+  """
+  Current recipient of the stream, with permission to withdraw funds to any third-party address.
+  Note: the recipient can change on NFT transfer.
+  """
+  recipient: Bytes!
+  """
+  Manager of the stream, with ability to cancel the stream.
+  """
+  sender: Bytes!
+  """
+  Unix timestamp for the start of the stream.
+  """
+  startTime: BigInt!
+  """
+  Flag indicating the transferability of the stream. This is set when the stream is created, and cannot
+  be changed later.
+  """
+  transferable: Boolean!
+  """
+  Version of contract, e.g., v1.0.
+  """
+  version: String!
+  """
+  The sum of all withdrawn amounts.
+  """
+  withdrawnAmount: BigInt!
+  """
+  This is equivalent to the value returned by ERC20.balanceOf, and it changes after deposit and withdrawal.
+  """
+  availableAmount: BigInt!
+  """
+  The account that created the stream, which can be different from the sender.
+  """
+  creator: Bytes!
+  """
+  Unix timestamp indicating the time when the stream will become insolvent.
+  """
+  depletionTime: BigInt!
+  """
+  The sum of all deposits.
+  """
+  depositedAmount: BigInt!
+  """
+  The amount of debt forgiven by a void action.
+  """
+  forgivenDebt: BigInt!
+  """
+  Action in which the payment rate was adjusted.
+  """
+  lastAdjustmentAction: Action
+  """
+  Unix timestamp for when the payment rate was adjusted.
+  """
+  lastAdjustmentTimestamp: BigInt!
+  """
+  Flag indicating if a stream is paused.
+  """
+  paused: Boolean!
+  """
+  Action in which the stream was paused.
+  """
+  pausedAction: Action
+  """
+  Unix timestamp for when the stream was paused.
+  """
+  pausedTime: BigInt
+  """
+  Current payment rate per second, denominated in 18 decimals.
+  """
+  ratePerSecond: BigInt!
+  """
+  The sum of all refunds.
+  """
+  refundedAmount: BigInt!
+  """
+  The amount streamed up until the time of the last adjustment, denominated in 18 decimals.
+  """
+  snapshotAmount: BigInt!
+  """
+  Flag indicating if a stream is voided.
+  """
+  voided: Boolean!
+  """
+  Action in which the stream was voided.
+  """
+  voidedAction: Action
+  """
+  Unix timestamp for when the stream was voided.
+  """
+  voidedTime: BigInt
+}
+
+type Revenue @entity(immutable: false) {
+  """
+  Unique identifier: `revenue-{chainId}-date-{date}`.
+  """
+  id: ID!
+  """
+  The total amount of revenue accrued on the given date, denominated in the chain's native token (e.g., ETH on Mainnet).
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  amount: Float!
+  """
+  The chain ID where the revenue has accrued.
+  """
+  chainId: BigInt!
+  """
+  The chain's native token symbol (e.g., ETH on Mainnet).
+  """
+  currency: String!
+  """
+  Date in the format YYYY-MM-DD.
+  """
+  date: String!
+  """
+  Like the `date` but as a timestamp type (for sorting purposes).
+  """
+  dateTimestamp: Timestamp!
+  """
+  List of revenue transactions for this date.
+  """
+  transactions: [RevenueTransaction!]! @derivedFrom(field: "revenue")
+}
+
+type RevenueTransaction @entity(immutable: true) {
+  """
+  Unique identifier: `{revenueId}-tx-{txHash}`
+  """
+  id: ID!
+  """
+  The amount of revenue from this transaction, denominated in the chain's native token.
+  """
+  amount: Float!
+  """
+  Block number of the transaction.
+  """
+  block: BigInt!
+  """
+  Hash of the transaction.
+  """
+  hash: Bytes!
+  """
+  Reference to the daily revenue aggregate entity.
+  """
+  revenue: Revenue!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: BigInt!
+}
+
+"""
+A user is an address that has interacted with at least one Sablier contract.
+
+This includes:
+
+- Stream creators and senders
+- Stream recipients
+- Airdrop creators and claimers
+- Anyone who withdraws from streams or claims airdrops on behalf of others
+
+Notes:
+
+- Only implemented in Envio.
+- This is an internal entity we use for analytics. It's not used in the Sablier UI.
+- May be enhanced with derived relations in the future. See https://github.com/sablier-labs/indexers/issues/159
+"""
+type User @entity(immutable: false) {
+  """
+  Unique identifier: `user-{chainId}-{address}`
+  """
+  id: ID!
+  """
+  The address of the user.
+  """
+  address: Bytes!
+  """
+  The chain ID where this user was active (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Whether the user exclusively interacted with Sablier as an airdrop claimer.
+  This flag is set to false once the user interacts with other Sablier contracts.
+  """
+  isOnlyAirdropClaimer: Boolean!
+  """
+  User transactions.
+  """
+  transactions: [UserTransaction!]! @derivedFrom(field: "user")
+}
+
+type UserTransaction @entity(immutable: true) {
+  """
+  Unique identifier: `{userId}-{txHash}`
+  """
+  id: ID!
+  """
+  Block number of the transaction.
+  """
+  block: BigInt!
+  """
+  The fee paid by the user denominated in the chain's native token (e.g., ETH on Mainnet).
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  fee: Float!
+  """
+  Hash of the transaction.
+  """
+  hash: Bytes!
+  """
+  Whether the transaction was an airdrop claim.
+  """
+  isAirdropClaim: Boolean!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: BigInt!
+  """
+  The user involved in the transaction.
+  """
+  user: User!
+}
+
+"""
+A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
+"""
+type Action @entity(immutable: true) {
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+  """
+  Block number of the Ethereum transaction.
+  """
+  block: BigInt!
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  The msg.sender of the Ethereum transaction.
+  """
+  from: Bytes!
+  """
+  Hash of the Ethereum transaction.
+  """
+  hash: Bytes!
+  """
+  Unix timestamp of the Ethereum transaction.
+  """
+  timestamp: BigInt!
+  """
+  Category of action, e.g., Deposit.
+  """
+  category: ActionCategory!
+  """
+  Contract through which the action was triggered.
+  """
+  contract: Bytes!
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+  """
+  Stream linked to this action, if any.
+  """
+  stream: Stream
+  """
+  Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
+  """
+  addressA: Bytes
+  """
+  Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
+  """
+  addressB: Bytes
+  """
+  1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
+  """
+  amountA: BigInt
+  """
+  2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
+  """
+  amountB: BigInt
+}
+
+"""
+Creating streams in bulk is possible using the SablierBatchLockup contract.
+See https://github.com/sablier-labs/lockup/blob/v2.0/src/SablierBatchLockup.sol
+
+Note: the entity can be immutable because a batch is only updated in the same block.
+See https://thegraph.com/docs/en/subgraphs/developing/creating/ql-schema/#defining-entities
+"""
+type Batch @entity(immutable: true) {
+  """
+  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
+  """
+  id: String!
+  """
+  Hash of the Ethereum transaction that created this batch.
+  """
+  hash: Bytes
+  """
+  Timestamp of the transaction that created this batch.
+  """
+  timestamp: BigInt
+  """
+  The sender address that created this batch.
+  """
+  batcher: Batcher
+  """
+  Index of the batch based on the `batchCounter` in the `Batcher` entity.
+  """
+  position: BigInt
+  """
+  Number of streams part of this batch.
+  """
+  size: BigInt!
+  """
+  Streams part of this batch.
+  """
+  streams: [Stream!]! @derivedFrom(field: "batch")
+}
+
+"""
+Sender address that created batches.
+"""
+type Batcher @entity(immutable: false) {
+  """
+  Unique identifier: `batcher-{chainId}-{sender}`
+  """
+  id: String!
+  """
+  Total number of batches started by this sender.
+  """
+  batchCounter: BigInt!
+  """
+  Batches started by this sender.
+  """
+  batches: [Batch!]! @derivedFrom(field: "batcher")
+}

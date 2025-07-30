@@ -1,0 +1,35 @@
+"""
+Entity for Merkle factories, which deploy campaigns.
+"""
+type Factory @entity(immutable: false) {
+  """
+  Unique identifier: `factory-{chainId}-{address}`
+  """
+  id: String!
+
+  """
+  The address of the factory contract.
+  """
+  address: Bytes!
+
+  """
+  Factory alias, e.g., `MSF2`. For historical reasons, the alias comes from the
+  the name of the `MerkleStreamFactory` contract.
+  """
+  alias: String!
+
+  """
+  Factory index for campaigns
+  """
+  campaignCounter: BigInt!
+
+  """
+  The chain ID where the factory was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+
+  """
+  Campaigns deployed by this factory.
+  """
+  campaigns: [Campaign!]! @derivedFrom(field: "factory")
+}

@@ -1,0 +1,364 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [{ "name": "initialAdmin", "type": "address", "internalType": "address" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "admin",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "collectFees",
+    "inputs": [{ "name": "merkleBase", "type": "address", "internalType": "contract ISablierMerkleBase" }],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createMerkleInstant",
+    "inputs": [
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "internalType": "struct MerkleBase.ConstructorParams",
+        "components": [
+          { "name": "token", "type": "address", "internalType": "contract IERC20" },
+          { "name": "expiration", "type": "uint40", "internalType": "uint40" },
+          { "name": "initialAdmin", "type": "address", "internalType": "address" },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          { "name": "merkleRoot", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "campaignName", "type": "string", "internalType": "string" },
+          { "name": "shape", "type": "string", "internalType": "string" }
+        ]
+      },
+      { "name": "aggregateAmount", "type": "uint256", "internalType": "uint256" },
+      { "name": "recipientCount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [{ "name": "merkleInstant", "type": "address", "internalType": "contract ISablierMerkleInstant" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createMerkleLL",
+    "inputs": [
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "internalType": "struct MerkleBase.ConstructorParams",
+        "components": [
+          { "name": "token", "type": "address", "internalType": "contract IERC20" },
+          { "name": "expiration", "type": "uint40", "internalType": "uint40" },
+          { "name": "initialAdmin", "type": "address", "internalType": "address" },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          { "name": "merkleRoot", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "campaignName", "type": "string", "internalType": "string" },
+          { "name": "shape", "type": "string", "internalType": "string" }
+        ]
+      },
+      { "name": "lockup", "type": "address", "internalType": "contract ISablierLockup" },
+      { "name": "cancelable", "type": "bool", "internalType": "bool" },
+      { "name": "transferable", "type": "bool", "internalType": "bool" },
+      {
+        "name": "schedule",
+        "type": "tuple",
+        "internalType": "struct MerkleLL.Schedule",
+        "components": [
+          { "name": "startTime", "type": "uint40", "internalType": "uint40" },
+          { "name": "startPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "cliffDuration", "type": "uint40", "internalType": "uint40" },
+          { "name": "cliffPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "totalDuration", "type": "uint40", "internalType": "uint40" }
+        ]
+      },
+      { "name": "aggregateAmount", "type": "uint256", "internalType": "uint256" },
+      { "name": "recipientCount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [{ "name": "merkleLL", "type": "address", "internalType": "contract ISablierMerkleLL" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createMerkleLT",
+    "inputs": [
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "internalType": "struct MerkleBase.ConstructorParams",
+        "components": [
+          { "name": "token", "type": "address", "internalType": "contract IERC20" },
+          { "name": "expiration", "type": "uint40", "internalType": "uint40" },
+          { "name": "initialAdmin", "type": "address", "internalType": "address" },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          { "name": "merkleRoot", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "campaignName", "type": "string", "internalType": "string" },
+          { "name": "shape", "type": "string", "internalType": "string" }
+        ]
+      },
+      { "name": "lockup", "type": "address", "internalType": "contract ISablierLockup" },
+      { "name": "cancelable", "type": "bool", "internalType": "bool" },
+      { "name": "transferable", "type": "bool", "internalType": "bool" },
+      { "name": "streamStartTime", "type": "uint40", "internalType": "uint40" },
+      {
+        "name": "tranchesWithPercentages",
+        "type": "tuple[]",
+        "internalType": "struct MerkleLT.TrancheWithPercentage[]",
+        "components": [
+          { "name": "unlockPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "duration", "type": "uint40", "internalType": "uint40" }
+        ]
+      },
+      { "name": "aggregateAmount", "type": "uint256", "internalType": "uint256" },
+      { "name": "recipientCount", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [{ "name": "merkleLT", "type": "address", "internalType": "contract ISablierMerkleLT" }],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "defaultFee",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getCustomFee",
+    "inputs": [{ "name": "campaignCreator", "type": "address", "internalType": "address" }],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct MerkleFactory.CustomFee",
+        "components": [
+          { "name": "enabled", "type": "bool", "internalType": "bool" },
+          { "name": "fee", "type": "uint256", "internalType": "uint256" }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getFee",
+    "inputs": [{ "name": "campaignCreator", "type": "address", "internalType": "address" }],
+    "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isPercentagesSum100",
+    "inputs": [
+      {
+        "name": "tranches",
+        "type": "tuple[]",
+        "internalType": "struct MerkleLT.TrancheWithPercentage[]",
+        "components": [
+          { "name": "unlockPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "duration", "type": "uint40", "internalType": "uint40" }
+        ]
+      }
+    ],
+    "outputs": [{ "name": "result", "type": "bool", "internalType": "bool" }],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "function",
+    "name": "resetCustomFee",
+    "inputs": [{ "name": "campaignCreator", "type": "address", "internalType": "address" }],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setCustomFee",
+    "inputs": [
+      { "name": "campaignCreator", "type": "address", "internalType": "address" },
+      { "name": "newFee", "type": "uint256", "internalType": "uint256" }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setDefaultFee",
+    "inputs": [{ "name": "defaultFee_", "type": "uint256", "internalType": "uint256" }],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "transferAdmin",
+    "inputs": [{ "name": "newAdmin", "type": "address", "internalType": "address" }],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "CollectFees",
+    "inputs": [
+      { "name": "admin", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "merkleBase", "type": "address", "indexed": true, "internalType": "contract ISablierMerkleBase" },
+      { "name": "feeAmount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CreateMerkleInstant",
+    "inputs": [
+      { "name": "merkleInstant", "type": "address", "indexed": true, "internalType": "contract ISablierMerkleInstant" },
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleBase.ConstructorParams",
+        "components": [
+          { "name": "token", "type": "address", "internalType": "contract IERC20" },
+          { "name": "expiration", "type": "uint40", "internalType": "uint40" },
+          { "name": "initialAdmin", "type": "address", "internalType": "address" },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          { "name": "merkleRoot", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "campaignName", "type": "string", "internalType": "string" },
+          { "name": "shape", "type": "string", "internalType": "string" }
+        ]
+      },
+      { "name": "aggregateAmount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "recipientCount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "fee", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CreateMerkleLL",
+    "inputs": [
+      { "name": "merkleLL", "type": "address", "indexed": true, "internalType": "contract ISablierMerkleLL" },
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleBase.ConstructorParams",
+        "components": [
+          { "name": "token", "type": "address", "internalType": "contract IERC20" },
+          { "name": "expiration", "type": "uint40", "internalType": "uint40" },
+          { "name": "initialAdmin", "type": "address", "internalType": "address" },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          { "name": "merkleRoot", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "campaignName", "type": "string", "internalType": "string" },
+          { "name": "shape", "type": "string", "internalType": "string" }
+        ]
+      },
+      { "name": "lockup", "type": "address", "indexed": false, "internalType": "contract ISablierLockup" },
+      { "name": "cancelable", "type": "bool", "indexed": false, "internalType": "bool" },
+      { "name": "transferable", "type": "bool", "indexed": false, "internalType": "bool" },
+      {
+        "name": "schedule",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleLL.Schedule",
+        "components": [
+          { "name": "startTime", "type": "uint40", "internalType": "uint40" },
+          { "name": "startPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "cliffDuration", "type": "uint40", "internalType": "uint40" },
+          { "name": "cliffPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "totalDuration", "type": "uint40", "internalType": "uint40" }
+        ]
+      },
+      { "name": "aggregateAmount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "recipientCount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "fee", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CreateMerkleLT",
+    "inputs": [
+      { "name": "merkleLT", "type": "address", "indexed": true, "internalType": "contract ISablierMerkleLT" },
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleBase.ConstructorParams",
+        "components": [
+          { "name": "token", "type": "address", "internalType": "contract IERC20" },
+          { "name": "expiration", "type": "uint40", "internalType": "uint40" },
+          { "name": "initialAdmin", "type": "address", "internalType": "address" },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          { "name": "merkleRoot", "type": "bytes32", "internalType": "bytes32" },
+          { "name": "campaignName", "type": "string", "internalType": "string" },
+          { "name": "shape", "type": "string", "internalType": "string" }
+        ]
+      },
+      { "name": "lockup", "type": "address", "indexed": false, "internalType": "contract ISablierLockup" },
+      { "name": "cancelable", "type": "bool", "indexed": false, "internalType": "bool" },
+      { "name": "transferable", "type": "bool", "indexed": false, "internalType": "bool" },
+      { "name": "streamStartTime", "type": "uint40", "indexed": false, "internalType": "uint40" },
+      {
+        "name": "tranchesWithPercentages",
+        "type": "tuple[]",
+        "indexed": false,
+        "internalType": "struct MerkleLT.TrancheWithPercentage[]",
+        "components": [
+          { "name": "unlockPercentage", "type": "uint64", "internalType": "UD2x18" },
+          { "name": "duration", "type": "uint40", "internalType": "uint40" }
+        ]
+      },
+      { "name": "totalDuration", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "aggregateAmount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "recipientCount", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "fee", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ResetCustomFee",
+    "inputs": [
+      { "name": "admin", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "campaignCreator", "type": "address", "indexed": true, "internalType": "address" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetCustomFee",
+    "inputs": [
+      { "name": "admin", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "campaignCreator", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "customFee", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetDefaultFee",
+    "inputs": [
+      { "name": "admin", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "defaultFee", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TransferAdmin",
+    "inputs": [
+      { "name": "oldAdmin", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "newAdmin", "type": "address", "indexed": true, "internalType": "address" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "CallerNotAdmin",
+    "inputs": [
+      { "name": "admin", "type": "address", "internalType": "address" },
+      { "name": "caller", "type": "address", "internalType": "address" }
+    ]
+  }
+]

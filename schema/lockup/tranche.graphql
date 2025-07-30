@@ -1,0 +1,45 @@
+"""
+See https://docs.sablier.com/concepts/lockup/tranches
+"""
+type Tranche @entity(immutable: true) {
+  """
+  Unique identifier: `tranche-{streamId}-{position}`
+  """
+  id: String!
+
+  """
+  Amount distributed by this tranche.
+  """
+  amount: BigInt!
+
+  """
+  Total amount distributed at `endTime`. This is the sum of this tranche's amount and all previous tranches' amounts.
+  """
+  endAmount: BigInt!
+
+  """
+  Unix timestamp indicating the end of the tranche.
+  """
+  endTime: BigInt!
+
+  """
+  Position of the tranche inside the array.
+  """
+  position: BigInt!
+
+  """
+  Total amount distributed by the stream at `startTime`. This is the sum of all previous tranches' amounts.
+  """
+  startAmount: BigInt!
+
+  """
+  Unix timestamp indicating the start of the tranche.
+  This is also the end time of the previous tranche or, if this is the first tranche, it is the start time of the stream.
+  """
+  startTime: BigInt!
+
+  """
+  The stream in which this tranche was created.
+  """
+  stream: Stream!
+}

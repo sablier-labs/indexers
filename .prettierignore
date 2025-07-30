@@ -1,13 +1,8 @@
-.yarn
-**/.vscode
-**/.next
+# Directories
+**/bindings
 **/build
-**/dist
-**/generated
-**/lib
-**/out
-**/tmp
-**/_generated
 
-apps/*-envio/src/generated
-apps/*-envio/src/_generated
+# Files
+**/config.yaml
+**/manifests/**/*.yaml
+pnpm-lock.yaml

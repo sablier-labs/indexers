@@ -1,0 +1,9 @@
+# Dummy type needed solely for generating the PRBProxy bindings
+type Proxy @entity(immutable: true) {
+  id: ID!
+}
+
+# Dummy type needed solely for generating the ERC-20 bindings
+type Token @entity(immutable: true) {
+  id: ID!
+}

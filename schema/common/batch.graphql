@@ -1,0 +1,65 @@
+"""
+Creating streams in bulk is possible using the SablierBatchLockup contract.
+See https://github.com/sablier-labs/lockup/blob/v2.0/src/SablierBatchLockup.sol
+
+Note: the entity can be immutable because a batch is only updated in the same block.
+See https://thegraph.com/docs/en/subgraphs/developing/creating/ql-schema/#defining-entities
+"""
+type Batch @entity(immutable: true) {
+  """
+  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
+  """
+  id: String!
+
+  # -------------------------------- Transaction ------------------------------- #
+  """
+  Hash of the Ethereum transaction that created this batch.
+  """
+  hash: Bytes
+
+  """
+  Timestamp of the transaction that created this batch.
+  """
+  timestamp: BigInt
+
+  # ------------------------------- Batch Fields ------------------------------- #
+  """
+  The sender address that created this batch.
+  """
+  batcher: Batcher
+
+  """
+  Index of the batch based on the `batchCounter` in the `Batcher` entity.
+  """
+  position: BigInt
+
+  """
+  Number of streams part of this batch.
+  """
+  size: BigInt!
+
+  """
+  Streams part of this batch.
+  """
+  streams: [Stream!]! @derivedFrom(field: "batch")
+}
+
+"""
+Sender address that created batches.
+"""
+type Batcher @entity(immutable: false) {
+  """
+  Unique identifier: `batcher-{chainId}-{sender}`
+  """
+  id: String!
+
+  """
+  Total number of batches started by this sender.
+  """
+  batchCounter: BigInt!
+
+  """
+  Batches started by this sender.
+  """
+  batches: [Batch!]! @derivedFrom(field: "batcher")
+}

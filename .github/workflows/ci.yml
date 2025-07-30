@@ -1,0 +1,73 @@
+name: "CI"
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{github.workflow}}-${{github.ref}}
+
+on:
+  pull_request:
+  push:
+    branches: ["main", "deployment/main"]
+
+jobs:
+  ci:
+    env:
+      ENVIO_ALCHEMY_API_KEY: ${{ secrets.ENVIO_ALCHEMY_API_KEY }}
+      ENVIO_ENVIRONMENT: "development"
+      ENVIO_INFURA_API_KEY: ${{ secrets.ENVIO_INFURA_API_KEY }}
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v4"
+
+      - name: "Set up devkit"
+        uses: "sablier-labs/devkit/actions/setup@main"
+        with:
+          package-manager: "pnpm"
+
+      - name: "Codegen Envio indexers"
+        run: "just codegen-envio"
+
+      # We need this until this gets implemented in Envio: https://github.com/enviodev/hyperindex/issues/575
+      - name: "Verify Envio build files haven't changed"
+        uses: "tj-actions/verify-changed-files@v20"
+        with:
+          fail-if-changed: true
+          fail-message: "❌ Envio build files are out of sync. Run 'just codegen-envio' locally and commit the changes."
+          files: |
+            ./envio/flow/config.yaml
+            ./envio/flow/schema.graphql
+            ./envio/lockup/config.yaml
+            ./envio/lockup/schema.graphql
+            ./envio/airdrops/config.yaml
+            ./envio/airdrops/schema.graphql
+
+      - name: "Codegen Graph indexers"
+        run: "just codegen-graph"
+
+      - name: "Build all Graph indexers as a check"
+        run: "just build-graph-indexer"
+
+      - name: "Export the schemas"
+        run: "just export-schema"
+
+      - name: "Verify GraphQL schemas haven't changed"
+        uses: "tj-actions/verify-changed-files@v20"
+        with:
+          fail-if-changed: true
+          fail-message: "❌ GraphQL schemas are out of sync. Run 'just export-schema' locally and commit the changes."
+          files: |
+            ./src/schemas/airdrops.graphql
+            ./src/schemas/flow.graphql
+            ./src/schemas/lockup.graphql
+
+      - name: "Run the code checks"
+        run: "just full-check"
+
+      - name: "Run the tests"
+        run: "just test"
+
+      - name: "Add summary"
+        run: | # shell
+          echo "## CI result" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY

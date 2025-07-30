@@ -1,0 +1,24 @@
+{
+  "biome.enabled": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "search.exclude": {
+    "**/airdrops/bindings": true,
+    "**/flow/bindings": true,
+    "**/lockup/bindings": true,
+    "dist": true,
+    "node_modules": true,
+    "src/gql/**/*.ts": true,
+    "src/schemas/*.graphql": true,
+    "**/schema.graphql": true
+  },
+  "[graphql][javascript][json][jsonc][typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[md][yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

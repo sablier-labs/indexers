@@ -1,0 +1,24 @@
+JUST_DIR := justfile_dir()
+
+# Show available commands
+default:
+  @just --list
+
+# Generate all bindings
+codegen: codegen-erc20 codegen-prb-proxy
+
+# Generate the ERC-20 bindings
+codegen-erc20:
+    #!/usr/bin/env sh
+    rm -rf erc20
+    pnpm graph codegen \
+        --output-dir {{ JUST_DIR }}/erc20 \
+        {{ JUST_DIR }}/manifest-erc20.yaml
+
+# Generate the PRBProxy bindings
+codegen-prb-proxy:
+    #!/usr/bin/env sh
+    rm -rf prb-proxy
+    pnpm graph codegen \
+        --output-dir {{ JUST_DIR }}/prb-proxy \
+        {{ JUST_DIR }}/manifest-prb-proxy.yaml
