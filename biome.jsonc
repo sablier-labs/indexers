@@ -6,7 +6,7 @@
       "**/*.{graphql,js,json,jsonc,mjs,mts,ts}",
       "!envio/common/rpc-data/**/*.json",
       "!envio/**/bindings/**/*",
-      "!graph/**/bindings/**/*.ts",
+      "!graph/**/bindings/**/*",
       "!node_modules",
       "!src/gql/**/*.ts"
     ]
