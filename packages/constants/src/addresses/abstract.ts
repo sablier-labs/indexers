@@ -33,8 +33,8 @@ export let flow: string[][] = [
 ];
 
 export let factory: string[][] = [
-  ["0xe2c0c3e0ff10df4485a2dcbbdd1d002a40446164", "MSF3", "V22"],
   ["0x0c72b957347b51285854f015e4d20641655b939a", "MSF4", "V23"],
+  ["0xe2c0c3e0ff10df4485a2dcbbdd1d002a40446164", "MSF3", "V22"],
 ];
 
 /** PRBProxy registry */

@@ -2,7 +2,17 @@ import { Address, BigInt } from "@graphprotocol/graph-ts";
 import { Asset } from "../generated/types/schema";
 import { ERC20 as ERC20Contract } from "../generated/types/templates/ContractMerkleFactory/ERC20";
 import { ERC20Bytes as ERC20BytesContract } from "../generated/types/templates/ContractMerkleFactory/ERC20Bytes";
-import { getChainId } from "../constants";
+import { getChainId, zero } from "../constants";
+
+export function fetchAssetDecimals(address: Address): BigInt {
+  const contract = ERC20Contract.bind(address);
+  const decimals = contract.try_decimals();
+  if (decimals.reverted) {
+    return zero;
+  }
+  return BigInt.fromI32(decimals.value);
+}
+
 
 export function getOrCreateAsset(address: Address): Asset {
   let id = generateAssetId(address);
@@ -11,8 +21,7 @@ export function getOrCreateAsset(address: Address): Asset {
   if (entity == null) {
     entity = new Asset(id);
 
-    let contract = ERC20Contract.bind(address);
-    let decimals = contract.decimals();
+    let decimals = fetchAssetDecimals(address);
     let name = getAssetName(address);
     let symbol = getAssetSymbol(address);
 
@@ -20,7 +29,7 @@ export function getOrCreateAsset(address: Address): Asset {
     entity.address = address;
     entity.symbol = symbol;
     entity.name = name;
-    entity.decimals = BigInt.fromI32(decimals);
+    entity.decimals = decimals;
 
     entity.save();
   }
