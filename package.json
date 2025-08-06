@@ -76,7 +76,7 @@
   },
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build",
-    "start": "cd ./envio/$ENVIO_PROTOCOL && ENVIO_HASURA_PUBLIC_AGGREGATE=\"[\\\"Revenue\\\",\\\"RevenueTransaction\\\",\\\"Stream\\\",\\\"User\\\",\\\"UserTransaction\\\"]\" ts-node ./bindings/src/Index.res.js"
+    "start": "cd ./envio/$ENVIO_PROTOCOL && ts-node ./bindings/src/Index.res.js"
   },
   "types": "./dist/index.d.ts"
 }
