@@ -255,6 +255,19 @@ networks:
         url: "https://rpc.chiliz.com"
     start_block: 19125620
   - contracts:
+      - address: "0xa9264ef7cb1516cc27fcd5149a2909ace885ffb6"
+        name: "SablierMerkleFactory_v1_3"
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+    id: 478
+    rpc:
+      - for: "sync"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.form.network/http"
+    start_block: 3359651
+  - contracts:
       - address: "0x777f66477ff83ababadf39a3f22a8cc3aee43765"
         name: "SablierV2MerkleStreamerFactory_v1_1"
       - name: "SablierV2MerkleStreamerLL_v1_1"
@@ -276,6 +289,26 @@ networks:
         interval_ceiling: 2000
         url: "https://rpc.gnosischain.com"
     start_block: 31491795
+  - contracts:
+      - address: "0xdb07a1749d5ca49909c7c4159652fbd527c735b8"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0x278ac15622846806bd46fbdbdb8db8d09614173a"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0xc0107f368fbb50075d2190549055d9e6bf75c5c9"
+        name: "SablierMerkleFactory_v1_3"
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+    id: 1890
+    rpc:
+      - for: "sync"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://replicator.phoenix.lightlink.io/rpc/v1"
+    start_block: 63526311
   - contracts:
       - address: "0x35e9c3445a039b258eb7112a5eea259a825e8ac0"
         name: "SablierV2MerkleLockupFactory_v1_2"
@@ -403,6 +436,25 @@ networks:
         interval_ceiling: 2000
         url: "https://polygon-rpc.com"
     start_block: 51245836
+  - contracts:
+      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
+        name: "SablierMerkleFactory_v1_3"
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+    id: 1329
+    rpc:
+      - for: "sync"
+        url: "https://sei-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://evm-rpc.sei-apis.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sei.drpc.org"
+    start_block: 138904383
   - contracts:
       - address: "0xb3ade5463000e6c0d376e7d7570f372ebf98bdaf"
         name: "SablierV2MerkleStreamerFactory_v1_1"
