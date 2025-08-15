@@ -1,0 +1,74 @@
+id	output
+[50,"0x951857744785E80e2De051c32EE7b25f9c458C42"]	{"name": "Wrapped XDC", "symbol": "WXDC", "decimals": 18}
+[100,"0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d"]	{"name": "Wrapped XDAI", "symbol": "WXDAI", "decimals": 18}
+[100,"0x44fA8E6f47987339850636F88629646662444217"]	{"name": "Dai Stablecoin on xDai", "symbol": "DAI", "decimals": 18}
+[324,"0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"]	{"name": "Bridged USDC (zkSync)", "symbol": "USDC.e", "decimals": 6}
+[2741,"0x75d5913F6DbCB56d72D67B534B88b01871f6CC84"]	{"name": "Test Token", "symbol": "TST", "decimals": 18}
+[2818,"0xc7D67A9cBB121b3b0b9c053DD9f469523243379A"]	{"name": "Tether USD", "symbol": "USDT", "decimals": 6}
+[34443,"0xd988097fb8612cc24eeC14542bC03424c656005f"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[50104,"0xe2C0C3e0ff10Df4485a2dcbbdd1D002a40446164"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[10,"0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1"]	{"name": "Dai Stablecoin", "symbol": "DAI", "decimals": 18}
+[10,"0x4200000000000000000000000000000000000042"]	{"name": "Optimism", "symbol": "OP", "decimals": 18}
+[81457,"0x4300000000000000000000000000000000000003"]	{"name": "USDB", "symbol": "USDB", "decimals": 18}
+[43114,"0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[43114,"0x714f020C54cc9D104B6F4f6998C63ce2a31D1888"]	{"name": "STEP.APP", "symbol": "FITFI", "decimals": 18}
+[59144,"0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
+[80094,"0xAB281bbc2bC34a1F202DdFF17ffD1C00EdF73F3a"]	{"name": "Test Token", "symbol": "TST", "decimals": 18}
+[81457,"0x4300000000000000000000000000000000000004"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
+[81457,"0x32c09C5249Eb7F2fCb987E145a414BA6525a7274"]	{"name": "Foo", "symbol": "FOO", "decimals": 18}
+[88888,"0x8c0b6ea89DABA6516df9437a60cA481501781606"]	{"name": "Kayen token", "symbol": "KAYEN", "decimals": 18}
+[534352,"0x06eFdBFf2a14a7c8E15944D1F4A48F9F95F663A4"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[137,"0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"]	{"name": "Wrapped Polygon Ecosystem Token", "symbol": "WPOL", "decimals": 18}
+[84532,"0x403F31D52722cC911642247003A6b51b0B36B3B1"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[11155111,"0x776b6fC2eD15D6Bb5Fc32e0c89DE68683118c62A"]	{"name": "Dai Stablecoin", "symbol": "DAI", "decimals": 18}
+[11155111,"0x3DcBc355c5B5FdF45D2d2ccc8890d76C5b30394A"]	{"name": "Morph", "symbol": "Morph", "decimals": 18}
+[1,"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[1,"0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72"]	{"name": "Ethereum Name Service", "symbol": "ENS", "decimals": 18}
+[1,"0xdAC17F958D2ee523a2206206994597C13D831ec7"]	{"name": "Tether USD", "symbol": "USDT", "decimals": 6}
+[1,"0x70EDF1c215D0ce69E7F16FD4E6276ba0d99d4de7"]	{"name": "cheqd", "symbol": "CHEQ", "decimals": 9}
+[1,"0x3506424F91fD33084466F402d5D97f05F8e3b4AF"]	{"name": "chiliZ", "symbol": "CHZ", "decimals": 18}
+[1,"0x056Fd409E1d7A124BD7017459dFEa2F387b6d5Cd"]	{"name": "Gemini dollar", "symbol": "GUSD", "decimals": 2}
+[1,"0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
+[1,"0xC1f33e0cf7e40a67375007104B929E49a581bafE"]	{"name": "SPOT", "symbol": "SPOT", "decimals": 9}
+[1,"0x6B175474E89094C44Da98b954EedeAC495271d0F"]	{"name": "Dai Stablecoin", "symbol": "DAI", "decimals": 18}
+[1,"0xb551b43AF192965F74e3dfAA476C890B403caD95"]	{"name": "Data bot", "symbol": "DATA", "decimals": 9}
+[1,"0xAdF7C35560035944e805D98fF17d58CDe2449389"]	{"name": "Spectral Token", "symbol": "SPEC", "decimals": 18}
+[1,"0x5a84FA4033B865543C5208f8c9786Eda476A4102"]	{"name": "Websync", "symbol": "WEBS", "decimals": 9}
+[137,"0xc2132D05D31c914a87C6611C10748AEb04B58e8F"]	{"name": "(PoS) Tether USD", "symbol": "USDT", "decimals": 6}
+[137,"0x8730762Cad4a27816A467fAc54e3dd1E2e9617A1"]	{"name": "Grindery X", "symbol": "GX", "decimals": 18}
+[84532,"0x8cF4370D7d9fcde0F3E79970ae5392f0b06a58Db"]	{"name": "Dai Stablecoin", "symbol": "DAI", "decimals": 18}
+[84532,"0x036CbD53842c5426634e7929541eC2318f3dCF7e"]	{"name": "USDC", "symbol": "USDC", "decimals": 6}
+[11155111,"0x1db995CFE9B9b1168446Db9687537B0b555AcE88"]	{"name": "MyToken", "symbol": "MTK", "decimals": 18}
+[11155111,"0xDABA2588db25A47E6209632b3Bd85646a8e93C54"]	{"name": "Centuriones", "symbol": "CENT$", "decimals": 18}
+[11155111,"0x38158D05CB8903F4319841B4a9272Be772FeeA77"]	{"name": "goopsyboopsy", "symbol": "GBP", "decimals": 18}
+[11155111,"0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"]	{"name": "USDC", "symbol": "USDC", "decimals": 6}
+[11155111,"0xdfAe10143B3010a675Da85C26AcDE63F240a92ED"]	{"name": "Avarik Token", "symbol": "AVRK", "decimals": 18}
+[11155111,"0xD0Aa3A1E6745fadE4412757d918543922001c21d"]	{"name": "Butter", "symbol": "🧈🧈", "decimals": 18}
+[42161,"0xaf88d065e77c8cC2239327C5EDb3A432268e5831"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[42161,"0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1"]	{"name": "Dai Stablecoin", "symbol": "DAI", "decimals": 18}
+[42161,"0x092bAaDB7DEf4C3981454dD9c0A0D7FF07bCFc86"]	{"name": "MOR", "symbol": "MOR", "decimals": 18}
+[42161,"0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9"]	{"name": "USD₮0", "symbol": "USD₮0", "decimals": 6}
+[8453,"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[8453,"0xb8D98a102b0079B69FFbc760C8d857A31653e56e"]	{"name": "toby", "symbol": "toby", "decimals": 18}
+[8453,"0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb"]	{"name": "Dai Stablecoin", "symbol": "DAI", "decimals": 18}
+[8453,"0x4200000000000000000000000000000000000006"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
+[8453,"0x62f342C1f7345E534860A757CB65335a610b1E12"]	{"name": "Slinky Dog", "symbol": "SLNKY", "decimals": 18}
+[8453,"0xcEF9fB4C1b3963D91d2bc3e9243C722c91EF0d45"]	{"name": "MoorCoin", "symbol": "MRC", "decimals": 18}
+[8453,"0x25e1c298F100d7C600E9e44d46788C1Ebbd4f69B"]	{"name": "Pike Token", "symbol": "P", "decimals": 18}
+[8453,"0xAD3eB8058e9E0ad547e2aF549388Df451b00D8BD"]	{"name": "SHROOMnation", "symbol": "SHRMN", "decimals": 18}
+[8453,"0x3C281A39944a2319aA653D81Cfd93Ca10983D234"]	{"name": "BUILD", "symbol": "BUILD", "decimals": 18}
+[8453,"0x63706e401c06ac8513145b7687A14804d17f814b"]	{"name": "Aave Token", "symbol": "AAVE", "decimals": 18}
+[8453,"0xbb9867d9Ef9EfdC818518003EDD3b629E424E574"]	{"name": "FedNow USD", "symbol": "USDf", "decimals": 6}
+[8453,"0xE07aDC4bAd16Be3E4F6f7511a3E0b0219C73672B"]	{"name": "usBTC Debt", "symbol": "usBTCd", "decimals": 8}
+[8453,"0x7431aDa8a591C955a994a21710752EF9b882b8e3"]	{"name": "MOR", "symbol": "MOR", "decimals": 18}
+[8453,"0x8f2E6758C4D6570344bd5007DEc6301cd57590A0"]	{"name": "SPOT", "symbol": "SPOT", "decimals": 9}
+[8453,"0x2e7df1528f4eA427F48B49Ae8A1f78149db7185A"]	{"name": "ProductClank", "symbol": "PRO", "decimals": 18}
+[8453,"0x24c91E5E9eb13E72Db41EBC5816Af7f259647B07"]	{"name": "Myceliyou", "symbol": "MYU", "decimals": 18}
+[8453,"0x09F3f0Ee2Cf938f56bC664CE85152209A7457B07"]	{"name": "ArtBaby", "symbol": "ARTBABY", "decimals": 18}
+[8453,"0xa77E22bFAeE006D4f9DC2c20D7D337b05125C282"]	{"name": "Tren Finance v2", "symbol": "TREN", "decimals": 18}
+[56,"0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56"]	{"name": "BUSD Token", "symbol": "BUSD", "decimals": 18}
+[56,"0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3"]	{"name": "Dai Token", "symbol": "DAI", "decimals": 18}
+[56,"0x55d398326f99059fF775485246999027B3197955"]	{"name": "Tether USD", "symbol": "USDT", "decimals": 18}
+[56,"0xB0b84D294e0C75A6abe60171b70edEb2EFd14A1B"]	{"name": "Staked Lista BNB", "symbol": "slisBNB", "decimals": 18}
+[56,"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"]	{"name": "Wrapped BNB", "symbol": "WBNB", "decimals": 18}
+[56,"0x3d4f0513E8a29669B960f9dBcA61861548A9A760"]	{"name": "Banana For Scale", "symbol": "$BANANA", "decimals": 18}

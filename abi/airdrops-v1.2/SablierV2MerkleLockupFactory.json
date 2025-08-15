@@ -1,0 +1,419 @@
+[
+  {
+    "type": "function",
+    "name": "createMerkleLL",
+    "inputs": [
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "internalType": "struct MerkleLockup.ConstructorParams",
+        "components": [
+          {
+            "name": "asset",
+            "type": "address",
+            "internalType": "contract IERC20"
+          },
+          {
+            "name": "cancelable",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "ipfsCID",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "transferable",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      },
+      {
+        "name": "lockupLinear",
+        "type": "address",
+        "internalType": "contract ISablierV2LockupLinear"
+      },
+      {
+        "name": "streamDurations",
+        "type": "tuple",
+        "internalType": "struct LockupLinear.Durations",
+        "components": [
+          {
+            "name": "cliff",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "total",
+            "type": "uint40",
+            "internalType": "uint40"
+          }
+        ]
+      },
+      {
+        "name": "aggregateAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipientCount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "merkleLL",
+        "type": "address",
+        "internalType": "contract ISablierV2MerkleLL"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createMerkleLT",
+    "inputs": [
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "internalType": "struct MerkleLockup.ConstructorParams",
+        "components": [
+          {
+            "name": "asset",
+            "type": "address",
+            "internalType": "contract IERC20"
+          },
+          {
+            "name": "cancelable",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "ipfsCID",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "transferable",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      },
+      {
+        "name": "lockupTranched",
+        "type": "address",
+        "internalType": "contract ISablierV2LockupTranched"
+      },
+      {
+        "name": "tranchesWithPercentages",
+        "type": "tuple[]",
+        "internalType": "struct MerkleLT.TrancheWithPercentage[]",
+        "components": [
+          {
+            "name": "unlockPercentage",
+            "type": "uint64",
+            "internalType": "UD2x18"
+          },
+          {
+            "name": "duration",
+            "type": "uint40",
+            "internalType": "uint40"
+          }
+        ]
+      },
+      {
+        "name": "aggregateAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipientCount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "merkleLT",
+        "type": "address",
+        "internalType": "contract ISablierV2MerkleLT"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isPercentagesSum100",
+    "inputs": [
+      {
+        "name": "tranches",
+        "type": "tuple[]",
+        "internalType": "struct MerkleLT.TrancheWithPercentage[]",
+        "components": [
+          {
+            "name": "unlockPercentage",
+            "type": "uint64",
+            "internalType": "UD2x18"
+          },
+          {
+            "name": "duration",
+            "type": "uint40",
+            "internalType": "uint40"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "result",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "pure"
+  },
+  {
+    "type": "event",
+    "name": "CreateMerkleLL",
+    "inputs": [
+      {
+        "name": "merkleLL",
+        "type": "address",
+        "indexed": true,
+        "internalType": "contract ISablierV2MerkleLL"
+      },
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleLockup.ConstructorParams",
+        "components": [
+          {
+            "name": "asset",
+            "type": "address",
+            "internalType": "contract IERC20"
+          },
+          {
+            "name": "cancelable",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "ipfsCID",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "transferable",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      },
+      {
+        "name": "lockupLinear",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract ISablierV2LockupLinear"
+      },
+      {
+        "name": "streamDurations",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct LockupLinear.Durations",
+        "components": [
+          {
+            "name": "cliff",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "total",
+            "type": "uint40",
+            "internalType": "uint40"
+          }
+        ]
+      },
+      {
+        "name": "aggregateAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipientCount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CreateMerkleLT",
+    "inputs": [
+      {
+        "name": "merkleLT",
+        "type": "address",
+        "indexed": true,
+        "internalType": "contract ISablierV2MerkleLT"
+      },
+      {
+        "name": "baseParams",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleLockup.ConstructorParams",
+        "components": [
+          {
+            "name": "asset",
+            "type": "address",
+            "internalType": "contract IERC20"
+          },
+          {
+            "name": "cancelable",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "ipfsCID",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "transferable",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      },
+      {
+        "name": "lockupTranched",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract ISablierV2LockupTranched"
+      },
+      {
+        "name": "tranchesWithPercentages",
+        "type": "tuple[]",
+        "indexed": false,
+        "internalType": "struct MerkleLT.TrancheWithPercentage[]",
+        "components": [
+          {
+            "name": "unlockPercentage",
+            "type": "uint64",
+            "internalType": "UD2x18"
+          },
+          {
+            "name": "duration",
+            "type": "uint40",
+            "internalType": "uint40"
+          }
+        ]
+      },
+      {
+        "name": "totalDuration",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "aggregateAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipientCount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  }
+]

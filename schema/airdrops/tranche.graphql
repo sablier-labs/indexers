@@ -1,0 +1,49 @@
+"""
+Used in Merkle Lockup campaigns for the vesting schedule.
+"""
+type Tranche @entity(immutable: true) {
+  """
+  Unique identifier: `tranche-{campaignId}-{position}`
+  """
+  id: String!
+
+  """
+  The campaign in which this tranche was created.
+  """
+  campaign: Campaign!
+
+  """
+  Duration of the tranche, in seconds.
+  """
+  duration: BigInt!
+
+  """
+  Total duration accrued at the end of the tranche. This is the sum of this tranche's duration and all previous tranches' durations.
+  """
+  endDuration: BigInt!
+
+  """
+  Total percentage unlocked at the end of the tranche. This is the sum of this tranche's percentage and all previous tranches' percentages.
+  """
+  endPercentage: BigInt!
+
+  """
+  Percentage of the total amount unlocked by this tranche.
+  """
+  percentage: BigInt!
+
+  """
+  Position of the tranche inside the array.
+  """
+  position: BigInt!
+
+  """
+  Total duration accrued at the start of the tranche. This is the sum of all previous tranches' durations.
+  """
+  startDuration: BigInt!
+
+  """
+  Total percentage unlocked at the start of the tranche. This is the sum of all previous tranches' percentages.
+  """
+  startPercentage: BigInt!
+}

@@ -1,45 +1,81 @@
 {
-  "name": "@sablier/subgraphs",
-  "description": "Official Sablier Subgraphs",
+  "name": "@sablier/indexers",
   "version": "1.0.0",
+  "description": "Data indexers for the Sablier Protocol",
+  "homepage": "https://github.com/sablier-labs/indexers#readme",
+  "license": "GPL-3.0-or-later",
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
-  "bugs": {
-    "url": "https://github.com/sablier-labs/subgraphs/issues"
+  "dependencies": {
+    "sablier": "^1.0.0"
+  },
+  "peerDependencies": {
+    "sablier": "^1.x"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "4.1.0",
-    "@typescript-eslint/eslint-plugin": "^5.59.11",
-    "@typescript-eslint/parser": "^5.59.11",
-    "eslint": "^8.25.0",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.7"
+    "@biomejs/biome": "^2.1.1",
+    "@graphprotocol/graph-cli": "0.97.1",
+    "@graphprotocol/graph-ts": "0.38.1",
+    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/client-preset": "^4.8.3",
+    "@graphql-tools/load-files": "^7.0.1",
+    "@graphql-tools/merge": "^9.0.24",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@pinax/graph-networks-registry": "^0.7.1",
+    "@sablier/devkit": "github:sablier-labs/devkit#main",
+    "@types/fs-extra": "^11.0.4",
+    "@types/js-yaml": "^4.0.9",
+    "@types/lodash": "^4.17.18",
+    "@types/node": "^24.0.3",
+    "@vitest/ui": "^3.2.4",
+    "abitype": "^1.0.8",
+    "app-root-path": "^3.1.0",
+    "assemblyscript": "^0.28.3",
+    "axios": "^1.10.0",
+    "commander": "^14.0.0",
+    "dayjs": "^1.11.13",
+    "envio": "2.27.1",
+    "execa": "5.1.1",
+    "fs-extra": "^11.3.0",
+    "graphql": "^16.11.0",
+    "graphql-request": "^7.2.0",
+    "graphql-tag": "^2.12.6",
+    "husky": "^9.1.7",
+    "js-yaml": "^4.1.0",
+    "knip": "^5.62.0",
+    "lint-staged": "^16.1.2",
+    "lodash": "^4.17.21",
+    "ora": "^8.2.0",
+    "prettier": "^3.6.0",
+    "strip-ansi": "^7.1.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "viem": "^2.31.4",
+    "vite": "^7.0.4",
+    "vitest": "^3.2.4",
+    "winston": "^3.17.0"
   },
-  "homepage": "https://github.com/sablier-labs/subgraphs#readme",
-  "license": "LGPL-3.0",
-  "packageManager": "yarn@3.3.1",
-  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "banner.png",
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sablier-labs/subgraphs.git"
+    "url": "git+https://github.com/sablier-labs/indexers.git"
   },
   "scripts": {
-    "g:all-check": "yarn g:prettier-check && yarn g:lint-check",
-    "g:all-fix": "yarn g:prettier-fix && yarn g:lint-fix",
-    "g:auth": "graph auth --product hosted-service",
-    "g:clean": "yarn workspaces foreach --parallel --topological --verbose run clean",
-    "g:clean-modules": "yarn workspaces foreach --parallel --topological --verbose run clean-modules && rimraf node_modules",
-    "g:lint-check": "yarn workspaces foreach --parallel --topological --verbose ${WORKSPACE_FLAGS:-} run lint-check",
-    "g:lint-fix": "yarn workspaces foreach --parallel --topological --verbose ${WORKSPACE_FLAGS:-} run lint-fix",
-    "g:prettier-check": "yarn workspaces foreach --parallel --topological --verbose ${WORKSPACE_FLAGS:-} run prettier-check",
-    "g:prettier-fix": "yarn workspaces foreach --parallel --topological --verbose ${WORKSPACE_FLAGS:-} run prettier-fix"
-  },
-  "workspaces": [
-    "apps/lockup",
-    "apps/merkle",
-    "apps/flow",
-    "packages/*"
-  ]
+    "prepack": "pnpm install --frozen-lockfile && just build",
+    "start": "cd ./envio/$ENVIO_PROTOCOL && ts-node ./bindings/src/Index.res.js"
+  }
 }

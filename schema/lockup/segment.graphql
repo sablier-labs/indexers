@@ -1,0 +1,51 @@
+"""
+See https://docs.sablier.com/concepts/lockup/segments
+"""
+type Segment @entity(immutable: true) {
+  """
+  Unique identifier: `segment-{streamId}-{position}`
+  """
+  id: String!
+
+  """
+  Amount distributed by this segment.
+  """
+  amount: BigInt!
+
+  """
+  Total amount distributed at `endTime`. This is the sum of this segment's amount and all previous segments' amounts.
+  """
+  endAmount: BigInt!
+
+  """
+  Unix timestamp indicating the end of the segment.
+  """
+  endTime: BigInt!
+
+  """
+  Exponent used for the streamed amount calculations.
+  See https://github.com/sablier-labs/lockup/blob/v2.0/src/types/DataTypes.sol#L279-L288
+  """
+  exponent: BigInt!
+
+  """
+  Position of the segment inside the array.
+  """
+  position: BigInt!
+
+  """
+  Total amount distributed by the stream at `startTime`. This is the sum of all previous segments' amounts.
+  """
+  startAmount: BigInt!
+
+  """
+  Unix timestamp indicating the start of the segment.
+  This is also the end time of the previous segment or, if this is the first segment, it is the start time of the stream.
+  """
+  startTime: BigInt!
+
+  """
+  The stream in which this segment was created.
+  """
+  stream: Stream!
+}
