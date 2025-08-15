@@ -1,5 +1,5 @@
 import path from "node:path";
-import { type Command } from "commander";
+import type { Command } from "commander";
 import $ from "execa";
 import fs from "fs-extra";
 import _ from "lodash";

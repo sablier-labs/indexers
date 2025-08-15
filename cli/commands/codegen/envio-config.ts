@@ -8,7 +8,7 @@
  * @param --protocol - Required: 'airdrops', 'flow', 'lockup', or 'all'
  */
 
-import { type Command } from "commander";
+import type { Command } from "commander";
 import * as fs from "fs-extra";
 import _ from "lodash";
 import { createEnvioConfig } from "../../../codegen/envio-config";

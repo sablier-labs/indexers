@@ -1,6 +1,6 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import { type Entity } from "../../bindings";
+import type { Entity } from "../../bindings";
 import type {
   SablierV2LockupLinear_v1_0_WithdrawFromLockupStream_handler as Handler_v1_0,
   SablierV2LockupLinear_v1_1_WithdrawFromLockupStream_handler as Handler_v1_1,

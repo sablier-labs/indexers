@@ -12,7 +12,7 @@
  */
 
 import * as path from "node:path";
-import { type Command } from "commander";
+import type { Command } from "commander";
 import * as fs from "fs-extra";
 import _ from "lodash";
 import { createGraphManifest } from "../../../codegen/graph-manifest";

@@ -1,4 +1,4 @@
-import { type Command } from "commander";
+import type { Command } from "commander";
 import * as fs from "fs-extra";
 import { print } from "graphql";
 import paths from "../../lib/paths";

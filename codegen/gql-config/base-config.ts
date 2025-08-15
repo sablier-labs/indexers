@@ -6,9 +6,9 @@
  */
 
 import { join } from "node:path";
-import { type CodegenConfig } from "@graphql-codegen/cli";
+import type { CodegenConfig } from "@graphql-codegen/cli";
 import { EXPORTS_DIR } from "../../lib/paths";
-import { type Indexer } from "../../src";
+import type { Indexer } from "../../src";
 import { getExperimentalURL } from "../../src/experimental";
 
 const FRAGMENTS_DIR = join(EXPORTS_DIR, "fragments");

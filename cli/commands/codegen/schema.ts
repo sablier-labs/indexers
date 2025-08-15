@@ -10,7 +10,7 @@
  * @param --protocol - Required: 'airdrops', 'flow', 'lockup', or 'all'
  */
 
-import { type Command } from "commander";
+import type { Command } from "commander";
 import * as fs from "fs-extra";
 import { print } from "graphql";
 import _ from "lodash";
@@ -19,7 +19,7 @@ import type { Types } from "../../../lib/types";
 import { getMergedSchema } from "../../../schema";
 import { AUTOGEN_COMMENT, PROTOCOLS, VENDORS } from "../../constants";
 import * as helpers from "../../helpers";
-import { type ProtocolArg } from "../../types";
+import type { ProtocolArg } from "../../types";
 
 /* -------------------------------------------------------------------------- */
 /*                                  COMMAND                                   */

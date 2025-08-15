@@ -1,7 +1,7 @@
 import { zeroAddress } from "viem";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import { type Entity } from "../../bindings";
+import type { Entity } from "../../bindings";
 import type {
   SablierV2LockupLinear_v1_0_Transfer_handler as Handler_v1_0,
   SablierV2LockupLinear_v1_1_Transfer_handler as Handler_v1_1,

@@ -1,4 +1,5 @@
-import { contracts, type Sablier } from "sablier";
+import type { Sablier } from "sablier";
+import { contracts } from "sablier";
 import type { Types } from "../lib/types";
 import { erc721 } from "./common/erc721";
 

@@ -1,4 +1,4 @@
-import { type Envio } from "./bindings";
+import type { Envio } from "./bindings";
 
 /* -------------------------------------------------------------------------- */
 /*                                  ADDRESSES                                 */

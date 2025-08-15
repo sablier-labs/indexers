@@ -1,4 +1,5 @@
-import { contracts, type Sablier, Version } from "sablier";
+import type { Sablier } from "sablier";
+import { contracts, Version } from "sablier";
 import type { Types } from "../lib/types";
 
 export const flowContracts: Types.ContractSource<Sablier.Version.Flow>[] = [

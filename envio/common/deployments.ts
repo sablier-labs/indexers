@@ -1,4 +1,5 @@
-import { type Sablier, sablier } from "sablier";
+import type { Sablier } from "sablier";
+import { sablier } from "sablier";
 import { convertToIndexed } from "../../contracts";
 import type { Types } from "../../lib/types";
 import type { Envio } from "./bindings";

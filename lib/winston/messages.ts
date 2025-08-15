@@ -1,4 +1,5 @@
-import { type Sablier, sablier } from "sablier";
+import type { Sablier } from "sablier";
+import { sablier } from "sablier";
 import { formatRelease } from "./helpers";
 
 export const messages = {

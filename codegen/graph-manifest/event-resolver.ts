@@ -1,6 +1,7 @@
 import type { AbiEventParameter } from "abitype";
 import * as fs from "fs-extra";
-import { type Abi, type AbiEvent, type AbiParameter, getAbiItem } from "viem";
+import type { Abi, AbiEvent, AbiParameter } from "viem";
+import { getAbiItem } from "viem";
 import { sanitizeContractName } from "../../lib/helpers";
 import paths from "../../lib/paths";
 import type { Types } from "../../lib/types";

@@ -1,7 +1,7 @@
 import type { Logger } from "envio";
 import _ from "lodash";
 import { formatEther, zeroAddress } from "viem";
-import { type Envio } from "../bindings";
+import type { Envio } from "../bindings";
 import type { CommonEntities } from "../entities";
 import { Id } from "../id";
 import type { CommonParams } from "../types";

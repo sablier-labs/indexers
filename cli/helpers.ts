@@ -1,7 +1,8 @@
 import * as path from "node:path";
 import { Command } from "commander";
 import * as yaml from "js-yaml";
-import { type Sablier, sablier } from "sablier";
+import type { Sablier } from "sablier";
+import { sablier } from "sablier";
 import stripAnsi from "strip-ansi";
 import type { EnvioConfig } from "../codegen/envio-config/config-types";
 import type { GraphManifest } from "../codegen/graph-manifest/manifest-types";

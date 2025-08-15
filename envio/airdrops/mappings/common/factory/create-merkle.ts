@@ -4,7 +4,7 @@ import type { Envio } from "../../../../common/bindings";
 import { Effects } from "../../../../common/effects";
 import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
-import { type RPCData } from "../../../../common/types";
+import type { RPCData } from "../../../../common/types";
 import type { Context, Entity } from "../../../bindings";
 import type {
   SablierMerkleFactory_v1_3_CreateMerkleInstant_loader as CreateInstant_v1_3,

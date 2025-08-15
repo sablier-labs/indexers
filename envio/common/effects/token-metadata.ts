@@ -4,7 +4,7 @@ import { sanitizeString } from "../../../lib/helpers";
 import type { Envio } from "../bindings";
 import { DECIMALS_DEFAULT } from "../constants";
 import { getClient } from "../rpc-clients";
-import { type RPCData } from "../types";
+import type { RPCData } from "../types";
 
 const UNKNOWN = {
   decimals: DECIMALS_DEFAULT,

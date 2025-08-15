@@ -1,6 +1,6 @@
 import { Contract } from "../../../bindings";
 import { convertTranches } from "../../../helpers";
-import { type Params } from "../../../helpers/types";
+import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 import { createStream } from "../../common/create-stream";
 import { Loader } from "../../common/loader";

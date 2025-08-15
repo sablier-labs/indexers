@@ -2,8 +2,8 @@
 import { Effects } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import { type RPCData } from "../../../common/types";
-import { type Entity } from "../../bindings";
+import type { RPCData } from "../../../common/types";
+import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_CreateFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,

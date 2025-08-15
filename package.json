@@ -43,6 +43,7 @@
     "graphql-tag": "^2.12",
     "husky": "^9.1",
     "js-yaml": "^4.1",
+    "knip": "^5.62.0",
     "lint-staged": "^16.1",
     "lodash": "^4.17",
     "ora": "^8.2",

@@ -7,7 +7,7 @@ import { Version } from "sablier";
 import type { Envio } from "../../../common/bindings";
 import { Effects } from "../../../common/effects";
 import { Id } from "../../../common/id";
-import { type RPCData } from "../../../common/types";
+import type { RPCData } from "../../../common/types";
 import type { Context, Entity } from "../../bindings";
 import type {
   SablierV2LockupLinear_v1_0_Approval_loader as Approval_v1_0,

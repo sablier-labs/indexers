@@ -1,5 +1,6 @@
 import { Contract } from "../../../bindings";
-import { convertTranches, isOfficialLockup, type Params } from "../../../helpers";
+import type { Params } from "../../../helpers";
+import { convertTranches, isOfficialLockup } from "../../../helpers";
 import { Store } from "../../../store";
 import { createMerkle, Loader } from "../../common/factory/create-merkle";
 

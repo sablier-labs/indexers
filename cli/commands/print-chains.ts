@@ -1,4 +1,4 @@
-import { type Command } from "commander";
+import type { Command } from "commander";
 import _ from "lodash";
 import { sablier } from "sablier";
 import { indexers } from "../../src/indexers/data";

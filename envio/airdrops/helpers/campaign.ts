@@ -1,6 +1,7 @@
-import { type Sablier, sablier } from "sablier";
-import { type Envio } from "../../common/bindings";
-import { type Entity } from "../bindings";
+import type { Sablier } from "sablier";
+import { sablier } from "sablier";
+import type { Envio } from "../../common/bindings";
+import type { Entity } from "../bindings";
 
 /**
  * Generates a nickname by using the asset symbol and the admin address.

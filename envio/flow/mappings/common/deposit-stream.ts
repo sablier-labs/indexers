@@ -1,6 +1,6 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import { type Entity } from "../../bindings";
+import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_DepositFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_DepositFlowStream_handler as Handler_v1_1,

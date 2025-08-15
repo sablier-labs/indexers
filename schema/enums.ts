@@ -1,8 +1,8 @@
-import { type DocumentNode } from "graphql";
+import type { DocumentNode } from "graphql";
 import gql from "graphql-tag";
 import _ from "lodash";
 import { Protocol } from "sablier";
-import { type Types } from "../lib/types";
+import type { Types } from "../lib/types";
 
 export namespace Airdrops {
   export enum ActionCategory {

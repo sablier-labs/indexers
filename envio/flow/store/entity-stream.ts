@@ -2,7 +2,7 @@ import type { Envio } from "../../common/bindings";
 import { getContract } from "../../common/deployments";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
-import { type Params } from "../helpers/types";
+import type { Params } from "../helpers/types";
 import { update as updateBatch } from "./entity-batch";
 
 export function create(

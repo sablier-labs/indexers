@@ -1,11 +1,11 @@
-import { type TypedDocumentNode } from "@graphql-typed-document-node/core";
-import { type DocumentNode } from "graphql";
+import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
+import type { DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { mainnet, sepolia } from "sablier/dist/chains";
 import { expect, it } from "vitest";
 import { logger } from "../../../lib/winston";
-import { type Indexer } from "../../../src";
+import type { Indexer } from "../../../src";
 import type { Order_By, OrderDirection } from "../../../src/types";
 
 type Entities = Array<{ subgraphId: string }>;
