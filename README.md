@@ -33,7 +33,39 @@ new indexers.
 
 ### The Graph
 
-TBD
+#### Version Label
+
+Each subgraph has a version label used to track changes made to the subgraph. The format is:
+
+```text
+v{PROTOCOL_VERSION}--v{SUBGRAPH_VERSION}
+```
+
+Here's an example for how to set the version label if the current version label is `v2.0--v1.0.0`:
+
+| Change               | New Version Label     |
+| -------------------- | --------------------- |
+| Hot fix              | `v2.0--v1.0.1`        |
+| New addresses        | `v2.0--v1.1.0`        |
+| Staging              | `v2.1--v1.0.0-beta.0` |
+| New protocol release | `v2.1--v1.0.0`        |
+
+For a full list of protocol versions, see the [Sablier SDK](https://github.com/sablier-labs/sdk) (run the
+`print-versions` command).
+
+#### Scripts
+
+Go to each protocol's directory and run the `deploy-all` recipe. For example:
+
+```shell
+cd graph/lockup
+just deploy-all v2.1--v1.0.0
+```
+
+Then, do the same for the other protocols.
+
+> [!NOTE] The Graph is not officially supported on some chains, e.g. Lightlink. To make deployments to these custom
+> instances of The Graph, use the `deploy-custom` recipe.
 
 ## Contributing 🤝
 
