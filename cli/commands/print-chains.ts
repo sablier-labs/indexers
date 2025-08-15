@@ -5,7 +5,7 @@ import { indexers } from "../../src/indexers/data";
 import { getGraphChainSlug } from "../../src/indexers/graph";
 import * as helpers from "../helpers";
 
-export function createPrintChainsCommand(): Command {
+function createPrintChainsCommand(): Command {
   const command = helpers.createBaseCmd("Print all available blockchain chains");
   command.option("--graph <boolean>", "Use The Graph chain slugs", false);
 

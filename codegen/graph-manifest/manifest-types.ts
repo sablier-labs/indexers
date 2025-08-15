@@ -1,8 +1,6 @@
 import type { Sablier } from "sablier";
 import type { Types } from "../../lib/types";
 
-export type ABIEntriesMap = Types.ComponentMap<GraphManifest.ABI[]>;
-export type EntitiesMap = Types.ComponentMap<string[]>;
 export type EventHandlersMap = Types.ComponentMap<GraphManifest.EventHandler[]>;
 
 /**

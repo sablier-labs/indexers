@@ -13,10 +13,10 @@ function get(name: string): GraphManifest.ABI {
   };
 }
 
-export const erc20 = get("ERC20");
-export const erc20Bytes = get("ERC20Bytes");
-export const prbProxy = get("PRBProxy");
-export const prbProxyRegistry = get("PRBProxyRegistry");
+const erc20 = get("ERC20");
+const erc20Bytes = get("ERC20Bytes");
+const prbProxy = get("PRBProxy");
+const prbProxyRegistry = get("PRBProxyRegistry");
 
 export function getABIEntries(protocol: Types.Protocol, contractName: string, version: Types.Version) {
   const contract = _.find(indexedContracts[protocol], (c) => {

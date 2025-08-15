@@ -24,6 +24,6 @@ export function sanitizeString(str: string): string {
  * @param version The version to sanitize.
  * @returns The sanitized version.
  */
-export function sanitizeVersion(version: Types.Version): string {
+function sanitizeVersion(version: Types.Version): string {
   return version.replace(".", "_");
 }

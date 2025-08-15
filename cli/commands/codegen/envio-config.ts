@@ -21,7 +21,7 @@ import * as helpers from "../../helpers";
 /*                                  COMMAND                                   */
 /* -------------------------------------------------------------------------- */
 
-export function createEnvioConfigCommand(): Command {
+function createEnvioConfigCommand(): Command {
   const command = helpers.createBaseCmd("Generate Envio config file");
 
   helpers.addProtocolOpt(command);

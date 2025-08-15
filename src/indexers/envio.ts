@@ -21,7 +21,7 @@ type EnvioChainConfig = {
   rpcOnly?: boolean;
 };
 
-export type EnvioChain = {
+type EnvioChain = {
   config?: EnvioChainConfig;
   id: number;
 };
@@ -92,4 +92,3 @@ export const envio: Record<Indexer.Protocol, Indexer[]> = {
 } as const;
 
 export const envioChains = SUPPORTED_CHAINS;
-export const envioChainIds = SUPPORTED_CHAINS.map((c) => c.id);

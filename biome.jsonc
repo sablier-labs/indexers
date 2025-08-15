@@ -3,11 +3,9 @@
   "extends": ["@sablier/devkit/biome"],
   "files": {
     "includes": [
-      "**/*.{graphql,js,json,jsonc,mjs,mts,ts}",
-      "!envio/common/rpc-data/**/*.json",
+      "**/*.{graphql,js,json,jsonc,ts}",
       "!envio/**/bindings/**/*",
       "!graph/**/bindings/**/*",
-      "!node_modules",
       "!src/gql/**/*.ts"
     ]
   },

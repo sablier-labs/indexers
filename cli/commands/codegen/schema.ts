@@ -25,7 +25,7 @@ import type { ProtocolArg } from "../../types";
 /*                                  COMMAND                                   */
 /* -------------------------------------------------------------------------- */
 
-export function createSchemaCommand(): Command {
+function createSchemaCommand(): Command {
   const command = helpers.createBaseCmd("Generate GraphQL schema files");
 
   helpers.addVendorOpt(command);

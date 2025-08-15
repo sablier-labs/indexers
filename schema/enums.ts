@@ -90,9 +90,9 @@ export function getEnumDefs(protocol: Types.Protocol): DocumentNode {
 }
 
 /**
- * @todo: unit test this function.
+ * @todo: Unit test this function.
  */
-export function getEnum<T extends Record<string, string>>(enumObj: T, name: string): string {
+function getEnum<T extends Record<string, string>>(enumObj: T, name: string): string {
   const enumValues = _.keys(enumObj)
     .map((key) => `  ${enumObj[key]}`)
     .join("\n");

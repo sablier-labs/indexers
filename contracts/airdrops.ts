@@ -51,5 +51,3 @@ export const airdropsContracts: Types.ContractSource<Sablier.Version.Airdrops>[]
     versions: [Version.Airdrops.V1_3],
   },
 ];
-
-export default airdropsContracts;

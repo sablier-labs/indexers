@@ -5,7 +5,7 @@ import { sablier } from "sablier";
 import { envioChains } from "../../src/indexers/envio";
 import * as helpers from "../helpers";
 
-export function createCheckVendorsCommand(): Command {
+function createCheckVendorsCommand(): Command {
   const command = helpers.createBaseCmd("Check if a chain is supported by The Graph and Envio Hypersync");
 
   command.option("--chain-id <number>", "Chain ID to check").action(async (options: { chainId?: string }) => {

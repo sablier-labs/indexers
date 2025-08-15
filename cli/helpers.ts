@@ -7,7 +7,7 @@ import stripAnsi from "strip-ansi";
 import type { EnvioConfig } from "../codegen/envio-config/config-types";
 import type { GraphManifest } from "../codegen/graph-manifest/manifest-types";
 import { AUTOGEN_COMMENT, PROTOCOLS, VENDORS } from "./constants";
-import type { ProtocolArg, VendorArg } from "./types";
+import type { ChainArg, ProtocolArg, VendorArg } from "./types";
 
 export function addChainOpt(command: Command): Command {
   return command.option("-c, --chain <string>", 'chain slug (use "all" for all chains)');
@@ -28,7 +28,7 @@ export function createBaseCmd(description: string): Command {
     .option("--verbose", "enable verbose logging");
 }
 
-export function parseChainOpt(chainValue: string | undefined): string {
+export function parseChainOpt(chainValue: string | undefined): ChainArg {
   if (!chainValue) {
     throw new Error("--chain is required. Use 'all' to target all chains.");
   }
@@ -38,7 +38,7 @@ export function parseChainOpt(chainValue: string | undefined): string {
   }
 
   getChain(chainValue);
-  return chainValue;
+  return chainValue as ChainArg;
 }
 
 export function parseProtocolOpt(protocolValue: string | undefined): ProtocolArg {

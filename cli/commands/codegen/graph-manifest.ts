@@ -26,7 +26,7 @@ import * as helpers from "../../helpers";
 /*                                  COMMAND                                   */
 /* -------------------------------------------------------------------------- */
 
-export function createGraphManifestCommand(): Command {
+function createGraphManifestCommand(): Command {
   const command = helpers.createBaseCmd("Generate subgraph manifests");
   helpers.addProtocolOpt(command);
   helpers.addChainOpt(command);
