@@ -244,14 +244,6 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.ankr.com/chiliz"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://chiliz-rpc.publicnode.com"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
         url: "https://rpc.chiliz.com"
     start_block: 19125620
   - contracts:

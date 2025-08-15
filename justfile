@@ -8,6 +8,8 @@ set dotenv-load := true
 # ---------------------------------------------------------------------------- #
 
 export LOG_LEVEL := env("LOG_LEVEL", "info")
+# See https://github.com/enviodev/hyperindex/issues/641
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "Campaign&Revenue&RevenueTransaction&Stream&User&UserTransaction"
 
 # ---------------------------------------------------------------------------- #
 #                                   CONSTANTS                                  #

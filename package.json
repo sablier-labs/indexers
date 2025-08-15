@@ -1,16 +1,20 @@
 {
   "name": "@sablier/indexers",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "description": "Data indexers for the Sablier Protocol",
+  "homepage": "https://github.com/sablier-labs/indexers#readme",
+  "license": "GPL-3.0-or-later",
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "1.0.0-beta.10"
+    "sablier": "^1.0.0"
   },
   "peerDependencies": {
-    "sablier": "1.0.0-beta.10"
+    "sablier": "^1.x"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.1",
@@ -50,7 +54,7 @@
     "strip-ansi": "^7.1.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
-    "typescript": "5.8.3",
+    "typescript": "^5.9.2",
     "viem": "^2.31.4",
     "vite": "^7.0.4",
     "vitest": "^3.2.4",
@@ -63,9 +67,6 @@
     "banner.png",
     "dist"
   ],
-  "homepage": "https://github.com/sablier-labs/indexers#readme",
-  "license": "GPL-3.0-or-later",
-  "main": "dist/index.js",
   "publishConfig": {
     "access": "public"
   },
@@ -76,6 +77,5 @@
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build",
     "start": "cd ./envio/$ENVIO_PROTOCOL && ts-node ./bindings/src/Index.res.js"
-  },
-  "types": "./dist/index.d.ts"
+  }
 }
