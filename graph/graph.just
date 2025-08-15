@@ -89,7 +89,7 @@ alias d := deploy
 [group("deploy")]
 [confirm("Are you sure you want to deploy all Graph indexers? y/n")]
 deploy-all version_label: codegen
-    just root::cli deploy-all-graph \
+    just root::cli graph-deploy-all \
     --protocol {{ PROTOCOL }} \
     --version-label {{ version_label }}
 alias da := deploy-all

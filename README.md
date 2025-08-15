@@ -24,6 +24,17 @@ indexer for each protocol:
 - [Sablier Flow](https://docs.sablier.com/api/flow/indexers) - Payment streams data
 - [Sablier Lockup](https://docs.sablier.com/api/lockup/indexers) - Vesting streams data
 
+## Deployments 🚀
+
+### Envio
+
+Sync the changes to the `deployment/main` branch, and the Envio Hosted Service will automatically build and deploy the
+new indexers.
+
+### The Graph
+
+TBD
+
 ## Contributing 🤝
 
 We welcome contributions! [Open an issue](../../issues/new), [start a discussion](../../discussions/new), or submit a

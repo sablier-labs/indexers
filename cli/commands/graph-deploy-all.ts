@@ -16,7 +16,7 @@ type Deployment = {
   chainName: string;
 };
 
-export function createDeployAllGraphCommand(): Command {
+export function createGraphDeployAllCommand(): Command {
   const command = helpers.createBaseCmd("Deploy all official indexers to The Graph");
 
   helpers.addProtocolOpt(command);
@@ -130,4 +130,4 @@ export function createDeployAllGraphCommand(): Command {
 }
 
 // Export the command
-export const deployAllGraphCmd = createDeployAllGraphCommand();
+export const graphDeployAllCmd = createGraphDeployAllCommand();

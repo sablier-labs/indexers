@@ -13,8 +13,8 @@ import { checkVendorsCmd } from "./commands/check-vendors";
 import { envioConfigCmd } from "./commands/codegen/envio-config";
 import { graphManifestCmd } from "./commands/codegen/graph-manifest";
 import { schemaCmd } from "./commands/codegen/schema";
-import { deployAllGraphCmd } from "./commands/deploy-all-graph";
 import { exportSchemaCmd } from "./commands/export-schema";
+import { graphDeployAllCmd } from "./commands/graph-deploy-all";
 import { printChainsCmd } from "./commands/print-chains";
 
 export async function main() {
@@ -42,8 +42,8 @@ export async function main() {
   /* -------------------------------------------------------------------------- */
 
   program.addCommand(checkVendorsCmd.name("check-vendors"));
-  program.addCommand(deployAllGraphCmd.name("deploy-all-graph"));
   program.addCommand(exportSchemaCmd.name("export-schema"));
+  program.addCommand(graphDeployAllCmd.name("graph-deploy-all"));
 
   program.parse();
 }
