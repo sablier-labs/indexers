@@ -1,0 +1,95 @@
+"""
+A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
+"""
+type Action @entity(immutable: true) {
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+
+  # -------------------------------- Transaction ------------------------------- #
+  """
+  Transaction details: block number
+  """
+  block: BigInt!
+
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+
+  """
+  The msg.sender of the Ethereum transaction.
+  """
+  from: Bytes!
+
+  """
+  Transaction details: hash
+  """
+  hash: Bytes!
+
+  """
+  Transaction details: timestamp
+  """
+  timestamp: BigInt!
+
+  # --------------------------------- Metadata --------------------------------- #
+
+  """
+  Contract through which the stream actions has been triggered
+  """
+  campaign: Campaign!
+
+  """
+  Category of action, e.g., Create.
+  """
+  category: ActionCategory!
+
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+
+  # ----------------------------------- Claim ---------------------------------- #
+
+  """
+  Claim action data: amount.
+  """
+  claimAmount: BigInt
+  """
+  Claim action data: index.
+  """
+  claimIndex: BigInt
+  """
+  Claim action data: recipient.
+  """
+  claimRecipient: Bytes
+  """
+  Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
+  """
+  claimStreamId: String
+  """
+  Claim action data: ERC-721 token id as provided by the Lockup contract.
+  """
+  claimTokenId: BigInt
+
+  # --------------------------------- Clawback --------------------------------- #
+
+  """
+  Clawback action data: amount
+  """
+  clawbackAmount: BigInt
+  """
+  Clawback action data: from
+  """
+  clawbackFrom: Bytes
+  """
+  Clawback action data: to
+  """
+  clawbackTo: Bytes
+}

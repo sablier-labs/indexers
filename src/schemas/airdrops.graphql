@@ -1,0 +1,551 @@
+enum ActionCategory {
+  Claim
+  Clawback
+  Create
+  TransferAdmin
+}
+
+enum CampaignCategory {
+  Instant
+  LockupLinear
+  LockupTranched
+}
+
+"""
+ERC-20 asset
+"""
+type Asset @entity(immutable: false) {
+  """
+  Unique identifier: `asset-{chainId}-{address}`
+  """
+  id: String!
+  """
+  Address of the ERC-20 token.
+  """
+  address: Bytes!
+  """
+  The chain ID where the asset exists (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Decimals of the ERC20 token.
+  """
+  decimals: BigInt!
+  """
+  Name of the ERC20 token.
+  """
+  name: String!
+  """
+  Symbol of the ERC20 token.
+  """
+  symbol: String!
+  """
+  Campaigns that rely on this asset.
+  """
+  campaigns: [Campaign!]! @derivedFrom(field: "asset")
+}
+
+type Watcher @entity(immutable: false) {
+  """
+  The chain ID. There is one watcher per subgraph.
+  """
+  id: String!
+  """
+  Global counter for actions.
+  """
+  actionCounter: BigInt!
+  """
+  Alias for id.
+  """
+  chainId: BigInt!
+  """
+  Global counter.
+  """
+  campaignCounter: BigInt!
+}
+
+type Revenue @entity(immutable: false) {
+  """
+  Unique identifier: `revenue-{chainId}-date-{date}`.
+  """
+  id: ID!
+  """
+  The total amount of revenue accrued on the given date, denominated in the chain's native token (e.g., ETH on Mainnet).
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  amount: Float!
+  """
+  The chain ID where the revenue has accrued.
+  """
+  chainId: BigInt!
+  """
+  The chain's native token symbol (e.g., ETH on Mainnet).
+  """
+  currency: String!
+  """
+  Date in the format YYYY-MM-DD.
+  """
+  date: String!
+  """
+  Like the `date` but as a timestamp type (for sorting purposes).
+  """
+  dateTimestamp: Timestamp!
+  """
+  List of revenue transactions for this date.
+  """
+  transactions: [RevenueTransaction!]! @derivedFrom(field: "revenue")
+}
+
+type RevenueTransaction @entity(immutable: true) {
+  """
+  Unique identifier: `{revenueId}-tx-{txHash}`
+  """
+  id: ID!
+  """
+  The amount of revenue from this transaction, denominated in the chain's native token.
+  """
+  amount: Float!
+  """
+  Block number of the transaction.
+  """
+  block: BigInt!
+  """
+  Hash of the transaction.
+  """
+  hash: Bytes!
+  """
+  Reference to the daily revenue aggregate entity.
+  """
+  revenue: Revenue!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: BigInt!
+}
+
+"""
+A user is an address that has interacted with at least one Sablier contract.
+
+This includes:
+
+- Stream creators and senders
+- Stream recipients
+- Airdrop creators and claimers
+- Anyone who withdraws from streams or claims airdrops on behalf of others
+
+Notes:
+
+- Only implemented in Envio.
+- This is an internal entity we use for analytics. It's not used in the Sablier UI.
+- May be enhanced with derived relations in the future. See https://github.com/sablier-labs/indexers/issues/159
+"""
+type User @entity(immutable: false) {
+  """
+  Unique identifier: `user-{chainId}-{address}`
+  """
+  id: ID!
+  """
+  The address of the user.
+  """
+  address: Bytes!
+  """
+  The chain ID where this user was active (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Whether the user exclusively interacted with Sablier as an airdrop claimer.
+  This flag is set to false once the user interacts with other Sablier contracts.
+  """
+  isOnlyAirdropClaimer: Boolean!
+  """
+  User transactions.
+  """
+  transactions: [UserTransaction!]! @derivedFrom(field: "user")
+}
+
+type UserTransaction @entity(immutable: true) {
+  """
+  Unique identifier: `{userId}-{txHash}`
+  """
+  id: ID!
+  """
+  Block number of the transaction.
+  """
+  block: BigInt!
+  """
+  The fee paid by the user denominated in the chain's native token (e.g., ETH on Mainnet).
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  fee: Float!
+  """
+  Hash of the transaction.
+  """
+  hash: Bytes!
+  """
+  Whether the transaction was an airdrop claim.
+  """
+  isAirdropClaim: Boolean!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: BigInt!
+  """
+  The user involved in the transaction.
+  """
+  user: User!
+}
+
+"""
+A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
+"""
+type Action @entity(immutable: true) {
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+  """
+  Transaction details: block number
+  """
+  block: BigInt!
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  The msg.sender of the Ethereum transaction.
+  """
+  from: Bytes!
+  """
+  Transaction details: hash
+  """
+  hash: Bytes!
+  """
+  Transaction details: timestamp
+  """
+  timestamp: BigInt!
+  """
+  Contract through which the stream actions has been triggered
+  """
+  campaign: Campaign!
+  """
+  Category of action, e.g., Create.
+  """
+  category: ActionCategory!
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+  """
+  Claim action data: amount.
+  """
+  claimAmount: BigInt
+  """
+  Claim action data: index.
+  """
+  claimIndex: BigInt
+  """
+  Claim action data: recipient.
+  """
+  claimRecipient: Bytes
+  """
+  Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
+  """
+  claimStreamId: String
+  """
+  Claim action data: ERC-721 token id as provided by the Lockup contract.
+  """
+  claimTokenId: BigInt
+  """
+  Clawback action data: amount
+  """
+  clawbackAmount: BigInt
+  """
+  Clawback action data: from
+  """
+  clawbackFrom: Bytes
+  """
+  Clawback action data: to
+  """
+  clawbackTo: Bytes
+}
+
+"""
+User activity grouped by day.
+"""
+type Activity @entity(immutable: false) {
+  """
+  Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
+  """
+  id: String!
+  """
+  Total amount claimed during the day.
+  """
+  amount: BigInt!
+  """
+  Campaign the activity is linked to.
+  """
+  campaign: Campaign!
+  """
+  Number of claims completed during the day.
+  """
+  claims: BigInt!
+  """
+  Day index: Unix timestamp / 24 * 60 * 60.
+  """
+  day: BigInt!
+  """
+  Timestamp of the start of the day.
+  """
+  timestamp: BigInt!
+}
+
+"""
+Entity for Merkle campaigns.
+"""
+type Campaign @entity(immutable: false) {
+  """
+  Unique identifier: `{contractAddress}-{chainId}`
+  """
+  id: String!
+  """
+  The chain ID where the campaign was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Unique global id as tracked by the subgraph watcher.
+  """
+  subgraphId: BigInt!
+  """
+  Hash of the Ethereum transaction that created this campaign.
+  """
+  hash: Bytes!
+  """
+  Unix timestamp of the Ethereum transaction that created this campaign.
+  """
+  timestamp: BigInt!
+  """
+  Actions triggered by this campaign.
+  """
+  actions: [Action!]! @derivedFrom(field: "campaign")
+  """
+  Action in which the admin clawed back funds from the campaign.
+  """
+  clawbackAction: Action
+  """
+  Type of campaign, e.g. Instant.
+  """
+  category: CampaignCategory!
+  """
+  User-provided name for the campaign, which is null in Airdrops v1.1.
+  """
+  name: String
+  """
+  Internal name generated by us, derived from `name` or generated from scratch in older versions.
+  """
+  nickname: String!
+  """
+  List of daily activity snapshots for days in which at least one action was triggered.
+  """
+  activities: [Activity!]! @derivedFrom(field: "campaign")
+  """
+  Address of the campaign contract.
+  """
+  address: Bytes!
+  """
+  Address of the campaign admin, with permission to clawback.
+  """
+  admin: Bytes!
+  """
+  Total airdrop amount.
+  """
+  aggregateAmount: BigInt!
+  """
+  Underlying ERC-20 token distributed via the campaign.
+  """
+  asset: Asset!
+  """
+  Total amount claimed so far.
+  """
+  claimedAmount: BigInt!
+  """
+  Number of claims made so far.
+  """
+  claimedCount: BigInt!
+  """
+  Unix timestamp when the campaign underwent a clawback.
+  """
+  clawbackTime: BigInt
+  """
+  Unix timestamp when the campaign expires and clawback becomes available (if `expires` is true).
+  """
+  expiration: BigInt
+  """
+  Flag indicating if the campaign expires or is claimable indefinitely.
+  """
+  expires: Boolean!
+  """
+  The factory contract that deployed this campaign.
+  """
+  factory: Factory!
+  """
+  Minimum fee charged by this campaign, denominated in the native token of the chain (e.g., ETH for Mainnet).
+  Only available in v1.3 and later
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+  """
+  IPFS content identifier for the list of recipients and other static details.
+  """
+  ipfsCID: String!
+  """
+  Index of the campaign based on the `campaignCounter` in the `Factory` entity.
+  """
+  position: BigInt!
+  """
+  Merkle root.
+  """
+  root: Bytes!
+  """
+  Total number of recipients.
+  """
+  totalRecipients: BigInt!
+  """
+  Version of the campaign contract, e.g., v1.3.
+  """
+  version: String!
+  """
+  Address of the Lockup contract through which streams are created.
+  """
+  lockup: Bytes
+  """
+  Flag indicating whether the claimed streams will be cancelable initially.
+  """
+  streamCancelable: Boolean
+  """
+  Flag indicating whether the claimed streams will have a cliff.
+  Only available for Linear streams.
+  """
+  streamCliff: Boolean
+  """
+  The duration of the cliff that the stream will have, in seconds.
+  Only available for Linear streams.
+  """
+  streamCliffDuration: BigInt
+  """
+  The amount that will unlock at the cliff of the claimed stream, expressed as a percentage of the total amount.
+  Only available for Linear streams.
+  """
+  streamCliffPercentage: BigInt
+  """
+  Flag indicating whether the claimed stream will have an initial unlock.
+  Only available for Linear streams.
+  """
+  streamInitial: Boolean
+  """
+  The initial unlock amount of the claimed stream, expressed as a percentage of the total.
+  Only available for Linear streams.
+  """
+  streamInitialPercentage: BigInt
+  """
+  The shape of the distribution.
+  """
+  streamShape: String
+  """
+  Flag indicating if the claimed stream will have a preset start time or it will use the claim time as the start time.
+  """
+  streamStart: Boolean
+  """
+  Unix timestamp for the start time.
+  """
+  streamStartTime: BigInt
+  """
+  Snapshot of the duration in seconds for produced streams.
+  """
+  streamTotalDuration: BigInt
+  """
+  Tranches of the claimed stream.
+  """
+  streamTranches: [Tranche!]! @derivedFrom(field: "campaign")
+  """
+  Flag indicating whether the claimed streams will be transferable.
+  """
+  streamTransferable: Boolean
+}
+
+"""
+Entity for Merkle factories, which deploy campaigns.
+"""
+type Factory @entity(immutable: false) {
+  """
+  Unique identifier: `factory-{chainId}-{address}`
+  """
+  id: String!
+  """
+  The address of the factory contract.
+  """
+  address: Bytes!
+  """
+  Factory alias, e.g., `MSF2`. For historical reasons, the alias comes from the
+  the name of the `MerkleStreamFactory` contract.
+  """
+  alias: String!
+  """
+  Factory index for campaigns
+  """
+  campaignCounter: BigInt!
+  """
+  The chain ID where the factory was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Campaigns deployed by this factory.
+  """
+  campaigns: [Campaign!]! @derivedFrom(field: "factory")
+}
+
+"""
+Used in Merkle Lockup campaigns for the vesting schedule.
+"""
+type Tranche @entity(immutable: true) {
+  """
+  Unique identifier: `tranche-{campaignId}-{position}`
+  """
+  id: String!
+  """
+  The campaign in which this tranche was created.
+  """
+  campaign: Campaign!
+  """
+  Duration of the tranche, in seconds.
+  """
+  duration: BigInt!
+  """
+  Total duration accrued at the end of the tranche. This is the sum of this tranche's duration and all previous tranches' durations.
+  """
+  endDuration: BigInt!
+  """
+  Total percentage unlocked at the end of the tranche. This is the sum of this tranche's percentage and all previous tranches' percentages.
+  """
+  endPercentage: BigInt!
+  """
+  Percentage of the total amount unlocked by this tranche.
+  """
+  percentage: BigInt!
+  """
+  Position of the tranche inside the array.
+  """
+  position: BigInt!
+  """
+  Total duration accrued at the start of the tranche. This is the sum of all previous tranches' durations.
+  """
+  startDuration: BigInt!
+  """
+  Total percentage unlocked at the start of the tranche. This is the sum of all previous tranches' percentages.
+  """
+  startPercentage: BigInt!
+}

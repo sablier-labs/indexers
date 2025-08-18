@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["@sablier/devkit/biome"],
+  "files": {
+    "includes": [
+      "**/*.{graphql,js,json,jsonc,ts}",
+      "!envio/**/bindings/**/*",
+      "!graph/**/bindings/**/*",
+      "!src/gql/**/*.ts"
+    ]
+  },
+  "overrides": [
+    /* ------------------------------ YAML CODEGEN ------------------------------ */
+    {
+      "includes": ["codegen/envio-config/**/*.ts", "codegen/graph-manifest/**/*.ts"],
+      "assist": { "actions": { "source": { "useSortedKeys": "off" } } }
+    },
+    /* ----------------------------- ASSEMBLYSCRIPT ----------------------------- */
+    {
+      "includes": ["graph/**/*.ts"],
+      "linter": {
+        "rules": {
+          "complexity": { "useOptionalChain": "off" },
+          "style": { "useImportType": "off" },
+          "suspicious": { "noDoubleEquals": "off", "noShadowRestrictedNames": "off" }
+        }
+      }
+    }
+  ]
+}

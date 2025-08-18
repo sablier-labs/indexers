@@ -1,0 +1,8 @@
+import "../envio.just"
+
+export ENVIO_PROTOCOL := "flow"
+export PROTOCOL := "flow"
+
+# Show available commands
+default:
+    @just --list

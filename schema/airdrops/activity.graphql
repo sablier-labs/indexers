@@ -1,0 +1,34 @@
+"""
+User activity grouped by day.
+"""
+type Activity @entity(immutable: false) {
+  """
+  Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
+  """
+  id: String!
+
+  """
+  Total amount claimed during the day.
+  """
+  amount: BigInt!
+
+  """
+  Campaign the activity is linked to.
+  """
+  campaign: Campaign!
+
+  """
+  Number of claims completed during the day.
+  """
+  claims: BigInt!
+
+  """
+  Day index: Unix timestamp / 24 * 60 * 60.
+  """
+  day: BigInt!
+
+  """
+  Timestamp of the start of the day.
+  """
+  timestamp: BigInt!
+}

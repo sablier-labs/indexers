@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+description: Reusable ERC-20 bindings
+schema:
+  file: ./dummy.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ERC20
+    source:
+      abi: ERC20
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      abis:
+        - name: ERC20
+          file: ../../../abi/ERC20.json
+        - name: ERC20Bytes
+          file: ../../../abi/ERC20Bytes.json
+      entities:
+        - Token
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./mappings.ts

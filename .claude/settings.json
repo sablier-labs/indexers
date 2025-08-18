@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["Bash(find:*)", "Bash(just:*)", "Bash(ls:*)", "WebFetch(domain:raw.githubusercontent.com)"],
+    "deny": ["Bash(just deploy:*)"]
+  }
+}
