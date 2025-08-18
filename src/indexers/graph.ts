@@ -24,7 +24,6 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
-  [chains.xdc.id]: "xinfin",
 };
 
 /**
@@ -40,7 +39,6 @@ const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
  */
 const CHAIN_SLUG_SUBGRAPH_YAML: { [chainId: number]: string } = {
   [chains.lightlink.id]: "mainnet",
-  [chains.xdc.id]: "xinfin",
 };
 
 const NAME_TEMPLATING_VAR = "{SUBGRAPH_NAME}";
@@ -133,7 +131,6 @@ const CUSTOMS: IndexerGraphMap[] = [
     "https://formapi.0xgraph.xyz/api/public/5961fb30-8fdc-45ad-9a35-555dd5e0dd56/subgraphs/{SUBGRAPH_NAME}/2.3_1.0.0/gn",
   ),
   custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
-  custom(chains.xdc.id, "https://graphql.xinfin.network/subgraphs/name/xdc/{SUBGRAPH_NAME}"),
 ];
 
 const OFFICIALS: IndexerGraphMap[] = [

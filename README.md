@@ -64,16 +64,18 @@ just deploy-all v2.1--v1.0.0
 
 Then, do the same for the other protocols.
 
-> [!NOTE] The Graph is not officially supported on some chains, e.g. Lightlink. To make deployments to these custom
-> instances of The Graph, use the `deploy-custom` recipe.
+> [!NOTE]
+>
+> The Graph is not officially supported on some chains, e.g. Lightlink. To make deployments to these custom instances of
+> The Graph, use the `deploy-custom` recipe.
 
 ## Contributing 🤝
 
-We welcome contributions! [Open an issue](../../issues/new), [start a discussion](../../discussions/new), or submit a
-PR.
+We welcome contributions! [Open an issue](https://github.com/sablier-labs/indexers/ issues/new),
+[start a discussion](https://github.com/sablier-labs/indexers/discussions/new), or submit a PR.
 
 Read our [CONTRIBUTING](./CONTRIBUTING.md) guide to get started. Join our [Discord server][discord] for questions and
-feedback.
+feedback. Join our [Discord server][discord] for questions and feedback.
 
 ## License 📄
 

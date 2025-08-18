@@ -17,11 +17,9 @@ ni := require("ni")
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
+OXGRAPH_FORM_KEY := env("OXGRAPH_FORM_KEY")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
-NODE_FORM := "https://formapi.0xgraph.xyz/deploy"
-NODE_LIGHTLINK := "https://graph.pegasus.lightlink.io/rpc"
-NODE_XDC := "https://graph.xinfin.network"
 PROTOCOL := env("PROTOCOL")
 
 # ---------------------------------------------------------------------------- #
@@ -75,7 +73,7 @@ alias cs := codegen-schema
 # ---------------------------------------------------------------------------- #
 
 # Deploy the subgraph (the chain_slug is The Graph's chain slug)
-[confirm("Confirm you want to deploy? y/N")]
+[confirm("Confirm you want to deploy? (y/N)")]
 [group("deploy")]
 deploy chain_slug version_label: codegen-schema codegen-manifest
     #!/usr/bin/env sh
@@ -88,7 +86,7 @@ deploy chain_slug version_label: codegen-schema codegen-manifest
 alias d := deploy
 
 # Deploy all officials subgraphs to The Decentralized Network
-[confirm("Confirm you want to deploy all subgraphs? y/N")]
+[confirm("Confirm you want to deploy all subgraphs? (y/N)")]
 [group("deploy")]
 deploy-all version_label: codegen
     just root::cli graph-deploy-all \
@@ -97,30 +95,32 @@ deploy-all version_label: codegen
 alias da := deploy-all
 
 # Deploy to a custom Graph node
-[confirm("WARNING: deploying to custom nodes overrides the production subgraph. Are you sure you want to do this? y/N")]
+[confirm("⚠️  Deploying to custom nodes overrides the production subgraph. Are you sure you want to do this? (y/N)")]
 [group("deploy")]
 @deploy-custom chain_slug version_label ipfs_url=IPFS_URL: codegen
     #!/usr/bin/env sh
+    extra_args=""
     case {{ chain_slug }} in
         form)
-            node_url={{ NODE_FORM }}
+            ipfs_url="https://api.thegraph.com/ipfs/"
+            node_url="https://formapi.0xgraph.xyz/deploy"
+            subgraph_name=sablier-{{ PROTOCOL }}-{{ chain_slug }}
+            extra_args="--deploy-key {{ OXGRAPH_FORM_KEY }}"
             ;;
         lightlink)
-            node_url={{ NODE_LIGHTLINK }}
-            ;;
-        xdc)
-            node_url={{ NODE_XDC }}
+            node_url="https://graph.pegasus.lightlink.io/rpc"
+            subgraph_name={{ chain_slug }}/sablier-{{ PROTOCOL }}-{{ chain_slug }}
             ;;
         *)
             echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: form. lightlink, xdc"
             exit 1
             ;;
     esac
-    subgraph_name={{ chain_slug }}/sablier-{{ PROTOCOL }}-{{ chain_slug }}
     pnpm graph deploy \
         --version-label {{ version_label }} \
         --ipfs {{ ipfs_url }} \
         --node $node_url \
+        $extra_args \
         $subgraph_name \
         {{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml
 alias dc := deploy-custom
