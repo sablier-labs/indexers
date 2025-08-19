@@ -9,9 +9,9 @@
 [twitter-badge]: https://img.shields.io/twitter/follow/Sablier
 [twitter]: https://x.com/Sablier
 
-Data indexers for [Sablier](https://sablier.com) protocol for onchain token distribution. The indexers monitor Sablier's
-smart contract events and transform them into structured, queryable data via GraphQL. The data is used to power the
-[Sablier Interface](https://app.sablier.com).
+Data indexers for the [Sablier](https://sablier.com) protocol for onchain token distribution. The indexers monitor
+Sablier's smart contract events and transform them into structured, queryable data APIs via GraphQL. The data is used to
+power the [Sablier Interface](https://app.sablier.com).
 
 We support two indexing services: [The Graph](https://thegraph.com) and [Envio](https://envio.dev).
 
