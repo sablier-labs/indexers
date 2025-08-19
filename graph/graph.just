@@ -82,6 +82,7 @@ deploy chain_slug version_label: codegen-schema codegen-manifest
     pnpm graph deploy \
         $subgraph_name \
         $manifest_path \
+        --output-dir {{ justfile_dir() }}/build \
         --version-label {{ version_label }}
 alias d := deploy
 
@@ -117,12 +118,13 @@ alias da := deploy-all
             ;;
     esac
     pnpm graph deploy \
+        $subgraph_name \
+        {{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml \
+        --output-dir {{ justfile_dir() }}/build \
         --version-label {{ version_label }} \
         --ipfs {{ ipfs_url }} \
         --node $node_url \
-        $extra_args \
-        $subgraph_name \
-        {{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml
+        $extra_args
 alias dc := deploy-custom
 
 # Deploy to experimental subgraph on Ethereum Sepolia
@@ -134,5 +136,6 @@ deploy-experimental version_label: codegen-schema (codegen-manifest "sepolia")
     pnpm graph deploy \
         $subgraph_name \
         $manifest_path \
+        --output-dir {{ justfile_dir() }}/build \
         --version-label {{ version_label }}
 alias de := deploy-experimental

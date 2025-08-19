@@ -34,6 +34,7 @@ const paths = {
     schemas: (): string => join(EXPORTS_DIR, "schemas"),
   },
   graph: {
+    build: (protocol: P): string => join(GRAPH_DIR, protocol, "build"),
     manifest: (protocol: P, chainId: number): string => {
       const chainSlug = getGraphChainSlug(chainId);
       return join(GRAPH_DIR, protocol, "manifests", `${chainSlug}.yaml`);

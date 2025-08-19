@@ -18,4 +18,6 @@ export const DECIMALS_DEFAULT = 0;
 /*                                    MISC                                    */
 /* -------------------------------------------------------------------------- */
 
+// 2025-08-20T00:00:00Z
+export const FEE_LESS_CUTOFF_TIMESTAMP = 1_755_648_000;
 export const NOT_AVAILABLE = "n/a";

@@ -1,4 +1,6 @@
 // import { Effects } from "../../../common/effects";
+
+import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../common/deprecated";
 import { Effects } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
@@ -90,6 +92,9 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   };
 
   /* --------------------------------- STREAM --------------------------------- */
+  if (isDeprecatedFlowContract({ asset: event.params.token, event, protocol: "flow" })) {
+    return;
+  }
   const stream = Store.Stream.create(context, event, entities, {
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,

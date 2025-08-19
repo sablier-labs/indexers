@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { Version } from "sablier";
 import type { Envio } from "../../../../common/bindings";
+import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated";
 import { Effects } from "../../../../common/effects";
 import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
@@ -141,12 +142,15 @@ export async function createMerkle<P extends Params.CreateCampaignBase>(input: I
   const { context, createInStore, event, loaderReturn, params } = input;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  // For lockup campaigns, check if it's an official lockup before proceeding.
+  // For Lockup campaigns, check if it's an official lockup before proceeding.
   if (_.has(params, "lockup")) {
     const lockupAddress = _.get(params, "lockup") as Envio.Address;
     if (!isOfficialLockup(context.log, event, lockupAddress)) {
       return;
     }
+  }
+  if (isDeprecatedFactory({ asset: params.asset, event, protocol: "airdrops" })) {
+    return;
   }
 
   const entities = getOrCreateEntities(context, event, loaderReturn, params);
