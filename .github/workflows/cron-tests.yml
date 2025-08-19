@@ -1,4 +1,4 @@
-name: "Cron: Tests"
+name: Cron Tests
 
 on:
   schedule:
@@ -9,23 +9,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: "Check out the repo"
-        uses: "actions/checkout@v4"
+      - name: Check out the repo
+        uses: actions/checkout@v5
 
-      - name: "Set up devkit"
-        uses: "sablier-labs/devkit/actions/setup@main"
+      - name: Set up devkit
+        uses: sablier-labs/devkit/actions/setup@main
         with:
-          package-manager: "pnpm"
+          package-manager: pnpm
 
-      - name: "Check the code"
-        run: "just full-check"
+      - name: Check the code
+        run: just full-check
 
-      - name: "Run the tests"
+      - name: Run the tests
         env:
           TEST_VENDORS: true
-        run: "just test"
+        run: just test
 
-      - name: "Add summary"
+      - name: Add summary
         run: | # shell
           echo "## Cron Tests result" >> $GITHUB_STEP_SUMMARY
           echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
