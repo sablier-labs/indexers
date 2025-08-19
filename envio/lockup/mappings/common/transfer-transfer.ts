@@ -1,16 +1,15 @@
 import { zeroAddress } from "viem";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import type { Entity } from "../../bindings";
 import type {
-  SablierV2LockupLinear_v1_0_Transfer_handler as Handler_v1_0,
-  SablierV2LockupLinear_v1_1_Transfer_handler as Handler_v1_1,
-  SablierV2LockupLinear_v1_2_Transfer_handler as Handler_v1_2,
-  SablierLockup_v2_0_Transfer_handler as Handler_v2_0,
-  SablierV2LockupLinear_v1_0_Transfer_loader as Loader_v1_0,
-  SablierV2LockupLinear_v1_1_Transfer_loader as Loader_v1_1,
-  SablierV2LockupLinear_v1_2_Transfer_loader as Loader_v1_2,
-  SablierLockup_v2_0_Transfer_loader as Loader_v2_0,
+  SablierV2LockupLinear_v1_0_Transfer_handlerArgs as HandlerArgs_v1_0,
+  SablierV2LockupLinear_v1_1_Transfer_handlerArgs as HandlerArgs_v1_1,
+  SablierV2LockupLinear_v1_2_Transfer_handlerArgs as HandlerArgs_v1_2,
+  SablierLockup_v2_0_Transfer_handlerArgs as HandlerArgs_v2_0,
+  SablierV2LockupLinear_v1_0_Transfer_loaderArgs as LoaderArgs_v1_0,
+  SablierV2LockupLinear_v1_1_Transfer_loaderArgs as LoaderArgs_v1_1,
+  SablierV2LockupLinear_v1_2_Transfer_loaderArgs as LoaderArgs_v1_2,
+  SablierLockup_v2_0_Transfer_loaderArgs as LoaderArgs_v2_0,
 } from "../../bindings/src/Types.gen";
 import { Loader as LoaderBase } from "./loader";
 
@@ -18,19 +17,10 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T> & Loader_v2_0<T>;
+type LoaderArgs = LoaderArgs_v1_0 | LoaderArgs_v1_1 | LoaderArgs_v1_2 | LoaderArgs_v2_0;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type LoaderReturn = {
-  stream: Entity.Stream;
-  users: {
-    caller?: Entity.User;
-    currentRecipient?: Entity.User;
-    newRecipient?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
-
-const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   // Exclude `Transfer` events emitted by the initial mint transaction.
   // See https://github.com/sablier-labs/indexers/issues/18
   if (event.params.from === zeroAddress) {
@@ -47,9 +37,14 @@ const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T> & Handler_v2_0<T>;
 
-const handler: Handler<LoaderReturn | undefined> = async ({ context, event, loaderReturn }) => {
+type HandlerArgs =
+  | HandlerArgs_v1_0<LoaderReturn>
+  | HandlerArgs_v1_1<LoaderReturn>
+  | HandlerArgs_v1_2<LoaderReturn>
+  | HandlerArgs_v2_0<LoaderReturn>;
+
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   if (!loaderReturn) {
     return;
   }

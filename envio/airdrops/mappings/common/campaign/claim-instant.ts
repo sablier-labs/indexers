@@ -1,9 +1,8 @@
 import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
-import type { Entity } from "../../../bindings";
 import type {
-  SablierMerkleInstant_v1_3_Claim_handler,
-  SablierMerkleInstant_v1_3_Claim_loader,
+  SablierMerkleInstant_v1_3_Claim_handlerArgs,
+  SablierMerkleInstant_v1_3_Claim_loaderArgs,
 } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
@@ -11,19 +10,10 @@ import { Store } from "../../../store";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type LoaderReturn = {
-  activity?: Entity.Activity;
-  campaign: Entity.Campaign;
-  revenue?: Entity.Revenue;
-  users: {
-    caller?: Entity.User;
-    recipient?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
+type LoaderArgs = SablierMerkleInstant_v1_3_Claim_loaderArgs;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type Loader<T> = SablierMerkleInstant_v1_3_Claim_loader<T>;
-const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   const activityId = Id.activity(event);
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const revenueId = Id.revenue(event.chainId, event.block.timestamp);
@@ -53,9 +43,9 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = SablierMerkleInstant_v1_3_Claim_handler<T>;
+type HandlerArgs = SablierMerkleInstant_v1_3_Claim_handlerArgs<LoaderReturn>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { campaign, revenue, users, watcher } = loaderReturn;
   const activity = loaderReturn.activity ?? Store.Activity.create(context, event, campaign.id);
 

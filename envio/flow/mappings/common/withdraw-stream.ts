@@ -1,11 +1,10 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import type { Entity } from "../../bindings";
 import type {
-  SablierFlow_v1_0_WithdrawFromFlowStream_handler as Handler_v1_0,
-  SablierFlow_v1_1_WithdrawFromFlowStream_handler as Handler_v1_1,
-  SablierFlow_v1_0_WithdrawFromFlowStream_loader as Loader_v1_0,
-  SablierFlow_v1_1_WithdrawFromFlowStream_loader as Loader_v1_1,
+  SablierFlow_v1_0_WithdrawFromFlowStream_handlerArgs as HandlerArgs_v1_0,
+  SablierFlow_v1_1_WithdrawFromFlowStream_handlerArgs as HandlerArgs_v1_1,
+  SablierFlow_v1_0_WithdrawFromFlowStream_loaderArgs as LoaderArgs_v1_0,
+  SablierFlow_v1_1_WithdrawFromFlowStream_loaderArgs as LoaderArgs_v1_1,
 } from "../../bindings/src/Types.gen";
 import { Loader as LoaderBase } from "./loader";
 
@@ -13,19 +12,10 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type LoaderArgs = LoaderArgs_v1_0 | LoaderArgs_v1_1;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type LoaderReturn = {
-  revenue?: Entity.Revenue;
-  stream: Entity.Stream;
-  users: {
-    caller?: Entity.User;
-    to?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
-
-const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   const revenueId = Id.revenue(event.chainId, event.block.timestamp);
   const [revenue, to, { stream, users: baseUsers, watcher }] = await Promise.all([
     context.Revenue.get(revenueId),
@@ -39,9 +29,9 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type HandlerArgs = HandlerArgs_v1_0<LoaderReturn> | HandlerArgs_v1_1<LoaderReturn>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { revenue, stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */

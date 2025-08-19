@@ -1,15 +1,14 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import type { Entity } from "../../bindings";
 import type {
-  SablierV2LockupLinear_v1_0_WithdrawFromLockupStream_handler as Handler_v1_0,
-  SablierV2LockupLinear_v1_1_WithdrawFromLockupStream_handler as Handler_v1_1,
-  SablierV2LockupLinear_v1_2_WithdrawFromLockupStream_handler as Handler_v1_2,
-  SablierLockup_v2_0_WithdrawFromLockupStream_handler as Handler_v2_0,
-  SablierV2LockupLinear_v1_0_WithdrawFromLockupStream_loader as Loader_v1_0,
-  SablierV2LockupLinear_v1_1_WithdrawFromLockupStream_loader as Loader_v1_1,
-  SablierV2LockupLinear_v1_2_WithdrawFromLockupStream_loader as Loader_v1_2,
-  SablierLockup_v2_0_WithdrawFromLockupStream_loader as Loader_v2_0,
+  SablierV2LockupLinear_v1_0_WithdrawFromLockupStream_handlerArgs as HandlerArgs_v1_0,
+  SablierV2LockupLinear_v1_1_WithdrawFromLockupStream_handlerArgs as HandlerArgs_v1_1,
+  SablierV2LockupLinear_v1_2_WithdrawFromLockupStream_handlerArgs as HandlerArgs_v1_2,
+  SablierLockup_v2_0_WithdrawFromLockupStream_handlerArgs as HandlerArgs_v2_0,
+  SablierV2LockupLinear_v1_0_WithdrawFromLockupStream_loaderArgs as LoaderArgs_v1_0,
+  SablierV2LockupLinear_v1_1_WithdrawFromLockupStream_loaderArgs as LoaderArgs_v1_1,
+  SablierV2LockupLinear_v1_2_WithdrawFromLockupStream_loaderArgs as LoaderArgs_v1_2,
+  SablierLockup_v2_0_WithdrawFromLockupStream_loaderArgs as LoaderArgs_v2_0,
 } from "../../bindings/src/Types.gen";
 import { Loader as LoaderBase } from "./loader";
 
@@ -17,19 +16,10 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T> & Loader_v2_0<T>;
+type LoaderArgs = LoaderArgs_v1_0 | LoaderArgs_v1_1 | LoaderArgs_v1_2 | LoaderArgs_v2_0;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type LoaderReturn = {
-  revenue?: Entity.Revenue;
-  stream: Entity.Stream;
-  users: {
-    caller?: Entity.User;
-    to?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
-
-const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   const revenueId = Id.revenue(event.chainId, event.block.timestamp);
   const [revenue, to, { stream, users: baseUsers, watcher }] = await Promise.all([
     context.Revenue.get(revenueId),
@@ -44,9 +34,13 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T> & Handler_v2_0<T>;
+type HandlerArgs =
+  | HandlerArgs_v1_0<LoaderReturn>
+  | HandlerArgs_v1_1<LoaderReturn>
+  | HandlerArgs_v1_2<LoaderReturn>
+  | HandlerArgs_v2_0<LoaderReturn>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { revenue, stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */

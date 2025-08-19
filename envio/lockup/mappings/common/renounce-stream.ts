@@ -2,16 +2,20 @@ import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Entity } from "../../bindings";
 import type {
-  SablierV2LockupLinear_v1_0_RenounceLockupStream_handler as Handler_v1_0,
-  SablierV2LockupLinear_v1_1_RenounceLockupStream_handler as Handler_v1_1,
-  SablierV2LockupLinear_v1_2_RenounceLockupStream_handler as Handler_v1_2,
-  SablierLockup_v2_0_RenounceLockupStream_handler as Handler_v2_0,
+  SablierV2LockupLinear_v1_0_RenounceLockupStream_handlerArgs as HandlerArgs_v1_0,
+  SablierV2LockupLinear_v1_1_RenounceLockupStream_handlerArgs as HandlerArgs_v1_1,
+  SablierV2LockupLinear_v1_2_RenounceLockupStream_handlerArgs as HandlerArgs_v1_2,
+  SablierLockup_v2_0_RenounceLockupStream_handlerArgs as HandlerArgs_v2_0,
 } from "../../bindings/src/Types.gen";
 import { Loader } from "./loader";
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T> & Handler_v2_0<T>;
+type HandlerArgs =
+  | HandlerArgs_v1_0<Loader.BaseReturn>
+  | HandlerArgs_v1_1<Loader.BaseReturn>
+  | HandlerArgs_v1_2<Loader.BaseReturn>
+  | HandlerArgs_v2_0<Loader.BaseReturn>;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
