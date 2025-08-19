@@ -1,4 +1,5 @@
 import path from "node:path";
+import readline from "node:readline";
 import type { Command } from "commander";
 import $ from "execa";
 import fs from "fs-extra";
@@ -6,6 +7,7 @@ import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
 import paths, { ROOT_DIR } from "../../lib/paths";
+import type { Types } from "../../lib/types";
 import { getIndexerGraph } from "../../src";
 import { getSablierChainSlug } from "../../src/indexers/graph";
 
@@ -16,9 +18,6 @@ type Deployment = {
   chainSlug: string;
   chainName: string;
 };
-function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 function createGraphDeployAllCommand(): Command {
   const command = helpers.createBaseCmd("Deploy all official indexers to The Graph");
@@ -37,8 +36,25 @@ function createGraphDeployAllCommand(): Command {
       throw new Error("--version-label is required");
     }
 
+    // Validate version label based on protocol requirements
+    validateVersionLabel(protocol as Types.Protocol, versionLabel);
+
     console.log(`🚀 Deploying all official ${_.capitalize(protocol)} indexers to The Graph...`);
     console.log(`📦 Version label: ${versionLabel}`);
+    console.log();
+
+    // Prompt user for confirmation
+    console.log("⚠️  Please review the version label carefully!");
+    console.log("📚 Check the README.md for version labeling instructions");
+    console.log("🔍 Verify against the latest version in Subgraph Studio");
+    console.log();
+
+    const confirmation = await promptUser("Does the version label look correct? (y/N): ");
+    if (confirmation.toLowerCase() !== "y" && confirmation.toLowerCase() !== "yes") {
+      console.log("❌ Deployment canceled by user");
+      process.exit(0);
+    }
+    console.log();
 
     // Get all available chains and their Graph slugs
     const chains = _.sortBy(sablier.chains.getAll(), (c) => c.slug);
@@ -150,6 +166,44 @@ function createGraphDeployAllCommand(): Command {
   });
 
   return command;
+}
+
+function promptUser(question: string): Promise<string> {
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim());
+    });
+  });
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function validateVersionLabel(protocol: Types.Protocol, versionLabel: string): void {
+  const requirements: Record<Types.Protocol, string[]> = {
+    airdrops: ["v1.3", "v1.4"],
+    flow: ["v1.1", "v1.2"],
+    lockup: ["v2.0", "v2.1"],
+  };
+
+  const allowedPrefixes = requirements[protocol];
+  if (!allowedPrefixes) {
+    throw new Error(`Unknown protocol: ${protocol}`);
+  }
+
+  const isValid = allowedPrefixes.some((prefix) => versionLabel.startsWith(prefix));
+  if (!isValid) {
+    throw new Error(
+      `New version label for ${protocol} protocol must start with one of: ${allowedPrefixes.join(", ")}. Got: ${versionLabel}`,
+    );
+  }
 }
 
 // Export the command
