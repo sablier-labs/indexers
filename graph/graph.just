@@ -108,7 +108,7 @@ alias da := deploy-all
             extra_args="--deploy-key {{ OXGRAPH_FORM_KEY }}"
             ;;
         lightlink)
-            node_url="https://graph.pegasus.lightlink.io/rpc"
+            node_url="https://graph.phoenix.lightlink.io/rpc"
             subgraph_name={{ chain_slug }}/sablier-{{ PROTOCOL }}-{{ chain_slug }}
             ;;
         *)
