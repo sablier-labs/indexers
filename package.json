@@ -11,13 +11,14 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
+    "chainlist-rpcs": "^0.5.226",
     "sablier": "^1.1.0"
   },
   "peerDependencies": {
     "sablier": "^1.x"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.1",
+    "@biomejs/biome": "^2.2.2",
     "@graphprotocol/graph-cli": "0.97.1",
     "@graphprotocol/graph-ts": "0.38.1",
     "@graphql-codegen/cli": "^5.0.7",
@@ -38,7 +39,7 @@
     "axios": "^1.10.0",
     "commander": "^14.0.0",
     "dayjs": "^1.11.13",
-    "envio": "2.27.5",
+    "envio": "2.28.0-alpha.3",
     "execa": "5.1.1",
     "fs-extra": "^11.3.0",
     "graphql": "^16.11.0",
@@ -76,6 +77,6 @@
   },
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build",
-    "start": "cd ./envio/$ENVIO_PROTOCOL && ts-node ./bindings/src/Index.res.js"
+    "start": "cd ./envio/$ENVIO_INDEXER_NAME && ts-node ./bindings/src/Index.res.js"
   }
 }

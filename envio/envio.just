@@ -22,22 +22,22 @@ clean:
 
 # Codegen everything for the Envio indexer
 @codegen:
-    just root::codegen-envio $PROTOCOL
+    just root::codegen-envio $INDEXER_NAME
 alias c := codegen
 
 # Codegen the Envio bindings
 @codegen-bindings:
-    just root::codegen-envio-bindings $PROTOCOL
+    just root::codegen-envio-bindings $INDEXER_NAME
 alias cb := codegen-bindings
 
 # Codegen the Envio config
 @codegen-config:
-    just root::codegen-envio-config $PROTOCOL
+    just root::codegen-envio-config $INDEXER_NAME
 alias cc := codegen-config
 
 # Codegen the Envio schema
 @codegen-schema:
-    just root::codegen-schema envio $PROTOCOL
+    just root::codegen-schema envio $INDEXER_NAME
 alias cs := codegen-schema
 
 # Envio CLI: dev, start, stop
@@ -50,5 +50,9 @@ envio command tui_mode="tui_on" *args:
         TUI_OFF=false
     fi
     pnpm envio {{ command }} {{ args }} \
-    --config {{ justfile_dir() }}/config.yaml \
-    --output-directory {{ justfile_dir() }}/bindings
+        --config {{ justfile_dir() }}/config.yaml \
+        --output-directory {{ justfile_dir() }}/bindings
+
+# Run the Vitest tests
+test:
+    just root::test "{{ justfile_dir() }}/tests/**.test.ts"

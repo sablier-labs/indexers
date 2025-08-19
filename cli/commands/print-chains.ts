@@ -45,7 +45,9 @@ function createPrintChainsCommand(): Command {
     Object.entries(chainsByIndexer).forEach(([category, chains]) => {
       if (chains.length > 0) {
         console.log(`\n${category}:`);
-        chains.forEach((chain) => console.log(`  • ${chain}`));
+        chains.forEach((chain) => {
+          console.log(`  • ${chain}`);
+        });
       }
     });
 

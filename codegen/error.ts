@@ -2,6 +2,7 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import type { Types } from "../lib/types";
 import { formatRelease } from "../lib/winston/helpers";
+import type { Indexer } from "../src";
 
 export namespace CodegenError {
   export class AliasNotFound extends Error {
@@ -27,7 +28,7 @@ export namespace CodegenError {
     }
   }
   export class ContractsNotFound extends Error {
-    constructor(protocol: Types.Protocol, chainId: number) {
+    constructor(protocol: Indexer.Protocol, chainId: number) {
       const chainName = sablier.chains.get(chainId)?.name ?? "chain";
       const message = `No contracts found for ${protocol} on ${chainName}`;
       super(message);
@@ -35,7 +36,7 @@ export namespace CodegenError {
   }
 
   export class ReleaseNotFound extends Error {
-    constructor(protocol: Types.Protocol, version: Types.Version) {
+    constructor(protocol: Indexer.Protocol, version: Types.Version) {
       const message = `Sablier release not found for ${protocol} ${version}`;
       super(message);
     }

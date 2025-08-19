@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type { Types } from "../../lib/types";
+import type { Indexer } from "../../src";
 import { CodegenError } from "../error";
 import type { GraphManifest } from "./manifest-types";
 import { createSources } from "./sources";
@@ -9,7 +9,7 @@ import { topSections } from "./top-sections";
  * Creates a Graph manifest for a given protocol and chain.
  * @see https://thegraph.com/docs/en/subgraphs/developing/creating/subgraph-manifest
  */
-export function createGraphManifest(protocol: Types.Protocol, chainId: number): GraphManifest.TopSection {
+export function createGraphManifest(protocol: Indexer.Protocol, chainId: number): GraphManifest.TopSection {
   const topSection = topSections[protocol];
   const sources = createSources(protocol, chainId);
 

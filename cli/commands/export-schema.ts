@@ -13,10 +13,11 @@ function exportSchemaCommand(): Command {
     fs.ensureDirSync(paths.exports.schemas());
     for (const protocol of PROTOCOLS) {
       // Using Envio because they have the most complete schema. See the User and Revenue entities.
-      const schema = print(getMergedSchema("envio", protocol));
+      const schema = print(getMergedSchema(protocol));
       const outputPath = paths.exports.schema(protocol);
       fs.writeFileSync(outputPath, schema);
     }
+    // TODO: copy the analytics schema
   });
 
   return command;

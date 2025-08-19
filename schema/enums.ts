@@ -2,7 +2,7 @@ import type { DocumentNode } from "graphql";
 import gql from "graphql-tag";
 import _ from "lodash";
 import { Protocol } from "sablier";
-import type { Types } from "../lib/types";
+import type { Indexer } from "../src";
 
 export namespace Airdrops {
   export enum ActionCategory {
@@ -68,10 +68,10 @@ export namespace Lockup {
  * }
  * ```
  */
-export function getEnumDefs(protocol: Types.Protocol): DocumentNode {
+export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
   const enumDefs: string[] = [];
 
-  switch (protocol) {
+  switch (indexer) {
     case Protocol.Airdrops:
       enumDefs.push(
         getEnum(Airdrops.ActionCategory, "ActionCategory"),

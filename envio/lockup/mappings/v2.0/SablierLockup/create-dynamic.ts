@@ -3,7 +3,7 @@ import { convertSegments } from "../../../helpers";
 import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 import { createStream } from "../../common/create-stream";
-import { Loader } from "../../common/loader";
+import { preloadCreateEntities } from "../../common/preload";
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -44,31 +44,46 @@ event CreateLockupDynamicStream(
 
 ──────────────────────────────────────────────────────────────
 */
-Contract.Lockup_v2_0.CreateLockupDynamicStream.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const commonParams = event.params.commonParams;
-    const params: Params.CreateStreamDynamic = {
-      asset: commonParams[4],
-      cancelable: commonParams[5],
-      category: "LockupDynamic",
-      depositAmount: commonParams[3][0],
-      endTime: commonParams[7][1],
-      funder: commonParams[0],
-      recipient: commonParams[2],
-      segments: convertSegments(event.params.segments),
-      sender: commonParams[1],
-      shape: commonParams[8],
-      startTime: commonParams[7][0],
-      tokenId: event.params.streamId,
-      transferable: commonParams[6],
-    };
-    await createStream({
-      context,
-      createInStore: Store.Stream.createDynamic,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v2.0"],
+Contract.Lockup_v2_0.CreateLockupDynamicStream.handler(async ({ context, event }) => {
+  const commonParams = event.params.commonParams;
+  const asset = commonParams[4];
+  const recipient = commonParams[2];
+  const sender = commonParams[1];
+  const result = await preloadCreateEntities({
+    context,
+    event,
+    params: {
+      asset,
+      recipient,
+      sender,
+    },
+  });
+  if (!result) {
+    return;
+  }
+  const { entities, proxender } = result;
+
+  const streamParams: Params.CreateStreamDynamic = {
+    asset,
+    cancelable: commonParams[5],
+    category: "LockupDynamic",
+    depositAmount: commonParams[3][0],
+    endTime: commonParams[7][1],
+    funder: commonParams[0],
+    proxender: proxender,
+    recipient,
+    segments: convertSegments(event.params.segments),
+    sender,
+    shape: commonParams[8],
+    startTime: commonParams[7][0],
+    tokenId: event.params.streamId,
+    transferable: commonParams[6],
+  };
+  await createStream({
+    context,
+    createInStore: Store.Stream.createDynamic,
+    entities,
+    event,
+    params: streamParams,
+  });
 });

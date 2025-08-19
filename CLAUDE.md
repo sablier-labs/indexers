@@ -31,6 +31,6 @@ You are a senior developer with a preference for clean code and design patterns.
 After you generate new code or update existing code, run `just full-check` to verify the code is correct. If there are
 any errors, use `just full-write` to fix them. If there are issues still, figure out why and fix them.
 
-To check the TypeScript code only, run `just tsc-check`.
-
-To install dependencies, run `ni`, e.g. `ni some-package` or `ni -D some-package` to install a dev dependency.
+- To check the TypeScript code only, run `just tsc-check`.
+- To install dependencies, run `ni`, e.g. `ni some-package` or `ni -D some-package` to install a dev dependency.
+- To run tests, run `just test`. Tu run specific tests, run `just test "tests/some-test.test.ts"`.

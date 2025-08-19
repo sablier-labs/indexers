@@ -1,8 +1,8 @@
+import { isOfficialLockup } from "../../../../common/helpers";
 import { Contract } from "../../../bindings";
 import type { Params } from "../../../helpers";
-import { isOfficialLockup } from "../../../helpers";
 import { Store } from "../../../store";
-import { createMerkle, Loader } from "../../common/factory/create-merkle";
+import { createMerkle, preloadCreateEntities } from "../../common/factory";
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, event }) => {
   const lockupAddress = event.params.lockup;
@@ -52,38 +52,43 @@ struct Schedule {
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const baseParams = event.params.baseParams;
-    const params: Params.CreateCampaignLL = {
-      admin: baseParams[2],
-      aggregateAmount: event.params.aggregateAmount,
-      asset: baseParams[0],
-      campaignAddress: event.params.merkleLL,
-      cancelable: event.params.cancelable,
-      category: "LockupLinear",
-      cliffDuration: event.params.schedule[2],
-      cliffPercentage: event.params.schedule[3],
-      expiration: baseParams[1],
-      ipfsCID: baseParams[3],
-      lockup: event.params.lockup,
-      merkleRoot: baseParams[4],
-      minimumFee: event.params.fee,
-      name: baseParams[5],
-      recipientCount: event.params.recipientCount,
-      shape: baseParams[6],
-      startPercentage: event.params.schedule[1],
-      startTime: event.params.schedule[0],
-      totalDuration: event.params.schedule[4],
-      transferable: event.params.transferable,
-    };
-    await createMerkle({
-      context,
-      createInStore: Store.Campaign.createLL,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v1.3"],
+Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, event }) => {
+  const baseParams = event.params.baseParams;
+  const admin = baseParams[2];
+  const asset = baseParams[0];
+  const result = await preloadCreateEntities({ context, event, params: { admin, asset } });
+  if (!result) {
+    return;
+  }
+  const { entities } = result;
+
+  const params: Params.CreateCampaignLL = {
+    admin,
+    aggregateAmount: event.params.aggregateAmount,
+    asset,
+    campaignAddress: event.params.merkleLL,
+    cancelable: event.params.cancelable,
+    category: "LockupLinear",
+    cliffDuration: event.params.schedule[2],
+    cliffPercentage: event.params.schedule[3],
+    expiration: baseParams[1],
+    ipfsCID: baseParams[3],
+    lockup: event.params.lockup,
+    merkleRoot: baseParams[4],
+    minimumFee: event.params.fee,
+    name: baseParams[5],
+    recipientCount: event.params.recipientCount,
+    shape: baseParams[6],
+    startPercentage: event.params.schedule[1],
+    startTime: event.params.schedule[0],
+    totalDuration: event.params.schedule[4],
+    transferable: event.params.transferable,
+  };
+  await createMerkle({
+    context,
+    createInStore: Store.Campaign.createLL,
+    entities,
+    event,
+    params,
+  });
 });

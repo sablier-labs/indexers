@@ -1,8 +1,8 @@
-import type { Types } from "../../lib/types";
+import type { Indexer } from "../../src";
 import { GRAPH_SPEC_VERSION } from "./constants";
 import type { GraphManifest } from "./manifest-types";
 
-export const topSections: Record<Types.Protocol, GraphManifest.TopSection> = {
+export const topSections: Record<Indexer.Protocol, GraphManifest.TopSection> = {
   airdrops: get("Airdrops"),
   flow: get("Flow"),
   lockup: get("Lockup"),

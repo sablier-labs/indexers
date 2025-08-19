@@ -24,10 +24,6 @@ export namespace Params {
   export type CreateEntities = {
     asset: Entity.Asset;
     factory: Entity.Factory;
-    users: {
-      admin?: Entity.User;
-      caller?: Entity.User;
-    };
     watcher: Entity.Watcher;
   };
 

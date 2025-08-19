@@ -7,6 +7,7 @@ import { sanitizeContractName } from "../../../lib/helpers";
 import type { Types } from "../../../lib/types";
 import { logger, messages } from "../../../lib/winston";
 import { getMergedSchema } from "../../../schema/merger";
+import type { Indexer } from "../../../src";
 import { getSubgraphYamlChainSlug } from "../../../src/indexers/graph";
 import { CodegenError } from "../../error";
 import { GRAPH_API_VERSION } from "../constants";
@@ -17,7 +18,7 @@ import eventHandlers from "./event-handlers";
 /**
  * Creates an array of data sources/templates for a subgraph manifest.
  */
-export function getSources(protocol: Types.Protocol, chainId: number): GraphManifest.Source[] {
+export function getSources(protocol: Indexer.Protocol, chainId: number): GraphManifest.Source[] {
   const sources: GraphManifest.Source[] = [];
   for (const indexedContract of indexedContracts[protocol]) {
     for (const version of indexedContract.versions) {
@@ -47,7 +48,7 @@ export function getSources(protocol: Types.Protocol, chainId: number): GraphMani
 /* -------------------------------------------------------------------------- */
 
 type CreateSourcesParams = {
-  protocol: Types.Protocol;
+  protocol: Indexer.Protocol;
   chainId: number;
   version: Types.Version;
   contract: Types.Contract;
@@ -108,8 +109,8 @@ function getContext(params: CreateSourcesParams): GraphManifest.Context | undefi
  * @param protocol - The protocol to extract entities for.
  * @returns An array of entity names available in the merged schema.
  */
-function getEntities(protocol: Types.Protocol): string[] {
-  const schema = getMergedSchema("graph", protocol);
+function getEntities(protocol: Indexer.Protocol): string[] {
+  const schema = getMergedSchema(protocol);
 
   const entityNames: string[] = [];
 
@@ -126,7 +127,7 @@ function getEntities(protocol: Types.Protocol): string[] {
 /**
  * Helper for accessing mapping configuration based on protocol and version.
  */
-function getMapping(params: { protocol: Types.Protocol; contractName: string; version: Types.Version }) {
+function getMapping(params: { protocol: Indexer.Protocol; contractName: string; version: Types.Version }) {
   const { protocol, version, contractName } = params;
 
   return {
@@ -161,7 +162,7 @@ function extractContract(params: {
       block: 0,
       chainId,
       name: contractName,
-      protocol: release.protocol as Types.Protocol,
+      protocol: release.protocol as Indexer.Protocol,
       version: release.version as Types.Version,
     };
   }

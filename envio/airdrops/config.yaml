@@ -2,6 +2,7 @@
 ecosystem: "evm"
 name: "sablier-airdrops"
 output: "./bindings"
+preload_handlers: true
 schema: "./schema.graphql"
 unordered_multichain_mode: true
 field_selection:
@@ -73,563 +74,556 @@ contracts:
     handler: "mappings/v1.3/SablierMerkleLT.ts"
     name: "SablierMerkleLT_v1_3"
 networks:
-  - contracts:
+  - id: 2741
+    start_block: 73620
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://abstract-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
       - address: "0xe2c0c3e0ff10df4485a2dcbbdd1d002a40446164"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 73620
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0x0c72b957347b51285854f015e4d20641655b939a"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 332977
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 2741
-    rpc:
-      - for: "fallback"
-        url: "https://abstract-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://api.mainnet.abs.xyz"
-    start_block: 73620
-  - contracts:
-      - address: "0x237400ef5a41886a75b0e036228221df075b3b80"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0xc9a5a0bc2d8e217bdbdfe7486e9e72c5c3308f01"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x7efd170e3e32dc1b4c17eb4cfff92c81ff43a6cb"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 42161
+  - id: 42161
+    start_block: 161026555
     rpc:
       - for: "fallback"
         url: "https://arbitrum-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://arb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://arb1.arbitrum.io/rpc"
-    start_block: 161026555
-  - contracts:
-      - address: "0x4849e797d7aab20fcc8f807efafdfff98a83412e"
+        url: "https://arb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x237400ef5a41886a75b0e036228221df075b3b80"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 161026555
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x0430ed39ea2789acdf27b89268117ebabc8176d1"
+      - address: "0xc9a5a0bc2d8e217bdbdfe7486e9e72c5c3308f01"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 228753235
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x6bcd2260825cfed440bb765f7a92f6cdbdc90f43"
+      - address: "0x7efd170e3e32dc1b4c17eb4cfff92c81ff43a6cb"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 299968163
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 43114
+  - id: 43114
+    start_block: 41023959
     rpc:
       - for: "fallback"
         url: "https://avalanche-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://avax-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://api.avax.network/ext/bc/C/rpc"
-    start_block: 41023959
-  - contracts:
-      - address: "0x5545c8e7c3e1f74adc98e518f2e8d23a002c4412"
+        url: "https://avax-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x4849e797d7aab20fcc8f807efafdfff98a83412e"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 41023959
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x58a51e5382318eea6065bb7721eecdf4331c0b90"
+      - address: "0x0430ed39ea2789acdf27b89268117ebabc8176d1"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 47552448
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xd9e108f26fe104ce1058d48070438dedb3ad826a"
+      - address: "0x6bcd2260825cfed440bb765f7a92f6cdbdc90f43"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 56449933
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 8453
+  - id: 8453
+    start_block: 8026894
     rpc:
       - for: "fallback"
         url: "https://base-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://base-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://mainnet.base.org"
-    start_block: 8026894
-  - contracts:
-      - address: "0x92fc05e49c27884d554d98a5c01ff0894a9dc29a"
+        url: "https://base-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x5545c8e7c3e1f74adc98e518f2e8d23a002c4412"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 8026894
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x3abcdda756d069cf3c7a17410602343966eaff27"
+      - address: "0x58a51e5382318eea6065bb7721eecdf4331c0b90"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 16664178
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xdd40b4f5b216f524a55e2e8f75637e8b453e4bd2"
+      - address: "0xd9e108f26fe104ce1058d48070438dedb3ad826a"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 25615347
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 81457
+  - id: 81457
+    start_block: 244740
     rpc:
       - for: "fallback"
         url: "https://blast-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
         url: "https://blast-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.blast.io"
-    start_block: 244740
-  - contracts:
-      - address: "0x7868af143cc5e6cd03f9b4f5cdd2832695a85d6b"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 80094
-    rpc:
-      - for: "fallback"
-        url: "https://berachain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.berachain.com"
-    start_block: 780306
-  - contracts:
-      - address: "0x434d73465aac4125d204a6637eb6c579d8d69f48"
+    contracts:
+      - address: "0x92fc05e49c27884d554d98a5c01ff0894a9dc29a"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 244740
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x96aa12809cac29bba4944feca1dfdc8e1704e6c1"
+      - address: "0x3abcdda756d069cf3c7a17410602343966eaff27"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 5689067
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xf9f89d99fb702b06fba16a294b7614089defe068"
+      - address: "0xdd40b4f5b216f524a55e2e8f75637e8b453e4bd2"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 14605120
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 56
+  - id: 80094
+    start_block: 780306
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://berachain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x7868af143cc5e6cd03f9b4f5cdd2832695a85d6b"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 780306
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 56
+    start_block: 34438438
     rpc:
       - for: "fallback"
         url: "https://bsc-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://bnb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://56.rpc.thirdweb.com"
-    start_block: 34438438
-  - contracts:
+        url: "https://bnb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x434d73465aac4125d204a6637eb6c579d8d69f48"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 34438438
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0x96aa12809cac29bba4944feca1dfdc8e1704e6c1"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 40185848
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0xf9f89d99fb702b06fba16a294b7614089defe068"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 46146255
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 88888
+    start_block: 19125620
+    hypersync_config:
+      url: "https://chiliz.hypersync.xyz"
+    rpc: []
+    contracts:
       - address: "0x92fc05e49c27884d554d98a5c01ff0894a9dc29a"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 19125620
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0xf978034bb3cab5fe88d23db5cb38d510485dab90"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 20432619
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    hypersync_config:
-      url: "https://chiliz.hypersync.xyz"
-    id: 88888
+  - id: 100
+    start_block: 31491795
     rpc:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.chiliz.com"
-    start_block: 19125620
-  - contracts:
-      - address: "0xa9264ef7cb1516cc27fcd5149a2909ace885ffb6"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 478
-    rpc:
-      - for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.form.network/http"
-    start_block: 3359651
-  - contracts:
+        url: "https://gnosis-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
       - address: "0x777f66477ff83ababadf39a3f22a8cc3aee43765"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 31491795
       - name: "SablierV2MerkleStreamerLL_v1_1"
       - address: "0x5f12318fc6cca518a950e2ee16063a6317c2a9ef"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 34798524
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0x64ba580946985b4b87f4d9f7b6598c2156026775"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 38262199
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 100
-    rpc:
-      - for: "fallback"
-        url: "https://gnosis-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.gnosischain.com"
-    start_block: 31491795
-  - contracts:
+  - id: 999
+    start_block: 8665370
+    rpc: []
+    contracts:
       - address: "0xe0548364372f3b842e6f89e2dac2e53b5ea0a35b"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 8665370
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 999
+  - id: 1890
+    start_block: 63526311
     rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.hyperliquid.xyz/evm"
-    start_block: 8665370
-  - contracts:
+      - for: "sync"
+        url: "https://lb.routeme.sh/rpc/1890/${ENVIO_ROUTEMESH_API_KEY}"
+    contracts:
       - address: "0xdb07a1749d5ca49909c7c4159652fbd527c735b8"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 63526311
       - name: "SablierV2MerkleStreamerLL_v1_1"
       - address: "0x278ac15622846806bd46fbdbdb8db8d09614173a"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 90212375
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0xc0107f368fbb50075d2190549055d9e6bf75c5c9"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 125554946
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 1890
-    rpc:
-      - for: "sync"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://replicator.phoenix.lightlink.io/rpc/v1"
-    start_block: 63526311
-  - contracts:
-      - address: "0x35e9c3445a039b258eb7112a5eea259a825e8ac0"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xaa122611e0e3a0771127aa4cd4995a896bb2c20b"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 59144
+  - id: 59144
+    start_block: 8688454
     rpc:
       - for: "fallback"
         url: "https://linea-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://linea-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.linea.build"
-    start_block: 8688454
-  - contracts:
-      - address: "0x1a272b596b10f02931480bc7a3617db4a8d154e3"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0xf35ab407cf28012ba57caf5ee2f6d6e4420253bc"
+        url: "https://linea-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x35e9c3445a039b258eb7112a5eea259a825e8ac0"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 8688454
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x71dd3ca88e7564416e5c2e350090c12bf8f6144a"
+      - address: "0xaa122611e0e3a0771127aa4cd4995a896bb2c20b"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 15122291
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 1
+  - id: 1
+    start_block: 18811605
     rpc:
       - for: "fallback"
         url: "https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://eth.merkle.io"
-    start_block: 18811605
-  - contracts:
+        url: "https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x1a272b596b10f02931480bc7a3617db4a8d154e3"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 18811605
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0xf35ab407cf28012ba57caf5ee2f6d6e4420253bc"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 20240153
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0x71dd3ca88e7564416e5c2e350090c12bf8f6144a"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 21719243
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 34443
+    start_block: 11343396
+    rpc: []
+    contracts:
       - address: "0x0fd01dd30f96a15de6afad5627d45ef94752460a"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 11343396
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0xc472391db89e7be07170f18c4fdb010242507f2c"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 18926259
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 34443
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://mainnet.mode.network"
-    start_block: 11343396
-  - contracts:
+  - id: 2818
+    start_block: 45862
+    rpc: []
+    contracts:
       - address: "0x5e73bb96493c10919204045fcdb639d35ad859f8"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 45862
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0xbe64e8718d82c598ebcda5149d10eb68b79632a4"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 4040364
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 2818
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.morphl2.io"
-    start_block: 45862
-  - contracts:
-      - address: "0x044ec80fbec40f0ee7e7b3856828170971796c19"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0xe041629d99730b3ee4d6518097c45b4e3591992b"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x2455bff7a71e6e441b2d0b1b1e480fe36ebf6d1e"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 10
+  - id: 10
+    start_block: 113621901
     rpc:
       - for: "fallback"
         url: "https://optimism-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://opt-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://mainnet.optimism.io"
-    start_block: 113621901
-  - contracts:
-      - address: "0xf4906225e783fb8977410bdbfb960cabed6c2ef4"
+        url: "https://opt-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x044ec80fbec40f0ee7e7b3856828170971796c19"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 113621901
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0xc28872e0c1f3633eed467907123727ac0155029d"
+      - address: "0xe041629d99730b3ee4d6518097c45b4e3591992b"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 122259615
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xf0d61b42311c810dfde191d58427d81e87c5d5f6"
+      - address: "0x2455bff7a71e6e441b2d0b1b1e480fe36ebf6d1e"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 131210682
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 137
+  - id: 137
+    start_block: 51245836
     rpc:
       - for: "fallback"
         url: "https://polygon-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
         url: "https://polygon-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://polygon-rpc.com"
-    start_block: 51245836
-  - contracts:
-      - address: "0xbd73389cbdd4f31f374f2815ecb7f9dec0f124d3"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 146
-    rpc:
-      - for: "fallback"
-        url: "https://sonic-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.soniclabs.com"
-    start_block: 43945441
-  - contracts:
-      - address: "0xb3ade5463000e6c0d376e7d7570f372ebf98bdaf"
+    contracts:
+      - address: "0xf4906225e783fb8977410bdbfb960cabed6c2ef4"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 51245836
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x344afe8ad5dba3d55870dc398e0f53b635b2ed0d"
+      - address: "0xc28872e0c1f3633eed467907123727ac0155029d"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 58958044
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x6df0bffdb106b19d1e954853f4d14003e21b7854"
+      - address: "0xf0d61b42311c810dfde191d58427d81e87c5d5f6"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 67225665
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 534352
+  - id: 1329
+    start_block: 138904383
+    rpc:
+      - for: "sync"
+        url: "https://lb.routeme.sh/rpc/1329/${ENVIO_ROUTEMESH_API_KEY}"
+    contracts:
+      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 138904383
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 146
+    start_block: 43945441
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sonic-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0xbd73389cbdd4f31f374f2815ecb7f9dec0f124d3"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 43945441
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 534352
+    start_block: 1675340
     rpc:
       - for: "fallback"
         url: "https://scroll-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://scroll-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.scroll.io"
-    start_block: 1675340
-  - contracts:
-      - address: "0x9d4923e2ff0b9dadc447a89f528760928f84d0f7"
+        url: "https://scroll-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0xb3ade5463000e6c0d376e7d7570f372ebf98bdaf"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 1675340
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0x344afe8ad5dba3d55870dc398e0f53b635b2ed0d"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 7138124
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0x6df0bffdb106b19d1e954853f4d14003e21b7854"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 13015821
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 50104
+  - id: 50104
+    start_block: 11290094
+    rpc: []
+    contracts:
+      - address: "0x9d4923e2ff0b9dadc447a89f528760928f84d0f7"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 11290094
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 5330
+    start_block: 799582
     rpc:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.sophon.xyz"
-    start_block: 11290094
-  - contracts:
+        url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
       - address: "0xf60beadefbeb98c927e13c4165bca7d85ba32cb2"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 2896477
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0x3df48bb93509d9a041c81f6670c37b1eeb3e154b"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 799582
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 5330
-    rpc:
-      - for: "fallback"
-        url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://mainnet.superseed.xyz"
-    start_block: 2896477
-  - contracts:
+  - id: 5845
+    start_block: 2516262
+    hypersync_config:
+      url: "https://tangle.hypersync.xyz"
+    rpc: []
+    contracts:
       - address: "0x5e73bb96493c10919204045fcdb639d35ad859f8"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 2516262
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
       - address: "0xd641a0e4509cced67cc24e7bdcde2a31b7f7cf77"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 4004609
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    hypersync_config:
-      url: "https://tangle.hypersync.xyz"
-    id: 5845
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.tangle.tools"
-    start_block: 2516262
-  - contracts:
-      - address: "0xc6fc028e988d158c52aa2e38cdd6f969aa14bdcd"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 130
+  - id: 130
+    start_block: 13885193
     rpc:
       - for: "fallback"
         url: "https://unichain-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://unichain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://mainnet.unichain.org/"
-    start_block: 13885193
-  - contracts:
+        url: "https://unichain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0xc6fc028e988d158c52aa2e38cdd6f969aa14bdcd"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 13885193
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+  - id: 50
+    start_block: 85226452
+    rpc: []
+    contracts:
       - address: "0xe41909f5623c3b78219d9a2bb92be95aee5bbc30"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 85226452
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 50
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.xdcrpc.com"
-    start_block: 85226452
-  - contracts:
-      - address: "0x46de683d20c3575a0381ffd66c10ab6836390140"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x8a84fcf962163a7e98bf0dafd918973c846fa5c8"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x8e7e78799f8cc87d4816112a758281dabc158452"
-        name: "SablierMerkleFactory_v1_3"
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    id: 324
+  - id: 324
+    start_block: 33148970
     rpc:
       - for: "fallback"
         url: "https://zksync-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://zksync-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://mainnet.era.zksync.io"
-    start_block: 33148970
-  - contracts:
-      - address: "0xf632521bbab0dbc2bef169865e6c8e285afe0a42"
+        url: "https://zksync-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x46de683d20c3575a0381ffd66c10ab6836390140"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 33148970
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x899a05feb160fe912f621733a1d0b39c1446b3eb"
+      - address: "0x8a84fcf962163a7e98bf0dafd918973c846fa5c8"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 38312643
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0x6a3466398a66c7ce801989b45c390cdc8717102d"
+      - address: "0x8e7e78799f8cc87d4816112a758281dabc158452"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 54755983
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 84532
+  - id: 84532
+    start_block: 7545874
     rpc:
       - for: "fallback"
         url: "https://base-sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://base-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://sepolia.base.org"
-    start_block: 7545874
-  - contracts:
-      - address: "0xbacc1d151a78eed71d504f701c25e8739dc0262d"
+        url: "https://base-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0xf632521bbab0dbc2bef169865e6c8e285afe0a42"
         name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 7545874
       - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x56e9180a8d2c35c99f2f8a1a5ab8abe79e876e8c"
+      - address: "0x899a05feb160fe912f621733a1d0b39c1446b3eb"
         name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 12641193
       - name: "SablierV2MerkleLL_v1_2"
       - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xf642751d1271c88bbb8786067de808b32a016fd4"
+      - address: "0x6a3466398a66c7ce801989b45c390cdc8717102d"
         name: "SablierMerkleFactory_v1_3"
+        start_block: 21167425
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-    id: 11155111
+  - id: 11155111
+    start_block: 4904900
     rpc:
       - for: "fallback"
         url: "https://sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
-        url: "https://eth-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://sepolia.drpc.org"
-    start_block: 4904900
+        url: "https://eth-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0xbacc1d151a78eed71d504f701c25e8739dc0262d"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 4904900
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0x56e9180a8d2c35c99f2f8a1a5ab8abe79e876e8c"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 6240754
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0xf642751d1271c88bbb8786067de808b32a016fd4"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 7596143
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
