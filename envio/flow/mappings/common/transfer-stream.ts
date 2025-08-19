@@ -1,12 +1,11 @@
 import { zeroAddress } from "viem";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import type { Entity } from "../../bindings";
 import type {
-  SablierFlow_v1_0_Transfer_handler as Handler_v1_0,
-  SablierFlow_v1_1_Transfer_handler as Handler_v1_1,
-  SablierFlow_v1_0_Transfer_loader as Loader_v1_0,
-  SablierFlow_v1_1_Transfer_loader as Loader_v1_1,
+  SablierFlow_v1_0_Transfer_handlerArgs as HandlerArgs_v1_0,
+  SablierFlow_v1_1_Transfer_handlerArgs as HandlerArgs_v1_1,
+  SablierFlow_v1_0_Transfer_loaderArgs as LoaderArgs_v1_0,
+  SablierFlow_v1_1_Transfer_loaderArgs as LoaderArgs_v1_1,
 } from "../../bindings/src/Types.gen";
 import { Loader as LoaderBase } from "./loader";
 
@@ -14,19 +13,10 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type LoaderArgs = LoaderArgs_v1_0 | LoaderArgs_v1_1;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type LoaderReturn = {
-  stream: Entity.Stream;
-  users: {
-    caller?: Entity.User;
-    currentRecipient?: Entity.User;
-    newRecipient?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
-
-const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   // Exclude `Transfer` events emitted by the initial mint transaction.
   // See https://github.com/sablier-labs/indexers/issues/18
   if (event.params.from === zeroAddress) {
@@ -45,9 +35,9 @@ const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type HandlerArgs = HandlerArgs_v1_0<LoaderReturn> | HandlerArgs_v1_1<LoaderReturn>;
 
-export const handler: Handler<LoaderReturn | undefined> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   if (!loaderReturn) {
     return;
   }

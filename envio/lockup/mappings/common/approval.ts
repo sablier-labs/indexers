@@ -1,34 +1,24 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import type { Entity } from "../../bindings";
 import type {
-  SablierV2LockupLinear_v1_0_Approval_handler as Handler_v1_0,
-  SablierV2LockupLinear_v1_1_Approval_handler as Handler_v1_1,
-  SablierV2LockupLinear_v1_2_Approval_handler as Handler_v1_2,
-  SablierLockup_v2_0_Approval_handler as Handler_v2_0,
-  SablierV2LockupLinear_v1_0_Approval_loader as Loader_v1_0,
-  SablierV2LockupLinear_v1_1_Approval_loader as Loader_v1_1,
-  SablierV2LockupLinear_v1_2_Approval_loader as Loader_v1_2,
-  SablierLockup_v2_0_Approval_loader as Loader_v2_0,
+  SablierV2LockupLinear_v1_0_Approval_handlerArgs as HandlerArgs_v1_0,
+  SablierV2LockupLinear_v1_1_Approval_handlerArgs as HandlerArgs_v1_1,
+  SablierV2LockupLinear_v1_2_Approval_handlerArgs as HandlerArgs_v1_2,
+  SablierLockup_v2_0_Approval_handlerArgs as HandlerArgs_v2_0,
+  SablierV2LockupLinear_v1_0_Approval_loaderArgs as LoaderArgs_v1_0,
+  SablierV2LockupLinear_v1_1_Approval_loaderArgs as LoaderArgs_v1_1,
+  SablierV2LockupLinear_v1_2_Approval_loaderArgs as LoaderArgs_v1_2,
+  SablierLockup_v2_0_Approval_loaderArgs as LoaderArgs_v2_0,
 } from "../../bindings/src/Types.gen";
 
 /* -------------------------------------------------------------------------- */
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type LoaderReturn = {
-  stream: Entity.Stream;
-  users: {
-    approved?: Entity.User;
-    caller?: Entity.User;
-    owner?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
+type LoaderArgs = LoaderArgs_v1_0 | LoaderArgs_v1_1 | LoaderArgs_v1_2 | LoaderArgs_v2_0;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T> & Loader_v2_0<T>;
-
-const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   const streamId = Id.stream(event.srcAddress, event.chainId, event.params.tokenId);
   const watcherId = event.chainId.toString();
 
@@ -54,9 +44,13 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T> & Handler_v2_0<T>;
+type HandlerArgs =
+  | HandlerArgs_v1_0<LoaderReturn>
+  | HandlerArgs_v1_1<LoaderReturn>
+  | HandlerArgs_v1_2<LoaderReturn>
+  | HandlerArgs_v2_0<LoaderReturn>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- ACTION --------------------------------- */
@@ -79,4 +73,4 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   ]);
 };
 
-export const approval = { handler, loader: loader };
+export const approval = { handler, loader };

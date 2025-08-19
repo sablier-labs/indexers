@@ -1,8 +1,8 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type {
-  SablierFlow_v1_0_AdjustFlowStream_handler as Handler_v1_0,
-  SablierFlow_v1_1_AdjustFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_0_AdjustFlowStream_handlerArgs as HandlerArgs_v1_0,
+  SablierFlow_v1_1_AdjustFlowStream_handlerArgs as HandlerArgs_v1_1,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 import { Loader } from "./loader";
@@ -11,9 +11,9 @@ import { Loader } from "./loader";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type HandlerArgs = HandlerArgs_v1_0<Loader.BaseReturn> | HandlerArgs_v1_1<Loader.BaseReturn>;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
