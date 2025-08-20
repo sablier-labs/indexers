@@ -1,29 +1,20 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
-import type { Entity } from "../../bindings";
 import type {
-  SablierFlow_v1_0_ApprovalForAll_handler as Handler_v1_0,
-  SablierFlow_v1_1_ApprovalForAll_handler as Handler_v1_1,
-  SablierFlow_v1_0_ApprovalForAll_loader as Loader_v1_0,
-  SablierFlow_v1_1_ApprovalForAll_loader as Loader_v1_1,
+  SablierFlow_v1_0_ApprovalForAll_handlerArgs as HandlerArgs_v1_0,
+  SablierFlow_v1_1_ApprovalForAll_handlerArgs as HandlerArgs_v1_1,
+  SablierFlow_v1_0_ApprovalForAll_loaderArgs as LoaderArgs_v1_0,
+  SablierFlow_v1_1_ApprovalForAll_loaderArgs as LoaderArgs_v1_1,
 } from "../../bindings/src/Types.gen";
 
 /* -------------------------------------------------------------------------- */
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type LoaderReturn = {
-  users: {
-    caller?: Entity.User;
-    operator?: Entity.User;
-    owner?: Entity.User;
-  };
-  watcher: Entity.Watcher;
-};
+type LoaderArgs = LoaderArgs_v1_0 | LoaderArgs_v1_1;
+type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
-
-const loader: Loader<LoaderReturn> = async ({ context, event }) => {
+const loader = async ({ context, event }: LoaderArgs) => {
   const [caller, operator, owner] = await Promise.all([
     context.User.get(Id.user(event.chainId, event.transaction.from)),
     context.User.get(Id.user(event.chainId, event.params.operator)),
@@ -43,9 +34,9 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type HandlerArgs = HandlerArgs_v1_0<LoaderReturn> | HandlerArgs_v1_1<LoaderReturn>;
 
-const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   const { users, watcher } = loaderReturn;
 
   /* --------------------------------- ACTION --------------------------------- */
