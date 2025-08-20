@@ -17,6 +17,9 @@ jobs:
         with:
           package-manager: pnpm
 
+      - name: Generate the indexer bindings
+        run: just codegen-indexers
+
       - name: Check the code
         run: just full-check
 
