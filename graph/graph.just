@@ -10,7 +10,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 #                                 DEPENDENCIES                                 #
 # ---------------------------------------------------------------------------- #
 
-# Install Ni: https://github.com/antfu-collective/ni
+# Ni: https://github.com/antfu-collective/ni
 ni := require("ni")
 
 # ---------------------------------------------------------------------------- #
