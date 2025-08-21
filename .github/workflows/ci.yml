@@ -15,6 +15,7 @@ jobs:
       ENVIO_ALCHEMY_API_KEY: ${{ secrets.ENVIO_ALCHEMY_API_KEY }}
       ENVIO_ENVIRONMENT: development
       ENVIO_INFURA_API_KEY: ${{ secrets.ENVIO_INFURA_API_KEY }}
+      GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
