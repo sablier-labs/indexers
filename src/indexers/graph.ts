@@ -235,7 +235,7 @@ const OFFICIALS: IndexerGraphMap[] = [
   official(chains.zksync.id, {
     airdrops: "64iDUwNVWKukw67nqTXif5taEfLug4Qf1c2suAv5hrqN",
     flow: "9DRgWhDAMovpkej3eT8izum6jxEKHE62ciArffsTAScx",
-    lockup: "5yDtFSxyRuqyjvGJyyuQhMEW3Uah7Ddy2KFSKVhy9VMa",
+    lockup: "7SuEYGYwZ835LjVGB85ZE8z5zmqdKgmRh8kAEeJefWQN",
   }),
   /* -------------------------------------------------------------------------- */
   /*                                  TESTNETS                                  */
