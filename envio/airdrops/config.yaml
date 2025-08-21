@@ -282,6 +282,19 @@ networks:
         url: "https://rpc.gnosischain.com"
     start_block: 31491795
   - contracts:
+      - address: "0xe0548364372f3b842e6f89e2dac2e53b5ea0a35b"
+        name: "SablierMerkleFactory_v1_3"
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+    id: 999
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.hyperliquid.xyz/evm"
+    start_block: 8665370
+  - contracts:
       - address: "0xdb07a1749d5ca49909c7c4159652fbd527c735b8"
         name: "SablierV2MerkleStreamerFactory_v1_1"
       - name: "SablierV2MerkleStreamerLL_v1_1"
@@ -428,6 +441,21 @@ networks:
         interval_ceiling: 2000
         url: "https://polygon-rpc.com"
     start_block: 51245836
+  - contracts:
+      - address: "0xbd73389cbdd4f31f374f2815ecb7f9dec0f124d3"
+        name: "SablierMerkleFactory_v1_3"
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+    id: 146
+    rpc:
+      - for: "fallback"
+        url: "https://sonic-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.soniclabs.com"
+    start_block: 43945441
   - contracts:
       - address: "0xb3ade5463000e6c0d376e7d7570f372ebf98bdaf"
         name: "SablierV2MerkleStreamerFactory_v1_1"

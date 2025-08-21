@@ -188,6 +188,16 @@ networks:
         url: "https://rpc.gnosischain.com"
     start_block: 37356094
   - contracts:
+      - address: "0x556d859dfeb58ed3fa092b6526b09da6b74113e2"
+        name: "SablierFlow_v1_1"
+    id: 999
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.hyperliquid.xyz/evm"
+    start_block: 8663784
+  - contracts:
       - address: "0x46fa0164c5af9382d330e5a245a2ca8a18398950"
         name: "SablierFlow_v1_0"
       - address: "0x89d964e0b508234bcfdc7a32ae0aa0356f422b70"
@@ -287,6 +297,18 @@ networks:
         interval_ceiling: 2000
         url: "https://polygon-rpc.com"
     start_block: 65079319
+  - contracts:
+      - address: "0x63815da47c97063cc24b28d0b6f59234f71d5c96"
+        name: "SablierFlow_v1_1"
+    id: 146
+    rpc:
+      - for: "fallback"
+        url: "https://sonic-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.soniclabs.com"
+    start_block: 43944753
   - contracts:
       - address: "0x66826f53bffeaab71adc7fe1a77e86f8268848d8"
         name: "SablierFlow_v1_0"
