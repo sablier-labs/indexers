@@ -222,6 +222,11 @@ const OFFICIALS: IndexerGraphMap[] = [
     flow: "41ZGYcFgL2N7L5ng78S4sD6NHDNYEYcNFxnz4T8Zh3iU",
     lockup: "AJU5rBfbuApuJpeZeaz6NYuYnnhAhEy4gFkqsSdAT6xb",
   }),
+  official(chains.sonic.id, {
+    airdrops: "5g8orwpm5Rf83G8eqDzDjodt3sG2D64cbiLC98Utmv4Q",
+    flow: "HkQKZKuM6dZ7Vc4FGC1gZTVVTniYJWRhTRmDDMNzN8zk",
+    lockup: "GnaSPX9XLkPn219CqbGFU1NgveuQk2Hh3c8WxjtesaEh",
+  }),
   official(chains.unichain.id, {
     airdrops: "4rQMJ85hKNhcaDyirGipGvcqS4auGU3QCFRBnpiexyNy",
     flow: "Cb5uDYfy4ukN9fjhQ3PQZgDzyo6G66ztn1e847rS7Xa8",

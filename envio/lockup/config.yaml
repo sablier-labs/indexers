@@ -324,6 +324,16 @@ networks:
         url: "https://rpc.gnosischain.com"
     start_block: 28766600
   - contracts:
+      - address: "0x856167ee3e09ba562d69a542ab6a939903ad738e"
+        name: "SablierLockup_v2_0"
+    id: 999
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.hyperliquid.xyz/evm"
+    start_block: 8594061
+  - contracts:
       - address: "0x49d753422ff05daa291a9efa383e4f57daead889"
         name: "SablierV2LockupDynamic_v1_1"
       - address: "0x17c4f98c40e69a6a0d5c42b11e3733f076a99e20"
@@ -479,6 +489,18 @@ networks:
         interval_ceiling: 2000
         url: "https://polygon-rpc.com"
     start_block: 44637127
+  - contracts:
+      - address: "0xc37462ee6500d2c36c9131b921faadbd6cb7b60b"
+        name: "SablierLockup_v2_0"
+    id: 146
+    rpc:
+      - for: "fallback"
+        url: "https://sonic-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.soniclabs.com"
+    start_block: 43943890
   - contracts:
       - address: "0xde6a30d851efd0fc2a9c922f294801cfd5fcb3a1"
         name: "SablierV2LockupDynamic_v1_0"
