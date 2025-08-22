@@ -1,6 +1,6 @@
+import { isOfficialLockup } from "../../../common/helpers";
 import { Contract } from "../../bindings";
 import type { Params } from "../../helpers";
-import { isOfficialLockup } from "../../helpers";
 import { Store } from "../../store";
 import { createMerkle, Loader } from "../common/factory/create-merkle";
 

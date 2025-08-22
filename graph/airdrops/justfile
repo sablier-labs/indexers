@@ -1,8 +1,6 @@
 import "../graph.just"
 
-# Set protocol name
-
-export PROTOCOL := "airdrops"
+export INDEXER_NAME := "airdrops"
 
 # Show available commands
 default:

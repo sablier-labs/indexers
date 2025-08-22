@@ -22,6 +22,7 @@ export namespace EnvioConfig {
   export type NetworkContract = {
     name: string;
     address?: Sablier.Address | Sablier.Address[];
+    start_block?: number;
   };
 
   /**
@@ -36,7 +37,7 @@ export namespace EnvioConfig {
 
   export type Network = {
     id: number;
-    start_block: number;
+    start_block: 0;
     hypersync_config?: HypersyncConfig;
     rpc?: NetworkRPC[];
     contracts: NetworkContract[];
@@ -53,6 +54,7 @@ export namespace EnvioConfig {
     name: string;
     ecosystem: "evm";
     output: string;
+    preload_handlers: boolean;
     schema: string;
     unordered_multichain_mode: boolean;
     field_selection: FieldSelection;

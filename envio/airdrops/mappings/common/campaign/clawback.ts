@@ -1,5 +1,4 @@
 import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Clawback_handlerArgs as HandlerArgsLL_v1_1,
   SablierV2MerkleLL_v1_2_Clawback_handlerArgs as HandlerArgsLL_v1_2,
@@ -30,14 +29,8 @@ const loader = async ({ context, event }: LoaderArgs) => {
     context.Watcher.getOrThrow(watcherId),
   ]);
 
-  const users = {
-    admin: await context.User.get(Id.user(event.chainId, event.params.admin)),
-    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-  };
-
   return {
     campaign,
-    users,
     watcher,
   };
 };
@@ -54,7 +47,7 @@ type HandlerArgs =
   | HandlerArgsLT_v1_3<LoaderReturn>;
 
 const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
-  const { campaign, users, watcher } = loaderReturn;
+  const { campaign, watcher } = loaderReturn;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateClawback(context, event, campaign);
@@ -70,12 +63,6 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
 
   /* --------------------------------- WATCHER -------------------------------- */
   Store.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller },
-    { address: event.params.admin, entity: users.admin },
-  ]);
 };
 
 /* -------------------------------------------------------------------------- */

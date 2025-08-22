@@ -1,0 +1,58 @@
+import { Contract } from "../../../bindings";
+import { Store } from "../../../store";
+import { handleApproval, handleApprovalForAll, handleTransfer } from "../../common/handlers";
+
+/* -------------------------------------------------------------------------- */
+/*                               LOCKUP-SPECIFIC                              */
+/* -------------------------------------------------------------------------- */
+
+Contract.Lockup.Lockup_v2_0.CancelLockupStream.handler(async ({ context, event }) => {
+  await Store.User.createOrUpdate(context, event, [
+    event.params.sender,
+    event.params.recipient,
+    event.transaction.from,
+  ]);
+});
+
+Contract.Lockup.Lockup_v2_0.RenounceLockupStream.handler(async ({ context, event }) => {
+  await Store.User.createOrUpdate(context, event, [event.transaction.from]);
+});
+
+Contract.Lockup.Lockup_v2_0.WithdrawFromLockupStream.handler(async ({ context, event }) => {
+  await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
+  // Lockup v2.0 introduced fees, so we track revenue
+  await Store.Revenue.createOrUpdate(context, event);
+});
+
+/* -------------------------------------------------------------------------- */
+/*                                   ERC-721                                  */
+/* -------------------------------------------------------------------------- */
+
+Contract.Lockup.Lockup_v2_0.Approval.handler(async ({ context, event }) => {
+  await handleApproval(context, event, {
+    approved: event.params.approved,
+    owner: event.params.owner,
+  });
+});
+
+Contract.Lockup.Lockup_v2_0.ApprovalForAll.handler(async ({ context, event }) => {
+  await handleApprovalForAll(context, event, {
+    operator: event.params.operator,
+    owner: event.params.owner,
+  });
+});
+
+Contract.Lockup.Lockup_v2_0.Transfer.handler(async ({ context, event }) => {
+  await handleTransfer(context, event, {
+    from: event.params.from,
+    to: event.params.to,
+  });
+});
+
+/* -------------------------------------------------------------------------- */
+/*                              CREATE HANDLERS                              */
+/* -------------------------------------------------------------------------- */
+
+import "./SablierLockup/create-dynamic";
+import "./SablierLockup/create-linear";
+import "./SablierLockup/create-tranched";

@@ -1,5 +1,4 @@
-// import { Effects } from "../../../common/effects";
-import { Effects } from "../../../common/effects";
+import { fetchTokenMetadata } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { RPCData } from "../../../common/types";
@@ -30,11 +29,6 @@ const loader = async ({ context, event }: LoaderArgs) => {
     context.Batcher.get(batcherId),
     context.Watcher.get(watcherId),
   ]);
-  const [caller, recipient, sender] = await Promise.all([
-    context.User.get(Id.user(event.chainId, event.transaction.from)),
-    context.User.get(Id.user(event.chainId, event.params.recipient)),
-    context.User.get(Id.user(event.chainId, event.params.sender)),
-  ]);
 
   let assetMetadata: RPCData.ERC20Metadata;
   if (asset) {
@@ -44,7 +38,7 @@ const loader = async ({ context, event }: LoaderArgs) => {
       symbol: asset.symbol,
     };
   } else {
-    assetMetadata = await context.effect(Effects.TokenMetadata.readOrFetchMetadata, {
+    assetMetadata = await context.effect(fetchTokenMetadata, {
       address: event.params.token,
       chainId: event.chainId,
     });
@@ -55,7 +49,6 @@ const loader = async ({ context, event }: LoaderArgs) => {
     assetMetadata,
     batch,
     batcher,
-    users: { caller, recipient, sender },
     watcher,
   };
 };
@@ -72,7 +65,6 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
     asset: loaderReturn.asset ?? CommonStore.Asset.create(context, event.chainId, event.params.token, assetMetadata),
     batch: loaderReturn.batch ?? Store.Batch.create(event, event.params.sender),
     batcher: loaderReturn.batcher ?? Store.Batcher.create(context, event, event.params.sender),
-    users: loaderReturn.users,
     watcher: loaderReturn.watcher ?? CommonStore.Watcher.create(event.chainId),
   };
 
@@ -96,13 +88,6 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
 
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementCounters(context, entities.watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: entities.users.caller },
-    { address: event.params.recipient, entity: entities.users.recipient },
-    { address: event.params.sender, entity: entities.users.sender },
-  ]);
 };
 
 /* -------------------------------------------------------------------------- */

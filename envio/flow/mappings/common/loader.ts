@@ -8,6 +8,8 @@ import type {
   SablierFlow_v1_1_AdjustFlowStream_loaderArgs as AdjustArgs_v1_1,
   SablierFlow_v1_0_Approval_loaderArgs as ApprovalArgs_v1_0,
   SablierFlow_v1_1_Approval_loaderArgs as ApprovalArgs_v1_1,
+  SablierFlow_v1_0_ApprovalForAll_loaderArgs as ApprovalForAllArgs_v1_0,
+  SablierFlow_v1_1_ApprovalForAll_loaderArgs as ApprovalForAllArgs_v1_1,
   SablierFlow_v1_0_DepositFlowStream_loaderArgs as DepositArgs_v1_0,
   SablierFlow_v1_1_DepositFlowStream_loaderArgs as DepositArgs_v1_1,
   SablierFlow_v1_0_PauseFlowStream_loaderArgs as PauseArgs_v1_0,
@@ -30,6 +32,8 @@ export namespace Loader {
     | AdjustArgs_v1_1
     | ApprovalArgs_v1_0
     | ApprovalArgs_v1_1
+    | ApprovalForAllArgs_v1_0
+    | ApprovalForAllArgs_v1_1
     | DepositArgs_v1_0
     | DepositArgs_v1_1
     | PauseArgs_v1_0
@@ -64,15 +68,8 @@ export namespace Loader {
       context.Stream.getOrThrow(streamId),
       context.Watcher.getOrThrow(watcherId),
     ]);
-
-    const [caller, sender] = await Promise.all([
-      context.User.get(Id.user(event.chainId, event.transaction.from)),
-      context.User.get(Id.user(event.chainId, stream.sender)),
-    ]);
-
     return {
       stream,
-      users: { caller, sender },
       watcher,
     };
   };

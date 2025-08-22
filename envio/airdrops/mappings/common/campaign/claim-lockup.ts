@@ -1,5 +1,4 @@
 import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handlerArgs as HandlerArgsLL_v1_1,
   SablierV2MerkleLL_v1_2_Claim_handlerArgs as HandlerArgsLL_v1_2,
@@ -25,28 +24,20 @@ type LoaderReturn = Awaited<ReturnType<typeof loader>>;
 const loader = async ({ context, event }: LoaderArgs) => {
   const activityId = Id.activity(event);
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
-  const revenueId = Id.revenue(event.chainId, event.block.timestamp);
   const watcherId = event.chainId.toString();
 
-  const [activity, campaign, revenue, watcher] = await Promise.all([
+  const [activity, campaign, watcher] = await Promise.all([
     context.Activity.get(activityId),
     context.Campaign.getOrThrow(campaignId),
-    context.Revenue.get(revenueId),
     context.Watcher.getOrThrow(watcherId),
   ]);
 
   const factory = await context.Factory.getOrThrow(campaign.factory_id);
-  const [caller, recipient] = await Promise.all([
-    context.User.get(Id.user(event.chainId, event.transaction.from)),
-    context.User.get(Id.user(event.chainId, event.params.recipient)),
-  ]);
 
   return {
     activity,
     campaign,
     factory,
-    revenue,
-    users: { caller, recipient },
     watcher,
   };
 };
@@ -63,7 +54,7 @@ type HandlerArgs =
   | HandlerArgsLT_v1_3<LoaderReturn>;
 
 const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
-  const { campaign, factory, revenue, users, watcher } = loaderReturn;
+  const { campaign, factory, watcher } = loaderReturn;
   const activity = loaderReturn.activity ?? Store.Activity.create(context, event, campaign.id);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
@@ -90,15 +81,6 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
 
   /* --------------------------------- WATCHER -------------------------------- */
   Store.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller, isAirdropClaim: true },
-    { address: event.params.recipient, entity: users.recipient, isAirdropClaim: true },
-  ]);
-
-  /* -------------------------------- REVENUE --------------------------------- */
-  await CommonStore.Revenue.createOrUpdate(context, event, revenue);
 };
 
 /* -------------------------------------------------------------------------- */

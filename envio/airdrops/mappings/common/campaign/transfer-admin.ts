@@ -1,6 +1,5 @@
 import { zeroAddress } from "viem";
 import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
 import type {
   SablierV2MerkleStreamerLL_v1_1_TransferAdmin_handlerArgs as HandlerArgs_v1_1,
   SablierV2MerkleLL_v1_2_TransferAdmin_handlerArgs as HandlerArgs_v1_2,
@@ -31,15 +30,8 @@ const loader = async ({ context, event }: LoaderArgs) => {
     context.Watcher.getOrThrow(watcherId),
   ]);
 
-  const users = {
-    caller: await context.User.get(Id.user(event.chainId, event.transaction.from)),
-    newAdmin: await context.User.get(Id.user(event.chainId, event.params.newAdmin)),
-    oldAdmin: await context.User.get(Id.user(event.chainId, event.params.oldAdmin)),
-  };
-
   return {
     campaign,
-    users,
     watcher,
   };
 };
@@ -54,7 +46,7 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
   if (!loaderReturn) {
     return;
   }
-  const { campaign, users, watcher } = loaderReturn;
+  const { campaign, watcher } = loaderReturn;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
@@ -67,13 +59,6 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
 
   /* --------------------------------- WATCHER -------------------------------- */
   Store.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller },
-    { address: event.params.oldAdmin, entity: users.oldAdmin },
-    { address: event.params.newAdmin, entity: users.newAdmin },
-  ]);
 };
 
 /* -------------------------------------------------------------------------- */

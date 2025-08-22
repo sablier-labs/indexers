@@ -11,7 +11,7 @@ import { Loader } from "./loader";
 type HandlerArgs = HandlerArgs_v1_0<Loader.BaseReturn> | HandlerArgs_v1_1<Loader.BaseReturn>;
 
 const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
-  const { stream, users, watcher } = loaderReturn;
+  const { stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
 
@@ -54,12 +54,6 @@ const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
 
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller },
-    { address: stream.sender, entity: users.sender },
-  ]);
 };
 
 export const voidStream = { handler, loader: Loader.base };

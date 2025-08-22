@@ -1,5 +1,6 @@
 import type { Sablier } from "sablier";
 import type { Types } from "../lib/types";
+import type { Indexer } from "../src";
 import { airdropsContracts } from "./airdrops";
 import { flowContracts } from "./flow";
 import { lockupContracts } from "./lockup";
@@ -22,7 +23,7 @@ export function convertToIndexed(contract: Sablier.Contract): Types.Contract {
     block: contract.block ?? 0,
     chainId: contract.chainId,
     name: contract.name,
-    protocol: contract.protocol as Types.Protocol,
+    protocol: contract.protocol as Indexer.Protocol,
     version: contract.version,
   };
 }

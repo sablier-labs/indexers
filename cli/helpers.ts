@@ -6,15 +6,15 @@ import { sablier } from "sablier";
 import stripAnsi from "strip-ansi";
 import type { EnvioConfig } from "../codegen/envio-config/config-types";
 import type { GraphManifest } from "../codegen/graph-manifest/manifest-types";
-import { AUTOGEN_COMMENT, PROTOCOLS, VENDORS } from "./constants";
-import type { ChainArg, ProtocolArg, VendorArg } from "./types";
+import { AUTOGEN_COMMENT, INDEXERS, VENDORS } from "./constants";
+import type { ChainArg, IndexerArg, VendorArg } from "./types";
 
 export function addChainOpt(command: Command): Command {
   return command.option("-c, --chain <string>", 'chain slug (use "all" for all chains)');
 }
 
-export function addProtocolOpt(command: Command): Command {
-  return command.option("-p, --protocol <string>", `${PROTOCOLS.join(", ")}, or "all"`);
+export function addIndexerOpt(command: Command): Command {
+  return command.option("-i, --indexer <string>", `${INDEXERS.join(", ")}, or "all"`);
 }
 
 export function addVendorOpt(command: Command): Command {
@@ -41,18 +41,17 @@ export function parseChainOpt(chainValue: string | undefined): ChainArg {
   return chainValue as ChainArg;
 }
 
-export function parseProtocolOpt(protocolValue: string | undefined): ProtocolArg {
-  if (!protocolValue) {
-    throw new Error("--protocol is required. Use 'all' to target all protocols.");
+export function parseIndexerOpt(indexerValue: string | undefined): IndexerArg {
+  if (!indexerValue) {
+    throw new Error("--indexer is required. Use 'all' to target all indexers.");
   }
 
-  if (![...PROTOCOLS, "all"].includes(protocolValue)) {
-    throw new Error(`--protocol must be either ${PROTOCOLS.join(", ")}, or "all"`);
+  if (![...INDEXERS, "all"].includes(indexerValue)) {
+    throw new Error(`--indexer must be either ${INDEXERS.join(", ")}, or "all"`);
   }
 
-  return protocolValue as ProtocolArg;
+  return indexerValue as IndexerArg;
 }
-
 export function parseVendorOpt(vendorValue: string | undefined): VendorArg {
   if (!vendorValue) {
     throw new Error("--vendor is required. Use 'all' to target all vendors.");

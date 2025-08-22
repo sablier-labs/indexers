@@ -5,7 +5,7 @@
 
 import { Version } from "sablier";
 import type { Envio } from "../../../common/bindings";
-import { Effects } from "../../../common/effects";
+import { fetchTokenMetadata } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import type { RPCData } from "../../../common/types";
 import type { Context } from "../../bindings";
@@ -14,6 +14,10 @@ import type {
   SablierV2LockupLinear_v1_1_Approval_loaderArgs as ApprovalArgs_v1_1,
   SablierV2LockupLinear_v1_2_Approval_loaderArgs as ApprovalArgs_v1_2,
   SablierLockup_v2_0_Approval_loaderArgs as ApprovalArgs_v2_0,
+  SablierV2LockupLinear_v1_0_ApprovalForAll_loaderArgs as ApprovalForAllArgs_v1_0,
+  SablierV2LockupLinear_v1_1_ApprovalForAll_loaderArgs as ApprovalForAllArgs_v1_1,
+  SablierV2LockupLinear_v1_2_ApprovalForAll_loaderArgs as ApprovalForAllArgs_v1_2,
+  SablierLockup_v2_0_ApprovalForAll_loaderArgs as ApprovalForAllArgs_v2_0,
   SablierV2LockupLinear_v1_0_CancelLockupStream_loaderArgs as CancelArgs_v1_0,
   SablierV2LockupLinear_v1_1_CancelLockupStream_loaderArgs as CancelArgs_v1_1_to_v2_0,
   SablierV2LockupDynamic_v1_0_CreateLockupDynamicStream_loaderArgs as CreateDynamicArgs_v1_0,
@@ -37,6 +41,7 @@ import type {
   SablierV2LockupLinear_v1_0_WithdrawFromLockupStream_loaderArgs as WithdrawArgs_v1_0,
   SablierV2LockupLinear_v1_1_WithdrawFromLockupStream_loaderArgs as WithdrawArgs_v1_1_to_v2_0,
 } from "../../bindings/src/Types.gen";
+import { fetchProxender } from "../../effects/proxender";
 
 export namespace Loader {
   /* -------------------------------------------------------------------------- */
@@ -48,6 +53,10 @@ export namespace Loader {
     | ApprovalArgs_v1_1
     | ApprovalArgs_v1_2
     | ApprovalArgs_v2_0
+    | ApprovalForAllArgs_v1_0
+    | ApprovalForAllArgs_v1_1
+    | ApprovalForAllArgs_v1_2
+    | ApprovalForAllArgs_v2_0
     | CancelArgs_v1_0
     | CancelArgs_v1_1_to_v2_0
     | RenounceArgs_v1_0
@@ -81,14 +90,8 @@ export namespace Loader {
       context.Watcher.getOrThrow(watcherId),
     ]);
 
-    const [caller, sender] = await Promise.all([
-      context.User.get(Id.user(event.chainId, event.transaction.from)),
-      context.User.get(Id.user(event.chainId, stream.sender)),
-    ]);
-
     return {
       stream,
-      users: { caller, sender },
       watcher,
     };
   };
@@ -117,12 +120,6 @@ export namespace Loader {
       context.Batcher.get(batcherId),
       context.Watcher.get(watcherId),
     ]);
-    const [caller, funder, recipient, sender] = await Promise.all([
-      context.User.get(Id.user(event.chainId, event.transaction.from)),
-      context.User.get(Id.user(event.chainId, params.funder)),
-      context.User.get(Id.user(event.chainId, params.recipient)),
-      context.User.get(Id.user(event.chainId, params.sender)),
-    ]);
 
     let assetMetadata: RPCData.ERC20Metadata;
     if (asset) {
@@ -132,13 +129,13 @@ export namespace Loader {
         symbol: asset.symbol,
       };
     } else {
-      assetMetadata = await context.effect(Effects.TokenMetadata.readOrFetchMetadata, {
+      assetMetadata = await context.effect(fetchTokenMetadata, {
         address: params.asset,
         chainId: event.chainId,
       });
     }
 
-    const proxender = await context.effect(Effects.Proxender.readOrFetchProxender, {
+    const proxender = await context.effect(fetchProxender, {
       chainId: event.chainId,
       lockupAddress: event.srcAddress,
       streamSender: params.sender,
@@ -149,12 +146,6 @@ export namespace Loader {
         asset,
         batch,
         batcher,
-        users: {
-          caller,
-          funder,
-          recipient,
-          sender,
-        },
         watcher,
       },
       rpcData: {
