@@ -4,10 +4,10 @@ import { Version } from "sablier";
 import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";
-import type { Envio } from "../bindings";
-import { NOT_AVAILABLE, PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../constants";
-import { getContractVersion } from "../deployments";
-import { getClient } from "../rpc-clients";
+import type { Envio } from "../../common/bindings";
+import { NOT_AVAILABLE, PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../../common/constants";
+import { getContractVersion } from "../../common/deployments";
+import { getClient } from "../../common/rpc-clients";
 
 /**
  * Reads the proxy owner from the cache or, if not found, fetches it from the RPC.
@@ -15,7 +15,7 @@ import { getClient } from "../rpc-clients";
  * @see https://github.com/PaulRBerg/prb-proxy
  * @see https://docs.envio.dev/docs/HyperIndex/event-handlers#contexteffect-experimental
  */
-export const readOrFetchProxender = experimental_createEffect(
+export const fetchProxender = experimental_createEffect(
   {
     cache: true,
     input: S.tuple((t) => ({

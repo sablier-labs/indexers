@@ -1,7 +1,8 @@
 import "../envio.just"
 
-export ENVIO_PROTOCOL := "airdrops"
-export PROTOCOL := "airdrops"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "Campaign&Revenue&RevenueTransaction&User&UserTransaction"
+export ENVIO_INDEXER_NAME := "airdrops"
+export INDEXER_NAME := "airdrops"
 
 # Show available commands
 default:

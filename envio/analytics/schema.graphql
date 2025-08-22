@@ -1,0 +1,79 @@
+"""
+Revenue entity for tracking protocol fees by day.
+"""
+type Revenue @entity {
+  # Unique identifier: chainId_YYYY-MM-DD
+  id: ID!
+  # Total revenue amount for this day (in native currency)
+  amount: Float!
+  # Chain ID where revenue was generated
+  chainId: BigInt!
+  # Native currency symbol (ETH, POL, BNB, etc.)
+  currency: String!
+  # Date in YYYY-MM-DD format
+  date: String!
+  # Date as timestamp for easier querying
+  dateTimestamp: Timestamp!
+  # GBP value of the revenue amount
+  valueGBP: Float!
+  # USD value of the revenue amount
+  valueUSD: Float!
+}
+
+"""
+Transaction-level revenue tracking.
+"""
+type RevenueTransaction @entity {
+  # Unique identifier: revenueId_transactionHash
+  id: ID!
+  # Revenue amount from this transaction (in native currency)
+  amount: Float!
+  # Block number of the transaction
+  block: BigInt!
+  # Native currency symbol (ETH, POL, BNB, etc.)
+  currency: String!
+  # Transaction hash
+  hash: String!
+  # Block timestamp
+  timestamp: BigInt!
+  # Reference to Revenue entity
+  revenue: Revenue!
+  # GBP value of the revenue amount from this transaction
+  valueGBP: Float!
+  # USD value of the revenue amount from this transaction
+  valueUSD: Float!
+}
+
+"""
+User entity for tracking unique users across all Sablier protocols.
+"""
+type User @entity {
+  # Unique identifier: chainId_address
+  id: ID!
+  # User's Ethereum address (lowercase)
+  address: String!
+  # Chain ID where this user was first seen
+  chainId: BigInt!
+  # True if user has only claimed airdrops (no other protocol interaction)
+  isOnlyAirdropClaimer: Boolean!
+}
+
+"""
+Transaction-level user interaction tracking.
+"""
+type UserTransaction @entity {
+  # Unique identifier: userId_transactionHash
+  id: ID!
+  # Block number of the transaction
+  block: BigInt!
+  # Transaction hash
+  hash: String!
+  # Transaction fee in native currency (ETH, POL, etc.)
+  fee: Float!
+  # Whether this transaction is an airdrop claim
+  isAirdropClaim: Boolean!
+  # Block timestamp
+  timestamp: BigInt!
+  # Reference to User entity
+  user: User!
+}

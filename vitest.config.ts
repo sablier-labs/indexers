@@ -6,10 +6,10 @@ const TEST_VENDORS = Boolean(process.env.TEST_VENDORS);
 
 function getInclude() {
   if (TEST_VENDORS) {
-    return ["tests/vendors/**/*.test.ts"];
+    return ["./tests/vendors/**/*.test.ts"];
   }
 
-  return ["tests/**/*.test.ts", "!tests/vendors/**/*.ts"];
+  return ["**/tests/**/*.test.ts", "!**/tests/vendors/**/*.ts"];
 }
 
 /**
@@ -26,7 +26,7 @@ export default defineConfig({
   test: {
     env: loadEnv("", process.cwd(), ""),
     environment: "node",
-    globalSetup: "tests/setup.ts",
+    globalSetup: "./tests/setup.ts",
     globals: true,
     include: getInclude(),
     retry: getRetry(),

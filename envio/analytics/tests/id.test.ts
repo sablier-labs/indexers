@@ -1,0 +1,78 @@
+import { describe, expect, it } from "vitest";
+import { Id } from "../helpers/id";
+
+describe("Id", () => {
+  describe("revenue", () => {
+    it("should create daily revenue id", () => {
+      // Unix timestamp for 2024-01-15 12:30:00 UTC
+      const timestamp = 1705323000;
+      const actual = Id.revenue(1, timestamp);
+      expect(actual).toBe("1_2024-01-15");
+    });
+
+    it("should handle different chain ids", () => {
+      // Unix timestamp for 2023-12-25 00:00:00 UTC
+      const timestamp = 1703462400;
+      const actual = Id.revenue(137, timestamp);
+      expect(actual).toBe("137_2023-12-25");
+    });
+
+    it("should handle timestamps at different times of day", () => {
+      // Unix timestamp for 2024-06-01 23:59:59 UTC
+      const timestamp = 1717286399;
+      const actual = Id.revenue(1, timestamp);
+      expect(actual).toBe("1_2024-06-01");
+    });
+
+    it("should handle epoch timestamp", () => {
+      const timestamp = 0;
+      const actual = Id.revenue(1, timestamp);
+      expect(actual).toBe("1_1970-01-01");
+    });
+  });
+
+  describe("revenueTransaction", () => {
+    it("should create revenue transaction id", () => {
+      const revenueId = "1_2024-01-15";
+      const hash = "0xabc123def456";
+      const actual = Id.revenueTransaction(revenueId, hash);
+      expect(actual).toBe("1_2024-01-15_0xabc123def456");
+    });
+
+    it("should handle empty strings", () => {
+      const actual = Id.revenueTransaction("", "");
+      expect(actual).toBe("_");
+    });
+  });
+
+  describe("user", () => {
+    it("should create user id with lowercase address", () => {
+      const actual = Id.user(1, "0xABCDEF123456789");
+      expect(actual).toBe("1_0xabcdef123456789");
+    });
+
+    it("should handle different chain ids", () => {
+      const actual = Id.user(42, "0x1234567890AbCdEf");
+      expect(actual).toBe("42_0x1234567890abcdef");
+    });
+
+    it("should handle zero chain id", () => {
+      const actual = Id.user(0, "0xABC123");
+      expect(actual).toBe("0_0xabc123");
+    });
+  });
+
+  describe("userTransaction", () => {
+    it("should create user transaction id", () => {
+      const userId = "1_0xabc123";
+      const hash = "0xdef456";
+      const actual = Id.userTransaction(userId, hash);
+      expect(actual).toBe("1_0xabc123_0xdef456");
+    });
+
+    it("should handle empty strings", () => {
+      const actual = Id.userTransaction("", "");
+      expect(actual).toBe("_");
+    });
+  });
+});

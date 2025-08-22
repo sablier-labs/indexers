@@ -41,14 +41,6 @@ export async function createStream<P extends Params.CreateStreamCommon>(input: I
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementCounters(context, entities.watcher);
 
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: entities.users.caller },
-    { address: stream.funder, entity: entities.users.funder },
-    { address: stream.recipient, entity: entities.users.recipient },
-    { address: stream.sender, entity: entities.users.sender },
-  ]);
-
   return stream;
 }
 
@@ -67,7 +59,6 @@ function getOrCreateEntities(
     asset: entities.asset ?? CommonStore.Asset.create(context, event.chainId, params.asset, rpcData.assetMetadata),
     batch: entities.batch ?? Store.Batch.create(event, params.sender),
     batcher: entities.batcher ?? Store.Batcher.create(context, event, params.sender),
-    users: entities.users,
     watcher: entities.watcher ?? CommonStore.Watcher.create(event.chainId),
   };
 }

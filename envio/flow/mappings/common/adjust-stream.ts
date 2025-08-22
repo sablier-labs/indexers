@@ -1,8 +1,8 @@
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type {
-  SablierFlow_v1_0_AdjustFlowStream_handler as Handler_v1_0,
-  SablierFlow_v1_1_AdjustFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_0_AdjustFlowStream_handlerArgs as HandlerArgs_v1_0,
+  SablierFlow_v1_1_AdjustFlowStream_handlerArgs as HandlerArgs_v1_1,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 import { Loader } from "./loader";
@@ -11,10 +11,10 @@ import { Loader } from "./loader";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type HandlerArgs = HandlerArgs_v1_0<Loader.BaseReturn> | HandlerArgs_v1_1<Loader.BaseReturn>;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, users, watcher } = loaderReturn;
+const handler = async ({ context, event, loaderReturn }: HandlerArgs) => {
+  const { stream, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
   const now = BigInt(event.block.timestamp);
@@ -52,12 +52,6 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
 
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller },
-    { address: stream.sender, entity: users.sender },
-  ]);
 };
 
 /* -------------------------------------------------------------------------- */

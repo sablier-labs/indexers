@@ -1,7 +1,8 @@
 import "../envio.just"
 
-export ENVIO_PROTOCOL := "flow"
-export PROTOCOL := "flow"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "Revenue&RevenueTransaction&Stream&User&UserTransaction"
+export ENVIO_INDEXER_NAME := "flow"
+export INDEXER_NAME := "flow"
 
 # Show available commands
 default:

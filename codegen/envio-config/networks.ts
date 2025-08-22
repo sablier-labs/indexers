@@ -3,17 +3,17 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import { indexedContracts } from "../../contracts";
 import { sanitizeContractName } from "../../lib/helpers";
-import type { Types } from "../../lib/types";
 import { logger, messages } from "../../lib/winston";
+import type { Indexer } from "../../src";
 import { envioChains } from "../../src/indexers/envio";
 import { CodegenError } from "../error";
 import type { EnvioConfig } from "./config-types";
 
-export function createNetworks(protocol: Types.Protocol): EnvioConfig.Network[] {
+export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];
 
   for (const chain of envioChains) {
-    const { contracts, startBlock } = extractContracts(protocol, chain.id);
+    const contracts = extractContracts(protocol, chain.id);
     const hypersync_config = chain.config?.hypersync
       ? { url: `https://${chain.config.hypersync}.hypersync.xyz` }
       : undefined;
@@ -24,7 +24,7 @@ export function createNetworks(protocol: Types.Protocol): EnvioConfig.Network[] 
       hypersync_config,
       id: chain.id,
       rpc,
-      start_block: startBlock,
+      start_block: 0,
     });
   }
 
@@ -73,11 +73,6 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
   return RPCs;
 }
 
-type ExtractContractsReturn = {
-  contracts: EnvioConfig.NetworkContract[];
-  startBlock: number;
-};
-
 /**
  * Extracts contracts for a specific protocol and chain.
  * @returns Object containing extracted contracts and the earliest start block
@@ -87,13 +82,11 @@ type ExtractContractsReturn = {
  * 2. Finds the deployment for that release on the specified chain
  * 3. Filters contracts that are indexed
  * 4. Validates contracts have required properties (alias and block)
- * 5. Collects contract addresses and names
- * 6. Determines the earliest block number to start indexing from
- * 7. Throws errors if required contracts are missing or no contracts found
+ * 5. Collects the contract address, name, and start block
+ * 6. Throws errors if required contracts are missing or no contracts found
  */
-function extractContracts(protocol: Types.Protocol, chainId: number): ExtractContractsReturn {
+function extractContracts(protocol: Indexer.Protocol, chainId: number): EnvioConfig.NetworkContract[] {
   const networkContracts: EnvioConfig.NetworkContract[] = [];
-  let startBlock = 0;
 
   for (const release of sablier.releases.getAll({ protocol })) {
     const deployment = sablier.deployments.get({ chainId, release });
@@ -108,7 +101,6 @@ function extractContracts(protocol: Types.Protocol, chainId: number): ExtractCon
     // Filter all contracts that match the release version.
     const filteredContracts = indexedContracts[protocol].filter((c) => c.versions.includes(release.version));
 
-    const possibleStartBlocks: number[] = [];
     for (const filteredContract of filteredContracts) {
       const { name: contractName, isTemplate } = filteredContract;
       if (isTemplate) {
@@ -136,15 +128,8 @@ function extractContracts(protocol: Types.Protocol, chainId: number): ExtractCon
       networkContracts.push({
         address: contract.address.toLowerCase() as `0x${string}`,
         name: sanitizeContractName(contractName, release.version),
+        start_block: contract.block,
       });
-      if (startBlock === 0) {
-        possibleStartBlocks.push(contract.block);
-      }
-    }
-
-    // The first contract gives the start block for the entire indexer.
-    if (startBlock === 0) {
-      startBlock = Math.min(...possibleStartBlocks);
     }
   }
 
@@ -153,5 +138,5 @@ function extractContracts(protocol: Types.Protocol, chainId: number): ExtractCon
     throw new CodegenError.ContractsNotFound(protocol, chainId);
   }
 
-  return { contracts: networkContracts, startBlock };
+  return networkContracts;
 }

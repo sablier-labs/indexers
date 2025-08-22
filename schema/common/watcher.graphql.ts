@@ -1,8 +1,8 @@
 import { gql } from "graphql-tag";
-import type { Types } from "../../lib/types";
+import type { Indexer } from "../../src";
 
-export function getWatcherDefs(protocol: Types.Protocol) {
-  const counterField = protocol === "airdrops" ? "campaign" : "stream";
+export function getWatcherDefs(indexer: Indexer.Name) {
+  const counterField = indexer === "airdrops" ? "campaign" : "stream";
 
   return gql`
     type Watcher @entity(immutable: false) {

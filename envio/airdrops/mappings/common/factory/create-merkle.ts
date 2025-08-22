@@ -1,7 +1,8 @@
 import _ from "lodash";
 import { Version } from "sablier";
 import type { Envio } from "../../../../common/bindings";
-import { Effects } from "../../../../common/effects";
+import { fetchTokenMetadata } from "../../../../common/effects";
+import { isOfficialLockup } from "../../../../common/helpers";
 import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
 import type { RPCData } from "../../../../common/types";
@@ -14,7 +15,6 @@ import type {
   SablierV2MerkleLockupFactory_v1_2_CreateMerkleLT_loader as CreateLT_v1_2,
   SablierMerkleFactory_v1_3_CreateMerkleLT_loader as CreateLT_v1_3,
 } from "../../../bindings/src/Types.gen";
-import { isOfficialLockup } from "../../../helpers";
 import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 
@@ -27,10 +27,6 @@ export namespace Loader {
     entities: {
       asset?: Entity.Asset;
       factory?: Entity.Factory;
-      users: {
-        admin?: Entity.User;
-        caller?: Entity.User;
-      };
       watcher?: Entity.Watcher;
     };
     rpcData: {
@@ -54,11 +50,6 @@ export namespace Loader {
       context.Watcher.get(watcherId),
     ]);
 
-    const [admin, caller] = await Promise.all([
-      context.User.get(Id.user(event.chainId, params.admin)),
-      context.User.get(Id.user(event.chainId, event.transaction.from)),
-    ]);
-
     let assetMetadata: RPCData.ERC20Metadata;
     if (asset) {
       assetMetadata = {
@@ -67,7 +58,7 @@ export namespace Loader {
         symbol: asset.symbol,
       };
     } else {
-      assetMetadata = await context.effect(Effects.TokenMetadata.readOrFetchMetadata, {
+      assetMetadata = await context.effect(fetchTokenMetadata, {
         address: params.asset,
         chainId: event.chainId,
       });
@@ -77,7 +68,6 @@ export namespace Loader {
       entities: {
         asset,
         factory,
-        users: { admin, caller },
         watcher,
       },
       rpcData: {
@@ -160,12 +150,6 @@ export async function createMerkle<P extends Params.CreateCampaignBase>(input: I
 
   /* --------------------------------- WATCHER -------------------------------- */
   Store.Watcher.incrementCounters(context, entities.watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: entities.users.caller },
-    { address: params.admin, entity: entities.users.admin },
-  ]);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -182,7 +166,6 @@ function getOrCreateEntities(
   return {
     asset: entities.asset ?? CommonStore.Asset.create(context, event.chainId, params.asset, rpcData.assetMetadata),
     factory: entities.factory ?? Store.Factory.create(context, event.chainId, event.srcAddress),
-    users: entities.users,
     watcher: entities.watcher ?? Store.Watcher.create(event.chainId),
   };
 }
