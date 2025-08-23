@@ -49,6 +49,7 @@ just full-write             # Auto-fix formatting and linting
    - Override the chain slug in `CHAIN_SLUG_GRAPH_OVERRIDES`, if necessary.
    - Override the chain slug in `CHAIN_SLUG_SUBGRAPH_YAML`, if necessary.
 1. Run `just codegen-indexers` to update the auto-generated bindings.
+1. Ship a new `@sablier/indexers` npm package (if you want to test the new indexers in the UI).
 
 > [!NOTE]
 >
@@ -58,7 +59,8 @@ just full-write             # Auto-fix formatting and linting
 ### Mappings for New Contracts
 
 1. Add the new contracts on the [`staging`](https://github.com/sablier-labs/sdk/tree/staging) branch of the Sablier SDK.
-1. Ship a new `sablier` `pnpm` package with the `beta` and a version like this: `v1.x-beta.y` (replace `x` and `y` with
-   the actual version).
+1. Ship a new `sablier` npm package with the `beta` and a version like this: `v1.x-beta.y` (replace `x` and `y` with the
+   actual version).
 1. Install the staging version version of the Sablier SDK.
 1. Implement the new mappings.
+1. Ship a new `@sablier/indexers` npm package (if you want to test the new indexers in the UI).

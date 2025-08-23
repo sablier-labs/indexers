@@ -97,16 +97,14 @@ function createGraphDeployAllCommand(): Command {
       try {
         // Construct the subgraph name and manifest path
         const indexerName = `sablier-${protocol}-${d.chainSlug}`;
+        const buildPath = paths.graph.build(protocol);
         const manifestPath = paths.graph.manifest(protocol, d.chainId);
+        const options = ["--output-dir", buildPath, "--version-label", versionLabel];
 
         // Run the pnpm graph deploy command
-        const result = await $(
-          "pnpm",
-          ["graph", "deploy", "--version-label", versionLabel, indexerName, manifestPath],
-          {
-            cwd: path.join(ROOT_DIR, "graph", protocol),
-          },
-        );
+        const result = await $("pnpm", ["graph", "deploy", indexerName, manifestPath, ...options], {
+          cwd: path.join(ROOT_DIR, "graph", protocol),
+        });
         spinner.stop();
 
         // Extract deployment ID from output

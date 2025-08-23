@@ -12,7 +12,7 @@ export namespace Params {
     recipient: Address;
     sender: Address;
     streamId: BigInt;
-    token: Address;
+    asset: Address;
     transferable: boolean;
   }
 

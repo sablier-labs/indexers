@@ -21,7 +21,7 @@ export function createStream(event: ethereum.Event, params: Params.CreateFlowStr
   watcher.save();
 
   /* --------------------------------- ASSET --------------------------------- */
-  const asset = getOrCreateAsset(params.token);
+  const asset = getOrCreateAsset(params.asset);
   stream.asset = asset.id;
   stream.assetDecimalsValue = asset.decimals;
 

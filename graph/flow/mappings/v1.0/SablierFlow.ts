@@ -52,11 +52,11 @@ export function handle_SablierFlow_v1_0_ApprovalForAll(event: ApprovalForAll): v
 
 export function handle_SablierFlow_v1_0_CreateFlowStream(event: CreateFlowStream): void {
   handleCreateFlowStream(event, {
+    asset: event.params.token,
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,
     sender: event.params.sender,
     streamId: event.params.streamId,
-    token: event.params.token,
     transferable: event.params.transferable,
   });
 }
