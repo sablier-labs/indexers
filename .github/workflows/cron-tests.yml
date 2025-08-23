@@ -7,6 +7,8 @@ on:
 
 jobs:
   test:
+    env:
+      GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
