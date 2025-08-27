@@ -4,11 +4,10 @@ dist
 node_modules
 repomix
 **/.bin
-**/airdrops/bindings
+**/bindings
+!graph/common/bindings
 **/build
-**/flow/bindings
 **/generated
-**/lockup/bindings
 
 # Files
 *.log
