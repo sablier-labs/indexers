@@ -1,12 +1,10 @@
 import { Id } from "../../../../common/id";
-import type { SablierMerkleInstant_v1_3_Claim_handler } from "../../../bindings/src/Types.gen";
+import type { SablierMerkleInstant_v1_3_Claim_handler as Handler } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
-
-type Handler = SablierMerkleInstant_v1_3_Claim_handler;
 
 const handler: Handler = async ({ context, event }) => {
   const activityId = Id.activity(event);

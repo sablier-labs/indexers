@@ -1,9 +1,9 @@
 import { zeroAddress } from "viem";
 import { Id } from "../../../../common/id";
 import type {
-  SablierV2MerkleStreamerLL_v1_1_TransferAdmin_handler as HandlerArgs_v1_1,
-  SablierV2MerkleLL_v1_2_TransferAdmin_handler as HandlerArgs_v1_2,
-  SablierMerkleInstant_v1_3_TransferAdmin_handler as HandlerArgs_v1_3,
+  SablierMerkleInstant_v1_3_TransferAdmin_handler as HandlerInstant_v1_3,
+  SablierV2MerkleStreamerLL_v1_1_TransferAdmin_handler as HandlerLL_v1_1,
+  SablierV2MerkleLL_v1_2_TransferAdmin_handler as HandlerLL_v1_2,
 } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
@@ -11,7 +11,7 @@ import { Store } from "../../../store";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = HandlerArgs_v1_1 & HandlerArgs_v1_2 & HandlerArgs_v1_3;
+type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerInstant_v1_3;
 
 const handler: Handler = async ({ context, event }) => {
   // Starting with v1.3, the constructor emits a TransferAdmin event.
