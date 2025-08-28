@@ -51,16 +51,16 @@ export function getGraphChainSlug(chainId: number): string {
   return CHAIN_SLUG_GRAPH_OVERRIDES[chainId] ?? sablier.chains.getOrThrow(chainId).slug;
 }
 
-export function getSubgraphYamlChainSlug(chainId: number): string {
-  return CHAIN_SLUG_SUBGRAPH_YAML[chainId] ?? getGraphChainSlug(chainId);
-}
-
 export function getSablierChainSlug(chainId: number): string {
   return CHAIN_SLUG_SABLIER_OVERRIDES[chainId] ?? sablier.chains.getOrThrow(chainId).slug;
 }
 
+export function getSubgraphYamlChainSlug(chainId: number): string {
+  return CHAIN_SLUG_SUBGRAPH_YAML[chainId] ?? getGraphChainSlug(chainId);
+}
+
 function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
-  const graphChainName = getGraphChainSlug(chainId);
+  const graphChainName = getSablierChainSlug(chainId);
   return `sablier-${protocol}-${graphChainName}`;
 }
 
