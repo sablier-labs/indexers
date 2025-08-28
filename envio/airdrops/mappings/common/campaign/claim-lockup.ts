@@ -16,6 +16,7 @@ import { Store } from "../../../store";
 type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerLL_v1_3 & HandlerLT_v1_2 & HandlerLT_v1_3;
 
 const handler: Handler = async ({ context, event }) => {
+  /* -------------------------------- ENTITIES -------------------------------- */
   const activityId = Id.activity(event);
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const watcherId = event.chainId.toString();

@@ -1,10 +1,15 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../common/deprecated";
 import { CommonParams } from "../../../common/types";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
 export function handleCreateFlowStream(event: ethereum.Event, params: Params.CreateFlowStream): void {
   Store.Contract.loadOrCreate(event.address);
+  if (isDeprecatedFlowContract(event, "flow", params.token)) {
+    Store.DeprecatedStream.create(event, params.token, params.streamId);
+    return;
+  }
 
   const stream = Store.Stream.create(event, {
     ratePerSecond: params.ratePerSecond,

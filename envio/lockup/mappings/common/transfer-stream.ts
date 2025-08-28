@@ -1,4 +1,5 @@
 import { zeroAddress } from "viem";
+import { isDeprecatedStream } from "../../../common/deprecated";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type {
@@ -21,7 +22,13 @@ const handler: Handler = async ({ context, event }) => {
     return;
   }
 
+  /* -------------------------------- ENTITIES -------------------------------- */
   const streamId = Id.stream(event.srcAddress, event.chainId, event.params.tokenId);
+  const isDeprecated = await isDeprecatedStream(context, streamId);
+  if (isDeprecated) {
+    return;
+  }
+
   const watcherId = event.chainId.toString();
 
   const [stream, watcher] = await Promise.all([

@@ -1,9 +1,9 @@
 import { Address, DataSourceContext, ethereum } from "@graphprotocol/graph-ts";
 import { readChainId, readContractVersion } from "../../../../common/context";
+import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated";
 import { isOfficialLockup } from "../../../helpers";
 import { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
-
 /* -------------------------------------------------------------------------- */
 /*                                  MERKLE LL                                 */
 /* -------------------------------------------------------------------------- */
@@ -13,6 +13,10 @@ export function handleCreateMerkleLL(
   paramsBase: Params.CreateCampaignBase,
   paramsLL: Params.CreateCampaignLL,
 ): void {
+  if (isDeprecatedFactory(event, "airdrops", paramsBase.asset)) {
+    return;
+  }
+
   const lockup = paramsLL.lockup;
   if (!isOfficialLockup(lockup)) {
     return;
@@ -31,6 +35,10 @@ export function handleCreateMerkleLT(
   paramsBase: Params.CreateCampaignBase,
   paramsLT: Params.CreateCampaignLT,
 ): void {
+  if (isDeprecatedFactory(event, "airdrops", paramsBase.asset)) {
+    return;
+  }
+
   const lockup = paramsLT.lockup;
   if (!isOfficialLockup(lockup)) {
     return;

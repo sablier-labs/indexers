@@ -11,17 +11,16 @@ import { getOrCreateAsset } from "./entity-asset";
 import { getOrCreateFactory } from "./entity-factory";
 import { getOrCreateWatcher } from "./entity-watcher";
 
-export function createCampaignInstant(event: ethereum.Event, params: Params.CreateCampaignBase): Entity.Campaign {
+export function createCampaignInstant(event: ethereum.Event, params: Params.CreateCampaignBase): void {
   const campaign = createBaseCampaign(event, params);
   campaign.save();
-  return campaign;
 }
 
 export function createCampaignLL(
   event: ethereum.Event,
   paramsBase: Params.CreateCampaignBase,
   paramsLL: Params.CreateCampaignLL,
-): Entity.Campaign {
+): void {
   let campaign = createBaseCampaign(event, paramsBase);
 
   campaign = initLockupCampaign(campaign, paramsLL);
@@ -37,21 +36,19 @@ export function createCampaignLL(
   }
 
   campaign.save();
-  return campaign;
 }
 
 export function createCampaignLT(
   event: ethereum.Event,
   paramsBase: Params.CreateCampaignBase,
   paramsLT: Params.CreateCampaignLT,
-): Entity.Campaign {
+): void {
   let campaign = createBaseCampaign(event, paramsBase);
 
   campaign = initLockupCampaign(campaign, paramsLT);
   campaign = addTranchesWithPercentages(campaign, paramsLT.tranchesWithPercentages);
 
   campaign.save();
-  return campaign;
 }
 
 export function getCampaign(address: Address): Entity.Campaign | null {

@@ -8,6 +8,13 @@ export const PRB_PROXY_REGISTRY_v4_0_0: Envio.Address = "0xd42a2bb59775694c9df4c
 export const PRB_PROXY_REGISTRY_v4_0_1: Envio.Address = "0x584009e9ede26e212182c9745f5c000191296a78";
 
 /* -------------------------------------------------------------------------- */
+/*                                    DATES                                   */
+/* -------------------------------------------------------------------------- */
+
+export const AUG_20_2025 = 1_755_648_000; // see https://x.com/Sablier/status/1914326014995620114
+export const FEB_03_2025 = 1_738_540_800; // see https://x.com/Sablier/status/1879564876122906829
+
+/* -------------------------------------------------------------------------- */
 /*                                   NUMBERS                                  */
 /* -------------------------------------------------------------------------- */
 
@@ -19,7 +26,6 @@ export const DECIMALS_DEFAULT = 0;
 /* -------------------------------------------------------------------------- */
 
 export const COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3";
-export const FEB_3_2025 = 1_738_540_800; // see https://x.com/Sablier/status/1879564876122906829
 export const CURRENCY_FREAKS_BASE_URL = "https://api.currencyfreaks.com/v2.0";
 export const FIXER_BASE_URL = "https://data.fixer.io/api";
 export const NOT_AVAILABLE = "n/a";

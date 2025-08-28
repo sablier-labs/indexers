@@ -1,0 +1,36 @@
+"""
+Older streams are no longer indexed.
+See https://x.com/Sablier/status/1914326014995620114
+"""
+type DeprecatedStream @entity(immutable: true) {
+  """
+  Unique identifier: \`{contractAddress}-{chainId}-{tokenId}\`
+  """
+  id: String!
+
+  """
+  The chain ID where the stream was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+
+  """
+  The address of the contract that created the stream.
+  """
+  contractAddress: Bytes!
+
+  """
+  The id provided by the NFT contract. It's the ERC-721 tokenId.
+  """
+  tokenId: BigInt!
+
+  # ------------------------------- TRANSACTION ------------------------------ #
+  """
+  Hash of the Ethereum transaction that created this stream.
+  """
+  hash: Bytes!
+
+  """
+  Unix timestamp of the Ethereum transaction that created this stream.
+  """
+  timestamp: BigInt!
+}

@@ -12,6 +12,10 @@ export function handleTransfer(event: ethereum.Event, params: Params.Transfer): 
   }
 
   const tokenId = params.tokenId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
     logError("Stream not saved before this Transfer event: {}", [tokenId.toHexString()]);

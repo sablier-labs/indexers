@@ -11,6 +11,7 @@ import type {
 type Handler = Handler_v1_0 & Handler_v1_1;
 
 const handler: Handler = async ({ context, event }) => {
+  /* -------------------------------- ENTITIES -------------------------------- */
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.getOrThrow(watcherId);
 

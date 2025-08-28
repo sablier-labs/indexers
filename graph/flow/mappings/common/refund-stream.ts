@@ -8,6 +8,10 @@ import { Store } from "../../store";
 
 export function handleRefundFromFlowStream(event: ethereum.Event, params: Params.RefundFromFlowStream): void {
   const id = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, id)) {
+    return;
+  }
+
   const stream = Store.Stream.get(id);
   if (stream === null) {
     logError("Stream not saved before this Refund event: {}", [id.toHexString()]);

@@ -1,17 +1,9 @@
+import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated";
 import { isOfficialLockup } from "../../../../common/helpers";
 import { Contract } from "../../../bindings";
 import type { Params } from "../../../helpers";
 import { Store } from "../../../store";
 import { createMerkle, preloadCreateEntities } from "../../common/factory";
-
-Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.lockupLinear;
-  if (!isOfficialLockup(context.log, event, lockupAddress)) {
-    return;
-  }
-  const campaignAddress = event.params.merkleLL;
-  context.addSablierV2MerkleLL_v1_2(campaignAddress);
-});
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -47,6 +39,19 @@ struct Durations {
 
 ──────────────────────────────────────────────────────────────
 */
+
+Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.contractRegister(({ context, event }) => {
+  const asset = event.params.baseParams[0];
+  if (isDeprecatedFactory({ asset, event, protocol: "airdrops" })) {
+    return;
+  }
+  const lockupAddress = event.params.lockupLinear;
+  if (!isOfficialLockup(context.log, event, lockupAddress)) {
+    return;
+  }
+  const campaignAddress = event.params.merkleLL;
+  context.addSablierV2MerkleLL_v1_2(campaignAddress);
+});
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(async ({ context, event }) => {
   const admin = event.params.baseParams[3];
