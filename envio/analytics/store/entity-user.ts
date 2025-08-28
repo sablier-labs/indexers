@@ -1,3 +1,6 @@
+/**
+ * @see {@link: file://./../schema.graphql}
+ */
 import _ from "lodash";
 import { formatEther, zeroAddress } from "viem";
 import type { Envio } from "../../common/bindings";
@@ -12,11 +15,6 @@ type Params = {
   tx?: Entity.UserTransaction;
 };
 
-/**
- * The `User` entity tracks unique users across all Sablier protocols.
- * The `UserTransaction` entity tracks particular user interactions with Sablier.
- * @see {@link: file://./../schema.graphql}
- */
 export async function createOrUpdate(
   context: HandlerContext,
   event: Envio.Event,

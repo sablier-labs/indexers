@@ -7,6 +7,10 @@ import { Store } from "../../store";
 
 export function handleRestartFlowStream(event: ethereum.Event, params: Params.RestartFlowStream): void {
   const id = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, id)) {
+    return;
+  }
+
   const stream = Store.Stream.get(id);
   if (stream === null) {
     logError("Stream not saved before this Restart event: {}", [id.toHexString()]);

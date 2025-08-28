@@ -5,6 +5,10 @@ import { Store } from "../../store";
 
 export function handleRenounceLockupStream(event: ethereum.Event, params: Params.RenounceStream): void {
   const tokenId = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
     return;
