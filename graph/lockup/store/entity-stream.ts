@@ -1,6 +1,7 @@
 import { BigInt, dataSource, ethereum } from "@graphprotocol/graph-ts";
 import { LOCKUP_V1_0, LOCKUP_V1_1, LOCKUP_V1_2, LOCKUP_V2_0, ONE, ZERO } from "../../common/constants";
 import { readChainId, readContractVersion } from "../../common/context";
+import { isDeprecatedContract as isDeprecatedLockupContract } from "../../common/deprecated";
 import { Id } from "../../common/id";
 import { logError } from "../../common/logger";
 import { areStringsEqual } from "../../common/strings";
@@ -17,18 +18,25 @@ export function createStreamDynamic(
   event: ethereum.Event,
   commonParams: Params.CreateStreamCommon,
   dynamicParams: Params.CreateStreamDynamic,
-): Entity.Stream {
+): void {
+  if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
+    return;
+  }
+
   const stream = createBaseStream(event, commonParams);
   stream.save();
   addSegments(stream, dynamicParams.segments);
-  return stream;
 }
 
 export function createStreamLinear(
   event: ethereum.Event,
   commonParams: Params.CreateStreamCommon,
   linearParams: Params.CreateStreamLinear,
-): Entity.Stream {
+): void {
+  if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
+    return;
+  }
+
   let stream = createBaseStream(event, commonParams);
 
   const unlockAmountStart = linearParams.unlockAmountStart;
@@ -42,20 +50,20 @@ export function createStreamLinear(
   stream = addCliff(stream, commonParams, linearParams);
   stream = addLinearShape(stream, stream.cliff);
   stream.save();
-
-  return stream;
 }
 
 export function createStreamTranched(
   event: ethereum.Event,
   commonParams: Params.CreateStreamCommon,
   tranchedParams: Params.CreateStreamTranched,
-): Entity.Stream {
+): void {
+  if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
+    return;
+  }
+
   const stream = createBaseStream(event, commonParams);
   stream.save();
   addTranches(stream, tranchedParams.tranches);
-
-  return stream;
 }
 
 export function getStream(tokenId: BigInt): Entity.Stream | null {

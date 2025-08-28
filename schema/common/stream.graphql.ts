@@ -22,7 +22,7 @@ export const streamDefs = /* GraphQL */ `
   subgraphId: BigInt!
 
   """
-  The id provided by the Lockup contract. This is the ERC-721 tokenId.
+  The id provided by the NFT contract. It's the ERC-721 tokenId.
   """
   tokenId: BigInt!
 

@@ -6,6 +6,10 @@ import { Store } from "../../store";
 
 export function handleWithdrawFromStream(event: ethereum.Event, params: Params.WithdrawFromStream): void {
   const tokenId = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
     logError("Stream not saved before this withdraw event: {}", [tokenId.toHexString()]);

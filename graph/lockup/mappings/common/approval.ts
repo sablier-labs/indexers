@@ -5,6 +5,10 @@ import { Store } from "../../store";
 
 export function handleApproval(event: ethereum.Event, params: CommonParams.Approval): void {
   const tokenId = params.tokenId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
     logInfo("Stream not saved before this Approval event: {}", [tokenId.toHexString()]);
