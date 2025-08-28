@@ -3,10 +3,6 @@ import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 import { createMerkle, preloadCreateEntities } from "../../common/factory";
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.contractRegister(({ event, context }) => {
-  context.addSablierMerkleInstant_v1_3(event.params.merkleInstant);
-});
-
 /*
 ──────────────────────────────────────────────────────────────
 Solidity Event Reference
@@ -34,6 +30,10 @@ struct ConstructorParams {
 
 ──────────────────────────────────────────────────────────────
 */
+
+Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.contractRegister(({ event, context }) => {
+  context.addSablierMerkleInstant_v1_3(event.params.merkleInstant);
+});
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handler(async ({ context, event }) => {
   const baseParams = event.params.baseParams;

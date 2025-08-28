@@ -3,6 +3,7 @@
  */
 
 import type { Envio } from "../../../common/bindings";
+import { isDeprecatedContract as isDeprecatedLockupContract } from "../../../common/deprecated";
 import { CommonStore } from "../../../common/store";
 import type { Context, Entity } from "../../bindings";
 import type { Params } from "../../helpers/types";
@@ -20,8 +21,16 @@ type Input<P extends Params.CreateStreamCommon> = {
   params: P;
 };
 
-export async function createStream<P extends Params.CreateStreamCommon>(input: Input<P>): Promise<Entity.Stream> {
+export async function createStream<P extends Params.CreateStreamCommon>(
+  input: Input<P>,
+): Promise<Entity.Stream | null> {
   const { context, createInStore, event, entities, params } = input;
+
+  /* --------------------------------- STREAM --------------------------------- */
+  if (isDeprecatedLockupContract({ asset: params.asset, event, protocol: "lockup" })) {
+    CommonStore.DeprecatedStream.create(context, event, params.tokenId);
+    return null;
+  }
 
   /* --------------------------------- STREAM --------------------------------- */
   const stream = createInStore(context, event, entities, params);

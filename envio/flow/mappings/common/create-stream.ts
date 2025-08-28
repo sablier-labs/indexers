@@ -1,3 +1,4 @@
+import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../common/deprecated";
 import { fetchTokenMetadata } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
@@ -15,6 +16,12 @@ import { Store } from "../../store";
 type Handler = Handler_v1_0 & Handler_v1_1;
 
 const handler: Handler = async ({ context, event }) => {
+  if (isDeprecatedFlowContract({ asset: event.params.token, event, protocol: "flow" })) {
+    CommonStore.DeprecatedStream.create(context, event, event.params.streamId);
+    return;
+  }
+
+  /* --------------------------------- ENTITIES ------------------------------- */
   const assetId = Id.asset(event.chainId, event.params.token);
   const batchId = Id.batch(event, event.params.sender);
   const batcherId = Id.batcher(event.chainId, event.params.sender);

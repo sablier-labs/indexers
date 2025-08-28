@@ -4,15 +4,6 @@ import type { Params } from "../../../helpers";
 import { Store } from "../../../store";
 import { createMerkle, preloadCreateEntities } from "../../common/factory";
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.lockup;
-  if (!isOfficialLockup(context.log, event, lockupAddress)) {
-    return;
-  }
-  const campaignAddress = event.params.merkleLL;
-  context.addSablierMerkleLL_v1_3(campaignAddress);
-});
-
 /*
 ──────────────────────────────────────────────────────────────
 Solidity Event Reference
@@ -51,6 +42,15 @@ struct Schedule {
 }
 ──────────────────────────────────────────────────────────────
 */
+
+Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, event }) => {
+  const lockupAddress = event.params.lockup;
+  if (!isOfficialLockup(context.log, event, lockupAddress)) {
+    return;
+  }
+  const campaignAddress = event.params.merkleLL;
+  context.addSablierMerkleLL_v1_3(campaignAddress);
+});
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, event }) => {
   const baseParams = event.params.baseParams;
