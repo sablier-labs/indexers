@@ -1,5 +1,3 @@
-import type { Sablier } from "sablier";
-import { sablier } from "sablier";
 import type { Envio } from "../../common/bindings";
 import type { Entity } from "../bindings";
 
@@ -21,27 +19,4 @@ export function getNickname(
     return `${symbol} by ${prefix}..${suffix}`;
   }
   return `${symbol} in ${campaignName}`;
-}
-
-/**
- * Checks if the given address is an official Lockup contract. This check is needed because the Lockup contract
- * is a user-provided parameter when deploying an airdrop campaign.
- */
-export function isOfficialLockup(logger: Envio.Logger, event: Envio.Event, address: Envio.Address): boolean {
-  const lowercasedAddress = address.toLowerCase() as Sablier.Address;
-  const contract = sablier.contracts.get({
-    chainId: event.chainId,
-    contractAddress: lowercasedAddress,
-    protocol: "lockup",
-  });
-  if (!contract) {
-    logger.debug("Unknown or incorrect Lockup address used for creating airdrop campaign", {
-      chainId: event.chainId,
-      factory: event.srcAddress,
-      lockup: address,
-      txHash: event.transaction.hash,
-    });
-    return false;
-  }
-  return true;
 }

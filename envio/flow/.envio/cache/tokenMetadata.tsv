@@ -72,3 +72,9 @@ id	output
 [56,"0xB0b84D294e0C75A6abe60171b70edEb2EFd14A1B"]	{"name": "Staked Lista BNB", "symbol": "slisBNB", "decimals": 18}
 [56,"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"]	{"name": "Wrapped BNB", "symbol": "WBNB", "decimals": 18}
 [56,"0x3d4f0513E8a29669B960f9dBcA61861548A9A760"]	{"name": "Banana For Scale", "symbol": "$BANANA", "decimals": 18}
+[999,"0xcc68B6A411f983Afa19aa8f81fd903269430f1F8"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[88888,"0x60F397acBCfB8f4e3234C659A3E10867e6fA6b67"]	{"name": "PEPPER", "symbol": "PEPPER", "decimals": 18}
+[11155111,"0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0"]	{"name": "USDT", "symbol": "USDT", "decimals": 6}
+[42161,"0x3eD03E95DD894235090B3d4A49E0C3239EDcE59e"]	{"name": "MYRC", "symbol": "MYRC", "decimals": 18}
+[8453,"0xcA523625034D456d6206C69d7432dBD71A6F9d7D"]	{"name": "Aexora", "symbol": "AXT", "decimals": 18}
+[146,"0xB8aB2E66d5E4931e675CBE499d8c01B778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}

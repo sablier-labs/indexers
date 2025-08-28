@@ -1,27 +1,44 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
-
-/**
- * This function converts a Unix timestamp to a date in the format YYYY-MM-DD.
- * @param timestampInSeconds - The Unix timestamp to convert, in seconds.
- * @returns The date in the format YYYY-MM-DD.
- */
-export function getDate(timestampInSeconds: number): string {
-  const utcDate = dayjs.unix(timestampInSeconds).utc();
-  return utcDate.format("YYYY-MM-DD");
-}
-
-export function getDateTimestamp(timestampInSeconds: number): Date {
-  const utcDate = dayjs.unix(timestampInSeconds).utc();
-  return utcDate.startOf("day").toDate();
-}
+import type { Sablier } from "sablier";
+import { sablier } from "sablier";
+import type { Envio } from "./bindings";
 
 /**
- * This function converts a Unix timestamp to a "day number" by calculating how many full days have elapsed since
- * the Unix epoch.
+ * Checks if the given address is an official Lockup contract. This check is needed because the Lockup contract
+ * is a user-provided parameter when deploying an airdrop campaign.
+ *
+ * @param logger - The logger instance for debugging
+ * @param event - The event containing chain and transaction information
+ * @param address - The lockup contract address to validate
+ * @param options - Configuration options
+ * @param options.allowAll - If true, accepts all addresses (for analytics use case)
+ * @returns true if the address is an official lockup contract or allowAll is true
  */
-export function getDay(timestamp: number): bigint {
-  return BigInt(timestamp) / (60n * 60n * 24n); // 60 seconds * 60 minutes * 24 hours
+export function isOfficialLockup(
+  logger: Envio.Logger,
+  event: Envio.Event,
+  address: string,
+  options: { allowAll?: boolean } = {},
+): boolean {
+  if (options.allowAll) {
+    // For analytics, we want to track all lockup contracts, not just official ones
+    return true;
+  }
+
+  // For airdrops, validate against official contracts
+  const lowercasedAddress = address.toLowerCase() as Sablier.Address;
+  const contract = sablier.contracts.get({
+    chainId: event.chainId,
+    contractAddress: lowercasedAddress,
+    protocol: "lockup",
+  });
+  if (!contract) {
+    logger.debug("Unknown or incorrect Lockup address used for creating airdrop campaign", {
+      chainId: event.chainId,
+      factory: event.srcAddress,
+      lockup: address,
+      txHash: event.transaction.hash,
+    });
+    return false;
+  }
+  return true;
 }

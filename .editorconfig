@@ -17,3 +17,6 @@ indent_size = 4
 
 [justfile]
 indent_size = 4
+
+[*.tsv]
+indent_style = tab

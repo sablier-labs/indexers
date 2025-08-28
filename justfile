@@ -6,6 +6,12 @@ set dotenv-load := true
 # ---------------------------------------------------------------------------- #
 #                                 DEPENDENCIES                                 #
 # ---------------------------------------------------------------------------- #
+
+# Ni: https://github.com/antfu-collective/ni
+na := require("na")
+ni := require("ni")
+nlx := require("nlx")
+# Pnpm: https://github.com/pnpm/pnpm
 pnpm := require("pnpm")
 
 # ---------------------------------------------------------------------------- #
@@ -60,25 +66,26 @@ clean globs=GLOBS_CLEAN:
 
 # Export the schemas to the ./src directory
 # lint-staged will call this recipe and pass the globs to it
-export-schema +globs="src/schemas/*.graphql":
+@export-schema +globs="src/schemas/*.graphql":
     just cli export-schema
-    just biome-write "{{ globs }}"
+    just --quiet biome-write "{{ globs }}"
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
 [group("envio")]
-@fetch-assets protocol="all" chain="all":
+@fetch-assets indexer="all" chain="all":
     just cli fetch-assets \
-        --protocol {{ protocol }} \
+        --indexer {{ indexer }} \
         --chain {{ chain }}
+
 # Codegen the GraphQL schema
 [group("codegen")]
 [group("envio")]
 [group("graph")]
-@codegen-schema vendor="all" protocol="all":
+@codegen-schema vendor="all" indexer="all":
     just cli codegen schema \
         --vendor {{ vendor }} \
-        --protocol {{ protocol }}
-    just biome-write "envio/**/*.graphql"
+        --indexer {{ indexer }}
+    just --quiet biome-write "envio/**/*.graphql"
 
 # Run tests
 test args="--silent":
@@ -99,33 +106,33 @@ test-vendors:
 [doc("Codegen everything for the Envio indexer")]
 [group("codegen")]
 [group("envio")]
-@codegen-envio protocol="all":
-    just for-each _codegen-envio {{ protocol }}
+@codegen-envio indexer="all":
+    just envio-for-each _codegen-envio {{ indexer }}
 
-@_codegen-envio protocol:
-    just codegen-schema envio {{ protocol }}
-    just codegen-envio-config {{ protocol }}
-    just codegen-envio-bindings {{ protocol }}
+@_codegen-envio indexer:
+    just codegen-schema envio {{ indexer }}
+    just codegen-envio-config {{ indexer }}
+    just codegen-envio-bindings {{ indexer }}
 
 # Codegen the Envio bindings
 [group("codegen")]
 [group("envio")]
-@codegen-envio-bindings protocol="all":
-    just for-each _codegen-envio-bindings {{ protocol }}
+@codegen-envio-bindings indexer="all":
+    just envio-for-each _codegen-envio-bindings {{ indexer }}
 
-_codegen-envio-bindings protocol:
+_codegen-envio-bindings indexer:
     #!/usr/bin/env sh
-    protocol_dir="envio/{{ protocol }}"
+    indexer_dir="envio/{{ indexer }}"
     pnpm envio codegen \
-        --config $protocol_dir/config.yaml \
-        --output-directory $protocol_dir/bindings
+        --config $indexer_dir/config.yaml \
+        --output-directory $indexer_dir/bindings
     echo "✅ Generated Envio bindings"
 
 # Codegen the Envio config YAML
 [group("codegen")]
 [group("envio")]
-@codegen-envio-config protocol="all":
-    just cli codegen envio-config --protocol {{ protocol }}
+@codegen-envio-config indexer="all":
+    just cli codegen envio-config --indexer {{ indexer }}
 
 # ---------------------------------------------------------------------------- #
 #                                RECIPES: GRAPH                                #
@@ -133,15 +140,15 @@ _codegen-envio-bindings protocol:
 
 # Build all Graph indexers
 [group("graph")]
-@build-graph-indexer protocol="all":
-    just for-each _build-graph-indexer {{ protocol }}
+@build-graph-indexer indexer="all":
+    just graph-for-each _build-graph-indexer {{ indexer }}
 
-_build-graph-indexer protocol: (codegen-graph protocol)
+_build-graph-indexer indexer: (codegen-graph indexer)
     #!/usr/bin/env sh
-    manifest_path=graph/{{ protocol }}/manifests/mainnet.yaml
+    manifest_path=graph/{{ indexer }}/manifests/mainnet.yaml
     pnpm graph build \
         $manifest_path \
-        --output-dir graph/{{ protocol }}/build
+        --output-dir graph/{{ indexer }}/build
     echo "✅ Built Graph indexer"
 
 # Codegen everything for the Graph indexer (order matters):
@@ -151,23 +158,23 @@ _build-graph-indexer protocol: (codegen-graph protocol)
 [doc("Codegen everything for the Graph indexer")]
 [group("codegen")]
 [group("graph")]
-@codegen-graph protocol="all":
-    just for-each _codegen-graph {{ protocol }}
+@codegen-graph indexer="all":
+    just graph-for-each _codegen-graph {{ indexer }}
 
-@_codegen-graph protocol:
-    just codegen-schema graph {{ protocol }}
-    just codegen-graph-manifest {{ protocol }} all
-    just codegen-graph-bindings {{ protocol }}
+@_codegen-graph indexer:
+    just codegen-schema graph {{ indexer }}
+    just codegen-graph-manifest {{ indexer }} all
+    just codegen-graph-bindings {{ indexer }}
 
 # Codegen the Graph subgraph bindings
 [group("codegen")]
 [group("graph")]
-@codegen-graph-bindings protocol="all":
-    just for-each _codegen-graph-bindings {{ protocol }}
+@codegen-graph-bindings indexer="all":
+    just graph-for-each _codegen-graph-bindings {{ indexer }}
 
-_codegen-graph-bindings protocol:
+_codegen-graph-bindings indexer:
     #!/usr/bin/env sh
-    protocol_dir="graph/{{ protocol }}"
+    protocol_dir="graph/{{ indexer }}"
     bindings_dir=$protocol_dir/bindings
     pnpm dlx del-cli $bindings_dir
     pnpm graph codegen \
@@ -178,9 +185,9 @@ _codegen-graph-bindings protocol:
 # Codegen the Graph subgraph manifest
 [group("codegen")]
 [group("graph")]
-@codegen-graph-manifest protocol="all" chain="all":
+@codegen-graph-manifest indexer="all" chain="all":
     just cli codegen graph-manifest \
-        --protocol {{ protocol }} \
+        --indexer {{ indexer }} \
         --chain {{ chain }}
 
 # ---------------------------------------------------------------------------- #
@@ -227,10 +234,10 @@ codegen-gql-graph:
 @print-log-levels:
     echo "Available log levels: error, warn, info, http, verbose, debug, silly"
 
-# Print available protocol arguments
+# Print available indexer arguments
 [group("print")]
 @print-protocols:
-    echo "Available protocol arguments: all, flow, lockup, airdrops"
+    echo "Available indexer arguments: all, flow, lockup, airdrops"
 
 # ---------------------------------------------------------------------------- #
 #                               INTERNAL HELPERS                               #
@@ -243,12 +250,25 @@ codegen-gql-graph:
 
 # Helper to run a recipe for all protocols or a specific one
 [private]
-for-each recipe protocol:
+envio-for-each recipe indexer:
     #!/usr/bin/env sh
-    if [ "{{ protocol }}" = "all" ]; then
+    if [ "{{ indexer }}" = "all" ]; then
+        just {{ recipe }} airdrops
+        just {{ recipe }} analytics
+        just {{ recipe }} flow
+        just {{ recipe }} lockup
+    else
+        just {{ recipe }} {{ indexer }}
+    fi
+
+# Helper to run a recipe for all protocols or a specific one
+[private]
+graph-for-each recipe indexer:
+    #!/usr/bin/env sh
+    if [ "{{ indexer }}" = "all" ]; then
         just {{ recipe }} airdrops
         just {{ recipe }} flow
         just {{ recipe }} lockup
     else
-        just {{ recipe }} {{ protocol }}
+        just {{ recipe }} {{ indexer }}
     fi

@@ -22,6 +22,7 @@ export namespace EnvioConfig {
   export type NetworkContract = {
     name: string;
     address?: Sablier.Address | Sablier.Address[];
+    start_block?: number;
   };
 
   /**
@@ -36,6 +37,7 @@ export namespace EnvioConfig {
 
   export type Network = {
     id: number;
+    // Remove this once Envio implements this: https://github.com/enviodev/hyperindex/issues/710
     start_block: number;
     hypersync_config?: HypersyncConfig;
     rpc?: NetworkRPC[];
@@ -53,6 +55,7 @@ export namespace EnvioConfig {
     name: string;
     ecosystem: "evm";
     output: string;
+    preload_handlers: boolean;
     schema: string;
     unordered_multichain_mode: boolean;
     field_selection: FieldSelection;

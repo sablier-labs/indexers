@@ -1,7 +1,7 @@
 import { Contract } from "../../../bindings";
 import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
-import { createMerkle, Loader } from "../../common/factory/create-merkle";
+import { createMerkle, preloadCreateEntities } from "../../common/factory";
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.contractRegister(({ event, context }) => {
   context.addSablierMerkleInstant_v1_3(event.params.merkleInstant);
@@ -35,29 +35,34 @@ struct ConstructorParams {
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const baseParams = event.params.baseParams;
-    const params: Params.CreateCampaignBase = {
-      admin: baseParams[2],
-      aggregateAmount: event.params.aggregateAmount,
-      asset: baseParams[0],
-      campaignAddress: event.params.merkleInstant,
-      category: "Instant",
-      expiration: baseParams[1],
-      ipfsCID: baseParams[3],
-      merkleRoot: baseParams[4],
-      minimumFee: event.params.fee,
-      name: baseParams[5],
-      recipientCount: event.params.recipientCount,
-    };
-    await createMerkle({
-      context,
-      createInStore: Store.Campaign.createInstant,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v1.3"],
+Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handler(async ({ context, event }) => {
+  const baseParams = event.params.baseParams;
+  const admin = event.params.baseParams[2];
+  const asset = event.params.baseParams[0];
+  const result = await preloadCreateEntities({ context, event, params: { admin, asset } });
+  if (!result) {
+    return;
+  }
+  const { entities } = result;
+
+  const params: Params.CreateCampaignBase = {
+    admin,
+    aggregateAmount: event.params.aggregateAmount,
+    asset,
+    campaignAddress: event.params.merkleInstant,
+    category: "Instant",
+    expiration: baseParams[1],
+    ipfsCID: baseParams[3],
+    merkleRoot: baseParams[4],
+    minimumFee: event.params.fee,
+    name: baseParams[5],
+    recipientCount: event.params.recipientCount,
+  };
+  await createMerkle({
+    context,
+    createInStore: Store.Campaign.createInstant,
+    entities,
+    event,
+    params,
+  });
 });
