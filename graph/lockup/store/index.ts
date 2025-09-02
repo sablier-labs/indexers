@@ -1,5 +1,6 @@
 import { createAction } from "./entity-action";
 import { getOrCreateAsset } from "./entity-asset";
+import { createDeprecatedStream, existsDeprecatedStream } from "./entity-deprecated-stream";
 import { createStreamDynamic, createStreamLinear, createStreamTranched, getStream } from "./entity-stream";
 import { getOrCreateWatcher } from "./entity-watcher";
 
@@ -10,6 +11,11 @@ export namespace Store {
 
   export namespace Asset {
     export const getOrCreate = getOrCreateAsset;
+  }
+
+  export namespace DeprecatedStream {
+    export const create = createDeprecatedStream;
+    export const exists = existsDeprecatedStream;
   }
 
   export namespace Stream {

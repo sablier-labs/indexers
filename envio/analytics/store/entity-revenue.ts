@@ -1,8 +1,11 @@
+/**
+ * @see {@link: file://./../schema.graphql}
+ */
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/dist/chains";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
-import { FEB_3_2025 } from "../../common/constants";
+import { FEB_03_2025 } from "../../common/constants";
 import { getDate, getDateTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { coinConfigs } from "../effects/coingecko";
@@ -22,11 +25,6 @@ type LoadedEntities = {
   revenueTx: Entity.RevenueTransaction | undefined;
 };
 
-/**
- * The `DailyRevenue` entity aggregates revenues by date.
- * The `RevenueTransaction` entity tracks particular revenue transactions.
- * @see {@link: file://./../schema.graphql}
- */
 export async function createOrUpdate(context: HandlerContext, event: Envio.Event): Promise<void> {
   // Check for excluded chains.
   if (EXCLUDED_CHAINS.includes(event.chainId)) {
@@ -34,7 +32,7 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
   }
 
   // We started charging fees on 2025-02-03, see https://x.com/Sablier/status/1879564876122906829
-  if (event.block.timestamp < FEB_3_2025) {
+  if (event.block.timestamp < FEB_03_2025) {
     return;
   }
 

@@ -1,3 +1,4 @@
+import { isDeprecatedStream } from "../../../common/deprecated";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type {
@@ -9,7 +10,13 @@ import { scale } from "../../helpers";
 type Handler = Handler_v1_0 & Handler_v1_1;
 
 const handler: Handler = async ({ context, event }) => {
+  /* -------------------------------- ENTITIES -------------------------------- */
   const streamId = Id.stream(event.srcAddress, event.chainId, event.params.streamId);
+  const isDeprecated = await isDeprecatedStream(context, streamId);
+  if (isDeprecated) {
+    return;
+  }
+
   const watcherId = event.chainId.toString();
 
   const [stream, watcher] = await Promise.all([
