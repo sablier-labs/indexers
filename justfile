@@ -184,7 +184,7 @@ _codegen-graph-bindings indexer:
     pnpm dlx del-cli $bindings_dir
     pnpm graph codegen \
         --output-dir $bindings_dir \
-        $protocol_dir/manifests/mainnet.yaml
+        $protocol_dir/manifests/sepolia.yaml
     echo "✅ Generated Graph bindings"
 
 # Codegen the Graph subgraph manifest
