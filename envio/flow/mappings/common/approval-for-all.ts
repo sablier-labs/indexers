@@ -2,13 +2,14 @@ import { CommonStore } from "../../../common/store";
 import type {
   SablierFlow_v1_0_ApprovalForAll_handler as Handler_v1_0,
   SablierFlow_v1_1_ApprovalForAll_handler as Handler_v1_1,
+  SablierFlow_v1_2_ApprovalForAll_handler as Handler_v1_2,
 } from "../../bindings/src/Types.gen";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v1_0 & Handler_v1_1;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
