@@ -1,5 +1,5 @@
 import { CreateLockupTranchedStream } from "../../../bindings/SablierLockup_v2_1/SablierLockup";
-import { convertTranchesV2_0 } from "../../../helpers";
+import { convertTranchesV2_1 } from "../../../helpers";
 import { Store } from "../../../store";
 
 export function handle_SablierLockup_v2_1_CreateLockupTranchedStream(event: CreateLockupTranchedStream): void {
@@ -23,7 +23,7 @@ export function handle_SablierLockup_v2_1_CreateLockupTranchedStream(event: Crea
       transferable: commonParams.transferable,
     },
     {
-      tranches: convertTranchesV2_0(params.tranches),
+      tranches: convertTranchesV2_1(params.tranches),
     },
   );
 }
