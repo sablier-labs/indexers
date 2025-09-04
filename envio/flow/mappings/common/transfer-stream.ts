@@ -5,8 +5,10 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_Transfer_handler as Handler_v1_0,
   SablierFlow_v1_1_Transfer_handler as Handler_v1_1,
+  SablierFlow_v1_2_Transfer_handler as Handler_v1_2,
   SablierFlow_v1_0_Transfer_loader as Loader_v1_0,
   SablierFlow_v1_1_Transfer_loader as Loader_v1_1,
+  SablierFlow_v1_2_Transfer_loader as Loader_v1_2,
 } from "../../bindings/src/Types.gen";
 import { Loader as LoaderBase } from "./loader";
 
@@ -14,7 +16,7 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T>;
 
 type LoaderReturn = {
   stream: Entity.Stream;
@@ -45,7 +47,7 @@ const loader: Loader<LoaderReturn | undefined> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 export const handler: Handler<LoaderReturn | undefined> = async ({ context, event, loaderReturn }) => {
   if (!loaderReturn) {
