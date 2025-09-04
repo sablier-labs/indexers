@@ -15,9 +15,9 @@ import { Store } from "../../../store";
 type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerLL_v1_3 & HandlerLT_v1_2 & HandlerLT_v1_3;
 
 const handler: Handler = async ({ context, event }) => {
+  const campaignId = Id.campaign(event.srcAddress, event.chainId);
   // Preload optimization: load entities during preload phase
   if (context.isPreload) {
-    const campaignId = Id.campaign(event.srcAddress, event.chainId);
     const watcherId = event.chainId.toString();
 
     await Promise.all([context.Campaign.getOrThrow(campaignId), context.Watcher.getOrThrow(watcherId)]);
@@ -26,7 +26,6 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   // Load entities for actual processing
-  const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const watcherId = event.chainId.toString();
 
   const [campaign, watcher] = await Promise.all([

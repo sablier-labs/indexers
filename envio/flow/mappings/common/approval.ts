@@ -13,9 +13,11 @@ type Handler = Handler_v1_0 & Handler_v1_1;
 
 const handler: Handler = async ({ context, event }) => {
   const streamId = Id.stream(event.srcAddress, event.chainId, event.params.tokenId);
-  const stream = await context.Stream.getOrThrow(streamId);
   const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.getOrThrow(watcherId);
+  const [stream, watcher] = await Promise.all([
+    context.Stream.getOrThrow(streamId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
 
   if (context.isPreload) {
     return;
