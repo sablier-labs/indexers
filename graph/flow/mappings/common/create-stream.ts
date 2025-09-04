@@ -15,6 +15,7 @@ export function handleCreateFlowStream(event: ethereum.Event, params: Params.Cre
     ratePerSecond: params.ratePerSecond,
     recipient: params.recipient,
     sender: params.sender,
+    startTime: params.startTime,
     streamId: params.streamId,
     token: params.token,
     transferable: params.transferable,

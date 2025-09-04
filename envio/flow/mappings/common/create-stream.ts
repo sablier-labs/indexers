@@ -6,6 +6,7 @@ import type { RPCData } from "../../../common/types";
 import type {
   SablierFlow_v1_0_CreateFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,
+    SablierFlow_v1_2_CreateFlowStream_handler as Handler_v1_2,
 } from "../../bindings/src/Types.gen";
 import { Store } from "../../store";
 
@@ -71,6 +72,7 @@ const handler: Handler = async ({ context, event }) => {
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,
     sender: event.params.sender,
+    startTime: _.get(event.params, "snapshotTime") ?? BigInt(event.block.timestamp),
     tokenId: event.params.streamId,
     transferable: event.params.transferable,
   });
