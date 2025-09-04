@@ -10,7 +10,7 @@ import {
   Transfer,
   VoidFlowStream,
   WithdrawFromFlowStream,
-} from "../../bindings/SablierFlow_v1_0/SablierFlow";
+} from "../../bindings/SablierFlow_v1_2/SablierFlow";
 
 import {
   handleAdjustFlowStream,
@@ -26,7 +26,7 @@ import {
   handleWithdrawFromFlowStream,
 } from "../common";
 
-export function handle_SablierFlow_v1_0_AdjustFlowStream(event: AdjustFlowStream): void {
+export function handle_SablierFlow_v1_2_AdjustFlowStream(event: AdjustFlowStream): void {
   handleAdjustFlowStream(event, {
     newRatePerSecond: event.params.newRatePerSecond,
     oldRatePerSecond: event.params.oldRatePerSecond,
@@ -34,7 +34,7 @@ export function handle_SablierFlow_v1_0_AdjustFlowStream(event: AdjustFlowStream
   });
 }
 
-export function handle_SablierFlow_v1_0_Approval(event: Approval): void {
+export function handle_SablierFlow_v1_2_Approval(event: Approval): void {
   handleApproval(event, {
     approved: event.params.approved,
     owner: event.params.owner,
@@ -42,7 +42,7 @@ export function handle_SablierFlow_v1_0_Approval(event: Approval): void {
   });
 }
 
-export function handle_SablierFlow_v1_0_ApprovalForAll(event: ApprovalForAll): void {
+export function handle_SablierFlow_v1_2_ApprovalForAll(event: ApprovalForAll): void {
   handleApprovalForAll(event, {
     approved: event.params.approved,
     operator: event.params.operator,
@@ -50,19 +50,19 @@ export function handle_SablierFlow_v1_0_ApprovalForAll(event: ApprovalForAll): v
   });
 }
 
-export function handle_SablierFlow_v1_0_CreateFlowStream(event: CreateFlowStream): void {
+export function handle_SablierFlow_v1_2_CreateFlowStream(event: CreateFlowStream): void {
   handleCreateFlowStream(event, {
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,
     sender: event.params.sender,
-    startTime: event.block.timestamp,
+    startTime: event.params.snapshotTime,
     streamId: event.params.streamId,
     token: event.params.token,
     transferable: event.params.transferable,
   });
 }
 
-export function handle_SablierFlow_v1_0_DepositFlowStream(event: DepositFlowStream): void {
+export function handle_SablierFlow_v1_2_DepositFlowStream(event: DepositFlowStream): void {
   handleDepositFlowStream(event, {
     amount: event.params.amount,
     funder: event.params.funder,
@@ -70,7 +70,7 @@ export function handle_SablierFlow_v1_0_DepositFlowStream(event: DepositFlowStre
   });
 }
 
-export function handle_SablierFlow_v1_0_PauseFlowStream(event: PauseFlowStream): void {
+export function handle_SablierFlow_v1_2_PauseFlowStream(event: PauseFlowStream): void {
   handlePauseFlowStream(event, {
     recipient: event.params.recipient,
     sender: event.params.sender,
@@ -79,7 +79,7 @@ export function handle_SablierFlow_v1_0_PauseFlowStream(event: PauseFlowStream):
   });
 }
 
-export function handle_SablierFlow_v1_0_RefundFromFlowStream(event: RefundFromFlowStream): void {
+export function handle_SablierFlow_v1_2_RefundFromFlowStream(event: RefundFromFlowStream): void {
   handleRefundFromFlowStream(event, {
     amount: event.params.amount,
     sender: event.params.sender,
@@ -87,7 +87,7 @@ export function handle_SablierFlow_v1_0_RefundFromFlowStream(event: RefundFromFl
   });
 }
 
-export function handle_SablierFlow_v1_0_RestartFlowStream(event: RestartFlowStream): void {
+export function handle_SablierFlow_v1_2_RestartFlowStream(event: RestartFlowStream): void {
   handleRestartFlowStream(event, {
     ratePerSecond: event.params.ratePerSecond,
     sender: event.params.sender,
@@ -95,7 +95,7 @@ export function handle_SablierFlow_v1_0_RestartFlowStream(event: RestartFlowStre
   });
 }
 
-export function handle_SablierFlow_v1_0_Transfer(event: Transfer): void {
+export function handle_SablierFlow_v1_2_Transfer(event: Transfer): void {
   handleTransfer(event, {
     from: event.params.from,
     to: event.params.to,
@@ -103,7 +103,7 @@ export function handle_SablierFlow_v1_0_Transfer(event: Transfer): void {
   });
 }
 
-export function handle_SablierFlow_v1_0_VoidFlowStream(event: VoidFlowStream): void {
+export function handle_SablierFlow_v1_2_VoidFlowStream(event: VoidFlowStream): void {
   handleVoidFlowStream(event, {
     newTotalDebt: event.params.newTotalDebt,
     recipient: event.params.recipient,
@@ -113,7 +113,7 @@ export function handle_SablierFlow_v1_0_VoidFlowStream(event: VoidFlowStream): v
   });
 }
 
-export function handle_SablierFlow_v1_0_WithdrawFromFlowStream(event: WithdrawFromFlowStream): void {
+export function handle_SablierFlow_v1_2_WithdrawFromFlowStream(event: WithdrawFromFlowStream): void {
   handleWithdrawFromFlowStream(event, {
     caller: event.params.caller,
     streamId: event.params.streamId,

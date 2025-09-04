@@ -4,10 +4,11 @@ import { CommonStore } from "../../../common/store";
 import type {
   SablierFlow_v1_0_RefundFromFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_RefundFromFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_2_RefundFromFlowStream_handler as Handler_v1_2,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 
-type Handler = Handler_v1_0 & Handler_v1_1;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
