@@ -5,7 +5,7 @@ export function handle_SablierLockup_v2_0_CreateLockupLinearStream(event: Create
   const params = event.params;
   const commonParams = params.commonParams;
 
-  const _contract = Store.Contract.getOrCreate(event.address);
+  Store.Contract.loadOrCreate(event.address);
 
   Store.Stream.createLinear(
     event,

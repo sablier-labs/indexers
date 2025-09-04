@@ -282,27 +282,6 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-  - id: 1890
-    start_block: 63526311
-    rpc:
-      - for: "sync"
-        url: "https://lb.routeme.sh/rpc/1890/${ENVIO_ROUTEMESH_API_KEY}"
-    contracts:
-      - address: "0xdb07a1749d5ca49909c7c4159652fbd527c735b8"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-        start_block: 63526311
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x278ac15622846806bd46fbdbdb8db8d09614173a"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-        start_block: 90212375
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xc0107f368fbb50075d2190549055d9e6bf75c5c9"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 125554946
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
   - id: 59144
     start_block: 8688454
     rpc:
@@ -426,18 +405,6 @@ networks:
       - address: "0xf0d61b42311c810dfde191d58427d81e87c5d5f6"
         name: "SablierMerkleFactory_v1_3"
         start_block: 67225665
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-  - id: 1329
-    start_block: 138904383
-    rpc:
-      - for: "sync"
-        url: "https://lb.routeme.sh/rpc/1329/${ENVIO_ROUTEMESH_API_KEY}"
-    contracts:
-      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 138904383
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"

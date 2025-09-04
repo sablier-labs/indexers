@@ -3,7 +3,7 @@ import { readChainId, readContractAlias } from "../../common/context";
 import { Id } from "../../common/id";
 import * as Entity from "../bindings/schema";
 
-export function getOrCreateContract(address: Address): Entity.Contract {
+export function loadOrCreateContract(address: Address): Entity.Contract {
   const id = Id.contract(address);
   let contract = Entity.Contract.load(id);
 

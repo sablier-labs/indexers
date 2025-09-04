@@ -46,7 +46,7 @@ export function handle_SablierV2LockupLinear_v1_2_CancelLockupStream(event: Canc
 export function handle_SablierV2LockupLinear_v1_2_CreateLockupLinearStream(event: CreateLockupLinearStream): void {
   const params = event.params;
 
-  const _contract = Store.Contract.getOrCreate(event.address);
+  Store.Contract.loadOrCreate(event.address);
 
   Store.Stream.createLinear(
     event,
