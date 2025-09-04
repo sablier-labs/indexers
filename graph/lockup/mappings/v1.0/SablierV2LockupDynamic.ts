@@ -46,6 +46,9 @@ export function handle_SablierV2LockupDynamic_v1_0_CancelLockupStream(event: Can
 
 export function handle_SablierV2LockupDynamic_v1_0_CreateLockupDynamicStream(event: CreateLockupDynamicStream): void {
   const params = event.params;
+
+  const _contract = Store.Contract.getOrCreate(event.address);
+
   Store.Stream.createDynamic(
     event,
     {

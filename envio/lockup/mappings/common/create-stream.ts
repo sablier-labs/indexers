@@ -3,6 +3,7 @@
  */
 
 import type { Envio } from "../../../common/bindings";
+import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
 import type { Context, Entity } from "../../bindings";
 import type { Params } from "../../helpers/types";
@@ -22,6 +23,14 @@ type Input<P extends Params.CreateStreamCommon> = {
 
 export async function createStream<P extends Params.CreateStreamCommon>(input: Input<P>): Promise<Entity.Stream> {
   const { context, createInStore, event, entities, params } = input;
+
+  /* -------------------------------- CONTRACT -------------------------------- */
+  const contractId = Id.contract(event.chainId, event.srcAddress);
+  const contract = await context.Contract.get(contractId);
+
+  if (!contract) {
+    CommonStore.Contract.create(context, event, "lockup");
+  }
 
   /* --------------------------------- STREAM --------------------------------- */
   const stream = createInStore(context, event, entities, params);

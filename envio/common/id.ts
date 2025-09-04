@@ -90,6 +90,14 @@ export namespace Id {
 
   /**
    * @example
+   * contract-137-0xe0bfe071da104e571298f8b6e0fce44c512c1ff4
+   */
+  export function contract(chainId: number, contractAddress: string): string {
+    return `contract-${chainId}-${contractAddress.toLowerCase()}`;
+  }
+
+  /**
+   * @example
    * factory-137-0xf0d61b42311c810dfde191d58427d81e87c5d5f6
    */
   export function factory(chainId: number, factoryAddress: string): string {

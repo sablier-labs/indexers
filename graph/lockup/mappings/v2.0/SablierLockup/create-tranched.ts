@@ -6,6 +6,8 @@ export function handle_SablierLockup_v2_0_CreateLockupTranchedStream(event: Crea
   const params = event.params;
   const commonParams = params.commonParams;
 
+  const _contract = Store.Contract.getOrCreate(event.address);
+
   Store.Stream.createTranched(
     event,
     {

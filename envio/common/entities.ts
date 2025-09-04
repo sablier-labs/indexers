@@ -15,6 +15,14 @@ export namespace CommonEntities {
     readonly symbol: string;
   };
 
+  export type Contract = {
+    readonly address: string;
+    readonly alias: string;
+    readonly category: string;
+    readonly chainId: bigint;
+    readonly id: string;
+  };
+
   export type StreamAction = {
     readonly addressA: undefined | string;
     readonly addressB: undefined | string;

@@ -344,3 +344,29 @@ type Batcher @entity(immutable: false) {
   """
   batches: [Batch!]! @derivedFrom(field: "batcher")
 }
+
+"""
+A Sablier protocol contract
+"""
+type Contract @entity(immutable: false) {
+  """
+  Unique identifier: contract-{chainId}-{address}
+  """
+  id: String!
+  """
+  Contract address
+  """
+  address: Bytes!
+  """
+  Contract alias (e.g., "FL", "LK")
+  """
+  alias: String!
+  """
+  Contract category (e.g., "Flow", "Lockup")
+  """
+  category: String!
+  """
+  The chain ID where the contract exists
+  """
+  chainId: BigInt!
+}

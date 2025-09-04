@@ -33,12 +33,12 @@ const PROTOCOL_MAP: Record<
   },
   analytics: {},
   flow: {
-    common: ["action", "batch"],
+    common: ["action", "batch", "contract"],
     generators: [getStreamDefs],
   },
   lockup: {
     bespoke: ["segment", "tranche"],
-    common: ["action", "batch"],
+    common: ["action", "batch", "contract"],
     generators: [getStreamDefs],
   },
 };
