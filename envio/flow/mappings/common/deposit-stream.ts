@@ -39,8 +39,15 @@ const handler: Handler = async ({ context, event }) => {
   const scaledAvailableAmount = scale(availableAmount, stream.assetDecimalsValue);
 
   const now = BigInt(event.block.timestamp);
-  const elapsedTime = now - stream.lastAdjustmentTimestamp;
-  const snapshotAmount = stream.snapshotAmount + stream.ratePerSecond * elapsedTime;
+  let snapshotAmount = stream.snapshotAmount;
+  // If the stream has not started yet, the snapshot amount is not updated.
+  if (now > stream.startTime) {
+    const streamingStart =
+      stream.lastAdjustmentTimestamp > stream.startTime ? stream.lastAdjustmentTimestamp : stream.startTime;
+    const elapsedTime = now - streamingStart;
+    const streamedAmount = stream.ratePerSecond * elapsedTime;
+    snapshotAmount = stream.snapshotAmount + streamedAmount;
+  }
   const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
   const notWithdrawnAmount = snapshotAmount - withdrawnAmount;
 
@@ -50,7 +57,8 @@ const handler: Handler = async ({ context, event }) => {
     const extraAmount = scaledAvailableAmount - notWithdrawnAmount;
 
     if (stream.ratePerSecond > 0) {
-      depletionTime = now + extraAmount / stream.ratePerSecond;
+      const calculationStart = now > stream.startTime ? now : stream.startTime;
+      depletionTime = calculationStart + extraAmount / stream.ratePerSecond;
     }
   }
 

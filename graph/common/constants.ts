@@ -39,6 +39,7 @@ export const LOCKUP_V1_0 = "v1.0";
 export const LOCKUP_V1_1 = "v1.1";
 export const LOCKUP_V1_2 = "v1.2";
 export const LOCKUP_V2_0 = "v2.0";
+export const LOCKUP_V2_1 = "v2.1";
 
 /* -------------------------------------------------------------------------- */
 /*                                    MISC                                    */
