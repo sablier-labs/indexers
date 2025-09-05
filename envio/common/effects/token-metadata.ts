@@ -32,10 +32,10 @@ const TokenMetadata = S.union([
  *
  * @see https://docs.envio.dev/docs/HyperIndex/event-handlers#contexteffect-experimental
  */
-export const readOrFetchMetadata = experimental_createEffect(
+export const fetchTokenMetadata = experimental_createEffect(
   {
     cache: true,
-    // biome-ignore assist/source/useSortedKeys: order matters
+    // biome-ignore assist/source/useSortedKeys: order matters for the TSV file
     input: S.tuple((t) => ({
       chainId: t.item(0, S.number),
       address: t.item(1, S.string),

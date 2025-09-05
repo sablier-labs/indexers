@@ -4,6 +4,8 @@ import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
 export function handleCreateFlowStream(event: ethereum.Event, params: Params.CreateFlowStream): void {
+  Store.Contract.loadOrCreate(event.address);
+
   const stream = Store.Stream.create(event, {
     ratePerSecond: params.ratePerSecond,
     recipient: params.recipient,

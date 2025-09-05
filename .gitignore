@@ -1,5 +1,6 @@
 # Directories
 .logs
+.serena
 dist
 node_modules
 repomix

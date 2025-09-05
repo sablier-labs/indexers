@@ -73,6 +73,8 @@ export namespace Indexer {
     chainId: number;
   };
 
+  export type Name = Protocol | "analytics";
+
   export type Protocol = Exclude<Sablier.Protocol, "legacy">;
 
   export type Vendor = `${enums.Vendor}` | enums.Vendor;

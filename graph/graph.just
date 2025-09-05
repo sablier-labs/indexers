@@ -20,7 +20,7 @@ ni := require("ni")
 OXGRAPH_FORM_KEY := env("OXGRAPH_FORM_KEY")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
-PROTOCOL := env("PROTOCOL")
+INDEXER_NAME := env("INDEXER_NAME")
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
@@ -33,7 +33,7 @@ auth:
 
 # Build the subgraph
 @build:
-    just root::build-graph-indexer {{ PROTOCOL }}
+    just root::build-graph-indexer {{ INDEXER_NAME }}
 alias b := build
 
 # Remove build files
@@ -47,25 +47,25 @@ clean:
 # Codegen the subgraph
 [group("codegen")]
 @codegen:
-    just root::codegen-graph {{ PROTOCOL }}
+    just root::codegen-graph {{ INDEXER_NAME }}
 alias c := codegen
 
 # Codegen the subgraph bindings
 [group("codegen")]
 @codegen-bindings:
-    just root::codegen-graph-bindings {{ PROTOCOL }}
+    just root::codegen-graph-bindings {{ INDEXER_NAME }}
 alias cb := codegen-bindings
 
 # Codegen the subgraph manifest
 [group("codegen")]
 @codegen-manifest chain="mainnet":
-    just root::codegen-graph-manifest {{ PROTOCOL }} {{ chain }}
+    just root::codegen-graph-manifest {{ INDEXER_NAME }} {{ chain }}
 alias cm := codegen-manifest
 
 # Codegen the GraphQL schema
 [group("codegen")]
 @codegen-schema:
-    just root::codegen-schema graph {{ PROTOCOL }}
+    just root::codegen-schema graph {{ INDEXER_NAME }}
 alias cs := codegen-schema
 
 # ---------------------------------------------------------------------------- #
@@ -77,7 +77,7 @@ alias cs := codegen-schema
 [group("deploy")]
 deploy chain_slug version_label: codegen-schema codegen-manifest
     #!/usr/bin/env sh
-    subgraph_name=sablier-{{ PROTOCOL }}-{{ chain_slug }}
+    subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
     manifest_path={{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml
     pnpm graph deploy \
         $subgraph_name \
@@ -90,8 +90,8 @@ alias d := deploy
 [group("deploy")]
 deploy-all version_label: codegen
     just root::cli graph-deploy-all \
-    --protocol {{ PROTOCOL }} \
-    --version-label {{ version_label }}
+        --indexer {{ INDEXER_NAME }} \
+        --version-label {{ version_label }}
 alias da := deploy-all
 
 # Deploy to a custom Graph node
@@ -104,12 +104,12 @@ alias da := deploy-all
         form)
             ipfs_url="https://api.thegraph.com/ipfs/"
             node_url="https://formapi.0xgraph.xyz/deploy"
-            subgraph_name=sablier-{{ PROTOCOL }}-{{ chain_slug }}
+            subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             extra_args="--deploy-key {{ OXGRAPH_FORM_KEY }}"
             ;;
         lightlink)
             node_url="https://graph.phoenix.lightlink.io/rpc"
-            subgraph_name={{ chain_slug }}/sablier-{{ PROTOCOL }}-{{ chain_slug }}
+            subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             ;;
         *)
             echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: form. lightlink, xdc"
@@ -129,7 +129,7 @@ alias dc := deploy-custom
 [group("deploy")]
 deploy-experimental version_label: codegen-schema (codegen-manifest "sepolia")
     #!/usr/bin/env sh
-    subgraph_name=sablier-{{ PROTOCOL }}-experimental
+    subgraph_name=sablier-{{ INDEXER_NAME }}-experimental
     manifest_path={{ justfile_dir() }}/manifests/sepolia.yaml
     pnpm graph deploy \
         $subgraph_name \

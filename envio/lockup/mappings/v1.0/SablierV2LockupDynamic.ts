@@ -4,14 +4,14 @@ import type { Params } from "../../helpers/types";
 import { Store } from "../../store";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 import { createStream } from "../common/create-stream";
-import { Loader } from "../common/loader";
+import { preloadCreateEntities } from "../common/preload";
 
-Contract.LockupDynamic_v1_0.ApprovalForAll.handlerWithLoader(approvalForAll);
-Contract.LockupDynamic_v1_0.Approval.handlerWithLoader(approval);
-Contract.LockupDynamic_v1_0.CancelLockupStream.handlerWithLoader(cancelStream);
-Contract.LockupDynamic_v1_0.RenounceLockupStream.handlerWithLoader(renounceStream);
-Contract.LockupDynamic_v1_0.Transfer.handlerWithLoader(transfer);
-Contract.LockupDynamic_v1_0.WithdrawFromLockupStream.handlerWithLoader(withdrawStream);
+Contract.LockupDynamic_v1_0.ApprovalForAll.handler(approvalForAll.handler);
+Contract.LockupDynamic_v1_0.Approval.handler(approval.handler);
+Contract.LockupDynamic_v1_0.CancelLockupStream.handler(cancelStream.handler);
+Contract.LockupDynamic_v1_0.RenounceLockupStream.handler(renounceStream.handler);
+Contract.LockupDynamic_v1_0.Transfer.handler(transfer.handler);
+Contract.LockupDynamic_v1_0.WithdrawFromLockupStream.handler(withdrawStream.handler);
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -46,30 +46,33 @@ event CreateLockupDynamicStream(
 
 ──────────────────────────────────────────────────────────────
 */
-Contract.LockupDynamic_v1_0.CreateLockupDynamicStream.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const params: Params.CreateStreamDynamic = {
-      asset: event.params.asset,
-      cancelable: event.params.cancelable,
-      category: "LockupDynamic",
-      depositAmount: event.params.amounts[0],
-      endTime: event.params.range[1],
-      funder: event.params.funder,
-      proxender: loaderReturn.rpcData.proxender,
-      recipient: event.params.recipient,
-      segments: convertSegments(event.params.segments),
-      sender: event.params.sender,
-      startTime: event.params.range[0],
-      tokenId: event.params.streamId,
-      transferable: true, // all v1.0 streams are transferable
-    };
-    await createStream({
-      context,
-      createInStore: Store.Stream.createDynamic,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v1.0"],
+Contract.LockupDynamic_v1_0.CreateLockupDynamicStream.handler(async ({ context, event }) => {
+  const result = await preloadCreateEntities({ context, event, params: event.params });
+  if (!result) {
+    return;
+  }
+  const { entities, proxender } = result;
+
+  const streamParams: Params.CreateStreamDynamic = {
+    asset: event.params.asset,
+    cancelable: event.params.cancelable,
+    category: "LockupDynamic",
+    depositAmount: event.params.amounts[0],
+    endTime: event.params.range[1],
+    funder: event.params.funder,
+    proxender: proxender,
+    recipient: event.params.recipient,
+    segments: convertSegments(event.params.segments),
+    sender: event.params.sender,
+    startTime: event.params.range[0],
+    tokenId: event.params.streamId,
+    transferable: true, // all v1.0 streams are transferable
+  };
+  await createStream({
+    context,
+    createInStore: Store.Stream.createDynamic,
+    entities,
+    event,
+    params: streamParams,
+  });
 });

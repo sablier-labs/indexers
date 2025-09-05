@@ -1,0 +1,229 @@
+"""
+Aggregated revenues across all chains and all currencies for a particular day.
+"""
+type DailyRevenue @entity {
+  """
+  Unique identifier: YYYY-MM-DD
+  """
+  id: ID!
+
+  """
+  GBP value of the revenue amount
+  """
+  amountGBP: Float!
+
+  """
+  USD value of the revenue amount
+  """
+  amountUSD: Float!
+
+  """
+  Revenue breakdown by currency for this day
+  """
+  currencyBreakdown: [DailyCurrencyRevenue!]! @derivedFrom(field: "dailyRevenue")
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Transactions
+  """
+  transactions: [RevenueTransaction!]! @derivedFrom(field: "dailyRevenue")
+}
+
+"""
+Daily revenue aggregated by currency across all chains.
+"""
+type DailyCurrencyRevenue @entity {
+  """
+  Unique identifier: YYYY-MM-DD_currency
+  """
+  id: ID!
+
+  """
+  Total revenue amount for this day (in native currency)
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  amount: Float!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  Reference to the parent daily revenue
+  """
+  dailyRevenue: DailyRevenue!
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Transactions in this currency for this day
+  """
+  transactions: [RevenueTransaction!]! @derivedFrom(field: "dailyCurrencyRevenue")
+}
+
+"""
+Ethereum transaction that generated a revenue.
+"""
+type RevenueTransaction @entity {
+  """
+  Unique identifier: chainId_transactionHash
+  """
+  id: ID!
+
+  """
+  Revenue amount from this transaction (in native currency)
+  """
+  amount: Float!
+
+  """
+  GBP value of the revenue amount from this transaction
+  """
+  amountGBP: Float!
+
+  """
+  USD value of the revenue amount from this transaction
+  """
+  amountUSD: Float!
+
+  """
+  Block number of the transaction
+  """
+  block: BigInt!
+
+  """
+  The contract address where the revenue was generated
+  """
+  contractAddress: String!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  Reference to DailyCurrencyRevenue entity
+  """
+  dailyCurrencyRevenue: DailyCurrencyRevenue!
+
+  """
+  Reference to DailyRevenue entity
+  """
+  dailyRevenue: DailyRevenue!
+
+  """
+  Transaction hash
+  """
+  hash: String!
+
+  """
+  Block Unix timestamp
+  """
+  timestamp: Timestamp!
+}
+
+"""
+A user is an address that has interacted with at least one Sablier contract.
+
+This includes:
+
+- Stream creators and senders
+- Stream recipients
+- Airdrop creators and claimers
+- Anyone who withdraws from streams or claims airdrops on behalf of others
+
+Notes:
+
+- Only implemented in Envio.
+- This is an internal entity we use for analytics. It's not used in the Sablier UI.
+- May be enhanced with derived relations in the future. See https://github.com/sablier-labs/indexers/issues/159
+"""
+type User @entity {
+  """
+  Unique identifier: chainId_address
+  """
+  id: ID!
+
+  """
+  User's Ethereum address (lowercase)
+  """
+  address: String!
+
+  """
+  Chain ID where this user was first seen
+  """
+  chainId: BigInt!
+
+  """
+  True if user has only claimed airdrops (no other protocol interaction)
+  """
+  isOnlyAirdropClaimer: Boolean!
+
+  """
+  Transactions
+  """
+  transactions: [UserTransaction!]! @derivedFrom(field: "user")
+}
+
+"""
+Transaction-level user interaction tracking.
+"""
+type UserTransaction @entity {
+  """
+  Unique identifier: userId_transactionHash
+  """
+  id: ID!
+
+  """
+  Block number of the transaction
+  """
+  block: BigInt!
+
+  """
+  The contract address where the revenue was generated
+  """
+  contractAddress: String!
+
+  """
+  Transaction fee in native currency (ETH, POL, etc.)
+  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  """
+  fee: Float!
+
+  """
+  Transaction hash
+  """
+  hash: String!
+
+  """
+  Whether this transaction is an airdrop claim
+  """
+  isAirdropClaim: Boolean!
+
+  """
+  Block timestamp
+  """
+  timestamp: Timestamp!
+
+  """
+  Reference to User entity
+  """
+  user: User!
+}

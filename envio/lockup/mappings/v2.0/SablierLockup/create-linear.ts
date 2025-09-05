@@ -2,7 +2,7 @@ import { Contract } from "../../../bindings";
 import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 import { createStream } from "../../common/create-stream";
-import { Loader } from "../../common/loader";
+import { preloadCreateEntities } from "../../common/preload";
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -43,33 +43,48 @@ event CreateLockupLinearStream(
 
 ──────────────────────────────────────────────────────────────
 */
-Contract.Lockup_v2_0.CreateLockupLinearStream.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const commonParams = event.params.commonParams;
-    const params: Params.CreateStreamLinear = {
-      asset: commonParams[4],
-      cancelable: commonParams[5],
-      category: "LockupLinear",
-      cliffTime: event.params.cliffTime,
-      depositAmount: commonParams[3][0],
-      endTime: commonParams[7][1],
-      funder: commonParams[0],
-      recipient: commonParams[2],
-      sender: commonParams[1],
-      shape: commonParams[8],
-      startTime: commonParams[7][0],
-      tokenId: event.params.streamId,
-      transferable: commonParams[6],
-      unlockAmountCliff: event.params.unlockAmounts[1],
-      unlockAmountStart: event.params.unlockAmounts[0],
-    };
-    await createStream({
-      context,
-      createInStore: Store.Stream.createLinear,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v2.0"],
+Contract.Lockup_v2_0.CreateLockupLinearStream.handler(async ({ context, event }) => {
+  const commonParams = event.params.commonParams;
+  const asset = commonParams[4];
+  const recipient = commonParams[2];
+  const sender = commonParams[1];
+  const result = await preloadCreateEntities({
+    context,
+    event,
+    params: {
+      asset,
+      recipient,
+      sender,
+    },
+  });
+  if (!result) {
+    return;
+  }
+  const { entities, proxender } = result;
+
+  const streamParams: Params.CreateStreamLinear = {
+    asset,
+    cancelable: commonParams[5],
+    category: "LockupLinear",
+    cliffTime: event.params.cliffTime,
+    depositAmount: commonParams[3][0],
+    endTime: commonParams[7][1],
+    funder: commonParams[0],
+    proxender: proxender,
+    recipient,
+    sender,
+    shape: commonParams[8],
+    startTime: commonParams[7][0],
+    tokenId: event.params.streamId,
+    transferable: commonParams[6],
+    unlockAmountCliff: event.params.unlockAmounts[1],
+    unlockAmountStart: event.params.unlockAmounts[0],
+  };
+  await createStream({
+    context,
+    createInStore: Store.Stream.createLinear,
+    entities,
+    event,
+    params: streamParams,
+  });
 });

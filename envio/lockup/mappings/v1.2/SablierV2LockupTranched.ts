@@ -4,14 +4,14 @@ import type { Params } from "../../helpers/types";
 import { Store } from "../../store";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 import { createStream } from "../common/create-stream";
-import { Loader } from "../common/loader";
+import { preloadCreateEntities } from "../common/preload";
 
-Contract.LockupTranched_v1_2.ApprovalForAll.handlerWithLoader(approvalForAll);
-Contract.LockupTranched_v1_2.Approval.handlerWithLoader(approval);
-Contract.LockupTranched_v1_2.CancelLockupStream.handlerWithLoader(cancelStream);
-Contract.LockupTranched_v1_2.RenounceLockupStream.handlerWithLoader(renounceStream);
-Contract.LockupTranched_v1_2.Transfer.handlerWithLoader(transfer);
-Contract.LockupTranched_v1_2.WithdrawFromLockupStream.handlerWithLoader(withdrawStream);
+Contract.LockupTranched_v1_2.ApprovalForAll.handler(approvalForAll.handler);
+Contract.LockupTranched_v1_2.Approval.handler(approval.handler);
+Contract.LockupTranched_v1_2.CancelLockupStream.handler(cancelStream.handler);
+Contract.LockupTranched_v1_2.RenounceLockupStream.handler(renounceStream.handler);
+Contract.LockupTranched_v1_2.Transfer.handler(transfer.handler);
+Contract.LockupTranched_v1_2.WithdrawFromLockupStream.handler(withdrawStream.handler);
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -46,29 +46,33 @@ event CreateLockupTranchedStream(
 
 ──────────────────────────────────────────────────────────────
 */
-Contract.LockupTranched_v1_2.CreateLockupTranchedStream.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const params: Params.CreateStreamTranched = {
-      asset: event.params.asset,
-      cancelable: event.params.cancelable,
-      category: "LockupTranched",
-      depositAmount: event.params.amounts[0],
-      endTime: event.params.timestamps[1],
-      funder: event.params.funder,
-      recipient: event.params.recipient,
-      sender: event.params.sender,
-      startTime: event.params.timestamps[0],
-      tokenId: event.params.streamId,
-      tranches: convertTranches(event.params.tranches),
-      transferable: event.params.transferable,
-    };
-    await createStream({
-      context,
-      createInStore: Store.Stream.createTranched,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v1.2"],
+Contract.LockupTranched_v1_2.CreateLockupTranchedStream.handler(async ({ context, event }) => {
+  const result = await preloadCreateEntities({ context, event, params: event.params });
+  if (!result) {
+    return;
+  }
+  const { entities, proxender } = result;
+
+  const streamParams: Params.CreateStreamTranched = {
+    asset: event.params.asset,
+    cancelable: event.params.cancelable,
+    category: "LockupTranched",
+    depositAmount: event.params.amounts[0],
+    endTime: event.params.timestamps[1],
+    funder: event.params.funder,
+    proxender: proxender,
+    recipient: event.params.recipient,
+    sender: event.params.sender,
+    startTime: event.params.timestamps[0],
+    tokenId: event.params.streamId,
+    tranches: convertTranches(event.params.tranches),
+    transferable: event.params.transferable,
+  };
+  await createStream({
+    context,
+    createInStore: Store.Stream.createTranched,
+    entities,
+    event,
+    params: streamParams,
+  });
 });

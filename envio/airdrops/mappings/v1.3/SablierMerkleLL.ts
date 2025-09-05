@@ -1,6 +1,6 @@
 import { Contract } from "../../bindings";
 import * as common from "../common";
 
-Contract.Campaign.MerkleLL_v1_3.Clawback.handlerWithLoader(common.clawback);
-Contract.Campaign.MerkleLL_v1_3.Claim.handlerWithLoader(common.claimLockup);
-Contract.Campaign.MerkleLL_v1_3.TransferAdmin.handlerWithLoader(common.transferAdmin);
+Contract.Campaign.MerkleLL_v1_3.Clawback.handler(common.clawback.handler);
+Contract.Campaign.MerkleLL_v1_3.Claim.handler(common.claimLockup.handler);
+Contract.Campaign.MerkleLL_v1_3.TransferAdmin.handler(common.transferAdmin.handler);

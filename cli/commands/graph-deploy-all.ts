@@ -7,7 +7,7 @@ import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
 import paths, { ROOT_DIR } from "../../lib/paths";
-import type { Types } from "../../lib/types";
+import type { Indexer } from "../../src";
 import { getIndexerGraph } from "../../src";
 import { getSablierChainSlug } from "../../src/indexers/graph";
 
@@ -22,13 +22,15 @@ type Deployment = {
 function createGraphDeployAllCommand(): Command {
   const command = helpers.createBaseCmd("Deploy all official indexers to The Graph");
 
-  helpers.addProtocolOpt(command);
+  helpers.addIndexerOpt(command);
   command.option("-v, --version-label <string>", "version label for the deployment");
 
   command.action(async (options) => {
-    const protocol = helpers.parseProtocolOpt(options.protocol);
-    if (protocol === "all") {
-      throw new Error("--protocol must be a specific protocol, not 'all'");
+    const indexerArg = helpers.parseIndexerOpt(options.indexer);
+    if (indexerArg === "all") {
+      throw new Error("--indexer must be a specific indexer, not 'all'");
+    } else if (indexerArg === "analytics") {
+      throw new Error("'analytics' indexer is not supported for this command");
     }
 
     const versionLabel = options.versionLabel;
@@ -37,9 +39,9 @@ function createGraphDeployAllCommand(): Command {
     }
 
     // Validate version label based on protocol requirements
-    validateVersionLabel(protocol as Types.Protocol, versionLabel);
+    validateVersionLabel(indexerArg, versionLabel);
 
-    console.log(`🚀 Deploying all official ${_.capitalize(protocol)} indexers to The Graph...`);
+    console.log(`🚀 Deploying all official ${_.capitalize(indexerArg)} indexers to The Graph...`);
     console.log(`📦 Version label: ${versionLabel}`);
     console.log();
 
@@ -63,13 +65,13 @@ function createGraphDeployAllCommand(): Command {
     // Filter chains
     for (const c of chains) {
       // Filter out custom indexers
-      const indexer = getIndexerGraph({ chainId: c.id, protocol });
+      const indexer = getIndexerGraph({ chainId: c.id, protocol: indexerArg as Indexer.Protocol });
       if (indexer?.kind === "custom") {
         continue;
       }
 
       // Check if manifest file exists for this chain
-      const manifestPath = paths.graph.manifest(protocol, c.id);
+      const manifestPath = paths.graph.manifest(indexerArg as Indexer.Protocol, c.id);
       if (fs.existsSync(manifestPath)) {
         deployments.push({
           chainId: c.id,
@@ -96,15 +98,15 @@ function createGraphDeployAllCommand(): Command {
 
       try {
         // Construct the subgraph name and manifest path
-        const indexerName = `sablier-${protocol}-${d.chainSlug}`;
-        const manifestPath = paths.graph.manifest(protocol, d.chainId);
+        const indexerName = `sablier-${indexerArg}-${d.chainSlug}`;
+        const manifestPath = paths.graph.manifest(indexerArg, d.chainId);
 
         // Run the pnpm graph deploy command
         const result = await $(
           "pnpm",
           ["graph", "deploy", "--version-label", versionLabel, indexerName, manifestPath],
           {
-            cwd: path.join(ROOT_DIR, "graph", protocol),
+            cwd: path.join(ROOT_DIR, "graph", indexerArg),
           },
         );
         spinner.stop();
@@ -186,22 +188,23 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function validateVersionLabel(protocol: Types.Protocol, versionLabel: string): void {
-  const requirements: Record<Types.Protocol, string[]> = {
+function validateVersionLabel(indexer: Indexer.Name, versionLabel: string): void {
+  const requirements: Record<Indexer.Name, string[]> = {
     airdrops: ["v1.3", "v1.4"],
+    analytics: [],
     flow: ["v1.1", "v1.2"],
     lockup: ["v2.0", "v2.1"],
   };
 
-  const allowedPrefixes = requirements[protocol];
+  const allowedPrefixes = requirements[indexer];
   if (!allowedPrefixes) {
-    throw new Error(`Unknown protocol: ${protocol}`);
+    throw new Error(`Unknown indexer: ${indexer}`);
   }
 
   const isValid = allowedPrefixes.some((prefix) => versionLabel.startsWith(prefix));
   if (!isValid) {
     throw new Error(
-      `New version label for ${protocol} protocol must start with one of: ${allowedPrefixes.join(", ")}. Got: ${versionLabel}`,
+      `New version label for ${indexer} indexer must start with one of: ${allowedPrefixes.join(", ")}. Got: ${versionLabel}`,
     );
   }
 }

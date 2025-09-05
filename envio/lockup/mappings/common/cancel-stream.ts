@@ -7,12 +7,21 @@ import type {
   SablierV2LockupLinear_v1_2_CancelLockupStream_handler as Handler_v1_2,
   SablierLockup_v2_0_CancelLockupStream_handler as Handler_v2_0,
 } from "../../bindings/src/Types.gen";
-import { Loader } from "./loader";
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T> & Handler_v2_0<T>;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2 & Handler_v2_0;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, users, watcher } = loaderReturn;
+const handler: Handler = async ({ context, event }) => {
+  const streamId = Id.stream(event.srcAddress, event.chainId, event.params.streamId);
+  const watcherId = event.chainId.toString();
+
+  const [stream, watcher] = await Promise.all([
+    context.Stream.getOrThrow(streamId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
+
+  if (context.isPreload) {
+    return;
+  }
 
   /* --------------------------------- STREAM --------------------------------- */
   const updatedStream: Entity.Stream = {
@@ -37,12 +46,6 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
 
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller },
-    { address: event.params.sender, entity: users.sender },
-  ]);
 };
 
-export const cancelStream = { handler, loader: Loader.base };
+export const cancelStream = { handler };
