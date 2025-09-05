@@ -20,12 +20,15 @@ import type {
   SablierV2LockupDynamic_v1_1_CreateLockupDynamicStream_loader as CreateDynamic_v1_1,
   SablierV2LockupDynamic_v1_2_CreateLockupDynamicStream_loader as CreateDynamic_v1_2,
   SablierLockup_v2_0_CreateLockupDynamicStream_loader as CreateDynamic_v2_0,
+  SablierLockup_v2_1_CreateLockupDynamicStream_loader as CreateDynamic_v2_1,
   SablierV2LockupLinear_v1_0_CreateLockupLinearStream_loader as CreateLinear_v1_0,
   SablierV2LockupLinear_v1_1_CreateLockupLinearStream_loader as CreateLinear_v1_1,
   SablierV2LockupLinear_v1_2_CreateLockupLinearStream_loader as CreateLinear_v1_2,
   SablierLockup_v2_0_CreateLockupLinearStream_loader as CreateLinear_v2_0,
+  SablierLockup_v2_1_CreateLockupLinearStream_loader as CreateLinear_v2_1,
   SablierV2LockupTranched_v1_2_CreateLockupTranchedStream_loader as CreateTranched_v1_2,
   SablierLockup_v2_0_CreateLockupTranchedStream_loader as CreateTranched_v2_0,
+  SablierLockup_v2_1_CreateLockupTranchedStream_loader as CreateTranched_v2_1,
   SablierV2LockupLinear_v1_0_RenounceLockupStream_loader as Renounce_v1_0,
   SablierV2LockupLinear_v1_1_RenounceLockupStream_loader as Renounce_v1_1,
   SablierV2LockupLinear_v1_2_RenounceLockupStream_loader as Renounce_v1_2,
@@ -219,10 +222,21 @@ export namespace Loader {
     });
   };
 
+  type CreateV2_1<T> = CreateDynamic_v2_1<T> & CreateLinear_v2_1<T> & CreateTranched_v2_1<T>;
+  const createV2_1: CreateV2_1<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loaderForCreate(context, event, {
+      asset: event.params.commonParams[4],
+      funder: event.params.commonParams[0],
+      recipient: event.params.commonParams[2],
+      sender: event.params.commonParams[1],
+    });
+  };
+
   export const create = {
     [Version.Lockup.V1_0]: createV1_0,
     [Version.Lockup.V1_1]: createV1_1,
     [Version.Lockup.V1_2]: createV1_2,
     [Version.Lockup.V2_0]: createV2_0,
+    [Version.Lockup.V2_1]: createV2_1,
   };
 }

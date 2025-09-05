@@ -20,5 +20,6 @@ export namespace Params {
     sender: Envio.Address;
     tokenId: bigint;
     transferable: boolean;
+    startTime: bigint;
   };
 }

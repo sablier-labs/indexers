@@ -4,8 +4,10 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_DepositFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_DepositFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_2_DepositFlowStream_handler as Handler_v1_2,
   SablierFlow_v1_0_DepositFlowStream_loader as Loader_v1_0,
   SablierFlow_v1_1_DepositFlowStream_loader as Loader_v1_1,
+  SablierFlow_v1_2_DepositFlowStream_loader as Loader_v1_2,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 import { Loader as LoaderBase } from "./loader";
@@ -14,7 +16,7 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T>;
 
 type LoaderReturn = {
   stream: Entity.Stream;
@@ -40,7 +42,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { stream, users, watcher } = loaderReturn;
@@ -51,8 +53,15 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
   const scaledAvailableAmount = scale(availableAmount, stream.assetDecimalsValue);
 
   const now = BigInt(event.block.timestamp);
-  const elapsedTime = now - stream.lastAdjustmentTimestamp;
-  const snapshotAmount = stream.snapshotAmount + stream.ratePerSecond * elapsedTime;
+  let snapshotAmount = stream.snapshotAmount;
+  // If the stream has not started yet, the snapshot amount is not updated.
+  if (now > stream.startTime) {
+    const streamingStart =
+      stream.lastAdjustmentTimestamp > stream.startTime ? stream.lastAdjustmentTimestamp : stream.startTime;
+    const elapsedTime = now - streamingStart;
+    const streamedAmount = stream.ratePerSecond * elapsedTime;
+    snapshotAmount = stream.snapshotAmount + streamedAmount;
+  }
   const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
   const notWithdrawnAmount = snapshotAmount - withdrawnAmount;
 
@@ -62,7 +71,8 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
     const extraAmount = scaledAvailableAmount - notWithdrawnAmount;
 
     if (stream.ratePerSecond > 0) {
-      depletionTime = now + extraAmount / stream.ratePerSecond;
+      const calculationStart = now > stream.startTime ? now : stream.startTime;
+      depletionTime = calculationStart + extraAmount / stream.ratePerSecond;
     }
   }
 

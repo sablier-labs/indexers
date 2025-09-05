@@ -7,43 +7,61 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_AdjustFlowStream_loader as Adjust_v1_0,
   SablierFlow_v1_1_AdjustFlowStream_loader as Adjust_v1_1,
+  SablierFlow_v1_2_AdjustFlowStream_loader as Adjust_v1_2,
   SablierFlow_v1_0_Approval_loader as Approval_v1_0,
   SablierFlow_v1_1_Approval_loader as Approval_v1_1,
+  SablierFlow_v1_2_Approval_loader as Approval_v1_2,
   SablierFlow_v1_0_DepositFlowStream_loader as Deposit_v1_0,
   SablierFlow_v1_1_DepositFlowStream_loader as Deposit_v1_1,
+  SablierFlow_v1_2_DepositFlowStream_loader as Deposit_v1_2,
   SablierFlow_v1_0_PauseFlowStream_loader as Pause_v1_0,
   SablierFlow_v1_1_PauseFlowStream_loader as Pause_v1_1,
+  SablierFlow_v1_2_PauseFlowStream_loader as Pause_v1_2,
   SablierFlow_v1_0_RefundFromFlowStream_loader as Refund_v1_0,
   SablierFlow_v1_1_RefundFromFlowStream_loader as Refund_v1_1,
+  SablierFlow_v1_2_RefundFromFlowStream_loader as Refund_v1_2,
   SablierFlow_v1_0_RestartFlowStream_loader as Restart_v1_0,
   SablierFlow_v1_1_RestartFlowStream_loader as Restart_v1_1,
+  SablierFlow_v1_2_RestartFlowStream_loader as Restart_v1_2,
   SablierFlow_v1_0_Transfer_loader as Transfer_v1_0,
   SablierFlow_v1_1_Transfer_loader as Transfer_v1_1,
+  SablierFlow_v1_2_Transfer_loader as Transfer_v1_2,
   SablierFlow_v1_0_VoidFlowStream_loader as Void_v1_0,
   SablierFlow_v1_1_VoidFlowStream_loader as Void_v1_1,
+  SablierFlow_v1_2_VoidFlowStream_loader as Void_v1_2,
   SablierFlow_v1_0_WithdrawFromFlowStream_loader as Withdraw_v1_0,
   SablierFlow_v1_1_WithdrawFromFlowStream_loader as Withdraw_v1_1,
+  SablierFlow_v1_2_WithdrawFromFlowStream_loader as Withdraw_v1_2,
 } from "../../bindings/src/Types.gen";
 
 export namespace Loader {
   type Base<T> = Adjust_v1_0<T> &
     Adjust_v1_1<T> &
+    Adjust_v1_2<T> &
     Approval_v1_0<T> &
     Approval_v1_1<T> &
+    Approval_v1_2<T> &
     Deposit_v1_0<T> &
     Deposit_v1_1<T> &
+    Deposit_v1_2<T> &
     Pause_v1_0<T> &
     Pause_v1_1<T> &
+    Pause_v1_2<T> &
     Refund_v1_0<T> &
     Refund_v1_1<T> &
+    Refund_v1_2<T> &
     Restart_v1_0<T> &
     Restart_v1_1<T> &
+    Restart_v1_2<T> &
     Transfer_v1_0<T> &
     Transfer_v1_1<T> &
+    Transfer_v1_2<T> &
     Void_v1_0<T> &
     Void_v1_1<T> &
+    Void_v1_2<T> &
     Withdraw_v1_0<T> &
-    Withdraw_v1_1<T>;
+    Withdraw_v1_1<T> &
+    Withdraw_v1_2<T>;
 
   export type BaseReturn = {
     stream: Entity.Stream;

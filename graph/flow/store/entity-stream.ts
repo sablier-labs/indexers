@@ -36,12 +36,12 @@ export function createStream(event: ethereum.Event, params: Params.CreateFlowStr
   stream.chainId = chainId;
   stream.contract = event.address;
   stream.creator = event.transaction.from;
-  stream.depletionTime = event.block.timestamp;
+  stream.depletionTime = params.startTime;
   stream.hash = event.transaction.hash;
-  stream.lastAdjustmentTimestamp = event.block.timestamp;
+  stream.lastAdjustmentTimestamp = params.startTime;
   stream.ratePerSecond = params.ratePerSecond;
   stream.recipient = params.recipient;
-  stream.startTime = event.block.timestamp;
+  stream.startTime = params.startTime;
   stream.sender = params.sender;
   stream.timestamp = event.block.timestamp;
   stream.tokenId = tokenId;

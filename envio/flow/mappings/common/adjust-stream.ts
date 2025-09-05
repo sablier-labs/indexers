@@ -3,6 +3,7 @@ import { CommonStore } from "../../../common/store";
 import type {
   SablierFlow_v1_0_AdjustFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_AdjustFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_2_AdjustFlowStream_handler as Handler_v1_2,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 import { Loader } from "./loader";
@@ -11,16 +12,22 @@ import { Loader } from "./loader";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
   const { stream, users, watcher } = loaderReturn;
 
   /* --------------------------------- STREAM --------------------------------- */
   const now = BigInt(event.block.timestamp);
-  const elapsedTime = now - stream.lastAdjustmentTimestamp;
-  const streamedAmount = stream.ratePerSecond * elapsedTime;
-  const snapshotAmount = stream.snapshotAmount + streamedAmount;
+  // If the stream has not started yet, the snapshot amount is not updated.
+  let snapshotAmount = stream.snapshotAmount;
+  if (now > stream.startTime) {
+    const streamingStart =
+      stream.lastAdjustmentTimestamp > stream.startTime ? stream.lastAdjustmentTimestamp : stream.startTime;
+    const elapsedTime = now - streamingStart;
+    const streamedAmount = stream.ratePerSecond * elapsedTime;
+    snapshotAmount = stream.snapshotAmount + streamedAmount;
+  }
 
   // The depletion time is recalculated only if the current depletion time is in the future.
   let depletionTime = stream.depletionTime;
@@ -29,7 +36,8 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
     const notWithdrawn = snapshotAmount - withdrawnAmount;
     const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
     const extraAmount = availableAmount - notWithdrawn;
-    depletionTime = now + extraAmount / event.params.newRatePerSecond;
+    const calculationStart = now > stream.startTime ? now : stream.startTime;
+    depletionTime = calculationStart + extraAmount / event.params.newRatePerSecond;
   }
 
   const updatedStream = {
