@@ -590,6 +590,69 @@ networks:
       - address: "0x856167ee3e09ba562d69a542ab6a939903ad738e"
         name: "SablierLockup_v2_0"
         start_block: 8594061
+  - id: 1329
+    start_block: 138904383
+    rpc:
+      - for: "sync"
+        url: "https://lb.routeme.sh/rpc/1329/${ENVIO_ROUTEMESH_API_KEY}"
+    contracts:
+      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 138904383
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+      - address: "0xdef70082ebda4944a55311624900e42a720b4ec9"
+        name: "SablierFlow_v1_1"
+        start_block: 138911958
+      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
+        name: "SablierLockup_v2_0"
+        start_block: 138913911
+  - id: 1890
+    start_block: 63524930
+    hypersync_config:
+      url: "https://lightlink.hypersync.xyz"
+    rpc: []
+    contracts:
+      - address: "0xdb07a1749d5ca49909c7c4159652fbd527c735b8"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 63526311
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0x278ac15622846806bd46fbdbdb8db8d09614173a"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 90212375
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0xc0107f368fbb50075d2190549055d9e6bf75c5c9"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 125554946
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+      - address: "0x46fa0164c5af9382d330e5a245a2ca8a18398950"
+        name: "SablierFlow_v1_0"
+        start_block: 116397460
+      - address: "0x89d964e0b508234bcfdc7a32ae0aa0356f422b70"
+        name: "SablierFlow_v1_1"
+        start_block: 125538058
+      - address: "0x49d753422ff05daa291a9efa383e4f57daead889"
+        name: "SablierV2LockupDynamic_v1_1"
+        start_block: 63524930
+      - address: "0x17c4f98c40e69a6a0d5c42b11e3733f076a99e20"
+        name: "SablierV2LockupLinear_v1_1"
+        start_block: 63524931
+      - address: "0xaa05e418fb7851c211351c65435f1b17cbfa88bf"
+        name: "SablierV2LockupDynamic_v1_2"
+        start_block: 90214120
+      - address: "0x6329591464fa6721c8e1c1271e4c6c41531aea6b"
+        name: "SablierV2LockupLinear_v1_2"
+        start_block: 90214120
+      - address: "0x83403c6426e6d044bf3b84ec1c007db211aaa140"
+        name: "SablierV2LockupTranched_v1_2"
+        start_block: 90214120
+      - address: "0x6c65aaf03186d1da60127d3d7792cf36ed99d909"
+        name: "SablierLockup_v2_0"
+        start_block: 125509194
   - id: 2741
     start_block: 72821
     rpc:
