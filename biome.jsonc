@@ -25,6 +25,17 @@
           "suspicious": { "noDoubleEquals": "off", "noShadowRestrictedNames": "off" }
         }
       }
+    },
+    /* ---------------------------------- TESTS --------------------------------- */
+    {
+      "includes": ["tests/**/*.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
     }
   ]
 }

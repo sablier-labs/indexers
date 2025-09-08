@@ -1,5 +1,5 @@
 import { sepolia } from "sablier/dist/chains";
-import { getExperimentalURL } from "../../../src/experimental";
+import { getIndexer } from "../../../src/indexers/getters";
 import * as Envio from "../../../src/queries/airdrops/envio";
 import * as Graph from "../../../src/queries/airdrops/graph";
 import { createEquivalenceTest } from "./create-test";
@@ -7,8 +7,8 @@ import { createEquivalenceTest } from "./create-test";
 createEquivalenceTest({
   chainId: sepolia.id,
   endpoints: {
-    envio: getExperimentalURL({ protocol: "airdrops", vendor: "envio" }),
-    graph: getExperimentalURL({ protocol: "airdrops", vendor: "graph" }),
+    envio: getIndexer({ chainId: sepolia.id, protocol: "airdrops", vendor: "envio" })!.endpoint.url,
+    graph: getIndexer({ chainId: sepolia.id, protocol: "airdrops", vendor: "graph" })!.endpoint.url,
   },
   protocol: "airdrops",
   queries: {
