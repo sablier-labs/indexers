@@ -31,9 +31,11 @@ export const ZERO = BigInt.fromU32(0);
 export const AIRDROPS_V1_1 = "v1.1";
 export const AIRDROPS_V1_2 = "v1.2";
 export const AIRDROPS_V1_3 = "v1.3";
+export const AIRDROPS_V1_4 = "v1.4";
 
 export const FLOW_V1_0 = "v1.0";
 export const FLOW_V1_1 = "v1.1";
+export const FLOW_V1_2 = "v1.2";
 
 export const LOCKUP_V1_0 = "v1.0";
 export const LOCKUP_V1_1 = "v1.1";

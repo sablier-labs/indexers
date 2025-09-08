@@ -83,10 +83,43 @@ const v1_3: Types.EventMap = {
   },
 };
 
+const v1_4: Types.EventMap = {
+  [names.SABLIER_FACTORY_MERKLE_INSTANT]: {
+    "v1.4": [get("v1.4", names.SABLIER_FACTORY_MERKLE_INSTANT, "CreateMerkleInstant")],
+  },
+  [names.SABLIER_FACTORY_MERKLE_LL]: {
+    "v1.4": [get("v1.4", names.SABLIER_FACTORY_MERKLE_LL, "CreateMerkleLL")],
+  },
+  [names.SABLIER_FACTORY_MERKLE_LT]: {
+    "v1.4": [get("v1.4", names.SABLIER_FACTORY_MERKLE_LT, "CreateMerkleLT")],
+  },
+  [names.SABLIER_MERKLE_INSTANT]: {
+    "v1.4": [
+      ...campaign("v1.4", names.SABLIER_MERKLE_INSTANT),
+      get("v1.4", names.SABLIER_MERKLE_INSTANT, "ClaimInstant"),
+    ],
+  },
+  [names.SABLIER_MERKLE_LL]: {
+    "v1.4": [
+      ...campaign("v1.4", names.SABLIER_MERKLE_LL),
+      get("v1.4", names.SABLIER_MERKLE_LL, "ClaimLLWithTransfer"),
+      get("v1.4", names.SABLIER_MERKLE_LL, "ClaimLLWithVesting"),
+    ],
+  },
+  [names.SABLIER_MERKLE_LT]: {
+    "v1.4": [
+      ...campaign("v1.4", names.SABLIER_MERKLE_LT),
+      get("v1.4", names.SABLIER_MERKLE_LT, "ClaimLTWithTransfer"),
+      get("v1.4", names.SABLIER_MERKLE_LT, "ClaimLTWithVesting"),
+    ],
+  },
+};
+
 const airdropHandlers: Types.EventMap = {
   ...v1_1,
   ...v1_2,
   ...v1_3,
+  ...v1_4,
 } as const;
 
 export default airdropHandlers;

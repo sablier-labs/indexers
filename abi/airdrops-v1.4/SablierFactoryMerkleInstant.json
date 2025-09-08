@@ -1,0 +1,362 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "initialComptroller",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "comptroller",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract ISablierComptroller"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "computeMerkleInstant",
+    "inputs": [
+      {
+        "name": "campaignCreator",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "params",
+        "type": "tuple",
+        "internalType": "struct MerkleInstant.ConstructorParams",
+        "components": [
+          {
+            "name": "campaignName",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "campaignStartTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "contract IERC20"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "merkleInstant",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "createMerkleInstant",
+    "inputs": [
+      {
+        "name": "params",
+        "type": "tuple",
+        "internalType": "struct MerkleInstant.ConstructorParams",
+        "components": [
+          {
+            "name": "campaignName",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "campaignStartTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "contract IERC20"
+          }
+        ]
+      },
+      {
+        "name": "aggregateAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipientCount",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "merkleInstant",
+        "type": "address",
+        "internalType": "contract ISablierMerkleInstant"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "nativeToken",
+    "inputs": [],
+    "outputs": [{ "name": "", "type": "address", "internalType": "address" }],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setComptroller",
+    "inputs": [
+      {
+        "name": "newComptroller",
+        "type": "address",
+        "internalType": "contract ISablierComptroller"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setNativeToken",
+    "inputs": [
+      {
+        "name": "newNativeToken",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "transferFeesToComptroller",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "CreateMerkleInstant",
+    "inputs": [
+      {
+        "name": "merkleInstant",
+        "type": "address",
+        "indexed": true,
+        "internalType": "contract ISablierMerkleInstant"
+      },
+      {
+        "name": "params",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct MerkleInstant.ConstructorParams",
+        "components": [
+          {
+            "name": "campaignName",
+            "type": "string",
+            "internalType": "string"
+          },
+          {
+            "name": "campaignStartTime",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "expiration",
+            "type": "uint40",
+            "internalType": "uint40"
+          },
+          {
+            "name": "initialAdmin",
+            "type": "address",
+            "internalType": "address"
+          },
+          { "name": "ipfsCID", "type": "string", "internalType": "string" },
+          {
+            "name": "merkleRoot",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "contract IERC20"
+          }
+        ]
+      },
+      {
+        "name": "aggregateAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "recipientCount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "comptroller",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "minFeeUSD",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetComptroller",
+    "inputs": [
+      {
+        "name": "oldComptroller",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract ISablierComptroller"
+      },
+      {
+        "name": "newComptroller",
+        "type": "address",
+        "indexed": false,
+        "internalType": "contract ISablierComptroller"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SetNativeToken",
+    "inputs": [
+      {
+        "name": "comptroller",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "nativeToken",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "TransferFeesToComptroller",
+    "inputs": [
+      {
+        "name": "comptroller",
+        "type": "address",
+        "indexed": true,
+        "internalType": "contract ISablierComptroller"
+      },
+      {
+        "name": "feeAmount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "Comptrollerable_CallerNotComptroller",
+    "inputs": [
+      { "name": "comptroller", "type": "address", "internalType": "address" },
+      { "name": "caller", "type": "address", "internalType": "address" }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "Comptrollerable_UnsupportedInterfaceId",
+    "inputs": [
+      {
+        "name": "previousComptroller",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "newComptroller",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "minimalInterfaceId",
+        "type": "bytes4",
+        "internalType": "bytes4"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "SablierFactoryMerkleBase_ForbidNativeToken",
+    "inputs": [{ "name": "nativeToken", "type": "address", "internalType": "address" }]
+  },
+  {
+    "type": "error",
+    "name": "SablierFactoryMerkleBase_NativeTokenAlreadySet",
+    "inputs": [{ "name": "nativeToken", "type": "address", "internalType": "address" }]
+  },
+  {
+    "type": "error",
+    "name": "SablierFactoryMerkleBase_NativeTokenZeroAddress",
+    "inputs": []
+  }
+]

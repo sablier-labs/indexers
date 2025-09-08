@@ -25,6 +25,7 @@ export function createAction(event: ethereum.Event, params: Params.Action): Enti
   action.claimAmount = params.claimAmount;
   action.claimIndex = params.claimIndex;
   action.claimRecipient = params.claimRecipient;
+  action.claimTo = params.claimTo;
   action.claimStreamId = params.claimStreamId;
   action.claimTokenId = params.claimTokenId;
   action.clawbackAmount = params.clawbackAmount;

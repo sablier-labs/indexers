@@ -1,17 +1,17 @@
 import { DataSourceContext } from "@graphprotocol/graph-ts";
 import { readChainId } from "../../../../common/context";
-import { CreateMerkleInstant } from "../../../bindings/SablierMerkleFactory_v1_3/SablierMerkleFactory";
-import { SablierMerkleInstant_v1_3 as TemplateInstant_v1_3 } from "../../../bindings/templates";
+import { CreateMerkleInstant } from "../../../bindings/SablierFactoryMerkleInstant_v1_4/SablierFactoryMerkleInstant";
+import { SablierMerkleInstant_v1_4 as TemplateInstant_v1_4 } from "../../../bindings/templates";
 import { Store } from "../../../store";
 
-export function handle_SablierMerkleFactory_v1_3_CreateMerkleInstant(event: CreateMerkleInstant): void {
+export function handle_SablierFactoryMerkleInstant_v1_4_CreateMerkleInstant(event: CreateMerkleInstant): void {
   const params = event.params;
-  const baseParams = params.baseParams;
+  const baseParams = params.params;
 
   /* -------------------------------- TEMPLATE -------------------------------- */
   const context = new DataSourceContext();
   context.setBigInt("chainId", readChainId());
-  TemplateInstant_v1_3.createWithContext(params.merkleInstant, context);
+  TemplateInstant_v1_4.createWithContext(params.merkleInstant, context);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.createInstant(event, {
@@ -19,12 +19,12 @@ export function handle_SablierMerkleFactory_v1_3_CreateMerkleInstant(event: Crea
     aggregateAmount: params.aggregateAmount,
     asset: baseParams.token,
     campaignAddress: params.merkleInstant,
-    campaignStartTime: event.block.timestamp,
+    campaignStartTime: baseParams.campaignStartTime,
     category: "Instant",
     expiration: baseParams.expiration,
     ipfsCID: baseParams.ipfsCID,
     merkleRoot: baseParams.merkleRoot,
-    minimumFee: params.fee,
+    minimumFee: params.minFeeUSD,
     name: baseParams.campaignName,
     recipientCount: params.recipientCount,
   });
