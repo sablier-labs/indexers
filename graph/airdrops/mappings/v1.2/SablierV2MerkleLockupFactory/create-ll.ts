@@ -14,6 +14,7 @@ export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLL(event: C
       aggregateAmount: params.aggregateAmount,
       asset: baseParams.asset,
       campaignAddress: params.merkleLL,
+      campaignStartTime: event.block.timestamp,
       category: "LockupLinear",
       expiration: baseParams.expiration,
       ipfsCID: baseParams.ipfsCID,

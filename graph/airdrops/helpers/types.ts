@@ -7,6 +7,7 @@ export namespace Params {
     claimAmount: BigInt | null;
     claimIndex: BigInt | null;
     claimRecipient: Address | null;
+    claimTo: Address | null;
     claimStreamId: string | null;
     claimTokenId: BigInt | null;
     clawbackAmount: BigInt | null;
@@ -20,6 +21,14 @@ export namespace Params {
     index: BigInt;
     recipient: Address;
     streamId: BigInt;
+    to: Address;
+  }
+
+  export class ClaimInstant {
+    amount: BigInt;
+    index: BigInt;
+    recipient: Address;
+    to: Address;
   }
 
   export class Clawback {
@@ -35,6 +44,7 @@ export namespace Params {
     campaignAddress: Address;
     category: string;
     expiration: BigInt;
+    campaignStartTime: BigInt;
     minimumFee: BigInt | null;
     ipfsCID: string;
     merkleRoot: Bytes;
