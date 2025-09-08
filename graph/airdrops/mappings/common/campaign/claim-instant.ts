@@ -1,18 +1,11 @@
-import { Address, ethereum } from "@graphprotocol/graph-ts";
-import { Id } from "../../../../common/id";
-import { logError } from "../../../../common/logger";
+import { ethereum } from "@graphprotocol/graph-ts";
 import { isVersionWithFees } from "../../../helpers";
 import { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 
-export function handleClaimLockup(event: ethereum.Event, params: Params.ClaimLockup): void {
+export function handleClaimInstant(event: ethereum.Event, params: Params.ClaimInstant): void {
   const campaign = Store.Campaign.get(event.address);
   if (campaign === null) {
-    return;
-  }
-  const lockup = campaign.lockup;
-  if (lockup === null) {
-    logError("Campaign has no Lockup address: {}", [event.address.toHexString()]);
     return;
   }
 
@@ -24,17 +17,13 @@ export function handleClaimLockup(event: ethereum.Event, params: Params.ClaimLoc
   Store.Activity.createOrUpdate(event, campaign, claimAmount);
 
   /* --------------------------------- ACTION --------------------------------- */
-  const tokenId = params.streamId;
-  const streamId = Id.stream(Address.fromBytes(lockup), tokenId);
   Store.Action.create(event, {
     campaign: campaign.id,
     category: "Claim",
     claimAmount: claimAmount,
     claimIndex: params.index,
     claimRecipient: params.recipient,
-    claimStreamId: streamId,
     claimTo: params.to,
-    claimTokenId: tokenId,
     fee: isVersionWithFees() ? event.transaction.value : null,
   } as Params.Action);
 }
