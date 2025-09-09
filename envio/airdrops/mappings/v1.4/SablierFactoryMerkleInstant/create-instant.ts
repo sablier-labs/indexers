@@ -3,12 +3,13 @@ import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 import { createMerkle, Loader } from "../../common/factory/create-merkle";
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.contractRegister(({ event, context }) => {
-  context.addSablierMerkleInstant_v1_3(event.params.merkleInstant);
+Contract.Factory.FactoryMerkleInstant_v1_4.CreateMerkleInstant.contractRegister(({ event, context }) => {
+  context.addSablierFactoryMerkleInstant_v1_4(event.params.merkleInstant);
 });
 
 /*
 ──────────────────────────────────────────────────────────────
+[ToDo] Update links
 Solidity Event Reference
 https://github.com/sablier-labs/airdrops/blob/v1.3/src/types/DataTypes.sol
 https://github.com/sablier-labs/airdrops/blob/v1.3/src/interfaces/ISablierMerkleFactory.sol#L29-L35
@@ -16,40 +17,41 @@ https://github.com/sablier-labs/airdrops/blob/v1.3/src/interfaces/ISablierMerkle
 
 event CreateMerkleInstant(
     ISablierMerkleInstant indexed merkleInstant,
-    MerkleBase.ConstructorParams baseParams,
+    MerkleInstant.ConstructorParams params,
     uint256 aggregateAmount,
     uint256 recipientCount,
-    uint256 fee
+    address comptroller,
+    uint256 minFeeUSD
 );
 
 struct ConstructorParams {
-    IERC20 token;         [0]
-    uint40 expiration;    [1]
-    address initialAdmin; [2]
-    string ipfsCID;       [3]
-    bytes32 merkleRoot;   [4]
-    string campaignName;  [5]
-    string shape;         [6]
+    string campaignName;
+    uint40 campaignStartTime;
+    uint40 expiration;
+    address initialAdmin;
+    string ipfsCID;
+    bytes32 merkleRoot;
+    IERC20 token;
 }
 
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handlerWithLoader({
+Contract.Factory.FactoryMerkleInstant_v1_4.CreateMerkleInstant.handlerWithLoader({
   handler: async ({ context, event, loaderReturn }) => {
-    const baseParams = event.params.baseParams;
+    const baseParams = event.params.params;
     const params: Params.CreateCampaignBase = {
-      admin: baseParams[2],
+      admin: baseParams[3],
       aggregateAmount: event.params.aggregateAmount,
-      asset: baseParams[0],
+      asset: baseParams[6],
       campaignAddress: event.params.merkleInstant,
-      campaignStartTime: BigInt(event.block.timestamp),
+      campaignStartTime: baseParams[1],
       category: "Instant",
-      expiration: baseParams[1],
-      ipfsCID: baseParams[3],
-      merkleRoot: baseParams[4],
-      minimumFee: event.params.fee,
-      name: baseParams[5],
+      expiration: baseParams[2],
+      ipfsCID: baseParams[4],
+      merkleRoot: baseParams[5],
+      minimumFee: event.params.minFeeUSD,
+      name: baseParams[0],
       recipientCount: event.params.recipientCount,
     };
     await createMerkle({
@@ -60,5 +62,5 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handlerWithLoader({
       params,
     });
   },
-  loader: Loader.create["v1.3"],
+  loader: Loader.create["v1.4"].instant,
 });

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
 import type { Entity } from "../../../bindings";
@@ -5,13 +6,17 @@ import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
   SablierV2MerkleLL_v1_2_Claim_handler as HandlerLL_v1_2,
   SablierMerkleLL_v1_3_Claim_handler as HandlerLL_v1_3,
+  SablierMerkleLL_v1_4_ClaimLLWithVesting_handler as HandlerLL_v1_4,
   SablierV2MerkleLT_v1_2_Claim_handler as HandlerLT_v1_2,
   SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
+  SablierMerkleLT_v1_4_ClaimLTWithVesting_handler as HandlerLT_v1_4,
   SablierV2MerkleStreamerLL_v1_1_Claim_loader as LoaderLL_v1_1,
   SablierV2MerkleLL_v1_2_Claim_loader as LoaderLL_v1_2,
   SablierMerkleLL_v1_3_Claim_loader as LoaderLL_v1_3,
+  SablierMerkleLL_v1_4_ClaimLLWithVesting_loader as LoaderLL_v1_4,
   SablierV2MerkleLT_v1_2_Claim_loader as LoaderLT_v1_2,
   SablierMerkleLT_v1_3_Claim_loader as LoaderLT_v1_3,
+  SablierMerkleLT_v1_4_ClaimLTWithVesting_loader as LoaderLT_v1_4,
 } from "../../../bindings/src/Types.gen";
 import { isVersionWithFees } from "../../../helpers";
 import { Store } from "../../../store";
@@ -32,7 +37,14 @@ type LoaderReturn = {
   watcher: Entity.Watcher;
 };
 
-type Loader<T> = LoaderLL_v1_1<T> & LoaderLL_v1_2<T> & LoaderLL_v1_3<T> & LoaderLT_v1_2<T> & LoaderLT_v1_3<T>;
+type Loader<T> = LoaderLL_v1_1<T> &
+  LoaderLL_v1_2<T> &
+  LoaderLL_v1_3<T> &
+  LoaderLL_v1_4<T> &
+  LoaderLT_v1_2<T> &
+  LoaderLT_v1_3<T> &
+  LoaderLT_v1_4<T>;
+
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const activityId = Id.activity(event);
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
@@ -66,7 +78,13 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = HandlerLL_v1_1<T> & HandlerLL_v1_2<T> & HandlerLL_v1_3<T> & HandlerLT_v1_2<T> & HandlerLT_v1_3<T>;
+type Handler<T> = HandlerLL_v1_1<T> &
+  HandlerLL_v1_2<T> &
+  HandlerLL_v1_3<T> &
+  HandlerLL_v1_4<T> &
+  HandlerLT_v1_2<T> &
+  HandlerLT_v1_3<T> &
+  HandlerLT_v1_4<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { campaign, factory, revenue, users, watcher } = loaderReturn;
@@ -90,6 +108,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
     claimStreamId: campaign.lockup ? Id.stream(campaign.lockup, event.chainId, event.params.streamId) : undefined,
+    claimTo: _.get(event.params, "to") ?? event.params.recipient,
     claimTokenId: BigInt(event.params.streamId),
     fee,
   });

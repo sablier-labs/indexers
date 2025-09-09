@@ -4,13 +4,13 @@ import { isOfficialLockup } from "../../../helpers";
 import { Store } from "../../../store";
 import { createMerkle, Loader } from "../../common/factory/create-merkle";
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.lockup;
+Contract.Factory.FactoryMerkleLL_v1_4.CreateMerkleLL.contractRegister(({ context, event }) => {
+  const lockupAddress = event.params.params[8];
   if (!isOfficialLockup(context.log, event, lockupAddress)) {
     return;
   }
   const campaignAddress = event.params.merkleLL;
-  context.addSablierMerkleLL_v1_3(campaignAddress);
+  context.addSablierMerkleLL_v1_4(campaignAddress);
 });
 
 /*
@@ -22,61 +22,59 @@ https://github.com/sablier-labs/airdrops/blob/v1.3/src/interfaces/ISablierMerkle
 
 event CreateMerkleLL(
     ISablierMerkleLL indexed merkleLL,
-    MerkleBase.ConstructorParams baseParams,
-    ISablierLockup lockup,
-    bool cancelable,
-    bool transferable,
-    MerkleLL.Schedule schedule,
+    MerkleLL.ConstructorParams params,
     uint256 aggregateAmount,
     uint256 recipientCount,
-    uint256 fee
+    address comptroller,
+    uint256 minFeeUSD
 );
 
 struct ConstructorParams {
-    IERC20 token;         [0]
-    uint40 expiration;    [1]
-    address initialAdmin; [2]
-    string ipfsCID;       [3]
-    bytes32 merkleRoot;   [4]
-    string campaignName;  [5]
-    string shape;         [6]
-}
-
-struct Schedule {
-    uint40 startTime;       [0]
-    UD2x18 startPercentage; [1]
-    uint40 cliffDuration;   [2]
-    UD2x18 cliffPercentage; [3]
-    uint40 totalDuration;   [4]
+    string campaignName;
+    uint40 campaignStartTime;
+    bool cancelable;
+    uint40 cliffDuration;
+    UD60x18 cliffUnlockPercentage;
+    uint40 expiration;
+    address initialAdmin;
+    string ipfsCID;
+    ISablierLockup lockup;
+    bytes32 merkleRoot;
+    string shape;
+    UD60x18 startUnlockPercentage;
+    IERC20 token;
+    uint40 totalDuration;
+    bool transferable;
+    uint40 vestingStartTime;
 }
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handlerWithLoader({
+Contract.Factory.FactoryMerkleLL_v1_4.CreateMerkleLL.handlerWithLoader({
   handler: async ({ context, event, loaderReturn }) => {
-    const baseParams = event.params.baseParams;
+    const baseParams = event.params.params;
     const params: Params.CreateCampaignLL = {
-      admin: baseParams[2],
+      admin: baseParams[6],
       aggregateAmount: event.params.aggregateAmount,
-      asset: baseParams[0],
+      asset: baseParams[12],
       campaignAddress: event.params.merkleLL,
-      campaignStartTime: BigInt(event.block.timestamp),
-      cancelable: event.params.cancelable,
+      campaignStartTime: baseParams[1],
+      cancelable: baseParams[2],
       category: "LockupLinear",
-      cliffDuration: event.params.schedule[2],
-      cliffPercentage: event.params.schedule[3],
-      expiration: baseParams[1],
-      ipfsCID: baseParams[3],
-      lockup: event.params.lockup,
-      merkleRoot: baseParams[4],
-      minimumFee: event.params.fee,
-      name: baseParams[5],
+      cliffDuration: baseParams[3],
+      cliffPercentage: baseParams[4],
+      expiration: baseParams[5],
+      ipfsCID: baseParams[7],
+      lockup: baseParams[8],
+      merkleRoot: baseParams[9],
+      minimumFee: event.params.minFeeUSD,
+      name: baseParams[0],
       recipientCount: event.params.recipientCount,
-      shape: baseParams[6],
-      startPercentage: event.params.schedule[1],
-      startTime: event.params.schedule[0],
-      totalDuration: event.params.schedule[4],
-      transferable: event.params.transferable,
+      shape: baseParams[10],
+      startPercentage: baseParams[11],
+      startTime: baseParams[15],
+      totalDuration: baseParams[13],
+      transferable: baseParams[14],
     };
     await createMerkle({
       context,
@@ -86,5 +84,5 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handlerWithLoader({
       params,
     });
   },
-  loader: Loader.create["v1.3"],
+  loader: Loader.create["v1.4"].ll,
 });

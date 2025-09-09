@@ -8,11 +8,14 @@ import type { RPCData } from "../../../../common/types";
 import type { Context, Entity } from "../../../bindings";
 import type {
   SablierMerkleFactory_v1_3_CreateMerkleInstant_loader as CreateInstant_v1_3,
+  SablierFactoryMerkleInstant_v1_4_CreateMerkleInstant_loader as CreateInstant_v1_4,
   SablierV2MerkleStreamerFactory_v1_1_CreateMerkleStreamerLL_loader as CreateLL_v1_1,
   SablierV2MerkleLockupFactory_v1_2_CreateMerkleLL_loader as CreateLL_v1_2,
   SablierMerkleFactory_v1_3_CreateMerkleLL_loader as CreateLL_v1_3,
+  SablierFactoryMerkleLL_v1_4_CreateMerkleLL_loader as CreateLL_v1_4,
   SablierV2MerkleLockupFactory_v1_2_CreateMerkleLT_loader as CreateLT_v1_2,
   SablierMerkleFactory_v1_3_CreateMerkleLT_loader as CreateLT_v1_3,
+  SablierFactoryMerkleLT_v1_4_CreateMerkleLT_loader as CreateLT_v1_4,
 } from "../../../bindings/src/Types.gen";
 import { isOfficialLockup } from "../../../helpers";
 import type { Params } from "../../../helpers/types";
@@ -113,10 +116,48 @@ export namespace Loader {
     });
   };
 
+  /**
+   * @see {@link: file://./../../v1.3/SablierMerkleFactory/create-instant.ts}
+   */
+  type CreateInstantV1_4<T> = CreateInstant_v1_4<T>;
+  const createInstantV1_4: CreateInstantV1_4<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loader(context, event, {
+      admin: event.params.params[3],
+      asset: event.params.params[6],
+    });
+  };
+
+  /**
+   * @see {@link: file://./../../v1.3/SablierMerkleFactory/create-instant.ts}
+   */
+  type CreateLLV1_4<T> = CreateLL_v1_4<T>;
+  const createLLV1_4: CreateLLV1_4<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loader(context, event, {
+      admin: event.params.params[6],
+      asset: event.params.params[12],
+    });
+  };
+
+  /**
+   * @see {@link: file://./../../v1.3/SablierMerkleFactory/create-instant.ts}
+   */
+  type CreateLTV1_4<T> = CreateLT_v1_4<T>;
+  const createLTV1_4: CreateLTV1_4<CreateReturn> = async ({ context, event }): Promise<CreateReturn> => {
+    return loader(context, event, {
+      admin: event.params.params[4],
+      asset: event.params.params[9],
+    });
+  };
+
   export const create = {
     [Version.Airdrops.V1_1]: createV1_1,
     [Version.Airdrops.V1_2]: createV1_2,
     [Version.Airdrops.V1_3]: createV1_3,
+    [Version.Airdrops.V1_4]: {
+      instant: createInstantV1_4,
+      ll: createLLV1_4,
+      lt: createLTV1_4,
+    },
   };
 }
 

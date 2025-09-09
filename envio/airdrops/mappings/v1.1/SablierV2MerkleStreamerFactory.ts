@@ -50,6 +50,7 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handlerWithLo
       aggregateAmount: event.params.aggregateAmount,
       asset: event.params.asset,
       campaignAddress: event.params.merkleStreamer,
+      campaignStartTime: BigInt(event.block.timestamp),
       cancelable: event.params.cancelable,
       category: "LockupLinear",
       cliffDuration: event.params.streamDurations[0],
