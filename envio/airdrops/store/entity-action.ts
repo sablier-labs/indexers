@@ -18,6 +18,7 @@ export function create(
     claimIndex: params.claimIndex,
     claimRecipient: params.claimRecipient?.toLowerCase(),
     claimStreamId: params.claimStreamId,
+    claimTo: params.claimTo?.toLowerCase(),
     claimTokenId: params.claimTokenId,
     clawbackAmount: params.clawbackAmount,
     clawbackFrom: params.clawbackFrom?.toLowerCase(),

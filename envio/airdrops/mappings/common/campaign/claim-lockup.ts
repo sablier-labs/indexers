@@ -1,10 +1,14 @@
+import _ from "lodash";
 import { Id } from "../../../../common/id";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
   SablierV2MerkleLL_v1_2_Claim_handler as HandlerLL_v1_2,
   SablierMerkleLL_v1_3_Claim_handler as HandlerLL_v1_3,
+  SablierMerkleLL_v1_4_ClaimLLWithVesting_handler as HandlerLL_v1_4,
   SablierV2MerkleLT_v1_2_Claim_handler as HandlerLT_v1_2,
   SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
+    SablierMerkleLT_v1_4_ClaimLTWithVesting_handler as HandlerLT_v1_4,
+
 } from "../../../bindings/src/Types.gen";
 import { isVersionWithFees } from "../../../helpers";
 import { Store } from "../../../store";
@@ -13,7 +17,7 @@ import { Store } from "../../../store";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerLL_v1_3 & HandlerLT_v1_2 & HandlerLT_v1_3;
+type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerLL_v1_3 & HandlerLL_v1_4 & HandlerLT_v1_2 & HandlerLT_v1_3  & HandlerLT_v1_4;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
@@ -53,6 +57,7 @@ const handler: Handler = async ({ context, event }) => {
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
     claimStreamId: campaign.lockup ? Id.stream(campaign.lockup, event.chainId, event.params.streamId) : undefined,
+    claimTo: _.get(event.params, "to") ?? event.params.recipient,
     claimTokenId: BigInt(event.params.streamId),
     fee,
   });

@@ -72,6 +72,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(async ({ contex
     aggregateAmount: event.params.aggregateAmount,
     asset,
     campaignAddress: event.params.merkleLL,
+    campaignStartTime: BigInt(event.block.timestamp),
     cancelable: baseParams[1],
     category: "LockupLinear",
     cliffDuration: event.params.streamDurations[0],
