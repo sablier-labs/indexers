@@ -67,6 +67,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, eve
     aggregateAmount: event.params.aggregateAmount,
     asset,
     campaignAddress: event.params.merkleLL,
+    campaignStartTime: BigInt(event.block.timestamp),
     cancelable: event.params.cancelable,
     category: "LockupLinear",
     cliffDuration: event.params.schedule[2],

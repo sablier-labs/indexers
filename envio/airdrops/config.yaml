@@ -73,6 +73,46 @@ contracts:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
+    handler: "mappings/v1.3/SablierMerkleLT.ts"
+    name: "SablierMerkleLT_v1_3"
+  - abi_file_path: "../../abi/airdrops-v1.4/SablierFactoryMerkleInstant.json"
+    events:
+      - event: "CreateMerkleInstant"
+    handler: "mappings/v1.4/SablierFactoryMerkleInstant.ts"
+    name: "SablierFactoryMerkleInstant_v1_4"
+  - abi_file_path: "../../abi/airdrops-v1.4/SablierFactoryMerkleLL.json"
+    events:
+      - event: "CreateMerkleLL"
+    handler: "mappings/v1.4/SablierFactoryMerkleLL.ts"
+    name: "SablierFactoryMerkleLL_v1_4"
+  - abi_file_path: "../../abi/airdrops-v1.4/SablierFactoryMerkleLT.json"
+    events:
+      - event: "CreateMerkleLT"
+    handler: "mappings/v1.4/SablierFactoryMerkleLT.ts"
+    name: "SablierFactoryMerkleLT_v1_4"
+  - abi_file_path: "../../abi/airdrops-v1.4/SablierMerkleInstant.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimInstant"
+    handler: "mappings/v1.4/SablierMerkleInstant.ts"
+    name: "SablierMerkleInstant_v1_4"
+  - abi_file_path: "../../abi/airdrops-v1.4/SablierMerkleLL.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimLLWithTransfer"
+      - event: "ClaimLLWithVesting"
+    handler: "mappings/v1.4/SablierMerkleLL.ts"
+    name: "SablierMerkleLL_v1_4"
+  - abi_file_path: "../../abi/airdrops-v1.4/SablierMerkleLT.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimLTWithTransfer"
+      - event: "ClaimLTWithVesting"
+    handler: "mappings/v1.4/SablierMerkleLT.ts"
+    name: "SablierMerkleLT_v1_4"
 networks:
   - id: 2741
     start_block: 73620
@@ -594,3 +634,23 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
+      - address: "0x42d09ed40dad47240d66059cde41f14721f73f09"
+        name: "SablierFactoryMerkleInstant_v1_4"
+      - address: "0x293a3902e5bcd156912b529300ea264426ef0c2f"
+        name: "SablierFactoryMerkleLL_v1_4"
+      - address: "0x8eeb2731986abfde2afdf734fbc5bec15ba3122b"
+        name: "SablierFactoryMerkleLT_v1_4"
+      - name: "SablierMerkleInstant_v1_4"
+      - name: "SablierMerkleLL_v1_4"
+      - name: "SablierMerkleLT_v1_4"
+    id: 11155111
+    rpc:
+      - for: "fallback"
+        url: "https://sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
+      - for: "fallback"
+        url: "https://eth-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sepolia.drpc.org"
+    start_block: 4904900

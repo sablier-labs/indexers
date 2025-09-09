@@ -63,6 +63,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.handler(async ({ context, eve
     aggregateAmount: event.params.aggregateAmount,
     asset,
     campaignAddress: event.params.merkleLT,
+    campaignStartTime: BigInt(event.block.timestamp),
     cancelable: event.params.cancelable,
     category: "LockupTranched",
     expiration: baseParams[1],
