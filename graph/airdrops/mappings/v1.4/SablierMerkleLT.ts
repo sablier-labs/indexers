@@ -23,7 +23,7 @@ export function handle_SablierMerkleLT_v1_4_ClaimLTWithVesting(event: ClaimLTWit
   });
 }
 
-export function handle_SablierMerkleLL_v1_4_ClaimLTWithTransfer(event: ClaimLTWithTransfer): void {
+export function handle_SablierMerkleLT_v1_4_ClaimLTWithTransfer(event: ClaimLTWithTransfer): void {
   handleClaimInstant(event, {
     amount: event.params.amount,
     index: event.params.index,
