@@ -1,5 +1,5 @@
 import { DataSourceContext } from "@graphprotocol/graph-ts";
-import { readChainId } from "../../../../common/context";
+import { readChainId, readContractVersion } from "../../../../common/context";
 import { CreateMerkleInstant } from "../../../bindings/SablierMerkleFactory_v1_3/SablierMerkleFactory";
 import { SablierMerkleInstant_v1_3 as TemplateInstant_v1_3 } from "../../../bindings/templates";
 import { Store } from "../../../store";
@@ -11,6 +11,7 @@ export function handle_SablierMerkleFactory_v1_3_CreateMerkleInstant(event: Crea
   /* -------------------------------- TEMPLATE -------------------------------- */
   const context = new DataSourceContext();
   context.setBigInt("chainId", readChainId());
+  context.setString("version", readContractVersion());
   TemplateInstant_v1_3.createWithContext(params.merkleInstant, context);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
