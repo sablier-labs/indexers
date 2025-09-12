@@ -4,7 +4,7 @@ import { Store } from "../../../store";
 import { createMerkle, Loader } from "../../common/factory/create-merkle";
 
 Contract.Factory.FactoryMerkleInstant_v1_4.CreateMerkleInstant.contractRegister(({ event, context }) => {
-  context.addSablierFactoryMerkleInstant_v1_4(event.params.merkleInstant);
+  context.addSablierMerkleInstant_v1_4(event.params.merkleInstant);
 });
 
 /*
