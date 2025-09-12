@@ -4,8 +4,10 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_Approval_handler as Handler_v1_0,
   SablierFlow_v1_1_Approval_handler as Handler_v1_1,
+  SablierFlow_v1_2_Approval_handler as Handler_v1_2,
   SablierFlow_v1_0_Approval_loader as Loader_v1_0,
   SablierFlow_v1_1_Approval_loader as Loader_v1_1,
+  SablierFlow_v1_2_Approval_loader as Loader_v1_2,
 } from "../../bindings/src/Types.gen";
 
 /* -------------------------------------------------------------------------- */
@@ -22,7 +24,7 @@ type LoaderReturn = {
   watcher: Entity.Watcher;
 };
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const streamId = Id.stream(event.srcAddress, event.chainId, event.params.tokenId);
@@ -50,7 +52,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { stream, users, watcher } = loaderReturn;

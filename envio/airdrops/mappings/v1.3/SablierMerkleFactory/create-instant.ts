@@ -43,6 +43,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handlerWithLoader({
       aggregateAmount: event.params.aggregateAmount,
       asset: baseParams[0],
       campaignAddress: event.params.merkleInstant,
+      campaignStartTime: BigInt(event.block.timestamp),
       category: "Instant",
       expiration: baseParams[1],
       ipfsCID: baseParams[3],

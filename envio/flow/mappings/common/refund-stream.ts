@@ -2,11 +2,12 @@ import { CommonStore } from "../../../common/store";
 import type {
   SablierFlow_v1_0_RefundFromFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_RefundFromFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_2_RefundFromFlowStream_handler as Handler_v1_2,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 import { Loader } from "./loader";
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
   const { stream, users, watcher } = loaderReturn;

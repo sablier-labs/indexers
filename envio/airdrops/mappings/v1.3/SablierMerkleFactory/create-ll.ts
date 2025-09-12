@@ -60,6 +60,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handlerWithLoader({
       aggregateAmount: event.params.aggregateAmount,
       asset: baseParams[0],
       campaignAddress: event.params.merkleLL,
+      campaignStartTime: BigInt(event.block.timestamp),
       cancelable: event.params.cancelable,
       category: "LockupLinear",
       cliffDuration: event.params.schedule[2],

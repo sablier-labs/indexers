@@ -4,8 +4,10 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_WithdrawFromFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_WithdrawFromFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_2_WithdrawFromFlowStream_handler as Handler_v1_2,
   SablierFlow_v1_0_WithdrawFromFlowStream_loader as Loader_v1_0,
   SablierFlow_v1_1_WithdrawFromFlowStream_loader as Loader_v1_1,
+  SablierFlow_v1_2_WithdrawFromFlowStream_loader as Loader_v1_2,
 } from "../../bindings/src/Types.gen";
 import { Loader as LoaderBase } from "./loader";
 
@@ -13,7 +15,7 @@ import { Loader as LoaderBase } from "./loader";
 /*                                   LOADER                                   */
 /* -------------------------------------------------------------------------- */
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T>;
 
 type LoaderReturn = {
   revenue?: Entity.Revenue;
@@ -30,7 +32,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const [revenue, to, { stream, users: baseUsers, watcher }] = await Promise.all([
     context.Revenue.get(revenueId),
     context.User.get(Id.user(event.chainId, event.params.to)),
-    LoaderBase.base({ context, event }),
+    LoaderBase.base({ context, event } as any),
   ]);
   return { revenue, stream, users: { caller: baseUsers.caller, to }, watcher };
 };
@@ -39,7 +41,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { revenue, stream, users, watcher } = loaderReturn;

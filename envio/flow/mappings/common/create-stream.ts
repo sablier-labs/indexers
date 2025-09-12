@@ -1,4 +1,6 @@
 // import { Effects } from "../../../common/effects";
+
+import _ from "lodash";
 import { Effects } from "../../../common/effects";
 import { Id } from "../../../common/id";
 import { CommonStore } from "../../../common/store";
@@ -7,8 +9,10 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_CreateFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,
+  SablierFlow_v1_2_CreateFlowStream_handler as Handler_v1_2,
   SablierFlow_v1_0_CreateFlowStream_loader as Loader_v1_0,
   SablierFlow_v1_1_CreateFlowStream_loader as Loader_v1_1,
+  SablierFlow_v1_2_CreateFlowStream_loader as Loader_v1_2,
 } from "../../bindings/src/Types.gen";
 import { Store } from "../../store";
 
@@ -29,7 +33,7 @@ type LoaderReturn = {
   watcher?: Entity.Watcher;
 };
 
-type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T>;
+type Loader<T> = Loader_v1_0<T> & Loader_v1_1<T> & Loader_v1_2<T>;
 
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const assetId = Id.asset(event.chainId, event.params.token);
@@ -77,7 +81,7 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T> & Handler_v1_2<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { assetMetadata } = loaderReturn;
@@ -94,6 +98,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,
     sender: event.params.sender,
+    startTime: _.get(event.params, "snapshotTime") ?? BigInt(event.block.timestamp),
     tokenId: event.params.streamId,
     transferable: event.params.transferable,
   });

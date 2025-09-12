@@ -13,6 +13,7 @@ export namespace Params {
     claimAmount?: bigint;
     claimIndex?: bigint;
     claimRecipient?: Envio.Address;
+    claimTo?: Envio.Address;
     claimStreamId?: string;
     claimTokenId?: bigint;
     clawbackAmount?: bigint;
@@ -36,6 +37,7 @@ export namespace Params {
     asset: Envio.Address;
     aggregateAmount: bigint;
     campaignAddress: Envio.Address;
+    campaignStartTime: bigint;
     category: Enum.CampaignCategory;
     expiration: bigint;
     merkleRoot: string;

@@ -1,9 +1,16 @@
+import _ from "lodash";
 import { Id } from "../../../../common/id";
 import { CommonStore } from "../../../../common/store";
 import type { Entity } from "../../../bindings";
 import type {
   SablierMerkleInstant_v1_3_Claim_handler,
   SablierMerkleInstant_v1_3_Claim_loader,
+  SablierMerkleInstant_v1_4_ClaimInstant_handler,
+  SablierMerkleInstant_v1_4_ClaimInstant_loader,
+  SablierMerkleLL_v1_4_ClaimLLWithTransfer_handler,
+  SablierMerkleLL_v1_4_ClaimLLWithTransfer_loader,
+  SablierMerkleLT_v1_4_ClaimLTWithTransfer_handler,
+  SablierMerkleLT_v1_4_ClaimLTWithTransfer_loader,
 } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
@@ -22,7 +29,11 @@ type LoaderReturn = {
   watcher: Entity.Watcher;
 };
 
-type Loader<T> = SablierMerkleInstant_v1_3_Claim_loader<T>;
+type Loader<T> = SablierMerkleInstant_v1_3_Claim_loader<T> &
+  SablierMerkleInstant_v1_4_ClaimInstant_loader<T> &
+  SablierMerkleLL_v1_4_ClaimLLWithTransfer_loader<T> &
+  SablierMerkleLT_v1_4_ClaimLTWithTransfer_loader<T>;
+
 const loader: Loader<LoaderReturn> = async ({ context, event }) => {
   const activityId = Id.activity(event);
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
@@ -53,7 +64,10 @@ const loader: Loader<LoaderReturn> = async ({ context, event }) => {
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler<T> = SablierMerkleInstant_v1_3_Claim_handler<T>;
+type Handler<T> = SablierMerkleInstant_v1_3_Claim_handler<T> &
+  SablierMerkleInstant_v1_4_ClaimInstant_handler<T> &
+  SablierMerkleLL_v1_4_ClaimLLWithTransfer_handler<T> &
+  SablierMerkleLT_v1_4_ClaimLTWithTransfer_handler<T>;
 
 const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) => {
   const { campaign, revenue, users, watcher } = loaderReturn;
@@ -72,6 +86,7 @@ const handler: Handler<LoaderReturn> = async ({ context, event, loaderReturn }) 
     claimAmount: event.params.amount,
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
+    claimTo: _.get(event.params, "to") ?? event.params.recipient,
     fee: event.transaction.value,
   });
 

@@ -53,6 +53,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.handlerWithLoader({
       aggregateAmount: event.params.aggregateAmount,
       asset: baseParams[0],
       campaignAddress: event.params.merkleLT,
+      campaignStartTime: BigInt(event.block.timestamp),
       cancelable: baseParams[1],
       category: "LockupTranched",
       expiration: baseParams[2],

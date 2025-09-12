@@ -55,6 +55,7 @@ export function handle_SablierFlow_v1_0_CreateFlowStream(event: CreateFlowStream
     ratePerSecond: event.params.ratePerSecond,
     recipient: event.params.recipient,
     sender: event.params.sender,
+    startTime: event.block.timestamp,
     streamId: event.params.streamId,
     token: event.params.token,
     transferable: event.params.transferable,
