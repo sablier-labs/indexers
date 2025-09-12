@@ -122,6 +122,10 @@ type Action @entity(immutable: true) {
   """
   claimRecipient: Bytes
   """
+  Claim action data: to.
+  """
+  claimTo: Bytes
+  """
   Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
   """
   claimStreamId: String
@@ -279,6 +283,10 @@ type Campaign @entity(immutable: false) {
   Merkle root.
   """
   root: Bytes!
+  """
+  Unix timestamp when the campaign starts and claiming becomes available.
+  """
+  campaignStartTime: BigInt!
   """
   Total number of recipients.
   """
