@@ -101,15 +101,6 @@ function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
   };
 
   switch (chainId) {
-    case sepolia.id: {
-      switch (asset) {
-        // $FUEL updated its token metadata at block 7695199.
-        case "0xbaca88a993d9a1452402dc511efeecda1b18c18f":
-          removeEditedAssetDetails();
-      }
-
-      break;
-    }
     case mainnet.id: {
       switch (asset) {
         // $NGL updated its token metadata
@@ -118,6 +109,15 @@ function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
         case "0x3f2d4250e253c656bcf7750da03a94bff667ab46":
           removeEditedAssetDetails();
       }
+      break;
+    }
+    case sepolia.id: {
+      switch (asset) {
+        // $FUEL updated its token metadata at block 7695199
+        case "0xbaca88a993d9a1452402dc511efeecda1b18c18f":
+          removeEditedAssetDetails();
+      }
+
       break;
     }
   }
