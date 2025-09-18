@@ -429,18 +429,6 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-  - id: 1329
-    start_block: 138904383
-    rpc:
-      - for: "sync"
-        url: "https://lb.routeme.sh/rpc/1329/${ENVIO_ROUTEMESH_API_KEY}"
-    contracts:
-      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 138904383
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
   - id: 146
     start_block: 43945441
     rpc:

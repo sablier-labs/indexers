@@ -536,15 +536,6 @@ networks:
       - address: "0xe0bfe071da104e571298f8b6e0fce44c512c1ff4"
         name: "SablierLockup_v2_0"
         start_block: 67212728
-  - id: 1329
-    start_block: 138913911
-    rpc:
-      - for: "sync"
-        url: "https://lb.routeme.sh/rpc/1329/${ENVIO_ROUTEMESH_API_KEY}"
-    contracts:
-      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
-        name: "SablierLockup_v2_0"
-        start_block: 138913911
   - id: 146
     start_block: 43943890
     rpc:

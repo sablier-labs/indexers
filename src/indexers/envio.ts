@@ -51,7 +51,6 @@ const SUPPORTED_CHAINS = [
   get(chains.morph.id),
   get(chains.optimism.id),
   get(chains.polygon.id),
-  get(chains.sei.id, { rpcOnly: true }),
   get(chains.sonic.id),
   get(chains.scroll.id),
   get(chains.sophon.id),

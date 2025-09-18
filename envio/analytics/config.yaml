@@ -590,24 +590,6 @@ networks:
       - address: "0x856167ee3e09ba562d69a542ab6a939903ad738e"
         name: "SablierLockup_v2_0"
         start_block: 8594061
-  - id: 1329
-    start_block: 138904383
-    rpc:
-      - for: "sync"
-        url: "https://lb.routeme.sh/rpc/1329/${ENVIO_ROUTEMESH_API_KEY}"
-    contracts:
-      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 138904383
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-      - address: "0xdef70082ebda4944a55311624900e42a720b4ec9"
-        name: "SablierFlow_v1_1"
-        start_block: 138911958
-      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
-        name: "SablierLockup_v2_0"
-        start_block: 138913911
   - id: 1890
     start_block: 63524930
     hypersync_config:
