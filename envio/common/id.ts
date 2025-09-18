@@ -1,5 +1,4 @@
 import type { Envio } from "./bindings";
-import { getDate } from "./helpers";
 
 export namespace Id {
   /* -------------------------------------------------------------------------- */
@@ -91,27 +90,18 @@ export namespace Id {
 
   /**
    * @example
+   * contract-137-0xe0bfe071da104e571298f8b6e0fce44c512c1ff4
+   */
+  export function contract(chainId: number, contractAddress: string): string {
+    return `contract-${chainId}-${contractAddress.toLowerCase()}`;
+  }
+
+  /**
+   * @example
    * factory-137-0xf0d61b42311c810dfde191d58427d81e87c5d5f6
    */
   export function factory(chainId: number, factoryAddress: string): string {
     return `factory-${chainId}-${factoryAddress.toLowerCase()}`;
-  }
-
-  /**
-   * @example
-   * revenue-137-date-2025-07-17
-   */
-  export function revenue(chainId: number, timestamp: number): string {
-    const date = getDate(timestamp);
-    return `revenue-${chainId}-date-${date.toString()}`;
-  }
-
-  /**
-   * @example
-   * revenue-137-date-2025-07-17-tx-0xe43d1bc5e868da0bd1d80c404ca7f41e823bbea03488f8e3878327375b3aac35
-   */
-  export function revenueTransaction(revenueId: string, txHash: string): string {
-    return `${revenueId}-tx-${txHash}`;
   }
 
   /**
@@ -138,24 +128,5 @@ export namespace Id {
    */
   export function trancheCampaign(campaignId: string, position: bigint | number): string {
     return `tranche-${campaignId}-${position}`;
-  }
-
-  /**
-   * @example
-   * user-137-0x0298f4332e3857631385b39766325058a93e249f
-   */
-  export function user(chainId: number, address?: Envio.Address): string {
-    if (!address) {
-      return "";
-    }
-    return `${chainId}-${address.toLowerCase()}`;
-  }
-
-  /**
-   * @example
-   * user-137-0x0298f4332e3857631385b39766325058a93e249f-0xe43d1bc5e868da0bd1d80c404ca7f41e823bbea03488f8e3878327375b3aac35
-   */
-  export function userTransaction(userId: string, txHash: string): string {
-    return `${userId}-${txHash}`;
   }
 }

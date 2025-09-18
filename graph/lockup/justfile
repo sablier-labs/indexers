@@ -1,8 +1,6 @@
 import "../graph.just"
 
-# Set protocol name
-
-export PROTOCOL := "lockup"
+export INDEXER_NAME := "lockup"
 
 # Show available commands
 default:

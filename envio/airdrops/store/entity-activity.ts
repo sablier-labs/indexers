@@ -1,5 +1,5 @@
 import type { Envio } from "../../common/bindings";
-import { getDay } from "../../common/helpers";
+import { getDay } from "../../common/time";
 import type { Context, Entity } from "../bindings";
 
 export function create(context: Context.Handler, event: Envio.Event, campaignId: string): Entity.Activity {

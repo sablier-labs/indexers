@@ -1,0 +1,9 @@
+import "../envio.just"
+
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "DailyRevenue&DailyCurrencyRevenue&RevenueTransaction&User&UserTransaction"
+export ENVIO_INDEXER_NAME := "analytics"
+export INDEXER_NAME := "analytics"
+
+# Show available commands
+default:
+    @just --list

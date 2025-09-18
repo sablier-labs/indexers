@@ -15,22 +15,12 @@ export namespace CommonEntities {
     readonly symbol: string;
   };
 
-  export type Revenue = {
-    readonly amount: number;
+  export type Contract = {
+    readonly address: string;
+    readonly alias: string;
+    readonly category: string;
     readonly chainId: bigint;
-    readonly currency: string;
-    readonly date: string;
-    readonly dateTimestamp: Date;
     readonly id: string;
-  };
-
-  export type RevenueTransaction = {
-    readonly amount: number;
-    readonly block: bigint;
-    readonly hash: string;
-    readonly id: string;
-    readonly revenue_id: string;
-    readonly timestamp: bigint;
   };
 
   export type StreamAction = {
@@ -56,22 +46,5 @@ export namespace CommonEntities {
     readonly chainId: bigint;
     readonly id: string;
     readonly streamCounter: bigint;
-  };
-
-  export type User = {
-    readonly address: string;
-    readonly chainId: bigint;
-    readonly id: string;
-    readonly isOnlyAirdropClaimer: boolean;
-  };
-
-  export type UserTransaction = {
-    readonly block: bigint;
-    readonly hash: string;
-    readonly id: string;
-    readonly isAirdropClaim: boolean;
-    readonly fee: number;
-    readonly timestamp: bigint;
-    readonly user_id: string;
   };
 }

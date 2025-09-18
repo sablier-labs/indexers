@@ -270,3 +270,17 @@ id	output
 [8453,"0x79dacb99A8698052a9898E81Fdf883c29efb93cb"]	{"name": "Acolyte by Virtuals", "symbol": "ACOLYT", "decimals": 18}
 [8453,"0x6D96f18F00B815B2109A3766E79F6A7aD7785624"]	{"name": "Patience Token", "symbol": "PATIENCE", "decimals": 18}
 [8453,"0x5B0Af37457dAb8B990C32Ccb1b91386ABE333B05"]	{"name": "WOWOW", "symbol": "WOWOW", "decimals": 18}
+[2741,"0x921B7A3591893F3BB9bc881A4CEfe05AAfa98323"]	{"name": "PUDGY INVEST", "symbol": "INVEST", "decimals": 18}
+[999,"0xcc68B6A411f983Afa19aa8f81fd903269430f1F8"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[84532,"0x7F54613f339d15424E9AdE87967BAE40b23Fa7F6"]	{"name": "Sapien Token", "symbol": "SAPIEN", "decimals": 18}
+[43114,"0x197359324B139522E7f0086215b651b6BB128638"]	{"name": "Uka Token", "symbol": "UKA", "decimals": 18}
+[43114,"0x1e993D9DC39A737b487be31ffbbEd4DcE3959b27"]	{"name": "Staked UKA", "symbol": "sUKA", "decimals": 18}
+[43114,"0x451532F1C9eb7E4Dc2d493dB52b682C0Acf6F5EF"]	{"name": "Suzaku Token", "symbol": "SUZ", "decimals": 18}
+[43114,"0x72Ab674eC8FB2b2626Cf48131Fe34fC95075D9b5"]	{"name": "Staked SUZ", "symbol": "sSUZ", "decimals": 18}
+[478,"0xFBf489bb4783D4B1B2e7D07ba39873Fb8068507D"]	{"name": "USDC", "symbol": "USDC", "decimals": 6}
+[146,"0xB8aB2E66d5E4931e675CBE499d8c01B778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[478,"0x688da80Dfe2916c0a0Aa360323E52Aa5881AdB78"]	{"name": "Form", "symbol": "FORM", "decimals": 18}
+[10,"0x7D3Ce1265d5eA5848Dc1C96AADbf754E2baD33b1"]	{"name": "BNV", "symbol": "FASH", "decimals": 18}
+[56,"0x1F34c87ded863Fe3A3Cd76FAc8adA9608137C8c3"]	{"name": "Overlay", "symbol": "OVL", "decimals": 18}
+[1,"0x382eC856c90ef7Ed7C936852F6603568cE1984E7"]	{"name": "VOX", "symbol": "VOX", "decimals": 18}
+[1,"0x93FFb58cfDD9f2AaD28eb6b624D4459e4c95c191"]	{"name": "Fugazi Experiment", "symbol": "FUGAZI", "decimals": 18}

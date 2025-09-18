@@ -6,6 +6,7 @@
       "Bash(ls:*)",
       "Bash(pnpm add:*)",
       "Bash(pnpm install)",
+      "WebFetch(domain:envio.dev)",
       "WebFetch(domain:raw.githubusercontent.com)"
     ],
     "deny": ["Bash(just deploy:*)"]

@@ -3,8 +3,8 @@
  *
  * @example
  * pnpm tsx cli check-vendors --chain-id 1
- * pnpm tsx cli codegen schema --vendor graph --protocol flow
- * pnpm tsx cli fetch-assets --protocol flow --chain ethereum
+ * pnpm tsx cli codegen schema --vendor graph --indexer flow
+ * pnpm tsx cli fetch-assets --indexer   flow --chain ethereum
  * pnpm tsx cli print-chains
  */
 

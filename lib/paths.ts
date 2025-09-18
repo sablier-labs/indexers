@@ -1,7 +1,7 @@
 import path, { join } from "node:path";
 import appRoot from "app-root-path";
 import * as fs from "fs-extra";
-import type { RPCData } from "../envio/common/types";
+import type { Indexer } from "../src";
 import { getGraphChainSlug } from "../src/indexers/graph";
 import type { Types } from "./types";
 
@@ -10,38 +10,35 @@ export const ABI_DIR = join(ROOT_DIR, "abi");
 export const ENVIO_DIR = join(ROOT_DIR, "envio");
 export const EXPORTS_DIR = join(ROOT_DIR, "src");
 export const GRAPH_DIR = join(ROOT_DIR, "graph");
-export const RPC_DATA_DIR = join(ROOT_DIR, "rpc-data");
 export const SCHEMA_DIR = join(ROOT_DIR, "schema");
 
-type C = RPCData.Category;
-type P = Types.Protocol;
-type V = Types.Vendor;
+type I = Indexer.Name;
+type V = Indexer.Vendor;
 
 const paths = {
-  abi: (contractName: string, protocol?: Types.Protocol, version?: Types.Version): string => {
-    if (protocol && version) {
-      return join(ABI_DIR, `${protocol}-${version}`, `${contractName}.json`);
+  abi: (contractName: string, indexer?: I, version?: Types.Version): string => {
+    if (indexer && version) {
+      return join(ABI_DIR, `${indexer}-${version}`, `${contractName}.json`);
     }
     return join(ABI_DIR, `${contractName}.json`);
   },
   envio: {
-    config: (protocol: P): string => join(ENVIO_DIR, protocol, "config.yaml"),
-    rpcData: (category: C, chain: string): string => join(ENVIO_DIR, "common", "rpc-data", category, `${chain}.json`),
-    schema: (protocol: P): string => join(ENVIO_DIR, protocol, "schema.graphql"),
+    config: (indexer: I): string => join(ENVIO_DIR, indexer, "config.yaml"),
+    schema: (indexer: I): string => join(ENVIO_DIR, indexer, "schema.graphql"),
   },
   exports: {
-    schema: (protocol: P): string => join(EXPORTS_DIR, "schemas", `${protocol}.graphql`),
+    schema: (indexer: I): string => join(EXPORTS_DIR, "schemas", `${indexer}.graphql`),
     schemas: (): string => join(EXPORTS_DIR, "schemas"),
   },
   graph: {
-    manifest: (protocol: P, chainId: number): string => {
+    manifest: (indexer: I, chainId: number): string => {
       const chainSlug = getGraphChainSlug(chainId);
-      return join(GRAPH_DIR, protocol, "manifests", `${chainSlug}.yaml`);
+      return join(GRAPH_DIR, indexer, "manifests", `${chainSlug}.yaml`);
     },
-    manifests: (protocol: P): string => join(GRAPH_DIR, protocol, "manifests"),
-    schema: (protocol: P): string => join(GRAPH_DIR, protocol, "schema.graphql"),
+    manifests: (indexer: I): string => join(GRAPH_DIR, indexer, "manifests"),
+    schema: (indexer: I): string => join(GRAPH_DIR, indexer, "schema.graphql"),
   },
-  schema: (vendor: V, protocol: P): string => join(ROOT_DIR, vendor, protocol, "schema.graphql"),
+  schema: (vendor: V, indexer: I): string => join(ROOT_DIR, vendor, indexer, "schema.graphql"),
 };
 
 export default paths;

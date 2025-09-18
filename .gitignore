@@ -1,5 +1,6 @@
 # Directories
 .logs
+.serena
 dist
 node_modules
 repomix
@@ -16,6 +17,7 @@ repomix
 .env
 .env.*
 !.env.example
+!.envio
 graph/**/schema.graphql
 graph/**/manifests/**/*.yaml
 subgraph.yaml

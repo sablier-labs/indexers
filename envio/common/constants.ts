@@ -18,4 +18,8 @@ export const DECIMALS_DEFAULT = 0;
 /*                                    MISC                                    */
 /* -------------------------------------------------------------------------- */
 
+export const COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3";
+export const FEB_3_2025 = 1_738_540_800; // see https://x.com/Sablier/status/1879564876122906829
+export const CURRENCY_FREAKS_BASE_URL = "https://api.currencyfreaks.com/v2.0";
+export const FIXER_BASE_URL = "https://data.fixer.io/api";
 export const NOT_AVAILABLE = "n/a";

@@ -5,12 +5,21 @@ import type {
   SablierFlow_v1_0_PauseFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_PauseFlowStream_handler as Handler_v1_1,
 } from "../../bindings/src/Types.gen";
-import { Loader } from "./loader";
 
-type Handler<T> = Handler_v1_0<T> & Handler_v1_1<T>;
+type Handler = Handler_v1_0 & Handler_v1_1;
 
-const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderReturn }) => {
-  const { stream, users, watcher } = loaderReturn;
+const handler: Handler = async ({ context, event }) => {
+  const streamId = Id.stream(event.srcAddress, event.chainId, event.params.streamId);
+  const watcherId = event.chainId.toString();
+
+  const [stream, watcher] = await Promise.all([
+    context.Stream.getOrThrow(streamId),
+    context.Watcher.getOrThrow(watcherId),
+  ]);
+
+  if (context.isPreload) {
+    return;
+  }
 
   /* --------------------------------- STREAM --------------------------------- */
 
@@ -44,12 +53,6 @@ const handler: Handler<Loader.BaseReturn> = async ({ context, event, loaderRetur
 
   /* --------------------------------- WATCHER -------------------------------- */
   CommonStore.Watcher.incrementActionCounter(context, watcher);
-
-  /* ---------------------------------- USER ---------------------------------- */
-  await CommonStore.User.createOrUpdate(context, event, [
-    { address: event.transaction.from, entity: users.caller },
-    { address: stream.sender, entity: users.sender },
-  ]);
 };
 
-export const pauseStream = { handler, loader: Loader.base };
+export const pauseStream = { handler };

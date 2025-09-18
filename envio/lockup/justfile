@@ -1,7 +1,8 @@
 import "../envio.just"
 
-export ENVIO_PROTOCOL := "lockup"
-export PROTOCOL := "lockup"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "Revenue&RevenueTransaction&Stream&User&UserTransaction"
+export ENVIO_INDEXER_NAME := "lockup"
+export INDEXER_NAME := "lockup"
 
 # Show available commands
 default:

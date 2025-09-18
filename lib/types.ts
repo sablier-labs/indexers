@@ -2,6 +2,7 @@
  * Types needed for all indexers: Envio and The Graph.
  */
 import type { Sablier } from "sablier";
+import type { Indexer } from "../src";
 
 export namespace Types {
   export type ComponentMap<T> = {
@@ -39,20 +40,16 @@ export namespace Types {
     /** Event name, e.g., Approval. */
     eventName: string;
     /** Protocol of contract, e.g., flow. */
-    protocol: Protocol;
+    protocol: Indexer.Protocol;
     /** Version of contract, e.g., v1.0. */
     version: Version;
   };
 
   export type EventMap = ComponentMap<Event[]>;
 
-  export type Protocol = Exclude<Sablier.Protocol, "legacy">;
-
   export type ProtocolMap<T> = {
-    [protocol in Types.Protocol]: T;
+    [protocol in Indexer.Protocol]: T;
   };
-
-  export type Vendor = "envio" | "graph";
 
   export type Version = Sablier.Version.Airdrops | Sablier.Version.Flow | Sablier.Version.Lockup;
 }

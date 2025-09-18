@@ -7,8 +7,13 @@
  */
 import type { Sablier } from "sablier";
 import type { Types } from "../../lib/types";
+import type { Indexer } from "../../src";
 
-export function erc721(protocol: Types.Protocol, version: Sablier.Version.Lockup, contractName: string): Types.Event[] {
+export function erc721(
+  protocol: Indexer.Protocol,
+  version: Sablier.Version.Lockup,
+  contractName: string,
+): Types.Event[] {
   return [
     {
       contractName,

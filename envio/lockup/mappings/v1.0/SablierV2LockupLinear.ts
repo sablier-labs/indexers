@@ -3,14 +3,14 @@ import type { Params } from "../../helpers/types";
 import { Store } from "../../store";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 import { createStream } from "../common/create-stream";
-import { Loader } from "../common/loader";
+import { preloadCreateEntities } from "../common/preload";
 
-Contract.LockupLinear_v1_0.ApprovalForAll.handlerWithLoader(approvalForAll);
-Contract.LockupLinear_v1_0.Approval.handlerWithLoader(approval);
-Contract.LockupLinear_v1_0.CancelLockupStream.handlerWithLoader(cancelStream);
-Contract.LockupLinear_v1_0.RenounceLockupStream.handlerWithLoader(renounceStream);
-Contract.LockupLinear_v1_0.Transfer.handlerWithLoader(transfer);
-Contract.LockupLinear_v1_0.WithdrawFromLockupStream.handlerWithLoader(withdrawStream);
+Contract.LockupLinear_v1_0.ApprovalForAll.handler(approvalForAll.handler);
+Contract.LockupLinear_v1_0.Approval.handler(approval.handler);
+Contract.LockupLinear_v1_0.CancelLockupStream.handler(cancelStream.handler);
+Contract.LockupLinear_v1_0.RenounceLockupStream.handler(renounceStream.handler);
+Contract.LockupLinear_v1_0.Transfer.handler(transfer.handler);
+Contract.LockupLinear_v1_0.WithdrawFromLockupStream.handler(withdrawStream.handler);
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -39,30 +39,33 @@ event CreateLockupLinearStream(
 );
 ──────────────────────────────────────────────────────────────
 */
-Contract.LockupLinear_v1_0.CreateLockupLinearStream.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const params: Params.CreateStreamLinear = {
-      asset: event.params.asset,
-      cancelable: event.params.cancelable,
-      category: "LockupLinear",
-      cliffTime: event.params.range[1],
-      depositAmount: event.params.amounts[0],
-      endTime: event.params.range[2],
-      funder: event.params.funder,
-      proxender: loaderReturn.rpcData.proxender,
-      recipient: event.params.recipient,
-      sender: event.params.sender,
-      startTime: event.params.range[0],
-      tokenId: event.params.streamId,
-      transferable: true, // all v1.0 streams are transferable
-    };
-    await createStream({
-      context,
-      createInStore: Store.Stream.createLinear,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v1.0"],
+Contract.LockupLinear_v1_0.CreateLockupLinearStream.handler(async ({ context, event }) => {
+  const result = await preloadCreateEntities({ context, event, params: event.params });
+  if (!result) {
+    return;
+  }
+  const { entities, proxender } = result;
+
+  const streamParams: Params.CreateStreamLinear = {
+    asset: event.params.asset,
+    cancelable: event.params.cancelable,
+    category: "LockupLinear",
+    cliffTime: event.params.range[1],
+    depositAmount: event.params.amounts[0],
+    endTime: event.params.range[2],
+    funder: event.params.funder,
+    proxender: proxender,
+    recipient: event.params.recipient,
+    sender: event.params.sender,
+    startTime: event.params.range[0],
+    tokenId: event.params.streamId,
+    transferable: true, // all v1.0 streams are transferable
+  };
+  await createStream({
+    context,
+    createInStore: Store.Stream.createLinear,
+    entities,
+    event,
+    params: streamParams,
+  });
 });

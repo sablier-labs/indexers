@@ -12,8 +12,7 @@
     "dist": true,
     "node_modules": true,
     "src/gql/**/*.ts": true,
-    "src/schemas/*.graphql": true,
-    "**/schema.graphql": true
+    "src/schemas/*.graphql": true
   },
   "[graphql][javascript][json][jsonc][typescript]": {
     "editor.defaultFormatter": "biomejs.biome"

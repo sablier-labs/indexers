@@ -108,6 +108,16 @@ export namespace Id {
 
   /**
    * @example
+   * contract-137-0xa9c2d973d88e39a6db59b8b1fbce8e05a6ed0a12
+   */
+  export function contract(contractAddress: Address): string {
+    const chainId = readChainId().toString();
+    const address = contractAddress.toHexString();
+    return `contract-${chainId}-${address}`;
+  }
+
+  /**
+   * @example
    * factory-137-0xf0d61b42311c810dfde191d58427d81e87c5d5f6
    */
   export function factory(factoryAddress: Address): string {

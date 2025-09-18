@@ -1,10 +1,9 @@
 // biome-ignore-all assist/source/organizeImports: grouped exports
 
 // Context
-import type { HandlerContext, LoaderContext } from "./bindings/src/Types";
+import type { HandlerContext } from "./bindings/src/Types";
 export namespace Context {
   export type Handler = HandlerContext;
-  export type Loader = LoaderContext;
 }
 
 // Contracts
@@ -26,9 +25,7 @@ import type {
   Asset as EntityAsset,
   Batch as EntityBatch,
   Batcher as EntityBatcher,
-  Revenue as EntityRevenue,
   Stream as EntityStream,
-  User as EntityUser,
   Watcher as EntityWatcher,
 } from "./bindings/src/Types.gen";
 
@@ -37,8 +34,6 @@ export namespace Entity {
   export type Asset = EntityAsset;
   export type Batch = EntityBatch;
   export type Batcher = EntityBatcher;
-  export type Revenue = EntityRevenue;
   export type Stream = EntityStream;
-  export type User = EntityUser;
   export type Watcher = EntityWatcher;
 }
