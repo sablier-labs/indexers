@@ -7,6 +7,7 @@ import { Store } from "../../../store";
 /* -------------------------------------------------------------------------- */
 
 const handler: Handler = async ({ context, event }) => {
+  /* -------------------------------- ENTITIES -------------------------------- */
   const activityId = Id.activity(event);
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
 
