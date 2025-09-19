@@ -14,7 +14,7 @@ export const PRB_PROXY_REGISTRY_v4_0_1 = Address.fromBytes(
 /*                                    DATES                                   */
 /* -------------------------------------------------------------------------- */
 
-export const AUG_20_2025 = BigInt.fromU32(1_755_648_000); // see https://x.com/Sablier/status/1914326014995620114
+export const SEP_19_2025 = BigInt.fromU32(1_758_240_000); // see https://x.com/Sablier/status/1914326014995620114
 
 /* -------------------------------------------------------------------------- */
 /*                                   NUMBERS                                  */
