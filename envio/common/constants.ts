@@ -11,7 +11,7 @@ export const PRB_PROXY_REGISTRY_v4_0_1: Envio.Address = "0x584009e9ede26e212182c
 /*                                    DATES                                   */
 /* -------------------------------------------------------------------------- */
 
-export const AUG_20_2025 = 1_755_648_000; // see https://x.com/Sablier/status/1914326014995620114
+export const SEP_19_2025 = 1_758_240_000; // see https://x.com/Sablier/status/1914326014995620114
 export const FEB_03_2025 = 1_738_540_800; // see https://x.com/Sablier/status/1879564876122906829
 
 /* -------------------------------------------------------------------------- */

@@ -2,29 +2,29 @@ import { Address, ethereum } from "@graphprotocol/graph-ts";
 import {
   AIRDROPS_V1_1,
   AIRDROPS_V1_2,
-  AUG_20_2025,
   FLOW_V1_0,
   LOCKUP_V1_0,
   LOCKUP_V1_1,
   LOCKUP_V1_2,
+  SEP_19_2025,
 } from "./constants";
 import { readContractVersion } from "./context";
 import { shutDown } from "./logger";
 import { areStringsEqual as cmp } from "./strings";
 
 /**
- * Checks if the event is an unmonetizable contract that was deprecated on August 20, 2025.
+ * Checks if the event is an unmonetizable contract that was deprecated on Sep 19, 2025.
  * Streams or airdrops created after this date will no longer be indexed.
  * @see https://github.com/sablier-labs/indexers/issues/82
  * @see https://x.com/Sablier/status/1914326014995620114
  */
 export function isDeprecatedContract(event: ethereum.Event, protocol: string, asset: Address): boolean {
-  // All actions before Aug 20, 2025 are indexed.
-  if (event.block.timestamp.lt(AUG_20_2025)) {
+  // All actions before Sep 19, 2025 are indexed.
+  if (event.block.timestamp.lt(SEP_19_2025)) {
     return false;
   }
 
-  // Some assets are exempted from being deprecated even after Aug 20, 2025.
+  // Some assets are exempted from being deprecated even after Sep 19, 2025.
   if (isExemptedAsset(asset)) {
     return false;
   }

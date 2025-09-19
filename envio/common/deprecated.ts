@@ -1,11 +1,11 @@
 import type { Sablier } from "sablier";
 import { sablier, Version } from "sablier";
 import type { Envio } from "./bindings";
-import { AUG_20_2025 } from "./constants";
+import { SEP_19_2025 } from "./constants";
 import type { DeprecatedStreamContext } from "./store/entity-deprecated-stream";
 
 /**
- * Checks if the event is an unmonetizable contract that was deprecated on August 20, 2025.
+ * Checks if the event is an unmonetizable contract that was deprecated on Sep 19, 2025.
  * Streams or airdrops created after this date will no longer be indexed.
  * @see https://github.com/sablier-labs/indexers/issues/82
  * @see https://x.com/Sablier/status/1914326014995620114
@@ -19,12 +19,12 @@ export function isDeprecatedContract({
   protocol: Sablier.Protocol;
   asset: Envio.Address;
 }): boolean {
-  // All actions before Aug 20, 2025 are indexed.
-  if (event.block.timestamp < AUG_20_2025) {
+  // All actions before Sep 19, 2025 are indexed.
+  if (event.block.timestamp < SEP_19_2025) {
     return false;
   }
 
-  // Some assets are exempted from being deprecated even after Aug 20, 2025.
+  // Some assets are exempted from being deprecated even after Sep 19, 2025.
   if (isExemptedAsset(asset)) {
     return false;
   }
