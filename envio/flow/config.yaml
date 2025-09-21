@@ -13,22 +13,9 @@ field_selection:
     - "transactionIndex"
     - "value"
 contracts:
-  - abi_file_path: "../../abi/flow-v1.0/SablierFlow.json"
-    events:
-      - event: "Approval"
-      - event: "ApprovalForAll"
-      - event: "Transfer"
-      - event: "AdjustFlowStream"
-      - event: "CreateFlowStream"
-      - event: "DepositFlowStream"
-      - event: "PauseFlowStream"
-      - event: "RefundFromFlowStream"
-      - event: "RestartFlowStream"
-      - event: "VoidFlowStream"
-      - event: "WithdrawFromFlowStream"
+  - name: "SablierFlow_v1_0"
     handler: "mappings/v1.0/SablierFlow.ts"
-    name: "SablierFlow_v1_0"
-  - abi_file_path: "../../abi/flow-v1.1/SablierFlow.json"
+    abi_file_path: "../../abi/flow-v1.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -41,8 +28,21 @@ contracts:
       - event: "RestartFlowStream"
       - event: "VoidFlowStream"
       - event: "WithdrawFromFlowStream"
+  - name: "SablierFlow_v1_1"
     handler: "mappings/v1.1/SablierFlow.ts"
-    name: "SablierFlow_v1_1"
+    abi_file_path: "../../abi/flow-v1.1/SablierFlow.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "AdjustFlowStream"
+      - event: "CreateFlowStream"
+      - event: "DepositFlowStream"
+      - event: "PauseFlowStream"
+      - event: "RefundFromFlowStream"
+      - event: "RestartFlowStream"
+      - event: "VoidFlowStream"
+      - event: "WithdrawFromFlowStream"
 networks:
   - id: 2741
     start_block: 73630

@@ -18,10 +18,10 @@ export function createContracts(
       const handlerPath = includeProtocolInPath ? `${protocol}/${version}` : version;
       const sanitizedName = sanitizeContractName(indexedContract.name, version);
       contracts.push({
+        name: sanitizedName,
+        handler: `mappings/${handlerPath}/${indexedContract.name}.ts`,
         abi_file_path: getRelativeAbiFilePath(protocol, indexedContract.name, version),
         events: getEvents(indexedEvents[protocol][indexedContract.name][version]),
-        handler: `mappings/${handlerPath}/${indexedContract.name}.ts`,
-        name: sanitizedName,
       });
     });
   });
