@@ -1,19 +1,7 @@
 import axios from "axios";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
-import {
-  avalanche,
-  berachain,
-  bsc,
-  chiliz,
-  hyperevm,
-  mainnet,
-  polygon,
-  sei,
-  sonic,
-  sophon,
-  xdc,
-} from "sablier/dist/chains";
+import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/dist/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants";
 
 const NO_PRICE = 0;
@@ -75,10 +63,6 @@ export const coinConfigs: Record<string, CoinConfig> = {
   [polygon.nativeCurrency.symbol]: {
     api_id: "matic-network",
     effect: createEffect(polygon.nativeCurrency.symbol),
-  },
-  [sei.nativeCurrency.symbol]: {
-    api_id: "sei-network",
-    effect: createEffect(sei.nativeCurrency.symbol),
   },
   [sophon.nativeCurrency.symbol]: {
     api_id: "sophon",
