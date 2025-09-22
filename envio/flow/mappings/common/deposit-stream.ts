@@ -57,6 +57,7 @@ const handler: Handler = async ({ context, event }) => {
   /* --------------------------------- ACTION --------------------------------- */
   CommonStore.Action.create(context, event, watcher, {
     addressA: event.params.funder,
+    addressB: stream.recipient,
     amountA: event.params.amount,
     category: "Deposit",
     streamId: stream.id,

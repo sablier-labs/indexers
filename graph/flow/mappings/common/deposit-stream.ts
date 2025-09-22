@@ -38,6 +38,7 @@ export function handleDepositFlowStream(event: ethereum.Event, params: Params.De
   /* --------------------------------- ACTION --------------------------------- */
   Store.Action.create(event, {
     addressA: params.funder,
+    addressB: stream.recipient,
     amountA: params.amount,
     category: "Deposit",
     streamId: stream.id,
