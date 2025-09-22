@@ -85,7 +85,7 @@ type Action @entity(immutable: true) {
   """
   chainId: BigInt!
   """
-  The msg.sender of the Ethereum transaction.
+  The tx.origin of the Ethereum transaction.
   """
   from: Bytes!
   """
