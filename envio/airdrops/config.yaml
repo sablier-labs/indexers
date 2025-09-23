@@ -282,27 +282,6 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
-  - id: 1890
-    start_block: 63526311
-    hypersync_config:
-      url: "https://lightlink.hypersync.xyz"
-    rpc: []
-    contracts:
-      - address: "0xdb07a1749d5ca49909c7c4159652fbd527c735b8"
-        name: "SablierV2MerkleStreamerFactory_v1_1"
-        start_block: 63526311
-      - name: "SablierV2MerkleStreamerLL_v1_1"
-      - address: "0x278ac15622846806bd46fbdbdb8db8d09614173a"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-        start_block: 90212375
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xc0107f368fbb50075d2190549055d9e6bf75c5c9"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 125554946
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
   - id: 59144
     start_block: 8688454
     rpc:

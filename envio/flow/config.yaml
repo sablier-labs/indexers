@@ -182,18 +182,6 @@ networks:
       - address: "0x556d859dfeb58ed3fa092b6526b09da6b74113e2"
         name: "SablierFlow_v1_1"
         start_block: 8663784
-  - id: 1890
-    start_block: 116397460
-    hypersync_config:
-      url: "https://lightlink.hypersync.xyz"
-    rpc: []
-    contracts:
-      - address: "0x46fa0164c5af9382d330e5a245a2ca8a18398950"
-        name: "SablierFlow_v1_0"
-        start_block: 116397460
-      - address: "0x89d964e0b508234bcfdc7a32ae0aa0356f422b70"
-        name: "SablierFlow_v1_1"
-        start_block: 125538058
   - id: 59144
     start_block: 12929891
     rpc:
