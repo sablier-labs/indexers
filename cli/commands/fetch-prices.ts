@@ -29,11 +29,8 @@ function createFetchPricesCommand(): Command {
 
   command
     .requiredOption("--currency <symbol>", "Currency symbol (e.g., ETH, BTC)")
-    .option(
-      "--year <YYYY>",
-      "Year in YYYY format (defaults to current year, or previous year if current month is January)",
-    )
-    .option("--month <MM>", "Month in MM format (01-12) (defaults to previous month)")
+    .option("--year <YYYY>", "Year in YYYY format (defaults to current year)")
+    .option("--month <MM>", "Month in MM format (01-12) (defaults to current month)")
     .action(async (options: FetchPricesOptions) => {
       await fetchPricesAction(options);
     });
@@ -57,20 +54,15 @@ async function fetchPricesAction(options: FetchPricesOptions): Promise<void> {
   if (options.month) {
     month = options.month;
   } else {
-    // Default to previous month
-    const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-    month = previousMonth.toString().padStart(2, "0");
+    // Default to current month
+    month = currentMonth.toString().padStart(2, "0");
   }
 
   if (options.year) {
     year = options.year;
   } else {
-    // Default to current year, or previous year if current month is January and we're defaulting to December
-    if (currentMonth === 1 && !options.month) {
-      year = (currentYear - 1).toString();
-    } else {
-      year = currentYear.toString();
-    }
+    // Default to current year
+    year = currentYear.toString();
   }
 
   // Validate inputs

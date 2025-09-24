@@ -74,7 +74,7 @@ export const coinConfigs: Record<string, CoinConfig> = {
     effect: createEffect(sonic.nativeCurrency.symbol),
   },
   [xdc.nativeCurrency.symbol]: {
-    api_id: "xdc-network",
+    api_id: "xdce-crowd-sale",
     effect: createEffect(xdc.nativeCurrency.symbol),
   },
 };
