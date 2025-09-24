@@ -72,11 +72,14 @@ function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL:
     throw new Error(`Template URL for custom Graph indexer does not include ${NAME_TEMPLATING_VAR}`);
   }
   const subgraphName = getSubgraphName(chainId, protocol);
+
+  const endpointUrl = templateURL.replace(NAME_TEMPLATING_VAR, subgraphName);
   return {
     chainId,
     endpoint: {
-      url: templateURL.replace(NAME_TEMPLATING_VAR, subgraphName),
+      url: endpointUrl,
     },
+    explorerURL: `${endpointUrl}/graphql`,
     kind: "custom",
     name: subgraphName,
     protocol,
@@ -126,10 +129,6 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
 }
 
 const CUSTOMS: IndexerGraphMap[] = [
-  custom(
-    chains.form.id,
-    "https://formapi.0xgraph.xyz/api/public/5961fb30-8fdc-45ad-9a35-555dd5e0dd56/subgraphs/{SUBGRAPH_NAME}/2.3_1.0.0/gn",
-  ),
   custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
 ];
 

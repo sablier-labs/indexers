@@ -17,7 +17,6 @@ ni := require("ni")
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
-OXGRAPH_FORM_KEY := env("OXGRAPH_FORM_KEY")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
 INDEXER_NAME := env("INDEXER_NAME")
@@ -101,18 +100,12 @@ alias da := deploy-all
     #!/usr/bin/env sh
     extra_args=""
     case {{ chain_slug }} in
-        form)
-            ipfs_url="https://api.thegraph.com/ipfs/"
-            node_url="https://formapi.0xgraph.xyz/deploy"
-            subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
-            extra_args="--deploy-key {{ OXGRAPH_FORM_KEY }}"
-            ;;
         lightlink)
             node_url="https://graph.phoenix.lightlink.io/rpc"
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             ;;
         *)
-            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: form. lightlink, xdc"
+            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: lightlink"
             exit 1
             ;;
     esac
