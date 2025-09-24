@@ -11,6 +11,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
+    "axios-retry": "^4.5.0",
     "chainlist-rpcs": "^0.5.226",
     "dotenv": "^17.2.2",
     "sablier": "^1.1.0"

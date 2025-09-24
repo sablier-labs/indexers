@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
 import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/dist/chains";
@@ -6,7 +7,6 @@ import { COINGECKO_BASE_URL } from "../../common/constants";
 
 const MAX_RETRIES = 5;
 const NO_PRICE = 0;
-const RETRY_DELAY = 1000; // 1 second
 
 type CoinConfig = {
   api_id: string;
@@ -87,12 +87,39 @@ type CoinGeckoResponse = {
   };
 };
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+// Create axios instances with retry configuration for each API key
+const createAxiosInstance = (apiKey: string) => {
+  const instance = axios.create({
+    headers: {
+      "x-cg-demo-api-key": apiKey,
+    },
+  });
+
+  axiosRetry(instance, {
+    onRetry: (_retryCount, _error, _requestConfig) => {
+      // This will be handled by the logger in fetchCoinPrice
+    },
+    retries: MAX_RETRIES,
+    retryCondition: (error) => {
+      // Retry on network errors, timeouts, and 429 status codes
+      return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response?.status === 429;
+    },
+    retryDelay: (retryNumber, error) => {
+      // If server provides Retry-After header, use it
+      if (error.response?.headers["retry-after"]) {
+        return Number(error.response.headers["retry-after"]) * 1000;
+      }
+      // Otherwise use exponential backoff starting at 1 second
+      return 2 ** (retryNumber - 1) * 1000;
+    },
+  });
+
+  return instance;
+};
 
 /**
- * Fetch the price of a coin from CoinGecko demo API using an exponential backoff strategy.
- * If the request is rate limited, the function will retry after the specified delay.
- * If the request fails after the maximum number of retries, the function will return NO_PRICE.
+ * Fetch the price of a coin from CoinGecko demo API using axios-retry with exponential backoff.
+ * Alternates between two API keys for load distribution.
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
 export async function fetchCoinPrice(logger: Logger, date: string, currency: string): Promise<number> {
@@ -102,64 +129,57 @@ export async function fetchCoinPrice(logger: Logger, date: string, currency: str
   url.searchParams.set("date", date);
   url.searchParams.set("localization", "false");
 
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    // Use API key based on attempt parity: odd attempts use _1, even attempts use _2
-    const isOddAttempt = attempt % 2 === 1;
-    const COINGECKO_API_KEY = isOddAttempt
-      ? process.env.ENVIO_COINGECKO_API_KEY_1
-      : process.env.ENVIO_COINGECKO_API_KEY_2;
+  // Get API keys
+  const COINGECKO_API_KEY_1 = process.env.ENVIO_COINGECKO_API_KEY_1;
+  const COINGECKO_API_KEY_2 = process.env.ENVIO_COINGECKO_API_KEY_2;
 
-    if (!COINGECKO_API_KEY) {
-      throw new Error(`ENVIO_COINGECKO_API_KEY_${isOddAttempt ? "1" : "2"} is not set`);
-    }
+  if (!COINGECKO_API_KEY_1 || !COINGECKO_API_KEY_2) {
+    throw new Error("Both ENVIO_COINGECKO_API_KEY_1 and ENVIO_COINGECKO_API_KEY_2 must be set");
+  }
+
+  // Try 6 attempts total, alternating API keys based on attempt parity
+  const MAX_ATTEMPTS = 6;
+
+  for (let i = 0; i < MAX_ATTEMPTS; i++) {
+    // Use API key based on attempt parity: odd attempts use _1, even attempts use _2
+    const isOddAttempt = i % 2 === 1;
+    const apiKey = isOddAttempt ? COINGECKO_API_KEY_1 : COINGECKO_API_KEY_2;
+    const apiKeyName = isOddAttempt ? "1" : "2";
+
+    const axiosInstance = createAxiosInstance(apiKey);
 
     try {
-      const response = await axios.get<CoinGeckoResponse>(url.toString(), {
-        headers: {
-          "x-cg-demo-api-key": COINGECKO_API_KEY,
-        },
-      });
+      const response = await axiosInstance.get<CoinGeckoResponse>(url.toString());
       return response.data.market_data.current_price.usd;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const status = error.response?.status;
 
-        // Handle rate limiting
-        if (status === 429 && attempt < MAX_RETRIES) {
-          const retryAfter = error.response?.headers["retry-after"];
-          const waitTime = retryAfter ? Number(retryAfter) * 1000 : RETRY_DELAY;
+        logger.warn(
+          `Failed to fetch price (attempt ${i + 1}/${MAX_ATTEMPTS}) with API key ${apiKeyName}: ${error.message}`,
+          {
+            apiKeyName,
+            attempt: i + 1,
+            currency,
+            date,
+            status,
+            url: url.toString(),
+          },
+        );
 
-          logger.warn(
-            `Rate limited by CoinGecko (429). Retrying in ${waitTime}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`,
-            {
-              currency,
-              date,
-              retryAfter,
-            },
-          );
-
-          await delay(waitTime);
-          continue; // Retry the request
+        // If this was the last attempt, log final error
+        if (i === MAX_ATTEMPTS - 1) {
+          logger.error(`All ${MAX_ATTEMPTS} attempts exhausted for CoinGecko price fetch`, {
+            currency,
+            date,
+          });
         }
-
-        // Log error for non-429 errors or after max retries
-        logger.error(`Failed to fetch price from CoinGecko: ${error.message}`, {
-          attempt: attempt + 1,
-          date,
-          status,
-          url: url.toString(),
-        });
-      }
-
-      // If it's the last attempt or a non-retryable error, return NO_PRICE
-      if (attempt === MAX_RETRIES) {
-        logger.error(`Max retries (${MAX_RETRIES}) exceeded for CoinGecko price fetch`, {
+      } else {
+        logger.error(`Unexpected error fetching CoinGecko price: ${error}`, {
           currency,
           date,
         });
       }
-
-      return NO_PRICE;
     }
   }
 
