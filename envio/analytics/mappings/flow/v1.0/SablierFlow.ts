@@ -1,6 +1,6 @@
 import { Contract } from "../../../bindings";
 import { Store } from "../../../store";
-import { handleApproval, handleApprovalForAll, handleTransfer } from "../../common/handlers";
+import { handleApproval, handleApprovalForAll, handleTransfer } from "../../common/event-handlers";
 
 /* -------------------------------------------------------------------------- */
 /*                                   ERC-721                                  */

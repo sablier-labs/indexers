@@ -72,7 +72,6 @@ async function fetchEntities(
   }
 
   try {
-    // console.log({ endpoint, document, headers, variables, where: variables.where });
     const client = new GraphQLClient(endpoint, { headers });
     const response = await client.request<QueryResponse>(document, variables);
     return getEntities(response);

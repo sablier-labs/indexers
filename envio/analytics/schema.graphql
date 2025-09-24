@@ -109,6 +109,11 @@ type RevenueTransaction @entity {
   block: BigInt!
 
   """
+  Chain ID where the revenue was generated
+  """
+  chainId: BigInt!
+
+  """
   The contract address where the revenue was generated
   """
   contractAddress: String!

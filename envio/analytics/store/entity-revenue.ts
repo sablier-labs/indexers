@@ -100,6 +100,7 @@ function createRevenueTx(
     amountGBP: gbpValue,
     amountUSD: usdValue,
     block: BigInt(event.block.number),
+    chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
     currency,
     dailyCurrencyRevenue_id: dailyCurrencyRevenueId,
