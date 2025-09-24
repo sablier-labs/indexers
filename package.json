@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "chainlist-rpcs": "^0.5.226",
+    "dotenv": "^17.2.2",
     "sablier": "^1.1.0"
   },
   "peerDependencies": {
