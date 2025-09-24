@@ -129,14 +129,17 @@ async function initializeLockupData(context: HandlerContext, graphqlEndpoint: st
         },
       };
 
+      const promises = [];
       // Track revenue only if it's non-zero
       if (BigInt(action.fee) !== BigInt(0)) {
-        return await Store.Revenue.createOrUpdate(context, event);
+        promises.push(Store.Revenue.createOrUpdate(context, event));
       }
 
       // Filter out null/undefined addresses before passing to createOrUpdate
       const addresses = [action.addressA, action.addressB, action.from].filter((addr): addr is string => addr != null);
-      await Store.User.createOrUpdate(context, event, addresses);
+      promises.push(Store.User.createOrUpdate(context, event, addresses));
+
+      await Promise.all(promises);
     }),
   );
 
