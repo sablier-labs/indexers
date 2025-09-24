@@ -4,8 +4,9 @@ import { experimental_createEffect, S } from "envio";
 import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/dist/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants";
 
+const MAX_RETRIES = 5;
 const NO_PRICE = 0;
-const dateType = S.string;
+const RETRY_DELAY = 1000; // 1 second
 
 type CoinConfig = {
   api_id: string;
@@ -16,7 +17,7 @@ function createEffect(currency: string) {
   return experimental_createEffect(
     {
       cache: true,
-      input: dateType,
+      input: S.string,
       name: `${currency}_USD`,
       output: S.number,
     },
@@ -86,7 +87,12 @@ type CoinGeckoResponse = {
   };
 };
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 /**
+ * Fetch the price of a coin from CoinGecko demo API using an exponential backoff strategy.
+ * If the request is rate limited, the function will retry after the specified delay.
+ * If the request fails after the maximum number of retries, the function will return NO_PRICE.
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
 export async function fetchCoinPrice(logger: Logger, date: string, currency: string): Promise<number> {
@@ -101,20 +107,56 @@ export async function fetchCoinPrice(logger: Logger, date: string, currency: str
   url.searchParams.set("date", date);
   url.searchParams.set("localization", "false");
 
-  try {
-    const response = await axios.get<CoinGeckoResponse>(url.toString(), {
-      headers: {
-        "x-cg-demo-api-key": COINGECKO_API_KEY,
-      },
-    });
-    return response.data.market_data.current_price.usd;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      logger.error(`Failed to fetch price from CoinGecko: ${error.message}`, {
-        date,
-        url: url.toString(),
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await axios.get<CoinGeckoResponse>(url.toString(), {
+        headers: {
+          "x-cg-demo-api-key": COINGECKO_API_KEY,
+        },
       });
+      return response.data.market_data.current_price.usd;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+
+        // Handle rate limiting
+        if (status === 429 && attempt < MAX_RETRIES) {
+          const retryAfter = error.response?.headers["retry-after"];
+          const waitTime = retryAfter ? Number(retryAfter) * 1000 : RETRY_DELAY;
+
+          logger.warn(
+            `Rate limited by CoinGecko (429). Retrying in ${waitTime}ms... (attempt ${attempt + 1}/${MAX_RETRIES})`,
+            {
+              currency,
+              date,
+              retryAfter,
+            },
+          );
+
+          await delay(waitTime);
+          continue; // Retry the request
+        }
+
+        // Log error for non-429 errors or after max retries
+        logger.error(`Failed to fetch price from CoinGecko: ${error.message}`, {
+          attempt: attempt + 1,
+          date,
+          status,
+          url: url.toString(),
+        });
+      }
+
+      // If it's the last attempt or a non-retryable error, return NO_PRICE
+      if (attempt === MAX_RETRIES) {
+        logger.error(`Max retries (${MAX_RETRIES}) exceeded for CoinGecko price fetch`, {
+          currency,
+          date,
+        });
+      }
+
+      return NO_PRICE;
     }
-    return NO_PRICE;
   }
+
+  return NO_PRICE;
 }
