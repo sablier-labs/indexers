@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
+import _ from "lodash";
 import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/dist/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants";
 
@@ -96,11 +97,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
 export async function fetchCoinPrice(logger: Logger, date: string, currency: string): Promise<number> {
-  const COINGECKO_API_KEY = process.env.ENVIO_COINGECKO_API_KEY;
-  if (!COINGECKO_API_KEY) {
-    throw new Error("ENVIO_COINGECKO_API_KEY is not set");
-  }
-
+  const COINGECKO_API_KEY = getApiKey(currency);
   const coinId = coinConfigs[currency].api_id;
 
   const url = new URL(`${COINGECKO_BASE_URL}/coins/${coinId}/history`);
@@ -159,4 +156,23 @@ export async function fetchCoinPrice(logger: Logger, date: string, currency: str
   }
 
   return NO_PRICE;
+}
+
+/**
+ * Using multiple API keys for reducing rate limiting issues.
+ */
+function getApiKey(currency: string): string {
+  const coinKeys = _.keys(coinConfigs);
+  const halfPoint = Math.ceil(coinKeys.length / 2);
+  const isSecondHalf = coinKeys.indexOf(currency) >= halfPoint;
+
+  const COINGECKO_API_KEY = isSecondHalf
+    ? process.env.ENVIO_COINGECKO_API_KEY_2
+    : process.env.ENVIO_COINGECKO_API_KEY_1;
+
+  if (!COINGECKO_API_KEY) {
+    throw new Error(`ENVIO_COINGECKO_API_KEY_${isSecondHalf ? "2" : "1"} is not set`);
+  }
+
+  return COINGECKO_API_KEY;
 }
