@@ -17,7 +17,7 @@ export function create(
   const deprecatedStream: CommonEntities.DeprecatedStream = {
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
-    hash: event.block.hash,
+    hash: event.transaction.hash,
     id: Id.stream(event.srcAddress, event.chainId, tokenId),
     timestamp: BigInt(event.block.timestamp),
     tokenId: BigInt(tokenId),

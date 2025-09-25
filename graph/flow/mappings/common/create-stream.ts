@@ -7,7 +7,7 @@ import { Store } from "../../store";
 export function handleCreateFlowStream(event: ethereum.Event, params: Params.CreateFlowStream): void {
   Store.Contract.loadOrCreate(event.address);
   if (isDeprecatedFlowContract(event, "flow", params.token)) {
-    Store.DeprecatedStream.create(event, params.token, params.streamId);
+    Store.DeprecatedStream.create(event, event.address, params.streamId);
     return;
   }
 

@@ -12,7 +12,12 @@ import { Params, Segment, Tranche } from "../helpers/types";
 import { createAction } from "./entity-action";
 import { getOrCreateAsset } from "./entity-asset";
 import { createOrCreateBatch } from "./entity-batch";
+import { createDeprecatedStream } from "./entity-deprecated-stream";
 import { getOrCreateWatcher } from "./entity-watcher";
+
+/* -------------------------------------------------------------------------- */
+/*                                 PUBLIC API                                 */
+/* -------------------------------------------------------------------------- */
 
 export function createStreamDynamic(
   event: ethereum.Event,
@@ -20,6 +25,7 @@ export function createStreamDynamic(
   dynamicParams: Params.CreateStreamDynamic,
 ): void {
   if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
+    createDeprecatedStream(event, event.address, commonParams.streamId);
     return;
   }
 
@@ -34,6 +40,7 @@ export function createStreamLinear(
   linearParams: Params.CreateStreamLinear,
 ): void {
   if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
+    createDeprecatedStream(event, event.address, commonParams.streamId);
     return;
   }
 
@@ -58,6 +65,7 @@ export function createStreamTranched(
   tranchedParams: Params.CreateStreamTranched,
 ): void {
   if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
+    createDeprecatedStream(event, event.address, commonParams.streamId);
     return;
   }
 

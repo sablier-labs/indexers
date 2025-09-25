@@ -12,7 +12,7 @@ export function createDeprecatedStream(
   const deprecatedStream = new Entity.DeprecatedStream(id);
   deprecatedStream.chainId = readChainId();
   deprecatedStream.contractAddress = address;
-  deprecatedStream.hash = event.block.hash;
+  deprecatedStream.hash = event.transaction.hash;
   deprecatedStream.timestamp = event.block.timestamp;
   deprecatedStream.tokenId = tokenId;
   deprecatedStream.save();

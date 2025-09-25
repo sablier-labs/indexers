@@ -7,9 +7,10 @@
 
 import { join } from "node:path";
 import type { CodegenConfig } from "@graphql-codegen/cli";
+import { sepolia } from "sablier/dist/chains";
 import { EXPORTS_DIR } from "../../lib/paths";
 import type { Indexer } from "../../src";
-import { getExperimentalURL } from "../../src/experimental";
+import { getIndexer } from "../../src";
 
 const FRAGMENTS_DIR = join(EXPORTS_DIR, "fragments");
 const QUERIES_DIR = join(EXPORTS_DIR, "queries");
@@ -42,6 +43,10 @@ function getOutPath(vendor: V, protocol: P) {
 }
 
 export function getConfig(vendor: V, protocol: P): CodegenConfig {
+  const indexer = getIndexer({ chainId: sepolia.id, protocol, vendor });
+  if (!indexer?.endpoint.url) {
+    throw new Error(`Indexer not found for protocol ${protocol} and vendor ${vendor}`);
+  }
   return {
     documents: getDocumentsPaths(vendor, protocol),
     generates: {
@@ -54,6 +59,6 @@ export function getConfig(vendor: V, protocol: P): CodegenConfig {
         },
       },
     },
-    schema: [getExperimentalURL({ protocol, vendor })],
+    schema: [indexer.endpoint.url],
   };
 }

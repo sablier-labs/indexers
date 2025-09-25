@@ -5,14 +5,14 @@ import * as Entity from "../bindings/schema";
 
 export function createDeprecatedStream(
   event: ethereum.Event,
-  address: Address,
+  sablierContract: Address,
   tokenId: BigInt,
 ): Entity.DeprecatedStream {
-  const id = Id.stream(address, tokenId);
+  const id = Id.stream(sablierContract, tokenId);
   const deprecatedStream = new Entity.DeprecatedStream(id);
   deprecatedStream.chainId = readChainId();
-  deprecatedStream.contractAddress = address;
-  deprecatedStream.hash = event.block.hash;
+  deprecatedStream.contractAddress = sablierContract;
+  deprecatedStream.hash = event.transaction.hash;
   deprecatedStream.timestamp = event.block.timestamp;
   deprecatedStream.tokenId = tokenId;
   deprecatedStream.save();
