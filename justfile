@@ -121,8 +121,8 @@ test-vendors:
 @codegen-envio-bindings indexer="all":
     just envio-for-each _codegen-envio-bindings {{ indexer }}
 
+[script]
 _codegen-envio-bindings indexer:
-    #!/usr/bin/env sh
     indexer_dir="envio/{{ indexer }}"
     pnpm envio codegen \
         --config $indexer_dir/config.yaml \
@@ -144,8 +144,8 @@ _codegen-envio-bindings indexer:
 @build-graph-indexer indexer="all":
     just graph-for-each _build-graph-indexer {{ indexer }}
 
+[script]
 _build-graph-indexer indexer: (codegen-graph indexer)
-    #!/usr/bin/env sh
     manifest_path=graph/{{ indexer }}/manifests/mainnet.yaml
     pnpm graph build \
         $manifest_path \
@@ -173,8 +173,8 @@ _build-graph-indexer indexer: (codegen-graph indexer)
 @codegen-graph-bindings indexer="all":
     just graph-for-each _codegen-graph-bindings {{ indexer }}
 
+[script]
 _codegen-graph-bindings indexer:
-    #!/usr/bin/env sh
     protocol_dir="graph/{{ indexer }}"
     bindings_dir=$protocol_dir/bindings
     pnpm dlx del-cli $bindings_dir
@@ -251,8 +251,8 @@ codegen-gql-graph:
 
 # Helper to run a recipe for all protocols or a specific one
 [private]
+[script]
 envio-for-each recipe indexer:
-    #!/usr/bin/env sh
     if [ "{{ indexer }}" = "all" ]; then
         just {{ recipe }} airdrops
         just {{ recipe }} analytics
@@ -264,8 +264,8 @@ envio-for-each recipe indexer:
 
 # Helper to run a recipe for all protocols or a specific one
 [private]
+[script]
 graph-for-each recipe indexer:
-    #!/usr/bin/env sh
     if [ "{{ indexer }}" = "all" ]; then
         just {{ recipe }} airdrops
         just {{ recipe }} flow

@@ -5,6 +5,7 @@ mod root "../justfile"
 set allow-duplicate-variables := true
 set dotenv-path := "{{ source_dir() }}/../../.env"
 set shell := ["bash", "-euo", "pipefail", "-c"]
+set unstable
 
 # ---------------------------------------------------------------------------- #
 #                                 DEPENDENCIES                                 #
@@ -74,8 +75,8 @@ alias cs := codegen-schema
 # Deploy the subgraph (the chain_slug is The Graph's chain slug)
 [confirm("Confirm you want to deploy? (y/N)")]
 [group("deploy")]
+[script]
 deploy chain_slug version_label: codegen-schema codegen-manifest
-    #!/usr/bin/env sh
     subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
     manifest_path={{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml
     pnpm graph deploy \
@@ -96,8 +97,8 @@ alias da := deploy-all
 # Deploy to a custom Graph node
 [confirm("⚠️  Deploying to custom nodes overrides the production subgraph. Are you sure you want to do this? (y/N)")]
 [group("deploy")]
+[script]
 @deploy-custom chain_slug version_label ipfs_url=IPFS_URL: codegen
-    #!/usr/bin/env sh
     extra_args=""
     case {{ chain_slug }} in
         lightlink)
@@ -120,8 +121,8 @@ alias dc := deploy-custom
 
 # Deploy to experimental subgraph on Ethereum Sepolia
 [group("deploy")]
+[script]
 deploy-experimental version_label: codegen-schema (codegen-manifest "sepolia")
-    #!/usr/bin/env sh
     subgraph_name=sablier-{{ INDEXER_NAME }}-experimental
     manifest_path={{ justfile_dir() }}/manifests/sepolia.yaml
     pnpm graph deploy \

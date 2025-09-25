@@ -4,6 +4,7 @@ mod root "../justfile"
 
 set allow-duplicate-variables := true
 set shell := ["bash", "-euo", "pipefail", "-c"]
+set unstable
 
 # ---------------------------------------------------------------------------- #
 #                                 DEPENDENCIES                                 #
@@ -41,8 +42,8 @@ alias cc := codegen-config
 alias cs := codegen-schema
 
 # Envio CLI: dev, start, stop
+[script]
 envio command tui_mode="tui_on" *args:
-    #!/usr/bin/env sh
     set -a
     if [ "{{ tui_mode }}" = "tui_off" ]; then
         TUI_OFF=true
