@@ -1,4 +1,4 @@
-import { ethereum } from "@graphprotocol/graph-ts";
+import { Address, ethereum } from "@graphprotocol/graph-ts";
 import { ZERO } from "../../../common/constants";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
@@ -42,7 +42,7 @@ export function handleDepositFlowStream(event: ethereum.Event, params: Params.De
   /* --------------------------------- ACTION --------------------------------- */
   Store.Action.create(event, {
     addressA: params.funder,
-    addressB: stream.recipient,
+    addressB: Address.fromBytes(stream.recipient),
     amountA: params.amount,
     category: "Deposit",
     streamId: stream.id,
