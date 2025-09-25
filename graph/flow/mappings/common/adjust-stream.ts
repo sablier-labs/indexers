@@ -7,6 +7,10 @@ import { Store } from "../../store";
 
 export function handleAdjustFlowStream(event: ethereum.Event, params: Params.AdjustFlowStream): void {
   const tokenId = params.tokenId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
     logError("Stream not saved before this AdjustFlowStream event: {}", [tokenId.toHexString()]);

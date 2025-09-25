@@ -18,6 +18,8 @@ const handler: Handler = async ({ context, event }) => {
   if (event.params.oldAdmin === zeroAddress) {
     return;
   }
+
+  /* -------------------------------- ENTITIES -------------------------------- */
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const watcherId = event.chainId.toString();
 
@@ -26,7 +28,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Watcher.getOrThrow(watcherId),
   ]);
 
-  // Preload optimization: load entities during preload phase
   if (context.isPreload) {
     return;
   }

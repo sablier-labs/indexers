@@ -8,6 +8,10 @@ import { Store } from "../../store";
 
 export function handleDepositFlowStream(event: ethereum.Event, params: Params.DepositFlowStream): void {
   const id = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, id)) {
+    return;
+  }
+
   const stream = Store.Stream.get(id);
   if (stream === null) {
     logError("Stream not saved before this DepositFlowStream event: {}", [id.toHexString()]);

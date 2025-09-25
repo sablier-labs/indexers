@@ -23,6 +23,15 @@ export namespace CommonEntities {
     readonly id: string;
   };
 
+  export type DeprecatedStream = {
+    readonly chainId: bigint;
+    readonly contractAddress: string;
+    readonly hash: string;
+    readonly id: string;
+    readonly timestamp: bigint;
+    readonly tokenId: bigint;
+  };
+
   export type StreamAction = {
     readonly addressA: undefined | string;
     readonly addressB: undefined | string;

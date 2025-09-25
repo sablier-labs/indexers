@@ -7,6 +7,10 @@ import { Store } from "../../store";
 
 export function handlePauseFlowStream(event: ethereum.Event, params: Params.PauseFlowStream): void {
   const id = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, id)) {
+    return;
+  }
+
   const stream = Store.Stream.get(id);
   if (stream === null) {
     logError("Stream not saved before this Pause event: {}", [id.toHexString()]);

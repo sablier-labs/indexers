@@ -65,13 +65,13 @@ function createGraphDeployAllCommand(): Command {
     // Filter chains
     for (const c of chains) {
       // Filter out custom indexers
-      const indexer = getIndexerGraph({ chainId: c.id, protocol: indexerArg as Indexer.Protocol });
+      const indexer = getIndexerGraph({ chainId: c.id, protocol: indexerArg });
       if (indexer?.kind === "custom") {
         continue;
       }
 
       // Check if manifest file exists for this chain
-      const manifestPath = paths.graph.manifest(indexerArg as Indexer.Protocol, c.id);
+      const manifestPath = paths.graph.manifest(indexerArg, c.id);
       if (fs.existsSync(manifestPath)) {
         deployments.push({
           chainId: c.id,
