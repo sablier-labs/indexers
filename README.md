@@ -41,14 +41,14 @@ Each subgraph has a version label used to track changes made to the subgraph. Th
 v{PROTOCOL_VERSION}--v{SUBGRAPH_VERSION}
 ```
 
-Here's an example for how to set the version label if the current version label is `v2.0--v1.0.0`:
+Here's an example for how to set the next version label if the current version label is `v2.0--v1.0.0`:
 
-| Change               | New Version Label     |
-| -------------------- | --------------------- |
-| Hot fix              | `v2.0--v1.0.1`        |
-| New addresses        | `v2.0--v1.1.0`        |
-| Staging              | `v2.1--v1.0.0-beta.0` |
-| New protocol release | `v2.1--v1.0.0`        |
+| Change                       | New Version Label     |
+| ---------------------------- | --------------------- |
+| Hot fix                      | `v2.0--v1.0.1`        |
+| New addresses or features    | `v2.0--v1.1.0`        |
+| Staging new protocol release | `v2.1--v1.0.0-beta.0` |
+| New protocol release         | `v2.1--v1.0.0`        |
 
 For a full list of protocol versions, see the [Sablier SDK](https://github.com/sablier-labs/sdk) (run the
 `print-versions` command).
