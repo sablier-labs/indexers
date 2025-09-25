@@ -55,4 +55,4 @@ envio command tui_mode="tui_on" *args:
 
 # Run the Vitest tests
 test:
-    just root::test "{{ justfile_dir() }}/tests/**.test.ts"
+    just root::test "{{ justfile_dir() }}/tests/**/*.test.ts"
