@@ -24,6 +24,10 @@ function createGraphDeployAllCommand(): Command {
 
   helpers.addIndexerOpt(command);
   command.option("-v, --version-label <string>", "version label for the deployment");
+  command.option(
+    "-e, --exclude-chains <chain-ids>",
+    "comma-separated list of chain IDs to exclude from deployment (e.g., '1,10,137')",
+  );
 
   command.action(async (options) => {
     const indexerArg = helpers.parseIndexerOpt(options.indexer);
@@ -38,11 +42,31 @@ function createGraphDeployAllCommand(): Command {
       throw new Error("--version-label is required");
     }
 
+    // Parse excluded chain IDs
+    const excludedChainIds = new Set<number>();
+    if (options.excludeChains) {
+      const chainIdStrings = options.excludeChains.split(",").map((id: string) => id.trim());
+      for (const idStr of chainIdStrings) {
+        const chainId = _.toNumber(idStr);
+        if (_.isNaN(chainId) || chainId <= 0) {
+          throw new Error(`Invalid chain ID: ${idStr}. Chain IDs must be positive integers.`);
+        }
+        excludedChainIds.add(chainId);
+      }
+    }
+
     // Validate version label based on protocol requirements
     validateVersionLabel(indexerArg, versionLabel);
 
     console.log(`🚀 Deploying all official ${_.capitalize(indexerArg)} indexers to The Graph...`);
     console.log(`📦 Version label: ${versionLabel}`);
+    if (excludedChainIds.size > 0) {
+      console.log(
+        `🚫 Excluding chain IDs: ${Array.from(excludedChainIds)
+          .sort((a, b) => a - b)
+          .join(", ")}`,
+      );
+    }
     console.log();
 
     // Prompt user for confirmation
@@ -61,9 +85,16 @@ function createGraphDeployAllCommand(): Command {
     // Get all available chains and their Graph slugs
     const chains = _.sortBy(sablier.chains.getAll(), (c) => c.slug);
     const deployments: Deployment[] = [];
+    const excludedChains: Array<{ chainId: number; chainName: string }> = [];
 
     // Filter chains
     for (const c of chains) {
+      // Check if chain is excluded
+      if (excludedChainIds.has(c.id)) {
+        excludedChains.push({ chainId: c.id, chainName: c.name });
+        continue;
+      }
+
       // Filter out custom indexers
       const indexer = getIndexerGraph({ chainId: c.id, protocol: indexerArg });
       if (indexer?.kind === "custom") {
@@ -84,6 +115,14 @@ function createGraphDeployAllCommand(): Command {
     console.log(`📊 Found ${deployments.length} chains to deploy to:`);
     for (const d of deployments) {
       console.log(`  • ${d.chainName} (${d.chainSlug})`);
+    }
+
+    if (excludedChains.length > 0) {
+      console.log("");
+      console.log(`🚫 Excluded ${excludedChains.length} chains:`);
+      for (const exc of excludedChains) {
+        console.log(`  • ${exc.chainName} (Chain ID: ${exc.chainId})`);
+      }
     }
     console.log("");
 
