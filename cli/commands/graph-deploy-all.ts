@@ -1,5 +1,7 @@
 import path from "node:path";
 import readline from "node:readline";
+import chalk from "chalk";
+import Table from "cli-table3";
 import type { Command } from "commander";
 import $ from "execa";
 import fs from "fs-extra";
@@ -119,10 +121,22 @@ function createGraphDeployAllCommand(): Command {
 
     if (excludedChains.length > 0) {
       console.log("");
-      console.log(`🚫 Excluded ${excludedChains.length} chains:`);
+      console.log(chalk.yellow.bold(`🚫 Excluded ${excludedChains.length} chains:`));
+
+      const excludedTable = new Table({
+        colWidths: [25, 12],
+        head: [chalk.yellow.bold("Chain"), chalk.yellow.bold("Chain ID")],
+        style: {
+          border: ["yellow"],
+          head: [],
+        },
+      });
+
       for (const exc of excludedChains) {
-        console.log(`  • ${exc.chainName} (Chain ID: ${exc.chainId})`);
+        excludedTable.push([chalk.white(exc.chainName), chalk.gray(exc.chainId.toString())]);
       }
+
+      console.log(excludedTable.toString());
     }
     console.log("");
 
@@ -156,7 +170,7 @@ function createGraphDeployAllCommand(): Command {
           deploymentIds.push({ id: deploymentId, indexerName });
         }
 
-        console.log(`✅ Successfully deployed to ${d.chainName}`);
+        console.log(chalk.green(`✅ Successfully deployed to ${d.chainName}`));
         successCount++;
       } catch (error) {
         spinner.stop();
@@ -171,33 +185,76 @@ function createGraphDeployAllCommand(): Command {
       // Add delay between deployments to avoid rate limiting (429 errors)
       const isLastDeployment = deployments.indexOf(d) === deployments.length - 1;
       if (!isLastDeployment) {
-        console.log("⏱️  Waiting 10 seconds before next deployment...");
-        await sleep(10_000);
+        console.log(chalk.dim("⏱️  Waiting 5 seconds before next deployment..."));
+        await sleep(5000);
       }
     }
 
     console.log();
-    console.log(`📈 Deployments Summary:`);
-    console.log(`  ✅ Successful: ${successCount}`);
-    console.log(`  ❌ Failed: ${failureCount}`);
-    console.log(`  📊 Total: ${deployments.length}`);
+    console.log(chalk.blue.bold("📈 Deployments Summary:"));
+
+    const summaryTable = new Table({
+      colWidths: [15, 10, 12],
+      head: [chalk.blue.bold("Status"), chalk.blue.bold("Count"), chalk.blue.bold("Percentage")],
+      style: {
+        border: ["blue"],
+        head: [],
+      },
+    });
+
+    const successRate = deployments.length > 0 ? ((successCount / deployments.length) * 100).toFixed(1) : "0.0";
+    const failureRate = deployments.length > 0 ? ((failureCount / deployments.length) * 100).toFixed(1) : "0.0";
+
+    summaryTable.push(
+      [chalk.green("✅ Successful"), chalk.white(successCount.toString()), chalk.green(`${successRate}%`)],
+      [chalk.red("❌ Failed"), chalk.white(failureCount.toString()), chalk.red(`${failureRate}%`)],
+      [chalk.cyan("📊 Total"), chalk.white(deployments.length.toString()), chalk.cyan("100.0%")],
+    );
+
+    console.log(summaryTable.toString());
     console.log();
 
     // Display all deployment IDs
     if (deploymentIds.length > 0) {
-      console.log(`🚀 Deployment IDs:`);
+      console.log(chalk.green.bold("🚀 Deployment IDs:"));
+
+      const deploymentsTable = new Table({
+        colWidths: [35, 50],
+        head: [chalk.green.bold("Indexer Name"), chalk.green.bold("Deployment ID")],
+        style: {
+          border: ["green"],
+          head: [],
+        },
+        wordWrap: true,
+      });
+
       for (const { id, indexerName } of deploymentIds) {
-        console.log(`   ${indexerName}: ${id}`);
+        deploymentsTable.push([chalk.cyan(indexerName), chalk.yellow(id)]);
       }
+
+      console.log(deploymentsTable.toString());
       console.log();
     }
 
     // Display failed deployments
     if (failedDeployments.length > 0) {
-      console.log(`❌ Failed Deployments:`);
+      console.log(chalk.red.bold("❌ Failed Deployments:"));
+
+      const failedTable = new Table({
+        colWidths: [20, 60],
+        head: [chalk.red.bold("Chain Slug"), chalk.red.bold("Error Message")],
+        style: {
+          border: ["red"],
+          head: [],
+        },
+        wordWrap: true,
+      });
+
       for (const { chainSlug, error } of failedDeployments) {
-        console.log(`   ${chainSlug}: ${error}`);
+        failedTable.push([chalk.yellow(chainSlug), chalk.white(error)]);
       }
+
+      console.log(failedTable.toString());
       console.log();
     }
 
