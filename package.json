@@ -11,9 +11,6 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "axios-retry": "^4.5.0",
-    "chainlist-rpcs": "^0.5.226",
-    "dotenv": "^17.2.2",
     "sablier": "^1.1.0"
   },
   "peerDependencies": {
@@ -39,10 +36,13 @@
     "app-root-path": "^3.1.0",
     "assemblyscript": "^0.28.3",
     "axios": "^1.10.0",
+    "axios-retry": "^4.5.0",
+    "chainlist-rpcs": "^0.5.226",
     "chalk": "^5.6.2",
     "cli-table3": "^0.6.5",
     "commander": "^14.0.0",
     "dayjs": "^1.11.13",
+    "dotenv": "^17.2.2",
     "envio": "2.29.1",
     "execa": "5.1.1",
     "fs-extra": "^11.3.0",
