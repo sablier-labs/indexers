@@ -40,7 +40,7 @@ Contract.Flow.Flow_v1_1.VoidFlowStream.handler(async ({ context, event }) => {
 
 Contract.Flow.Flow_v1_1.WithdrawFromFlowStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
-  await Store.Revenue.createOrUpdate(context, event);
+  await Store.Fee.createOrUpdate(context, event);
 });
 
 /* -------------------------------------------------------------------------- */

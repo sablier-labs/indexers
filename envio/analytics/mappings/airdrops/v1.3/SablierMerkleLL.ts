@@ -4,7 +4,7 @@ import { Store } from "../../../store";
 Contract.Airdrops.Campaign.MerkleLL_v1_3.Claim.handler(async ({ context, event }) => {
   const isAirdropClaim = true;
   await Store.User.createOrUpdate(context, event, [event.params.recipient, event.transaction.from], isAirdropClaim);
-  await Store.Revenue.createOrUpdate(context, event);
+  await Store.Fee.createOrUpdate(context, event);
 });
 
 Contract.Airdrops.Campaign.MerkleLL_v1_3.Clawback.handler(async ({ context, event }) => {

@@ -23,8 +23,8 @@ Contract.Lockup.Lockup_v2_0.RenounceLockupStream.handler(async ({ context, event
 
 Contract.Lockup.Lockup_v2_0.WithdrawFromLockupStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
-  // Lockup v2.0 introduced fees, so we track revenue
-  await Store.Revenue.createOrUpdate(context, event);
+  // Lockup v2.0 introduced fees, so we track fees
+  await Store.Fee.createOrUpdate(context, event);
 });
 
 /* -------------------------------------------------------------------------- */
