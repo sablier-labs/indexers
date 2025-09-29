@@ -18,6 +18,7 @@ import { schemaCmd } from "./commands/codegen/schema";
 import { exportSchemaCmd } from "./commands/export-schema";
 import { fetchPricesCmd } from "./commands/fetch-prices";
 import { graphDeployAllCmd } from "./commands/graph-deploy-all";
+import { graphPublishAllCmd } from "./commands/graph-publish-all";
 import { printChainsCmd } from "./commands/print-chains";
 
 dotenv.config({ quiet: true });
@@ -50,6 +51,7 @@ export async function main() {
   program.addCommand(exportSchemaCmd.name("export-schema"));
   program.addCommand(fetchPricesCmd.name("fetch-prices"));
   program.addCommand(graphDeployAllCmd.name("graph-deploy-all"));
+  program.addCommand(graphPublishAllCmd.name("graph-publish-all"));
 
   program.parse();
 }
