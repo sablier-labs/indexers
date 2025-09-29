@@ -88,7 +88,7 @@ alias d := deploy
 # Deploy all officials subgraphs to The Decentralized Network
 [confirm("Confirm you want to deploy all subgraphs? (y/N)")]
 [group("deploy")]
-deploy-all version_label *args: codegen
+@deploy-all version_label *args: codegen
     just root::cli graph-deploy-all \
         --indexer {{ INDEXER_NAME }} \
         --version-label {{ version_label }} \
