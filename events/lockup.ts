@@ -50,6 +50,7 @@ function lockup(version: Sablier.Version.Lockup): Types.Event[] {
   return [
     ...erc721("lockup", version, contractName),
     get(version, contractName, "CancelLockupStream"),
+    get(version, contractName, "CollectFees"),
     get(version, contractName, "CreateLockupDynamicStream"),
     get(version, contractName, "CreateLockupLinearStream"),
     get(version, contractName, "CreateLockupTranchedStream"),

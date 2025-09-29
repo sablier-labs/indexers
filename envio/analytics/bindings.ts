@@ -77,6 +77,7 @@ import type {
   DailyCryptoFees as EntityDailyCryptoFees,
   DailyFiatFees as EntityDailyFiatFees,
   FeeTransaction as EntityFeeTransaction,
+  FeesCollectionTransaction as EntityFeesCollectionTransaction,
 } from "./bindings/src/Types.gen";
 
 export namespace Entity {
@@ -85,4 +86,5 @@ export namespace Entity {
   export type DailyFiatFees = EntityDailyFiatFees;
   export type DailyCryptoFees = EntityDailyCryptoFees;
   export type FeeTransaction = EntityFeeTransaction;
+  export type FeesCollectionTransaction = EntityFeesCollectionTransaction;
 }

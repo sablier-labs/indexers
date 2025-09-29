@@ -49,6 +49,7 @@ contracts:
     handler: "mappings/v1.3/SablierMerkleFactory.ts"
     abi_file_path: "../../abi/airdrops-v1.3/SablierMerkleFactory.json"
     events:
+      - event: "CollectFees"
       - event: "CreateMerkleInstant"
       - event: "CreateMerkleLL"
       - event: "CreateMerkleLT"

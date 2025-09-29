@@ -98,6 +98,7 @@ contracts:
       - event: "ApprovalForAll"
       - event: "Transfer"
       - event: "CancelLockupStream"
+      - event: "CollectFees"
       - event: "CreateLockupDynamicStream"
       - event: "CreateLockupLinearStream"
       - event: "CreateLockupTranchedStream"

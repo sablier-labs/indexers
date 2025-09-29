@@ -15,6 +15,10 @@ export namespace Id {
     return `${chainId}_${hash}`;
   }
 
+  export function feesCollectionTransaction(chainId: number, hash: string, logIndex: number): string {
+    return `${chainId}_${hash}_${logIndex}`;
+  }
+
   export function user(chainId: number, address: string): string {
     return `${chainId}_${address.toLowerCase()}`;
   }

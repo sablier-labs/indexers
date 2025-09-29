@@ -27,9 +27,10 @@ function base(version: Sablier.Version.Flow): Types.Event[] {
   ];
 }
 
-// v1.1 event handlers are the same as v1.0 handlers because the ABIs are identical.
 const v1_0Events = base("v1.0");
-const v1_1Events = base("v1.1");
+
+// v1.1 includes all v1.0 events plus CollectFees
+const v1_1Events: Types.Event[] = [...base("v1.1"), get("v1.1", contracts.names.SABLIER_FLOW, "CollectFees")];
 
 const flowEvents: Types.EventMap = {
   [contracts.names.SABLIER_FLOW]: {

@@ -59,6 +59,7 @@ const v1_2: Types.EventMap = {
 const v1_3: Types.EventMap = {
   [names.SABLIER_MERKLE_FACTORY]: {
     "v1.3": [
+      get("v1.3", names.SABLIER_MERKLE_FACTORY, "CollectFees"),
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CreateMerkleInstant"),
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CreateMerkleLL"),
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CreateMerkleLT"),
