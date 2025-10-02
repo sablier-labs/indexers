@@ -74,6 +74,44 @@ contracts:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
+  - name: "SablierFactoryMerkleInstant_v1_4"
+    handler: "mappings/airdrops/v1.4/SablierFactoryMerkleInstant.ts"
+    abi_file_path: "../../abi/airdrops-v1.4/SablierFactoryMerkleInstant.json"
+    events:
+      - event: "CreateMerkleInstant"
+  - name: "SablierFactoryMerkleLL_v1_4"
+    handler: "mappings/airdrops/v1.4/SablierFactoryMerkleLL.ts"
+    abi_file_path: "../../abi/airdrops-v1.4/SablierFactoryMerkleLL.json"
+    events:
+      - event: "CreateMerkleLL"
+  - name: "SablierFactoryMerkleLT_v1_4"
+    handler: "mappings/airdrops/v1.4/SablierFactoryMerkleLT.ts"
+    abi_file_path: "../../abi/airdrops-v1.4/SablierFactoryMerkleLT.json"
+    events:
+      - event: "CreateMerkleLT"
+  - name: "SablierMerkleInstant_v1_4"
+    handler: "mappings/airdrops/v1.4/SablierMerkleInstant.ts"
+    abi_file_path: "../../abi/airdrops-v1.4/SablierMerkleInstant.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimInstant"
+  - name: "SablierMerkleLL_v1_4"
+    handler: "mappings/airdrops/v1.4/SablierMerkleLL.ts"
+    abi_file_path: "../../abi/airdrops-v1.4/SablierMerkleLL.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimLLWithTransfer"
+      - event: "ClaimLLWithVesting"
+  - name: "SablierMerkleLT_v1_4"
+    handler: "mappings/airdrops/v1.4/SablierMerkleLT.ts"
+    abi_file_path: "../../abi/airdrops-v1.4/SablierMerkleLT.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimLTWithTransfer"
+      - event: "ClaimLTWithVesting"
   - name: "SablierFlow_v1_0"
     handler: "mappings/flow/v1.0/SablierFlow.ts"
     abi_file_path: "../../abi/flow-v1.0/SablierFlow.json"
@@ -185,6 +223,20 @@ contracts:
   - name: "SablierLockup_v2_0"
     handler: "mappings/lockup/v2.0/SablierLockup.ts"
     abi_file_path: "../../abi/lockup-v2.0/SablierLockup.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "CancelLockupStream"
+      - event: "CollectFees"
+      - event: "CreateLockupDynamicStream"
+      - event: "CreateLockupLinearStream"
+      - event: "CreateLockupTranchedStream"
+      - event: "RenounceLockupStream"
+      - event: "WithdrawFromLockupStream"
+  - name: "SablierLockup_v2_1"
+    handler: "mappings/lockup/v2.1/SablierLockup.ts"
+    abi_file_path: "../../abi/lockup-v2.1/SablierLockup.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -1221,12 +1273,27 @@ networks:
       - name: "SablierMerkleInstant_v1_3"
       - name: "SablierMerkleLL_v1_3"
       - name: "SablierMerkleLT_v1_3"
+      - address: "0x42d09ed40dad47240d66059cde41f14721f73f09"
+        name: "SablierFactoryMerkleInstant_v1_4"
+        start_block: 9117969
+      - address: "0x293a3902e5bcd156912b529300ea264426ef0c2f"
+        name: "SablierFactoryMerkleLL_v1_4"
+        start_block: 9117971
+      - address: "0x8eeb2731986abfde2afdf734fbc5bec15ba3122b"
+        name: "SablierFactoryMerkleLT_v1_4"
+        start_block: 9117971
+      - name: "SablierMerkleInstant_v1_4"
+      - name: "SablierMerkleLL_v1_4"
+      - name: "SablierMerkleLT_v1_4"
       - address: "0x5ae8c13f6ae094887322012425b34b0919097d8a"
         name: "SablierFlow_v1_0"
         start_block: 7210716
       - address: "0x93fe8f86e881a23e5a2feb4b160514fd332576a6"
         name: "SablierFlow_v1_1"
         start_block: 7583391
+      - address: "0x3f69b642d012a7736d34c0f190084f7081fd0dc1"
+        name: "SablierFlow_v1_2"
+        start_block: 9118024
       - address: "0x421e1e7a53ff360f70a2d02037ee394fa474e035"
         name: "SablierV2LockupDynamic_v1_0"
         start_block: 4067889
@@ -1251,3 +1318,6 @@ networks:
       - address: "0xd116c275541cdbe7594a202bd6ae4dbca4578462"
         name: "SablierLockup_v2_0"
         start_block: 7583311
+      - address: "0x4e80870b94c4b38649bc7d7d28cca1db96553eb8"
+        name: "SablierLockup_v2_1"
+        start_block: 9117858

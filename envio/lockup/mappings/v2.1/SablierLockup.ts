@@ -1,12 +1,12 @@
 import { Contract } from "../../bindings";
 import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
 
-Contract.Lockup_v2_1.ApprovalForAll.handlerWithLoader(approvalForAll);
-Contract.Lockup_v2_1.Approval.handlerWithLoader(approval);
-Contract.Lockup_v2_1.CancelLockupStream.handlerWithLoader(cancelStream);
-Contract.Lockup_v2_1.RenounceLockupStream.handlerWithLoader(renounceStream);
-Contract.Lockup_v2_1.Transfer.handlerWithLoader(transfer);
-Contract.Lockup_v2_1.WithdrawFromLockupStream.handlerWithLoader(withdrawStream);
+Contract.Lockup_v2_1.ApprovalForAll.handler(approvalForAll.handler);
+Contract.Lockup_v2_1.Approval.handler(approval.handler);
+Contract.Lockup_v2_1.CancelLockupStream.handler(cancelStream.handler);
+Contract.Lockup_v2_1.RenounceLockupStream.handler(renounceStream.handler);
+Contract.Lockup_v2_1.Transfer.handler(transfer.handler);
+Contract.Lockup_v2_1.WithdrawFromLockupStream.handler(withdrawStream.handler);
 
 import "./SablierLockup/create-dynamic";
 import "./SablierLockup/create-linear";
