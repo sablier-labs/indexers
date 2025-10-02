@@ -3,6 +3,7 @@
  */
 
 import type { Sablier } from "sablier";
+import { sablier } from "sablier";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { getDateTimestamp } from "../../common/time";
@@ -27,14 +28,18 @@ export async function create(context: HandlerContext, event: Envio.Event, params
     return;
   }
 
+  const chain = sablier.chains.getOrThrow(event.chainId);
+  const currency = chain.nativeCurrency.symbol;
+
   const transaction: Entity.FeeCollectionTransaction = {
     admin: admin.toLowerCase(),
     airdropCampaign: airdropCampaign?.toLowerCase(),
     amount: Number(formatEther(amount)),
     block: BigInt(event.block.number),
+    caller: event.transaction.from?.toLowerCase() || "",
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
-    from: event.transaction.from?.toLowerCase() || "",
+    currency,
     hash: event.transaction.hash,
     id,
     logIndex: BigInt(event.logIndex),

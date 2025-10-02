@@ -114,6 +114,11 @@ type FeeCollectionTransaction @entity {
   chainId: BigInt!
 
   """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
   The contract address that emitted the event
   """
   contractAddress: String!
@@ -121,7 +126,7 @@ type FeeCollectionTransaction @entity {
   """
   The tx.origin of the Ethereum transaction.
   """
-  from: Bytes!
+  caller: Bytes!
 
   """
   Transaction hash
