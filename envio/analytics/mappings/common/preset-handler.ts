@@ -132,7 +132,7 @@ async function initializeLockupData(context: HandlerContext, graphqlEndpoint: st
       const promises = [];
       // Track fees only if it's non-zero
       if (BigInt(action.fee) !== BigInt(0)) {
-        promises.push(Store.Fee.createOrUpdate(context, event));
+        promises.push(Store.Fees.createOrUpdate(context, event));
       }
 
       // Filter out null/undefined addresses before passing to createOrUpdate

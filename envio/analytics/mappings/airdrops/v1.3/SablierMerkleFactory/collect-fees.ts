@@ -18,10 +18,10 @@ event CollectFees(
 */
 
 Contract.Airdrops.Factory.MerkleFactory_v1_3.CollectFees.handler(async ({ context, event }) => {
-  await Store.FeesCollection.create(context, event, {
+  await Store.FeeCollection.create(context, event, {
     admin: event.params.admin,
-    airdropContract: event.params.merkleBase,
+    airdropCampaign: event.params.merkleBase,
     amount: event.params.feeAmount,
-    contractType: "Airdrops",
+    protocol: "airdrops",
   });
 });

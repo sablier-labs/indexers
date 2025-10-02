@@ -80,7 +80,72 @@ type DailyCryptoFees @entity {
 }
 
 """
-Ethereum transaction that generated a fee.
+Fee collection transaction. The withdrawn amount is an aggregate value of all fees collected up until the time of collection.
+"""
+type FeeCollectionTransaction @entity {
+  """
+  Unique identifier: chainId_transactionHash_logIndex
+  """
+  id: ID!
+
+  """
+  Admin address who collected the fees
+  """
+  admin: String!
+
+  """
+  Airdrop campaign address (only for Airdrops events, corresponds to merkleBase from event)
+  """
+  airdropCampaign: String
+
+  """
+  Fee amount collected (in native currency, normalized to 18 decimals)
+  """
+  amount: Float!
+
+  """
+  Block number of the transaction
+  """
+  block: BigInt!
+
+  """
+  Chain ID where the fee was collected
+  """
+  chainId: BigInt!
+
+  """
+  The contract address that emitted the event
+  """
+  contractAddress: String!
+
+  """
+  The tx.origin of the Ethereum transaction.
+  """
+  from: Bytes!
+
+  """
+  Transaction hash
+  """
+  hash: String!
+
+  """
+  Log index within the transaction
+  """
+  logIndex: BigInt!
+
+  """
+  Protocol type: "airdrops", "flow", or "lockup"
+  """
+  protocol: String!
+
+  """
+  Block Unix timestamp
+  """
+  timestamp: Timestamp!
+}
+
+"""
+Ethereum transaction that generated a fee that is due to be collected.
 """
 type FeeTransaction @entity {
   """
@@ -137,66 +202,6 @@ type FeeTransaction @entity {
   Transaction hash
   """
   hash: String!
-
-  """
-  Block Unix timestamp
-  """
-  timestamp: Timestamp!
-}
-
-"""
-Individual CollectFees event transaction.
-"""
-type FeesCollectionTransaction @entity {
-  """
-  Unique identifier: chainId_transactionHash_logIndex
-  """
-  id: ID!
-
-  """
-  Admin address who collected the fees (lowercase)
-  """
-  admin: String!
-
-  """
-  Airdrop contract address (only for Airdrops events, corresponds to merkleBase from event)
-  """
-  airdropContract: String
-
-  """
-  Fee amount collected (in native currency, normalized to 18 decimals)
-  """
-  amount: Float!
-
-  """
-  Block number of the transaction
-  """
-  block: BigInt!
-
-  """
-  Chain ID where the fee was collected
-  """
-  chainId: BigInt!
-
-  """
-  The contract address that emitted the event
-  """
-  contractAddress: String!
-
-  """
-  Type of contract: "Airdrops", "Flow", or "Lockup"
-  """
-  contractType: String!
-
-  """
-  Transaction hash
-  """
-  hash: String!
-
-  """
-  Log index within the transaction
-  """
-  logIndex: BigInt!
 
   """
   Block Unix timestamp

@@ -15,7 +15,7 @@ export namespace Id {
     return `${chainId}_${hash}`;
   }
 
-  export function feesCollectionTransaction(chainId: number, hash: string, logIndex: number): string {
+  export function feeCollectionTransaction(chainId: number, hash: string, logIndex: number): string {
     return `${chainId}_${hash}_${logIndex}`;
   }
 

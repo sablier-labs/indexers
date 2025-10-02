@@ -17,10 +17,10 @@ event CollectFees(
 */
 
 Contract.Lockup.Lockup_v2_0.CollectFees.handler(async ({ context, event }) => {
-  await Store.FeesCollection.create(context, event, {
+  await Store.FeeCollection.create(context, event, {
     admin: event.params.admin,
-    airdropContract: undefined,
+    airdropCampaign: undefined,
     amount: event.params.feeAmount,
-    contractType: "Lockup",
+    protocol: "lockup",
   });
 });

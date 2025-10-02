@@ -1,9 +1,9 @@
-import * as Fee from "./entity-fees";
-import * as FeesCollection from "./entity-fees-collection";
+import * as FeeCollection from "./entity-fee-collection";
+import * as Fees from "./entity-fees";
 import * as User from "./entity-user";
 
 export const Store = {
-  Fee,
-  FeesCollection,
+  FeeCollection,
+  Fees,
   User,
 };

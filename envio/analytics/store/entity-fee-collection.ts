@@ -1,6 +1,8 @@
 /**
  * @see {@link: file://./../schema.graphql}
  */
+
+import type { Sablier } from "sablier";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { getDateTimestamp } from "../../common/time";
@@ -9,35 +11,36 @@ import { Id } from "../helpers";
 
 type Params = {
   admin: string;
-  airdropContract: string | undefined;
+  airdropCampaign: string | undefined;
   amount: bigint;
-  contractType: "Airdrops" | "Flow" | "Lockup";
+  protocol: Sablier.Protocol;
 };
 
 export async function create(context: HandlerContext, event: Envio.Event, params: Params): Promise<void> {
-  const { admin, airdropContract, amount, contractType } = params;
+  const { admin, airdropCampaign, amount, protocol } = params;
 
-  const id = Id.feesCollectionTransaction(event.chainId, event.transaction.hash, event.logIndex);
+  const id = Id.feeCollectionTransaction(event.chainId, event.transaction.hash, event.logIndex);
 
   // Check if already exists
-  const existing = await context.FeesCollectionTransaction.get(id);
+  const existing = await context.FeeCollectionTransaction.get(id);
   if (existing) {
     return;
   }
 
-  const transaction: Entity.FeesCollectionTransaction = {
+  const transaction: Entity.FeeCollectionTransaction = {
     admin: admin.toLowerCase(),
-    airdropContract: airdropContract?.toLowerCase(),
+    airdropCampaign: airdropCampaign?.toLowerCase(),
     amount: Number(formatEther(amount)),
     block: BigInt(event.block.number),
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
-    contractType,
+    from: event.transaction.from?.toLowerCase() || "",
     hash: event.transaction.hash,
     id,
     logIndex: BigInt(event.logIndex),
+    protocol,
     timestamp: getDateTimestamp(event.block.timestamp),
   };
 
-  context.FeesCollectionTransaction.set(transaction);
+  context.FeeCollectionTransaction.set(transaction);
 }
