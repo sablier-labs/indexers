@@ -1,44 +1,4 @@
 """
-Aggregated fees across all chains and all currencies for a particular day.
-"""
-type DailyFiatFees @entity {
-  """
-  Unique identifier: YYYY-MM-DD
-  """
-  id: ID!
-
-  """
-  GBP value of the fee amount
-  """
-  amountGBP: Float!
-
-  """
-  USD value of the fee amount
-  """
-  amountUSD: Float!
-
-  """
-  Fee breakdown by currency for this day
-  """
-  currencyBreakdown: [DailyCryptoFees!]! @derivedFrom(field: "dailyFiatFees")
-
-  """
-  Date in YYYY-MM-DD format
-  """
-  date: String!
-
-  """
-  Date as Unix timestamp for easier querying
-  """
-  dateTimestamp: Timestamp!
-
-  """
-  Transactions
-  """
-  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyFiatFees")
-}
-
-"""
 Daily fees aggregated by currency across all chains.
 """
 type DailyCryptoFees @entity {
@@ -77,6 +37,46 @@ type DailyCryptoFees @entity {
   Transactions in this currency for this day
   """
   transactions: [FeeTransaction!]! @derivedFrom(field: "dailyCryptoFees")
+}
+
+"""
+Aggregated fees across all chains and all currencies for a particular day.
+"""
+type DailyFiatFees @entity {
+  """
+  Unique identifier: YYYY-MM-DD
+  """
+  id: ID!
+
+  """
+  GBP value of the fee amount
+  """
+  amountGBP: Float!
+
+  """
+  USD value of the fee amount
+  """
+  amountUSD: Float!
+
+  """
+  Fee breakdown by currency for this day
+  """
+  currencyBreakdown: [DailyCryptoFees!]! @derivedFrom(field: "dailyFiatFees")
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Transactions
+  """
+  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyFiatFees")
 }
 
 """

@@ -65,7 +65,6 @@ Contract.Lockup.Lockup_v2_0.Transfer.handler(async ({ context, event }) => {
 /*                              CREATE HANDLERS                              */
 /* -------------------------------------------------------------------------- */
 
-import "./SablierLockup/collect-fees";
 import "./SablierLockup/create-dynamic";
 import "./SablierLockup/create-linear";
 import "./SablierLockup/create-tranched";

@@ -1,7 +1,6 @@
 import { Contract } from "../../../bindings";
 import { Store } from "../../../store";
 import { handleApproval, handleApprovalForAll, handleTransfer } from "../../common/event-handlers";
-import "./SablierFlow/collect-fees";
 
 /* -------------------------------------------------------------------------- */
 /*                                FLOW-SPECIFIC                               */
