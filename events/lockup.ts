@@ -1,12 +1,19 @@
 import type { Sablier } from "sablier";
 import { contracts } from "sablier";
 import type { Types } from "../lib/types";
+import type { Indexer } from "../src/types";
 import { erc721 } from "./common/erc721";
 
-function get(version: Sablier.Version.Lockup, contractName: string, eventName: string): Types.Event {
+function get(
+  version: Sablier.Version.Lockup,
+  contractName: string,
+  eventName: string,
+  indexers: Array<Indexer.Name> = ["lockup", "analytics"],
+): Types.Event {
   return {
     contractName,
     eventName,
+    indexers,
     protocol: "lockup",
     version,
   };
@@ -50,7 +57,7 @@ function lockup(version: Sablier.Version.Lockup): Types.Event[] {
   return [
     ...erc721("lockup", version, contractName),
     get(version, contractName, "CancelLockupStream"),
-    get(version, contractName, "CollectFees"),
+    get(version, contractName, "CollectFees", ["analytics"]),
     get(version, contractName, "CreateLockupDynamicStream"),
     get(version, contractName, "CreateLockupLinearStream"),
     get(version, contractName, "CreateLockupTranchedStream"),

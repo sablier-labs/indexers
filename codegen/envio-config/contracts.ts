@@ -8,6 +8,7 @@ import type { Indexer } from "../../src";
 import type { EnvioConfig } from "./config-types";
 
 export function createContracts(
+  indexer: Indexer.Name,
   protocol: Indexer.Protocol,
   includeProtocolInPath: boolean = false,
 ): EnvioConfig.Contract[] {
@@ -21,7 +22,7 @@ export function createContracts(
         name: sanitizedName,
         handler: `mappings/${handlerPath}/${indexedContract.name}.ts`,
         abi_file_path: getRelativeAbiFilePath(protocol, indexedContract.name, version),
-        events: getEvents(indexedEvents[protocol][indexedContract.name][version]),
+        events: getEvents(indexer, indexedEvents[protocol][indexedContract.name][version]),
       });
     });
   });
@@ -35,12 +36,14 @@ function getRelativeAbiFilePath(protocol: Indexer.Protocol, contractName: string
   return getRelativePath(envioConfigDir, abiPath);
 }
 
-function getEvents(indexedEvents: Types.Event[]): EnvioConfig.Event[] {
+function getEvents(indexer: Indexer.Name, indexedEvents: Types.Event[]): EnvioConfig.Event[] {
   const events: EnvioConfig.Event[] = [];
   _.forEach(indexedEvents, (indexedEvent) => {
-    events.push({
-      event: indexedEvent.eventName,
-    });
+    if (indexedEvent.indexers.includes(indexer)) {
+      events.push({
+        event: indexedEvent.eventName,
+      });
+    }
   });
   return events;
 }

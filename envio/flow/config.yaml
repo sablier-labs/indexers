@@ -43,7 +43,6 @@ contracts:
       - event: "RestartFlowStream"
       - event: "VoidFlowStream"
       - event: "WithdrawFromFlowStream"
-      - event: "CollectFees"
 networks:
   - id: 2741
     start_block: 73630

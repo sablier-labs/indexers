@@ -4,9 +4,10 @@ import { resolveEventHandler as resolve } from "../codegen/graph-manifest/event-
 describe("Event handlers", () => {
   describe("Resolver function", () => {
     it("should resolve simple event without indexed params", () => {
-      const actual = resolve({
+      const actual = resolve("flow", {
         contractName: "SablierFlow",
         eventName: "MetadataUpdate",
+        indexers: ["flow"],
         protocol: "flow",
         version: "v1.0",
       });
@@ -15,14 +16,15 @@ describe("Event handlers", () => {
       const expectedHandler = "handle_SablierFlow_v1_0_MetadataUpdate";
 
       expect(actual).toBeDefined();
-      expect(actual.event).toBe(expectedEvent);
-      expect(actual.handler).toBe(expectedHandler);
+      expect(actual!.event).toBe(expectedEvent);
+      expect(actual!.handler).toBe(expectedHandler);
     });
 
     it("should resolve simple event with indexed params", () => {
-      const actual = resolve({
+      const actual = resolve("flow", {
         contractName: "SablierFlow",
         eventName: "Approval",
+        indexers: ["flow"],
         protocol: "flow",
         version: "v1.0",
       });
@@ -31,14 +33,15 @@ describe("Event handlers", () => {
       const expectedHandler = "handle_SablierFlow_v1_0_Approval";
 
       expect(actual).toBeDefined();
-      expect(actual.event).toBe(expectedEvent);
-      expect(actual.handler).toBe(expectedHandler);
+      expect(actual!.event).toBe(expectedEvent);
+      expect(actual!.handler).toBe(expectedHandler);
     });
 
     it("should resolve event handler for event with tuple", () => {
-      const actual = resolve({
+      const actual = resolve("lockup", {
         contractName: "SablierV2LockupLinear",
         eventName: "CreateLockupLinearStream",
+        indexers: ["lockup"],
         protocol: "lockup",
         version: "v1.0",
       });
@@ -49,14 +52,15 @@ describe("Event handlers", () => {
       const expectedHandler = "handle_SablierV2LockupLinear_v1_0_CreateLockupLinearStream";
 
       expect(actual).toBeDefined();
-      expect(actual.event).toBe(expectedEvent);
-      expect(actual.handler).toBe(expectedHandler);
+      expect(actual!.event).toBe(expectedEvent);
+      expect(actual!.handler).toBe(expectedHandler);
     });
 
     it("should resolve event handler for event with arrays of tuples", () => {
-      const actual = resolve({
+      const actual = resolve("lockup", {
         contractName: "SablierV2LockupDynamic",
         eventName: "CreateLockupDynamicStream",
+        indexers: ["lockup"],
         protocol: "lockup",
         version: "v1.0",
       });
@@ -67,14 +71,15 @@ describe("Event handlers", () => {
       const expectedHandler = "handle_SablierV2LockupDynamic_v1_0_CreateLockupDynamicStream";
 
       expect(actual).toBeDefined();
-      expect(actual.event).toBe(expectedEvent);
-      expect(actual.handler).toBe(expectedHandler);
+      expect(actual!.event).toBe(expectedEvent);
+      expect(actual!.handler).toBe(expectedHandler);
     });
 
     it("should resolve event handler for event with tuple nested within tuple", () => {
-      const actual = resolve({
+      const actual = resolve("lockup", {
         contractName: "SablierLockup",
         eventName: "CreateLockupLinearStream",
+        indexers: ["lockup"],
         protocol: "lockup",
         version: "v2.0",
       });
@@ -85,8 +90,8 @@ describe("Event handlers", () => {
       const expectedHandler = "handle_SablierLockup_v2_0_CreateLockupLinearStream";
 
       expect(actual).toBeDefined();
-      expect(actual.event).toBe(expectedEvent);
-      expect(actual.handler).toBe(expectedHandler);
+      expect(actual!.event).toBe(expectedEvent);
+      expect(actual!.handler).toBe(expectedHandler);
     });
   });
 });

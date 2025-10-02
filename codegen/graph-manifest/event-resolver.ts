@@ -6,15 +6,20 @@ import { sanitizeContractName } from "../../lib/helpers";
 import paths from "../../lib/paths";
 import type { Types } from "../../lib/types";
 import { logger } from "../../lib/winston";
+import type { Indexer } from "../../src/types";
 import type { GraphManifest } from "./manifest-types";
 
 /**
  * Resolves an event handler for The Graph manifest.
+ * @param indexer The indexer that should process the event; @see Indexer.Name
  * @param event The event object; @see Types.Event
- * @returns A {@link GraphManifest.EventHandler} object
+ * @returns A {@link typeof GraphManifest.EventHandler} object
  */
-export function resolveEventHandler(event: Types.Event): GraphManifest.EventHandler {
-  const { contractName, eventName, protocol, version } = event;
+export function resolveEventHandler(indexer: Indexer.Name, event: Types.Event): GraphManifest.EventHandler | null {
+  const { contractName, eventName, indexers, protocol, version } = event;
+  if (!indexers.includes(indexer)) {
+    return null;
+  }
   const abiPath = paths.abi(contractName, protocol, version);
 
   try {

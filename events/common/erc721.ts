@@ -18,18 +18,21 @@ export function erc721(
     {
       contractName,
       eventName: "Approval",
+      indexers: [protocol as Indexer.Name],
       protocol,
       version,
     },
     {
       contractName,
       eventName: "ApprovalForAll",
+      indexers: [protocol as Indexer.Name],
       protocol,
       version,
     },
     {
       contractName,
       eventName: "Transfer",
+      indexers: [protocol as Indexer.Name],
       protocol,
       version,
     },
