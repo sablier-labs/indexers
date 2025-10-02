@@ -8,7 +8,7 @@ import type {
   SablierMerkleLL_v1_4_Clawback_handler as HandlerLL_v1_4,
   SablierV2MerkleLT_v1_2_Clawback_handler as HandlerLT_v1_2,
   SablierMerkleLT_v1_3_Clawback_handler as HandlerLT_v1_3,
-    SablierMerkleLT_v1_4_Clawback_handler as HandlerLT_v1_4,
+  SablierMerkleLT_v1_4_Clawback_handler as HandlerLT_v1_4,
 } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
@@ -16,7 +16,13 @@ import { Store } from "../../../store";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerLL_v1_3 & HandlerLL_v1_4 & HandlerLT_v1_2 & HandlerLT_v1_3   HandlerLT_v1_4 &
+type Handler = HandlerLL_v1_1 &
+  HandlerLL_v1_2 &
+  HandlerLL_v1_3 &
+  HandlerLL_v1_4 &
+  HandlerLT_v1_2 &
+  HandlerLT_v1_3 &
+  HandlerLT_v1_4 &
   HandlerInstant_v1_3 &
   HandlerInstant_v1_4;
 

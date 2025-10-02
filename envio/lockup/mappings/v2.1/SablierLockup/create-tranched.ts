@@ -3,7 +3,7 @@ import { convertTranches } from "../../../helpers";
 import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 import { createStream } from "../../common/create-stream";
-import { Loader } from "../../common/loader";
+import { preloadCreateEntities } from "../../common/preload";
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -43,31 +43,45 @@ event CreateLockupTranchedStream(
 
 ──────────────────────────────────────────────────────────────
 */
-Contract.Lockup_v2_1.CreateLockupTranchedStream.handlerWithLoader({
-  handler: async ({ context, event, loaderReturn }) => {
-    const commonParams = event.params.commonParams;
-    const params: Params.CreateStreamTranched = {
-      asset: commonParams[4],
-      cancelable: commonParams[5],
-      category: "LockupTranched",
-      depositAmount: commonParams[3],
-      endTime: commonParams[7][1],
-      funder: commonParams[0],
-      recipient: commonParams[2],
-      sender: commonParams[1],
-      shape: commonParams[8],
-      startTime: commonParams[7][0],
-      tokenId: event.params.streamId,
-      tranches: convertTranches(event.params.tranches),
-      transferable: commonParams[6],
-    };
-    await createStream({
-      context,
-      createInStore: Store.Stream.createTranched,
-      event,
-      loaderReturn,
-      params,
-    });
-  },
-  loader: Loader.create["v2.1"],
+Contract.Lockup_v2_1.CreateLockupTranchedStream.handler(async ({ context, event }) => {
+  const commonParams = event.params.commonParams;
+  const asset = commonParams[4];
+  const recipient = commonParams[2];
+  const sender = commonParams[1];
+  const result = await preloadCreateEntities({
+    context,
+    event,
+    params: {
+      asset,
+      recipient,
+      sender,
+    },
+  });
+  if (!result) {
+    return;
+  }
+  const { entities, proxender } = result;
+  const params: Params.CreateStreamTranched = {
+    asset: commonParams[4],
+    cancelable: commonParams[5],
+    category: "LockupTranched",
+    depositAmount: commonParams[3],
+    endTime: commonParams[7][1],
+    funder: commonParams[0],
+    proxender,
+    recipient: commonParams[2],
+    sender: commonParams[1],
+    shape: commonParams[8],
+    startTime: commonParams[7][0],
+    tokenId: event.params.streamId,
+    tranches: convertTranches(event.params.tranches),
+    transferable: commonParams[6],
+  };
+  await createStream({
+    context,
+    createInStore: Store.Stream.createTranched,
+    entities,
+    event,
+    params,
+  });
 });
