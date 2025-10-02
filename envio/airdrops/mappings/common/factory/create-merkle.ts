@@ -7,7 +7,6 @@ import type { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
->>>>>>> 6e7001d (feat: add envio support for latest airdrops contract version)
 /*                                   MAPPING                                  */
 /* -------------------------------------------------------------------------- */
 
