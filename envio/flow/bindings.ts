@@ -7,10 +7,11 @@ export namespace Context {
 }
 
 // Contracts
-import { SablierFlow_v1_0, SablierFlow_v1_1 } from "./bindings/src/Handlers.gen";
+import { SablierFlow_v1_0, SablierFlow_v1_1, SablierFlow_v1_2 } from "./bindings/src/Handlers.gen";
 export namespace Contract {
   export const Flow_v1_0 = SablierFlow_v1_0;
   export const Flow_v1_1 = SablierFlow_v1_1;
+  export const Flow_v1_2 = SablierFlow_v1_2;
 }
 
 // Enums

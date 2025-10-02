@@ -111,6 +111,7 @@ function createBaseCampaign(
     admin: params.admin.toLowerCase(),
     aggregateAmount: params.aggregateAmount,
     asset_id: entities.asset.id,
+    campaignStartTime: params.campaignStartTime,
     category: params.category,
     chainId: BigInt(event.chainId),
     claimedAmount: 0n,

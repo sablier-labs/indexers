@@ -120,6 +120,10 @@ type Campaign @entity(immutable: false) {
   """
   root: Bytes!
   """
+  Unix timestamp when the campaign starts and claiming becomes available.
+  """
+  campaignStartTime: BigInt!
+  """
   Total number of recipients.
   """
   totalRecipients: BigInt!
