@@ -4,7 +4,7 @@ import { indexedEvents } from "../../events";
 import { sanitizeContractName } from "../../lib/helpers";
 import paths, { getRelativePath } from "../../lib/paths";
 import type { Types } from "../../lib/types";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 import type { EnvioConfig } from "./config-types";
 
 export function createContracts(

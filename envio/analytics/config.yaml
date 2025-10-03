@@ -78,6 +78,9 @@ contracts:
     handler: "mappings/flow/v1.0/SablierFlow.ts"
     abi_file_path: "../../abi/flow-v1.0/SablierFlow.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "AdjustFlowStream"
       - event: "CreateFlowStream"
       - event: "DepositFlowStream"
@@ -90,6 +93,9 @@ contracts:
     handler: "mappings/flow/v1.1/SablierFlow.ts"
     abi_file_path: "../../abi/flow-v1.1/SablierFlow.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "AdjustFlowStream"
       - event: "CreateFlowStream"
       - event: "DepositFlowStream"
@@ -103,6 +109,9 @@ contracts:
     handler: "mappings/lockup/v1.0/SablierV2LockupDynamic.ts"
     abi_file_path: "../../abi/lockup-v1.0/SablierV2LockupDynamic.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupDynamicStream"
       - event: "RenounceLockupStream"
@@ -111,6 +120,9 @@ contracts:
     handler: "mappings/lockup/v1.1/SablierV2LockupDynamic.ts"
     abi_file_path: "../../abi/lockup-v1.1/SablierV2LockupDynamic.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupDynamicStream"
       - event: "RenounceLockupStream"
@@ -119,6 +131,9 @@ contracts:
     handler: "mappings/lockup/v1.2/SablierV2LockupDynamic.ts"
     abi_file_path: "../../abi/lockup-v1.2/SablierV2LockupDynamic.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupDynamicStream"
       - event: "RenounceLockupStream"
@@ -127,6 +142,9 @@ contracts:
     handler: "mappings/lockup/v1.0/SablierV2LockupLinear.ts"
     abi_file_path: "../../abi/lockup-v1.0/SablierV2LockupLinear.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupLinearStream"
       - event: "RenounceLockupStream"
@@ -135,6 +153,9 @@ contracts:
     handler: "mappings/lockup/v1.1/SablierV2LockupLinear.ts"
     abi_file_path: "../../abi/lockup-v1.1/SablierV2LockupLinear.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupLinearStream"
       - event: "RenounceLockupStream"
@@ -143,6 +164,9 @@ contracts:
     handler: "mappings/lockup/v1.2/SablierV2LockupLinear.ts"
     abi_file_path: "../../abi/lockup-v1.2/SablierV2LockupLinear.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupLinearStream"
       - event: "RenounceLockupStream"
@@ -151,6 +175,9 @@ contracts:
     handler: "mappings/lockup/v1.2/SablierV2LockupTranched.ts"
     abi_file_path: "../../abi/lockup-v1.2/SablierV2LockupTranched.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CreateLockupTranchedStream"
       - event: "RenounceLockupStream"
@@ -159,6 +186,9 @@ contracts:
     handler: "mappings/lockup/v2.0/SablierLockup.ts"
     abi_file_path: "../../abi/lockup-v2.0/SablierLockup.json"
     events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
       - event: "CancelLockupStream"
       - event: "CollectFees"
       - event: "CreateLockupDynamicStream"

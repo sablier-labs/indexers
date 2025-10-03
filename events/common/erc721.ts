@@ -7,10 +7,11 @@
  */
 import type { Sablier } from "sablier";
 import type { Types } from "../../lib/types";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 
 export function erc721(
   protocol: Indexer.Protocol,
+  indexers: Array<Indexer.Name>,
   version: Sablier.Version.Lockup,
   contractName: string,
 ): Types.Event[] {
@@ -18,21 +19,21 @@ export function erc721(
     {
       contractName,
       eventName: "Approval",
-      indexers: [protocol as Indexer.Name],
+      indexers,
       protocol,
       version,
     },
     {
       contractName,
       eventName: "ApprovalForAll",
-      indexers: [protocol as Indexer.Name],
+      indexers,
       protocol,
       version,
     },
     {
       contractName,
       eventName: "Transfer",
-      indexers: [protocol as Indexer.Name],
+      indexers,
       protocol,
       version,
     },
