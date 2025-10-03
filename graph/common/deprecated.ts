@@ -54,5 +54,6 @@ export function isDeprecatedContract(event: ethereum.Event, protocol: string, as
 function isExemptedAsset(asset: Address): boolean {
   const EXEMPTED_ASSETS = new Array<string>(1);
   EXEMPTED_ASSETS[0] = "0xbea586a167853adddef12818f264f1f9823fbc18"; // esEXA
+  EXEMPTED_ASSETS[1] = "0x111123ea4cee28cf010703593a8a2a3bbb91756c"; // ARA
   return EXEMPTED_ASSETS.includes(asset.toHexString());
 }

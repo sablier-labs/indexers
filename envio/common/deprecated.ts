@@ -60,6 +60,6 @@ export async function isDeprecatedStream(context: DeprecatedStreamContext, strea
  * Checks if the token address is exempted from deprecation rules.
  */
 function isExemptedAsset(asset: Envio.Address): boolean {
-  const EXEMPTED_ASSETS = ["0xbea586a167853adddef12818f264f1f9823fbc18"];
+  const EXEMPTED_ASSETS = ["0xbea586a167853adddef12818f264f1f9823fbc18", "0x111123ea4cee28cf010703593a8a2a3bbb91756c"];
   return EXEMPTED_ASSETS.includes(asset.toLowerCase());
 }
