@@ -4,8 +4,8 @@ import _ from "lodash";
 import { Protocol } from "sablier";
 import { describe, expect, it } from "vitest";
 import { logger } from "../../lib/winston";
-import { getIndexerGraph } from "../../src";
 import { envioChains } from "../../src/indexers/envio";
+import { getIndexerGraph } from "../../src/indexers/getters";
 import { graphChains } from "../../src/indexers/graph";
 
 describe("Vendors", () => {

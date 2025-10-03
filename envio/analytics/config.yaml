@@ -49,6 +49,7 @@ contracts:
     handler: "mappings/airdrops/v1.3/SablierMerkleFactory.ts"
     abi_file_path: "../../abi/airdrops-v1.3/SablierMerkleFactory.json"
     events:
+      - event: "CollectFees"
       - event: "CreateMerkleInstant"
       - event: "CreateMerkleLL"
       - event: "CreateMerkleLT"
@@ -103,6 +104,7 @@ contracts:
       - event: "RestartFlowStream"
       - event: "VoidFlowStream"
       - event: "WithdrawFromFlowStream"
+      - event: "CollectFees"
   - name: "SablierV2LockupDynamic_v1_0"
     handler: "mappings/lockup/v1.0/SablierV2LockupDynamic.ts"
     abi_file_path: "../../abi/lockup-v1.0/SablierV2LockupDynamic.json"
@@ -188,6 +190,7 @@ contracts:
       - event: "ApprovalForAll"
       - event: "Transfer"
       - event: "CancelLockupStream"
+      - event: "CollectFees"
       - event: "CreateLockupDynamicStream"
       - event: "CreateLockupLinearStream"
       - event: "CreateLockupTranchedStream"

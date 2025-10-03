@@ -65,5 +65,5 @@ Contract.Flow.Flow_v1_0.VoidFlowStream.handler(async ({ context, event }) => {
 
 Contract.Flow.Flow_v1_0.WithdrawFromFlowStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.caller, event.params.to, event.transaction.from]);
-  // Flow v1.0 didn't have fees, so we don't need to track revenue
+  // Flow v1.0 didn't have fees, so we don't need to track fees
 });

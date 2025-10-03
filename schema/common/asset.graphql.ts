@@ -1,5 +1,5 @@
 import { gql } from "graphql-tag";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 
 const streams = /* GraphQL */ `
 """

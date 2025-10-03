@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 import { CodegenError } from "../error";
 import type { GraphManifest } from "./manifest-types";
 import { createSources } from "./sources";

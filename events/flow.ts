@@ -1,12 +1,21 @@
 import type { Sablier } from "sablier";
 import { contracts } from "sablier";
 import type { Types } from "../lib/types";
+import type { Indexer } from "../src/types";
 import { erc721 } from "./common/erc721";
 
-function get(version: Sablier.Version.Flow, contractName: string, eventName: string): Types.Event {
+const DEFAULT_INDEXERS: Array<Indexer.Name> = ["flow", "analytics"];
+
+function get(
+  version: Sablier.Version.Flow,
+  contractName: string,
+  eventName: string,
+  indexers: Array<Indexer.Name> = DEFAULT_INDEXERS,
+): Types.Event {
   return {
     contractName,
     eventName,
+    indexers,
     protocol: "flow",
     version,
   };
@@ -15,7 +24,7 @@ function get(version: Sablier.Version.Flow, contractName: string, eventName: str
 function base(version: Sablier.Version.Flow): Types.Event[] {
   const name = contracts.names.SABLIER_FLOW;
   return [
-    ...erc721("flow", version, name),
+    ...erc721("flow", DEFAULT_INDEXERS, version, name),
     get(version, name, "AdjustFlowStream"),
     get(version, name, "CreateFlowStream"),
     get(version, name, "DepositFlowStream"),
@@ -27,9 +36,11 @@ function base(version: Sablier.Version.Flow): Types.Event[] {
   ];
 }
 
-// v1.1 event handlers are the same as v1.0 handlers because the ABIs are identical.
 const v1_0Events = base("v1.0");
-const v1_1Events = base("v1.1");
+const v1_1Events: Types.Event[] = [
+  ...base("v1.1"),
+  get("v1.1", contracts.names.SABLIER_FLOW, "CollectFees", ["analytics"]),
+];
 
 const flowEvents: Types.EventMap = {
   [contracts.names.SABLIER_FLOW]: {

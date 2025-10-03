@@ -9,8 +9,8 @@ import { join } from "node:path";
 import type { CodegenConfig } from "@graphql-codegen/cli";
 import { sepolia } from "sablier/dist/chains";
 import { EXPORTS_DIR } from "../../lib/paths";
-import type { Indexer } from "../../src";
-import { getIndexer } from "../../src";
+import { getIndexer } from "../../src/indexers/getters";
+import type { Indexer } from "../../src/types";
 
 const FRAGMENTS_DIR = join(EXPORTS_DIR, "fragments");
 const QUERIES_DIR = join(EXPORTS_DIR, "queries");

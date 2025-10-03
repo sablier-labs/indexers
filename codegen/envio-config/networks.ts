@@ -5,8 +5,8 @@ import { sablier } from "sablier";
 import { indexedContracts } from "../../contracts";
 import { sanitizeContractName } from "../../lib/helpers";
 import { logger, messages } from "../../lib/winston";
-import type { Indexer } from "../../src";
 import { envioChains } from "../../src/indexers/envio";
+import type { Indexer } from "../../src/types";
 import { CodegenError } from "../error";
 import type { EnvioConfig } from "./config-types";
 

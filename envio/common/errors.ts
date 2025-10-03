@@ -1,5 +1,5 @@
 import { ContractFunctionExecutionError } from "viem";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 
 export namespace CriticalError {
   export class AliasNotFound extends Error {

@@ -2,7 +2,7 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { convertToIndexed } from "../../contracts";
 import type { Types } from "../../lib/types";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 import type { Envio } from "./bindings";
 import { CriticalError } from "./errors";
 

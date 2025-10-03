@@ -1,4 +1,4 @@
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 import { GRAPH_SPEC_VERSION } from "./constants";
 import type { GraphManifest } from "./manifest-types";
 

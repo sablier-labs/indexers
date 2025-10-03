@@ -10,6 +10,15 @@ Contract.Flow.Flow_v1_1.AdjustFlowStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.transaction.from]);
 });
 
+Contract.Flow.Flow_v1_1.CollectFees.handler(async ({ context, event }) => {
+  await Store.FeeCollection.create(context, event, {
+    admin: event.params.admin,
+    airdropCampaign: undefined,
+    amount: event.params.feeAmount,
+    protocol: "flow",
+  });
+});
+
 Contract.Flow.Flow_v1_1.CreateFlowStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [
     event.params.sender,
@@ -40,7 +49,7 @@ Contract.Flow.Flow_v1_1.VoidFlowStream.handler(async ({ context, event }) => {
 
 Contract.Flow.Flow_v1_1.WithdrawFromFlowStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
-  await Store.Revenue.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(context, event);
 });
 
 /* -------------------------------------------------------------------------- */

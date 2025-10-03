@@ -39,6 +39,8 @@ export namespace Types {
     contractName: string;
     /** Event name, e.g., Approval. */
     eventName: string;
+    /** Indexers that should process the event, e.g., analytics. */
+    indexers: Array<Indexer.Name>;
     /** Protocol of contract, e.g., flow. */
     protocol: Indexer.Protocol;
     /** Version of contract, e.g., v1.0. */

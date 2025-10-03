@@ -12,9 +12,9 @@ import { sablier } from "sablier";
 import winston from "winston";
 import paths, { ROOT_DIR } from "../../lib/paths";
 import { logger } from "../../lib/winston";
-import type { Indexer } from "../../src";
-import { getIndexerGraph } from "../../src";
+import { getIndexerGraph } from "../../src/indexers";
 import { getSablierChainSlug } from "../../src/indexers/graph";
+import type { Indexer } from "../../src/types";
 
 import * as helpers from "../helpers";
 
