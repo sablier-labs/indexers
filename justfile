@@ -35,10 +35,13 @@ GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 # Show available commands
 default: full-check
 
-# Build the entire package
-build: export-schema codegen-gql
+# Build the npm package
+@build:
+    just export-schema
+    just codegen-gql
     pnpm tsc -p tsconfig.build.json
 alias b := build
+alias build-packages := build
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
 [group("envio")]
@@ -49,19 +52,13 @@ alias b := build
 clean globs=GLOBS_CLEAN:
     pnpm dlx del-cli "{{ globs }}" "{{ GLOBS_CLEAN_IGNORE }}"
 
-# Codegen everything
-[group("codegen")]
-@codegen:
-    just codegen-indexers
-    echo ""
-    just codegen-gql
-
 # Codegen all indexers
 [group("codegen")]
-@codegen-indexers:
+@codegen:
     just codegen-envio
     echo ""
     just codegen-graph
+alias codegen-indexers := codegen
 
 # Export the schemas to the ./src directory
 # lint-staged will call this recipe and pass the globs to it
