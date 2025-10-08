@@ -30,7 +30,6 @@ function merkleInstant(version: Sablier.Version.Airdrops): Types.Event[] {
   if (version === "v1.3") {
     return [...campaign(version, contractName), get(version, contractName, "Claim")];
   }
-  // v1.4
   return [...campaign(version, contractName), get(version, contractName, "ClaimInstant")];
 }
 
@@ -39,7 +38,6 @@ function merkleLL(version: Sablier.Version.Airdrops): Types.Event[] {
   if (version === "v1.3") {
     return [...campaign(version, contractName), get(version, contractName, "Claim")];
   }
-  // v1.4
   return [
     ...campaign(version, contractName),
     get(version, contractName, "ClaimLLWithTransfer"),
@@ -52,7 +50,6 @@ function merkleLT(version: Sablier.Version.Airdrops): Types.Event[] {
   if (version === "v1.3") {
     return [...campaign(version, contractName), get(version, contractName, "Claim")];
   }
-  // v1.4
   return [
     ...campaign(version, contractName),
     get(version, contractName, "ClaimLTWithTransfer"),
@@ -61,7 +58,9 @@ function merkleLT(version: Sablier.Version.Airdrops): Types.Event[] {
 }
 
 const airdropHandlers: Types.EventMap = {
-  // V1.1 contracts
+  /* -------------------------------------------------------------------------- */
+  /*                                    V1.1                                    */
+  /* -------------------------------------------------------------------------- */
   [names.SABLIER_V2_MERKLE_STREAMER_FACTORY]: {
     "v1.1": [get("v1.1", names.SABLIER_V2_MERKLE_STREAMER_FACTORY, "CreateMerkleStreamerLL")],
   },
@@ -72,7 +71,9 @@ const airdropHandlers: Types.EventMap = {
     ],
   },
 
-  // V1.2 contracts
+  /* -------------------------------------------------------------------------- */
+  /*                                    V1.2                                    */
+  /* -------------------------------------------------------------------------- */
   [names.SABLIER_V2_MERKLE_LOCKUP_FACTORY]: {
     "v1.2": [
       get("v1.2", names.SABLIER_V2_MERKLE_LOCKUP_FACTORY, "CreateMerkleLL"),
@@ -86,7 +87,9 @@ const airdropHandlers: Types.EventMap = {
     "v1.2": [...campaign("v1.2", names.SABLIER_V2_MERKLE_LT), get("v1.2", names.SABLIER_V2_MERKLE_LT, "Claim")],
   },
 
-  // V1.3 contracts
+  /* -------------------------------------------------------------------------- */
+  /*                                    V1.3                                    */
+  /* -------------------------------------------------------------------------- */
   [names.SABLIER_MERKLE_FACTORY]: {
     "v1.3": [
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CollectFees", ["analytics"]),
@@ -96,29 +99,33 @@ const airdropHandlers: Types.EventMap = {
     ],
   },
 
-  // V1.4 factory contracts
+  /* -------------------------------------------------------------------------- */
+  /*                                    V2.0                                    */
+  /* -------------------------------------------------------------------------- */
   [names.SABLIER_FACTORY_MERKLE_INSTANT]: {
-    "v1.4": [get("v1.4", names.SABLIER_FACTORY_MERKLE_INSTANT, "CreateMerkleInstant")],
+    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_INSTANT, "CreateMerkleInstant")],
   },
   [names.SABLIER_FACTORY_MERKLE_LL]: {
-    "v1.4": [get("v1.4", names.SABLIER_FACTORY_MERKLE_LL, "CreateMerkleLL")],
+    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_LL, "CreateMerkleLL")],
   },
   [names.SABLIER_FACTORY_MERKLE_LT]: {
-    "v1.4": [get("v1.4", names.SABLIER_FACTORY_MERKLE_LT, "CreateMerkleLT")],
+    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_LT, "CreateMerkleLT")],
   },
 
-  // Multi-version contracts (v1.3 and v1.4) - these share the same contract name but different versions
+  /* -------------------------------------------------------------------------- */
+  /*                                    V1.3 and V2.0                                    */
+  /* -------------------------------------------------------------------------- */
   [names.SABLIER_MERKLE_INSTANT]: {
     "v1.3": merkleInstant("v1.3"),
-    "v1.4": merkleInstant("v1.4"),
+    "v2.0": merkleInstant("v2.0"),
   },
   [names.SABLIER_MERKLE_LL]: {
     "v1.3": merkleLL("v1.3"),
-    "v1.4": merkleLL("v1.4"),
+    "v2.0": merkleLL("v2.0"),
   },
   [names.SABLIER_MERKLE_LT]: {
     "v1.3": merkleLT("v1.3"),
-    "v1.4": merkleLT("v1.4"),
+    "v2.0": merkleLT("v2.0"),
   },
 } as const;
 

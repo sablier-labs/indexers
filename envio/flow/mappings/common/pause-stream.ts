@@ -5,10 +5,10 @@ import type { Entity } from "../../bindings";
 import type {
   SablierFlow_v1_0_PauseFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_PauseFlowStream_handler as Handler_v1_1,
-  SablierFlow_v1_2_PauseFlowStream_handler as Handler_v1_2,
+  SablierFlow_v2_0_PauseFlowStream_handler as Handler_v2_0,
 } from "../../bindings/src/Types.gen";
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */

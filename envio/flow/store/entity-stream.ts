@@ -15,7 +15,6 @@ export function create(
 
   const counter = watcher.streamCounter;
   const tokenId = params.tokenId;
-  const now = BigInt(event.block.timestamp);
   const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
   const flow = getContract("flow", event.chainId, event.srcAddress);
 
@@ -48,10 +47,10 @@ export function create(
     snapshotAmount: 0n,
     startTime: params.startTime,
     subgraphId: counter,
-    timestamp: now,
+    timestamp: BigInt(event.block.timestamp),
     tokenId: tokenId,
     transferable: params.transferable,
-    version: flow.version,
+    version: flow.version || "",
     voided: false,
     voidedAction_id: undefined,
     voidedTime: undefined,

@@ -115,7 +115,7 @@ function createBase(
     timestamp: now,
     tokenId: params.tokenId,
     transferable: params.transferable,
-    version: lockup.version,
+    version: lockup.version || "",
     withdrawnAmount: 0n,
   };
   if (params.cancelable === false) {
@@ -139,7 +139,7 @@ function addCliff(
 
   // In v2.0, the cliff time is set to zero if there is no cliff.
   // See https://github.com/sablier-labs/lockup/blob/v2.0/src/libraries/Helpers.sol#L204-L219
-  if (stream.version === Version.Lockup.V2_0 || stream.version === Version.Lockup.V2_1) {
+  if (stream.version === Version.Lockup.V2_0 || stream.version === Version.Lockup.V3_0) {
     if (params.cliffTime !== 0n) {
       return {
         cliff: true,
