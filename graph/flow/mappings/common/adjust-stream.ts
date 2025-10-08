@@ -22,10 +22,10 @@ export function handleAdjustFlowStream(event: ethereum.Event, params: Params.Adj
   let snapshotAmount = stream.snapshotAmount;
   // If the stream has not started yet, the snapshot amount is not updated.
   if (now.gt(stream.startTime)) {
-    const actualStartTime = stream.lastAdjustmentTimestamp.gt(stream.startTime)
+    const actualAdjustmentTime = stream.lastAdjustmentTimestamp.gt(stream.startTime)
       ? stream.lastAdjustmentTimestamp
       : stream.startTime;
-    const elapsedTime = now.minus(actualStartTime);
+    const elapsedTime = now.minus(actualAdjustmentTime);
     const streamedAmount = stream.ratePerSecond.times(elapsedTime);
     snapshotAmount = stream.snapshotAmount.plus(streamedAmount);
   }
@@ -36,8 +36,8 @@ export function handleAdjustFlowStream(event: ethereum.Event, params: Params.Adj
     const notWithdrawn = snapshotAmount.minus(withdrawnAmount);
     const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
     const extraAmount = availableAmount.minus(notWithdrawn);
-    const calculationStart = now.gt(stream.startTime) ? now : stream.startTime;
-    stream.depletionTime = calculationStart.plus(extraAmount.div(params.newRatePerSecond));
+    const actualStartTime = now.gt(stream.startTime) ? now : stream.startTime;
+    stream.depletionTime = actualStartTime.plus(extraAmount.div(params.newRatePerSecond));
   }
 
   stream.lastAdjustmentTimestamp = now;
