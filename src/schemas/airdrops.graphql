@@ -122,7 +122,7 @@ type Action @entity(immutable: true) {
   """
   claimRecipient: Bytes
   """
-  Claim action data: to.
+  Claim action data: to. This is the actual address that will receive the allocation. Can be different from the claim recipient. Available only in Airdrops v2.0 and later.
   """
   claimTo: Bytes
   """
