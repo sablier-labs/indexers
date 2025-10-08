@@ -42,9 +42,9 @@ const handler: Handler = async ({ context, event }) => {
   let snapshotAmount = stream.snapshotAmount;
   // If the stream has not started yet, the snapshot amount is not updated.
   if (now > stream.startTime) {
-    const actualStartTime =
+    const actualAdjustmentTime =
       stream.lastAdjustmentTimestamp > stream.startTime ? stream.lastAdjustmentTimestamp : stream.startTime;
-    const elapsedTime = now - actualStartTime;
+    const elapsedTime = now - actualAdjustmentTime;
     const streamedAmount = stream.ratePerSecond * elapsedTime;
     snapshotAmount = stream.snapshotAmount + streamedAmount;
   }
@@ -57,8 +57,8 @@ const handler: Handler = async ({ context, event }) => {
     const extraAmount = scaledAvailableAmount - notWithdrawnAmount;
 
     if (stream.ratePerSecond > 0) {
-      const calculationStart = now > stream.startTime ? now : stream.startTime;
-      depletionTime = calculationStart + extraAmount / stream.ratePerSecond;
+      const actualStartTime = now > stream.startTime ? now : stream.startTime;
+      depletionTime = actualStartTime + extraAmount / stream.ratePerSecond;
     }
   }
 
