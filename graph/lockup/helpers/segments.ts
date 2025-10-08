@@ -1,6 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { CreateLockupDynamicStreamSegmentsStruct as StructSegmentV2_0 } from "../bindings/SablierLockup_v2_0/SablierLockup";
-import { CreateLockupDynamicStreamSegmentsStruct as StructSegmentV2_1 } from "../bindings/SablierLockup_v2_1/SablierLockup";
+import { CreateLockupDynamicStreamSegmentsStruct as StructSegmentV3_0 } from "../bindings/SablierLockup_v3_0/SablierLockup";
 import { CreateLockupDynamicStreamSegmentsStruct as StructSegmentV1_0 } from "../bindings/SablierV2LockupDynamic_v1_0/SablierV2LockupDynamic";
 import { CreateLockupDynamicStreamSegmentsStruct as StructSegmentV1_1 } from "../bindings/SablierV2LockupDynamic_v1_1/SablierV2LockupDynamic";
 import { CreateLockupDynamicStreamSegmentsStruct as StructSegmentV1_2 } from "../bindings/SablierV2LockupDynamic_v1_2/SablierV2LockupDynamic";
@@ -46,8 +46,8 @@ export function convertSegmentsV2_0(eventSegments: StructSegmentV2_0[]): Segment
   );
 }
 
-export function convertSegmentsV2_1(eventSegments: StructSegmentV2_1[]): Segment[] {
-  return convertSegments<StructSegmentV2_1>(
+export function convertSegmentsV3_0(eventSegments: StructSegmentV3_0[]): Segment[] {
+  return convertSegments<StructSegmentV3_0>(
     eventSegments,
     (segment) => segment.amount,
     (segment) => segment.exponent,

@@ -2,9 +2,9 @@ import _ from "lodash";
 import { Id } from "../../../../common/id";
 import type {
   SablierMerkleInstant_v1_3_Claim_handler,
-  SablierMerkleInstant_v1_4_ClaimInstant_handler,
-  SablierMerkleLL_v1_4_ClaimLLWithTransfer_handler,
-  SablierMerkleLT_v1_4_ClaimLTWithTransfer_handler,
+  SablierMerkleInstant_v2_0_ClaimInstant_handler,
+  SablierMerkleLL_v2_0_ClaimLLWithTransfer_handler,
+  SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler,
 } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
@@ -13,9 +13,9 @@ import { Store } from "../../../store";
 /* -------------------------------------------------------------------------- */
 
 type Handler = SablierMerkleInstant_v1_3_Claim_handler &
-  SablierMerkleInstant_v1_4_ClaimInstant_handler &
-  SablierMerkleLL_v1_4_ClaimLLWithTransfer_handler &
-  SablierMerkleLT_v1_4_ClaimLTWithTransfer_handler;
+  SablierMerkleInstant_v2_0_ClaimInstant_handler &
+  SablierMerkleLL_v2_0_ClaimLLWithTransfer_handler &
+  SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
