@@ -22,10 +22,10 @@ export function handleAdjustFlowStream(event: ethereum.Event, params: Params.Adj
   let snapshotAmount = stream.snapshotAmount;
   // If the stream has not started yet, the snapshot amount is not updated.
   if (now.gt(stream.startTime)) {
-    const streamingStart = stream.lastAdjustmentTimestamp.gt(stream.startTime)
+    const actualStartTime = stream.lastAdjustmentTimestamp.gt(stream.startTime)
       ? stream.lastAdjustmentTimestamp
       : stream.startTime;
-    const elapsedTime = now.minus(streamingStart);
+    const elapsedTime = now.minus(actualStartTime);
     const streamedAmount = stream.ratePerSecond.times(elapsedTime);
     snapshotAmount = stream.snapshotAmount.plus(streamedAmount);
   }
