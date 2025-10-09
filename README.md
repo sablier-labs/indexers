@@ -75,7 +75,7 @@ We welcome contributions! [Open an issue](https://github.com/sablier-labs/indexe
 [start a discussion](https://github.com/sablier-labs/indexers/discussions/new), or submit a PR.
 
 Read our [CONTRIBUTING](./CONTRIBUTING.md) guide to get started. Join our [Discord server][discord] for questions and
-feedback. Join our [Discord server][discord] for questions and feedback.
+feedback.
 
 ## License 📄
 
