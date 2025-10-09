@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 import type { EnvioConfig } from "./config-types";
 import { createContracts } from "./contracts";
 import { createNetworks } from "./networks";
@@ -19,14 +19,14 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
   if (indexer === "analytics") {
     const includeProtocolInPath = true;
     contracts = [
-      ...createContracts("airdrops", includeProtocolInPath),
-      ...createContracts("flow", includeProtocolInPath),
-      ...createContracts("lockup", includeProtocolInPath),
+      ...createContracts(indexer, "airdrops", includeProtocolInPath),
+      ...createContracts(indexer, "flow", includeProtocolInPath),
+      ...createContracts(indexer, "lockup", includeProtocolInPath),
     ];
     networks = mergeNetworks([...createNetworks("airdrops"), ...createNetworks("flow"), ...createNetworks("lockup")]);
   } else {
     const protocol = indexer as Indexer.Protocol;
-    contracts = createContracts(protocol);
+    contracts = createContracts(indexer, protocol);
     networks = createNetworks(protocol);
   }
 

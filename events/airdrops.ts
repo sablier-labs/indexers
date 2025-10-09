@@ -1,13 +1,20 @@
 import type { Sablier } from "sablier";
 import { contracts } from "sablier";
 import type { Types } from "../lib/types";
+import type { Indexer } from "../src/types";
 
 const names = contracts.names;
 
-function get(version: Sablier.Version.Airdrops, contractName: string, eventName: string): Types.Event {
+function get(
+  version: Sablier.Version.Airdrops,
+  contractName: string,
+  eventName: string,
+  indexers: Array<Indexer.Name> = ["airdrops", "analytics"],
+): Types.Event {
   return {
     contractName,
     eventName,
+    indexers,
     protocol: "airdrops",
     version,
   };
@@ -59,6 +66,7 @@ const v1_2: Types.EventMap = {
 const v1_3: Types.EventMap = {
   [names.SABLIER_MERKLE_FACTORY]: {
     "v1.3": [
+      get("v1.3", names.SABLIER_MERKLE_FACTORY, "CollectFees", ["analytics"]),
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CreateMerkleInstant"),
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CreateMerkleLL"),
       get("v1.3", names.SABLIER_MERKLE_FACTORY, "CreateMerkleLT"),

@@ -1,12 +1,21 @@
 import type { Sablier } from "sablier";
 import { contracts } from "sablier";
 import type { Types } from "../lib/types";
+import type { Indexer } from "../src/types";
 import { erc721 } from "./common/erc721";
 
-function get(version: Sablier.Version.Lockup, contractName: string, eventName: string): Types.Event {
+const DEFAULT_INDEXERS: Array<Indexer.Name> = ["lockup", "analytics"];
+
+function get(
+  version: Sablier.Version.Lockup,
+  contractName: string,
+  eventName: string,
+  indexers: Array<Indexer.Name> = DEFAULT_INDEXERS,
+): Types.Event {
   return {
     contractName,
     eventName,
+    indexers,
     protocol: "lockup",
     version,
   };
@@ -15,7 +24,7 @@ function get(version: Sablier.Version.Lockup, contractName: string, eventName: s
 function dynamic(version: Sablier.Version.Lockup): Types.Event[] {
   const contractName = contracts.names.SABLIER_V2_LOCKUP_DYNAMIC;
   return [
-    ...erc721("lockup", version, contractName),
+    ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
     get(version, contractName, "CancelLockupStream"),
     get(version, contractName, "CreateLockupDynamicStream"),
     get(version, contractName, "RenounceLockupStream"),
@@ -26,7 +35,7 @@ function dynamic(version: Sablier.Version.Lockup): Types.Event[] {
 function linear(version: Sablier.Version.Lockup): Types.Event[] {
   const contractName = contracts.names.SABLIER_V2_LOCKUP_LINEAR;
   return [
-    ...erc721("lockup", version, contractName),
+    ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
     get(version, contractName, "CancelLockupStream"),
     get(version, contractName, "CreateLockupLinearStream"),
     get(version, contractName, "RenounceLockupStream"),
@@ -37,7 +46,7 @@ function linear(version: Sablier.Version.Lockup): Types.Event[] {
 function tranched(version: Sablier.Version.Lockup): Types.Event[] {
   const contractName = contracts.names.SABLIER_V2_LOCKUP_TRANCHED;
   return [
-    ...erc721("lockup", version, contractName),
+    ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
     get(version, contractName, "CancelLockupStream"),
     get(version, contractName, "CreateLockupTranchedStream"),
     get(version, contractName, "RenounceLockupStream"),
@@ -48,8 +57,9 @@ function tranched(version: Sablier.Version.Lockup): Types.Event[] {
 function lockup(version: Sablier.Version.Lockup): Types.Event[] {
   const contractName = contracts.names.SABLIER_LOCKUP;
   return [
-    ...erc721("lockup", version, contractName),
+    ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
     get(version, contractName, "CancelLockupStream"),
+    get(version, contractName, "CollectFees", ["analytics"]),
     get(version, contractName, "CreateLockupDynamicStream"),
     get(version, contractName, "CreateLockupLinearStream"),
     get(version, contractName, "CreateLockupTranchedStream"),

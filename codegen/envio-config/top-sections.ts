@@ -1,4 +1,4 @@
-import type { Indexer } from "../../src";
+import type { Indexer } from "../../src/types";
 import type { EnvioConfig } from "./config-types";
 
 export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {

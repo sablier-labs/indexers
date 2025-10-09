@@ -17,12 +17,12 @@ const TESTNETS = sablier.chains.getTestnets();
 const EXCLUDED_CHAINS = [...TESTNETS.map((c) => c.id), tangle.id];
 
 type LoadedEntities = {
-  dailyRevenueId: string;
-  dailyRevenue: Entity.DailyRevenue | undefined;
-  dailyCurrencyRevenueId: string;
-  dailyCurrencyRevenue: Entity.DailyCurrencyRevenue | undefined;
-  revenueTxId: string;
-  revenueTx: Entity.RevenueTransaction | undefined;
+  dailyFiatFeesId: string;
+  dailyFiatFees: Entity.DailyFiatFees | undefined;
+  dailyCryptoFeesId: string;
+  dailyCryptoFees: Entity.DailyCryptoFees | undefined;
+  feeTxId: string;
+  feeTx: Entity.FeeTransaction | undefined;
 };
 
 export async function createOrUpdate(context: HandlerContext, event: Envio.Event): Promise<void> {
@@ -36,16 +36,16 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     return;
   }
 
-  // Revenues are charged via `msg.value`.
+  // Fees are charged via `msg.value`.
   const msgValue = Number(formatEther(event.transaction.value));
   if (msgValue === 0) {
     return;
   }
 
   try {
-    // Load and validate entities. If the revenue transaction already exists, we stop here.
+    // Load and validate entities. If the fee transaction already exists, we stop here.
     const entities = await loadEntities(context, event);
-    if (context.isPreload || entities.revenueTx) {
+    if (context.isPreload || entities.feeTx) {
       return;
     }
 
@@ -73,27 +73,27 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     const usdValue = priceUSD * msgValue;
     const gbpValue = usdValue / gbpExchangeRate;
 
-    // Update revenue entities.
-    upsertDailyRevenue(context, entities, event, { date, gbpValue, msgValue, usdValue });
-    upsertDailyCurrencyRevenue(context, entities, event, { currency, date, msgValue });
+    // Update fee entities.
+    upsertDailyFiatFees(context, entities, event, { date, gbpValue, msgValue, usdValue });
+    upsertDailyCryptoFees(context, entities, event, { currency, date, msgValue });
 
-    // Create revenue transaction entities.
-    createRevenueTx(context, entities, event, { currency, gbpValue, msgValue, usdValue });
+    // Create fee transaction entities.
+    createFeeTx(context, entities, event, { currency, gbpValue, msgValue, usdValue });
   } catch (error) {
-    context.log.error("Failed to create or update revenue entities", { error, event });
+    context.log.error("Failed to create or update fee entities", { error, event });
   }
 }
 
-function createRevenueTx(
+function createFeeTx(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
   params: { currency: string; gbpValue: number; msgValue: number; usdValue: number },
 ): void {
-  const { revenueTxId, dailyRevenueId, dailyCurrencyRevenueId } = entities;
+  const { feeTxId, dailyFiatFeesId, dailyCryptoFeesId } = entities;
   const { currency, gbpValue, msgValue, usdValue } = params;
 
-  const revenueTx: Entity.RevenueTransaction = {
+  const feeTx: Entity.FeeTransaction = {
     amount: msgValue,
     amountGBP: gbpValue,
     amountUSD: usdValue,
@@ -101,91 +101,91 @@ function createRevenueTx(
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
     currency,
-    dailyCurrencyRevenue_id: dailyCurrencyRevenueId,
-    dailyRevenue_id: dailyRevenueId,
+    dailyCryptoFees_id: dailyCryptoFeesId,
+    dailyFiatFees_id: dailyFiatFeesId,
     hash: event.transaction.hash,
-    id: revenueTxId,
+    id: feeTxId,
     timestamp: getDateTimestamp(event.block.timestamp),
   };
 
-  context.RevenueTransaction.set(revenueTx);
+  context.FeeTransaction.set(feeTx);
 }
 
 async function loadEntities(context: HandlerContext, event: Envio.Event): Promise<LoadedEntities> {
-  const dailyRevenueId = Id.dailyRevenue(event.block.timestamp);
-  const dailyCurrencyRevenueId = Id.dailyCurrencyRevenue(event.chainId, event.block.timestamp);
-  const revenueTxId = Id.revenueTransaction(event.chainId, event.transaction.hash);
+  const dailyFiatFeesId = Id.dailyFiatFees(event.block.timestamp);
+  const dailyCryptoFeesId = Id.dailyCryptoFees(event.chainId, event.block.timestamp);
+  const feeTxId = Id.feeTransaction(event.chainId, event.transaction.hash);
 
-  const [dailyRevenue, dailyCurrencyRevenue, revenueTx] = await Promise.all([
-    context.DailyRevenue.get(dailyRevenueId),
-    context.DailyCurrencyRevenue.get(dailyCurrencyRevenueId),
-    context.RevenueTransaction.get(revenueTxId),
+  const [dailyFiatFees, dailyCryptoFees, feeTx] = await Promise.all([
+    context.DailyFiatFees.get(dailyFiatFeesId),
+    context.DailyCryptoFees.get(dailyCryptoFeesId),
+    context.FeeTransaction.get(feeTxId),
   ]);
 
   return {
-    dailyCurrencyRevenue,
-    dailyCurrencyRevenueId,
-    dailyRevenue,
-    dailyRevenueId,
-    revenueTx,
-    revenueTxId,
+    dailyCryptoFees,
+    dailyCryptoFeesId,
+    dailyFiatFees,
+    dailyFiatFeesId,
+    feeTx,
+    feeTxId,
   };
 }
 
-function upsertDailyRevenue(
+function upsertDailyFiatFees(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
   params: { date: string; gbpValue: number; msgValue: number; usdValue: number },
 ): void {
-  let { dailyRevenue } = entities;
-  const { dailyRevenueId } = entities;
+  let { dailyFiatFees } = entities;
+  const { dailyFiatFeesId } = entities;
   const { date, gbpValue, usdValue } = params;
 
-  if (!dailyRevenue) {
-    dailyRevenue = {
+  if (!dailyFiatFees) {
+    dailyFiatFees = {
       amountGBP: gbpValue,
       amountUSD: usdValue,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
-      id: dailyRevenueId,
+      id: dailyFiatFeesId,
     };
   } else {
-    dailyRevenue = {
-      ...dailyRevenue,
-      amountGBP: dailyRevenue.amountGBP + gbpValue,
-      amountUSD: dailyRevenue.amountUSD + usdValue,
+    dailyFiatFees = {
+      ...dailyFiatFees,
+      amountGBP: dailyFiatFees.amountGBP + gbpValue,
+      amountUSD: dailyFiatFees.amountUSD + usdValue,
     };
   }
 
-  context.DailyRevenue.set(dailyRevenue);
+  context.DailyFiatFees.set(dailyFiatFees);
 }
 
-function upsertDailyCurrencyRevenue(
+function upsertDailyCryptoFees(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
   params: { currency: string; date: string; msgValue: number },
 ): void {
-  let { dailyCurrencyRevenue } = entities;
-  const { dailyCurrencyRevenueId } = entities;
+  let { dailyCryptoFees } = entities;
+  const { dailyCryptoFeesId } = entities;
   const { currency, date, msgValue } = params;
 
-  if (!dailyCurrencyRevenue) {
-    dailyCurrencyRevenue = {
+  if (!dailyCryptoFees) {
+    dailyCryptoFees = {
       amount: msgValue,
       currency,
-      dailyRevenue_id: entities.dailyRevenueId,
+      dailyFiatFees_id: entities.dailyFiatFeesId,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
-      id: dailyCurrencyRevenueId,
+      id: dailyCryptoFeesId,
     };
   } else {
-    dailyCurrencyRevenue = {
-      ...dailyCurrencyRevenue,
-      amount: dailyCurrencyRevenue.amount + msgValue,
+    dailyCryptoFees = {
+      ...dailyCryptoFees,
+      amount: dailyCryptoFees.amount + msgValue,
     };
   }
 
-  context.DailyCurrencyRevenue.set(dailyCurrencyRevenue);
+  context.DailyCryptoFees.set(dailyCryptoFees);
 }

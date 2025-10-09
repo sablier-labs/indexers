@@ -1,54 +1,14 @@
 """
-Aggregated revenues across all chains and all currencies for a particular day.
+Daily fees aggregated by currency across all chains.
 """
-type DailyRevenue @entity {
-  """
-  Unique identifier: YYYY-MM-DD
-  """
-  id: ID!
-
-  """
-  GBP value of the revenue amount
-  """
-  amountGBP: Float!
-
-  """
-  USD value of the revenue amount
-  """
-  amountUSD: Float!
-
-  """
-  Revenue breakdown by currency for this day
-  """
-  currencyBreakdown: [DailyCurrencyRevenue!]! @derivedFrom(field: "dailyRevenue")
-
-  """
-  Date in YYYY-MM-DD format
-  """
-  date: String!
-
-  """
-  Date as Unix timestamp for easier querying
-  """
-  dateTimestamp: Timestamp!
-
-  """
-  Transactions
-  """
-  transactions: [RevenueTransaction!]! @derivedFrom(field: "dailyRevenue")
-}
-
-"""
-Daily revenue aggregated by currency across all chains.
-"""
-type DailyCurrencyRevenue @entity {
+type DailyCryptoFees @entity {
   """
   Unique identifier: YYYY-MM-DD_currency
   """
   id: ID!
 
   """
-  Total revenue amount for this day (in native currency)
+  Total fee amount for this day (in native currency)
   The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
   """
   amount: Float!
@@ -59,9 +19,9 @@ type DailyCurrencyRevenue @entity {
   currency: String!
 
   """
-  Reference to the parent daily revenue
+  Reference to the parent daily fiat fees
   """
-  dailyRevenue: DailyRevenue!
+  dailyFiatFees: DailyFiatFees!
 
   """
   Date in YYYY-MM-DD format
@@ -76,30 +36,140 @@ type DailyCurrencyRevenue @entity {
   """
   Transactions in this currency for this day
   """
-  transactions: [RevenueTransaction!]! @derivedFrom(field: "dailyCurrencyRevenue")
+  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyCryptoFees")
 }
 
 """
-Ethereum transaction that generated a revenue.
+Aggregated fees across all chains and all currencies for a particular day.
 """
-type RevenueTransaction @entity {
+type DailyFiatFees @entity {
+  """
+  Unique identifier: YYYY-MM-DD
+  """
+  id: ID!
+
+  """
+  GBP value of the fee amount
+  """
+  amountGBP: Float!
+
+  """
+  USD value of the fee amount
+  """
+  amountUSD: Float!
+
+  """
+  Fee breakdown by currency for this day
+  """
+  currencyBreakdown: [DailyCryptoFees!]! @derivedFrom(field: "dailyFiatFees")
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Transactions
+  """
+  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyFiatFees")
+}
+
+"""
+Fee collection transaction. The withdrawn amount is an aggregate value of all fees collected up until the time of collection.
+"""
+type FeeCollectionTransaction @entity {
+  """
+  Unique identifier: chainId_transactionHash_logIndex
+  """
+  id: ID!
+
+  """
+  Admin address who collected the fees
+  """
+  admin: String!
+
+  """
+  Airdrop campaign address (only for Airdrops events, corresponds to merkleBase from event)
+  """
+  airdropCampaign: String
+
+  """
+  Fee amount collected (in native currency, normalized to 18 decimals)
+  """
+  amount: Float!
+
+  """
+  Block number of the transaction
+  """
+  block: BigInt!
+
+  """
+  Chain ID where the fee was collected
+  """
+  chainId: BigInt!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  The contract address that emitted the event
+  """
+  contractAddress: String!
+
+  """
+  The tx.origin of the Ethereum transaction.
+  """
+  caller: Bytes!
+
+  """
+  Transaction hash
+  """
+  hash: String!
+
+  """
+  Log index within the transaction
+  """
+  logIndex: BigInt!
+
+  """
+  Protocol type: "airdrops", "flow", or "lockup"
+  """
+  protocol: String!
+
+  """
+  Block Unix timestamp
+  """
+  timestamp: Timestamp!
+}
+
+"""
+Ethereum transaction that generated a fee that is due to be collected.
+"""
+type FeeTransaction @entity {
   """
   Unique identifier: chainId_transactionHash
   """
   id: ID!
 
   """
-  Revenue amount from this transaction (in native currency)
+  Fee amount from this transaction (in native currency)
   """
   amount: Float!
 
   """
-  GBP value of the revenue amount from this transaction
+  GBP value of the fee amount from this transaction
   """
   amountGBP: Float!
 
   """
-  USD value of the revenue amount from this transaction
+  USD value of the fee amount from this transaction
   """
   amountUSD: Float!
 
@@ -109,12 +179,12 @@ type RevenueTransaction @entity {
   block: BigInt!
 
   """
-  Chain ID where the revenue was generated
+  Chain ID where the fee was generated
   """
   chainId: BigInt!
 
   """
-  The contract address where the revenue was generated
+  The contract address where the fee was generated
   """
   contractAddress: String!
 
@@ -124,14 +194,14 @@ type RevenueTransaction @entity {
   currency: String!
 
   """
-  Reference to DailyCurrencyRevenue entity
+  Reference to DailyCryptoFees entity
   """
-  dailyCurrencyRevenue: DailyCurrencyRevenue!
+  dailyCryptoFees: DailyCryptoFees!
 
   """
-  Reference to DailyRevenue entity
+  Reference to DailyFiatFees entity
   """
-  dailyRevenue: DailyRevenue!
+  dailyFiatFees: DailyFiatFees!
 
   """
   Transaction hash

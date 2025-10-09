@@ -29,7 +29,7 @@ Contract.Lockup.LockupTranched_v1_2.RenounceLockupStream.handler(async ({ contex
 
 Contract.Lockup.LockupTranched_v1_2.WithdrawFromLockupStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
-  // Lockup v1.2 didn't have fees, so we don't need to track revenue
+  // Lockup v1.2 didn't have fees, so we don't need to track fees
 });
 
 /* -------------------------------------------------------------------------- */
