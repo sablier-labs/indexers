@@ -59,13 +59,17 @@ function lockup(version: Sablier.Version.Lockup): Types.Event[] {
   return [
     ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
     get(version, contractName, "CancelLockupStream"),
-    get(version, contractName, "CollectFees", ["analytics"]),
     get(version, contractName, "CreateLockupDynamicStream"),
     get(version, contractName, "CreateLockupLinearStream"),
     get(version, contractName, "CreateLockupTranchedStream"),
     get(version, contractName, "RenounceLockupStream"),
     get(version, contractName, "WithdrawFromLockupStream"),
   ];
+}
+
+function lockupWithCollect(version: Sablier.Version.Lockup): Types.Event[] {
+  const contractName = contracts.names.SABLIER_LOCKUP;
+  return [...lockup(version), get(version, contractName, "CollectFees", ["analytics"])];
 }
 
 const lockupEvents: Types.EventMap = {
@@ -83,7 +87,7 @@ const lockupEvents: Types.EventMap = {
     "v1.2": tranched("v1.2"),
   },
   [contracts.names.SABLIER_LOCKUP]: {
-    "v2.0": lockup("v2.0"),
+    "v2.0": lockupWithCollect("v2.0"),
     "v3.0": lockup("v3.0"),
   },
 } as const;

@@ -28,10 +28,10 @@ export function handleDepositFlowStream(event: ethereum.Event, params: Params.De
   let snapshotAmount = stream.snapshotAmount;
   // If the stream has not started yet, the snapshot amount is not updated.
   if (now.gt(stream.startTime)) {
-    const actualStartTime = stream.lastAdjustmentTimestamp.gt(stream.startTime)
+    const actualAdjustmentTime = stream.lastAdjustmentTimestamp.gt(stream.startTime)
       ? stream.lastAdjustmentTimestamp
       : stream.startTime;
-    const elapsedTime = now.minus(actualStartTime);
+    const elapsedTime = now.minus(actualAdjustmentTime);
     snapshotAmount = stream.snapshotAmount.plus(stream.ratePerSecond.times(elapsedTime));
   }
   const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
@@ -42,8 +42,8 @@ export function handleDepositFlowStream(event: ethereum.Event, params: Params.De
     const extraAmount = availableAmount.minus(notWithdrawnAmount);
 
     if (stream.ratePerSecond.gt(ZERO)) {
-      const calculationStart = now.gt(stream.startTime) ? now : stream.startTime;
-      stream.depletionTime = calculationStart.plus(extraAmount.div(stream.ratePerSecond));
+      const actualStartTime = now.gt(stream.startTime) ? now : stream.startTime;
+      stream.depletionTime = actualStartTime.plus(extraAmount.div(stream.ratePerSecond));
     }
   }
   stream.save();
