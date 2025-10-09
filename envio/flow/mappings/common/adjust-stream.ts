@@ -38,9 +38,9 @@ const handler: Handler = async ({ context, event }) => {
   // If the stream has not started yet, the snapshot amount is not updated.
   let snapshotAmount = stream.snapshotAmount;
   if (now > stream.startTime) {
-    const actualStartTime =
+    const actualAdjustmentTime =
       stream.lastAdjustmentTimestamp > stream.startTime ? stream.lastAdjustmentTimestamp : stream.startTime;
-    const elapsedTime = now - actualStartTime;
+    const elapsedTime = now - actualAdjustmentTime;
     const streamedAmount = stream.ratePerSecond * elapsedTime;
     snapshotAmount = stream.snapshotAmount + streamedAmount;
   }

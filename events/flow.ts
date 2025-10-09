@@ -41,7 +41,7 @@ const v1_1Events: Types.Event[] = [
   ...base("v1.1"),
   get("v1.1", contracts.names.SABLIER_FLOW, "CollectFees", ["analytics"]),
 ];
-const v2_0Events = base("v2.0");
+const v2_0Events: Types.Event[] = base("v2.0");
 
 const flowEvents: Types.EventMap = {
   [contracts.names.SABLIER_FLOW]: {
