@@ -51,7 +51,6 @@ export function isOfficialLockup(
  * @returns The string with all URLs removed.
  */
 export function removeUrls(str: string): string {
-  // Use linkifyjs to find all URLs in the string
   const matches = linkify.find(str, "url");
 
   if (!matches || matches.length === 0) {
@@ -59,14 +58,15 @@ export function removeUrls(str: string): string {
   }
 
   // Sort matches in reverse order to maintain string indices during removal
-  const sortedMatches = [...matches].sort((a, b) => (b.start ?? 0) - (a.start ?? 0));
+  const sortedMatches = [...matches].sort((a, b) => b.start - a.start);
 
   let result = str;
   for (const match of sortedMatches) {
     result = result.slice(0, match.start) + result.slice(match.end);
   }
 
-  return result;
+  // Collapse multiple consecutive spaces into single space
+  return result.replace(/\s{2,}/g, " ").trim();
 }
 
 /**
