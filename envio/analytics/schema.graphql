@@ -80,6 +80,41 @@ type DailyFiatFees @entity {
 }
 
 """
+Daily aggregated fee collections by currency across all chains and protocols.
+"""
+type FeeCollectionDaily @entity {
+  """
+  Unique identifier: YYYY-MM-DD_currency
+  """
+  id: ID!
+
+  """
+  Total fee amount collected for this day (in native currency, normalized to 18 decimals)
+  """
+  amount: Float!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Collection transactions for this day
+  """
+  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollectionDaily")
+}
+
+"""
 Fee collection transaction. The withdrawn amount is an aggregate value of all fees collected up until the time of collection.
 """
 type FeeCollectionTransaction @entity {
@@ -152,41 +187,6 @@ type FeeCollectionTransaction @entity {
   Block Unix timestamp
   """
   timestamp: Timestamp!
-}
-
-"""
-Daily aggregated fee collections by currency across all chains and protocols.
-"""
-type FeeCollectionDaily @entity {
-  """
-  Unique identifier: YYYY-MM-DD_currency
-  """
-  id: ID!
-
-  """
-  Total fee amount collected for this day (in native currency, normalized to 18 decimals)
-  """
-  amount: Float!
-
-  """
-  Native currency symbol (ETH, POL, BNB, etc.)
-  """
-  currency: String!
-
-  """
-  Date in YYYY-MM-DD format
-  """
-  date: String!
-
-  """
-  Date as Unix timestamp for easier querying
-  """
-  dateTimestamp: Timestamp!
-
-  """
-  Collection transactions for this day
-  """
-  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollectionDaily")
 }
 
 """
