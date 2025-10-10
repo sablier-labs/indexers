@@ -53,7 +53,7 @@ async function fetchProxyOwner(
 ): Promise<Envio.Address | undefined> {
   const client = getClient(chainId);
 
-  const proxy = streamSender.toLowerCase() as `0x${string}`;
+  const proxy = streamSender as `0x${string}`;
   try {
     const ownerResult = await client.readContract({
       abi: PRBProxyABI,

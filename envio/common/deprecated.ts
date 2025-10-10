@@ -31,7 +31,7 @@ export function isDeprecatedContract({
 
   const foundContract = sablier.contracts.get({
     chainId: event.chainId,
-    contractAddress: event.srcAddress.toLowerCase() as Sablier.Address,
+    contractAddress: event.srcAddress as Sablier.Address,
     protocol,
   });
   if (!foundContract) {
@@ -61,5 +61,5 @@ export async function isDeprecatedStream(context: DeprecatedStreamContext, strea
  */
 function isExemptedAsset(asset: Envio.Address): boolean {
   const EXEMPTED_ASSETS = ["0xbea586a167853adddef12818f264f1f9823fbc18", "0x111123ea4cee28cf010703593a8a2a3bbb91756c"];
-  return EXEMPTED_ASSETS.includes(asset.toLowerCase());
+  return EXEMPTED_ASSETS.includes(asset);
 }

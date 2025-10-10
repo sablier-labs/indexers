@@ -41,8 +41,8 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* --------------------------------- STREAM --------------------------------- */
-  const currentRecipient = event.params.from.toLowerCase();
-  const newRecipient = event.params.to.toLowerCase();
+  const currentRecipient = event.params.from;
+  const newRecipient = event.params.to;
   const updatedStream = {
     ...stream,
     recipient: newRecipient,

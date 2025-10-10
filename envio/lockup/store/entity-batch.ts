@@ -41,7 +41,7 @@ export function update(
     const updatedBatch: Entity.Batch = {
       ...batch,
       batcher_id: batcher.id,
-      hash: event.transaction.hash.toLowerCase(),
+      hash: event.transaction.hash,
       position: updatedBatcher.batchCounter,
       size: newBatchSize,
       timestamp: BigInt(event.block.timestamp),

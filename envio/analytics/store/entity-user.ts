@@ -25,7 +25,7 @@ export async function createOrUpdate(
   const users = addresses
     .filter((address): address is string => Boolean(address) && address !== zeroAddress)
     .map((address) => ({
-      address: address.toLowerCase(),
+      address,
       isAirdropClaim,
     }));
 
@@ -79,7 +79,7 @@ function upsert(context: HandlerContext, event: Envio.Event, params: Params): vo
     }
   } else {
     user = {
-      address: params.address.toLowerCase(),
+      address: params.address,
       chainId: BigInt(event.chainId),
       id: Id.user(event.chainId, params.address),
       isOnlyAirdropClaimer: Boolean(params.isAirdropClaim),
@@ -97,7 +97,7 @@ function upsert(context: HandlerContext, event: Envio.Event, params: Params): vo
   }
   const userTransaction: Entity.UserTransaction = {
     block: BigInt(event.block.number),
-    contractAddress: event.srcAddress.toLowerCase(),
+    contractAddress: event.srcAddress,
     fee,
     hash: event.transaction.hash,
     id: Id.userTransaction(Id.user(event.chainId, params.address), event.transaction.hash),

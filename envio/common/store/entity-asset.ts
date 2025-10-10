@@ -12,7 +12,7 @@ export function create(
   metadata: RPCData.ERC20Metadata,
 ): CommonEntities.Asset {
   const asset: CommonEntities.Asset = {
-    address: assetAddress.toLowerCase(),
+    address: assetAddress,
     chainId: BigInt(chainId),
     decimals: BigInt(metadata.decimals),
     id: Id.asset(chainId, assetAddress),

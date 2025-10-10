@@ -12,6 +12,7 @@ function get(name: Indexer.Name): EnvioConfig.TopSection {
   return {
     ecosystem: "evm",
     name: `sablier-${name}`,
+    address_format: "lowercase",
     output: "./bindings",
     preload_handlers: true,
     schema: "./schema.graphql",
