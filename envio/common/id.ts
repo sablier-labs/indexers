@@ -69,7 +69,7 @@ export namespace Id {
    * asset-137-0x2791bca1f2de4661ed88a30c99a7a9449aa84174
    */
   export function asset(chainId: number, assetAddress: string): string {
-    return `asset-${chainId}-${assetAddress}`;
+    return `asset-${chainId}-${assetAddress.toLowerCase()}`;
   }
 
   /**
@@ -77,7 +77,7 @@ export namespace Id {
    * batch-137-0x5ce95bff1297dadbdcf9929a10bd02bdfab0dcc6-0xe43d1bc5e868da0bd1d80c404ca7f41e823bbea03488f8e3878327375b3aac35
    */
   export function batch(event: Envio.Event, sender: Envio.Address): string {
-    return `batch-${event.chainId}-${sender}-${event.transaction.hash}`;
+    return `batch-${event.chainId}-${sender.toLowerCase()}-${event.transaction.hash}`;
   }
 
   /**
@@ -85,7 +85,7 @@ export namespace Id {
    * batcher-137-0x5ce95bff1297dadbdcf9929a10bd02bdfab0dcc6
    */
   export function batcher(chainId: number, sender: Envio.Address): string {
-    return `batcher-${chainId}-${sender}`;
+    return `batcher-${chainId}-${sender.toLowerCase()}`;
   }
 
   /**
@@ -93,7 +93,7 @@ export namespace Id {
    * contract-137-0xe0bfe071da104e571298f8b6e0fce44c512c1ff4
    */
   export function contract(chainId: number, contractAddress: string): string {
-    return `contract-${chainId}-${contractAddress}`;
+    return `contract-${chainId}-${contractAddress.toLowerCase()}`;
   }
 
   /**
@@ -101,7 +101,7 @@ export namespace Id {
    * factory-137-0xf0d61b42311c810dfde191d58427d81e87c5d5f6
    */
   export function factory(chainId: number, factoryAddress: string): string {
-    return `factory-${chainId}-${factoryAddress}`;
+    return `factory-${chainId}-${factoryAddress.toLowerCase()}`;
   }
 
   /**
