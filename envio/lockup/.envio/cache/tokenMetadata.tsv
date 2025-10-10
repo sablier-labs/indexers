@@ -2051,8 +2051,6 @@ id	output
 [137,"0xEB4B98c15dE29f44e7d4109370a78De6c9D12248"]	{"name": "Trumps", "symbol": "Trumps", "decimals": 6}
 [137,"0x2a40836eD75D8f2E90D6972704C9585d55A525aE"]	{"name": "Trumps", "symbol": "Trumps", "decimals": 6}
 [137,"0x51Fb1d0fEFe16b2a90A83D00b3D84e16DF17C43d"]	{"name": "Mousekoin", "symbol": "MKN", "decimals": 18}
-[146,"0xB8aB2E66d5E4931e675CBE499d8c01B778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
-[146,"0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38"]	{"name": "Wrapped Sonic", "symbol": "wS", "decimals": 18}
 [999,"0x5555555555555555555555555555555555555555"]	{"name": "Wrapped HYPE", "symbol": "WHYPE", "decimals": 18}
 [59144,"0xd221cf22B2B9643b44ba0873E08eC1952D52508a"]	{"name": "TATERZ", "symbol": "TATERZ", "decimals": 18}
 [59144,"0x67454b41bAF8D29751Cc64f60E3C62B5634567A4"]	{"name": "TBAG", "symbol": "$TBAG", "decimals": 18}

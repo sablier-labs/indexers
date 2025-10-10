@@ -278,7 +278,6 @@ id	output
 [43114,"0x451532F1C9eb7E4Dc2d493dB52b682C0Acf6F5EF"]	{"name": "Suzaku Token", "symbol": "SUZ", "decimals": 18}
 [43114,"0x72Ab674eC8FB2b2626Cf48131Fe34fC95075D9b5"]	{"name": "Staked SUZ", "symbol": "sSUZ", "decimals": 18}
 [478,"0xFBf489bb4783D4B1B2e7D07ba39873Fb8068507D"]	{"name": "USDC", "symbol": "USDC", "decimals": 6}
-[146,"0xB8aB2E66d5E4931e675CBE499d8c01B778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
 [478,"0x688da80Dfe2916c0a0Aa360323E52Aa5881AdB78"]	{"name": "Form", "symbol": "FORM", "decimals": 18}
 [10,"0x7D3Ce1265d5eA5848Dc1C96AADbf754E2baD33b1"]	{"name": "BNV", "symbol": "FASH", "decimals": 18}
 [56,"0x1F34c87ded863Fe3A3Cd76FAc8adA9608137C8c3"]	{"name": "Overlay", "symbol": "OVL", "decimals": 18}
