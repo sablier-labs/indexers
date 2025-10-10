@@ -225,7 +225,7 @@ id	output
 [11155111,"0x2f972eb2c166ca09642a7d6f9374f7c10d8baefe"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
 [11155111,"0x1a2a480b3b195e2000d6b9a37c5e88419da9ca9d"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
 [11155111,"0xf0ff88bd386d8bee4b25492d17b71f3c98227901"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
-[11155111,"0xa0194c01b45ba58482dc70446cb41af62dd21a47"]	{"name": "pUSDT-pool.com", "symbol": "PUSDT", "decimals": 18}
+[11155111,"0xa0194c01b45ba58482dc70446cb41af62dd21a47"]	{"name": "UNKNOWN", "symbol": "PUSDT", "decimals": 18}
 [11155111,"0x2e4a312577a78786051052c28d5f1132d93c557a"]	{"name": "NUMA", "symbol": "NUMA", "decimals": 18}
 [11155111,"0xf3ede539e2a7a2f445d24fed38281fb697dc584c"]	{"name": "CrabToken", "symbol": "CRABT", "decimals": 18}
 [11155111,"0x888b1d3e59a9f979acb13ac7413babf3fac88888"]	{"name": "Shuffle", "symbol": "SHFL", "decimals": 18}
@@ -471,7 +471,7 @@ id	output
 [8453,"0xb29c82c678275c6ab221af3e689beb69db8d3048"]	{"name": "Uniswap V2", "symbol": "UNI-V2", "decimals": 18}
 [8453,"0xac445375783d26f76e046c2b7900ecd8eaf018e4"]	{"name": "Uniswap V2", "symbol": "UNI-V2", "decimals": 18}
 [56,"0xe40d960ecc7349e4932c264ac3d3ab4568ff6fad"]	{"name": "USDT", "symbol": "USDT", "decimals": 18}
-[43114,"0x714f020c54cc9d104b6f4f6998c63ce2a31d1888"]	{"name": "STEP.APP", "symbol": "FITFI", "decimals": 18}
+[43114,"0x714f020c54cc9d104b6f4f6998c63ce2a31d1888"]	{"name": "UNKNOWN", "symbol": "FITFI", "decimals": 18}
 [43114,"0x6da507e35e22925f73607acbd23c6439280fbc79"]	{"name": "STEK", "symbol": "STEK", "decimals": 18}
 [43114,"0x3aeefecd66db92fe240c7ea3b8ca3c9c2afd2c12"]	{"name": "PEW", "symbol": "PEW", "decimals": 18}
 [43114,"0x1e25aa48d22d86a986a6a58621540e60aaaa88aa"]	{"name": "STINKY", "symbol": "STINKY", "decimals": 18}
@@ -725,7 +725,7 @@ id	output
 [43114,"0x5cb4bd2685d4270d0a35f8d2e2ce4c89ef1c9d9f"]	{"name": "all", "symbol": "All", "decimals": 18}
 [43114,"0x4a11472edfea6ce1e5ece44dbefe66a349c93bd1"]	{"name": "hall", "symbol": "Hall", "decimals": 18}
 [43114,"0xa307dff347b9e8f5559d0f02af7259cb879b04e1"]	{"name": "what u want", "symbol": "wuw", "decimals": 18}
-[43114,"0x37502f8d4f395bbf17242a74b0c53a0929497f97"]	{"name": "ABAX (abax.website)", "symbol": "ABAX", "decimals": 18}
+[43114,"0x37502f8d4f395bbf17242a74b0c53a0929497f97"]	{"name": "ABAX", "symbol": "ABAX", "decimals": 18}
 [43114,"0x6d25786d36cd99b2119f9fc902edc1cbb89dd9ec"]	{"name": "Ser Loin", "symbol": "SIRL", "decimals": 18}
 [43114,"0x446480b88b665bc9c759376db613d25cc959eccd"]	{"name": "Apollo 11", "symbol": "A11", "decimals": 18}
 [43114,"0x4769157fb42444d53bb2e3446d180cfa60b40c0e"]	{"name": "H4SH Lord OGs", "symbol": "HLORD", "decimals": 18}
@@ -999,7 +999,7 @@ id	output
 [56,"0x2ac892cae423fee5e4d45f7e1c713cf141a9ec9e"]	{"name": "HANURAM", "symbol": "HANURAM", "decimals": 18}
 [56,"0x987be10eee9074aff8c31dfe99a3990a28f647e7"]	{"name": "Shonen Pump", "symbol": "SHONEN", "decimals": 18}
 [56,"0x507459a9c13df6058cf55f08e892c2d2deb49f60"]	{"name": "MEGA", "symbol": "$MEGA", "decimals": 18}
-[56,"0xcb4e201fac73703449328bffdd28cfe235f7b34f"]	{"name": "BTCBR", "symbol": "0x0cf8e180350253271f4b917ccfb0accc4862f262", "decimals": 18}
+[56,"0xcb4e201fac73703449328bffdd28cfe235f7b34f"]	{"name": "BTCBR", "symbol": "0x0cF8e180350253271f4b917CcFb0aCCc4862F262", "decimals": 18}
 [56,"0x294fae55ea0526f7b35d5daa16fc2a2a74ff838b"]	{"name": "FLASH", "symbol": "FLASH", "decimals": 18}
 [56,"0xacb6a7018b30fa5296ad5370d375c143f27b2ba4"]	{"name": "Heineken", "symbol": "Hen", "decimals": 18}
 [56,"0xa18bbdcd86e4178d10ecd9316667cfe4c4aa8717"]	{"name": "BNBXBT", "symbol": "BNBXBT", "decimals": 18}
@@ -1569,7 +1569,7 @@ id	output
 [8453,"0x2b66f1c42a77f877c8916b8d6683a64cf7355ca8"]	{"name": "The Srock", "symbol": "$SROCK", "decimals": 18}
 [8453,"0x09e55fa5d7b047fdda6e9af20b667d9fbd4b67ef"]	{"name": "The Brock", "symbol": "$BROCK", "decimals": 18}
 [8453,"0x905d9873a2726c51099a4a401a06dedcba098b96"]	{"name": "Red Light Green Light", "symbol": "$RLGL", "decimals": 18}
-[8453,"0x39d00b9ca6dd9ceedaf7d04e9882b82248faaa51"]	{"name": "https://base.blockscout.", "symbol": "$NGGY", "decimals": 18}
+[8453,"0x39d00b9ca6dd9ceedaf7d04e9882b82248faaa51"]	{"name": "UNKNOWN", "symbol": "$NGGY", "decimals": 18}
 [8453,"0x1d19fb315ff73c1c481681427df618445741c5d7"]	{"name": "Nigga MIND", "symbol": "$KSI", "decimals": 18}
 [8453,"0x456d45759103f0671e53ee12d7665e824eec61b0"]	{"name": "Bad Hair Cut", "symbol": "$BADCUT", "decimals": 18}
 [8453,"0xd0ab84a7f4ac7fb02117a6935ca9c3d6adcfa424"]	{"name": "Nailong", "symbol": "$NAILONG", "decimals": 18}
@@ -1630,7 +1630,7 @@ id	output
 [8453,"0x2a1eb18a86cee9574a8bf91aabdcfc26c680ebe3"]	{"name": "Am i A Joke", "symbol": "$JOKE", "decimals": 18}
 [8453,"0xa8d95cac62bf47bb7060d5d28148e3edd5317fba"]	{"name": "Checkered", "symbol": "$BNW", "decimals": 18}
 [8453,"0x292f15c1cc52cd89e6dfd2757515a4f10c6c6829"]	{"name": "The Wrok", "symbol": "$WROK", "decimals": 18}
-[8453,"0x8e35ff49b8d111f6988dc3c102a77345bb5c8619"]	{"name": "\\"Living for the Green Da", "symbol": "$ZESTY", "decimals": 18}
+[8453,"0x8e35ff49b8d111f6988dc3c102a77345bb5c8619"]	{"name": "\\"Living for the Green Da", "symbol":  "$ZESTY", "decimals": 18}
 [8453,"0xb8e819eef658d0c4d6752a30372e4957cace7734"]	{"name": "The Wallet Whisperer", "symbol": "$SAFE", "decimals": 18}
 [8453,"0x8c5e1a7a16ffa6504c8cc8b8e1167203f4b4ae3f"]	{"name": "Nigga Snowman", "symbol": "$COALY", "decimals": 18}
 [8453,"0x90acd0a846b6312b562121c45543b08350bd0970"]	{"name": "Fizzi", "symbol": "$FIZZY", "decimals": 18}
@@ -2051,6 +2051,8 @@ id	output
 [137,"0xeb4b98c15de29f44e7d4109370a78de6c9d12248"]	{"name": "Trumps", "symbol": "Trumps", "decimals": 6}
 [137,"0x2a40836ed75d8f2e90d6972704c9585d55a525ae"]	{"name": "Trumps", "symbol": "Trumps", "decimals": 6}
 [137,"0x51fb1d0fefe16b2a90a83d00b3d84e16df17c43d"]	{"name": "Mousekoin", "symbol": "MKN", "decimals": 18}
+[146,"0xb8ab2e66d5e4931e675cbe499d8c01b778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[146,"0x039e2fb66102314ce7b64ce5ce3e5183bc94ad38"]	{"name": "Wrapped Sonic", "symbol": "wS", "decimals": 18}
 [999,"0x5555555555555555555555555555555555555555"]	{"name": "Wrapped HYPE", "symbol": "WHYPE", "decimals": 18}
 [59144,"0xd221cf22b2b9643b44ba0873e08ec1952d52508a"]	{"name": "TATERZ", "symbol": "TATERZ", "decimals": 18}
 [59144,"0x67454b41baf8d29751cc64f60e3c62b5634567a4"]	{"name": "TBAG", "symbol": "$TBAG", "decimals": 18}
