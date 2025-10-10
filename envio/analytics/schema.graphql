@@ -155,11 +155,11 @@ type FeeCollectionTransaction @entity {
 }
 
 """
-Daily aggregated fee collections by currency, chain, and protocol.
+Daily aggregated fee collections by currency across all chains and protocols.
 """
 type FeeCollectionDaily @entity {
   """
-  Unique identifier: YYYY-MM-DD_currency_chainId_protocol
+  Unique identifier: YYYY-MM-DD_currency
   """
   id: ID!
 
@@ -167,11 +167,6 @@ type FeeCollectionDaily @entity {
   Total fee amount collected for this day (in native currency, normalized to 18 decimals)
   """
   amount: Float!
-
-  """
-  Chain ID where fees were collected
-  """
-  chainId: BigInt!
 
   """
   Native currency symbol (ETH, POL, BNB, etc.)
@@ -187,11 +182,6 @@ type FeeCollectionDaily @entity {
   Date as Unix timestamp for easier querying
   """
   dateTimestamp: Timestamp!
-
-  """
-  Protocol type: "airdrops", "flow", or "lockup"
-  """
-  protocol: String!
 
   """
   Collection transactions for this day

@@ -21,11 +21,14 @@ We support two indexing services: [The Graph](https://thegraph.com) and [Envio](
 - `just test` - Run all tests
 - `just test "tests/<file>.test.ts"` - Run specific test file
 
-## Lowercase Ethereum Addresses
+## Codegen
 
-**REQUIREMENT**: All Ethereum addresses must be lowercase.
+After modifying the `mappings` directory in `envio/` or `graph/`, regenerate bindings:
 
-- **Hard-coded addresses**: Always use lowercase format
-- **Envio** (code under `envio/` directory): Convert checksummed addresses to lowercase before use
-- **The Graph** (code under `graph/` directory): Already returns lowercase, no action needed when using functions like
-  `dataSource.address()` or `toHexString()`
+- `just codegen-envio-bindings` - All Envio indexers
+- `just codegen-graph-bindings` - All Graph subgraphs
+
+For a specific indexer:
+
+- `just codegen-envio-bindings INDEXER_NAME` (e.g., `just codegen-envio-bindings flow`)
+- `just codegen-graph-bindings INDEXER_NAME` (e.g., `just codegen-graph-bindings lockup`)

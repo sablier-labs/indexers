@@ -31,7 +31,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   const currency = chain.nativeCurrency.symbol;
 
   // Load entities
-  const entities = await loadEntities(context, event, currency, protocol);
+  const entities = await loadEntities(context, event, currency);
 
   // If preload or transaction already exists, return early
   if (context.isPreload || entities.feeCollectionTransaction) {
@@ -41,7 +41,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   const amountFormatted = Number(formatEther(amount));
 
   // Update daily aggregates
-  upsertFeeCollectionDaily(context, entities, event, { amountFormatted, currency, protocol });
+  upsertFeeCollectionDaily(context, entities, event, { amountFormatted, currency });
 
   // Create transaction entity
   const transaction: Entity.FeeCollectionTransaction = {
@@ -64,13 +64,8 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   context.FeeCollectionTransaction.set(transaction);
 }
 
-async function loadEntities(
-  context: HandlerContext,
-  event: Envio.Event,
-  currency: string,
-  protocol: string,
-): Promise<LoadedEntities> {
-  const feeCollectionDailyId = Id.feeCollectionDaily(event.chainId, event.block.timestamp, currency, protocol);
+async function loadEntities(context: HandlerContext, event: Envio.Event, currency: string): Promise<LoadedEntities> {
+  const feeCollectionDailyId = Id.feeCollectionDaily(event.block.timestamp, currency);
   const feeCollectionTransactionId = Id.feeCollectionTransaction(event.chainId, event.transaction.hash, event.logIndex);
 
   const [feeCollectionDaily, feeCollectionTransaction] = await Promise.all([
@@ -90,23 +85,21 @@ function upsertFeeCollectionDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { amountFormatted: number; currency: string; protocol: string },
+  params: { amountFormatted: number; currency: string },
 ): void {
   let { feeCollectionDaily } = entities;
   const { feeCollectionDailyId } = entities;
-  const { amountFormatted, currency, protocol } = params;
+  const { amountFormatted, currency } = params;
 
   const date = getDate(event.block.timestamp);
 
   if (!feeCollectionDaily) {
     feeCollectionDaily = {
       amount: amountFormatted,
-      chainId: BigInt(event.chainId),
       currency,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: feeCollectionDailyId,
-      protocol,
     };
   } else {
     feeCollectionDaily = {

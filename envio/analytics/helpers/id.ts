@@ -19,9 +19,9 @@ export namespace Id {
     return `${chainId}_${hash}_${logIndex}`;
   }
 
-  export function feeCollectionDaily(chainId: number, timestamp: number, currency: string, protocol: string): string {
+  export function feeCollectionDaily(timestamp: number, currency: string): string {
     const date = getDate(timestamp);
-    return `${date}_${currency}_${chainId}_${protocol}`;
+    return `${date}_${currency}`;
   }
 
   export function user(chainId: number, address: string): string {
