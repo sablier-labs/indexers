@@ -6,8 +6,8 @@ id	output
 [34443,"0xd988097fb8612cc24eeC14542bC03424c656005f"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
 [324,"0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4"]	{"name": "Bridged USDC (zkSync)", "symbol": "USDC.e", "decimals": 6}
 [324,"0x9Db6BF8B0215A02BEA9beF28A92D829FD008D480"]	{"name": "Cheems", "symbol": "Cheems", "decimals": 18}
-[324,"0x006f916DB2B2341581a0D12d139EBba1878C1793"]	{"name": "ZK", "symbol": "Claim on: zk-claim.io", "decimals": 18}
-[324,"0xD58A0FEA5Bd63E0bB86afC5aa3025d2144B5029b"]	{"name": "!    ACX", "symbol": "ACX   [via www.across.events]", "decimals": 18}
+[324,"0x006f916DB2B2341581a0D12d139EBba1878C1793"]	{"name": "ZK", "symbol": "UNKNOWN", "decimals": 18}
+[324,"0xD58A0FEA5Bd63E0bB86afC5aa3025d2144B5029b"]	{"name": "!    ACX", "symbol": "ACX", "decimals": 18}
 [324,"0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
 [324,"0x5d0d7BCa050e2E98Fd4A5e8d3bA823B49f39868d"]	{"name": "Zyfi Token", "symbol": "ZFI", "decimals": 18}
 [43114,"0x7171F8B378B9F22b83711a2C8D5c44b939F63993"]	{"name": "360Beta", "symbol": "360Beta", "decimals": 18}
@@ -73,7 +73,7 @@ id	output
 [11155111,"0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
 [11155111,"0xDB97F184939f60eae5768f1cbd2E678835420d79"]	{"name": "TokenOps", "symbol": "TKOPS", "decimals": 18}
 [11155111,"0x2f972Eb2c166ca09642a7d6f9374f7C10d8BaEfE"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
-[11155111,"0xa0194c01b45bA58482DC70446CB41Af62dd21a47"]	{"name": "pUSDT-pool.com", "symbol": "PUSDT", "decimals": 18}
+[11155111,"0xa0194c01b45bA58482DC70446CB41Af62dd21a47"]	{"name": "UNKNOWN", "symbol": "PUSDT", "decimals": 18}
 [11155111,"0xA2D7a1bFA23692d315D5d38F7987b6AdD72fb05c"]	{"name": "davinci_test2", "symbol": "davinci_test2", "decimals": 18}
 [11155111,"0xB6c86903D21D7934246deF2295C83E82494ac90a"]	{"name": "Arcana Test", "symbol": "XART", "decimals": 18}
 [11155111,"0x53F29adAe12C37854A0290c5bd9309e3B81CE188"]	{"name": "AndyBP", "symbol": "KRYP32", "decimals": 18}

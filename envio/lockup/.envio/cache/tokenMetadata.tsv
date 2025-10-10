@@ -225,7 +225,7 @@ id	output
 [11155111,"0x2f972Eb2c166ca09642a7d6f9374f7C10d8BaEfE"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
 [11155111,"0x1A2A480b3b195e2000D6b9A37c5E88419dA9Ca9d"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
 [11155111,"0xf0ff88BD386D8bEE4b25492d17b71f3c98227901"]	{"name": "Padre", "symbol": "PADRE", "decimals": 18}
-[11155111,"0xa0194c01b45bA58482DC70446CB41Af62dd21a47"]	{"name": "pUSDT-pool.com", "symbol": "PUSDT", "decimals": 18}
+[11155111,"0xa0194c01b45bA58482DC70446CB41Af62dd21a47"]	{"name": "UNKNOWN", "symbol": "PUSDT", "decimals": 18}
 [11155111,"0x2e4a312577A78786051052c28D5f1132d93c557A"]	{"name": "NUMA", "symbol": "NUMA", "decimals": 18}
 [11155111,"0xF3edE539e2A7a2f445D24Fed38281FB697dC584c"]	{"name": "CrabToken", "symbol": "CRABT", "decimals": 18}
 [11155111,"0x888b1d3E59a9F979ACb13AC7413babF3faC88888"]	{"name": "Shuffle", "symbol": "SHFL", "decimals": 18}
@@ -471,7 +471,7 @@ id	output
 [8453,"0xB29C82C678275C6AB221af3e689BeB69DB8d3048"]	{"name": "Uniswap V2", "symbol": "UNI-V2", "decimals": 18}
 [8453,"0xac445375783D26f76e046c2B7900ecD8EAf018e4"]	{"name": "Uniswap V2", "symbol": "UNI-V2", "decimals": 18}
 [56,"0xe40D960eCc7349E4932c264ac3D3aB4568FF6faD"]	{"name": "USDT", "symbol": "USDT", "decimals": 18}
-[43114,"0x714f020C54cc9D104B6F4f6998C63ce2a31D1888"]	{"name": "STEP.APP", "symbol": "FITFI", "decimals": 18}
+[43114,"0x714f020C54cc9D104B6F4f6998C63ce2a31D1888"]	{"name": "UNKNOWN", "symbol": "FITFI", "decimals": 18}
 [43114,"0x6Da507e35e22925F73607acbd23c6439280FbC79"]	{"name": "STEK", "symbol": "STEK", "decimals": 18}
 [43114,"0x3aeeFECD66Db92FE240c7EA3B8CA3c9c2aFD2C12"]	{"name": "PEW", "symbol": "PEW", "decimals": 18}
 [43114,"0x1E25AA48D22D86A986a6A58621540e60aaaa88Aa"]	{"name": "STINKY", "symbol": "STINKY", "decimals": 18}
@@ -725,7 +725,7 @@ id	output
 [43114,"0x5Cb4BD2685d4270D0A35F8D2e2Ce4c89Ef1c9d9f"]	{"name": "all", "symbol": "All", "decimals": 18}
 [43114,"0x4a11472eDfEa6cE1e5ECe44dBEfe66a349C93bD1"]	{"name": "hall", "symbol": "Hall", "decimals": 18}
 [43114,"0xa307dFF347B9e8F5559D0f02AF7259CB879b04E1"]	{"name": "what u want", "symbol": "wuw", "decimals": 18}
-[43114,"0x37502f8d4F395bbF17242A74b0c53a0929497F97"]	{"name": "ABAX (abax.website)", "symbol": "ABAX", "decimals": 18}
+[43114,"0x37502f8d4F395bbF17242A74b0c53a0929497F97"]	{"name": "ABAX", "symbol": "ABAX", "decimals": 18}
 [43114,"0x6D25786d36Cd99b2119f9Fc902edC1cbB89dd9EC"]	{"name": "Ser Loin", "symbol": "SIRL", "decimals": 18}
 [43114,"0x446480B88B665Bc9C759376db613d25cC959ecCD"]	{"name": "Apollo 11", "symbol": "A11", "decimals": 18}
 [43114,"0x4769157FB42444D53bB2e3446D180CFA60b40C0E"]	{"name": "H4SH Lord OGs", "symbol": "HLORD", "decimals": 18}
@@ -1569,7 +1569,7 @@ id	output
 [8453,"0x2b66f1c42a77f877c8916b8d6683a64cF7355ca8"]	{"name": "The Srock", "symbol": "$SROCK", "decimals": 18}
 [8453,"0x09E55Fa5D7B047fdda6E9af20b667D9FBd4b67eF"]	{"name": "The Brock", "symbol": "$BROCK", "decimals": 18}
 [8453,"0x905d9873a2726c51099A4A401a06DeDcba098B96"]	{"name": "Red Light Green Light", "symbol": "$RLGL", "decimals": 18}
-[8453,"0x39D00b9Ca6dD9CeEDAF7D04E9882B82248FAAa51"]	{"name": "https://base.blockscout.", "symbol": "$NGGY", "decimals": 18}
+[8453,"0x39D00b9Ca6dD9CeEDAF7D04E9882B82248FAAa51"]	{"name": "UNKNOWN", "symbol": "$NGGY", "decimals": 18}
 [8453,"0x1D19FB315FF73C1c481681427df618445741C5d7"]	{"name": "Nigga MIND", "symbol": "$KSI", "decimals": 18}
 [8453,"0x456d45759103f0671e53ee12D7665e824EEC61b0"]	{"name": "Bad Hair Cut", "symbol": "$BADCUT", "decimals": 18}
 [8453,"0xD0aB84A7f4AC7Fb02117a6935cA9C3D6ADCFA424"]	{"name": "Nailong", "symbol": "$NAILONG", "decimals": 18}
@@ -1630,7 +1630,7 @@ id	output
 [8453,"0x2A1Eb18a86CEe9574a8Bf91AAbdCFc26c680ebe3"]	{"name": "Am i A Joke", "symbol": "$JOKE", "decimals": 18}
 [8453,"0xa8d95CaC62bf47BB7060D5d28148e3eDd5317FBA"]	{"name": "Checkered", "symbol": "$BNW", "decimals": 18}
 [8453,"0x292f15C1Cc52cD89e6dFd2757515A4F10c6c6829"]	{"name": "The Wrok", "symbol": "$WROK", "decimals": 18}
-[8453,"0x8E35FF49b8d111f6988dc3c102A77345bb5C8619"]	{"name": "\\"Living for the Green Da", "symbol": "$ZESTY", "decimals": 18}
+[8453,"0x8E35FF49b8d111f6988dc3c102A77345bb5C8619"]	{"name": "\\"Living for the Green Da", "symbol":  "$ZESTY", "decimals": 18}
 [8453,"0xb8E819EEF658d0c4D6752A30372E4957CacE7734"]	{"name": "The Wallet Whisperer", "symbol": "$SAFE", "decimals": 18}
 [8453,"0x8c5e1a7a16FfA6504c8cc8b8e1167203f4b4aE3F"]	{"name": "Nigga Snowman", "symbol": "$COALY", "decimals": 18}
 [8453,"0x90AcD0a846B6312b562121c45543B08350BD0970"]	{"name": "Fizzi", "symbol": "$FIZZY", "decimals": 18}

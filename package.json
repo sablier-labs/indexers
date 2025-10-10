@@ -11,6 +11,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
+    "linkifyjs": "^4.3.2",
     "sablier": "^1.1.0"
   },
   "peerDependencies": {
