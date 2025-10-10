@@ -261,7 +261,7 @@ function mergeAndDeduplicate(
 }
 
 function writeTsvFile(tsvPath: string, entries: PriceEntry[]): void {
-  const tsvContent = ["id\toutput", ...entries.map((entry) => `"${entry.date}"\t${entry.price}`)].join("\n") + "\n";
+  const tsvContent = ["id\toutput", ...entries.map((entry) => `"${entry.date}"\t${entry.price}`)].join("\n");
   fs.writeFileSync(tsvPath, tsvContent, "utf-8");
 }
 
