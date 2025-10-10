@@ -44,6 +44,7 @@ alias b := build
 alias build-packages := build
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
+[group("cli")]
 [group("envio")]
 @check-vendors chain_id="1":
     just cli check-vendors --chain-id {{ chain_id }}
@@ -62,16 +63,31 @@ alias codegen-indexers := codegen
 
 # Export the schemas to the ./src directory
 # lint-staged will call this recipe and pass the globs to it
+[group("cli")]
 @export-schema +globs="src/schemas/*.graphql":
     just cli export-schema
     just --quiet biome-write "{{ globs }}"
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
+[group("cli")]
 [group("envio")]
 @fetch-assets indexer="all" chain="all":
     just cli fetch-assets \
         --indexer {{ indexer }} \
         --chain {{ chain }}
+
+# Fetch historical prices for a currency from CoinGecko
+[group("cli")]
+[script]
+fetch-prices currency year="" month="":
+    cmd="just cli fetch-prices --currency {{ currency }}"
+    if [ -n "{{ year }}" ]; then
+        cmd="$cmd --year {{ year }}"
+    fi
+    if [ -n "{{ month }}" ]; then
+        cmd="$cmd --month {{ month }}"
+    fi
+    eval $cmd
 
 # Codegen the GraphQL schema
 [group("codegen")]
@@ -221,17 +237,17 @@ codegen-gql-graph:
 # ---------------------------------------------------------------------------- #
 
 # Print available chain arguments
-[group("print")]
+[group("cli")]
 @print-chains use_graph_slugs="false":
     just cli print chains --graph {{ use_graph_slugs }}
 
 # Print available log levels available in Winston logger
-[group("print")]
+[group("cli")]
 @print-log-levels:
     echo "Available log levels: error, warn, info, http, verbose, debug, silly"
 
 # Print available indexer arguments
-[group("print")]
+[group("cli")]
 @print-protocols:
     echo "Available indexer arguments: all, flow, lockup, airdrops"
 
