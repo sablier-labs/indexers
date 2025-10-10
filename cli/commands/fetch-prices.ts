@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import axios from "axios";
+import chalk from "chalk";
 import type { Command } from "commander";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -11,7 +12,9 @@ import * as helpers from "../helpers";
 
 dayjs.extend(utc);
 
-// ============= Types & Interfaces =============
+/* -------------------------------------------------------------------------- */
+/*                                    TYPES                                   */
+/* -------------------------------------------------------------------------- */
 
 type FetchPricesOptions = {
   currency: string;
@@ -28,13 +31,17 @@ type PriceEntry = {
   price: number;
 };
 
-// ============= Constants =============
+/* -------------------------------------------------------------------------- */
+/*                                  CONSTANTS                                 */
+/* -------------------------------------------------------------------------- */
 
 const MAX_RETRIES = 5;
 const RETRY_DELAY = 1000; // 1 second
 const MIN_YEAR = 2025;
 
-// ============= Utility Functions =============
+/* -------------------------------------------------------------------------- */
+/*                                   UTILITY                                  */
+/* -------------------------------------------------------------------------- */
 
 const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -49,7 +56,9 @@ function getDefaultYearMonth(): { month: string; year: string } {
   };
 }
 
-// ============= Validation =============
+/* -------------------------------------------------------------------------- */
+/*                                 VALIDATION                                 */
+/* -------------------------------------------------------------------------- */
 
 function validateCurrency(currency: string): void {
   if (!coinConfigs[currency]) {
@@ -86,7 +95,9 @@ function validateInputs(currency: string, year: string, month: string): void {
   validateDate(year, month);
 }
 
-// ============= Date Utilities =============
+/* -------------------------------------------------------------------------- */
+/*                               DATE UTILITIES                               */
+/* -------------------------------------------------------------------------- */
 
 function calculateDateRange(year: number, month: number): { fromTimestamp: number; toTimestamp: number } {
   const now = dayjs.utc();
@@ -116,7 +127,9 @@ function calculateDateRange(year: number, month: number): { fromTimestamp: numbe
   return { fromTimestamp, toTimestamp };
 }
 
-// ============= API Service =============
+/* -------------------------------------------------------------------------- */
+/*                                 API Service                                */
+/* -------------------------------------------------------------------------- */
 
 async function withRetry<T>(
   operation: () => Promise<T>,
@@ -210,7 +223,9 @@ async function fetchCoinGeckoPrices(
   return withRetry(fetchOperation);
 }
 
-// ============= File Operations =============
+/* -------------------------------------------------------------------------- */
+/*                               FILE OPERATIONS                              */
+/* -------------------------------------------------------------------------- */
 
 function readExistingTsvData(tsvPath: string): PriceEntry[] {
   const existingEntries: PriceEntry[] = [];
@@ -265,7 +280,12 @@ function writeTsvFile(tsvPath: string, entries: PriceEntry[]): void {
   fs.writeFileSync(tsvPath, tsvContent, "utf-8");
 }
 
-async function updateTsvFile(currency: string, priceData: PriceEntry[], year: number, month: number): Promise<number> {
+async function updateTsvFile(
+  currency: string,
+  priceData: PriceEntry[],
+  year: number,
+  month: number,
+): Promise<{ newEntriesCount: number; tsvPath: string }> {
   const cacheDir = path.join(process.cwd(), "envio", "analytics", ".envio", "cache");
   const tsvPath = path.join(cacheDir, `${currency}_USD.tsv`);
 
@@ -280,15 +300,17 @@ async function updateTsvFile(currency: string, priceData: PriceEntry[], year: nu
 
   const newEntriesCount = allEntries.length - existingEntries.length;
   if (newEntriesCount === 0) {
-    return 0;
+    return { newEntriesCount: 0, tsvPath };
   }
 
   writeTsvFile(tsvPath, allEntries);
   console.log(`✅ Successfully updated ${currency}_USD.tsv with ${newEntriesCount} price entries`);
-  return newEntriesCount;
+  return { newEntriesCount, tsvPath };
 }
 
-// ============= Main Action =============
+/* -------------------------------------------------------------------------- */
+/*                                MAIN COMMAND                                */
+/* -------------------------------------------------------------------------- */
 
 async function fetchPricesAction(options: FetchPricesOptions): Promise<void> {
   const { currency } = options;
@@ -314,20 +336,21 @@ async function fetchPricesAction(options: FetchPricesOptions): Promise<void> {
     const priceData = await fetchCoinGeckoPrices(currency, fromTimestamp, toTimestamp);
 
     // Process and update TSV file
-    const newEntriesCount = await updateTsvFile(currency, priceData, yearNum, monthNum);
+    const { newEntriesCount, tsvPath } = await updateTsvFile(currency, priceData, yearNum, monthNum);
 
-    // Only show success message if new entries were actually added
+    // Only show success message and path if new entries were actually added
     if (newEntriesCount === 0) {
       // The "No new price data" message is already shown in mergeAndDeduplicate
       return;
     }
+
+    // Print the full clickable path on a new line with colorized output
+    console.log(chalk.cyan(tsvPath));
   } catch (error) {
     console.error(`❌ Failed to fetch prices: ${error instanceof Error ? error.message : String(error)}`);
     throw error;
   }
 }
-
-// ============= Command Setup =============
 
 function createFetchPricesCommand(): Command {
   const command = helpers.createBaseCmd("Fetch historical prices for a currency from CoinGecko");
