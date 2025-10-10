@@ -14,16 +14,16 @@ export function create<TAction extends CommonEntities.StreamAction>(
   const id = Id.action(event);
 
   const action: CommonEntities.StreamAction = {
-    addressA: params.addressA?.toLowerCase(),
-    addressB: params.addressB?.toLowerCase(),
+    addressA: params.addressA,
+    addressB: params.addressB,
     amountA: params.amountA,
     amountB: params.amountB,
     block: BigInt(event.block.number),
     category: params.category,
     chainId: BigInt(event.chainId),
-    contract: event.srcAddress.toLowerCase(),
+    contract: event.srcAddress,
     fee: event.transaction.value,
-    from: event.transaction.from?.toLowerCase() || "",
+    from: event.transaction.from || "",
     hash: event.transaction.hash,
     id,
     stream_id: params.streamId,
