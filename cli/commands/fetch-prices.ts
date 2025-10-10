@@ -61,9 +61,13 @@ function getDefaultYearMonth(): { month: string; year: string } {
 /* -------------------------------------------------------------------------- */
 
 function validateCurrency(currency: string): void {
+  if (currency === "all") {
+    return;
+  }
+
   if (!coinConfigs[currency]) {
     const supportedCurrencies = _.keys(coinConfigs).join(", ");
-    throw new Error(`Currency "${currency}" is not supported. Available currencies: ${supportedCurrencies}`);
+    throw new Error(`Currency "${currency}" is not supported. Available currencies: ${supportedCurrencies}, all`);
   }
 }
 
@@ -312,6 +316,41 @@ async function updateTsvFile(
 /*                                MAIN COMMAND                                */
 /* -------------------------------------------------------------------------- */
 
+async function fetchPricesForCurrency(
+  currency: string,
+  year: number,
+  month: number,
+): Promise<{ newEntriesCount: number; tsvPath: string }> {
+  const yearStr = year.toString();
+  const monthStr = month.toString().padStart(2, "0");
+
+  console.log(`🔍 Fetching ${currency} prices for ${yearStr}-${monthStr}`);
+
+  // Calculate date range
+  const { fromTimestamp, toTimestamp } = calculateDateRange(year, month);
+
+  try {
+    // Fetch prices from CoinGecko
+    const priceData = await fetchCoinGeckoPrices(currency, fromTimestamp, toTimestamp);
+
+    // Process and update TSV file
+    const { newEntriesCount, tsvPath } = await updateTsvFile(currency, priceData, year, month);
+
+    // Only show success message and path if new entries were actually added
+    if (newEntriesCount > 0) {
+      // Print the full clickable path on a new line with colorized output
+      console.log(chalk.cyan(tsvPath));
+    }
+
+    return { newEntriesCount, tsvPath };
+  } catch (error) {
+    console.error(
+      `❌ Failed to fetch prices for ${currency}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+    throw error;
+  }
+}
+
 async function fetchPricesAction(options: FetchPricesOptions): Promise<void> {
   const { currency } = options;
 
@@ -326,29 +365,18 @@ async function fetchPricesAction(options: FetchPricesOptions): Promise<void> {
   const yearNum = _.toNumber(year);
   const monthNum = _.toNumber(month);
 
-  console.log(`🔍 Fetching ${currency} prices for ${year}-${month.padStart(2, "0")}`);
+  if (currency === "all") {
+    const currencies = _.keys(coinConfigs);
+    console.log(`🔍 Fetching prices for all ${currencies.length} currencies`);
 
-  // Calculate date range
-  const { fromTimestamp, toTimestamp } = calculateDateRange(yearNum, monthNum);
-
-  try {
-    // Fetch prices from CoinGecko
-    const priceData = await fetchCoinGeckoPrices(currency, fromTimestamp, toTimestamp);
-
-    // Process and update TSV file
-    const { newEntriesCount, tsvPath } = await updateTsvFile(currency, priceData, yearNum, monthNum);
-
-    // Only show success message and path if new entries were actually added
-    if (newEntriesCount === 0) {
-      // The "No new price data" message is already shown in mergeAndDeduplicate
-      return;
+    for (let i = 0; i < currencies.length; i++) {
+      await fetchPricesForCurrency(currencies[i], yearNum, monthNum);
+      if (i < currencies.length - 1) {
+        console.log(); // Add blank line between currencies
+      }
     }
-
-    // Print the full clickable path on a new line with colorized output
-    console.log(chalk.cyan(tsvPath));
-  } catch (error) {
-    console.error(`❌ Failed to fetch prices: ${error instanceof Error ? error.message : String(error)}`);
-    throw error;
+  } else {
+    await fetchPricesForCurrency(currency, yearNum, monthNum);
   }
 }
 
@@ -356,7 +384,7 @@ function createFetchPricesCommand(): Command {
   const command = helpers.createBaseCmd("Fetch historical prices for a currency from CoinGecko");
 
   command
-    .requiredOption("--currency <symbol>", "Currency symbol (e.g., ETH, CHZ)")
+    .requiredOption("--currency <symbol>", "Currency symbol (e.g., ETH, CHZ) or 'all' for all currencies")
     .option("--year <YYYY>", "Year in YYYY format (defaults to current year)")
     .option("--month <MM>", "Month in MM format (01-12) (defaults to current month)")
     .action(async (options: FetchPricesOptions) => {
