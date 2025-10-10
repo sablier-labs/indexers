@@ -100,7 +100,7 @@ function createFeeTx(
     amountUSD: usdValue,
     block: BigInt(event.block.number),
     chainId: BigInt(event.chainId),
-    contractAddress: event.srcAddress.toLowerCase(),
+    contractAddress: event.srcAddress,
     currency,
     dailyCryptoFees_id: dailyCryptoFeesId,
     dailyFiatFees_id: dailyFiatFeesId,

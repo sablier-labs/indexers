@@ -68,8 +68,8 @@ export async function updateAdmin(
 
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
-    admin: newAdmin.toLowerCase(),
-    nickname: getNickname(newAdmin.toLowerCase(), campaign.name, asset),
+    admin: newAdmin,
+    nickname: getNickname(newAdmin, campaign.name, asset),
   };
   context.Campaign.set(updatedCampaign);
 }
@@ -107,8 +107,8 @@ function createBaseCampaign(
   /* -------------------------------- CAMPAIGN -------------------------------- */
   // Some fields are set to 0/ undefined because they are set later depending on the campaign category.
   const campaign: Entity.Campaign = {
-    address: params.campaignAddress.toLowerCase(),
-    admin: params.admin.toLowerCase(),
+    address: params.campaignAddress,
+    admin: params.admin,
     aggregateAmount: params.aggregateAmount,
     asset_id: entities.asset.id,
     campaignStartTime: params.campaignStartTime,
@@ -127,7 +127,7 @@ function createBaseCampaign(
     ipfsCID: params.ipfsCID,
     lockup: undefined,
     name: params.name,
-    nickname: getNickname(params.admin.toLowerCase(), params.name, entities.asset),
+    nickname: getNickname(params.admin, params.name, entities.asset),
     position: entities.factory.campaignCounter,
     root: params.merkleRoot,
     streamCancelable: undefined,
@@ -191,7 +191,7 @@ function addTranchesWithPercentages(
 
 function createLockupCampaign(params: Params.CreateCampaignLockup): Partial<Entity.Campaign> {
   return {
-    lockup: params.lockup.toLowerCase(),
+    lockup: params.lockup,
     streamCancelable: params.cancelable,
     streamShape: params.shape ? sanitizeString(params.shape) : undefined,
     streamStart: Boolean(params.startTime && params.startTime > 0n),

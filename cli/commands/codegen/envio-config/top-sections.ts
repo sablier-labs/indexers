@@ -12,6 +12,7 @@ export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
 function get(name: Indexer.Name): EnvioConfig.TopSection {
   return {
     name: `sablier-${name}`,
+    address_format: "lowercase",
     ecosystem: "evm",
     output: "./bindings",
     preload_handlers: true,

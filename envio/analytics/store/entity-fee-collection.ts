@@ -51,13 +51,13 @@ export async function create(context: HandlerContext, event: Envio.Event, params
 
   // Create transaction entity
   const transaction: Entity.FeeCollection = {
-    admin: admin.toLowerCase(),
-    airdropCampaign: airdropCampaign?.toLowerCase(),
+    admin,
+    airdropCampaign: airdropCampaign,
     amount: amountFormatted,
     block: BigInt(event.block.number),
-    caller: event.transaction.from?.toLowerCase() || "",
+    caller: event.transaction.from || "",
     chainId: BigInt(event.chainId),
-    contractAddress: event.srcAddress.toLowerCase(),
+    contractAddress: event.srcAddress,
     currency,
     daily_id: entities.feeCollectionId,
     hash: event.transaction.hash,

@@ -74,8 +74,8 @@ function createBase(
 
   /* --------------------------------- STREAM --------------------------------- */
   const isProxied = Boolean(params.proxender && params.proxender !== NOT_AVAILABLE);
-  const recipient = params.recipient.toLowerCase();
-  const sender = params.sender.toLowerCase();
+  const recipient = params.recipient;
+  const sender = params.sender;
 
   // Some fields are set to 0/ undefined because they are set later depending on the stream category.
   let stream: Entity.Stream = {
@@ -92,11 +92,11 @@ function createBase(
     cliff: undefined,
     cliffAmount: undefined,
     cliffTime: undefined,
-    contract: event.srcAddress.toLowerCase(),
+    contract: event.srcAddress,
     depositAmount: params.depositAmount,
     duration: params.endTime - params.startTime,
     endTime: params.endTime,
-    funder: params.funder.toLowerCase(),
+    funder: params.funder,
     hash: event.transaction.hash,
     id: streamId,
     initial: undefined,
