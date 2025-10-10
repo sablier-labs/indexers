@@ -18,9 +18,9 @@ const EXCLUDED_CHAINS = [...TESTNETS.map((c) => c.id), tangle.id];
 
 type LoadedEntities = {
   dailyFiatFeesId: string;
-  dailyFiatFees: Entity.DailyFiatFees | undefined;
+  dailyFiatFees: Entity.FiatFeesDaily | undefined;
   dailyCryptoFeesId: string;
-  dailyCryptoFees: Entity.DailyCryptoFees | undefined;
+  dailyCryptoFees: Entity.CryptoFeesDaily | undefined;
   feeTxId: string;
   feeTx: Entity.FeeTransaction | undefined;
 };
@@ -74,8 +74,8 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     const gbpValue = usdValue / gbpExchangeRate;
 
     // Update fee entities.
-    upsertDailyFiatFees(context, entities, event, { date, gbpValue, msgValue, usdValue });
-    upsertDailyCryptoFees(context, entities, event, { currency, date, msgValue });
+    upsertFiatFeesDaily(context, entities, event, { date, gbpValue, msgValue, usdValue });
+    upsertCryptoFeesDaily(context, entities, event, { currency, date, msgValue });
 
     // Create fee transaction entities.
     createFeeTx(context, entities, event, { currency, gbpValue, msgValue, usdValue });
@@ -117,8 +117,8 @@ async function loadEntities(context: HandlerContext, event: Envio.Event): Promis
   const feeTxId = Id.feeTransaction(event.chainId, event.transaction.hash);
 
   const [dailyFiatFees, dailyCryptoFees, feeTx] = await Promise.all([
-    context.DailyFiatFees.get(dailyFiatFeesId),
-    context.DailyCryptoFees.get(dailyCryptoFeesId),
+    context.FiatFeesDaily.get(dailyFiatFeesId),
+    context.CryptoFeesDaily.get(dailyCryptoFeesId),
     context.FeeTransaction.get(feeTxId),
   ]);
 
@@ -132,7 +132,7 @@ async function loadEntities(context: HandlerContext, event: Envio.Event): Promis
   };
 }
 
-function upsertDailyFiatFees(
+function upsertFiatFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
@@ -158,10 +158,10 @@ function upsertDailyFiatFees(
     };
   }
 
-  context.DailyFiatFees.set(dailyFiatFees);
+  context.FiatFeesDaily.set(dailyFiatFees);
 }
 
-function upsertDailyCryptoFees(
+function upsertCryptoFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
@@ -187,5 +187,5 @@ function upsertDailyCryptoFees(
     };
   }
 
-  context.DailyCryptoFees.set(dailyCryptoFees);
+  context.CryptoFeesDaily.set(dailyCryptoFees);
 }

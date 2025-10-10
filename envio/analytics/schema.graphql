@@ -1,7 +1,7 @@
 """
 Daily fees aggregated by currency across all chains.
 """
-type DailyCryptoFees @entity {
+type CryptoFeesDaily @entity {
   """
   Unique identifier: YYYY-MM-DD_currency
   """
@@ -21,7 +21,7 @@ type DailyCryptoFees @entity {
   """
   Reference to the parent daily fiat fees
   """
-  dailyFiatFees: DailyFiatFees!
+  dailyFiatFees: FiatFeesDaily!
 
   """
   Date in YYYY-MM-DD format
@@ -42,7 +42,7 @@ type DailyCryptoFees @entity {
 """
 Aggregated fees across all chains and all currencies for a particular day.
 """
-type DailyFiatFees @entity {
+type FiatFeesDaily @entity {
   """
   Unique identifier: YYYY-MM-DD
   """
@@ -61,7 +61,7 @@ type DailyFiatFees @entity {
   """
   Fee breakdown by currency for this day
   """
-  currencyBreakdown: [DailyCryptoFees!]! @derivedFrom(field: "dailyFiatFees")
+  currencyBreakdown: [CryptoFeesDaily!]! @derivedFrom(field: "dailyFiatFees")
 
   """
   Date in YYYY-MM-DD format
@@ -234,14 +234,14 @@ type FeeTransaction @entity {
   currency: String!
 
   """
-  Reference to DailyCryptoFees entity
+  Reference to CryptoFeesDaily entity
   """
-  dailyCryptoFees: DailyCryptoFees!
+  dailyCryptoFees: CryptoFeesDaily!
 
   """
-  Reference to DailyFiatFees entity
+  Reference to FiatFeesDaily entity
   """
-  dailyFiatFees: DailyFiatFees!
+  dailyFiatFees: FiatFeesDaily!
 
   """
   Transaction hash

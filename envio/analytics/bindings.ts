@@ -72,8 +72,8 @@ export namespace Contract {
 
 // Entities
 import type {
-  DailyCryptoFees as EntityDailyCryptoFees,
-  DailyFiatFees as EntityDailyFiatFees,
+  CryptoFeesDaily as EntityCryptoFeesDaily,
+  FiatFeesDaily as EntityFiatFeesDaily,
   FeeCollectionDaily as EntityFeeCollectionDaily,
   FeeCollectionTransaction as EntityFeeCollectionTransaction,
   FeeTransaction as EntityFeeTransaction,
@@ -82,8 +82,8 @@ import type {
 } from "./bindings/src/Types.gen";
 
 export namespace Entity {
-  export type DailyCryptoFees = EntityDailyCryptoFees;
-  export type DailyFiatFees = EntityDailyFiatFees;
+  export type CryptoFeesDaily = EntityCryptoFeesDaily;
+  export type FiatFeesDaily = EntityFiatFeesDaily;
   export type FeeCollectionDaily = EntityFeeCollectionDaily;
   export type FeeCollectionTransaction = EntityFeeCollectionTransaction;
   export type FeeTransaction = EntityFeeTransaction;

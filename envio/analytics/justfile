@@ -1,6 +1,6 @@
 import "../envio.just"
 
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "DailyFiatFees&DailyCryptoFees&FeeCollectionDaily&FeeCollectionTransaction&FeeTransaction&User&UserTransaction"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "FiatFeesDaily&CryptoFeesDaily&FeeCollectionDaily&FeeCollectionTransaction&FeeTransaction&User&UserTransaction"
 export ENVIO_INDEXER_NAME := "analytics"
 export INDEXER_NAME := "analytics"
 
