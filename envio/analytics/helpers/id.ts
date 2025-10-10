@@ -20,7 +20,7 @@ export namespace Id {
   }
 
   export function user(chainId: number, address: string): string {
-    return `${chainId}_${address.toLowerCase()}`;
+    return `${chainId}_${address}`;
   }
 
   export function userTransaction(userId: string, hash: string): string {

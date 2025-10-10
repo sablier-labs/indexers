@@ -32,13 +32,13 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   const currency = chain.nativeCurrency.symbol;
 
   const transaction: Entity.FeeCollectionTransaction = {
-    admin: admin.toLowerCase(),
-    airdropCampaign: airdropCampaign?.toLowerCase(),
+    admin: admin,
+    airdropCampaign: airdropCampaign,
     amount: Number(formatEther(amount)),
     block: BigInt(event.block.number),
-    caller: event.transaction.from?.toLowerCase() || "",
+    caller: event.transaction.from || "",
     chainId: BigInt(event.chainId),
-    contractAddress: event.srcAddress.toLowerCase(),
+    contractAddress: event.srcAddress,
     currency,
     hash: event.transaction.hash,
     id,

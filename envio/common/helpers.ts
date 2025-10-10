@@ -25,7 +25,7 @@ export function isOfficialLockup(
   }
 
   // For airdrops, validate against official contracts
-  const lowercasedAddress = address.toLowerCase() as Sablier.Address;
+  const lowercasedAddress = address as Sablier.Address;
   const contract = sablier.contracts.get({
     chainId: event.chainId,
     contractAddress: lowercasedAddress,
