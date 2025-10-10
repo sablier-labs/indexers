@@ -1,3 +1,4 @@
+import * as linkify from "linkifyjs";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import type { Envio } from "./bindings";
@@ -41,4 +42,42 @@ export function isOfficialLockup(
     return false;
   }
   return true;
+}
+
+/**
+ * Removes all URLs from a string using linkifyjs for accurate detection.
+ * Handles URLs with/without protocols, www prefixes, and all TLDs.
+ * @param str The string to remove URLs from.
+ * @returns The string with all URLs removed.
+ */
+export function removeUrls(str: string): string {
+  // Use linkifyjs to find all URLs in the string
+  const matches = linkify.find(str, "url");
+
+  if (!matches || matches.length === 0) {
+    return str;
+  }
+
+  // Sort matches in reverse order to maintain string indices during removal
+  const sortedMatches = [...matches].sort((a, b) => (b.start ?? 0) - (a.start ?? 0));
+
+  let result = str;
+  for (const match of sortedMatches) {
+    result = result.slice(0, match.start) + result.slice(match.end);
+  }
+
+  return result;
+}
+
+/**
+ * Remove null bytes and other control characters that might cause issues with PostgreSQL
+ * @see https://github.com/enviodev/hyperindex/issues/446
+ */
+export function sanitizeString(str: string): string {
+  // biome-ignore lint/suspicious/noControlCharactersInRegex: needing to remove null bytes
+  return str.replace(/[\u0000-\u001F\u007F-\u009F]/g, "").trim();
+}
+
+export function sanitizeStringAndRemoveUrls(str: string): string {
+  return sanitizeString(removeUrls(str));
 }
