@@ -37,8 +37,8 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
   }
 
   // Fees are charged via `msg.value`.
-  const msgValue = Number(formatEther(event.transaction.value));
-  if (msgValue === 0) {
+  const msgValue = formatEther(event.transaction.value);
+  if (msgValue === "0") {
     return;
   }
 
@@ -70,8 +70,9 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     const gbpExchangeRate = await context.effect(fetchGBPExchangeRate, date);
 
     // Calculate fiat values.
-    const usdValue = priceUSD * msgValue;
-    const gbpValue = usdValue / gbpExchangeRate;
+    const msgValueNum = Number(msgValue);
+    const usdValue = (priceUSD * msgValueNum).toString();
+    const gbpValue = (Number(usdValue) / gbpExchangeRate).toString();
 
     // Update fee entities.
     upsertFiatFeesDaily(context, entities, event, { date, gbpValue, msgValue, usdValue });
@@ -88,7 +89,7 @@ function createFeeTx(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { currency: string; gbpValue: number; msgValue: number; usdValue: number },
+  params: { currency: string; gbpValue: string; msgValue: string; usdValue: string },
 ): void {
   const { feeTxId, dailyFiatFeesId, dailyCryptoFeesId } = entities;
   const { currency, gbpValue, msgValue, usdValue } = params;
@@ -136,7 +137,7 @@ function upsertFiatFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { date: string; gbpValue: number; msgValue: number; usdValue: number },
+  params: { date: string; gbpValue: string; msgValue: string; usdValue: string },
 ): void {
   let { dailyFiatFees } = entities;
   const { dailyFiatFeesId } = entities;
@@ -153,8 +154,8 @@ function upsertFiatFeesDaily(
   } else {
     dailyFiatFees = {
       ...dailyFiatFees,
-      amountGBP: dailyFiatFees.amountGBP + gbpValue,
-      amountUSD: dailyFiatFees.amountUSD + usdValue,
+      amountGBP: (Number(dailyFiatFees.amountGBP) + Number(gbpValue)).toString(),
+      amountUSD: (Number(dailyFiatFees.amountUSD) + Number(usdValue)).toString(),
     };
   }
 
@@ -165,7 +166,7 @@ function upsertCryptoFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { currency: string; date: string; msgValue: number },
+  params: { currency: string; date: string; msgValue: string },
 ): void {
   let { dailyCryptoFees } = entities;
   const { dailyCryptoFeesId } = entities;
@@ -183,7 +184,7 @@ function upsertCryptoFeesDaily(
   } else {
     dailyCryptoFees = {
       ...dailyCryptoFees,
-      amount: dailyCryptoFees.amount + msgValue,
+      amount: (Number(dailyCryptoFees.amount) + Number(msgValue)).toString(),
     };
   }
 

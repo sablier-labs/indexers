@@ -38,7 +38,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
     return;
   }
 
-  const amountFormatted = Number(formatEther(amount));
+  const amountFormatted = formatEther(amount);
 
   // Update daily aggregates
   upsertFeeCollectionDaily(context, entities, event, { amountFormatted, currency });
@@ -85,7 +85,7 @@ function upsertFeeCollectionDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { amountFormatted: number; currency: string },
+  params: { amountFormatted: string; currency: string },
 ): void {
   let { feeCollectionDaily } = entities;
   const { feeCollectionDailyId } = entities;
@@ -104,7 +104,7 @@ function upsertFeeCollectionDaily(
   } else {
     feeCollectionDaily = {
       ...feeCollectionDaily,
-      amount: feeCollectionDaily.amount + amountFormatted,
+      amount: (Number(feeCollectionDaily.amount) + Number(amountFormatted)).toString(),
     };
   }
 
