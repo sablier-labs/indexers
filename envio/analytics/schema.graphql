@@ -129,6 +129,11 @@ type FeeCollectionTransaction @entity {
   caller: Bytes!
 
   """
+  Reference to FeeCollectionDaily entity
+  """
+  feeCollectionDaily: FeeCollectionDaily!
+
+  """
   Transaction hash
   """
   hash: String!
@@ -147,6 +152,51 @@ type FeeCollectionTransaction @entity {
   Block Unix timestamp
   """
   timestamp: Timestamp!
+}
+
+"""
+Daily aggregated fee collections by currency, chain, and protocol.
+"""
+type FeeCollectionDaily @entity {
+  """
+  Unique identifier: YYYY-MM-DD_currency_chainId_protocol
+  """
+  id: ID!
+
+  """
+  Total fee amount collected for this day (in native currency, normalized to 18 decimals)
+  """
+  amount: Float!
+
+  """
+  Chain ID where fees were collected
+  """
+  chainId: BigInt!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Protocol type: "airdrops", "flow", or "lockup"
+  """
+  protocol: String!
+
+  """
+  Collection transactions for this day
+  """
+  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollectionDaily")
 }
 
 """
