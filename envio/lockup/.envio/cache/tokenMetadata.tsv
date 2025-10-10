@@ -2051,3 +2051,389 @@ id	output
 [137,"0xEB4B98c15dE29f44e7d4109370a78De6c9D12248"]	{"name": "Trumps", "symbol": "Trumps", "decimals": 6}
 [137,"0x2a40836eD75D8f2E90D6972704C9585d55A525aE"]	{"name": "Trumps", "symbol": "Trumps", "decimals": 6}
 [137,"0x51Fb1d0fEFe16b2a90A83D00b3D84e16DF17C43d"]	{"name": "Mousekoin", "symbol": "MKN", "decimals": 18}
+[146,"0xB8aB2E66d5E4931e675CBE499d8c01B778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[146,"0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38"]	{"name": "Wrapped Sonic", "symbol": "wS", "decimals": 18}
+[999,"0x5555555555555555555555555555555555555555"]	{"name": "Wrapped HYPE", "symbol": "WHYPE", "decimals": 18}
+[59144,"0xd221cf22B2B9643b44ba0873E08eC1952D52508a"]	{"name": "TATERZ", "symbol": "TATERZ", "decimals": 18}
+[59144,"0x67454b41bAF8D29751Cc64f60E3C62B5634567A4"]	{"name": "TBAG", "symbol": "$TBAG", "decimals": 18}
+[81457,"0x9a5dD625D271A540BeF2A0135458D6Cfc67DC0C5"]	{"name": "yard", "symbol": "yard", "decimals": 18}
+[81457,"0xD4aF2bd2Cac6Bb9aEc4a902760d9De40ee7DeEae"]	{"name": "fox", "symbol": "fox", "decimals": 18}
+[81457,"0x331367890d35CCf3163f387e166fC86edaE9Ad16"]	{"name": "village", "symbol": "village", "decimals": 18}
+[81457,"0xf16c2b8E763287c02068c1CDCaC2c4EA615E1564"]	{"name": "AMM", "symbol": "AMM", "decimals": 18}
+[81457,"0x91fF700cc4f10c74e35f72Ff8d22870961Cc195a"]	{"name": "UPGRD", "symbol": "UPGRD", "decimals": 18}
+[81457,"0x310787CaE684E03B186027D4d07B54cE05b6a62F"]	{"name": "Nsp", "symbol": "Nsp", "decimals": 18}
+[81457,"0x4e75f53c71F0aE42C400F1aa5AA5bae326DEB763"]	{"name": "Wood", "symbol": "Wood", "decimals": 18}
+[81457,"0x6F95Db5198ac083BD5411e72844665059a0C4e22"]	{"name": "Cake", "symbol": "Cake", "decimals": 18}
+[81457,"0xf4c91be578DC234eAb904963BF1D2eb55daE5313"]	{"name": "UNO", "symbol": "UNO", "decimals": 18}
+[81457,"0x2cf491e244867D8Ef00F725721e1BFaCE91d20A2"]	{"name": "SPAC", "symbol": "SPAC", "decimals": 18}
+[81457,"0x34a99a2eb955fB8cf92a91393b3587aF0B534b3c"]	{"name": "Test", "symbol": "Test", "decimals": 18}
+[56,"0x2F714d7b9A035d4ce24af8d9b6091c07E37f43Fb"]	{"name": "NodeOps", "symbol": "NODE", "decimals": 18}
+[56,"0xDc5D7f9e812d7575239Bb03AB3823416FFF04444"]	{"name": "GridiumAI", "symbol": "GRDM", "decimals": 18}
+[56,"0x47a9B109Cfb8f89D16e8B34036150eE112572435"]	{"name": "BilliCat", "symbol": "BCAT", "decimals": 18}
+[56,"0xAcf5A368eC5bb9e804C8AC0b508dAA5A21C92e13"]	{"name": "GriffinAI", "symbol": "GAIN", "decimals": 18}
+[56,"0x5b73A93b4E5e4f1FD27D8b3F8C97D69908b5E284"]	{"name": "FORM Token", "symbol": "FORM", "decimals": 18}
+[56,"0x6261963EbE9Ff014aAd10eCc3b0238D4D04E8353"]	{"name": "Hana Token", "symbol": "HANA", "decimals": 18}
+[56,"0xf8f8BAcce156dEE2EDB20421Ac6a1e90f4f50543"]	{"name": "GiggleClass", "symbol": "GCLASS", "decimals": 18}
+[56,"0xbabB3905dF6bfBc17F9d3FEA80FDA3dC2626a6bA"]	{"name": "PLASMOON", "symbol": "PLASMOON", "decimals": 9}
+[56,"0x99c1894c975AB686975602e848488b76029a20C8"]	{"name": "Success", "symbol": "Success", "decimals": 18}
+[56,"0x43C934A845205F0b514417d757d7235B8f53f1B9"]	{"name": "Stellar", "symbol": "XLM", "decimals": 18}
+[56,"0x4B948d64dE1F71fCd12fB586f4c776421a35b3eE"]	{"name": "0G", "symbol": "0G", "decimals": 18}
+[56,"0xa890F8BA60051ec8a5B528F056DA362Ba208a96F"]	{"name": "GriffinAI", "symbol": "GAIN", "decimals": 18}
+[42161,"0x25118290e6A5f4139381D072181157035864099d"]	{"name": "RAIN", "symbol": "RAIN", "decimals": 18}
+[42161,"0x2F714d7b9A035d4ce24af8d9b6091c07E37f43Fb"]	{"name": "NodeOps", "symbol": "NODE", "decimals": 18}
+[8453,"0x753E9755b39511DBdD5619B3D1c6722Dceb3Ac9b"]	{"name": "fun ORACLE AI", "symbol": "ORCA", "decimals": 18}
+[8453,"0x570b1533F6dAa82814B25B62B5c7c4c55eB83947"]	{"name": "BOBO", "symbol": "BOBO", "decimals": 18}
+[8453,"0x6a63cC270EE54c27D349C2aa6874E8Fb02Ad1E2E"]	{"name": "Pro Legacy AI", "symbol": "PRO", "decimals": 18}
+[8453,"0x64FCC3A02eeEba05Ef701b7eed066c6ebD5d4E51"]	{"name": "Spectra Token", "symbol": "SPECTRA", "decimals": 18}
+[8453,"0xA3c451BdBa09cd83E337499ae8f82646866D593A"]	{"name": "fun Null Address", "symbol": "NULL", "decimals": 18}
+[8453,"0x5537A24aD7e8D68Aec165DCff6d2F8C23605417F"]	{"name": "Eye Future by Virtuals", "symbol": "EYE", "decimals": 18}
+[8453,"0x485c6198b185cb675Aa6f23aC36C7d6ebA181F60"]	{"name": "fun Shanghai Intelligence", "symbol": "WUSHIN", "decimals": 18}
+[50,"0xc6126EBFa8B5fFD41561C086979c97416969CeBF"]	{"name": "Growlimitless", "symbol": "GLL", "decimals": 18}
+[84532,"0x448A1fE74f7383Afc5a7761b052baBD08a9a6bC0"]	{"name": "CLONES", "symbol": "CLONES", "decimals": 18}
+[84532,"0x4200000000000000000000000000000000000006"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
+[84532,"0x21ca6932f16d408C2d0Cc8c5C7e20499AeCC41e4"]	{"name": "Shaktiman", "symbol": "SKTMN", "decimals": 18}
+[84532,"0x832cCDeF5D6281A109eBD22C7C76A75E902A3d30"]	{"name": "Mirror Token", "symbol": "MIRROR", "decimals": 18}
+[84532,"0x46FcC842157b8E7F43614A39c11fF2BB577eBe87"]	{"name": "Test Token", "symbol": "TEST", "decimals": 18}
+[84532,"0x987346Da1AF3A60DeE8B6fF31B0b972DfBBe6B98"]	{"name": "My Token", "symbol": "MTK", "decimals": 18}
+[11155111,"0x36CE3f9C9AAb850e4f06F1a3F9591e2f6dd43219"]	{"name": "Uniswap V2", "symbol": "UNI-V2", "decimals": 18}
+[11155111,"0xe9457Cf21f6DafBEd3D653CEfd358e667C583Fb1"]	{"name": "TSTtoken", "symbol": "TST1", "decimals": 18}
+[11155111,"0xE3FAD904f18CCb463a426d02c3dF73B72f158372"]	{"name": "Exa Protocol", "symbol": "XAP", "decimals": 8}
+[11155111,"0x6EDeA76903e7d7ED1aF4251d3A76B0ADA5B265B9"]	{"name": "SimpleToken", "symbol": "STK", "decimals": 18}
+[11155111,"0x10ebeBA1a21bDFfA1B4F82eEc3786DE867ddb53E"]	{"name": "Token", "symbol": "TST", "decimals": 18}
+[11155111,"0x1d1804A6866B30ca66F48e7c4C152A226028ea8a"]	{"name": "TestGHKE", "symbol": "tGHKE", "decimals": 18}
+[11155111,"0x2F793D775b32206189C686D5F0DAEaA6B3aF130B"]	{"name": "NeriKutta", "symbol": "NKT", "decimals": 18}
+[11155111,"0x9Aa2bD1d3889A644034353959C2F10B1b055fc4B"]	{"name": "Kalu", "symbol": "KLU", "decimals": 18}
+[8453,"0x0B3EAEAd748facDb9d943d3407011f16Eb17D0Cf"]	{"name": "Primex Finance", "symbol": "PMX", "decimals": 18}
+[8453,"0x3c304234Ed33d3Ba34b7d21fF9e21C23103fD504"]	{"name": "fun Algorithmic", "symbol": "ALGO", "decimals": 18}
+[8453,"0xCbc83E23ecBF42280aeFE9a8f9CD30B0076cDa79"]	{"name": "fun HuyEgo", "symbol": "HUY", "decimals": 18}
+[8453,"0xc35AB1bdD4fd720B144e64D779341317A6787df5"]	{"name": "WAE CTO", "symbol": "WAE", "decimals": 18}
+[8453,"0xe71A5cfc46594c66260e6baE87d6db031c7d24cb"]	{"name": "fun veld ai", "symbol": "VELD", "decimals": 18}
+[8453,"0xccf0f9d9CB01ad552D1cFA79E5A27adC0a3c61F3"]	{"name": "fun algorithmic", "symbol": "ALGO", "decimals": 18}
+[8453,"0x0B511150537B96C8BcF43C0052ebb1e8eB652591"]	{"name": "fun Radio By ROE", "symbol": "DIOR", "decimals": 18}
+[8453,"0x8801276dF424419d358215896e2EF475207a9BAe"]	{"name": "fun ai6ix9ine", "symbol": "AI6IX9", "decimals": 18}
+[8453,"0x59159905A22B499355Aa3a15D60E24Abf414c125"]	{"name": "fun VORTEX", "symbol": "VRTX", "decimals": 18}
+[8453,"0x8EB71725015Ce907Ef4DAB27771F74D976709949"]	{"name": "fun KRISTY AI", "symbol": "KRISTY", "decimals": 18}
+[8453,"0x46489448021EE09f7A98bAA64f71e65069230194"]	{"name": "Smirkle On Base", "symbol": "SMIRK", "decimals": 18}
+[8453,"0xE12ca12b4434d1A25031780cB334e83E95509602"]	{"name": "fun aiZEP", "symbol": "AIZEP", "decimals": 18}
+[8453,"0xBe583AEFa5A285833AF0D1ef25a79dD43620C886"]	{"name": "fun Beff AI", "symbol": "BEFFAI", "decimals": 18}
+[8453,"0xAD3eB8058e9E0ad547e2aF549388Df451b00D8BD"]	{"name": "SHROOMnation", "symbol": "SHRMN", "decimals": 18}
+[8453,"0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b"]	{"name": "Virtual Protocol", "symbol": "VIRTUAL", "decimals": 18}
+[8453,"0xF1E2eac1d39A1306965e504877E06b601E7EC31d"]	{"name": "Kevinity by Virtuals", "symbol": "KEVAI", "decimals": 18}
+[8453,"0x8E496EF155E4944B7371A59572b11a94De5d385F"]	{"name": "Unicast", "symbol": "UCAST", "decimals": 18}
+[8453,"0x4D6D977aacbAc1BdD603c7A759986F74A5DFaEF8"]	{"name": "Georgia by Virtuals", "symbol": "GEAI", "decimals": 18}
+[8453,"0xEc3d2537a03Fc4D790Aa1FC66fa7dfadC6B245FB"]	{"name": "WARS by wow.ai", "symbol": "WARS", "decimals": 18}
+[8453,"0xF6619C0A70875f036D1a163F4Fc70b8876F54A8a"]	{"name": "fun Nuffle Labs", "symbol": "NUFF", "decimals": 18}
+[8453,"0x518dBe19300bCd8A4081b6EE21647cCd98A54e7b"]	{"name": "fun Agent Terminal", "symbol": "ATTL", "decimals": 18}
+[8453,"0x3033906c3E009734809141130A77A2d3c1A52Da7"]	{"name": "fun Exmplr Agent", "symbol": "EXMPLR", "decimals": 18}
+[8453,"0x4871f30C6855c2c88cBaCaC7119FB0eD2722Bff9"]	{"name": "fun CleaverAI", "symbol": "CLEAVE", "decimals": 18}
+[8453,"0xF54B323Be3Df54bBe22d6430199c3F8f48719661"]	{"name": "Zypher", "symbol": "ZYR", "decimals": 18}
+[8453,"0xfb42Da273158B0F642F59F2Ba7cc1d5457481677"]	{"name": "Lingo", "symbol": "LINGO", "decimals": 18}
+[8453,"0xc799AdA44171b741Abf41Ee54fb1B47fda5960bE"]	{"name": "XO Protocol", "symbol": "XOXO", "decimals": 6}
+[8453,"0xDCda5eF6065bBd04855c5FcA4e7ff894AeA90295"]	{"name": "fun NeuroSoul Intern", "symbol": "NOIR", "decimals": 18}
+[8453,"0x3e31966d4f81C72D2a55310A6365A56A4393E98D"]	{"name": "WorldMobileToken", "symbol": "WMTX", "decimals": 6}
+[8453,"0x601a9f9538699c19Dc7246Dd7f6852d59D3a7925"]	{"name": "AikaVerse", "symbol": "AIKA", "decimals": 18}
+[1,"0xD3F58365428F9325d13787a405f846374a58A0fB"]	{"name": "NOON", "symbol": "NOON", "decimals": 18}
+[1,"0x2E4039E8E31475d65DC00293C366FDBfBBC02DC3"]	{"name": "Piku Utility Token", "symbol": "PIKU", "decimals": 18}
+[1,"0x66761Fa41377003622aEE3c7675Fc7b5c1C2FaC5"]	{"name": "Clearpool", "symbol": "CPOOL", "decimals": 18}
+[1,"0x66aA0E04864F2dE0Ee44d9e508e68415C04E2F57"]	{"name": "Exa Protocol", "symbol": "XAP", "decimals": 8}
+[1,"0x95665780ef4FAfE7822f6915A17b6D1b2D3e93D0"]	{"name": "COREMIND", "symbol": "CORE", "decimals": 18}
+[1,"0x4861F0a136b89A1b453Bc841F2B012ab05BF6eE6"]	{"name": "DeltaEngine", "symbol": "DELTA", "decimals": 18}
+[1,"0x9E32b13ce7f2E80A01932B42553652E053D6ed8e"]	{"name": "Metis Token", "symbol": "Metis", "decimals": 18}
+[1,"0x3c571E6dc8F3249E7B05c4ae4973C58750a53E7C"]	{"name": "GutDAO", "symbol": "GUT", "decimals": 18}
+[1,"0xE575cC6EC0B5d176127ac61aD2D3d9d19d1aa4a0"]	{"name": "Staked $WALLET", "symbol": "stkWALLET", "decimals": 18}
+[1,"0x5eed99d066a8CaF10f3E4327c1b3D8b673485eED"]	{"name": "SEED", "symbol": "SEED", "decimals": 18}
+[1,"0xA8f566177844813aeDf353dE70a1FC97cad221ae"]	{"name": "FlowAI", "symbol": "FLW", "decimals": 9}
+[1,"0xcAfE001067cDEF266AfB7Eb5A286dCFD277f3dE5"]	{"name": "ParaSwap", "symbol": "PSP", "decimals": 18}
+[1,"0xf42b70cf7F99b247842b378a9474eCFC91b08C53"]	{"name": "Vibin", "symbol": "VIBIN", "decimals": 18}
+[1,"0x0a26c80Be4E060e688d7C23aDdB92cBb5D2C9eCA"]	{"name": "NONOS", "symbol": "NOX", "decimals": 18}
+[1,"0x8A853b3D639202c64ae700A0c89e4cFD4B31f7f4"]	{"name": "Valyr", "symbol": "VALYR", "decimals": 18}
+[8453,"0xf354c88D11f78410de98ca3F43E574cA6B2b281b"]	{"name": "MyToken", "symbol": "MTK", "decimals": 18}
+[8453,"0x2Da56AcB9Ea78330f947bD57C54119Debda7AF71"]	{"name": "Mog Coin", "symbol": "Mog", "decimals": 18}
+[8453,"0xEfEEd66f7D13F7c91628a8e5f780ed2FB7C5A20C"]	{"name": "Kanye", "symbol": "YE", "decimals": 18}
+[8453,"0x00000000000007C8612bA63Df8DdEfD9E6077c97"]	{"name": "NANI", "symbol": "⌘", "decimals": 18}
+[8453,"0xC0D3700000c0e32716863323bFd936b54a1633d1"]	{"name": "Cod3x Token", "symbol": "CDX", "decimals": 18}
+[8453,"0xc0634090F2Fe6c6d75e61Be2b949464aBB498973"]	{"name": "Keeta", "symbol": "KTA", "decimals": 18}
+[8453,"0xd9eDC75a3a797Ec92Ca370F19051BAbebfb2edEe"]	{"name": "Volatile AMM - WETH/KTA", "symbol": "vAMM-WETH/KTA", "decimals": 18}
+[8453,"0x2E2cc4DfCe60257F091980631e75f5c436b71C87"]	{"name": "Grokster", "symbol": "GRK", "decimals": 18}
+[8453,"0x919E43a2CcE006710090E64BDE9E01b38Fd7f32f"]	{"name": "Agent YP by Virtuals", "symbol": "AIYP", "decimals": 18}
+[8453,"0x6e2c81b6c2C0e02360F00a0dA694e489acB0b05e"]	{"name": "Reflect", "symbol": "RFL", "decimals": 18}
+[8453,"0x1f9532da06dfb414ED25ceAA999a4036A044DDeE"]	{"name": "Based Agents Genesis Token", "symbol": "BAG", "decimals": 18}
+[8453,"0xFcDC6813a75dF7eFf31382cB956C1beE4788Dd34"]	{"name": "Scout Token", "symbol": "$SCOUT", "decimals": 18}
+[8453,"0xc63529297dE076eB15fcbE873AE9136E446cFbB9"]	{"name": "Gyroscope", "symbol": "GYFI", "decimals": 18}
+[8453,"0x4c95CD5b24Cba798C56F9C3045975d7b24437415"]	{"name": "Samsara.Build", "symbol": "SAMS", "decimals": 18}
+[8453,"0x55362c5293cE97F5eB64808d4bbaCCb14682AA89"]	{"name": "ZenithFi", "symbol": "ZFI", "decimals": 18}
+[8453,"0x555a04A1234B291445497eC52700622E74698f8F"]	{"name": "Arkaine", "symbol": "RKNE", "decimals": 18}
+[8453,"0xbfDc9e893503903a63a6EfD5354D7BE77bbf1Ff2"]	{"name": "COSTA", "symbol": "COSTA", "decimals": 18}
+[8453,"0xA88594D404727625A9437C3f886C7643872296AE"]	{"name": "WELL", "symbol": "WELL", "decimals": 18}
+[8453,"0xBfd59caA3faF7caBBfA3ee1776a9FD3853c6a589"]	{"name": "Mamo", "symbol": "MAMO", "decimals": 18}
+[8453,"0x590830dFDf9A3F68aFCDdE2694773dEBDF267774"]	{"name": "Giza", "symbol": "GIZA", "decimals": 18}
+[8453,"0x7300B37DfdfAb110d83290A29DfB31B1740219fE"]	{"name": "Mamo", "symbol": "MAMO", "decimals": 18}
+[8453,"0x0eE78BEc5B606DD253709aea9Be56faebbAe6ed1"]	{"name": "Merge Markets", "symbol": "MERGE", "decimals": 18}
+[8453,"0xB4dF9f08b8D230c577141F5309A25938531954Ab"]	{"name": "Merge Markets", "symbol": "MERGE", "decimals": 18}
+[8453,"0xCc1dFf22466f3B2D26425535Ed67A902ecb0C09b"]	{"name": "Mobee Token", "symbol": "MBE", "decimals": 18}
+[8453,"0xeaF1471585C3E202B6caA1ac2484951f78B7410E"]	{"name": "Praxus", "symbol": "PRAX", "decimals": 18}
+[8453,"0xBB2A93AFcF5d3af8AE28dd50d6c18556eA532c5a"]	{"name": "Sage Market", "symbol": "SAGE", "decimals": 18}
+[8453,"0xeaB5dF15c98d72DA44BdE1fA8A6247003Ef6145c"]	{"name": "ErissAI", "symbol": "EAI", "decimals": 18}
+[8453,"0xA8eA6936954778D5e618196497315e69C4CFEC1B"]	{"name": "Hehe Boii", "symbol": "HEHE", "decimals": 18}
+[8453,"0xc5cf136A976959A471c7aA7e7B08fBBCB7aEa998"]	{"name": "BRETTINME", "symbol": "BRETTINME", "decimals": 9}
+[8453,"0xa9D120445fF4B4247b0400D9f52Bc280F9Df48A1"]	{"name": "memeBTC", "symbol": "MBTC", "decimals": 18}
+[8453,"0x74f1283FdBd26e9403d205574EAAc8CE54a375d2"]	{"name": "Test", "symbol": "Tes", "decimals": 18}
+[8453,"0x8F762c8F7b839A42Ce49b91ca55A88D6dD042E89"]	{"name": "NEW", "symbol": "NEW", "decimals": 18}
+[8453,"0x4e885BF7370499074ef59Df80bE1f97b590066e2"]	{"name": "theapi", "symbol": "api", "decimals": 18}
+[8453,"0xEE2DeEA23C9aE49C4E2284Cf6738CC0B763420C4"]	{"name": "Ace", "symbol": "AC3", "decimals": 18}
+[8453,"0xD6Aa74b7d3C416A1Fea5F84b8949409aC428708C"]	{"name": "BAZOOP", "symbol": "ZOOP", "decimals": 18}
+[8453,"0x23cA3A2Bd7466d424f2A3f22616D1e00c7757213"]	{"name": "0xwach", "symbol": "wach", "decimals": 18}
+[8453,"0x58Db197E91Bc8Cf1587F75850683e4bd0730e6BF"]	{"name": "Axelrod by Virtuals", "symbol": "AXR", "decimals": 18}
+[137,"0x5A2FfF3a508d94bA068f2BafB7bf656c06E967ed"]	{"name": "Galata 22nd Century", "symbol": "GTTC", "decimals": 18}
+[137,"0x5E371C90d3212b68Ad26fbaA22321da19C6f6289"]	{"name": "VACHORPASHA", "symbol": "VACH", "decimals": 10}
+[8453,"0x355ec73be148A4Ef71758749eDD62d37d019CDAF"]	{"name": "fun KarmaVerse", "symbol": "KARMA", "decimals": 18}
+[8453,"0x6C8c8e945C2CcB997B88259b2890Ba95f740dEbE"]	{"name": "NuSHA by Virtuals", "symbol": "AISPACE", "decimals": 18}
+[8453,"0xce788EC15914DE6b3fC1f9904DC0A7C4baDAa226"]	{"name": "Eternix", "symbol": "EEIX", "decimals": 18}
+[8453,"0xfDB9955794dd421036cb3a05Ee89770895ECD8f2"]	{"name": "Tellustra", "symbol": "TLUA", "decimals": 18}
+[8453,"0x111123eA4Cee28CF010703593a8A2a3bbb91756C"]	{"name": "ARA", "symbol": "ARA", "decimals": 18}
+[8453,"0x1b6A569DD61EdCe3C383f6D565e2f79Ec3a12980"]	{"name": "Young Peezy AKA Pepe", "symbol": "PEEZY", "decimals": 18}
+[8453,"0xCf3155Bc7C6660AB2fEc8fb3A43c49abcC9a3211"]	{"name": "BANYAN", "symbol": "BYN", "decimals": 18}
+[8453,"0xA9bc478A44a8c8FE6fd505C1964dEB3cEe3b7abC"]	{"name": "Vottun Token", "symbol": "VTN", "decimals": 18}
+[8453,"0xb33Ff54b9F7242EF1593d2C9Bcd8f9df46c77935"]	{"name": "FAI", "symbol": "FAI", "decimals": 18}
+[1,"0x32D4c7eceE527A84D11250597A0725858a607369"]	{"name": "Robotexon", "symbol": "ROX", "decimals": 9}
+[1,"0x1EbA268081ce1B673b39B39Ca423Cb8e7cB8e6D1"]	{"name": "UNIDATA", "symbol": "UNIDATA", "decimals": 9}
+[1,"0xb99b27C789d38AB9081651eb6e84bDd0c14DC2d2"]	{"name": "KLX Digital", "symbol": "KLX", "decimals": 18}
+[1,"0x0BF36eA29cF3d172B0DE5732B2c02EF2D7d24F1e"]	{"name": "Cognition Network", "symbol": "CNT", "decimals": 18}
+[1,"0x4e107a0000DB66f0E9Fd2039288Bf811dD1f9c74"]	{"name": "Velora", "symbol": "VLR", "decimals": 18}
+[1,"0xCCdbB9C8E43f50407C58F81407A16549e2A475DD"]	{"name": "GriffinAI", "symbol": "GAIN", "decimals": 18}
+[1,"0x86e1714Dca461a66b24193Cbc902515ddcb2d12c"]	{"name": "NAVIGATOR BY METAWIN", "symbol": "NAVI", "decimals": 18}
+[1,"0x6D44DDBA07A9373D665CE636F639e1C46565a349"]	{"name": "FOMO", "symbol": "FOMO", "decimals": 18}
+[1,"0x8db036f007841C21B97eFF7dfc2c187241d59BaF"]	{"name": "CyberKongz", "symbol": "KONG", "decimals": 18}
+[1,"0x195f5C217b96Cd3dd75D39327161B8911A42E509"]	{"name": "NUTS", "symbol": "NUTS", "decimals": 18}
+[1,"0x690F1eEf8AcEaD09Ac695d9111Af081045c6d5b7"]	{"name": "GNET", "symbol": "GNET", "decimals": 18}
+[8453,"0xab9AFF6f259787300bBB16DD1fa0c622426Aa169"]	{"name": "Fuzz AI by Virtuals", "symbol": "FUZZ", "decimals": 18}
+[8453,"0xCd8e7362D67F47a853dc79E3F0A0a56cdC94C7C9"]	{"name": "BRICKS - Blockchain Realworld Interface & Coordination Kinetic System) by Virtuals", "symbol": "BRICKS", "decimals": 18}
+[8453,"0xC0041EF357B183448B235a8Ea73Ce4E4eC8c265F"]	{"name": "Cookie", "symbol": "COOKIE", "decimals": 18}
+[1,"0xa37DB5456b5938Aa50B33575Ae2eB8048CA5959b"]	{"name": "Data Ownership Protocol", "symbol": "DOP", "decimals": 18}
+[1,"0xe0Ff1B0584d63Cb74A78537f1fe0d17564e741D4"]	{"name": "GriffinAI", "symbol": "GAIN", "decimals": 18}
+[1,"0x7bdF026f688FC42FF0B9447bf021D91A84eB220E"]	{"name": "ESYX", "symbol": "ESYX", "decimals": 18}
+[1,"0x11DFC652eb62c723ad8c2ae731FcEdE58aB07564"]	{"name": "Liquid Agent", "symbol": "LIQUID", "decimals": 18}
+[1,"0xEB1D87FfEC280e7832BCb47B8756aA0D29589fa6"]	{"name": "Agentify AI", "symbol": "AGF", "decimals": 18}
+[8453,"0x1c93d155bD388241F9AB5Df500D69eb529cE9583"]	{"name": "Flaunchy", "symbol": "FLNCHY", "decimals": 18}
+[8453,"0xa4f134de49D80e83D2dE6e73845c506BDB3b9D59"]	{"name": "SHADES", "symbol": "SHADES", "decimals": 18}
+[8453,"0xBA8CD87120aCA631F59231f9fD6c5469BbEE3440"]	{"name": "Infinite Trading Protocol", "symbol": "ITP", "decimals": 18}
+[8453,"0x96Cc732459c0EC6bd4CbB069b55380443112E256"]	{"name": "Running horse", "symbol": "Running horse", "decimals": 18}
+[8453,"0xc0B00805fCA44564F7aAbD3cEF59E31f7ee122e7"]	{"name": "Quick selfie with homies", "symbol": "Quick selfie with homies", "decimals": 18}
+[8453,"0xA7921e4C3Dc8E38069061a07C08fC0D2a35B9E6f"]	{"name": "ZED Token", "symbol": "ZED", "decimals": 18}
+[8453,"0x9B59DEF9dBAC66Bc4466516AB25308978C79FbAc"]	{"name": "name", "symbol": "TKN", "decimals": 18}
+[8453,"0xe205FaAcc488163eCd0B83996aaeEC69e00866c0"]	{"name": "name", "symbol": "TKN", "decimals": 18}
+[8453,"0x97b2A39d4A640dda53C03f1f510eeBDB52685943"]	{"name": "aya", "symbol": "AYA", "decimals": 18}
+[8453,"0xbE8728795b935bf6E2a9253Ce7a2Ef6fA831f51E"]	{"name": "Universal Operating System", "symbol": "uOS", "decimals": 18}
+[8453,"0xac853112b19286fB159d7C283c7cA11A95c7D255"]	{"name": "IPFUN", "symbol": "IPFUN", "decimals": 18}
+[8453,"0x98F221abb7A9346D8eF183b99379d63e30F69534"]	{"name": "TURF", "symbol": "TURF", "decimals": 18}
+[8453,"0x431c248257c1d3897FeA3B99eb8e2e4De008cBDF"]	{"name": "Parifi", "symbol": "PRF", "decimals": 18}
+[8453,"0x05976D0954bCC5bC865a9CB105912A177d16415c"]	{"name": "Shaun On Base", "symbol": "SOB", "decimals": 18}
+[8453,"0xaaa843fb2916c0B57454270418E121C626402AAa"]	{"name": "Arcadia", "symbol": "AAA", "decimals": 18}
+[8453,"0xf80c7d3e78607A18A75a364Fdb34Bb57150dF9Bb"]	{"name": "SURGE", "symbol": "URGE", "decimals": 18}
+[8453,"0xaDc0E51476F6a483e65d2a379eBB0a4ac68852e9"]	{"name": "R0AR TOKEN", "symbol": "1R0R", "decimals": 18}
+[8453,"0xA0aeBd4Ae5F256B72B7D43f67eD934237Adb1AeE"]	{"name": "BONSAI COIN", "symbol": "BONSAICOIN", "decimals": 18}
+[8453,"0xe2B76f98fB5dC10A9Aed0F4A4a854De325740019"]	{"name": "Dolphin", "symbol": "DPHN", "decimals": 18}
+[8453,"0x3c8076A911b5935801a2B914629dD45C6a8198db"]	{"name": "ChainPay", "symbol": "CPAY", "decimals": 18}
+[8453,"0x84bF557706d8e5274E7d1F74Db59b161ac35fe69"]	{"name": "Zeus", "symbol": "ZUS", "decimals": 18}
+[8453,"0xfb928a0CDAACaf535c6235854bf09e9FD54791Cc"]	{"name": "Tarvolum", "symbol": "TVM", "decimals": 18}
+[8453,"0xf697A91e2FBF7f0F6c09c9B32d6523628eC5D3F6"]	{"name": "AMPLE", "symbol": "AMPD", "decimals": 9}
+[8453,"0xcD7579977742a360ACB280fB92F884f522538D04"]	{"name": "Immutable Ratings", "symbol": "IR", "decimals": 18}
+[8453,"0x2547b7547689030Ab2b9a34Ff93954134A2B02fe"]	{"name": "fun MARIA", "symbol": "M.A.R.I.A", "decimals": 18}
+[8453,"0x623cD3a3EdF080057892aaF8D773Bbb7A5C9b6e9"]	{"name": "Sekuya", "symbol": "SKYA", "decimals": 18}
+[8453,"0xA2ab9419B97648BF213e2Bf169DAcBB5EF3EEc43"]	{"name": "fun Optimized Xperience Virtual Agent", "symbol": "OXVA", "decimals": 18}
+[8453,"0x83f123d89C1B09Ec810E04f40537CF28BF360519"]	{"name": "Wrapped Bigbug AI Coin by Virtuals", "symbol": "WBUG", "decimals": 18}
+[8453,"0x1cB4Fdc0710D50B8Dfa38CA8136A1f95d43E071B"]	{"name": "Mike C Rotch", "symbol": "MCR", "decimals": 18}
+[8453,"0x9a1470987f2337461390c368ba720c12239B261E"]	{"name": "Base Bliss Exchange", "symbol": "BBE", "decimals": 18}
+[8453,"0x22e6966B799c4D5B13BE962E1D117b56327FDa66"]	{"name": "Synthetix Network Token", "symbol": "SNX", "decimals": 18}
+[8453,"0x0111f55303e9Ca2F4a5bC51d395B9BDfE663e972"]	{"name": "fun Maya world", "symbol": "MAYA", "decimals": 18}
+[8453,"0x973104fAa7F2B11787557e85953ECA6B4e262328"]	{"name": "NCTR", "symbol": "NCTR", "decimals": 18}
+[8453,"0xD3b0b58eC9516e4b875a075328E2CB059d4d54dB"]	{"name": "ArchAI", "symbol": "archai", "decimals": 18}
+[8453,"0x382eff4Df6024a2462bA030191c660Bcb6134a4C"]	{"name": "NBN", "symbol": "NBN", "decimals": 18}
+[8453,"0xE6268d9fd402C3Cf8d0d539B77b538819BEf573C"]	{"name": "OC", "symbol": "OC", "decimals": 18}
+[8453,"0xF1e547De4b074488cB7eA4c52d7e47D275C25789"]	{"name": "AXS", "symbol": "AXS", "decimals": 18}
+[8453,"0x359a0f695fa06543821c44f5c7519606A2187483"]	{"name": "PRN", "symbol": "PRN", "decimals": 18}
+[8453,"0x762cE534C8f1900b92B6570DD03Fa8d0A4959390"]	{"name": "New token", "symbol": "NEW", "decimals": 18}
+[8453,"0x5F945D669C624267872472c6D28631546EF71941"]	{"name": "ARB", "symbol": "ARB", "decimals": 18}
+[8453,"0xa80768509a3e89Bc8D35901b6507D9cbB7b0613E"]	{"name": "OG", "symbol": "OG", "decimals": 18}
+[8453,"0xAe76BCB5D8b737352CaFfAC1b1F716FD9ad8964c"]	{"name": "Creat", "symbol": "CRE", "decimals": 18}
+[8453,"0x4903F177C506b741B715A4981c5F5031126F6039"]	{"name": "test", "symbol": "TE", "decimals": 18}
+[8453,"0x27187B4Aa7E72A055c92e995717B938d6e11bf8c"]	{"name": "New dao", "symbol": "new", "decimals": 18}
+[8453,"0xb72ab5986f731Df8D6cF3eA51BA38dBB899A59C3"]	{"name": "Test", "symbol": "TEst", "decimals": 18}
+[8453,"0x286d04Aa8b82ac9699C000d80344862d46EDAB0a"]	{"name": "NEW TEST", "symbol": "NEW", "decimals": 18}
+[8453,"0xf6b73a874F77C535e521b04B057a2bF7466D4363"]	{"name": "NEW T OKEN", "symbol": "NEW", "decimals": 18}
+[8453,"0xCb8aaeC5bB244c03825C073d24e46FD01501F7c2"]	{"name": "Alpha", "symbol": "ALP", "decimals": 18}
+[8453,"0x038E759D19De8A7DCd628b00280eDCccafaC83bc"]	{"name": "Pump", "symbol": "Pump", "decimals": 18}
+[8453,"0xC4F6f93e0fB50b75A050F458035475a4Ef30FFeE"]	{"name": "Fun", "symbol": "Fun", "decimals": 18}
+[8453,"0x1C46f7DF42Ef921803089dfa4b1322672C8DC60b"]	{"name": "CAD", "symbol": "CAD", "decimals": 18}
+[8453,"0x202c76043c90C2DE7931A5FBC244394302e9064F"]	{"name": "ZK", "symbol": "ZK", "decimals": 18}
+[8453,"0xF466351a74C215735404E48325Df1a38bD79BC44"]	{"name": "New", "symbol": "New", "decimals": 18}
+[8453,"0xB95590926616Af43c494cd3e6bEe8EC6aB16E960"]	{"name": "Test vote", "symbol": "TEV", "decimals": 18}
+[8453,"0x63DE2Bc67Bb5685048cEF7BbDB6EE7440fFa7b9F"]	{"name": "INV", "symbol": "INV", "decimals": 18}
+[8453,"0xF24ef9a40B38f3900b568876A6223750354Dc3fb"]	{"name": "Taka", "symbol": "TAK", "decimals": 18}
+[8453,"0x5518B0bd9b67eE759Df81A4123Cf259De62a922C"]	{"name": "Test", "symbol": "Tes", "decimals": 18}
+[8453,"0x3B7Bd968cb854860534d9D461be66d0fa01f50DA"]	{"name": "New dao", "symbol": "DAO", "decimals": 18}
+[8453,"0x846122092e77B6147FEB7b5A4bDDA82b5a918F38"]	{"name": "ARR", "symbol": "ARR", "decimals": 18}
+[8453,"0xE831d1658Be0CE7A7A215EB722D04758f488325e"]	{"name": "XVT", "symbol": "XVT", "decimals": 18}
+[8453,"0x245fE5cC7baE009C7A42292B76F6dbFe82de4E53"]	{"name": "DCNT", "symbol": "DCNT", "decimals": 18}
+[8453,"0x31d1177bC31F37E9A1BaAACF6B511BE339C3582f"]	{"name": "NEW", "symbol": "NEW", "decimals": 18}
+[8453,"0xE932D1a8aef1AC28435f415a32E49c7BbdCBA1A7"]	{"name": "MATIC", "symbol": "MATIC", "decimals": 18}
+[8453,"0x51b6b70e07C0A2399Fc38AF42b0ef86d50094010"]	{"name": "AKA", "symbol": "AKA", "decimals": 18}
+[8453,"0x2b5050F01d64FBb3e4Ac44dc07f0732BFb5ecadF"]	{"name": "QR coin", "symbol": "QR", "decimals": 18}
+[8453,"0x66421085A66164680Eb49Af173caEb2E9a50705f"]	{"name": "ss3", "symbol": "ss3", "decimals": 18}
+[8453,"0x3D45987F1C8812913a80Efbe3aCdd91DA8676E9c"]	{"name": "0xFútbol", "symbol": "FUTBOL", "decimals": 18}
+[8453,"0x5a52B1A198D0b19e9ce6a51cED95f961Fc78Fc21"]	{"name": "Bender", "symbol": "BND", "decimals": 18}
+[8453,"0x3242A605379083969934AB4554F88449B3eF9D47"]	{"name": "LAMIA", "symbol": "TOKEN", "decimals": 18}
+[8453,"0xbe16af95be64df1052798ce1Fe644EAF16c9B6f7"]	{"name": "La Minoune", "symbol": "Ticoin", "decimals": 18}
+[8453,"0x001315ebe3CE9a66818091A8B1571fA2688A01c5"]	{"name": "La Lilith", "symbol": "COIN", "decimals": 18}
+[8453,"0xC598D5466A81dD21b7Bd671F515757b90F6165d1"]	{"name": "Atharon", "symbol": "COIN", "decimals": 18}
+[8453,"0x08b1c3b383bF543e3C40546c8A7D4e3B0BD078d6"]	{"name": "adou", "symbol": "adou", "decimals": 18}
+[8453,"0x08C716081F6BeEc9f3451016608dD8A3C2d929E6"]	{"name": "OMKARSETH", "symbol": "OKSTH", "decimals": 18}
+[8453,"0x106276d846AccAe11bF1BF1539e0bE5CcE560969"]	{"name": "Based Labubu", "symbol": "LABUBU", "decimals": 18}
+[8453,"0x5800f112F8802E69949059B7772367B88235eA3c"]	{"name": "Buster", "symbol": "BSTR", "decimals": 9}
+[8453,"0x45BC451818502C45b7E9F628B9E1A72247f891b5"]	{"name": "Tren Finance Protocol Token", "symbol": "TREN", "decimals": 18}
+[8453,"0x965c6183Cd9E29A679e5bE99D2A52210000EC63d"]	{"name": "Gustavim TT", "symbol": "GTT", "decimals": 18}
+[8453,"0xa94Df02D47aEc55fE7dE09b66ecdD8858dD41597"]	{"name": "JARAN", "symbol": "JARAN", "decimals": 18}
+[8453,"0x42EE002327d8AfF14ad44a121a0Cca6a4207Bba1"]	{"name": "MARKA", "symbol": "MARKA", "decimals": 18}
+[8453,"0xFBB11a83fDC393bb23189CB1c546502De96e9434"]	{"name": "MDOOO", "symbol": "MDOOO", "decimals": 18}
+[8453,"0xf6586F52B61eB403a522e2DC0B5282Db5938873F"]	{"name": "Kitku", "symbol": "KTQ", "decimals": 18}
+[8453,"0xD5ab739F33bbAA000Ba56C974a97a96758513986"]	{"name": "Blockchainism Labs DAO", "symbol": "BLDAO", "decimals": 18}
+[8453,"0xB7f96B08744b9BC1b864D16Bc0100F502ED75Ecc"]	{"name": "MaloMorgan", "symbol": "MMB", "decimals": 18}
+[8453,"0x6a8B026Fd35243018f00dB4Da539E0CedBaEEbba"]	{"name": "TEST", "symbol": "TST", "decimals": 18}
+[8453,"0xb4E2D157DB718d7415B6346B221A84C894217C8C"]	{"name": "skazaza", "symbol": "SKZ", "decimals": 18}
+[8453,"0x6D86ecDDa7196C71AA7b6095C9Ba610281F2E3F5"]	{"name": "SAYGEGECOIN", "symbol": "SAYGG", "decimals": 18}
+[8453,"0x074D47F68B4Fc601F1229eb56C6d761bec5EF9fb"]	{"name": "Overdrive", "symbol": "Overd", "decimals": 18}
+[8453,"0x8675541873034A730F815A2C55920667b211D860"]	{"name": "NEX", "symbol": "NEX", "decimals": 18}
+[8453,"0x98D992CAD7BF4213B4f7A09Fc893DE6a66325b23"]	{"name": "Navix", "symbol": "NVX", "decimals": 18}
+[8453,"0xa77E22bFAeE006D4f9DC2c20D7D337b05125C282"]	{"name": "Tren Finance v2", "symbol": "TREN", "decimals": 18}
+[8453,"0x8F54224869851b62c13e5A51C0e23D33f7446483"]	{"name": "Nasique", "symbol": "NSQ", "decimals": 18}
+[8453,"0xC0dFAd9F447Ac30E8F1Ee4efF809651D845773Dd"]	{"name": "transversomedial", "symbol": "TRANSV", "decimals": 18}
+[8453,"0x1c7BB0B1b4F8F6B3E90629660260222576F4f2F0"]	{"name": "raba2", "symbol": "STRB2", "decimals": 18}
+[8453,"0x6f4dFdE50EC25159F4e408D5Cfd7E8A85168e3F0"]	{"name": "Staked Dolphin", "symbol": "sDPHN", "decimals": 18}
+[8453,"0xfD3687B7584b6Fa46FD54aE07B1d68119d6e7655"]	{"name": "dante", "symbol": "DNT", "decimals": 18}
+[8453,"0x3489256FEBdb1dc930Dc3743617AD387Cd6D3568"]	{"name": "GraphAI", "symbol": "GAI", "decimals": 18}
+[8453,"0xF3D4F0809ffAEEC292591ad655c2d3eFaFD58355"]	{"name": "Volatile AMM - GAI/WETH", "symbol": "vAMM-GAI/WETH", "decimals": 18}
+[8453,"0x83d779E7e2C129724EbDFF1F8853549bC3fc2dEA"]	{"name": "fsddfsf", "symbol": "fsdfs", "decimals": 18}
+[8453,"0xfC4aCB3a4C25d9DD9a641CF391D1C89bEf439585"]	{"name": "dfsdasd", "symbol": "fdsdss", "decimals": 18}
+[8453,"0x6D96f18F00B815B2109A3766E79F6A7aD7785624"]	{"name": "Patience Token", "symbol": "PATIENCE", "decimals": 18}
+[8453,"0xa05821A42104494badD478c08f3e21D355696579"]	{"name": "LMFAO", "symbol": "LMFAO", "decimals": 18}
+[8453,"0x895761B727873FE65cA50Cf4AA78563fED8cCF6d"]	{"name": "Liquid AI", "symbol": "LIQAI", "decimals": 9}
+[8453,"0x9aB402120FA925493632844D6ea36Bbd39f65C1f"]	{"name": "Grow To Gether DAO", "symbol": "GTGDAO", "decimals": 18}
+[8453,"0x6F1A42F5347c0b7B09347C90949EAb6930eA97AB"]	{"name": "MISSME", "symbol": "MISSME", "decimals": 18}
+[8453,"0xDcE840b6fDCf105160162DDE4f8D02AE9EdE4d33"]	{"name": "WealthHealth Token", "symbol": "WHT", "decimals": 18}
+[8453,"0xD080eD3c74a20250a2c9821885203034ACD2D5ae"]	{"name": "ZyFAI", "symbol": "ZFI", "decimals": 18}
+[8453,"0x3bEB905dc0bB825436C03Ee7B90c36bb0E057b15"]	{"name": "Blob", "symbol": "Blob", "decimals": 18}
+[8453,"0x2E8c7e7Ac0741Cd144d46912c9874d36B68Da661"]	{"name": "Fluff", "symbol": "Fluff", "decimals": 18}
+[8453,"0x8026E831eBB4e2a88c0a9C0Cac3D6eA5B76B43d5"]	{"name": "Poireau", "symbol": "POI", "decimals": 18}
+[8453,"0x820C137fa70C8691f0e44Dc420a5e53c168921Dc"]	{"name": "USDS Stablecoin", "symbol": "USDS", "decimals": 18}
+[8453,"0x23ae17BAeA1E45B29B3598974aeCcF9117348d69"]	{"name": "Bobby", "symbol": "Bobby", "decimals": 18}
+[8453,"0xBFC5cD421bBC91A2Ca976C4AB1754748634b7D41"]	{"name": "Buster", "symbol": "BSTR", "decimals": 9}
+[8453,"0xB96407E0Bb0F967e9897F309d8725603852C1Fb9"]	{"name": "FLI", "symbol": "FLI", "decimals": 18}
+[8453,"0xeF68a934B8B3C16Ed51b7d52e499F66808D64e57"]	{"name": "wowp", "symbol": "wowp", "decimals": 18}
+[8453,"0x56D20135e668217b618c9C56D92dDD2143e7F0C6"]	{"name": "Kenobi Disciple", "symbol": "KENO", "decimals": 18}
+[8453,"0x624BDcFC9bEA61bec3B868140d19328f5F2470D1"]	{"name": "Freedom", "symbol": "FREE", "decimals": 18}
+[8453,"0x3C4314033ec34B401cE604Ce8f023A451621e350"]	{"name": "CIP", "symbol": "CIP", "decimals": 18}
+[8453,"0xcbf1CF49B2832F7Dd952e8F741F2EE7146227b78"]	{"name": "test11", "symbol": "tst11", "decimals": 18}
+[8453,"0xAfD3a55AE8C86FB550495223f92f1Af192E163fd"]	{"name": "11am", "symbol": "11am", "decimals": 18}
+[8453,"0x536Df4A570a58497b438C18FC0A85744A95d3f65"]	{"name": "lcktest", "symbol": "ltst", "decimals": 18}
+[8453,"0x50f60790a529dA536311e8a9DbA4570B00f37D9C"]	{"name": "locktest2", "symbol": "ltst2", "decimals": 18}
+[8453,"0x350e2C692B1A134F489f3E6A9c65d17C56B002B0"]	{"name": "test12", "symbol": "tst12", "decimals": 18}
+[8453,"0xFb4BC85b67D3D7d4a254E936925899c65FAD1219"]	{"name": "wallet.exe", "symbol": "WALLET.exe", "decimals": 18}
+[8453,"0xE92CA52D25a7D1Fb4447fa5e90Dbb9E216f1c72b"]	{"name": "BlockCreeper", "symbol": "BKCR", "decimals": 18}
+[8453,"0xcd8763a97e3Cc934c677F6c7c3750a2002a879c0"]	{"name": "Dominik The Brain", "symbol": "DOMIDOPE", "decimals": 18}
+[8453,"0xf7c5FE8f6125cF899f8cAa8C32516E7b410ED84e"]	{"name": "Get Rich", "symbol": "GTRCH", "decimals": 18}
+[8453,"0x0aa6E44baFe1f27a0D04bb35ff8F0C8bff04b48C"]	{"name": "Lighthouse Token", "symbol": "HOUSE", "decimals": 18}
+[8453,"0xdF18fE966D58B24Bc02fB7BB5Aa7e588Eea88831"]	{"name": "renzhichu", "symbol": "RZC", "decimals": 18}
+[8453,"0xEFe35eAF8c4F636831E87eD310448E12A0A44654"]	{"name": "xingnaiqian", "symbol": "XNQ", "decimals": 18}
+[137,"0x2a69b0383759572081C09f0A68D3a8a955751DdE"]	{"name": "Taliban", "symbol": "DEEK", "decimals": 18}
+[8453,"0x01E9E16D9265c9EFf18229ca23502273D043C252"]	{"name": "han", "symbol": "HAN", "decimals": 18}
+[8453,"0x5877D1B4Ad6Fc99986a89c5115509bC37D790499"]	{"name": "xingxiangjin", "symbol": "XXJ", "decimals": 18}
+[8453,"0xB6F3e4B34Ec2C34C57735E37CBfda9389d661705"]	{"name": "zelinchu", "symbol": "ZLC", "decimals": 18}
+[8453,"0xf413e22BeeD0c79Bdd16b5eF30DE1925D1EEd287"]	{"name": "xmm", "symbol": "XMM", "decimals": 18}
+[8453,"0xFBFC318A1a033e28fF94dEe89d58bcdc2a66e7d2"]	{"name": "FIRE", "symbol": "FIRE", "decimals": 18}
+[8453,"0x7E509D8A25D0c06E53f1F0eF1944225f39892b3e"]	{"name": "baba", "symbol": "BA", "decimals": 18}
+[8453,"0x3B19B90d718498B15b585934b96E2Cdd192f6456"]	{"name": "mao", "symbol": "mao", "decimals": 18}
+[8453,"0xd295D892b8cB77ffA2f7c535f7C9a2f0484BA93B"]	{"name": "abab", "symbol": "ABAB", "decimals": 18}
+[8453,"0xCd9cD8dcAe5F6e15eD66f48A3955Bb8Eb752107f"]	{"name": "yide", "symbol": "yide", "decimals": 18}
+[8453,"0x62E4f82F77829670819dB671E745E8F758D05fcF"]	{"name": "adgai", "symbol": "ADG", "decimals": 18}
+[8453,"0x17Ede5423B5f03deF2079a39B993B4e8a4dc300D"]	{"name": "guiyizhuan", "symbol": "GYZ", "decimals": 18}
+[8453,"0xB982885b806Ae1b484fCe00F67Ea0c1F34940385"]	{"name": "xingbenshan", "symbol": "XBS", "decimals": 18}
+[8453,"0x908b95825Af581F85B3DA4B2A25705eA3c65c578"]	{"name": "aashiyi", "symbol": "AA", "decimals": 18}
+[8453,"0x0F45F769F3b7616eB9486F77622864c44DA5Fe71"]	{"name": "tiequan", "symbol": "TQ", "decimals": 18}
+[8453,"0x10D56dfE06bCD349FCdc83c6428fdAB48522401B"]	{"name": "beerliu", "symbol": "BEEL", "decimals": 18}
+[8453,"0xBAb320C99B1f084e8a4044c7095fDC3226F8baCf"]	{"name": "acshisan", "symbol": "ACSS", "decimals": 18}
+[8453,"0xB7bD02811704F452cff3eECb856Aa2F27208fb06"]	{"name": "dzsishi", "symbol": "DZ", "decimals": 18}
+[8453,"0x4dD35fCF90033287058D5Ee50D15ca240D3FAF49"]	{"name": "dbsishier", "symbol": "DB", "decimals": 18}
+[8453,"0x442a5a0ad1Ed4627B43b439e14c38CB28ca30E50"]	{"name": "dgsiqi", "symbol": "dgsiqi", "decimals": 18}
+[8453,"0x54Bcf00b0507aa691449847AB8D0cE5c4B551C27"]	{"name": "cbsaner", "symbol": "CBSE", "decimals": 18}
+[8453,"0x08f1916AB65E494E8b4d3C4E0c64c7519Db76E88"]	{"name": "bgerqi", "symbol": "BGEQ", "decimals": 18}
+[8453,"0xac3517eC2abee2D4e934e50e9F2C117509996E90"]	{"name": "ershi", "symbol": "ES", "decimals": 18}
+[8453,"0x0a6d04C8464f166124140B82Ae49AD3d6030677b"]	{"name": "ahshiba", "symbol": "AHSB", "decimals": 18}
+[8453,"0x17340E0c30223A6308FFd601e7bA8B78f15d9E0D"]	{"name": "ai", "symbol": "AI", "decimals": 18}
+[8453,"0x7e7dDBCe106029942b1C07E6483F63F0fc1f34cb"]	{"name": "sanshi", "symbol": "sanshi", "decimals": 18}
+[8453,"0x08b654FF0EbF2FF7b3c44C031541bC561C843915"]	{"name": "xixiangyuan", "symbol": "XXY", "decimals": 18}
+[8453,"0x1BE2BF6C44Fd171A4d4a931eA22e866107dF06b6"]	{"name": "bdersi", "symbol": "BDES", "decimals": 18}
+[8453,"0x98A7F04A0e489F873747510bE961b334B869A28F"]	{"name": "bjerjiu", "symbol": "BJEJ", "decimals": 18}
+[8453,"0x0e5d95c4c5bEC8f0AcC42Febde6E4292a5655a68"]	{"name": "chsanba", "symbol": "CHSB", "decimals": 18}
+[8453,"0x46Bf52B33CAFdbF7d0fecc77C02ba683cD7b8f53"]	{"name": "dcsisan", "symbol": "DCSS", "decimals": 18}
+[8453,"0xbB70C1D4ae59a1872bb230e22B2d49F7eC85C991"]	{"name": "cgsanqi", "symbol": "CGSQ", "decimals": 18}
+[8453,"0xE6ceeFA94FDd72702Ef5E9D90F820D812576614F"]	{"name": "people", "symbol": "PEPE", "decimals": 18}
+[8453,"0xdddF73c5535EEC1D6Aa7f41880cbE69A64066eb1"]	{"name": "Ringfence by Virtuals", "symbol": "RING", "decimals": 18}
+[8453,"0xdF331b75B1bDF8E899f39954d281D7Cb56d8Fd4d"]	{"name": "cisanjiu", "symbol": "CISJ", "decimals": 18}
+[8453,"0xA673aF551eBD16cf785cC3CFC25c4c2763c7c4B9"]	{"name": "ddss", "symbol": "DDSS", "decimals": 18}
+[8453,"0x07085168aCc0C72969dB2563Ab2faF9261425c8F"]	{"name": "desiwu", "symbol": "DESW", "decimals": 18}
+[8453,"0xDdBA7Dd4d1FE45DE2bC0E50a474952a53850FDd3"]	{"name": "djsijiu", "symbol": "DJSJ", "decimals": 18}
+[8453,"0x24D037905f4A16C8A583A29b00cC435dd202a6C0"]	{"name": "agsqi", "symbol": "AGSQ", "decimals": 18}
+[8453,"0xE9908E0d144f0e817D7459a34f69CE4E7808A099"]	{"name": "lilele", "symbol": "LLL", "decimals": 18}
+[8453,"0xC8D4B40F3c39D4a7339dA2EC571c654212DD2e66"]	{"name": "sungoku", "symbol": "SGK", "decimals": 18}
+[8453,"0x60a5f4DdF7fCdF202E6DA458E106497dfe194636"]	{"name": "ezfangyuan", "symbol": "EZFY", "decimals": 18}
+[8453,"0xfB90Df1170176BBFE85f23D54f7Eb6809bE2a9D4"]	{"name": "n5", "symbol": "n5", "decimals": 18}
+[8453,"0xcB6a4A8A56d903Ba3366CF259Ee173A4Bdd94632"]	{"name": "strategicethreserve", "symbol": "strategicethreserve", "decimals": 18}
+[8453,"0x488743cF3ADd1EAf981CC1b6aa95F741e784a91B"]	{"name": "fun VirtualX Bet", "symbol": "VXBET", "decimals": 18}
+[8453,"0x77952b2a1c6f04DF69F9EC6d6721f555C1d59b07"]	{"name": "Magical Kitten", "symbol": "KIT", "decimals": 18}
+[8453,"0xDCfae4B197f02e9ddbC3cE975934bdCDDB357e8C"]	{"name": "Test15", "symbol": "TST15", "decimals": 18}
+[8453,"0xbf8ad72176bE24F2FFE80a1c6ad0faBe71799FCB"]	{"name": "Lily Turner — The First NSFW AI Agent by Virtuals", "symbol": "LILY", "decimals": 18}
+[8453,"0xFa1379EDd42B6389Eec18D3C59ceCDC27Fd2b333"]	{"name": "Access", "symbol": "KEY", "decimals": 18}
+[8453,"0xa023316FA5c85dADF008C611790B3235433e781e"]	{"name": "MUTE SWAP  by Virtuals", "symbol": "MUTE", "decimals": 18}
+[8453,"0xC729777d0470F30612B1564Fd96E8Dd26f5814E3"]	{"name": "Sapien", "symbol": "SAPIEN", "decimals": 18}
+[8453,"0xc2704323A9f6b41B81a735CddD2CcB6273DA1197"]	{"name": "bAIbysitter by Virtuals", "symbol": "BAIBY", "decimals": 18}
+[8453,"0x563779C9aae23b866fce4CC6EF240F6bb432CD10"]	{"name": "Open Source", "symbol": "OS", "decimals": 18}
+[8453,"0x06c10053dCD9dDb89E4cF344d9651fa5B721ad39"]	{"name": "Volatile AMM - WETH/OS", "symbol": "vAMM-WETH/OS", "decimals": 18}
+[8453,"0x78a5d1de296f351a4bC1316Fed9Db443381A80CD"]	{"name": "AEGON by Virtuals", "symbol": "AEGON", "decimals": 18}
+[8453,"0xDA388315a69EC636E30cCd5d5a9CDe5e5F717941"]	{"name": "fun NOBS Agent", "symbol": "NOBS", "decimals": 18}
+[8453,"0xdf006FA7fC1D09A93378E400FE920665412e9046"]	{"name": "Pubhouse Dominance Index", "symbol": "PUB", "decimals": 18}
+[8453,"0x07B8F7Ea341Be95467616B0c8A7cF6d08dB8f95E"]	{"name": "DPEPETOKEN", "symbol": "PEPETOKEN", "decimals": 9}
+[8453,"0x60055099734c0f122e467EB564A8101AC60A689D"]	{"name": "DPEPETOKEN", "symbol": "PEPETOKEN", "decimals": 9}
+[8453,"0x8622301c2E07210E2F4928992B2A0dec7cF6DEe8"]	{"name": "DPEPETOKEN", "symbol": "PEPETOKEN", "decimals": 9}
+[8453,"0x58040EB7D525c272B887103372f50f32DE55A3D7"]	{"name": "PIER", "symbol": "PIER", "decimals": 9}
+[8453,"0x71848F44c10ab56fa97659114ef998b063040bc4"]	{"name": "fun VirtualyVii", "symbol": "VII", "decimals": 18}
+[8453,"0x1C09f2a45B4D6200fD8529ae2739F69a99cb30E1"]	{"name": "DownLight", "symbol": "DL", "decimals": 18}
+[8453,"0x89f045862D14BAf90E33EB2073C7198FD34cD0A7"]	{"name": "geniusjoe", "symbol": "geniusjoe", "decimals": 18}
+[8453,"0xA01ffe2278FD129fFFF49a0EA77F98959EfA3bC0"]	{"name": "Bitkroft token", "symbol": "BKT", "decimals": 18}
+[8453,"0x7Ce02e86354EA0Cc3b302AeAdC0Ab56bC7EB44b8"]	{"name": "SIRE", "symbol": "SIRE", "decimals": 18}
+[8453,"0xCfC8E8a4d2246dEC68115aE24aBbcA0d2B1E6bf2"]	{"name": "Billy Bets by Virtuals", "symbol": "BILLY", "decimals": 18}
+[8453,"0xaC27fa800955849d6D17cC8952Ba9dD6EAA66187"]	{"name": "UnlockProtocolToken", "symbol": "UP", "decimals": 18}
+[8453,"0xe0c9c3432fEaF32637d387F14965eBd7D09E536f"]	{"name": "PHIPHAI", "symbol": "PHIPHAI", "decimals": 18}
+[8453,"0x39E34BdCb53d80c8fbf30D4632c644E4a6C24B9b"]	{"name": "AEVIGRA", "symbol": "AEIA", "decimals": 18}
+[8453,"0x2EFe2Ee58445F548b3Fc94862CEA59B681cf5BEe"]	{"name": "Blob", "symbol": "Blob", "decimals": 18}
+[8453,"0xe1bfA25468AF64e366ddAFC9D91bCc6c97439A14"]	{"name": "Mirror Token", "symbol": "MIRROR", "decimals": 18}
+[8453,"0x7750741868Cc4A865d9c0f619e6E642FD61F642f"]	{"name": "Memory", "symbol": "MEM", "decimals": 18}
+[8453,"0xe5db407750f390247c18CF687E23de8E4b9F3B1f"]	{"name": "PEJECOIN", "symbol": "PEJE", "decimals": 18}
+[8453,"0xA66B448f97CBf58D12f00711C02bAC2d9EAC6f7f"]	{"name": "OpenxAI", "symbol": "OPENX", "decimals": 18}
+[8453,"0xaadd98Ad4660008C917C6FE7286Bc54b2eEF894d"]	{"name": "CLONES", "symbol": "CLONES", "decimals": 18}
+[8453,"0xE57E601c06689D3e2BF7DB7bebb14B4ff28400C6"]	{"name": "Meridian", "symbol": "MRDN", "decimals": 18}
+[8453,"0xD64423297FbBFf3D996ADA49A539832215ECe135"]	{"name": "POLO", "symbol": "POLO", "decimals": 18}
+[8453,"0x4C7Efedec321FB437B7c61e2acd8697769E98a76"]	{"name": "FOX BETS AI by Virtuals", "symbol": "FOX", "decimals": 18}
+[8453,"0x64712FbDF19aE8b5B3B6D0478750E3D5e1A17718"]	{"name": "Waveform by Virtuals", "symbol": "WAVE", "decimals": 18}
+[8453,"0xdB63dA855a24b8FdefaA6620c393901251B93996"]	{"name": "Roblox Community Token", "symbol": "RBX", "decimals": 18}
+[8453,"0xaAA9A3bC81FE7951fE0c3755837b40749ce0c894"]	{"name": "Legend by Virtuals", "symbol": "LEGEND", "decimals": 18}
+[8453,"0x7A06b0Ce54BEC79e6b60Fec780455CBE7A2DC4c9"]	{"name": "Community Token Roblox", "symbol": "ROBLOX", "decimals": 18}
+[8453,"0xA6399cD3be879323e04860bD3BF367E41390a142"]	{"name": "Community Token Roblox", "symbol": "RBLX", "decimals": 18}
+[8453,"0x1B4617734C43F6159F3a70b7E06d883647512778"]	{"name": "AWE Network", "symbol": "AWE", "decimals": 18}
+[8453,"0x16eCa4Ce2CE038e9AAe1e39Abc423142937f9752"]	{"name": "Volatile AMM - rbt/USDC", "symbol": "vAMM-rbt/USDC", "decimals": 18}
+[8453,"0x0b43a1F6d62702d547c178b55B33e489575ccf86"]	{"name": "Blob", "symbol": "Blob", "decimals": 18}
+[8453,"0x9af06eD96dF4f610ee0e89BD92cB2cE350e611C2"]	{"name": "rbtest", "symbol": "rbt", "decimals": 18}
+[8453,"0x3Ad6fD723060Bc0BAFCBE1145Ec2029A9d32b894"]	{"name": "Mikasa", "symbol": "MSA", "decimals": 18}
+[8453,"0xC9972e32b7e999a6883C0f4BBE0A14f9542D04D4"]	{"name": "NICO", "symbol": "NICO", "decimals": 18}
+[8453,"0x2263214f657DE024C2B43A9eDd5044E966AFf774"]	{"name": "FF", "symbol": "FF", "decimals": 18}
+[8453,"0xE88419A3fc78364cfe3dE88080eE4853fAb754C6"]	{"name": "Roba", "symbol": "ROBA", "decimals": 18}
+[8453,"0xc1fC6dE6bf85eD9F9290e49e5DFfB497C6710275"]	{"name": "SSP", "symbol": "SSP", "decimals": 18}

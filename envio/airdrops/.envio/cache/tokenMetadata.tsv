@@ -284,3 +284,26 @@ id	output
 [56,"0x1F34c87ded863Fe3A3Cd76FAc8adA9608137C8c3"]	{"name": "Overlay", "symbol": "OVL", "decimals": 18}
 [1,"0x382eC856c90ef7Ed7C936852F6603568cE1984E7"]	{"name": "VOX", "symbol": "VOX", "decimals": 18}
 [1,"0x93FFb58cfDD9f2AaD28eb6b624D4459e4c95c191"]	{"name": "Fugazi Experiment", "symbol": "FUGAZI", "decimals": 18}
+[999,"0x5555555555555555555555555555555555555555"]	{"name": "Wrapped HYPE", "symbol": "WHYPE", "decimals": 18}
+[999,"0x09Bab38c8Ed09402970A801b462e957a78380FD4"]	{"name": "MachaToken Token", "symbol": "MACHA", "decimals": 18}
+[999,"0x5687d327F84Bf9e0Ac0574AF0346a8039EcCAe47"]	{"name": "MACHA escrowed token", "symbol": "xMACHA", "decimals": 18}
+[59144,"0x1789e0043623282D5DCc7F213d703C6D8BAfBB04"]	{"name": "Linea", "symbol": "LINEA", "decimals": 18}
+[59144,"0x67454b41bAF8D29751Cc64f60E3C62B5634567A4"]	{"name": "TBAG", "symbol": "$TBAG", "decimals": 18}
+[11155111,"0x1d1804A6866B30ca66F48e7c4C152A226028ea8a"]	{"name": "TestGHKE", "symbol": "tGHKE", "decimals": 18}
+[11155111,"0x0a65219ddb871F34c99Ea83E2E0c78e520308E0B"]	{"name": "TokenOps Test Token", "symbol": "TOTT", "decimals": 18}
+[11155111,"0x2F793D775b32206189C686D5F0DAEaA6B3aF130B"]	{"name": "NeriKutta", "symbol": "NKT", "decimals": 18}
+[11155111,"0x9Aa2bD1d3889A644034353959C2F10B1b055fc4B"]	{"name": "Kalu", "symbol": "KLU", "decimals": 18}
+[1,"0xE8E5465Cbaa57DEF4AdE39DbD30a3d273bc1C632"]	{"name": "Deploy", "symbol": "DEPLOY", "decimals": 9}
+[1,"0x3A9De8d5b1Db964EAc13a7Cf82B3ed883CDaf412"]	{"name": "LumiTeh", "symbol": "LUMI", "decimals": 9}
+[1,"0xcAfE001067cDEF266AfB7Eb5A286dCFD277f3dE5"]	{"name": "ParaSwap", "symbol": "PSP", "decimals": 18}
+[1,"0x4e107a0000DB66f0E9Fd2039288Bf811dD1f9c74"]	{"name": "Velora", "symbol": "VLR", "decimals": 18}
+[1,"0x86e1714Dca461a66b24193Cbc902515ddcb2d12c"]	{"name": "NAVIGATOR BY METAWIN", "symbol": "NAVI", "decimals": 18}
+[1,"0x690F1eEf8AcEaD09Ac695d9111Af081045c6d5b7"]	{"name": "GNET", "symbol": "GNET", "decimals": 18}
+[8453,"0xf43eB8De897Fbc7F2502483B2Bef7Bb9EA179229"]	{"name": "Horizen", "symbol": "ZEN", "decimals": 18}
+[8453,"0xdddF73c5535EEC1D6Aa7f41880cbE69A64066eb1"]	{"name": "Ringfence by Virtuals", "symbol": "RING", "decimals": 18}
+[8453,"0xC729777d0470F30612B1564Fd96E8Dd26f5814E3"]	{"name": "Sapien", "symbol": "SAPIEN", "decimals": 18}
+[8453,"0x11BEFCE22b6B9Fa0D744Ce897840982837b10819"]	{"name": "ponzi", "symbol": "ponzi", "decimals": 9}
+[8453,"0xa05821A42104494badD478c08f3e21D355696579"]	{"name": "LMFAO", "symbol": "LMFAO", "decimals": 18}
+[8453,"0x4e107a0000DB66f0E9Fd2039288Bf811dD1f9c74"]	{"name": "Velora", "symbol": "VLR", "decimals": 18}
+[56,"0xAcf5A368eC5bb9e804C8AC0b508dAA5A21C92e13"]	{"name": "GriffinAI", "symbol": "GAIN", "decimals": 18}
+[56,"0xa890F8BA60051ec8a5B528F056DA362Ba208a96F"]	{"name": "GriffinAI", "symbol": "GAIN", "decimals": 18}

@@ -78,3 +78,13 @@ id	output
 [42161,"0x3eD03E95DD894235090B3d4A49E0C3239EDcE59e"]	{"name": "MYRC", "symbol": "MYRC", "decimals": 18}
 [8453,"0xcA523625034D456d6206C69d7432dBD71A6F9d7D"]	{"name": "Aexora", "symbol": "AXT", "decimals": 18}
 [146,"0xB8aB2E66d5E4931e675CBE499d8c01B778694fd3"]	{"name": "ERC20Faucet", "symbol": "FAU-ERC20", "decimals": 18}
+[137,"0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174"]	{"name": "USD Coin (PoS)", "symbol": "USDC", "decimals": 6}
+[137,"0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
+[1,"0xb0415D55f2C87b7f99285848bd341C367FeAc1ea"]	{"name": "R0AR TOKEN", "symbol": "1R0R", "decimals": 18}
+[1,"0x4EC1b60B96193a64AcAe44778e51f7BfF2007831"]	{"name": "Edge", "symbol": "EDGE", "decimals": 18}
+[1,"0x7d3e4165fd7D8590fB2a415A550F7bdecE5c4F52"]	{"name": "Muhdo Hub", "symbol": "DNA", "decimals": 18}
+[8453,"0x1C09f2a45B4D6200fD8529ae2739F69a99cb30E1"]	{"name": "DownLight", "symbol": "DL", "decimals": 18}
+[8453,"0x983b5113e5D016Bceb180DcB89c1ca2c4ebac5f3"]	{"name": "Bitcoin Hyper", "symbol": "HYPER", "decimals": 18}
+[8453,"0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22"]	{"name": "Coinbase Wrapped Staked ETH", "symbol": "cbETH", "decimals": 18}
+[8453,"0x1B4617734C43F6159F3a70b7E06d883647512778"]	{"name": "AWE Network", "symbol": "AWE", "decimals": 18}
+[8453,"0x27df736a873A5BC0CE056E52459d61eD1720da86"]	{"name": "iobeats", "symbol": "IOB", "decimals": 18}
