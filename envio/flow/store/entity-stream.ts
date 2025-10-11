@@ -14,7 +14,6 @@ export function create(
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.streamCounter;
-  const now = BigInt(event.block.timestamp);
   const tokenId = params.tokenId;
   const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
   const flow = getContract("flow", event.chainId, event.srcAddress);
@@ -30,13 +29,13 @@ export function create(
     chainId: BigInt(event.chainId),
     contract: event.srcAddress.toLowerCase(),
     creator: event.transaction.from?.toLowerCase() || "",
-    depletionTime: now,
+    depletionTime: params.startTime,
     depositedAmount: 0n,
     forgivenDebt: 0n,
     hash: event.transaction.hash,
     id: streamId,
     lastAdjustmentAction_id: undefined,
-    lastAdjustmentTimestamp: now,
+    lastAdjustmentTimestamp: params.startTime,
     paused: false,
     pausedAction_id: undefined,
     pausedTime: undefined,
@@ -46,12 +45,12 @@ export function create(
     refundedAmount: 0n,
     sender: params.sender.toLowerCase(),
     snapshotAmount: 0n,
-    startTime: now,
+    startTime: params.startTime,
     subgraphId: counter,
-    timestamp: now,
+    timestamp: BigInt(event.block.timestamp),
     tokenId: tokenId,
     transferable: params.transferable,
-    version: flow.version,
+    version: flow.version || "",
     voided: false,
     voidedAction_id: undefined,
     voidedTime: undefined,

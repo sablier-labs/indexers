@@ -1,10 +1,21 @@
+import _ from "lodash";
 import { Id } from "../../../../common/id";
-import type { SablierMerkleInstant_v1_3_Claim_handler as Handler } from "../../../bindings/src/Types.gen";
+import type {
+  SablierMerkleInstant_v1_3_Claim_handler,
+  SablierMerkleInstant_v2_0_ClaimInstant_handler,
+  SablierMerkleLL_v2_0_ClaimLLWithTransfer_handler,
+  SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler,
+} from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
+
+type Handler = SablierMerkleInstant_v1_3_Claim_handler &
+  SablierMerkleInstant_v2_0_ClaimInstant_handler &
+  SablierMerkleLL_v2_0_ClaimLLWithTransfer_handler &
+  SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
@@ -36,6 +47,7 @@ const handler: Handler = async ({ context, event }) => {
     claimAmount: event.params.amount,
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
+    claimTo: _.get(event.params, "to") ?? event.params.recipient,
     fee: event.transaction.value,
   });
 

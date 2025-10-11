@@ -13,6 +13,7 @@ export function handle_SablierV2MerkleStreamerFactory_v1_1_CreateMerkleStreamerL
       aggregateAmount: params.aggregateAmount,
       asset: params.asset,
       campaignAddress: params.merkleStreamer,
+      campaignStartTime: event.block.timestamp,
       category: "LockupLinear",
       expiration: params.expiration,
       ipfsCID: params.ipfsCID,

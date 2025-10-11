@@ -15,6 +15,7 @@ export function handle_SablierMerkleFactory_v1_3_CreateMerkleLT(event: CreateMer
       aggregateAmount: params.aggregateAmount,
       asset: baseParams.token,
       campaignAddress: params.merkleLT,
+      campaignStartTime: event.block.timestamp,
       category: "LockupTranched",
       expiration: baseParams.expiration,
       ipfsCID: baseParams.ipfsCID,

@@ -18,6 +18,7 @@ export function handle_SablierV2MerkleStreamerLL_v1_1_Claim(event: Claim): void 
     index: event.params.index,
     recipient: event.params.recipient,
     streamId: event.params.streamId,
+    to: event.params.recipient,
   });
 }
 

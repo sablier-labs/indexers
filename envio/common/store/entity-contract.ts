@@ -16,7 +16,7 @@ export function create(
   const contract: CommonEntities.Contract = {
     address: contractMetadata.address.toLowerCase(),
     alias: contractMetadata.alias,
-    category: contractMetadata.protocol,
+    category: contractMetadata.protocol || "",
     chainId: BigInt(event.chainId),
     id: Id.contract(event.chainId, event.srcAddress),
   };

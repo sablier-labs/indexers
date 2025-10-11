@@ -8,9 +8,18 @@ importers:
 
   .:
     dependencies:
+      axios-retry:
+        specifier: ^4.5.0
+        version: 4.5.0(axios@1.10.0)
+      chainlist-rpcs:
+        specifier: ^0.5.226
+        version: 0.5.226
+      dotenv:
+        specifier: ^17.2.2
+        version: 17.2.2
       sablier:
-        specifier: ^1.1.0
-        version: 1.1.0(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
+        specifier: 1.2.0-beta.4
+        version: 1.2.0-beta.4(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.2.2
@@ -69,12 +78,6 @@ importers:
       axios:
         specifier: ^1.10.0
         version: 1.10.0
-      axios-retry:
-        specifier: ^4.5.0
-        version: 4.5.0(axios@1.10.0)
-      chainlist-rpcs:
-        specifier: ^0.5.226
-        version: 0.5.226
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -87,9 +90,6 @@ importers:
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
-      dotenv:
-        specifier: ^17.2.2
-        version: 17.2.2
       envio:
         specifier: 2.29.1
         version: 2.29.1(typescript@5.9.2)(zod@3.25.51)
@@ -3401,8 +3401,8 @@ packages:
   rxjs@7.8.2:
     resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
 
-  sablier@1.1.0:
-    resolution: {integrity: sha512-ye/kRIwqhew/O4wVASvRX/V3c07AwPHjYvUdjAHMS8PIidprXPFoKR6T0nsPWgunBNH8rbVkhi9bDrmAvaJ2Jg==}
+  sablier@1.2.0-beta.4:
+    resolution: {integrity: sha512-RveeGQJBqhVOiMLWObpuG5UVgZGnOKkYmy0MgABh7IsrEVopshiCiT1vxzKCVYzvgiPGSHqmaVLW+TQkAhlTQw==}
     engines: {node: '>=20'}
     peerDependencies:
       viem: ^2.32
@@ -7634,7 +7634,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  sablier@1.1.0(viem@2.35.1(typescript@5.9.2)(zod@3.25.51)):
+  sablier@1.2.0-beta.4(viem@2.35.1(typescript@5.9.2)(zod@3.25.51)):
     dependencies:
       lodash: 4.17.21
       viem: 2.35.1(typescript@5.9.2)(zod@3.25.51)

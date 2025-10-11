@@ -75,6 +75,7 @@ function areVersionsCompatible(airdrops: Sablier.Version.Airdrops, lockup: Sabli
     [Version.Airdrops.V1_1]: [Version.Lockup.V1_1, Version.Lockup.V1_2],
     [Version.Airdrops.V1_2]: [Version.Lockup.V1_1, Version.Lockup.V1_2],
     [Version.Airdrops.V1_3]: [Version.Lockup.V2_0],
+    [Version.Airdrops.V2_0]: [Version.Lockup.V3_0],
   };
 
   return compatiblePairs[airdrops]?.includes(lockup) ?? false;
