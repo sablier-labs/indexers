@@ -1,4 +1,5 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { isTokenWithUrl } from "../url-tokens";
 import { ERC20, ERC20Bytes } from "./bindings";
 import { ZERO } from "../constants";
 
@@ -12,6 +13,11 @@ export function fetchAssetDecimals(address: Address): BigInt {
 }
 
 export function fetchAssetName(address: Address): string {
+  // Block known scam tokens with URLs in names
+  if (isTokenWithUrl(address.toHexString())) {
+    return "Unknown";
+  }
+
   const contract = ERC20.bind(address);
   const name = contract.try_name();
 
@@ -29,6 +35,11 @@ export function fetchAssetName(address: Address): string {
 
 
 export function fetchAssetSymbol(address: Address): string {
+  // Block known scam tokens with URLs in symbols
+  if (isTokenWithUrl(address.toHexString())) {
+    return "Unknown";
+  }
+
   const contract = ERC20.bind(address);
   const symbol = contract.try_symbol();
 
