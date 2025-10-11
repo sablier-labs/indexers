@@ -63,7 +63,9 @@ jobs:
             ./src/schemas/lockup.graphql
 
       - name: Run the code checks
-        run: just full-check
+        run: |
+          just full-check
+          just price-data-check
 
       - name: Run the tests
         run: just test

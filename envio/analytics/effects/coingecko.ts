@@ -32,7 +32,7 @@ function createEffect(currency: string) {
  *
  * 1. Add the coin configuration to the `coinConfigs` object below
  * 2. Update the `@sablier/price-data` package with the new coin's historical data
- * 3. Create a symlink in `.envio/cache/` pointing to the TSV file in `@sablier/price-data`
+ * 3. Run `just price-data-sync` to copy the TSV file to `.envio/cache/`
  */
 export const coinConfigs: Record<string, CoinConfig> = {
   [avalanche.nativeCurrency.symbol]: {

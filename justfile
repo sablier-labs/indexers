@@ -68,14 +68,6 @@ alias codegen-indexers := codegen
     just cli export-schema
     just --quiet biome-write "{{ globs }}"
 
-# Fetch assets from The Graph subgraphs and save them to JSON files
-[group("cli")]
-[group("envio")]
-@fetch-assets indexer="all" chain="all":
-    just cli fetch-assets \
-        --indexer {{ indexer }} \
-        --chain {{ chain }}
-
 # Codegen the GraphQL schema
 [group("codegen")]
 [group("envio")]
@@ -96,8 +88,15 @@ test-vendors:
     TEST_VENDORS=true pnpm vitest run
 
 # ---------------------------------------------------------------------------- #
-#                                RECIPES: ENVIO                                #
+#                                SCRIPTS: ENVIO                                #
 # ---------------------------------------------------------------------------- #
+
+# Verify price data in cache matches node_modules version
+[group("checks")]
+[group("cli")]
+[group("envio")]
+@price-data-check:
+    just cli price-data-check
 
 # Codegen everything for the Envio indexer (order matters):
 # 1. GraphQL schema
@@ -133,8 +132,15 @@ _codegen-envio-bindings indexer:
 @codegen-envio-config indexer="all":
     just cli codegen envio-config --indexer {{ indexer }}
 
+# Sync price data from @sablier/price-data to Envio cache
+[group("cli")]
+[group("envio")]
+@price-data-sync:
+    just cli price-data-sync
+
+
 # ---------------------------------------------------------------------------- #
-#                                RECIPES: GRAPH                                #
+#                                SCRIPTS: GRAPH                                #
 # ---------------------------------------------------------------------------- #
 
 # Build all Graph indexers
@@ -190,7 +196,7 @@ _codegen-graph-bindings indexer:
         --chain {{ chain }}
 
 # ---------------------------------------------------------------------------- #
-#                                 RECIPES: GQL                                 #
+#                                 SCRIPTS: GQL                                 #
 # ---------------------------------------------------------------------------- #
 
 
@@ -220,7 +226,7 @@ codegen-gql-graph:
     pnpm graphql-codegen --config ./codegen/gql-config/lockup/graph.ts
 
 # ---------------------------------------------------------------------------- #
-#                                RECIPES: PRINT                                #
+#                                SCRIPTS: PRINT                                #
 # ---------------------------------------------------------------------------- #
 
 # Print available chain arguments
