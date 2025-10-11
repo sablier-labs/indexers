@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@sablier/price-data':
+        specifier: 1.0.0-beta.0
+        version: 1.0.0-beta.0
       sablier:
         specifier: ^1.1.0
         version: 1.1.0(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
@@ -1301,6 +1304,10 @@ packages:
   '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b':
     resolution: {tarball: https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b}
     version: 0.0.0
+
+  '@sablier/price-data@1.0.0-beta.0':
+    resolution: {integrity: sha512-ZF6O+yJoMzV+jMe2x2okHn7YbNaWof7BR7mBD7zMIUtcGnKYQLok7S1xU4AgDHGdFHRBr4fMY+ghR2ZDmS4FyQ==}
+    engines: {node: '>=22'}
 
   '@scure/base@1.1.9':
     resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
@@ -5395,6 +5402,8 @@ snapshots:
     optional: true
 
   '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b': {}
+
+  '@sablier/price-data@1.0.0-beta.0': {}
 
   '@scure/base@1.1.9': {}
 
