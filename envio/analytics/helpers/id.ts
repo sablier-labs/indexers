@@ -19,6 +19,11 @@ export namespace Id {
     return `${chainId}_${hash}_${logIndex}`;
   }
 
+  export function feeCollectionDaily(timestamp: number, currency: string): string {
+    const date = getDate(timestamp);
+    return `${date}_${currency}`;
+  }
+
   export function user(chainId: number, address: string): string {
     return `${chainId}_${address.toLowerCase()}`;
   }

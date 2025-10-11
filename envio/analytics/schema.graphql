@@ -1,7 +1,7 @@
 """
 Daily fees aggregated by currency across all chains.
 """
-type DailyCryptoFees @entity {
+type CryptoFeesDaily @entity {
   """
   Unique identifier: YYYY-MM-DD_currency
   """
@@ -11,7 +11,7 @@ type DailyCryptoFees @entity {
   Total fee amount for this day (in native currency)
   The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
   """
-  amount: Float!
+  amount: String!
 
   """
   Native currency symbol (ETH, POL, BNB, etc.)
@@ -21,7 +21,7 @@ type DailyCryptoFees @entity {
   """
   Reference to the parent daily fiat fees
   """
-  dailyFiatFees: DailyFiatFees!
+  dailyFiatFees: FiatFeesDaily!
 
   """
   Date in YYYY-MM-DD format
@@ -42,7 +42,7 @@ type DailyCryptoFees @entity {
 """
 Aggregated fees across all chains and all currencies for a particular day.
 """
-type DailyFiatFees @entity {
+type FiatFeesDaily @entity {
   """
   Unique identifier: YYYY-MM-DD
   """
@@ -51,17 +51,17 @@ type DailyFiatFees @entity {
   """
   GBP value of the fee amount
   """
-  amountGBP: Float!
+  amountGBP: String!
 
   """
   USD value of the fee amount
   """
-  amountUSD: Float!
+  amountUSD: String!
 
   """
   Fee breakdown by currency for this day
   """
-  currencyBreakdown: [DailyCryptoFees!]! @derivedFrom(field: "dailyFiatFees")
+  currencyBreakdown: [CryptoFeesDaily!]! @derivedFrom(field: "dailyFiatFees")
 
   """
   Date in YYYY-MM-DD format
@@ -77,6 +77,41 @@ type DailyFiatFees @entity {
   Transactions
   """
   transactions: [FeeTransaction!]! @derivedFrom(field: "dailyFiatFees")
+}
+
+"""
+Daily aggregated fee collections by currency across all chains and protocols.
+"""
+type FeeCollectionDaily @entity {
+  """
+  Unique identifier: YYYY-MM-DD_currency
+  """
+  id: ID!
+
+  """
+  Total fee amount collected for this day (in native currency, normalized to 18 decimals)
+  """
+  amount: String!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+
+  """
+  Collection transactions for this day
+  """
+  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollectionDaily")
 }
 
 """
@@ -101,7 +136,7 @@ type FeeCollectionTransaction @entity {
   """
   Fee amount collected (in native currency, normalized to 18 decimals)
   """
-  amount: Float!
+  amount: String!
 
   """
   Block number of the transaction
@@ -127,6 +162,11 @@ type FeeCollectionTransaction @entity {
   The tx.origin of the Ethereum transaction.
   """
   caller: Bytes!
+
+  """
+  Reference to FeeCollectionDaily entity
+  """
+  feeCollectionDaily: FeeCollectionDaily!
 
   """
   Transaction hash
@@ -161,17 +201,17 @@ type FeeTransaction @entity {
   """
   Fee amount from this transaction (in native currency)
   """
-  amount: Float!
+  amount: String!
 
   """
   GBP value of the fee amount from this transaction
   """
-  amountGBP: Float!
+  amountGBP: String!
 
   """
   USD value of the fee amount from this transaction
   """
-  amountUSD: Float!
+  amountUSD: String!
 
   """
   Block number of the transaction
@@ -194,14 +234,14 @@ type FeeTransaction @entity {
   currency: String!
 
   """
-  Reference to DailyCryptoFees entity
+  Reference to CryptoFeesDaily entity
   """
-  dailyCryptoFees: DailyCryptoFees!
+  dailyCryptoFees: CryptoFeesDaily!
 
   """
-  Reference to DailyFiatFees entity
+  Reference to FiatFeesDaily entity
   """
-  dailyFiatFees: DailyFiatFees!
+  dailyFiatFees: FiatFeesDaily!
 
   """
   Transaction hash
@@ -280,7 +320,7 @@ type UserTransaction @entity {
   Transaction fee in native currency (ETH, POL, etc.)
   The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
   """
-  fee: Float!
+  fee: String!
 
   """
   Transaction hash

@@ -91,9 +91,9 @@ function upsert(context: HandlerContext, event: Envio.Event, params: Params): vo
   /*                                   USER TX                                  */
   /* -------------------------------------------------------------------------- */
 
-  let fee = 0;
+  let fee = "0";
   if (event.transaction.from?.toLowerCase() === params.address.toLowerCase()) {
-    fee = Number(formatEther(event.transaction.value));
+    fee = formatEther(event.transaction.value);
   }
   const userTransaction: Entity.UserTransaction = {
     block: BigInt(event.block.number),
