@@ -76,19 +76,6 @@ alias codegen-indexers := codegen
         --indexer {{ indexer }} \
         --chain {{ chain }}
 
-# Fetch historical prices for a currency from CoinGecko
-[group("cli")]
-[script]
-fetch-prices currency year="" month="":
-    cmd="just cli fetch-prices --currency {{ currency }}"
-    if [ -n "{{ year }}" ]; then
-        cmd="$cmd --year {{ year }}"
-    fi
-    if [ -n "{{ month }}" ]; then
-        cmd="$cmd --month {{ month }}"
-    fi
-    eval $cmd
-
 # Codegen the GraphQL schema
 [group("codegen")]
 [group("envio")]

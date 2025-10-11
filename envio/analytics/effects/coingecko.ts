@@ -30,11 +30,9 @@ function createEffect(currency: string) {
 /**
  * How to add a new coin:
  *
- * 1. Go to the coin's CoinGecko page, the "Historical Data" section
- * 2. Download the CSV file using the icon in the top right
- * 3. Open the CSV file in a text editor
- * 4. Ask an LLM to convert it to the TSV format
- * 5. Save the file in the {@link file://./../.envio/cache/ETH_USD.tsv} directory
+ * 1. Add the coin configuration to the `coinConfigs` object below
+ * 2. Update the `@sablier/price-data` package with the new coin's historical data
+ * 3. Create a symlink in `.envio/cache/` pointing to the TSV file in `@sablier/price-data`
  */
 export const coinConfigs: Record<string, CoinConfig> = {
   [avalanche.nativeCurrency.symbol]: {

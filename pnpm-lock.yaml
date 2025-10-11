@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@sablier/price-data':
+        specifier: 1.0.0-beta.0
+        version: 1.0.0-beta.0
       sablier:
         specifier: ^1.1.0
         version: 1.1.0(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
@@ -42,9 +45,6 @@ importers:
       '@sablier/devkit':
         specifier: github:sablier-labs/devkit#main
         version: https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b
-      '@sablier/price-data':
-        specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/ccb3c6e03cc5946ce8a77ca18bcc0428509a4105(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -261,19 +261,8 @@ packages:
     engines: {node: '>=14.21.3'}
     hasBin: true
 
-  '@biomejs/biome@2.2.5':
-    resolution: {integrity: sha512-zcIi+163Rc3HtyHbEO7CjeHq8DjQRs40HsGbW6vx2WI0tg8mYQOPouhvHSyEnCBAorfYNnKdR64/IxO7xQ5faw==}
-    engines: {node: '>=14.21.3'}
-    hasBin: true
-
   '@biomejs/cli-darwin-arm64@2.2.2':
     resolution: {integrity: sha512-6ePfbCeCPryWu0CXlzsWNZgVz/kBEvHiPyNpmViSt6A2eoDf4kXs3YnwQPzGjy8oBgQulrHcLnJL0nkCh80mlQ==}
-    engines: {node: '>=14.21.3'}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@biomejs/cli-darwin-arm64@2.2.5':
-    resolution: {integrity: sha512-MYT+nZ38wEIWVcL5xLyOhYQQ7nlWD0b/4mgATW2c8dvq7R4OQjt/XGXFkXrmtWmQofaIM14L7V8qIz/M+bx5QQ==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [darwin]
@@ -284,20 +273,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@biomejs/cli-darwin-x64@2.2.5':
-    resolution: {integrity: sha512-FLIEl73fv0R7dI10EnEiZLw+IMz3mWLnF95ASDI0kbx6DDLJjWxE5JxxBfmG+udz1hIDd3fr5wsuP7nwuTRdAg==}
-    engines: {node: '>=14.21.3'}
-    cpu: [x64]
-    os: [darwin]
-
   '@biomejs/cli-linux-arm64-musl@2.2.2':
     resolution: {integrity: sha512-/MhYg+Bd6renn6i1ylGFL5snYUn/Ct7zoGVKhxnro3bwekiZYE8Kl39BSb0MeuqM+72sThkQv4TnNubU9njQRw==}
-    engines: {node: '>=14.21.3'}
-    cpu: [arm64]
-    os: [linux]
-
-  '@biomejs/cli-linux-arm64-musl@2.2.5':
-    resolution: {integrity: sha512-5Ov2wgAFwqDvQiESnu7b9ufD1faRa+40uwrohgBopeY84El2TnBDoMNXx6iuQdreoFGjwW8vH6k68G21EpNERw==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [linux]
@@ -308,20 +285,8 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@biomejs/cli-linux-arm64@2.2.5':
-    resolution: {integrity: sha512-5DjiiDfHqGgR2MS9D+AZ8kOfrzTGqLKywn8hoXpXXlJXIECGQ32t+gt/uiS2XyGBM2XQhR6ztUvbjZWeccFMoQ==}
-    engines: {node: '>=14.21.3'}
-    cpu: [arm64]
-    os: [linux]
-
   '@biomejs/cli-linux-x64-musl@2.2.2':
     resolution: {integrity: sha512-ZCLXcZvjZKSiRY/cFANKg+z6Fhsf9MHOzj+NrDQcM+LbqYRT97LyCLWy2AS+W2vP+i89RyRM+kbGpUzbRTYWig==}
-    engines: {node: '>=14.21.3'}
-    cpu: [x64]
-    os: [linux]
-
-  '@biomejs/cli-linux-x64-musl@2.2.5':
-    resolution: {integrity: sha512-AVqLCDb/6K7aPNIcxHaTQj01sl1m989CJIQFQEaiQkGr2EQwyOpaATJ473h+nXDUuAcREhccfRpe/tu+0wu0eQ==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
@@ -332,32 +297,14 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64@2.2.5':
-    resolution: {integrity: sha512-fq9meKm1AEXeAWan3uCg6XSP5ObA6F/Ovm89TwaMiy1DNIwdgxPkNwxlXJX8iM6oRbFysYeGnT0OG8diCWb9ew==}
-    engines: {node: '>=14.21.3'}
-    cpu: [x64]
-    os: [linux]
-
   '@biomejs/cli-win32-arm64@2.2.2':
     resolution: {integrity: sha512-wBe2wItayw1zvtXysmHJQoQqXlTzHSpQRyPpJKiNIR21HzH/CrZRDFic1C1jDdp+zAPtqhNExa0owKMbNwW9cQ==}
     engines: {node: '>=14.21.3'}
     cpu: [arm64]
     os: [win32]
 
-  '@biomejs/cli-win32-arm64@2.2.5':
-    resolution: {integrity: sha512-xaOIad4wBambwJa6mdp1FigYSIF9i7PCqRbvBqtIi9y29QtPVQ13sDGtUnsRoe6SjL10auMzQ6YAe+B3RpZXVg==}
-    engines: {node: '>=14.21.3'}
-    cpu: [arm64]
-    os: [win32]
-
   '@biomejs/cli-win32-x64@2.2.2':
     resolution: {integrity: sha512-DAuHhHekGfiGb6lCcsT4UyxQmVwQiBCBUMwVra/dcOSs9q8OhfaZgey51MlekT3p8UwRqtXQfFuEJBhJNdLZwg==}
-    engines: {node: '>=14.21.3'}
-    cpu: [x64]
-    os: [win32]
-
-  '@biomejs/cli-win32-x64@2.2.5':
-    resolution: {integrity: sha512-F/jhuXCssPFAuciMhHKk00xnCAxJRS/pUzVfXYmOMUp//XW7mO6QeCjsjvnm8L4AO/dG2VOB0O+fJPiJ2uXtIw==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
@@ -1354,18 +1301,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/d6cf3d33a1ce85d90e01f983dabd1c63d951f0ef':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/devkit/tar.gz/d6cf3d33a1ce85d90e01f983dabd1c63d951f0ef}
-    version: 1.0.0
-    engines: {node: '>=20'}
-
   '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b':
     resolution: {tarball: https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b}
     version: 0.0.0
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/ccb3c6e03cc5946ce8a77ca18bcc0428509a4105':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/ccb3c6e03cc5946ce8a77ca18bcc0428509a4105}
-    version: 1.0.0
+  '@sablier/price-data@1.0.0-beta.0':
+    resolution: {integrity: sha512-ZF6O+yJoMzV+jMe2x2okHn7YbNaWof7BR7mBD7zMIUtcGnKYQLok7S1xU4AgDHGdFHRBr4fMY+ghR2ZDmS4FyQ==}
     engines: {node: '>=22'}
 
   '@scure/base@1.1.9':
@@ -1433,9 +1374,6 @@ packages:
 
   '@types/node@24.0.3':
     resolution: {integrity: sha512-R4I/kzCYAdRLzfiCabn9hxWfbuHS573x+r0dJMkkzThEa7pbrcDWK+9zu3e7aBOouf+rQAciqPFMnxwr0aWgKg==}
-
-  '@types/node@24.7.2':
-    resolution: {integrity: sha512-/NbVmcGTP+lj5oa4yiYxxeBjRivKQ5Ns1eSZeB99ExsEQ6rX5XYU1Zy/gGxY/ilqtD4Etx9mKyrPxZRetiahhA==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -1672,9 +1610,6 @@ packages:
   axios@1.10.0:
     resolution: {integrity: sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==}
 
-  axios@1.12.2:
-    resolution: {integrity: sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw==}
-
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
@@ -1897,10 +1832,6 @@ packages:
     resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
     engines: {node: '>=20'}
 
-  commander@14.0.1:
-    resolution: {integrity: sha512-2JkV3gUZUVrbNA+1sjBOYLsMZ5cEEl8GTFP2a4AVz5hvasAMCQ1D2l2le/cX+pV4N6ZU17zjUahLpIXRrnWL8A==}
-    engines: {node: '>=20'}
-
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
 
@@ -1970,9 +1901,6 @@ packages:
 
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
-
-  dayjs@1.11.18:
-    resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -2318,10 +2246,6 @@ packages:
 
   form-data@4.0.3:
     resolution: {integrity: sha512-qsITQPfmvMOSAdeyZ+12I1c+CKSstAFAwu+97zrnWAbIr5u8wfsExUzCesVLC8NgHuRUqNN4Zy6UPWUTRGslcA==}
-    engines: {node: '>= 6'}
-
-  form-data@4.0.4:
-    resolution: {integrity: sha512-KrGhL9Q4zjj0kiUt5OO4Mr/A/jlI2jDYs5eHBpYHPcBEVSiipAvn2Ko2HnPe20rmcuuvMHNdZFp+4IlGTMF0Ow==}
     engines: {node: '>= 6'}
 
   formatly@0.2.4:
@@ -3344,11 +3268,6 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
-  prettier@3.6.2:
-    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
-    engines: {node: '>=14'}
-    hasBin: true
-
   process-warning@2.3.2:
     resolution: {integrity: sha512-n9wh8tvBe5sFmsqlg+XQhaQLumwpqoAUruLwjCopgTmUBjJ/fjtBsJzKleCaIGBOMXYEhp1YfKl4d7rJ5ZKJGA==}
 
@@ -3387,10 +3306,6 @@ packages:
 
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
-
-  radash@12.1.1:
-    resolution: {integrity: sha512-h36JMxKRqrAxVD8201FrCpyeNuUY9Y5zZwujr20fFO77tpUtGa6EZzfKw/3WaiBX95fq7+MpsuMLNdSnORAwSA==}
-    engines: {node: '>=14.18.0'}
 
   react-native-fetch-api@3.0.0:
     resolution: {integrity: sha512-g2rtqPjdroaboDKTsJCTlcmtw54E25OjyaunUP0anOZn4Fuo2IKs8BVfe02zVggA/UysbmfSnRJIqtNkAgggNA==}
@@ -3495,12 +3410,6 @@ packages:
 
   sablier@1.1.0:
     resolution: {integrity: sha512-ye/kRIwqhew/O4wVASvRX/V3c07AwPHjYvUdjAHMS8PIidprXPFoKR6T0nsPWgunBNH8rbVkhi9bDrmAvaJ2Jg==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      viem: ^2.32
-
-  sablier@1.2.0-beta.4:
-    resolution: {integrity: sha512-RveeGQJBqhVOiMLWObpuG5UVgZGnOKkYmy0MgABh7IsrEVopshiCiT1vxzKCVYzvgiPGSHqmaVLW+TQkAhlTQw==}
     engines: {node: '>=20'}
     peerDependencies:
       viem: ^2.32
@@ -3822,11 +3731,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tsx@4.20.6:
-    resolution: {integrity: sha512-ytQKuwgmrrkDTFP4LjR0ToE2nqgy886GpvRSpU0JAnrdBYppuY5rLkRUYPU1yCryb24SsKBTL/hlDQAEFVwtZg==}
-    engines: {node: '>=18.0.0'}
-    hasBin: true
-
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
@@ -3855,9 +3759,6 @@ packages:
   unc-path-regex@0.1.2:
     resolution: {integrity: sha512-eXL4nmJT7oCpkZsHZUOJo8hcX3GbsiDOa0Qu9F646fi8dT3XuSVopVqAcEiVzSKKH7UoDti23wNX3qGFxcW5Qg==}
     engines: {node: '>=0.10.0'}
-
-  undici-types@7.14.0:
-    resolution: {integrity: sha512-QQiYxHuyZ9gQUIrmPo3IA+hUl4KYk8uSA7cHrcKd/l3p1OTpZcM0Tbp9x7FAtXdAYhlasd60ncPpgu6ihG6TOA==}
 
   undici-types@7.8.0:
     resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
@@ -4339,63 +4240,28 @@ snapshots:
       '@biomejs/cli-win32-arm64': 2.2.2
       '@biomejs/cli-win32-x64': 2.2.2
 
-  '@biomejs/biome@2.2.5':
-    optionalDependencies:
-      '@biomejs/cli-darwin-arm64': 2.2.5
-      '@biomejs/cli-darwin-x64': 2.2.5
-      '@biomejs/cli-linux-arm64': 2.2.5
-      '@biomejs/cli-linux-arm64-musl': 2.2.5
-      '@biomejs/cli-linux-x64': 2.2.5
-      '@biomejs/cli-linux-x64-musl': 2.2.5
-      '@biomejs/cli-win32-arm64': 2.2.5
-      '@biomejs/cli-win32-x64': 2.2.5
-
   '@biomejs/cli-darwin-arm64@2.2.2':
-    optional: true
-
-  '@biomejs/cli-darwin-arm64@2.2.5':
     optional: true
 
   '@biomejs/cli-darwin-x64@2.2.2':
     optional: true
 
-  '@biomejs/cli-darwin-x64@2.2.5':
-    optional: true
-
   '@biomejs/cli-linux-arm64-musl@2.2.2':
-    optional: true
-
-  '@biomejs/cli-linux-arm64-musl@2.2.5':
     optional: true
 
   '@biomejs/cli-linux-arm64@2.2.2':
     optional: true
 
-  '@biomejs/cli-linux-arm64@2.2.5':
-    optional: true
-
   '@biomejs/cli-linux-x64-musl@2.2.2':
-    optional: true
-
-  '@biomejs/cli-linux-x64-musl@2.2.5':
     optional: true
 
   '@biomejs/cli-linux-x64@2.2.2':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.2.5':
-    optional: true
-
   '@biomejs/cli-win32-arm64@2.2.2':
     optional: true
 
-  '@biomejs/cli-win32-arm64@2.2.5':
-    optional: true
-
   '@biomejs/cli-win32-x64@2.2.2':
-    optional: true
-
-  '@biomejs/cli-win32-x64@2.2.5':
     optional: true
 
   '@chainsafe/is-ip@2.1.0': {}
@@ -5535,28 +5401,9 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.44.0':
     optional: true
 
-  '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/d6cf3d33a1ce85d90e01f983dabd1c63d951f0ef': {}
-
   '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/e07dcc300deeba1b8f8ac61e90487002b065dc6b': {}
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/ccb3c6e03cc5946ce8a77ca18bcc0428509a4105(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))':
-    dependencies:
-      '@biomejs/biome': 2.2.5
-      '@sablier/devkit': https://codeload.github.com/sablier-labs/devkit/tar.gz/d6cf3d33a1ce85d90e01f983dabd1c63d951f0ef
-      '@types/node': 24.7.2
-      axios: 1.12.2
-      axios-retry: 4.5.0(axios@1.12.2)
-      chalk: 5.6.2
-      commander: 14.0.1
-      dayjs: 1.11.18
-      prettier: 3.6.2
-      radash: 12.1.1
-      sablier: 1.2.0-beta.4(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
-      tsx: 4.20.6
-      typescript: 5.9.2
-    transitivePeerDependencies:
-      - debug
-      - viem
+  '@sablier/price-data@1.0.0-beta.0': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5631,10 +5478,6 @@ snapshots:
   '@types/node@24.0.3':
     dependencies:
       undici-types: 7.8.0
-
-  '@types/node@24.7.2':
-    dependencies:
-      undici-types: 7.14.0
 
   '@types/parse-json@4.0.2': {}
 
@@ -5847,11 +5690,6 @@ snapshots:
       axios: 1.10.0
       is-retry-allowed: 2.2.0
 
-  axios-retry@4.5.0(axios@1.12.2):
-    dependencies:
-      axios: 1.12.2
-      is-retry-allowed: 2.2.0
-
   axios@0.21.4(debug@4.4.1):
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.1)
@@ -5862,14 +5700,6 @@ snapshots:
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.1)
       form-data: 4.0.3
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.12.2:
-    dependencies:
-      follow-redirects: 1.15.9(debug@4.4.1)
-      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -6123,8 +5953,6 @@ snapshots:
 
   commander@14.0.0: {}
 
-  commander@14.0.1: {}
-
   commander@2.20.3: {}
 
   common-tags@1.8.2: {}
@@ -6199,8 +6027,6 @@ snapshots:
   dateformat@4.6.3: {}
 
   dayjs@1.11.13: {}
-
-  dayjs@1.11.18: {}
 
   debounce@1.2.1: {}
 
@@ -6549,14 +6375,6 @@ snapshots:
       signal-exit: 4.1.0
 
   form-data@4.0.3:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      es-set-tostringtag: 2.1.0
-      hasown: 2.0.2
-      mime-types: 2.1.35
-
-  form-data@4.0.4:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
@@ -7679,8 +7497,6 @@ snapshots:
 
   prettier@3.6.0: {}
 
-  prettier@3.6.2: {}
-
   process-warning@2.3.2: {}
 
   process@0.11.10: {}
@@ -7716,8 +7532,6 @@ snapshots:
   queue-microtask@1.2.3: {}
 
   quick-format-unescaped@4.0.4: {}
-
-  radash@12.1.1: {}
 
   react-native-fetch-api@3.0.0:
     dependencies:
@@ -7830,11 +7644,6 @@ snapshots:
       tslib: 2.8.1
 
   sablier@1.1.0(viem@2.35.1(typescript@5.9.2)(zod@3.25.51)):
-    dependencies:
-      lodash: 4.17.21
-      viem: 2.35.1(typescript@5.9.2)(zod@3.25.51)
-
-  sablier@1.2.0-beta.4(viem@2.35.1(typescript@5.9.2)(zod@3.25.51)):
     dependencies:
       lodash: 4.17.21
       viem: 2.35.1(typescript@5.9.2)(zod@3.25.51)
@@ -8132,13 +7941,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tsx@4.20.6:
-    dependencies:
-      esbuild: 0.25.5
-      get-tsconfig: 4.10.1
-    optionalDependencies:
-      fsevents: 2.3.3
-
   tunnel-agent@0.6.0:
     dependencies:
       safe-buffer: 5.2.1
@@ -8163,8 +7965,6 @@ snapshots:
       multiformats: 13.3.6
 
   unc-path-regex@0.1.2: {}
-
-  undici-types@7.14.0: {}
 
   undici-types@7.8.0: {}
 
