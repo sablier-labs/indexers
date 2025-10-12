@@ -18,8 +18,10 @@ type V = Indexer.Vendor;
 const paths = {
   abi: (contractName: string, indexer?: I, version?: Types.Version): string => {
     if (indexer && version) {
-      return join(ABI_DIR, `${indexer}-${version}`, `${contractName}.json`);
+      // Use sablier package for Sablier contracts
+      return join(ROOT_DIR, "node_modules", "sablier", "dist", "abi", indexer, version, `${contractName}.json`);
     }
+    // Keep local path for non-Sablier contracts (ERC20, PRBProxy)
     return join(ABI_DIR, `${contractName}.json`);
   },
   envio: {

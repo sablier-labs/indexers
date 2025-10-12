@@ -13,6 +13,7 @@ export namespace Params {
     recipient: Envio.Address;
     ratePerSecond: bigint;
     sender: Envio.Address;
+    startTime: bigint;
     tokenId: bigint;
     transferable: boolean;
   };

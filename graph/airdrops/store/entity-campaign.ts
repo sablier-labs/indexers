@@ -97,6 +97,7 @@ function createBaseCampaign(event: ethereum.Event, params: Params.CreateCampaign
   campaign.claimedAmount = ZERO;
   campaign.claimedCount = ZERO;
   campaign.expiration = params.expiration;
+  campaign.campaignStartTime = params.campaignStartTime;
   campaign.expires = params.expiration.gt(ZERO);
   campaign.factory = factory.id;
   campaign.hash = event.transaction.hash;

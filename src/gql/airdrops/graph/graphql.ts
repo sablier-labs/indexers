@@ -76,6 +76,11 @@ export type Action = {
    */
   claimStreamId?: Maybe<Scalars['String']['output']>;
   /**
+   * Claim action data: to.
+   *
+   */
+  claimTo?: Maybe<Scalars['Bytes']['output']>;
+  /**
    * Claim action data: ERC-721 token id as provided by the Lockup contract.
    *
    */
@@ -226,6 +231,16 @@ export type Action_Filter = {
   claimStreamId_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   claimStreamId_starts_with?: InputMaybe<Scalars['String']['input']>;
   claimStreamId_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  claimTo?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  claimTo_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_not?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  claimTo_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
   claimTokenId?: InputMaybe<Scalars['BigInt']['input']>;
   claimTokenId_gt?: InputMaybe<Scalars['BigInt']['input']>;
   claimTokenId_gte?: InputMaybe<Scalars['BigInt']['input']>;
@@ -335,6 +350,7 @@ export enum Action_OrderBy {
   CampaignAddress = 'campaign__address',
   CampaignAdmin = 'campaign__admin',
   CampaignAggregateAmount = 'campaign__aggregateAmount',
+  CampaignCampaignStartTime = 'campaign__campaignStartTime',
   CampaignCategory = 'campaign__category',
   CampaignChainId = 'campaign__chainId',
   CampaignClaimedAmount = 'campaign__claimedAmount',
@@ -372,6 +388,7 @@ export enum Action_OrderBy {
   ClaimIndex = 'claimIndex',
   ClaimRecipient = 'claimRecipient',
   ClaimStreamId = 'claimStreamId',
+  ClaimTo = 'claimTo',
   ClaimTokenId = 'claimTokenId',
   ClawbackAmount = 'clawbackAmount',
   ClawbackFrom = 'clawbackFrom',
@@ -508,6 +525,7 @@ export enum Activity_OrderBy {
   CampaignAddress = 'campaign__address',
   CampaignAdmin = 'campaign__admin',
   CampaignAggregateAmount = 'campaign__aggregateAmount',
+  CampaignCampaignStartTime = 'campaign__campaignStartTime',
   CampaignCategory = 'campaign__category',
   CampaignChainId = 'campaign__chainId',
   CampaignClaimedAmount = 'campaign__claimedAmount',
@@ -756,6 +774,11 @@ export type Campaign = {
    *
    */
   asset: Asset;
+  /**
+   * Unix timestamp when the campaign starts and claiming becomes available.
+   *
+   */
+  campaignStartTime: Scalars['BigInt']['output'];
   /**
    * Type of campaign, e.g. Instant.
    *
@@ -1035,6 +1058,14 @@ export type Campaign_Filter = {
   asset_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
   asset_starts_with?: InputMaybe<Scalars['String']['input']>;
   asset_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  campaignStartTime?: InputMaybe<Scalars['BigInt']['input']>;
+  campaignStartTime_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  campaignStartTime_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  campaignStartTime_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  campaignStartTime_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  campaignStartTime_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  campaignStartTime_not?: InputMaybe<Scalars['BigInt']['input']>;
+  campaignStartTime_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
   category?: InputMaybe<CampaignCategory>;
   category_in?: InputMaybe<Array<CampaignCategory>>;
   category_not?: InputMaybe<CampaignCategory>;
@@ -1392,6 +1423,7 @@ export enum Campaign_OrderBy {
   AssetId = 'asset__id',
   AssetName = 'asset__name',
   AssetSymbol = 'asset__symbol',
+  CampaignStartTime = 'campaignStartTime',
   Category = 'category',
   ChainId = 'chainId',
   ClaimedAmount = 'claimedAmount',
@@ -1404,6 +1436,7 @@ export enum Campaign_OrderBy {
   ClawbackActionClaimIndex = 'clawbackAction__claimIndex',
   ClawbackActionClaimRecipient = 'clawbackAction__claimRecipient',
   ClawbackActionClaimStreamId = 'clawbackAction__claimStreamId',
+  ClawbackActionClaimTo = 'clawbackAction__claimTo',
   ClawbackActionClaimTokenId = 'clawbackAction__claimTokenId',
   ClawbackActionClawbackAmount = 'clawbackAction__clawbackAmount',
   ClawbackActionClawbackFrom = 'clawbackAction__clawbackFrom',
@@ -1904,6 +1937,7 @@ export enum Tranche_OrderBy {
   CampaignAddress = 'campaign__address',
   CampaignAdmin = 'campaign__admin',
   CampaignAggregateAmount = 'campaign__aggregateAmount',
+  CampaignCampaignStartTime = 'campaign__campaignStartTime',
   CampaignCategory = 'campaign__category',
   CampaignChainId = 'campaign__chainId',
   CampaignClaimedAmount = 'campaign__claimedAmount',

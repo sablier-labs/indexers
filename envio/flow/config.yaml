@@ -15,7 +15,7 @@ field_selection:
 contracts:
   - name: "SablierFlow_v1_0"
     handler: "mappings/v1.0/SablierFlow.ts"
-    abi_file_path: "../../abi/flow-v1.0/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v1.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -30,7 +30,22 @@ contracts:
       - event: "WithdrawFromFlowStream"
   - name: "SablierFlow_v1_1"
     handler: "mappings/v1.1/SablierFlow.ts"
-    abi_file_path: "../../abi/flow-v1.1/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v1.1/SablierFlow.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "AdjustFlowStream"
+      - event: "CreateFlowStream"
+      - event: "DepositFlowStream"
+      - event: "PauseFlowStream"
+      - event: "RefundFromFlowStream"
+      - event: "RestartFlowStream"
+      - event: "VoidFlowStream"
+      - event: "WithdrawFromFlowStream"
+  - name: "SablierFlow_v2_0"
+    handler: "mappings/v2.0/SablierFlow.ts"
+    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v2.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -58,6 +73,9 @@ networks:
       - address: "0x555b0766f494c641bb522086da4e728ac08c1420"
         name: "SablierFlow_v1_1"
         start_block: 281608
+      - address: "0xc415425e56cc6c42b87bacffb276db2292cc1e50"
+        name: "SablierFlow_v2_0"
+        start_block: 20608071
   - id: 42161
     start_block: 281305357
     rpc:
@@ -74,6 +92,9 @@ networks:
       - address: "0x87cf87ec5de33deb4a88787065373563ba85ee72"
         name: "SablierFlow_v1_1"
         start_block: 299902462
+      - address: "0xf0f6477422a346378458f73cf02f05a7492e0c25"
+        name: "SablierFlow_v2_0"
+        start_block: 386120714
   - id: 43114
     start_block: 53922039
     rpc:
@@ -90,6 +111,9 @@ networks:
       - address: "0xac7cb985d4022a5ebd4a385374ac3d3b487b3c63"
         name: "SablierFlow_v1_1"
         start_block: 56440631
+      - address: "0x64dc318ba879eca8222e963d319728f211c600c7"
+        name: "SablierFlow_v2_0"
+        start_block: 69776725
   - id: 8453
     start_block: 23269999
     rpc:
@@ -106,6 +130,9 @@ networks:
       - address: "0x6fe93c7f6cd1dc394e71591e3c42715be7180a6a"
         name: "SablierFlow_v1_1"
         start_block: 25607016
+      - address: "0x8551208f75375abfaee1fbe0a69e390a94000ec2"
+        name: "SablierFlow_v2_0"
+        start_block: 36413487
   - id: 81457
     start_block: 12259771
     rpc:
@@ -122,6 +149,9 @@ networks:
       - address: "0x16b50eb5eaef0366f1a4da594e2a8c8943a297e0"
         name: "SablierFlow_v1_1"
         start_block: 14596787
+      - address: "0x13ce2ca4602d5d1dd323014cd5a4e8414d310a06"
+        name: "SablierFlow_v2_0"
+        start_block: 25403293
   - id: 80094
     start_block: 780382
     rpc:
@@ -133,6 +163,9 @@ networks:
       - address: "0xa031544946ed769377128fbd961c9d621c4b4179"
         name: "SablierFlow_v1_1"
         start_block: 780382
+      - address: "0xb89cc68b2ef376ca1b9645f109f7a490b180cf1b"
+        name: "SablierFlow_v2_0"
+        start_block: 11353858
   - id: 56
     start_block: 44582847
     rpc:
@@ -149,6 +182,9 @@ networks:
       - address: "0x4c4610af3f3861ec99b6f6f8066c03e4c3a0e023"
         name: "SablierFlow_v1_1"
         start_block: 46140698
+      - address: "0x5505c2397b0bebeee64919f21df84f83c008c51b"
+        name: "SablierFlow_v2_0"
+        start_block: 63552929
   - id: 88888
     start_block: 19125673
     hypersync_config:
@@ -161,6 +197,9 @@ networks:
       - address: "0x28eab88ee8a951f78e1028557d0c3fd97af61a33"
         name: "SablierFlow_v1_1"
         start_block: 20430455
+      - address: "0x21797da50e180d24d6a68e8be6f8daca1c06f0ee"
+        name: "SablierFlow_v2_0"
+        start_block: 27623892
   - id: 100
     start_block: 37356094
     rpc:
@@ -175,6 +214,9 @@ networks:
       - address: "0x34bc0c2bf1f2da51c65cd821ba4133afcacdb8f5"
         name: "SablierFlow_v1_1"
         start_block: 38258920
+      - address: "0xcdd3eb5283e4a675f16ba83e9d8c28c871a550a2"
+        name: "SablierFlow_v2_0"
+        start_block: 42459081
   - id: 999
     start_block: 8663784
     rpc: []
@@ -182,6 +224,9 @@ networks:
       - address: "0x556d859dfeb58ed3fa092b6526b09da6b74113e2"
         name: "SablierFlow_v1_1"
         start_block: 8663784
+      - address: "0x70ce7795896c1e226c71360f9d77b743d8302182"
+        name: "SablierFlow_v2_0"
+        start_block: 15760743
   - id: 59144
     start_block: 12929891
     rpc:
@@ -198,6 +243,9 @@ networks:
       - address: "0xefc6e4c7dc5faa0cfbfebb5e04ea7cd47f64012f"
         name: "SablierFlow_v1_1"
         start_block: 15120566
+      - address: "0x977fdf70abed6b60eeccee85322bea4575b0b6ed"
+        name: "SablierFlow_v2_0"
+        start_block: 168340950
   - id: 1
     start_block: 21330577
     rpc:
@@ -214,6 +262,9 @@ networks:
       - address: "0x3df2aaede81d2f6b261f79047517713b8e844e04"
         name: "SablierFlow_v1_1"
         start_block: 21718688
+      - address: "0x7a86d3e6894f9c5b5f25ffbdaae658cfc7569623"
+        name: "SablierFlow_v2_0"
+        start_block: 23507359
   - id: 34443
     start_block: 16616938
     rpc: []
@@ -224,6 +275,9 @@ networks:
       - address: "0xc968e8eefe19bd6de8868df40d9740be127a172a"
         name: "SablierFlow_v1_1"
         start_block: 18917939
+      - address: "0xbed2f163cc0aa3278261ef1c3fa51b98db270829"
+        name: "SablierFlow_v2_0"
+        start_block: 29724479
   - id: 2818
     start_block: 980797
     rpc: []
@@ -234,6 +288,9 @@ networks:
       - address: "0xf31c8e7d9a0bd310a9d5fb317ba67bb1f0101c6d"
         name: "SablierFlow_v1_1"
         start_block: 4033021
+      - address: "0xbf407836021c993dfa27cb8232415d15faea709a"
+        name: "SablierFlow_v2_0"
+        start_block: 17522576
   - id: 10
     start_block: 128865315
     rpc:
@@ -250,6 +307,9 @@ networks:
       - address: "0xc5612fea2d370127ac67048115bd6b1df7b7f7c0"
         name: "SablierFlow_v1_1"
         start_block: 131202347
+      - address: "0xd18491649440d6338532f260761cee64e79d7bb2"
+        name: "SablierFlow_v2_0"
+        start_block: 142008894
   - id: 137
     start_block: 65079319
     rpc:
@@ -266,6 +326,9 @@ networks:
       - address: "0x3e5c4130ea7cfbd364fa5f170289d697865ca94b"
         name: "SablierFlow_v1_1"
         start_block: 67217839
+      - address: "0x62b6d5a3ac0cc91ecebd019d1c70fe955d8c7426"
+        name: "SablierFlow_v2_0"
+        start_block: 77265843
   - id: 146
     start_block: 43944753
     rpc:
@@ -277,6 +340,9 @@ networks:
       - address: "0x63815da47c97063cc24b28d0b6f59234f71d5c96"
         name: "SablierFlow_v1_1"
         start_block: 43944753
+      - address: "0x3954146884425accb86a6476dad69ec3591838cd"
+        name: "SablierFlow_v2_0"
+        start_block: 49351959
   - id: 534352
     start_block: 11643209
     rpc:
@@ -293,6 +359,9 @@ networks:
       - address: "0xc4f104ce12cb12484ff67cf0c4bd0561f0014ec2"
         name: "SablierFlow_v1_1"
         start_block: 13011209
+      - address: "0xc3e92b9714ed01b51fdc29bb88b17af5cddd2c22"
+        name: "SablierFlow_v2_0"
+        start_block: 22568050
   - id: 50104
     start_block: 11341394
     rpc: []
@@ -314,6 +383,9 @@ networks:
       - address: "0x40e75bb2f2aa3507d3a332872829c71be19ef623"
         name: "SablierFlow_v1_1"
         start_block: 5911913
+      - address: "0xe91bbae6c7d67b7c5055de1c9635c17af056211b"
+        name: "SablierFlow_v2_0"
+        start_block: 16718519
   - id: 5845
     start_block: 3296266
     hypersync_config:
@@ -339,6 +411,9 @@ networks:
       - address: "0x9797b40340be0bfc9ec0dbb8712627bcdd17e771"
         name: "SablierFlow_v1_1"
         start_block: 13883575
+      - address: "0x170ecc032c96aa976fa702e94fbc9fa5bb64ee7c"
+        name: "SablierFlow_v2_0"
+        start_block: 28868371
   - id: 50
     start_block: 85226840
     rpc: []
@@ -346,6 +421,9 @@ networks:
       - address: "0xd6482334242862951da3e730f818c3f6e3f45a30"
         name: "SablierFlow_v1_1"
         start_block: 85226840
+      - address: "0x3f00b8334ebe2a85875d1f8b50a43a12db67acad"
+        name: "SablierFlow_v2_0"
+        start_block: 94421891
   - id: 324
     start_block: 50572220
     rpc:
@@ -362,6 +440,9 @@ networks:
       - address: "0xe3747379bf7282e0ab5389a63ea053a5256042df"
         name: "SablierFlow_v1_1"
         start_block: 54711342
+      - address: "0xa7f02e692973b6315eaca7fb4285ad2536a89cd0"
+        name: "SablierFlow_v2_0"
+        start_block: 65054681
   - id: 84532
     start_block: 18780695
     rpc:
@@ -378,6 +459,9 @@ networks:
       - address: "0xfb6b72a5988a7701a9090c56936269241693a9cc"
         name: "SablierFlow_v1_1"
         start_block: 21117359
+      - address: "0x19e99dcdbaf2fbf43c60cfd026d571860da29d43"
+        name: "SablierFlow_v2_0"
+        start_block: 31923790
   - id: 11155111
     start_block: 7210716
     rpc:
@@ -394,3 +478,6 @@ networks:
       - address: "0x93fe8f86e881a23e5a2feb4b160514fd332576a6"
         name: "SablierFlow_v1_1"
         start_block: 7583391
+      - address: "0xde489096ec9c718358c52a8bbe4ffd74857356e9"
+        name: "SablierFlow_v2_0"
+        start_block: 9343957

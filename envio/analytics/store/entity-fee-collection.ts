@@ -11,7 +11,8 @@ import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
 
 type Params = {
-  admin: string;
+  admin?: string;
+  comptroller?: string;
   airdropCampaign: string | undefined;
   amount: bigint;
   protocol: Sablier.Protocol;
@@ -25,7 +26,8 @@ type LoadedEntities = {
 };
 
 export async function create(context: HandlerContext, event: Envio.Event, params: Params): Promise<void> {
-  const { admin, airdropCampaign, amount, protocol } = params;
+  const admin = params.admin ?? params.comptroller ?? "";
+  const { airdropCampaign, amount, protocol } = params;
 
   const chain = sablier.chains.getOrThrow(event.chainId);
   const currency = chain.nativeCurrency.symbol;

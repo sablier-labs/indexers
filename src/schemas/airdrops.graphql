@@ -118,9 +118,14 @@ type Action @entity(immutable: true) {
   """
   claimIndex: BigInt
   """
-  Claim action data: recipient.
+  Claim action data: original recipient address of the airdrop, which is part of the Merkle tree.
   """
   claimRecipient: Bytes
+  """
+  Claim action data: the actual address that will receive the airdrop, which can be different from the `claimRecipient`.
+  This field is available in v2.0 and later.
+  """
+  claimTo: Bytes
   """
   Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
   """
@@ -279,6 +284,10 @@ type Campaign @entity(immutable: false) {
   Merkle root.
   """
   root: Bytes!
+  """
+  Unix timestamp when the campaign starts and claiming becomes available.
+  """
+  campaignStartTime: BigInt!
   """
   Total number of recipients.
   """

@@ -14,6 +14,7 @@ export function handle_SablierMerkleLL_v1_3_Claim(event: Claim): void {
     index: event.params.index,
     recipient: event.params.recipient,
     streamId: event.params.streamId,
+    to: event.params.recipient,
   });
 }
 

@@ -14,6 +14,7 @@ export namespace Params {
     streamId: BigInt;
     token: Address;
     transferable: boolean;
+    startTime: BigInt;
   }
 
   export class DepositFlowStream {

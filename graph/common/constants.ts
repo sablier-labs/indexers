@@ -31,14 +31,17 @@ export const ZERO = BigInt.fromU32(0);
 export const AIRDROPS_V1_1 = "v1.1";
 export const AIRDROPS_V1_2 = "v1.2";
 export const AIRDROPS_V1_3 = "v1.3";
+export const AIRDROPS_V2_0 = "v2.0";
 
 export const FLOW_V1_0 = "v1.0";
 export const FLOW_V1_1 = "v1.1";
+export const FLOW_V2_0 = "v2.0";
 
 export const LOCKUP_V1_0 = "v1.0";
 export const LOCKUP_V1_1 = "v1.1";
 export const LOCKUP_V1_2 = "v1.2";
 export const LOCKUP_V2_0 = "v2.0";
+export const LOCKUP_V3_0 = "v3.0";
 
 /* -------------------------------------------------------------------------- */
 /*                                    MISC                                    */

@@ -84,7 +84,7 @@ function processComponentsType(input: AbiEventParameter): string {
 
   const typeStr = input.components
     .map((comp: AbiParameter) => {
-      if (comp.type === "tuple") {
+      if (comp.type.startsWith("tuple")) {
         return processComponentsType(comp);
       }
       return comp.type;
