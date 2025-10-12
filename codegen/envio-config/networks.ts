@@ -40,7 +40,7 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
  * Will return an URL like this: https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}
  * The API key will be loaded from the .env file.
  */
-function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
+function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
 
@@ -68,6 +68,10 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] {
       for: "sync",
       url: `https://lb.routeme.sh/rpc/${chainId}/\${ENVIO_ROUTEMESH_API_KEY}`,
     });
+  }
+
+  if (RPCs.length === 0) {
+    return undefined;
   }
 
   return RPCs;
