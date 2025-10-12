@@ -8,15 +8,6 @@ importers:
 
   .:
     dependencies:
-      axios-retry:
-        specifier: ^4.5.0
-        version: 4.5.0(axios@1.10.0)
-      chainlist-rpcs:
-        specifier: ^0.5.226
-        version: 0.5.226
-      dotenv:
-        specifier: ^17.2.2
-        version: 17.2.2
       sablier:
         specifier: 1.2.0-beta.5
         version: 1.2.0-beta.5(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
@@ -81,6 +72,12 @@ importers:
       axios:
         specifier: ^1.10.0
         version: 1.10.0
+      axios-retry:
+        specifier: ^4.5.0
+        version: 4.5.0(axios@1.10.0)
+      chainlist-rpcs:
+        specifier: ^0.5.226
+        version: 0.5.226
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -93,6 +90,9 @@ importers:
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
+      dotenv:
+        specifier: ^17.2.2
+        version: 17.2.2
       envio:
         specifier: 2.29.1
         version: 2.29.1(typescript@5.9.2)(zod@3.25.51)
