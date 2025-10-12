@@ -15,7 +15,7 @@ field_selection:
 contracts:
   - name: "SablierFlow_v1_0"
     handler: "mappings/v1.0/SablierFlow.ts"
-    abi_file_path: "../../abi/flow-v1.0/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v1.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -30,7 +30,7 @@ contracts:
       - event: "WithdrawFromFlowStream"
   - name: "SablierFlow_v1_1"
     handler: "mappings/v1.1/SablierFlow.ts"
-    abi_file_path: "../../abi/flow-v1.1/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v1.1/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -45,7 +45,7 @@ contracts:
       - event: "WithdrawFromFlowStream"
   - name: "SablierFlow_v2_0"
     handler: "mappings/v2.0/SablierFlow.ts"
-    abi_file_path: "../../abi/flow-v2.0/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v2.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
