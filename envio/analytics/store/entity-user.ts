@@ -4,7 +4,7 @@
 import _ from "lodash";
 import { formatEther, zeroAddress } from "viem";
 import type { Envio } from "../../common/bindings";
-import { getDateTimestamp } from "../../common/time";
+import { getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
 
@@ -102,7 +102,7 @@ function upsert(context: HandlerContext, event: Envio.Event, params: Params): vo
     hash: event.transaction.hash,
     id: Id.userTransaction(Id.user(event.chainId, params.address), event.transaction.hash),
     isAirdropClaim: Boolean(params.isAirdropClaim),
-    timestamp: getDateTimestamp(event.block.timestamp),
+    timestamp: getTimestamp(event.block.timestamp),
     user_id: user.id,
   };
   context.UserTransaction.set(userTransaction);

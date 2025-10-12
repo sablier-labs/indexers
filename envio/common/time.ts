@@ -19,6 +19,15 @@ export function getDateTimestamp(timestampInSeconds: number): Date {
 }
 
 /**
+ * This function converts a Unix timestamp to a Date object, preserving the full timestamp (hours, minutes, seconds).
+ * @param timestampInSeconds - The Unix timestamp to convert, in seconds.
+ * @returns The Date object with the full timestamp.
+ */
+export function getTimestamp(timestampInSeconds: number): Date {
+  return dayjs.unix(timestampInSeconds).utc().toDate();
+}
+
+/**
  * This function converts a Unix timestamp to a "day number" by calculating how many full days have elapsed since
  * the Unix epoch.
  */

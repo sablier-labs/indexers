@@ -6,7 +6,7 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
-import { getDate, getDateTimestamp } from "../../common/time";
+import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
 
@@ -64,7 +64,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
     id: entities.feeCollectionTransactionId,
     logIndex: BigInt(event.logIndex),
     protocol,
-    timestamp: getDateTimestamp(event.block.timestamp),
+    timestamp: getTimestamp(event.block.timestamp),
   };
 
   context.FeeCollection.set(transaction);

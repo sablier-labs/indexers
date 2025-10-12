@@ -6,7 +6,7 @@ import { gnosis, tangle } from "sablier/dist/chains";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { FEB_03_2025 } from "../../common/constants";
-import { getDate, getDateTimestamp } from "../../common/time";
+import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { coinConfigs } from "../effects/coingecko";
 import { fetchGBPExchangeRate } from "../effects/forex";
@@ -106,7 +106,7 @@ function createFeeTx(
     dailyFiatFees_id: dailyFiatFeesId,
     hash: event.transaction.hash,
     id: feeTxId,
-    timestamp: getDateTimestamp(event.block.timestamp),
+    timestamp: getTimestamp(event.block.timestamp),
   };
 
   context.FeeTransaction.set(feeTx);
