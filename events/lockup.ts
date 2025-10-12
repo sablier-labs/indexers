@@ -71,7 +71,7 @@ function lockup(version: Sablier.Version.Lockup): Types.Event[] {
 }
 
 /**
- * Lockup v2.0 had a `CollectFees` event that has to be indexed in the Analytics indexer.
+ * Lockup v2.0 had a `CollectFees` event that is indexed only in the Analytics indexer.
  */
 function lockupV2_0(): Types.Event[] {
   const contractName = contracts.names.SABLIER_LOCKUP;
