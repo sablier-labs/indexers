@@ -1,15 +1,14 @@
-## Bindings Errors
+## Type Errors in Bindings
 
-If there are type errors related to `bindings` imports, run `just codegen-envio` to regenerate bindings.
+Run `just codegen-envio` to regenerate binding.
 
-## Update `ENVIO_HASURA_PUBLIC_AGGREGATE`
+## After GraphQL Schema Changes
 
-When modifying GraphQL entities or adding new ones, update `ENVIO_HASURA_PUBLIC_AGGREGATE` in the root `justfile`:
+**1. Update `bindings.ts`** - Add/remove imports to match new schema types
+
+**2. Update `ENVIO_HASURA_PUBLIC_AGGREGATE`** (root `justfile`) - Add new aggregate entities
 
 ```bash
-# Before
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "Foo&Bar"
-
-# After
+# Example: Adding a new aggregate entity "Baz"
 export ENVIO_HASURA_PUBLIC_AGGREGATE := "Foo&Bar&Baz"
 ```

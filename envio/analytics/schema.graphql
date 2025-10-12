@@ -80,9 +80,9 @@ type FiatFeesDaily @entity {
 }
 
 """
-Daily aggregated fee collections by currency across all chains and protocols.
+Aggregated fee collections by currency across all chains and protocols.
 """
-type FeeCollectionDaily @entity {
+type FeeCollection @entity {
   """
   Unique identifier: YYYY-MM-DD_currency
   """
@@ -111,7 +111,7 @@ type FeeCollectionDaily @entity {
   """
   Collection transactions for this day
   """
-  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollectionDaily")
+  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollection")
 }
 
 """
@@ -164,9 +164,9 @@ type FeeCollectionTransaction @entity {
   caller: Bytes!
 
   """
-  Reference to FeeCollectionDaily entity
+  Reference to FeeCollection entity
   """
-  feeCollectionDaily: FeeCollectionDaily!
+  feeCollection: FeeCollection!
 
   """
   Transaction hash

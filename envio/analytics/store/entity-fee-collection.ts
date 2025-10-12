@@ -18,8 +18,8 @@ type Params = {
 };
 
 type LoadedEntities = {
-  feeCollectionDaily: Entity.FeeCollectionDaily | undefined;
-  feeCollectionDailyId: string;
+  feeCollection: Entity.FeeCollection | undefined;
+  feeCollectionId: string;
   feeCollectionTransaction: Entity.FeeCollectionTransaction | undefined;
   feeCollectionTransactionId: string;
 };
@@ -41,7 +41,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   const amountFormatted = formatEther(amount);
 
   // Update daily aggregates
-  upsertFeeCollectionDaily(context, entities, event, { amountFormatted, currency });
+  upsertFeeCollection(context, entities, event, { amountFormatted, currency });
 
   // Create transaction entity
   const transaction: Entity.FeeCollectionTransaction = {
@@ -53,7 +53,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
     currency,
-    feeCollectionDaily_id: entities.feeCollectionDailyId,
+    feeCollection_id: entities.feeCollectionId,
     hash: event.transaction.hash,
     id: entities.feeCollectionTransactionId,
     logIndex: BigInt(event.logIndex),
@@ -65,48 +65,48 @@ export async function create(context: HandlerContext, event: Envio.Event, params
 }
 
 async function loadEntities(context: HandlerContext, event: Envio.Event, currency: string): Promise<LoadedEntities> {
-  const feeCollectionDailyId = Id.feeCollectionDaily(event.block.timestamp, currency);
+  const feeCollectionId = Id.feeCollection(event.block.timestamp, currency);
   const feeCollectionTransactionId = Id.feeCollectionTransaction(event.chainId, event.transaction.hash, event.logIndex);
 
-  const [feeCollectionDaily, feeCollectionTransaction] = await Promise.all([
-    context.FeeCollectionDaily.get(feeCollectionDailyId),
+  const [feeCollection, feeCollectionTransaction] = await Promise.all([
+    context.FeeCollection.get(feeCollectionId),
     context.FeeCollectionTransaction.get(feeCollectionTransactionId),
   ]);
 
   return {
-    feeCollectionDaily,
-    feeCollectionDailyId,
+    feeCollection,
+    feeCollectionId,
     feeCollectionTransaction,
     feeCollectionTransactionId,
   };
 }
 
-function upsertFeeCollectionDaily(
+function upsertFeeCollection(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
   params: { amountFormatted: string; currency: string },
 ): void {
-  let { feeCollectionDaily } = entities;
-  const { feeCollectionDailyId } = entities;
+  let { feeCollection } = entities;
+  const { feeCollectionId } = entities;
   const { amountFormatted, currency } = params;
 
   const date = getDate(event.block.timestamp);
 
-  if (!feeCollectionDaily) {
-    feeCollectionDaily = {
+  if (!feeCollection) {
+    feeCollection = {
       amount: amountFormatted,
       currency,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
-      id: feeCollectionDailyId,
+      id: feeCollectionId,
     };
   } else {
-    feeCollectionDaily = {
-      ...feeCollectionDaily,
-      amount: (Number(feeCollectionDaily.amount) + Number(amountFormatted)).toString(),
+    feeCollection = {
+      ...feeCollection,
+      amount: (Number(feeCollection.amount) + Number(amountFormatted)).toString(),
     };
   }
 
-  context.FeeCollectionDaily.set(feeCollectionDaily);
+  context.FeeCollection.set(feeCollection);
 }
