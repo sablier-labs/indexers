@@ -1,3 +1,6 @@
+/**
+ * @see https://github.com/sablier-labs/airdrops/blob/main/CHANGELOG.md
+ */
 import type { Sablier } from "sablier";
 import { contracts } from "sablier";
 import type { Types } from "../lib/types";
@@ -100,20 +103,7 @@ const airdropHandlers: Types.EventMap = {
   },
 
   /* -------------------------------------------------------------------------- */
-  /*                                    V2.0                                    */
-  /* -------------------------------------------------------------------------- */
-  [names.SABLIER_FACTORY_MERKLE_INSTANT]: {
-    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_INSTANT, "CreateMerkleInstant")],
-  },
-  [names.SABLIER_FACTORY_MERKLE_LL]: {
-    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_LL, "CreateMerkleLL")],
-  },
-  [names.SABLIER_FACTORY_MERKLE_LT]: {
-    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_LT, "CreateMerkleLT")],
-  },
-
-  /* -------------------------------------------------------------------------- */
-  /*                                    V1.3 and V2.0                                    */
+  /*                                V1.3 and V2.0                               */
   /* -------------------------------------------------------------------------- */
   [names.SABLIER_MERKLE_INSTANT]: {
     "v1.3": merkleInstant("v1.3"),
@@ -126,6 +116,19 @@ const airdropHandlers: Types.EventMap = {
   [names.SABLIER_MERKLE_LT]: {
     "v1.3": merkleLT("v1.3"),
     "v2.0": merkleLT("v2.0"),
+  },
+
+  /* -------------------------------------------------------------------------- */
+  /*                                    V2.0                                    */
+  /* -------------------------------------------------------------------------- */
+  [names.SABLIER_FACTORY_MERKLE_INSTANT]: {
+    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_INSTANT, "CreateMerkleInstant")],
+  },
+  [names.SABLIER_FACTORY_MERKLE_LL]: {
+    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_LL, "CreateMerkleLL")],
+  },
+  [names.SABLIER_FACTORY_MERKLE_LT]: {
+    "v2.0": [get("v2.0", names.SABLIER_FACTORY_MERKLE_LT, "CreateMerkleLT")],
   },
 } as const;
 

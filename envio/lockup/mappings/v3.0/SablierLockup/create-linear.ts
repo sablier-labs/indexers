@@ -6,13 +6,11 @@ import { preloadCreateEntities } from "../../common/preload";
 
 /*
 ──────────────────────────────────────────────────────────────
-TODO: update links
-
 Solidity Event Reference
-https://github.com/sablier-labs/lockup/blob/v2.0/src/types/DataTypes.sol#L147-L158
-https://github.com/sablier-labs/lockup/blob/v2.0/src/types/DataTypes.sol#L316-L320
-https://github.com/sablier-labs/lockup/blob/v2.0/src/interfaces/ISablierLockup.sol#L28-L33
-
+https://github.com/sablier-labs/lockup/blob/v3.0/src/types/Lockup.sol#L146-L149
+https://github.com/sablier-labs/lockup/blob/v3.0/src/types/Lockup.sol#L33-L43
+https://github.com/sablier-labs/lockup/blob/v3.0/src/types/LockupLinear.sol#L19-L23
+https://github.com/sablier-labs/lockup/blob/v3.0/src/interfaces/ISablierLockupLinear.sol#L21-L26
 ──────────────────────────────────────────────────────────────
 
 struct Timestamps {

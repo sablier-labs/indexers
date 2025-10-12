@@ -10,10 +10,8 @@ Contract.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.contractRegister(
 
 /*
 ──────────────────────────────────────────────────────────────
-TODO: update links
-Solidity Event Reference
-https://github.com/sablier-labs/airdrops/blob/v1.3/src/types/DataTypes.sol
-https://github.com/sablier-labs/airdrops/blob/v1.3/src/interfaces/ISablierMerkleFactory.sol#L29-L35
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/interfaces/ISablierFactoryMerkleInstant.sol#L17-L24
 ──────────────────────────────────────────────────────────────
 
 event CreateMerkleInstant(

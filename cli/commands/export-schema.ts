@@ -17,7 +17,6 @@ function exportSchemaCommand(): Command {
       const outputPath = paths.exports.schema(protocol);
       fs.writeFileSync(outputPath, schema);
     }
-    // TODO: copy the analytics schema
   });
 
   return command;

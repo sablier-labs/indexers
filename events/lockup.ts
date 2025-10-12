@@ -1,3 +1,6 @@
+/**
+ * @see https://github.com/sablier-labs/lockup/blob/main/CHANGELOG.md
+ */
 import type { Sablier } from "sablier";
 import { contracts } from "sablier";
 import type { Types } from "../lib/types";
@@ -67,9 +70,12 @@ function lockup(version: Sablier.Version.Lockup): Types.Event[] {
   ];
 }
 
-function lockupWithCollect(version: Sablier.Version.Lockup): Types.Event[] {
+/**
+ * Lockup v2.0 had a `CollectFees` event that has to be indexed in the Analytics indexer.
+ */
+function lockupV2_0(): Types.Event[] {
   const contractName = contracts.names.SABLIER_LOCKUP;
-  return [...lockup(version), get(version, contractName, "CollectFees", ["analytics"])];
+  return [...lockup("v2.0"), get("v2.0", contractName, "CollectFees", ["analytics"])];
 }
 
 const lockupEvents: Types.EventMap = {
@@ -87,7 +93,7 @@ const lockupEvents: Types.EventMap = {
     "v1.2": tranched("v1.2"),
   },
   [contracts.names.SABLIER_LOCKUP]: {
-    "v2.0": lockupWithCollect("v2.0"),
+    "v2.0": lockupV2_0(),
     "v3.0": lockup("v3.0"),
   },
 } as const;
