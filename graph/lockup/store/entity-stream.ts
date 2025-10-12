@@ -162,7 +162,7 @@ function addCliff(
   commonParams: Params.CreateStreamCommon,
   linearParams: Params.CreateStreamLinear,
 ): Entity.Stream {
-  // In v2.0, no cliff means the cliff time is zero.
+  // In v2.0 and later, no cliff means the cliff time is zero.
   // See https://github.com/sablier-labs/lockup/blob/v2.0.1/src/libraries/Helpers.sol#L204-L219
   if (areStringsEqual(stream.version, LOCKUP_V2_0) || areStringsEqual(stream.version, LOCKUP_V3_0)) {
     if (linearParams.cliffTime.gt(ZERO)) {
