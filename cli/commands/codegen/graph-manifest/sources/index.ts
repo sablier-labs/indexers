@@ -1,4 +1,4 @@
-import type { Indexer } from "../../../src";
+import type { Indexer } from "../../../../../src";
 import type { GraphManifest } from "../manifest-types";
 import { getAirdropsSources } from "./airdrops";
 import { getFlowSources } from "./flow";

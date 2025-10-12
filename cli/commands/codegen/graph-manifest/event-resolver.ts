@@ -2,11 +2,11 @@ import type { AbiEventParameter } from "abitype";
 import * as fs from "fs-extra";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
-import { sanitizeContractName } from "../../lib/helpers";
-import paths from "../../lib/paths";
-import type { Types } from "../../lib/types";
-import { logger } from "../../lib/winston";
-import type { Indexer } from "../../src/types";
+import { sanitizeContractName } from "../../../../lib/helpers";
+import paths from "../../../../lib/paths";
+import type { Types } from "../../../../lib/types";
+import { logger } from "../../../../lib/winston";
+import type { Indexer } from "../../../../src/types";
 import type { GraphManifest } from "./manifest-types";
 
 /**

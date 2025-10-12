@@ -15,12 +15,12 @@ import * as path from "node:path";
 import type { Command } from "commander";
 import * as fs from "fs-extra";
 import _ from "lodash";
-import { createGraphManifest } from "../../../codegen/graph-manifest";
 import paths from "../../../lib/paths";
 import type { Indexer } from "../../../src";
 import { graphChains } from "../../../src/indexers/graph";
 import { PROTOCOLS } from "../../constants";
 import * as helpers from "../../helpers";
+import { createGraphManifest } from "./graph-manifest/index";
 
 /* -------------------------------------------------------------------------- */
 /*                                  COMMAND                                   */

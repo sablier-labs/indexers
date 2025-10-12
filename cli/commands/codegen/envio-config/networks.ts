@@ -2,11 +2,11 @@
 
 import _ from "lodash";
 import { sablier } from "sablier";
-import { indexedContracts } from "../../contracts";
-import { sanitizeContractName } from "../../lib/helpers";
-import { logger, messages } from "../../lib/winston";
-import { envioChains } from "../../src/indexers/envio";
-import type { Indexer } from "../../src/types";
+import { indexedContracts } from "../../../../contracts";
+import { sanitizeContractName } from "../../../../lib/helpers";
+import { logger, messages } from "../../../../lib/winston";
+import { envioChains } from "../../../../src/indexers/envio";
+import type { Indexer } from "../../../../src/types";
 import { CodegenError } from "../error";
 import type { EnvioConfig } from "./config-types";
 
@@ -21,11 +21,11 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
     const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
 
     networks.push({
-      id: chain.id,
-      start_block: 0,
-      hypersync_config,
-      rpc,
       contracts,
+      hypersync_config,
+      id: chain.id,
+      rpc,
+      start_block: 0,
     });
   }
 

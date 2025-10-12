@@ -1,7 +1,7 @@
 import _ from "lodash";
-import { indexedEvents } from "../../../events";
-import type { Types } from "../../../lib/types";
-import type { Indexer } from "../../../src";
+import { indexedEvents } from "../../../../../events";
+import type { Types } from "../../../../../lib/types";
+import type { Indexer } from "../../../../../src";
 import { resolveEventHandler } from "../event-resolver";
 import type { EventHandlersMap, GraphManifest } from "../manifest-types";
 

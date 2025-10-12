@@ -1,5 +1,5 @@
 import type { Sablier } from "sablier";
-import type { Types } from "../../lib/types";
+import type { Types } from "../../../../lib/types";
 
 export type EventHandlersMap = Types.ComponentMap<GraphManifest.EventHandler[]>;
 

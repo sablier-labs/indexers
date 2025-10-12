@@ -4,8 +4,8 @@ import * as yaml from "js-yaml";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import stripAnsi from "strip-ansi";
-import type { EnvioConfig } from "../codegen/envio-config/config-types";
-import type { GraphManifest } from "../codegen/graph-manifest/manifest-types";
+import type { EnvioConfig } from "./commands/codegen/envio-config/config-types";
+import type { GraphManifest } from "./commands/codegen/graph-manifest/manifest-types";
 import { AUTOGEN_COMMENT, INDEXERS, VENDORS } from "./constants";
 import type { ChainArg, IndexerArg, VendorArg } from "./types";
 

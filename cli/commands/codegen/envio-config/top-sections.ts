@@ -1,4 +1,4 @@
-import type { Indexer } from "../../src/types";
+import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
 export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
@@ -10,16 +10,16 @@ export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
 
 function get(name: Indexer.Name): EnvioConfig.TopSection {
   return {
+    contracts: [],
     ecosystem: "evm",
+    field_selection: {
+      transaction_fields: ["from", "hash", "to", "transactionIndex", "value"],
+    },
     name: `sablier-${name}`,
+    networks: [],
     output: "./bindings",
     preload_handlers: true,
     schema: "./schema.graphql",
     unordered_multichain_mode: true,
-    field_selection: {
-      transaction_fields: ["from", "hash", "to", "transactionIndex", "value"],
-    },
-    contracts: [],
-    networks: [],
   };
 }

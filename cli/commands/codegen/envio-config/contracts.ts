@@ -1,10 +1,10 @@
 import _ from "lodash";
-import { indexedContracts } from "../../contracts";
-import { indexedEvents } from "../../events";
-import { sanitizeContractName } from "../../lib/helpers";
-import paths, { getRelativePath } from "../../lib/paths";
-import type { Types } from "../../lib/types";
-import type { Indexer } from "../../src/types";
+import { indexedContracts } from "../../../../contracts";
+import { indexedEvents } from "../../../../events";
+import { sanitizeContractName } from "../../../../lib/helpers";
+import paths, { getRelativePath } from "../../../../lib/paths";
+import type { Types } from "../../../../lib/types";
+import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
 export function createContracts(
@@ -19,10 +19,10 @@ export function createContracts(
       const handlerPath = includeProtocolInPath ? `${protocol}/${version}` : version;
       const sanitizedName = sanitizeContractName(indexedContract.name, version);
       contracts.push({
-        name: sanitizedName,
-        handler: `mappings/${handlerPath}/${indexedContract.name}.ts`,
         abi_file_path: getRelativeAbiFilePath(protocol, indexedContract.name, version),
         events: getEvents(indexer, indexedEvents[protocol][indexedContract.name][version]),
+        handler: `mappings/${handlerPath}/${indexedContract.name}.ts`,
+        name: sanitizedName,
       });
     });
   });

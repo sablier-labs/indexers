@@ -1,8 +1,8 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import type { Types } from "../lib/types";
-import { formatRelease } from "../lib/winston/helpers";
-import type { Indexer } from "../src";
+import type { Types } from "../../../lib/types";
+import { formatRelease } from "../../../lib/winston/helpers";
+import type { Indexer } from "../../../src";
 
 export namespace CodegenError {
   export class BlockNotFound extends Error {

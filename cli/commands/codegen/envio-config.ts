@@ -11,11 +11,11 @@
 import type { Command } from "commander";
 import * as fs from "fs-extra";
 import _ from "lodash";
-import { createEnvioConfig } from "../../../codegen/envio-config";
 import paths from "../../../lib/paths";
 import type { Indexer } from "../../../src";
 import { INDEXERS } from "../../constants";
 import * as helpers from "../../helpers";
+import { createEnvioConfig } from "./envio-config/index";
 
 /* -------------------------------------------------------------------------- */
 /*                                  COMMAND                                   */

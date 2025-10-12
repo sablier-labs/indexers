@@ -1,5 +1,5 @@
 import _ from "lodash";
-import type { Indexer } from "../../src/types";
+import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 import { createContracts } from "./contracts";
 import { createNetworks } from "./networks";
