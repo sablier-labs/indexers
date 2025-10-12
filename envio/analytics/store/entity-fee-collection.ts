@@ -18,9 +18,9 @@ type Params = {
 };
 
 type LoadedEntities = {
-  feeCollection: Entity.FeeCollection | undefined;
+  feeCollection: Entity.FeeCollectionDaily | undefined;
   feeCollectionId: string;
-  feeCollectionTransaction: Entity.FeeCollectionTransaction | undefined;
+  feeCollectionTransaction: Entity.FeeCollection | undefined;
   feeCollectionTransactionId: string;
 };
 
@@ -50,7 +50,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   upsertFeeCollection(context, entities, event, { amountFormatted, currency });
 
   // Create transaction entity
-  const transaction: Entity.FeeCollectionTransaction = {
+  const transaction: Entity.FeeCollection = {
     admin: admin.toLowerCase(),
     airdropCampaign: airdropCampaign?.toLowerCase(),
     amount: amountFormatted,
@@ -67,16 +67,16 @@ export async function create(context: HandlerContext, event: Envio.Event, params
     timestamp: getDateTimestamp(event.block.timestamp),
   };
 
-  context.FeeCollectionTransaction.set(transaction);
+  context.FeeCollection.set(transaction);
 }
 
 async function loadEntities(context: HandlerContext, event: Envio.Event, currency: string): Promise<LoadedEntities> {
-  const feeCollectionId = Id.feeCollection(event.block.timestamp, currency);
-  const feeCollectionTransactionId = Id.feeCollectionTransaction(event.chainId, event.transaction.hash, event.logIndex);
+  const feeCollectionId = Id.feeCollectionDaily(event.block.timestamp, currency);
+  const feeCollectionTransactionId = Id.feeCollection(event.chainId, event.transaction.hash, event.logIndex);
 
   const [feeCollection, feeCollectionTransaction] = await Promise.all([
-    context.FeeCollection.get(feeCollectionId),
-    context.FeeCollectionTransaction.get(feeCollectionTransactionId),
+    context.FeeCollectionDaily.get(feeCollectionId),
+    context.FeeCollection.get(feeCollectionTransactionId),
   ]);
 
   return {
@@ -114,5 +114,5 @@ function upsertFeeCollection(
     };
   }
 
-  context.FeeCollection.set(feeCollection);
+  context.FeeCollectionDaily.set(feeCollection);
 }

@@ -82,7 +82,7 @@ type FiatFeesDaily @entity {
 """
 Aggregated fee collections by currency across all chains and protocols.
 """
-type FeeCollection @entity {
+type FeeCollectionDaily @entity {
   """
   Unique identifier: YYYY-MM-DD_currency
   """
@@ -111,13 +111,13 @@ type FeeCollection @entity {
   """
   Collection transactions for this day
   """
-  transactions: [FeeCollectionTransaction!]! @derivedFrom(field: "feeCollection")
+  transactions: [FeeCollection!]! @derivedFrom(field: "feeCollection")
 }
 
 """
 Fee collection transaction. The withdrawn amount is an aggregate value of all fees collected up until the time of collection.
 """
-type FeeCollectionTransaction @entity {
+type FeeCollection @entity {
   """
   Unique identifier: chainId_transactionHash_logIndex
   """
@@ -166,7 +166,7 @@ type FeeCollectionTransaction @entity {
   """
   Reference to FeeCollection entity
   """
-  feeCollection: FeeCollection!
+  feeCollection: FeeCollectionDaily!
 
   """
   Transaction hash

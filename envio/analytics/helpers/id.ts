@@ -15,11 +15,11 @@ export namespace Id {
     return `${chainId}_${hash}`;
   }
 
-  export function feeCollectionTransaction(chainId: number, hash: string, logIndex: number): string {
+  export function feeCollection(chainId: number, hash: string, logIndex: number): string {
     return `${chainId}_${hash}_${logIndex}`;
   }
 
-  export function feeCollection(timestamp: number, currency: string): string {
+  export function feeCollectionDaily(timestamp: number, currency: string): string {
     const date = getDate(timestamp);
     return `${date}_${currency}`;
   }
