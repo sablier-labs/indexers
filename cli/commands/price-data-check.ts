@@ -1,9 +1,11 @@
 import { execSync } from "node:child_process";
 import * as path from "node:path";
+import chalk from "chalk";
 import type { Command } from "commander";
 import * as fs from "fs-extra";
 import { coinConfigs } from "../../envio/analytics/effects/coingecko";
 import * as helpers from "../helpers";
+import { colors, createTable, displayHeader } from "../shared/display-utils";
 
 const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
 const PRICE_DATA_DIR = path.join(process.cwd(), "node_modules/@sablier/price-data");
@@ -35,10 +37,17 @@ function priceDataCheckCommand(): Command {
   const command = helpers.createBaseCmd("Verify price data in cache matches node_modules version");
 
   command.action(async () => {
-    console.log("Checking price data sync...");
+    displayHeader("🔍 PRICE DATA SYNC CHECK", "cyan");
 
     const requiredFiles = getRequiredFiles();
-    const outOfSyncFiles: string[] = [];
+    type FileStatus = {
+      destPath: string;
+      name: string;
+      sourceDir: string;
+      status: "in-sync" | "missing" | "out-of-sync";
+    };
+
+    const fileStatuses: FileStatus[] = [];
 
     for (const { name, sourceDir } of requiredFiles) {
       const sourcePath = path.join(PRICE_DATA_DIR, sourceDir, name);
@@ -50,26 +59,83 @@ function priceDataCheckCommand(): Command {
       }
 
       if (!fs.existsSync(destPath)) {
-        outOfSyncFiles.push(name);
+        fileStatuses.push({ destPath, name, sourceDir, status: "missing" });
         continue;
       }
 
       // Compare files using diff
       try {
         execSync(`diff -q "${sourcePath}" "${destPath}"`, { stdio: "pipe" });
+        fileStatuses.push({ destPath, name, sourceDir, status: "in-sync" });
       } catch (_error) {
         // diff returns non-zero exit code if files differ
-        outOfSyncFiles.push(name);
+        fileStatuses.push({ destPath, name, sourceDir, status: "out-of-sync" });
       }
     }
 
+    // Display file status table
+    console.log("");
+    const table = createTable({
+      colWidths: [25, 15, 15, 45],
+      head: ["File", "Source Dir", "Status", "Destination Path"],
+      theme: "cyan",
+    });
+
+    for (const file of fileStatuses) {
+      const statusText =
+        file.status === "in-sync"
+          ? colors.success("✅ In Sync")
+          : file.status === "missing"
+            ? colors.error("❌ Missing")
+            : colors.error("❌ Out of Sync");
+
+      table.push([colors.value(file.name), colors.dim(file.sourceDir), statusText, colors.dim(file.destPath)]);
+    }
+
+    console.log(table.toString());
+
+    // Summary statistics
+    const inSync = fileStatuses.filter((f) => f.status === "in-sync").length;
+    const outOfSync = fileStatuses.filter((f) => f.status === "out-of-sync").length;
+    const missing = fileStatuses.filter((f) => f.status === "missing").length;
+
+    console.log("");
+    const summaryTable = createTable({
+      colWidths: [20, 10],
+      head: ["Status", "Count"],
+      theme: "cyan",
+    });
+
+    summaryTable.push(
+      [colors.success("In Sync"), colors.value(inSync.toString())],
+      [colors.error("Out of Sync"), colors.value(outOfSync.toString())],
+      [colors.error("Missing"), colors.value(missing.toString())],
+      [chalk.cyan.bold("Total Files"), chalk.white.bold(fileStatuses.length.toString())],
+    );
+
+    console.log(summaryTable.toString());
+
+    // Final status and exit
+    const outOfSyncFiles = fileStatuses.filter((f) => f.status !== "in-sync");
+
     if (outOfSyncFiles.length > 0) {
-      console.error(`❌ Price data out of sync: ${outOfSyncFiles.join(", ")}`);
-      console.error("Run 'just price-data-sync' and commit changes.");
+      console.log("");
+      const errorTable = createTable({
+        colWidths: [80],
+        theme: "red",
+      });
+
+      errorTable.push(
+        [colors.error("❌ Price data is out of sync!")],
+        [colors.value(`Run ${colors.highlight("just price-data-sync")} to fix and commit changes.`)],
+      );
+
+      console.log(errorTable.toString());
       process.exit(1);
     }
 
-    console.log("✅ Price data is in sync");
+    console.log("");
+    console.log(colors.success("✅ All price data files are in sync"));
   });
 
   return command;

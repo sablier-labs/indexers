@@ -1,9 +1,11 @@
+import chalk from "chalk";
 import type { Command } from "commander";
 import _ from "lodash";
 import { sablier } from "sablier";
 import { indexers } from "../../src/indexers/data";
 import { getGraphChainSlug } from "../../src/indexers/graph";
 import * as helpers from "../helpers";
+import { colors, createTable, displayHeader, formatStatus } from "../shared/display-utils";
 
 function createPrintChainsCommand(): Command {
   const command = helpers.createBaseCmd("Print all available blockchain chains");
@@ -16,49 +18,75 @@ function createPrintChainsCommand(): Command {
     const envioChainIds = new Set(indexers.envio.lockup.map((i) => i.chainId));
     const graphChainIds = new Set(indexers.graph.lockup.map((i) => i.chainId));
 
-    console.log("✨ Available chain slugs to use in the CLI:");
+    displayHeader("📋 AVAILABLE CHAINS", "cyan");
 
-    const chainsByIndexer: Record<string, string[]> = {
-      Both: [],
-      Envio: [],
-      Graph: [],
-      "No indexers": [],
+    // Prepare chain data
+    type ChainData = {
+      chainId: number;
+      chainName: string;
+      hasEnvio: boolean;
+      hasGraph: boolean;
+      slug: string;
     };
 
-    _.sortBy(sablier.chains.getAll(), (c) => c.slug).forEach((c) => {
-      const slug = useGraphSlugs ? getGraphChainSlug(c.id) : c.slug;
-      const hasEnvio = envioChainIds.has(c.id);
-      const hasGraph = graphChainIds.has(c.id);
+    const chains: ChainData[] = _.sortBy(sablier.chains.getAll(), (c) => c.slug).map((c) => ({
+      chainId: c.id,
+      chainName: c.name,
+      hasEnvio: envioChainIds.has(c.id),
+      hasGraph: graphChainIds.has(c.id),
+      slug: useGraphSlugs ? getGraphChainSlug(c.id) : c.slug,
+    }));
 
-      if (hasEnvio && hasGraph) {
-        chainsByIndexer.Both.push(slug);
-      } else if (hasEnvio) {
-        chainsByIndexer.Envio.push(slug);
-      } else if (hasGraph) {
-        chainsByIndexer.Graph.push(slug);
-      } else {
-        chainsByIndexer["No indexers"].push(slug);
-      }
+    // Create main table
+    const table = createTable({
+      colWidths: [25, 10, 15, 15],
+      head: ["Chain Name", "Chain ID", "Envio", "Graph"],
+      theme: "cyan",
     });
 
-    // Display grouped results
-    Object.entries(chainsByIndexer).forEach(([category, chains]) => {
-      if (chains.length > 0) {
-        console.log(`\n${category}:`);
-        chains.forEach((chain) => {
-          console.log(`  • ${chain}`);
-        });
-      }
-    });
-
-    if (!useGraphSlugs) {
-      console.log("\nℹ Note: these are not the slugs used by The Graph. Pass the --graph flag if you want those.");
+    for (const chain of chains) {
+      table.push([
+        colors.value(chain.chainName),
+        colors.dim(chain.chainId.toString()),
+        formatStatus(chain.hasEnvio),
+        formatStatus(chain.hasGraph),
+      ]);
     }
 
-    console.log("\nℹ Indexer availability:");
-    console.log("  • Both: Available on both Envio and The Graph");
-    console.log("  • Envio: Official Sablier indexers on Envio only");
-    console.log("  • Graph: Official Sablier subgraphs on The Graph only");
+    console.log(table.toString());
+
+    // Summary statistics
+    const stats = {
+      both: chains.filter((c) => c.hasEnvio && c.hasGraph).length,
+      envioOnly: chains.filter((c) => c.hasEnvio && !c.hasGraph).length,
+      graphOnly: chains.filter((c) => !c.hasEnvio && c.hasGraph).length,
+      none: chains.filter((c) => !c.hasEnvio && !c.hasGraph).length,
+      total: chains.length,
+    };
+
+    console.log("");
+    const summaryTable = createTable({
+      colWidths: [25, 10],
+      head: ["Category", "Count"],
+      theme: "cyan",
+    });
+
+    summaryTable.push(
+      [colors.success("Both Vendors"), colors.value(stats.both.toString())],
+      [colors.info("Envio Only"), colors.value(stats.envioOnly.toString())],
+      [colors.warning("Graph Only"), colors.value(stats.graphOnly.toString())],
+      [colors.dim("No Indexers"), colors.value(stats.none.toString())],
+      [chalk.cyan.bold("Total Chains"), chalk.white.bold(stats.total.toString())],
+    );
+
+    console.log(summaryTable.toString());
+
+    // Notes
+    if (!useGraphSlugs) {
+      console.log(
+        `\n${colors.info("ℹ")} Note: These are Sablier chain slugs. Use ${colors.highlight("--graph")} flag for The Graph slugs.`,
+      );
+    }
   });
 
   return command;
