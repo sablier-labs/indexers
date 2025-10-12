@@ -71,6 +71,10 @@ export namespace Lockup {
 export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
   const enumDefs: string[] = [];
 
+  if (indexer === "analytics") {
+    throw new Error(`Unsupported indexer for enum definitions: ${indexer}`);
+  }
+
   switch (indexer) {
     case Protocol.Airdrops:
       enumDefs.push(

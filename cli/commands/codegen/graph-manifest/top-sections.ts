@@ -14,7 +14,7 @@ function get(name: string): GraphManifest.TopSection {
     description: `The Graph indexer for Sablier ${name}`,
     repository: "https://github.com/sablier-labs/indexers",
     schema: {
-      file: "../schema.graphql",
+      file: `../${name.toLowerCase()}.graphql`,
     },
     specVersion: GRAPH_SPEC_VERSION,
   };

@@ -37,11 +37,11 @@ jobs:
           fail-message: ❌ Envio build files are out of sync. Run 'just codegen-envio' locally and commit the changes.
           files: |
             ./envio/flow/config.yaml
-            ./envio/flow/schema.graphql
+            ./envio/flow/flow.graphql
             ./envio/lockup/config.yaml
-            ./envio/lockup/schema.graphql
+            ./envio/lockup/lockup.graphql
             ./envio/airdrops/config.yaml
-            ./envio/airdrops/schema.graphql
+            ./envio/airdrops/airdrops.graphql
 
       - name: Codegen Graph indexers
         run: just codegen-graph

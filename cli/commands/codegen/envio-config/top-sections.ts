@@ -19,7 +19,7 @@ function get(name: Indexer.Name): EnvioConfig.TopSection {
     networks: [],
     output: "./bindings",
     preload_handlers: true,
-    schema: "./schema.graphql",
+    schema: `./${name}.graphql`,
     unordered_multichain_mode: true,
   };
 }

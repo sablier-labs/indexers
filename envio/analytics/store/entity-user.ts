@@ -1,5 +1,5 @@
 /**
- * @see {@link: file://./../schema.graphql}
+ * @see {@link: file://./../analytics.graphql}
  */
 import _ from "lodash";
 import { formatEther, zeroAddress } from "viem";

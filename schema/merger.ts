@@ -30,16 +30,17 @@ const PROTOCOL_MAP: Record<
 > = {
   airdrops: {
     bespoke: ["action", "activity", "campaign", "factory", "tranche"],
+    generators: BASE.generators,
   },
   analytics: {},
   flow: {
     common: ["action", "batch", "contract", "deprecated-stream"],
-    generators: [getStreamDefs],
+    generators: [...BASE.generators, getStreamDefs],
   },
   lockup: {
     bespoke: ["segment", "tranche"],
     common: ["action", "batch", "contract", "deprecated-stream"],
-    generators: [getStreamDefs],
+    generators: [...BASE.generators, getStreamDefs],
   },
 };
 
@@ -52,9 +53,7 @@ const PROTOCOL_MAP: Record<
  */
 export function getMergedSchema(indexer: Indexer.Name): DocumentNode {
   // Generate TypeScript definitions
-  const baseTsDefs = BASE.generators.map((generator) => generator(indexer));
-  const protocolTsDefs = PROTOCOL_MAP[indexer].generators?.map((generator) => generator(indexer));
-  const allTsDefs = [...baseTsDefs, ...(protocolTsDefs || [])];
+  const tsDefs = PROTOCOL_MAP[indexer].generators?.map((generator) => generator(indexer)) || [];
 
   // Build paths for all GraphQL files
   const protocolGqlPaths = {
@@ -65,7 +64,7 @@ export function getMergedSchema(indexer: Indexer.Name): DocumentNode {
   // Load all GraphQL files
   const allGqlPaths = [...protocolGqlPaths.common, ...protocolGqlPaths.bespoke];
   const loadedGqlDefs = loadFilesSync<DocumentNode>(allGqlPaths);
-  const allDefs = [...allTsDefs, ...loadedGqlDefs];
+  const allDefs = [...tsDefs, ...loadedGqlDefs];
 
   const mergedSchema = mergeTypeDefs(allDefs, { throwOnConflict: true });
   return mergedSchema;

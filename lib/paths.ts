@@ -26,7 +26,7 @@ const paths = {
   },
   envio: {
     config: (indexer: I): string => join(ENVIO_DIR, indexer, "config.yaml"),
-    schema: (indexer: I): string => join(ENVIO_DIR, indexer, "schema.graphql"),
+    schema: (indexer: I): string => join(ENVIO_DIR, indexer, `${indexer}.graphql`),
   },
   exports: {
     schema: (indexer: I): string => join(EXPORTS_DIR, "schemas", `${indexer}.graphql`),
@@ -38,9 +38,9 @@ const paths = {
       return join(GRAPH_DIR, indexer, "manifests", `${chainSlug}.yaml`);
     },
     manifests: (indexer: I): string => join(GRAPH_DIR, indexer, "manifests"),
-    schema: (indexer: I): string => join(GRAPH_DIR, indexer, "schema.graphql"),
+    schema: (indexer: I): string => join(GRAPH_DIR, indexer, `${indexer}.graphql`),
   },
-  schema: (vendor: V, indexer: I): string => join(ROOT_DIR, vendor, indexer, "schema.graphql"),
+  schema: (vendor: V, indexer: I): string => join(ROOT_DIR, vendor, indexer, `${indexer}.graphql`),
 };
 
 export default paths;

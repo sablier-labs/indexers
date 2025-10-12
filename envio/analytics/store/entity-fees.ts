@@ -1,5 +1,5 @@
 /**
- * @see {@link: file://./../schema.graphql}
+ * @see {@link: file://./../analytics.graphql}
  */
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/dist/chains";
