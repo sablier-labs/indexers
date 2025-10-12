@@ -59,7 +59,7 @@ export async function create(context: HandlerContext, event: Envio.Event, params
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress.toLowerCase(),
     currency,
-    feeCollection_id: entities.feeCollectionId,
+    daily_id: entities.feeCollectionId,
     hash: event.transaction.hash,
     id: entities.feeCollectionTransactionId,
     logIndex: BigInt(event.logIndex),

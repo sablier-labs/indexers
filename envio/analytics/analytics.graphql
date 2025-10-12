@@ -111,7 +111,7 @@ type FeeCollectionDaily @entity {
   """
   Collection transactions for this day
   """
-  transactions: [FeeCollection!]! @derivedFrom(field: "feeCollection")
+  transactions: [FeeCollection!]! @derivedFrom(field: "daily")
 }
 
 """
@@ -164,9 +164,9 @@ type FeeCollection @entity {
   caller: Bytes!
 
   """
-  Reference to FeeCollection entity
+  Reference to FeeCollectionDaily entity
   """
-  feeCollection: FeeCollectionDaily!
+  daily: FeeCollectionDaily!
 
   """
   Transaction hash
