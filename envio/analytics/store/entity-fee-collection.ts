@@ -27,6 +27,12 @@ type LoadedEntities = {
 export async function create(context: HandlerContext, event: Envio.Event, params: Params): Promise<void> {
   const { admin, airdropCampaign, amount, protocol } = params;
 
+  // Ignore zero-amount fee collections. This behavior is allowed in the contracts due to the
+  // need to keep the contract size small.
+  if (amount === 0n) {
+    return;
+  }
+
   const chain = sablier.chains.getOrThrow(event.chainId);
   const currency = chain.nativeCurrency.symbol;
 
