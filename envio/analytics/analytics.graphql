@@ -115,7 +115,7 @@ type FeeCollectionDaily @entity {
 }
 
 """
-Fee collection transaction. The withdrawn amount is an aggregate value of all fees collected up until the time of collection.
+Fee collection event.
 """
 type FeeCollection @entity {
   """
@@ -190,7 +190,7 @@ type FeeCollection @entity {
 }
 
 """
-Ethereum transaction that generated a fee that is due to be collected.
+Ethereum transaction that generated a fee, which is due to be collected.
 """
 type FeeTransaction @entity {
   """
