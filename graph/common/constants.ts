@@ -35,7 +35,7 @@ export const AIRDROPS_V2_0 = "v2.0";
 
 export const FLOW_V1_0 = "v1.0";
 export const FLOW_V1_1 = "v1.1";
-export const FLOW_V2_0 = "v1.2";
+export const FLOW_V2_0 = "v2.0";
 
 export const LOCKUP_V1_0 = "v1.0";
 export const LOCKUP_V1_1 = "v1.1";
