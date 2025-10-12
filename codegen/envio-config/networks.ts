@@ -119,12 +119,14 @@ function extractContracts(protocol: Indexer.Protocol, chainId: number): EnvioCon
       }
       // If a contract is found, it must have an alias and a start block. These are required for indexing.
       if (!contract.alias) {
-        throw new CodegenError.AliasNotFound(release, chainId, contractName);
+        throw new CodegenError.ContractAliasNotFound(release, chainId, contractName);
       }
       if (!contract.block) {
         throw new CodegenError.BlockNotFound(release, chainId, contractName);
       }
-
+      if (!contract.version) {
+        throw new CodegenError.ContractVersionNotFound(release, chainId, contractName);
+      }
       networkContracts.push({
         address: contract.address.toLowerCase() as `0x${string}`,
         name: sanitizeContractName(contractName, release.version),

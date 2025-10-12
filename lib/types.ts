@@ -18,6 +18,7 @@ export namespace Types {
   export type Contract = Sablier.Contract & {
     alias: string;
     block: number;
+    version: Sablier.Version;
   };
 
   export type ContractSource<V extends Version> = {

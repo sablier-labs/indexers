@@ -5,14 +5,6 @@ import { formatRelease } from "../lib/winston/helpers";
 import type { Indexer } from "../src";
 
 export namespace CodegenError {
-  export class AliasNotFound extends Error {
-    constructor(release: Sablier.Release, chainId: number, contractName: string) {
-      const chainName = sablier.chains.get(chainId)?.name ?? "chain";
-      const message = `Alias not found for contract ${contractName} in ${formatRelease(release)} on ${chainName}`;
-      super(message);
-    }
-  }
-
   export class BlockNotFound extends Error {
     constructor(release: Sablier.Release, chainId: number, contractName: string) {
       const chainName = sablier.chains.get(chainId)?.name ?? "chain";
@@ -27,6 +19,23 @@ export namespace CodegenError {
       super(message);
     }
   }
+
+  export class ContractAliasNotFound extends Error {
+    constructor(release: Sablier.Release, chainId: number, contractName: string) {
+      const chainName = sablier.chains.get(chainId)?.name ?? "chain";
+      const message = `Alias not found for contract ${contractName} in ${formatRelease(release)} on ${chainName}`;
+      super(message);
+    }
+  }
+
+  export class ContractVersionNotFound extends Error {
+    constructor(release: Sablier.Release, chainId: number, contractName: string) {
+      const chainName = sablier.chains.get(chainId)?.name ?? "chain";
+      const message = `Version not found for contract ${contractName} in ${formatRelease(release)} on ${chainName}`;
+      super(message);
+    }
+  }
+
   export class ContractsNotFound extends Error {
     constructor(protocol: Indexer.Protocol, chainId: number) {
       const chainName = sablier.chains.get(chainId)?.name ?? "chain";

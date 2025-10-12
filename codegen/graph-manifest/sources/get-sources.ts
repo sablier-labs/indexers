@@ -178,11 +178,14 @@ function extractContract(params: {
   // Validate required indexing fields
   // Both alias and block number are necessary for proper subgraph indexing
   if (!contract.alias) {
-    throw new CodegenError.AliasNotFound(release, chainId, contractName);
+    throw new CodegenError.ContractAliasNotFound(release, chainId, contractName);
   }
   if (!contract.block) {
     throw new CodegenError.BlockNotFound(release, chainId, contractName);
   }
+  if (!contract.version) {
+    throw new CodegenError.ContractVersionNotFound(release, chainId, contractName);
+  }
 
-  return convertToIndexed(contract);
+  return convertToIndexed(contract, release.version as Types.Version);
 }

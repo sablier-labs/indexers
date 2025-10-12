@@ -144,7 +144,7 @@ function createBaseCampaign(
     subgraphId: entities.watcher.campaignCounter,
     timestamp: BigInt(event.block.timestamp),
     totalRecipients: params.recipientCount,
-    version: factoryVersion || "",
+    version: factoryVersion,
   };
 
   /* --------------------------------- FACTORY -------------------------------- */

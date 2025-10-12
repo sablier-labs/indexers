@@ -50,7 +50,7 @@ export function create(
     timestamp: BigInt(event.block.timestamp),
     tokenId: tokenId,
     transferable: params.transferable,
-    version: flow.version || "",
+    version: flow.version,
     voided: false,
     voidedAction_id: undefined,
     voidedTime: undefined,
