@@ -17,7 +17,7 @@ Contract.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.contractRegister(({ context
 /*
 ──────────────────────────────────────────────────────────────
 Solidity Event Reference
-https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol#L22-L30
 https://github.com/sablier-labs/airdrops/blob/v2.0/src/interfaces/ISablierFactoryMerkleLL.sol#L17-L24
 ──────────────────────────────────────────────────────────────
 
@@ -31,22 +31,22 @@ event CreateMerkleLL(
 );
 
 struct ConstructorParams {
-    string campaignName;
-    uint40 campaignStartTime;
-    bool cancelable;
-    uint40 cliffDuration;
-    UD60x18 cliffUnlockPercentage;
-    uint40 expiration;
-    address initialAdmin;
-    string ipfsCID;
-    ISablierLockup lockup;
-    bytes32 merkleRoot;
-    string shape;
-    UD60x18 startUnlockPercentage;
-    IERC20 token;
-    uint40 totalDuration;
-    bool transferable;
-    uint40 vestingStartTime;
+    string campaignName;           [0]
+    uint40 campaignStartTime;      [1]
+    bool cancelable;               [2]
+    uint40 cliffDuration;          [3]
+    UD60x18 cliffUnlockPercentage; [4]
+    uint40 expiration;             [5]
+    address initialAdmin;          [6]
+    string ipfsCID;                [7]
+    ISablierLockup lockup;         [8]
+    bytes32 merkleRoot;            [9]
+    string shape;                  [10]
+    UD60x18 startUnlockPercentage; [11]
+    IERC20 token;                  [12]
+    uint40 totalDuration;          [13]
+    bool transferable;             [14]
+    uint40 vestingStartTime;       [15]
 }
 ──────────────────────────────────────────────────────────────
 */

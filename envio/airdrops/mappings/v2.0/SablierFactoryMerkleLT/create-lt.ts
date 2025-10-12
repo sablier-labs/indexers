@@ -18,7 +18,7 @@ Contract.Factory.FactoryMerkleLT_v2_0.CreateMerkleLT.contractRegister(({ context
 /*
 ──────────────────────────────────────────────────────────────
 Solidity Event Reference
-https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol#L22-L29
 https://github.com/sablier-labs/airdrops/blob/v2.0/src/interfaces/ISablierFactoryMerkleLT.sol#L17-L24
 ──────────────────────────────────────────────────────────────
 
@@ -33,19 +33,19 @@ event CreateMerkleLT(
 );
 
 struct ConstructorParams {
-    string campaignName;
-    uint40 campaignStartTime;
-    bool cancelable;
-    uint40 expiration;
-    address initialAdmin;
-    string ipfsCID;
-    ISablierLockup lockup;
-    bytes32 merkleRoot;
-    string shape;
-    IERC20 token;
-    MerkleLT.TrancheWithPercentage[] tranchesWithPercentages;
-    bool transferable;
-    uint40 vestingStartTime;
+    string campaignName;                                      [0]
+    uint40 campaignStartTime;                                 [1]
+    bool cancelable;                                          [2]
+    uint40 expiration;                                        [3]
+    address initialAdmin;                                     [4]
+    string ipfsCID;                                           [5]
+    ISablierLockup lockup;                                    [6]
+    bytes32 merkleRoot;                                       [7]
+    string shape;                                             [8]
+    IERC20 token;                                             [9]
+    MerkleLT.TrancheWithPercentage[] tranchesWithPercentages; [10]
+    bool transferable;                                        [11]
+    uint40 vestingStartTime;                                  [12]
 }
 
 struct TrancheWithPercentage {

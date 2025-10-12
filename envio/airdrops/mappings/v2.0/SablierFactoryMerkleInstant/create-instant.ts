@@ -10,7 +10,7 @@ Contract.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.contractRegister(
 
 /*
 ──────────────────────────────────────────────────────────────
-https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol#L22-L30
 https://github.com/sablier-labs/airdrops/blob/v2.0/src/interfaces/ISablierFactoryMerkleInstant.sol#L17-L24
 ──────────────────────────────────────────────────────────────
 
@@ -24,13 +24,13 @@ event CreateMerkleInstant(
 );
 
 struct ConstructorParams {
-    string campaignName;
-    uint40 campaignStartTime;
-    uint40 expiration;
-    address initialAdmin;
-    string ipfsCID;
-    bytes32 merkleRoot;
-    IERC20 token;
+    string campaignName;      [0]
+    uint40 campaignStartTime; [1]
+    uint40 expiration;        [2]
+    address initialAdmin;     [3]
+    string ipfsCID;           [4]
+    bytes32 merkleRoot;       [5]
+    IERC20 token;             [6]
 }
 
 ──────────────────────────────────────────────────────────────
