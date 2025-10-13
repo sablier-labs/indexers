@@ -1,6 +1,7 @@
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import axios from "axios";
 import type { Command } from "commander";
+import _ from "lodash";
 import { sablier } from "sablier";
 import { envioChains } from "../../src/indexers/envio";
 import * as helpers from "../helpers";
@@ -13,8 +14,8 @@ function createCheckVendorsCommand(): Command {
     if (!options.chainId) {
       throw new Error("--chain-id is required");
     }
-    const chainId = Number.parseInt(options.chainId, 10);
-    if (Number.isNaN(chainId) || chainId <= 0) {
+    const chainId = _.toInteger(options.chainId);
+    if (_.isNaN(chainId) || chainId <= 0) {
       throw new Error("Chain ID must be a positive number");
     }
 
@@ -116,7 +117,7 @@ async function checkGraphSupport(chainId: number): Promise<VendorCheckResult> {
     const registry = await NetworksRegistry.fromLatestVersion();
     const supportedChainIds = registry.networks.map((c) => {
       const id = c.caip2Id.replace("eip155:", "");
-      return Number.parseInt(id, 10);
+      return _.toInteger(id);
     });
 
     return {

@@ -2,6 +2,7 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
+import _ from "lodash";
 import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/dist/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants";
 
@@ -98,9 +99,9 @@ function isToday(dateString: string): boolean {
   const today = new Date();
   const [day, month, year] = dateString.split("-");
   return (
-    today.getUTCDate() === Number.parseInt(day) &&
-    today.getUTCMonth() + 1 === Number.parseInt(month) &&
-    today.getUTCFullYear() === Number.parseInt(year)
+    today.getUTCDate() === _.toInteger(day) &&
+    today.getUTCMonth() + 1 === _.toInteger(month) &&
+    today.getUTCFullYear() === _.toInteger(year)
   );
 }
 
