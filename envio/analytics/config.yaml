@@ -3,7 +3,7 @@ name: "sablier-analytics"
 ecosystem: "evm"
 output: "./bindings"
 preload_handlers: true
-schema: "./schema.graphql"
+schema: "analytics.graphql"
 unordered_multichain_mode: true
 field_selection:
   transaction_fields:

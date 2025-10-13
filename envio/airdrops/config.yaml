@@ -3,7 +3,7 @@ name: "sablier-airdrops"
 ecosystem: "evm"
 output: "./bindings"
 preload_handlers: true
-schema: "./schema.graphql"
+schema: "airdrops.graphql"
 unordered_multichain_mode: true
 field_selection:
   transaction_fields:
