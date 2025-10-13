@@ -100,7 +100,7 @@ function generateAllIndexersConfigs(): void {
   summaryTable.push(
     [colors.success("Generated"), colors.value(generated.toString())],
     [colors.error("Errors"), colors.value(errors.toString())],
-    [chalk.cyan.bold("Total Configs"), chalk.white.bold(results.length.toString())],
+    [chalk.white.bold("Total Configs"), chalk.white.bold(results.length.toString())],
   );
 
   console.log(summaryTable.toString());
