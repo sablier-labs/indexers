@@ -1,4 +1,3 @@
-import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { convertToIndexed } from "../../contracts";
 import type { Types } from "../../lib/types";
@@ -11,8 +10,7 @@ export function getContract(
   chainId: number,
   contractAddress: Envio.Address,
 ): Types.Contract {
-  const lowercasedAddress = contractAddress.toLowerCase() as Sablier.Address;
-  const contract = sablier.contracts.get({ chainId, contractAddress: lowercasedAddress, protocol });
+  const contract = sablier.contracts.get({ chainId, contractAddress, protocol });
   if (!contract) {
     throw new CriticalError.ContractNotFound(protocol, chainId, contractAddress);
   }

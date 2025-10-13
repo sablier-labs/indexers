@@ -14,7 +14,7 @@ export function create(
   const contractMetadata = getContract(protocol, event.chainId, event.srcAddress);
 
   const contract: CommonEntities.Contract = {
-    address: contractMetadata.address.toLowerCase(),
+    address: contractMetadata.address,
     alias: contractMetadata.alias,
     category: contractMetadata.protocol || "",
     chainId: BigInt(event.chainId),
