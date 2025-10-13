@@ -13,7 +13,7 @@ export namespace Id {
    * 0xf50760d8ead9ff322631a1f3ebf26cc7891b3708-137
    */
   export function campaign(campaignAddress: Envio.Address, chainId: number): string {
-    return `${campaignAddress}-${chainId}`;
+    return `${campaignAddress.toLowerCase()}-${chainId}`;
   }
 
   /**
@@ -24,7 +24,7 @@ export namespace Id {
    * 0xe0bfe071da104e571298f8b6e0fce44c512c1ff4-137-42
    */
   export function stream(contractAddress: Envio.Address, chainId: number, tokenId: bigint | string): string {
-    return `${contractAddress}-${chainId}-${tokenId}`;
+    return `${contractAddress.toLowerCase()}-${chainId}-${tokenId}`;
   }
 
   /**
