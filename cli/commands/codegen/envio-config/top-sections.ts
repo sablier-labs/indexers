@@ -1,3 +1,4 @@
+/* biome-ignore-all assist/source/useSortedKeys: order matters */
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
@@ -10,16 +11,16 @@ export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
 
 function get(name: Indexer.Name): EnvioConfig.TopSection {
   return {
-    contracts: [],
+    name: `sablier-${name}`,
     ecosystem: "evm",
+    output: "./bindings",
+    preload_handlers: true,
+    schema: "./schema.graphql",
+    unordered_multichain_mode: true,
     field_selection: {
       transaction_fields: ["from", "hash", "to", "transactionIndex", "value"],
     },
-    name: `sablier-${name}`,
+    contracts: [],
     networks: [],
-    output: "./bindings",
-    preload_handlers: true,
-    schema: `./${name}.graphql`,
-    unordered_multichain_mode: true,
   };
 }
