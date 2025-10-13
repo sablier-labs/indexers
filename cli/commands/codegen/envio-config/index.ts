@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 import { createContracts } from "./contracts";
@@ -24,6 +25,11 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       ...createContracts(indexer, "lockup", includeProtocolInPath),
     ];
     networks = mergeNetworks([...createNetworks("airdrops"), ...createNetworks("flow"), ...createNetworks("lockup")]);
+    // Filter out testnets from analytics indexer.
+    networks = networks.filter((network) => {
+      const chain = sablier.chains.get(network.id);
+      return chain && !chain.isTestnet;
+    });
   } else {
     const protocol = indexer as Indexer.Protocol;
     contracts = createContracts(indexer, protocol);
