@@ -5,9 +5,9 @@
 import { GraphQLClient } from "graphql-request";
 import type { Sablier } from "sablier";
 import { parseEther } from "viem";
-import type { Envio } from "../../../common/bindings";
-import type { HandlerContext } from "../../bindings";
-import { Store } from "../../store";
+import type { Envio } from "../../common/bindings";
+import type { HandlerContext } from "../bindings";
+import { Store } from "../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */

@@ -1,0 +1,24 @@
+[
+  {
+    "airdropCampaign": null,
+    "admin": "0xb1bef51ebca01eb12001a639bdbbff6eeca12b9f",
+    "amount": "0.000688859591518415",
+    "block": 167987492,
+    "caller": "0xf26994e6af0b95cca8dfa22a0bc25e1f38a54c42",
+    "contractAddress": "0x6c65aaf03186d1da60127d3d7792cf36ed99d909",
+    "logIndex": 0,
+    "hash": "0x5b7e3d5ea1b86731a8da18fefb2fbc88997c1d92ed564da7ed9216bfed7a6a46",
+    "timestamp": 1759438274
+  },
+  {
+    "admin": "0xb1bef51ebca01eb12001a639bdbbff6eeca12b9f",
+    "amount": "0.00072667413275893",
+    "airdropCampaign": null,
+    "block": 153382091,
+    "caller": "0xf26994e6af0b95cca8dfa22a0bc25e1f38a54c42",
+    "contractAddress": "0x6c65aaf03186d1da60127d3d7792cf36ed99d909",
+    "logIndex": 0,
+    "hash": "0x9442e58950c7852d0e06929c5420e41714af5d5b9fdfc8b7777ea0ae041ab654",
+    "timestamp": 1752101316
+  }
+]

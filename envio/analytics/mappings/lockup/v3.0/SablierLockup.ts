@@ -3,7 +3,7 @@ import { Store } from "../../../store";
 import { handleApproval, handleApprovalForAll, handleTransfer } from "../../common/event-handlers";
 
 // See https://github.com/enviodev/hyperindex/issues/765
-import "../../common/preset-handler";
+import "../../../presets/presets";
 
 /* -------------------------------------------------------------------------- */
 /*                               LOCKUP-SPECIFIC                              */

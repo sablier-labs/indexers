@@ -3,9 +3,9 @@
  */
 
 import { lightlink } from "sablier/dist/chains";
-import feeCollections from "../../.envio/preset/lightlink-fee-collections.json";
 import type { HandlerContext } from "../../bindings";
-import * as Helpers from "./helpers";
+import * as Helpers from "../helpers";
+import feeCollections from "./lightlink-fee-collections.json";
 
 /**
  * Initializes LightLink preset data by processing fee collections and actions.
