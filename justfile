@@ -79,13 +79,15 @@ alias codegen-indexers := codegen
     just --quiet biome-write "envio/**/*.graphql"
 
 # Run tests
+[group("test")]
 test args="--silent":
-    pnpm vitest run {{ args }}
+    pnpm vitest run --hideSkippedTests {{ args }}
 alias t := test
 
 # Run vendor tests
+[group("test")]
 test-vendors:
-    TEST_VENDORS=true pnpm vitest run
+    TEST_VENDORS=true pnpm vitest run --hideSkippedTests
 
 # ---------------------------------------------------------------------------- #
 #                                SCRIPTS: ENVIO                                #
