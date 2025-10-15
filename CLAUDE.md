@@ -12,23 +12,24 @@ We support two indexing services: [Envio](https://envio.dev) and [The Graph](htt
 
 ## Most Important Thing
 
-After generating new code, run `just full-write` to format it, then run targeted checks:
+After generating code: `just full-write` → then verify with targeted checks.
 
-**Granular Checks:**
+**Check by file type:**
 
-- **CSS/JS/TS/JSON**: Run `just biome-check <paths>` and `just tsc-check <globs>`
-- **Markdown/YAML**: Run `just prettier-check <globs>`
-- **Mixed file types**: Run `just full-check`
+- **CSS/JS/TS/JSON**: `just biome-check <paths>` — pass specific paths
+- **Markdown/YAML**: `just prettier-check <globs>` — pass glob patterns
+- **TypeScript**: `just tsc-check` — always have to check the entire project
+- **Mixed**: `just full-check`
 
-**Targeted Approach:**
+**Examples:**
 
-- Pass specific **paths** to `biome-check` (e.g., `just biome-check app/page.tsx app/layout.tsx`)
-- Pass **globs** to `prettier-check` (e.g., `just prettier-check "**/*.md"`)
-- Pass **globs** to `tsc-check` (e.g., `just tsc-check "app/**/*.ts"`)
+```bash
+just biome-check app/page.tsx app/layout.tsx
+just prettier-check "**/*.md" "**/*.yml"
+just tsc-check
+```
 
-If issues remain, identify and resolve the root cause.
-
-**WORKFLOW**: After code changes → `just full-check` → `just full-write` (if errors) → fix remaining issues manually
+If issues remain, investigate the root cause and fix them.
 
 ## Commands
 
