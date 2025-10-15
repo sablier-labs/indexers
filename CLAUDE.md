@@ -12,46 +12,53 @@ We support two indexing services: [Envio](https://envio.dev) and [The Graph](htt
 
 ## Most Important Thing
 
-After generating code, follow these steps in order. Do not proceed to the next step unless the current step passes.
+After generating code, run these commands **in order**.
 
-**File argument convention:** For commands that accept file arguments, pass specific file paths or globs when fewer than
-10 files changed. Omit arguments to process all files when 10+ files changed.
+**File argument rules:**
 
-**Order of operations:**
+- Changed fewer than 10 files? → Pass specific paths or globs
+- Changed 10+ files? → Omit file arguments to process all files
 
-1. **Identify changed file types** — determine which linters/formatters are needed
-2. **`just prettier-write <files>`** — auto-fix Markdown/YAML files (skip if none changed)
-3. **`just biome-write <files>`** — auto-fix JS/TS/JSON/CSS/GraphQL files (skip if none changed)
-4. **`just prettier-check <files>`** — verify Markdown/YAML files (skip if none changed)
-5. **`just biome-check <files>`** — verify JS/TS/JSON/CSS/GraphQL files (skip if none changed)
-6. **`just tsc-check`** — verify TypeScript types across entire project
+**Command sequence:**
+
+1. **Identify which file types changed** — determines which tools to use in steps 2-5
+
+2. **`just prettier-write <files>`** — auto-fix Markdown/YAML (skip if none changed)
+
+3. **`just biome-write <files>`** — auto-fix JS/TS/JSON/CSS/GraphQL (skip if none changed)
+
+4. **`just prettier-check <files>`** — verify Markdown/YAML formatting (skip if none changed)
+
+5. **`just biome-check <files>`** — verify JS/TS/JSON/CSS/GraphQL formatting (skip if none changed)
+
+6. **`just tsc-check`** — verify TypeScript types (always run on entire project)
 
 **Examples:**
 
 ```bash
-# Steps 2-5: Specific files (< 10 files changed)
+# Fewer than 10 files: use specific paths
 just prettier-write README.md CHANGELOG.md
 just biome-write app/page.tsx app/layout.tsx
 just prettier-check README.md CHANGELOG.md
 just biome-check app/page.tsx app/layout.tsx
 
-# Steps 2-5: Glob patterns
+# Fewer than 10 files: use globs
 just prettier-write "docs/**/*.md"
 just biome-write "app/**/*.ts" "app/**/*.tsx"
 just prettier-check "docs/**/*.md"
 just biome-check "app/**/*.ts" "app/**/*.tsx"
 
-# Steps 2-5: All files (10+ files changed)
+# 10+ files: omit file arguments
 just prettier-write
 just biome-write
 just prettier-check
 just biome-check
 
-# Step 6: Always runs on entire project
+# TypeScript check always runs on entire project
 just tsc-check
 ```
 
-If any step fails, think about how to fix it.
+If any command fails, analyze the errors and fix it before continuing.
 
 ## Commands
 
