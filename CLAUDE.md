@@ -14,26 +14,41 @@ We support two indexing services: [Envio](https://envio.dev) and [The Graph](htt
 
 After generating code, follow these steps in order. Do not proceed to the next step unless the current step passes.
 
+**File argument convention:** For commands that accept file arguments, pass specific file paths or globs when fewer than
+10 files changed. Omit arguments to process all files when 10+ files changed.
+
 **Order of operations:**
 
-1. **`just full-write`** — auto-fix all issues
-2. **`just prettier-check <globs>`** — verify Markdown/YAML files (pass specific file paths or globs, or omit args if
-   10+ files changed)
-3. **`just biome-check <globs>`** — verify JS/TS/JSON/CSS/GraphQL files (pass specific file paths or globs, or omit args
-   if 10+ files changed)
-4. **`just tsc-check`** — verify TypeScript types across entire project
+1. **Identify changed file types** — determine which linters/formatters are needed
+2. **`just prettier-write <files>`** — auto-fix Markdown/YAML files (skip if none changed)
+3. **`just biome-write <files>`** — auto-fix JS/TS/JSON/CSS/GraphQL files (skip if none changed)
+4. **`just prettier-check <files>`** — verify Markdown/YAML files (skip if none changed)
+5. **`just biome-check <files>`** — verify JS/TS/JSON/CSS/GraphQL files (skip if none changed)
+6. **`just tsc-check`** — verify TypeScript types across entire project
 
 **Examples:**
 
 ```bash
-just full-write                                  # Step 1: Always first
-just prettier-check README.md CHANGELOG.md       # Step 2: Specific files
-just prettier-check "docs/**/*.md"               # Step 2: Specific globs
-just prettier-check                              # Step 2: more than 10 files changed
-just biome-check app/page.tsx app/layout.tsx     # Step 3: Specific files
-just biome-check "app/**/*.ts" "app/**/*.tsx"    # Step 3: Specific globs
-just biome-check                                 # Step 3: more than 10 files changed
-just tsc-check                                   # Step 4: Always last
+# Steps 2-5: Specific files (< 10 files changed)
+just prettier-write README.md CHANGELOG.md
+just biome-write app/page.tsx app/layout.tsx
+just prettier-check README.md CHANGELOG.md
+just biome-check app/page.tsx app/layout.tsx
+
+# Steps 2-5: Glob patterns
+just prettier-write "docs/**/*.md"
+just biome-write "app/**/*.ts" "app/**/*.tsx"
+just prettier-check "docs/**/*.md"
+just biome-check "app/**/*.ts" "app/**/*.tsx"
+
+# Steps 2-5: All files (10+ files changed)
+just prettier-write
+just biome-write
+just prettier-check
+just biome-check
+
+# Step 6: Always runs on entire project
+just tsc-check
 ```
 
 If any step fails, think about how to fix it.
