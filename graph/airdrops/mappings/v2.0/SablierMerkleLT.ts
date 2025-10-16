@@ -2,9 +2,16 @@ import {
   ClaimLTWithTransfer,
   ClaimLTWithVesting,
   Clawback,
+  LowerMinFeeUSD,
   TransferAdmin,
 } from "../../bindings/templates/SablierMerkleLT_v2_0/SablierMerkleLT";
-import { handleClaimInstant, handleClaimLockup, handleClawback, handleTransferAdmin } from "../common";
+import {
+  handleClaimInstant,
+  handleClaimLockup,
+  handleClawback,
+  handleLowerMinFeeUSD,
+  handleTransferAdmin,
+} from "../common";
 
 export function handle_SablierMerkleLT_v2_0_TransferAdmin(event: TransferAdmin): void {
   handleTransferAdmin(event, {
@@ -37,5 +44,12 @@ export function handle_SablierMerkleLT_v2_0_Clawback(event: Clawback): void {
     admin: event.params.admin,
     amount: event.params.amount,
     to: event.params.to,
+  });
+}
+
+export function handle_SablierMerkleLT_v2_0_LowerMinFeeUSD(event: LowerMinFeeUSD): void {
+  handleLowerMinFeeUSD(event, {
+    newMinFeeUSD: event.params.newMinFeeUSD,
+    previousMinFeeUSD: event.params.previousMinFeeUSD,
   });
 }

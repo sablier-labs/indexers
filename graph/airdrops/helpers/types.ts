@@ -74,6 +74,11 @@ export namespace Params {
     newAdmin: Address;
     oldAdmin: Address;
   }
+
+  export class LowerMinFeeUSD {
+    previousMinFeeUSD: BigInt;
+    newMinFeeUSD: BigInt;
+  }
 }
 
 export class TrancheWithPercentage {

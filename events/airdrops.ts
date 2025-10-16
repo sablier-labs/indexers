@@ -31,6 +31,13 @@ const CLAIM_EVENTS: ClaimEventsConfig = {
   },
 };
 
+const LOWER_MIN_FEE_EVENTS: Record<Sablier.Version.Airdrops, readonly string[]> = {
+  "v1.1": [],
+  "v1.2": [],
+  "v1.3": [],
+  "v2.0": ["LowerMinFeeUSD"],
+};
+
 function get(
   version: Sablier.Version.Airdrops,
   contractName: string,
@@ -56,6 +63,7 @@ function campaign(
     get(version, contractName, "TransferAdmin"),
     get(version, contractName, "Clawback"),
     ...CLAIM_EVENTS[type][version].map((event) => get(version, contractName, event)),
+    ...LOWER_MIN_FEE_EVENTS[version].map((event) => get(version, contractName, event)),
   ];
 }
 
