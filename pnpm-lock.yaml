@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       sablier:
-        specifier: 1.2.0-beta.5
-        version: 1.2.0-beta.5(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
+        specifier: 1.2.1
+        version: 1.2.1(viem@2.35.1(typescript@5.9.2)(zod@3.25.51))
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.2.2
@@ -3410,8 +3410,8 @@ packages:
   rxjs@7.8.2:
     resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
 
-  sablier@1.2.0-beta.5:
-    resolution: {integrity: sha512-sK8YfHE0hRngPTDPwUEk+0IIb+7Q94ErFYT15EyOofEv+h/WYit5fav+TrTQUB7+HTGVpp3T/RHykFd+nZgzKA==}
+  sablier@1.2.1:
+    resolution: {integrity: sha512-GnkohFhwEUiR7LNmhd71Vza2aCsf0LXcAn40O6qgLbtf/AgMvyG7q5mU1omlTwYaZI9G2Lc+MhGlgzMStzT0Kg==}
     engines: {node: '>=20'}
     peerDependencies:
       viem: ^2.32
@@ -7645,7 +7645,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  sablier@1.2.0-beta.5(viem@2.35.1(typescript@5.9.2)(zod@3.25.51)):
+  sablier@1.2.1(viem@2.35.1(typescript@5.9.2)(zod@3.25.51)):
     dependencies:
       lodash: 4.17.21
       viem: 2.35.1(typescript@5.9.2)(zod@3.25.51)

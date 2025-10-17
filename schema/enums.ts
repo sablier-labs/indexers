@@ -10,6 +10,7 @@ export namespace Airdrops {
     Clawback = "Clawback",
     Create = "Create",
     TransferAdmin = "TransferAdmin",
+    LowerMinFeeUSD = "LowerMinFeeUSD",
   }
 
   export enum CampaignCategory {
@@ -90,7 +91,9 @@ export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
       break;
   }
 
-  return gql`${enumDefs.join("\n")}`;
+  return gql`
+    ${enumDefs.join("\n")}
+  `;
 }
 
 /**

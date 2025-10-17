@@ -20,7 +20,6 @@ import type { Indexer } from "../types";
 const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
   [chains.blast.id]: "blast-mainnet",
-  [chains.mode.id]: "mode-mainnet",
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
@@ -195,11 +194,6 @@ const OFFICIALS: IndexerGraphMap[] = [
     airdrops: "6koYFSd8FQizdQWLTdRpL1yTmAbpMgN1vZN5W6ajZiTN",
     flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",
     lockup: "GvpecytqVzLzuwuQB3enozXoaZRFoVx8Kr7qrfMiE9bs",
-  }),
-  official(chains.mode.id, {
-    airdrops: "HZMkVX5c2qf7BqbidwpcQMsHGWTDdEKwVjnwenzo9s6m",
-    flow: "9TwfoUZoxYUyxzDgspCPyxW6uMUKetWQDaTGsZjY1qJZ",
-    lockup: "oSBvUM371as1pJh8HQ72NMRMb3foV3wuheULfkNf5vy",
   }),
   official(chains.optimism.id, {
     airdrops: "CHJtCNDzPqngpa1YJoaVrjuufZL6k6VkEkG9ZFUMQzF7",

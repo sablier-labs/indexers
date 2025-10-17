@@ -9,6 +9,7 @@ import {
   updateCampaignAdmin,
   updateCampaignClaimed,
   updateCampaignClawback,
+  updateCampaignMinFeeUsd,
 } from "./entity-campaign";
 import { getOrCreateWatcher } from "./entity-watcher";
 
@@ -32,6 +33,7 @@ export namespace Store {
     export const updateAdmin = updateCampaignAdmin;
     export const updateClaimed = updateCampaignClaimed;
     export const updateClawback = updateCampaignClawback;
+    export const updateFee = updateCampaignMinFeeUsd;
   }
 
   export namespace Watcher {
