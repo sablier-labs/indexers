@@ -1,6 +1,15 @@
 import "../envio.just"
 
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "Action&Asset&Batch&Stream"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
+    arr=(
+        "Action"
+        "Asset"
+        "Batch"
+        "Stream"
+    )
+    IFS='&' # Internal Field Separator
+    echo "${arr[*]}"
+```
 export ENVIO_INDEXER_NAME := "flow"
 export INDEXER_NAME := "flow"
 
