@@ -63,7 +63,7 @@ function campaign(
     get(version, contractName, "TransferAdmin"),
     get(version, contractName, "Clawback"),
     ...CLAIM_EVENTS[type][version].map((event) => get(version, contractName, event)),
-    ...LOWER_MIN_FEE_EVENTS[version].map((event) => get(version, contractName, event)),
+    ...LOWER_MIN_FEE_EVENTS[version].map((event) => get(version, contractName, event, ["airdrops"])),
   ];
 }
 
