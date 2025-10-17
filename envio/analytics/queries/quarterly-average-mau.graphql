@@ -1,0 +1,22 @@
+query QuarterlyAverageMAU(
+  $month1Start: timestamptz!
+  $month2Start: timestamptz!
+  $month3Start: timestamptz!
+  $quarterEnd: timestamptz!
+) {
+  month1: User_aggregate(where: { transactions: { timestamp: { _gte: $month1Start, _lt: $month2Start } } }) {
+    aggregate {
+      count(columns: address, distinct: true)
+    }
+  }
+  month2: User_aggregate(where: { transactions: { timestamp: { _gte: $month2Start, _lt: $month3Start } } }) {
+    aggregate {
+      count(columns: address, distinct: true)
+    }
+  }
+  month3: User_aggregate(where: { transactions: { timestamp: { _gte: $month3Start, _lt: $quarterEnd } } }) {
+    aggregate {
+      count(columns: address, distinct: true)
+    }
+  }
+}
