@@ -1,0 +1,9 @@
+query TotalUsdFees($dateStart: timestamptz!, $dateEnd: timestamptz!) {
+  FiatFeesDaily_aggregate(where: { dateTimestamp: { _gte: $dateStart, _lt: $dateEnd } }) {
+    aggregate {
+      sum {
+        amountUSD
+      }
+    }
+  }
+}

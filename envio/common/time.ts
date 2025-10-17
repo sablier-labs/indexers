@@ -34,3 +34,23 @@ export function getTimestamp(timestampInSeconds: number): Date {
 export function getDay(timestamp: number): bigint {
   return BigInt(timestamp) / (60n * 60n * 24n); // 60 seconds * 60 minutes * 24 hours
 }
+
+/**
+ * This function converts a Unix timestamp to a month in the format YYYY-MM.
+ * @param timestampInSeconds - The Unix timestamp to convert, in seconds.
+ * @returns The month in the format YYYY-MM.
+ */
+export function getMonth(timestampInSeconds: number): string {
+  const utcDate = dayjs.unix(timestampInSeconds).utc();
+  return utcDate.format("YYYY-MM");
+}
+
+/**
+ * This function converts a Unix timestamp to the first day of that month at 00:00:00.
+ * @param timestampInSeconds - The Unix timestamp to convert, in seconds.
+ * @returns The Date object representing the first day of the month at 00:00:00.
+ */
+export function getMonthTimestamp(timestampInSeconds: number): Date {
+  const utcDate = dayjs.unix(timestampInSeconds).utc();
+  return utcDate.startOf("month").toDate();
+}

@@ -1,6 +1,19 @@
 import "../envio.just"
 
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "CryptoFeesDaily&FeeCollectionDaily&FeeCollection&FeeTransaction&FiatFeesDaily&User&UserTransaction"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
+    arr=(
+        "CryptoFeesDaily"
+        "FeeCollectionDaily"
+        "FeeCollection"
+        "FeeTransaction"
+        "FiatFeesDaily"
+        "User"
+        "UsersActiveMonthly"
+        "UserTransaction"
+    )
+    IFS='&' # Internal Field Separator
+    echo "${arr[*]}"
+```
 export ENVIO_INDEXER_NAME := "analytics"
 export INDEXER_NAME := "analytics"
 

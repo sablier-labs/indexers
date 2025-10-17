@@ -385,3 +385,29 @@ type UserTransaction @entity {
   """
   user: User!
 }
+
+"""
+Monthly active users aggregated across all chains.
+A user is considered active if they had at least one transaction during the month.
+"""
+type UsersActiveMonthly @entity {
+  """
+  Unique identifier: YYYY-MM
+  """
+  id: ID!
+
+  """
+  Number of unique user addresses active this month
+  """
+  count: BigInt!
+
+  """
+  Month in YYYY-MM format
+  """
+  month: String!
+
+  """
+  Month as Unix timestamp (first day of month at 00:00:00)
+  """
+  monthTimestamp: Timestamp!
+}

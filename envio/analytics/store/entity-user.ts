@@ -7,6 +7,7 @@ import type { Envio } from "../../common/bindings";
 import { getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
+import { trackMonthlyActiveUser } from "./entity-users-active-monthly";
 
 type Params = {
   address: string;
@@ -50,11 +51,11 @@ export async function createOrUpdate(
   }
 
   for (const [i, user] of uniqueUsers.entries()) {
-    upsert(context, event, { ...user, entity: userEntities[i], tx: userTxEntities[i] });
+    await upsert(context, event, { ...user, entity: userEntities[i], tx: userTxEntities[i] });
   }
 }
 
-function upsert(context: HandlerContext, event: Envio.Event, params: Params): void {
+async function upsert(context: HandlerContext, event: Envio.Event, params: Params): Promise<void> {
   // Check if the user transaction already exists. A single transaction can emit multiple events that lead here.
   // By stopping here, we don't handle cases of txs that are both an airdrop claim and some other Sablier interaction.
   // Thus, the `isOnlyAirdropClaimer` field is not guaranteed to be correct, but this is an acceptable trade-off
@@ -109,4 +110,7 @@ function upsert(context: HandlerContext, event: Envio.Event, params: Params): vo
     user_id: user.id,
   };
   context.UserTransaction.set(userTransaction);
+
+  // Track this user as active for the month
+  await trackMonthlyActiveUser(context, event, params.address);
 }
