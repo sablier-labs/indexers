@@ -1,8 +1,8 @@
 import { Version } from "sablier";
-import { sanitizeString } from "../../../lib/helpers";
 import type { Envio } from "../../common/bindings";
 import { NOT_AVAILABLE } from "../../common/constants";
 import { getContract } from "../../common/deployments";
+import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";

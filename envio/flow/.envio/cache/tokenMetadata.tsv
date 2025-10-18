@@ -11,7 +11,7 @@ id	output
 [10,"0x4200000000000000000000000000000000000042"]	{"name": "Optimism", "symbol": "OP", "decimals": 18}
 [81457,"0x4300000000000000000000000000000000000003"]	{"name": "USDB", "symbol": "USDB", "decimals": 18}
 [43114,"0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e"]	{"name": "USD Coin", "symbol": "USDC", "decimals": 6}
-[43114,"0x714f020c54cc9d104b6f4f6998c63ce2a31d1888"]	{"name": "STEP.APP", "symbol": "FITFI", "decimals": 18}
+[43114,"0x714f020c54cc9d104b6f4f6998c63ce2a31d1888"]	{"name": "UNKNOWN", "symbol": "FITFI", "decimals": 18}
 [59144,"0xe5d7c2a44ffddf6b295a15c148167daaaf5cf34f"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
 [80094,"0xab281bbc2bc34a1f202ddff17ffd1c00edf73f3a"]	{"name": "Test Token", "symbol": "TST", "decimals": 18}
 [81457,"0x4300000000000000000000000000000000000004"]	{"name": "Wrapped Ether", "symbol": "WETH", "decimals": 18}
