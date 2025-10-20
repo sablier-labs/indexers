@@ -3,8 +3,8 @@ import "../envio.just"
 export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
     arr=(
         "CryptoFeesDaily"
-        "FeeCollectionDaily"
         "FeeCollection"
+        "FeeCollectionDaily"
         "FeeTransaction"
         "FiatFeesDaily"
         "User"
