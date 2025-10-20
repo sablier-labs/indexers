@@ -97,10 +97,10 @@ function createFeeTx(
   const feeTx: Entity.FeeTransaction = {
     amount: event.transaction.value,
     amountDisplay: msgValue,
+    amountDisplayGBP: gbpValue,
+    amountDisplayUSD: usdValue,
     amountGBP: parseEther(gbpValue),
-    amountGBPDisplay: gbpValue,
     amountUSD: parseEther(usdValue),
-    amountUSDDisplay: usdValue,
     block: BigInt(event.block.number),
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress,
@@ -148,23 +148,23 @@ function upsertFiatFeesDaily(
 
   if (!dailyFiatFees) {
     dailyFiatFees = {
+      amountDisplayGBP: gbpValue,
+      amountDisplayUSD: usdValue,
       amountGBP: parseEther(gbpValue),
-      amountGBPDisplay: gbpValue,
       amountUSD: parseEther(usdValue),
-      amountUSDDisplay: usdValue,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: dailyFiatFeesId,
     };
   } else {
-    const newGBPValue = (Number(dailyFiatFees.amountGBPDisplay) + Number(gbpValue)).toString();
-    const newUSDValue = (Number(dailyFiatFees.amountUSDDisplay) + Number(usdValue)).toString();
+    const newGBPValue = (Number(dailyFiatFees.amountDisplayGBP) + Number(gbpValue)).toString();
+    const newUSDValue = (Number(dailyFiatFees.amountDisplayUSD) + Number(usdValue)).toString();
     dailyFiatFees = {
       ...dailyFiatFees,
+      amountDisplayGBP: newGBPValue,
+      amountDisplayUSD: newUSDValue,
       amountGBP: parseEther(newGBPValue),
-      amountGBPDisplay: newGBPValue,
       amountUSD: parseEther(newUSDValue),
-      amountUSDDisplay: newUSDValue,
     };
   }
 

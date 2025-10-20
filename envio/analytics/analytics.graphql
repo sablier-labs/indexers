@@ -60,7 +60,7 @@ type FiatFeesDaily @entity {
   """
   GBP value of the fee amount in human-readable format (e.g., "125.50")
   """
-  amountGBPDisplay: String!
+  amountDisplayGBP: String!
 
   """
   USD value of the fee amount in BigInt format (wei-equivalent, e.g., 1.5e20)
@@ -70,7 +70,7 @@ type FiatFeesDaily @entity {
   """
   USD value of the fee amount in human-readable format (e.g., "150.00")
   """
-  amountUSDDisplay: String!
+  amountDisplayUSD: String!
 
   """
   Fee breakdown by currency for this day
@@ -240,7 +240,7 @@ type FeeTransaction @entity {
   """
   GBP value of the fee amount from this transaction in human-readable format (e.g., "12.50")
   """
-  amountGBPDisplay: String!
+  amountDisplayGBP: String!
 
   """
   USD value of the fee amount from this transaction in BigInt format (wei-equivalent, e.g., 1.5e19)
@@ -250,7 +250,7 @@ type FeeTransaction @entity {
   """
   USD value of the fee amount from this transaction in human-readable format (e.g., "15.00")
   """
-  amountUSDDisplay: String!
+  amountDisplayUSD: String!
 
   """
   Block number of the transaction
