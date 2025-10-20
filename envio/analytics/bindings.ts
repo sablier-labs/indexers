@@ -97,6 +97,8 @@ import type {
   FeeCollection as EntityFeeCollection,
   FeeTransaction as EntityFeeTransaction,
   User as EntityUser,
+  UserActivityMonth as EntityUserActivityMonth,
+  UsersActiveMonthly as EntityUsersActiveMonthly,
   UserTransaction as EntityUserTransaction,
 } from "./bindings/src/Types.gen";
 
@@ -107,5 +109,7 @@ export namespace Entity {
   export type FeeCollection = EntityFeeCollection;
   export type FeeTransaction = EntityFeeTransaction;
   export type User = EntityUser;
+  export type UserActivityMonth = EntityUserActivityMonth;
+  export type UsersActiveMonthly = EntityUsersActiveMonthly;
   export type UserTransaction = EntityUserTransaction;
 }

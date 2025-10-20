@@ -1,5 +1,5 @@
 import { sablier } from "sablier";
-import { getDate } from "../../common/time";
+import { getDate, getMonth } from "../../common/time";
 
 export namespace Id {
   export function dailyFiatFees(blockTimestamp: number): string {
@@ -30,5 +30,13 @@ export namespace Id {
 
   export function userTransaction(userId: string, hash: string): string {
     return `${userId}_${hash}`;
+  }
+
+  export function usersActiveMonthly(blockTimestamp: number): string {
+    return getMonth(blockTimestamp);
+  }
+
+  export function userActivityMonth(userAddress: string, blockTimestamp: number): string {
+    return `${userAddress.toLowerCase()}_${getMonth(blockTimestamp)}`;
   }
 }
