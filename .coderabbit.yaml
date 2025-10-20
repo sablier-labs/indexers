@@ -28,3 +28,13 @@ reviews:
     # Automatic Review - Automatic code review
     # Setting it to false will require tagging the PR with @coderabbitai to trigger a review.
     enabled: true
+
+  # Configuration for pre merge checks
+  pre_merge_checks:
+    # Docstring Coverage - Checks if the code has sufficient docstrings.
+    docstrings:
+      # Mode - Determines how strictly the docstring coverage check is enforced. Warning will only generate a warning
+      # and does not require the user to resolve the check. Error requires the user to resolve issues before merging the
+      # pull request.
+      # Options: off, warning, error
+      mode: "off"
