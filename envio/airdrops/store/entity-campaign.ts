@@ -92,6 +92,14 @@ export function updateClawback(context: Context.Handler, event: Envio.Event, cam
   context.Campaign.set(updatedCampaign);
 }
 
+export function updateFee(context: Context.Handler, campaign: Entity.Campaign, newFee: bigint): void {
+  const updatedCampaign: Entity.Campaign = {
+    ...campaign,
+    fee: newFee,
+  };
+  context.Campaign.set(updatedCampaign);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */

@@ -74,6 +74,11 @@ export function updateCampaignClaimed(campaign: Entity.Campaign, amount: BigInt)
   campaign.save();
 }
 
+export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigInt): void {
+  campaign.fee = newFee;
+  campaign.save();
+}
+
 export function updateCampaignClawback(event: ethereum.Event, campaign: Entity.Campaign, actionId: string): void {
   campaign.clawbackAction = actionId;
   campaign.clawbackTime = event.block.timestamp;
