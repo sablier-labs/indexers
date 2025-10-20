@@ -2,7 +2,7 @@
 
 ## Production GraphQL Endpoint
 
-```
+```text
 https://indexer.hyperindex.xyz/7672d32/v1/graphql
 ```
 

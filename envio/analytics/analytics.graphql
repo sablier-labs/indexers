@@ -337,6 +337,58 @@ type User @entity {
 }
 
 """
+Monthly active users aggregated across all chains.
+A user is considered active if they had at least one transaction during the month.
+"""
+type UsersActiveMonthly @entity {
+  """
+  Unique identifier: YYYY-MM
+  """
+  id: ID!
+
+  """
+  Number of unique user addresses active this month
+  """
+  count: BigInt!
+
+  """
+  Month in YYYY-MM format
+  """
+  month: String!
+
+  """
+  Month as Unix timestamp (first day of month at 00:00:00)
+  """
+  monthTimestamp: Timestamp!
+}
+
+"""
+Tracks individual user activity per month for deduplication.
+Used internally to prevent double-counting users across indexer restarts.
+"""
+type UserActivityMonth @entity {
+  """
+  Unique identifier: userAddress_YYYY-MM
+  """
+  id: ID!
+
+  """
+  Timestamp when this user was first active in this month
+  """
+  firstActivityTimestamp: Timestamp!
+
+  """
+  Month in YYYY-MM format
+  """
+  month: String!
+
+  """
+  User's Ethereum address (lowercase)
+  """
+  userAddress: String!
+}
+
+"""
 Transaction-level user interaction tracking.
 """
 type UserTransaction @entity {
@@ -384,30 +436,4 @@ type UserTransaction @entity {
   Reference to User entity
   """
   user: User!
-}
-
-"""
-Monthly active users aggregated across all chains.
-A user is considered active if they had at least one transaction during the month.
-"""
-type UsersActiveMonthly @entity {
-  """
-  Unique identifier: YYYY-MM
-  """
-  id: ID!
-
-  """
-  Number of unique user addresses active this month
-  """
-  count: BigInt!
-
-  """
-  Month in YYYY-MM format
-  """
-  month: String!
-
-  """
-  Month as Unix timestamp (first day of month at 00:00:00)
-  """
-  monthTimestamp: Timestamp!
 }

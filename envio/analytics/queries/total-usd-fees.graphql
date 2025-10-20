@@ -1,3 +1,6 @@
+# Query total USD fees across all chains and currencies for a date range.
+# Note: FiatFeesDaily already aggregates all crypto fees and converts them to USD/GBP,
+# so this query returns the total USD value of all fees (not just fiat currency fees).
 query TotalUsdFees($dateStart: timestamptz!, $dateEnd: timestamptz!) {
   FiatFeesDaily_aggregate(where: { dateTimestamp: { _gte: $dateStart, _lt: $dateEnd } }) {
     aggregate {

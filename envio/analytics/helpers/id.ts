@@ -35,4 +35,8 @@ export namespace Id {
   export function usersActiveMonthly(blockTimestamp: number): string {
     return getMonth(blockTimestamp);
   }
+
+  export function userActivityMonth(userAddress: string, blockTimestamp: number): string {
+    return `${userAddress.toLowerCase()}_${getMonth(blockTimestamp)}`;
+  }
 }

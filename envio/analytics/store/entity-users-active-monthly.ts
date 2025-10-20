@@ -2,34 +2,34 @@
  * @see {@link: file://./../analytics.graphql}
  */
 import type { Envio } from "../../common/bindings";
-import { getMonth, getMonthTimestamp } from "../../common/time";
+import { getMonth, getMonthTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
-
-// Track user+month combinations we've already counted in this indexing session
-const processedUserMonths = new Set<string>();
 
 export async function trackMonthlyActiveUser(
   context: HandlerContext,
   event: Envio.Event,
   userAddress: string,
 ): Promise<void> {
-  const month = getMonth(event.block.timestamp);
-  const userMonthKey = `${userAddress}_${month}`;
+  // Stop if it's the preload phase
+  if (context.isPreload) {
+    return;
+  }
 
-  // Check if we've already counted this user for this month in this session
-  if (processedUserMonths.has(userMonthKey)) {
+  const month = getMonth(event.block.timestamp);
+
+  // Check if this user+month combination has already been counted (persistent check)
+  const activityId = Id.userActivityMonth(userAddress, event.block.timestamp);
+  const existingActivity = await context.UserActivityMonth.get(activityId);
+
+  if (existingActivity) {
+    // This user was already counted for this month
     return;
   }
 
   // Load the monthly entity
   const monthlyId = Id.usersActiveMonthly(event.block.timestamp);
   let monthly = await context.UsersActiveMonthly.get(monthlyId);
-
-  // Stop if it's the preload phase
-  if (context.isPreload) {
-    return;
-  }
 
   if (monthly) {
     // Increment the count
@@ -49,6 +49,12 @@ export async function trackMonthlyActiveUser(
     context.UsersActiveMonthly.set(monthlyEntity);
   }
 
-  // Mark this user+month as processed
-  processedUserMonths.add(userMonthKey);
+  // Create the activity record to prevent double-counting
+  const activityEntity: Entity.UserActivityMonth = {
+    firstActivityTimestamp: getTimestamp(event.block.timestamp),
+    id: activityId,
+    month,
+    userAddress: userAddress.toLowerCase(),
+  };
+  context.UserActivityMonth.set(activityEntity);
 }
