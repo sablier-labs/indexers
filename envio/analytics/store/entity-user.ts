@@ -92,13 +92,16 @@ function upsert(context: HandlerContext, event: Envio.Event, params: Params): vo
   /* -------------------------------------------------------------------------- */
 
   let fee = "0";
+  let feeNumeric = 0n;
   if (event.transaction.from?.toLowerCase() === params.address.toLowerCase()) {
     fee = formatEther(event.transaction.value);
+    feeNumeric = event.transaction.value;
   }
   const userTransaction: Entity.UserTransaction = {
     block: BigInt(event.block.number),
     contractAddress: event.srcAddress,
-    fee,
+    fee: feeNumeric,
+    feeDisplay: fee,
     hash: event.transaction.hash,
     id: Id.userTransaction(Id.user(event.chainId, params.address), event.transaction.hash),
     isAirdropClaim: Boolean(params.isAirdropClaim),

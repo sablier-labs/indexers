@@ -8,10 +8,14 @@ type CryptoFeesDaily @entity {
   id: ID!
 
   """
-  Total fee amount for this day (in native currency)
-  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  Total fee amount for this day in BigInt format (wei-equivalent, e.g., 2e16)
   """
-  amount: String!
+  amount: BigInt!
+
+  """
+  Total fee amount for this day in human-readable format (e.g., "0.02")
+  """
+  amountDisplay: String!
 
   """
   Native currency symbol (ETH, POL, BNB, etc.)
@@ -49,14 +53,24 @@ type FiatFeesDaily @entity {
   id: ID!
 
   """
-  GBP value of the fee amount
+  GBP value of the fee amount in BigInt format (cents/pence, e.g., 12550 for £125.50)
   """
-  amountGBP: String!
+  amountGBP: BigInt!
 
   """
-  USD value of the fee amount
+  GBP value of the fee amount in human-readable format (e.g., "125.50")
   """
-  amountUSD: String!
+  amountDisplayGBP: String!
+
+  """
+  USD value of the fee amount in BigInt format (cents, e.g., 15000 for $150.00)
+  """
+  amountUSD: BigInt!
+
+  """
+  USD value of the fee amount in human-readable format (e.g., "150.00")
+  """
+  amountDisplayUSD: String!
 
   """
   Fee breakdown by currency for this day
@@ -89,9 +103,14 @@ type FeeCollectionDaily @entity {
   id: ID!
 
   """
-  Total fee amount collected for this day (in native currency, normalized to 18 decimals)
+  Total fee amount collected for this day in BigInt format (wei-equivalent, e.g., 2e16)
   """
-  amount: String!
+  amount: BigInt!
+
+  """
+  Total fee amount collected for this day in human-readable format (e.g., "0.02")
+  """
+  amountDisplay: String!
 
   """
   Native currency symbol (ETH, POL, BNB, etc.)
@@ -134,9 +153,14 @@ type FeeCollection @entity {
   airdropCampaign: String
 
   """
-  Fee amount collected (in native currency, normalized to 18 decimals)
+  Fee amount collected in BigInt format (wei-equivalent, e.g., 2e16)
   """
-  amount: String!
+  amount: BigInt!
+
+  """
+  Fee amount collected in human-readable format (e.g., "0.02")
+  """
+  amountDisplay: String!
 
   """
   Block number of the transaction
@@ -199,19 +223,34 @@ type FeeTransaction @entity {
   id: ID!
 
   """
-  Fee amount from this transaction (in native currency)
+  Fee amount from this transaction in BigInt format (wei-equivalent, e.g., 2e16)
   """
-  amount: String!
+  amount: BigInt!
 
   """
-  GBP value of the fee amount from this transaction
+  Fee amount from this transaction in human-readable format (e.g., "0.02")
   """
-  amountGBP: String!
+  amountDisplay: String!
 
   """
-  USD value of the fee amount from this transaction
+  GBP value of the fee amount from this transaction in BigInt format (cents/pence, e.g., 1250 for £12.50)
   """
-  amountUSD: String!
+  amountGBP: BigInt!
+
+  """
+  GBP value of the fee amount from this transaction in human-readable format (e.g., "12.50")
+  """
+  amountDisplayGBP: String!
+
+  """
+  USD value of the fee amount from this transaction in BigInt format (cents, e.g., 1500 for $15.00)
+  """
+  amountUSD: BigInt!
+
+  """
+  USD value of the fee amount from this transaction in human-readable format (e.g., "15.00")
+  """
+  amountDisplayUSD: String!
 
   """
   Block number of the transaction
@@ -317,10 +356,14 @@ type UserTransaction @entity {
   contractAddress: String!
 
   """
-  Transaction fee in native currency (ETH, POL, etc.)
-  The value is normalized to 18 decimals (e.g., 0.1e18 is 0.1).
+  Transaction fee in BigInt format (wei-equivalent, e.g., 2e16)
   """
-  fee: String!
+  fee: BigInt!
+
+  """
+  Transaction fee in human-readable format (e.g., "0.02")
+  """
+  feeDisplay: String!
 
   """
   Transaction hash

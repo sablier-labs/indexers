@@ -4,7 +4,7 @@
 
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { formatEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
@@ -53,7 +53,8 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   const transaction: Entity.FeeCollection = {
     admin,
     airdropCampaign: airdropCampaign,
-    amount: amountFormatted,
+    amount: amount,
+    amountDisplay: amountFormatted,
     block: BigInt(event.block.number),
     caller: event.transaction.from || "",
     chainId: BigInt(event.chainId),
@@ -101,16 +102,19 @@ function upsertFeeCollection(
 
   if (!feeCollection) {
     feeCollection = {
-      amount: amountFormatted,
+      amount: parseEther(amountFormatted),
+      amountDisplay: amountFormatted,
       currency,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: feeCollectionId,
     };
   } else {
+    const newAmount = (Number(feeCollection.amountDisplay) + Number(amountFormatted)).toString();
     feeCollection = {
       ...feeCollection,
-      amount: (Number(feeCollection.amount) + Number(amountFormatted)).toString(),
+      amount: parseEther(newAmount),
+      amountDisplay: newAmount,
     };
   }
 
