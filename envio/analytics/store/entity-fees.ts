@@ -3,7 +3,7 @@
  */
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/dist/chains";
-import { formatEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { FEB_03_2025 } from "../../common/constants";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
@@ -95,9 +95,12 @@ function createFeeTx(
   const { currency, gbpValue, msgValue, usdValue } = params;
 
   const feeTx: Entity.FeeTransaction = {
-    amount: msgValue,
-    amountGBP: gbpValue,
-    amountUSD: usdValue,
+    amount: event.transaction.value,
+    amountDisplay: msgValue,
+    amountGBP: parseEther(gbpValue),
+    amountGBPDisplay: gbpValue,
+    amountUSD: parseEther(usdValue),
+    amountUSDDisplay: usdValue,
     block: BigInt(event.block.number),
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress,
@@ -145,17 +148,23 @@ function upsertFiatFeesDaily(
 
   if (!dailyFiatFees) {
     dailyFiatFees = {
-      amountGBP: gbpValue,
-      amountUSD: usdValue,
+      amountGBP: parseEther(gbpValue),
+      amountGBPDisplay: gbpValue,
+      amountUSD: parseEther(usdValue),
+      amountUSDDisplay: usdValue,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: dailyFiatFeesId,
     };
   } else {
+    const newGBPValue = (Number(dailyFiatFees.amountGBPDisplay) + Number(gbpValue)).toString();
+    const newUSDValue = (Number(dailyFiatFees.amountUSDDisplay) + Number(usdValue)).toString();
     dailyFiatFees = {
       ...dailyFiatFees,
-      amountGBP: (Number(dailyFiatFees.amountGBP) + Number(gbpValue)).toString(),
-      amountUSD: (Number(dailyFiatFees.amountUSD) + Number(usdValue)).toString(),
+      amountGBP: parseEther(newGBPValue),
+      amountGBPDisplay: newGBPValue,
+      amountUSD: parseEther(newUSDValue),
+      amountUSDDisplay: newUSDValue,
     };
   }
 
@@ -174,7 +183,8 @@ function upsertCryptoFeesDaily(
 
   if (!dailyCryptoFees) {
     dailyCryptoFees = {
-      amount: msgValue,
+      amount: parseEther(msgValue),
+      amountDisplay: msgValue,
       currency,
       dailyFiatFees_id: entities.dailyFiatFeesId,
       date,
@@ -182,9 +192,11 @@ function upsertCryptoFeesDaily(
       id: dailyCryptoFeesId,
     };
   } else {
+    const newAmount = (Number(dailyCryptoFees.amountDisplay) + Number(msgValue)).toString();
     dailyCryptoFees = {
       ...dailyCryptoFees,
-      amount: (Number(dailyCryptoFees.amount) + Number(msgValue)).toString(),
+      amount: parseEther(newAmount),
+      amountDisplay: newAmount,
     };
   }
 
