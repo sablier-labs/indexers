@@ -92,7 +92,7 @@ export function updateClawback(context: Context.Handler, event: Envio.Event, cam
   context.Campaign.set(updatedCampaign);
 }
 
-export async function updateFee(context: Context.Handler, campaign: Entity.Campaign, newFee: bigint): Promise<void> {
+export function updateFee(context: Context.Handler, campaign: Entity.Campaign, newFee: bigint): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
     fee: newFee,

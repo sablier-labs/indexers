@@ -8,11 +8,12 @@ import { Store } from "../../../store";
 
 type Handler = Handler_v2_0;
 
+/**
+ * We do not check for equality of the previous and new minimum fee USD because it is not possible to emit
+ * this event without a lower minimum fee.
+ * @see https://github.com/sablier-labs/airdrops/blob/v2.0/src/abstracts/SablierMerkleBase.sol#L177-L180
+ */
 const handler: Handler = async ({ context, event }) => {
-  if (event.params.previousMinFeeUSD === event.params.newMinFeeUSD) {
-    return;
-  }
-
   /* -------------------------------- ENTITIES -------------------------------- */
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const watcherId = event.chainId.toString();

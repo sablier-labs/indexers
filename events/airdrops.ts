@@ -6,13 +6,11 @@ import { contracts } from "sablier";
 import type { Types } from "../lib/types";
 import type { Indexer } from "../src/types";
 
-const names = contracts.names;
-
-const DEFAULT_INDEXERS: Array<Indexer.Name> = ["airdrops", "analytics"];
+type CampaignType = "instant" | "LL" | "LT";
 
 // Centralized version-specific claim events configuration
 type ClaimEventsConfig = {
-  [K in "instant" | "LL" | "LT"]: Record<Sablier.Version.Airdrops, readonly string[]>;
+  [K in CampaignType]: Record<Sablier.Version.Airdrops, readonly string[]>;
 };
 
 const CLAIM_EVENTS: ClaimEventsConfig = {
@@ -30,6 +28,10 @@ const CLAIM_EVENTS: ClaimEventsConfig = {
     "v2.0": ["ClaimLTWithTransfer", "ClaimLTWithVesting"],
   },
 };
+
+const names = contracts.names;
+
+const DEFAULT_INDEXERS: Array<Indexer.Name> = ["airdrops", "analytics"];
 
 const LOWER_MIN_FEE_EVENTS: Record<Sablier.Version.Airdrops, readonly string[]> = {
   "v1.1": [],
@@ -53,12 +55,8 @@ function get(
   };
 }
 
-// Generic merkle contract builder for campaign + claim events
-function campaign(
-  type: keyof typeof CLAIM_EVENTS,
-  version: Sablier.Version.Airdrops,
-  contractName: string,
-): Types.Event[] {
+// Generic merkle contract builder for campaign events
+function campaign(type: CampaignType, version: Sablier.Version.Airdrops, contractName: string): Types.Event[] {
   return [
     get(version, contractName, "TransferAdmin"),
     get(version, contractName, "Clawback"),
