@@ -53,7 +53,7 @@ type FiatFeesDaily @entity {
   id: ID!
 
   """
-  GBP value of the fee amount in BigInt format (wei-equivalent, e.g., 1.255e20)
+  GBP value of the fee amount in BigInt format (cents/pence, e.g., 12550 for £125.50)
   """
   amountGBP: BigInt!
 
@@ -63,7 +63,7 @@ type FiatFeesDaily @entity {
   amountDisplayGBP: String!
 
   """
-  USD value of the fee amount in BigInt format (wei-equivalent, e.g., 1.5e20)
+  USD value of the fee amount in BigInt format (cents, e.g., 15000 for $150.00)
   """
   amountUSD: BigInt!
 
@@ -233,7 +233,7 @@ type FeeTransaction @entity {
   amountDisplay: String!
 
   """
-  GBP value of the fee amount from this transaction in BigInt format (wei-equivalent, e.g., 1.25e19)
+  GBP value of the fee amount from this transaction in BigInt format (cents/pence, e.g., 1250 for £12.50)
   """
   amountGBP: BigInt!
 
@@ -243,7 +243,7 @@ type FeeTransaction @entity {
   amountDisplayGBP: String!
 
   """
-  USD value of the fee amount from this transaction in BigInt format (wei-equivalent, e.g., 1.5e19)
+  USD value of the fee amount from this transaction in BigInt format (cents, e.g., 1500 for $15.00)
   """
   amountUSD: BigInt!
 

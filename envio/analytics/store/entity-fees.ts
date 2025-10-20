@@ -3,7 +3,7 @@
  */
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/dist/chains";
-import { formatEther, parseEther } from "viem";
+import { formatEther, parseEther, parseUnits } from "viem";
 import type { Envio } from "../../common/bindings";
 import { FEB_03_2025 } from "../../common/constants";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
@@ -99,8 +99,8 @@ function createFeeTx(
     amountDisplay: msgValue,
     amountDisplayGBP: gbpValue,
     amountDisplayUSD: usdValue,
-    amountGBP: parseEther(gbpValue),
-    amountUSD: parseEther(usdValue),
+    amountGBP: parseUnits(gbpValue, 2),
+    amountUSD: parseUnits(usdValue, 2),
     block: BigInt(event.block.number),
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress,
@@ -150,8 +150,8 @@ function upsertFiatFeesDaily(
     dailyFiatFees = {
       amountDisplayGBP: gbpValue,
       amountDisplayUSD: usdValue,
-      amountGBP: parseEther(gbpValue),
-      amountUSD: parseEther(usdValue),
+      amountGBP: parseUnits(gbpValue, 2),
+      amountUSD: parseUnits(usdValue, 2),
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: dailyFiatFeesId,
@@ -163,8 +163,8 @@ function upsertFiatFeesDaily(
       ...dailyFiatFees,
       amountDisplayGBP: newGBPValue,
       amountDisplayUSD: newUSDValue,
-      amountGBP: parseEther(newGBPValue),
-      amountUSD: parseEther(newUSDValue),
+      amountGBP: parseUnits(newGBPValue, 2),
+      amountUSD: parseUnits(newUSDValue, 2),
     };
   }
 
