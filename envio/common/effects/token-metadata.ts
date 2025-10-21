@@ -1,8 +1,8 @@
 import { experimental_createEffect, S } from "envio";
 import { erc20Abi, erc20Abi_bytes32, hexToString, trim } from "viem";
-import { sanitizeString } from "../../../lib/helpers";
 import type { Envio } from "../bindings";
 import { DECIMALS_DEFAULT } from "../constants";
+import { sanitizeStringAndRemoveUrls as sanitize } from "../helpers";
 import { getClient } from "../rpc-clients";
 import type { RPCData } from "../types";
 
@@ -98,7 +98,7 @@ async function fetch(chainId: number, address: Envio.Address): Promise<RPCData.E
 
   const decimals = results[0].result ?? DECIMALS_DEFAULT;
   if (results[1].status !== "failure" && results[2].status !== "failure") {
-    const metadata = { decimals, name: sanitizeString(results[1].result), symbol: sanitizeString(results[2].result) };
+    const metadata = { decimals, name: sanitize(results[1].result), symbol: sanitize(results[2].result) };
     return metadata;
   }
 
@@ -134,8 +134,8 @@ async function fetchBytes32(chainId: number, address: Envio.Address): Promise<RP
   };
 
   const decimals = results[0].result ?? UNKNOWN.decimals;
-  const name = results[1].result ? sanitizeString(fromHex(results[1].result)) : UNKNOWN.name;
-  const symbol = results[2].result ? sanitizeString(fromHex(results[2].result)) : UNKNOWN.symbol;
+  const name = results[1].result ? sanitize(fromHex(results[1].result)) : UNKNOWN.name;
+  const symbol = results[2].result ? sanitize(fromHex(results[2].result)) : UNKNOWN.symbol;
 
   return {
     decimals,

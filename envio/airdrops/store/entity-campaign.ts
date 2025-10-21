@@ -1,6 +1,6 @@
-import { sanitizeString } from "../../../lib/helpers";
 import type { Envio } from "../../common/bindings";
 import { getContractVersion } from "../../common/deployments";
+import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import { getNickname } from "../helpers/campaign";
