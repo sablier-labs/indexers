@@ -185,11 +185,6 @@ const OFFICIALS: IndexerGraphMap[] = [
     flow: "4KiJ53cTNKdFWPBPmDNQ55tYj8hn1WQg8R4UcTY2STLL",
     lockup: "DtKniy1RvB19q1r2g1WLN4reMNKDacEnuAjh284rW2iK",
   }),
-  official(chains.iotex.id, {
-    airdrops: "G39uCzr1FDY7pBFe8DwShAxhMeC6dbZetutVg6wjtks3",
-    flow: "6No3QmRiC8HXLEerDFoBpF47jUPRjhntmv28HHEMxcA2",
-    lockup: "2P3sxwmcWBjMUv1C79Jh4h6VopBaBZeTocYWDUQqwWFV",
-  }),
   official(chains.linea.id, {
     airdrops: "6koYFSd8FQizdQWLTdRpL1yTmAbpMgN1vZN5W6ajZiTN",
     flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",

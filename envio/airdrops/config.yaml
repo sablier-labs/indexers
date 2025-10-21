@@ -742,22 +742,6 @@ networks:
         url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
     start_block: 799582
   - contracts:
-      - address: "0x5e73bb96493c10919204045fcdb639d35ad859f8"
-        name: "SablierV2MerkleLockupFactory_v1_2"
-        start_block: 2516262
-      - name: "SablierV2MerkleLL_v1_2"
-      - name: "SablierV2MerkleLT_v1_2"
-      - address: "0xd641a0e4509cced67cc24e7bdcde2a31b7f7cf77"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 4004609
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-    hypersync_config:
-      url: "https://tangle.hypersync.xyz"
-    id: 5845
-    start_block: 2516262
-  - contracts:
       - address: "0xc6fc028e988d158c52aa2e38cdd6f969aa14bdcd"
         name: "SablierMerkleFactory_v1_3"
         start_block: 13885193

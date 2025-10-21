@@ -383,17 +383,6 @@ networks:
         url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
     start_block: 3610744
   - contracts:
-      - address: "0xcff4a803b0bf55dd1be38fb96088478f3d2eecf2"
-        name: "SablierFlow_v1_0"
-        start_block: 3296266
-      - address: "0xcb099efc90e88690e287259410b9ae63e1658cc6"
-        name: "SablierFlow_v1_1"
-        start_block: 3996271
-    hypersync_config:
-      url: "https://tangle.hypersync.xyz"
-    id: 5845
-    start_block: 3296266
-  - contracts:
       - address: "0x9797b40340be0bfc9ec0dbb8712627bcdd17e771"
         name: "SablierFlow_v1_1"
         start_block: 13883575
