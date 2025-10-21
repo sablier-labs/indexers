@@ -100,6 +100,17 @@ function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
   };
 
   switch (chainId) {
+    case 324: {
+      // zkSync Era
+      switch (asset) {
+        // Scam token
+        case "0x006f916db2b2341581a0d12d139ebba1878c1793":
+        // Scam token
+        case "0xd58a0fea5bd63e0bb86afc5aa3025d2144b5029b":
+          removeEditedAssetDetails();
+      }
+      break;
+    }
     case mainnet.id: {
       switch (asset) {
         // $NGL updated its token metadata
@@ -110,13 +121,35 @@ function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
       }
       break;
     }
+    case 8453: {
+      // Base
+      switch (asset) {
+        // Scam token
+        case "0x39d00b9ca6dd9ceedaf7d04e9882b82248faaa51":
+          removeEditedAssetDetails();
+      }
+      break;
+    }
     case sepolia.id: {
       switch (asset) {
         // $FUEL updated its token metadata at block 7695199
         case "0xbaca88a993d9a1452402dc511efeecda1b18c18f":
+        // Scam token
+        case "0xa0194c01b45ba58482dc70446cb41af62dd21a47":
           removeEditedAssetDetails();
       }
 
+      break;
+    }
+    case 43114: {
+      // Avalanche
+      switch (asset) {
+        // Scam token
+        case "0x714f020c54cc9d104b6f4f6998c63ce2a31d1888":
+        // Scam token
+        case "0x37502f8d4f395bbf17242a74b0c53a0929497f97":
+          removeEditedAssetDetails();
+      }
       break;
     }
   }
