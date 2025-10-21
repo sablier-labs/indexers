@@ -26,11 +26,12 @@ jobs:
         run: just full-check
 
       - name: Run the tests
+        id: tests
+        continue-on-error: true
         env:
           TEST_VENDORS: true
         run: just test
 
-      - name: Add summary
-        run: | # shell
-          echo "## Cron Tests result" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
+      - name: Generate test summary
+        if: always()
+        run: bun run ./tests/summarize-test-failures.ts >> $GITHUB_STEP_SUMMARY

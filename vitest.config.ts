@@ -22,6 +22,13 @@ function getTimeout() {
   return !CI ? 10_000 : 100_000; // 10 seconds normally, 100 seconds in CI
 }
 
+function getReporters() {
+  if (CI) {
+    return ["github-actions", "json"];
+  }
+  return ["default"];
+}
+
 export default defineConfig({
   test: {
     env: loadEnv("", process.cwd(), ""),
@@ -29,6 +36,8 @@ export default defineConfig({
     globalSetup: "./tests/setup.ts",
     globals: true,
     include: getInclude(),
+    outputFile: CI ? "./test-results.json" : undefined,
+    reporters: getReporters(),
     retry: getRetry(),
     testTimeout: getTimeout(),
   },

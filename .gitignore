@@ -21,3 +21,4 @@ repomix
 graph/**/*.graphql
 graph/**/manifests/**/*.yaml
 subgraph.yaml
+test-results.json
