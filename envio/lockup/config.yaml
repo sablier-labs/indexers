@@ -651,23 +651,6 @@ networks:
         url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
     start_block: 2896160
   - contracts:
-      - address: "0x946654ab30dd6ed10236c89f2c8b2719df653691"
-        name: "SablierV2LockupDynamic_v1_2"
-        start_block: 2515961
-      - address: "0xac19f4181e58efb7094e0cb4e1bb18c79f6aadf4"
-        name: "SablierV2LockupLinear_v1_2"
-        start_block: 2515962
-      - address: "0x63b92f7e2f69877184c955e63b9d8dff55e52e14"
-        name: "SablierV2LockupTranched_v1_2"
-        start_block: 2515963
-      - address: "0x1cae76b71913598d7664d16641ccb6037d8ed61a"
-        name: "SablierLockup_v2_0"
-        start_block: 4003841
-    hypersync_config:
-      url: "https://tangle.hypersync.xyz"
-    id: 5845
-    start_block: 2515961
-  - contracts:
       - address: "0x26c341c4d79ba8f6bfb450a49e9165c936316b14"
         name: "SablierLockup_v2_0"
         start_block: 13882080

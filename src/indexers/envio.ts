@@ -54,7 +54,6 @@ const SUPPORTED_CHAINS = [
   get(chains.scroll.id),
   get(chains.sophon.id),
   get(chains.superseed.id),
-  get(chains.tangle.id, { hypersync: "tangle" }),
   get(chains.unichain.id),
   get(chains.xdc.id),
   get(chains.zksync.id),
