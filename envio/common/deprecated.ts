@@ -60,6 +60,10 @@ export async function isDeprecatedStream(context: DeprecatedStreamContext, strea
  * Checks if the token address is exempted from deprecation rules.
  */
 function isExemptedAsset(asset: Envio.Address): boolean {
-  const EXEMPTED_ASSETS = ["0xbea586a167853adddef12818f264f1f9823fbc18", "0x111123ea4cee28cf010703593a8a2a3bbb91756c"];
+  const EXEMPTED_ASSETS = [
+    "0xbea586a167853adddef12818f264f1f9823fbc18", // esEXA on Optimism (10)
+    "0x111123ea4cee28cf010703593a8a2a3bbb91756c", // ARA on Base (8453)
+    "0x70c4430f9d98b4184a4ef3e44ce10c320a8b7383", // GYFI on Ethereum (1)
+  ];
   return EXEMPTED_ASSETS.includes(asset);
 }
