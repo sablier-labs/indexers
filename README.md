@@ -71,7 +71,7 @@ Then, do the same for the other protocols.
 
 ## Contributing 🤝
 
-We welcome contributions! [Open an issue](https://github.com/sablier-labs/indexers/ issues/new),
+We welcome contributions! [Open an issue](https://github.com/sablier-labs/indexers/issues/new),
 [start a discussion](https://github.com/sablier-labs/indexers/discussions/new), or submit a PR.
 
 Read our [CONTRIBUTING](./CONTRIBUTING.md) guide to get started. Join our [Discord server][discord] for questions and
