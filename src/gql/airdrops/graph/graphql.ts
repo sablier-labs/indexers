@@ -17,119 +17,58 @@ export type Scalars = {
   BigDecimal: { input: any; output: any; }
   BigInt: { input: any; output: any; }
   Bytes: { input: any; output: any; }
-  /**
-   * 8 bytes signed integer
-   *
-   */
+  /** 8 bytes signed integer */
   Int8: { input: any; output: any; }
-  /**
-   * A string representation of microseconds UNIX timestamp (16 digits)
-   *
-   */
+  /** A string representation of microseconds UNIX timestamp (16 digits) */
   Timestamp: { input: any; output: any; }
 };
 
-/**
- * A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
- *
- */
+/** A generic entity for tracking protocol actions. There may be multiple actions for a single tx. */
 export type Action = {
   __typename?: 'Action';
-  /**
-   * Transaction details: block number
-   *
-   */
+  /** Transaction details: block number */
   block: Scalars['BigInt']['output'];
-  /**
-   * Contract through which the stream actions has been triggered
-   *
-   */
+  /** Contract through which the stream actions has been triggered */
   campaign: Campaign;
-  /**
-   * Category of action, e.g., Create.
-   *
-   */
+  /** Category of action, e.g., Create. */
   category: ActionCategory;
-  /**
-   * The chain ID where the action was created (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the action was created (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * Claim action data: amount.
-   *
-   */
+  /** Claim action data: amount. */
   claimAmount?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Claim action data: index.
-   *
-   */
+  /** Claim action data: index. */
   claimIndex?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Claim action data: recipient.
-   *
-   */
+  /** Claim action data: original recipient address of the airdrop, which is part of the Merkle tree. */
   claimRecipient?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
-   *
-   */
+  /** Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}. */
   claimStreamId?: Maybe<Scalars['String']['output']>;
   /**
-   * Claim action data: to.
-   *
+   * Claim action data: the actual address that will receive the airdrop, which can be different from the `claimRecipient`.
+   * This field is available in v2.0 and later.
    */
   claimTo?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * Claim action data: ERC-721 token id as provided by the Lockup contract.
-   *
-   */
+  /** Claim action data: ERC-721 token id as provided by the Lockup contract. */
   claimTokenId?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Clawback action data: amount
-   *
-   */
+  /** Clawback action data: amount */
   clawbackAmount?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Clawback action data: from
-   *
-   */
+  /** Clawback action data: from */
   clawbackFrom?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * Clawback action data: to
-   *
-   */
+  /** Clawback action data: to */
   clawbackTo?: Maybe<Scalars['Bytes']['output']>;
   /**
    * The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
    * See https://docs.sablier.com/concepts/fees
-   *
    */
   fee?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * The msg.sender of the Ethereum transaction.
-   *
-   */
+  /** The tx.origin of the Ethereum transaction. */
   from: Scalars['Bytes']['output'];
-  /**
-   * Transaction details: hash
-   *
-   */
+  /** Transaction details: hash */
   hash: Scalars['Bytes']['output'];
-  /**
-   * Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
-   *
-   */
+  /** Unique identifier: `action-{chainId}-{txHash}-{logIndex}` */
   id: Scalars['String']['output'];
-  /**
-   * Unique global id as tracked by the `Watcher` entity.
-   *
-   */
+  /** Unique global id as tracked by the `Watcher` entity. */
   subgraphId: Scalars['BigInt']['output'];
-  /**
-   * Transaction details: timestamp
-   *
-   */
+  /** Transaction details: timestamp */
   timestamp: Scalars['BigInt']['output'];
 };
 
@@ -137,6 +76,7 @@ export enum ActionCategory {
   Claim = 'Claim',
   Clawback = 'Clawback',
   Create = 'Create',
+  LowerMinFeeUsd = 'LowerMinFeeUSD',
   TransferAdmin = 'TransferAdmin'
 }
 
@@ -401,41 +341,20 @@ export enum Action_OrderBy {
   Timestamp = 'timestamp'
 }
 
-/**
- * User activity grouped by day.
- *
- */
+/** User activity grouped by day. */
 export type Activity = {
   __typename?: 'Activity';
-  /**
-   * Total amount claimed during the day.
-   *
-   */
+  /** Total amount claimed during the day. */
   amount: Scalars['BigInt']['output'];
-  /**
-   * Campaign the activity is linked to.
-   *
-   */
+  /** Campaign the activity is linked to. */
   campaign: Campaign;
-  /**
-   * Number of claims completed during the day.
-   *
-   */
+  /** Number of claims completed during the day. */
   claims: Scalars['BigInt']['output'];
-  /**
-   * Day index: Unix timestamp / 24 * 60 * 60.
-   *
-   */
+  /** Day index: Unix timestamp / 24 * 60 * 60. */
   day: Scalars['BigInt']['output'];
-  /**
-   * Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
-   *
-   */
+  /** Unique identifier: `activity-{campaignId}-{dayOfSnapshot}` */
   id: Scalars['String']['output'];
-  /**
-   * Timestamp of the start of the day.
-   *
-   */
+  /** Timestamp of the start of the day. */
   timestamp: Scalars['BigInt']['output'];
 };
 
@@ -568,54 +487,27 @@ export enum Aggregation_Interval {
   Hour = 'hour'
 }
 
-/**
- * ERC-20 asset
- *
- */
+/** ERC-20 asset */
 export type Asset = {
   __typename?: 'Asset';
-  /**
-   * Address of the ERC-20 token.
-   *
-   */
+  /** Address of the ERC-20 token. */
   address: Scalars['Bytes']['output'];
-  /**
-   * Campaigns that rely on this asset.
-   *
-   */
+  /** Campaigns that rely on this asset. */
   campaigns: Array<Campaign>;
-  /**
-   * The chain ID where the asset exists (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the asset exists (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * Decimals of the ERC20 token.
-   *
-   */
+  /** Decimals of the ERC20 token. */
   decimals: Scalars['BigInt']['output'];
-  /**
-   * Unique identifier: `asset-{chainId}-{address}`
-   *
-   */
+  /** Unique identifier: `asset-{chainId}-{address}` */
   id: Scalars['String']['output'];
-  /**
-   * Name of the ERC20 token.
-   *
-   */
+  /** Name of the ERC20 token. */
   name: Scalars['String']['output'];
-  /**
-   * Symbol of the ERC20 token.
-   *
-   */
+  /** Symbol of the ERC20 token. */
   symbol: Scalars['String']['output'];
 };
 
 
-/**
- * ERC-20 asset
- *
- */
+/** ERC-20 asset */
 export type AssetCampaignsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Campaign_OrderBy>;
@@ -738,231 +630,114 @@ export type Block_Height = {
   number_gte?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/**
- * Entity for Merkle campaigns.
- *
- */
+/** Entity for Merkle campaigns. */
 export type Campaign = {
   __typename?: 'Campaign';
-  /**
-   * Actions triggered by this campaign.
-   *
-   */
+  /** Actions triggered by this campaign. */
   actions: Array<Action>;
-  /**
-   * List of daily activity snapshots for days in which at least one action was triggered.
-   *
-   */
+  /** List of daily activity snapshots for days in which at least one action was triggered. */
   activities: Array<Activity>;
-  /**
-   * Address of the campaign contract.
-   *
-   */
+  /** Address of the campaign contract. */
   address: Scalars['Bytes']['output'];
-  /**
-   * Address of the campaign admin, with permission to clawback.
-   *
-   */
+  /** Address of the campaign admin, with permission to clawback. */
   admin: Scalars['Bytes']['output'];
-  /**
-   * Total airdrop amount.
-   *
-   */
+  /** Total airdrop amount. */
   aggregateAmount: Scalars['BigInt']['output'];
-  /**
-   * Underlying ERC-20 token distributed via the campaign.
-   *
-   */
+  /** Underlying ERC-20 token distributed via the campaign. */
   asset: Asset;
-  /**
-   * Unix timestamp when the campaign starts and claiming becomes available.
-   *
-   */
+  /** Unix timestamp when the campaign starts and claiming becomes available. */
   campaignStartTime: Scalars['BigInt']['output'];
-  /**
-   * Type of campaign, e.g. Instant.
-   *
-   */
+  /** Type of campaign, e.g. Instant. */
   category: CampaignCategory;
-  /**
-   * The chain ID where the campaign was created (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the campaign was created (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * Total amount claimed so far.
-   *
-   */
+  /** Total amount claimed so far. */
   claimedAmount: Scalars['BigInt']['output'];
-  /**
-   * Number of claims made so far.
-   *
-   */
+  /** Number of claims made so far. */
   claimedCount: Scalars['BigInt']['output'];
-  /**
-   * Action in which the admin clawed back funds from the campaign.
-   *
-   */
+  /** Action in which the admin clawed back funds from the campaign. */
   clawbackAction?: Maybe<Action>;
-  /**
-   * Unix timestamp when the campaign underwent a clawback.
-   *
-   */
+  /** Unix timestamp when the campaign underwent a clawback. */
   clawbackTime?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Unix timestamp when the campaign expires and clawback becomes available (if `expires` is true).
-   *
-   */
+  /** Unix timestamp when the campaign expires and clawback becomes available (if `expires` is true). */
   expiration?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Flag indicating if the campaign expires or is claimable indefinitely.
-   *
-   */
+  /** Flag indicating if the campaign expires or is claimable indefinitely. */
   expires: Scalars['Boolean']['output'];
-  /**
-   * The factory contract that deployed this campaign.
-   *
-   */
+  /** The factory contract that deployed this campaign. */
   factory: Factory;
   /**
    * Minimum fee charged by this campaign, denominated in the native token of the chain (e.g., ETH for Mainnet).
    * Only available in v1.3 and later
    * See https://docs.sablier.com/concepts/fees
-   *
    */
   fee?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Hash of the Ethereum transaction that created this campaign.
-   *
-   */
+  /** Hash of the Ethereum transaction that created this campaign. */
   hash: Scalars['Bytes']['output'];
-  /**
-   * Unique identifier: `{contractAddress}-{chainId}`
-   *
-   */
+  /** Unique identifier: `{contractAddress}-{chainId}` */
   id: Scalars['String']['output'];
-  /**
-   * IPFS content identifier for the list of recipients and other static details.
-   *
-   */
+  /** IPFS content identifier for the list of recipients and other static details. */
   ipfsCID: Scalars['String']['output'];
-  /**
-   * Address of the Lockup contract through which streams are created.
-   *
-   */
+  /** Address of the Lockup contract through which streams are created. */
   lockup?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * User-provided name for the campaign, which is null in Airdrops v1.1.
-   *
-   */
+  /** User-provided name for the campaign, which is null in Airdrops v1.1. */
   name?: Maybe<Scalars['String']['output']>;
-  /**
-   * Internal name generated by us, derived from `name` or generated from scratch in older versions.
-   *
-   */
+  /** Internal name generated by us, derived from `name` or generated from scratch in older versions. */
   nickname: Scalars['String']['output'];
-  /**
-   * Index of the campaign based on the `campaignCounter` in the `Factory` entity.
-   *
-   */
+  /** Index of the campaign based on the `campaignCounter` in the `Factory` entity. */
   position: Scalars['BigInt']['output'];
-  /**
-   * Merkle root.
-   *
-   */
+  /** Merkle root. */
   root: Scalars['Bytes']['output'];
-  /**
-   * Flag indicating whether the claimed streams will be cancelable initially.
-   *
-   */
+  /** Flag indicating whether the claimed streams will be cancelable initially. */
   streamCancelable?: Maybe<Scalars['Boolean']['output']>;
   /**
    * Flag indicating whether the claimed streams will have a cliff.
    * Only available for Linear streams.
-   *
    */
   streamCliff?: Maybe<Scalars['Boolean']['output']>;
   /**
    * The duration of the cliff that the stream will have, in seconds.
    * Only available for Linear streams.
-   *
    */
   streamCliffDuration?: Maybe<Scalars['BigInt']['output']>;
   /**
    * The amount that will unlock at the cliff of the claimed stream, expressed as a percentage of the total amount.
    * Only available for Linear streams.
-   *
    */
   streamCliffPercentage?: Maybe<Scalars['BigInt']['output']>;
   /**
    * Flag indicating whether the claimed stream will have an initial unlock.
    * Only available for Linear streams.
-   *
    */
   streamInitial?: Maybe<Scalars['Boolean']['output']>;
   /**
    * The initial unlock amount of the claimed stream, expressed as a percentage of the total.
    * Only available for Linear streams.
-   *
    */
   streamInitialPercentage?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * The shape of the distribution.
-   *
-   */
+  /** The shape of the distribution. */
   streamShape?: Maybe<Scalars['String']['output']>;
-  /**
-   * Flag indicating if the claimed stream will have a preset start time or it will use the claim time as the start time.
-   *
-   */
+  /** Flag indicating if the claimed stream will have a preset start time or it will use the claim time as the start time. */
   streamStart?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * Unix timestamp for the start time.
-   *
-   */
+  /** Unix timestamp for the start time. */
   streamStartTime?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Snapshot of the duration in seconds for produced streams.
-   *
-   */
+  /** Snapshot of the duration in seconds for produced streams. */
   streamTotalDuration?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Tranches of the claimed stream.
-   *
-   */
+  /** Tranches of the claimed stream. */
   streamTranches: Array<Tranche>;
-  /**
-   * Flag indicating whether the claimed streams will be transferable.
-   *
-   */
+  /** Flag indicating whether the claimed streams will be transferable. */
   streamTransferable?: Maybe<Scalars['Boolean']['output']>;
-  /**
-   * Unique global id as tracked by the subgraph watcher.
-   *
-   */
+  /** Unique global id as tracked by the subgraph watcher. */
   subgraphId: Scalars['BigInt']['output'];
-  /**
-   * Unix timestamp of the Ethereum transaction that created this campaign.
-   *
-   */
+  /** Unix timestamp of the Ethereum transaction that created this campaign. */
   timestamp: Scalars['BigInt']['output'];
-  /**
-   * Total number of recipients.
-   *
-   */
+  /** Total number of recipients. */
   totalRecipients: Scalars['BigInt']['output'];
-  /**
-   * Version of the campaign contract, e.g., v1.3.
-   *
-   */
+  /** Version of the campaign contract, e.g., v1.3. */
   version: Scalars['String']['output'];
 };
 
 
-/**
- * Entity for Merkle campaigns.
- *
- */
+/** Entity for Merkle campaigns. */
 export type CampaignActionsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Action_OrderBy>;
@@ -972,10 +747,7 @@ export type CampaignActionsArgs = {
 };
 
 
-/**
- * Entity for Merkle campaigns.
- *
- */
+/** Entity for Merkle campaigns. */
 export type CampaignActivitiesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Activity_OrderBy>;
@@ -985,10 +757,7 @@ export type CampaignActivitiesArgs = {
 };
 
 
-/**
- * Entity for Merkle campaigns.
- *
- */
+/** Entity for Merkle campaigns. */
 export type CampaignStreamTranchesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Tranche_OrderBy>;
@@ -1483,50 +1252,28 @@ export enum Campaign_OrderBy {
   Version = 'version'
 }
 
-/**
- * Entity for Merkle factories, which deploy campaigns.
- *
- */
+/** Entity for Merkle factories, which deploy campaigns. */
 export type Factory = {
   __typename?: 'Factory';
-  /**
-   * The address of the factory contract.
-   *
-   */
+  /** The address of the factory contract. */
   address: Scalars['Bytes']['output'];
   /**
    * Factory alias, e.g., `MSF2`. For historical reasons, the alias comes from the
    * the name of the `MerkleStreamFactory` contract.
-   *
    */
   alias: Scalars['String']['output'];
-  /**
-   * Factory index for campaigns
-   *
-   */
+  /** Factory index for campaigns */
   campaignCounter: Scalars['BigInt']['output'];
-  /**
-   * Campaigns deployed by this factory.
-   *
-   */
+  /** Campaigns deployed by this factory. */
   campaigns: Array<Campaign>;
-  /**
-   * The chain ID where the factory was created (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the factory was created (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * Unique identifier: `factory-{chainId}-{address}`
-   *
-   */
+  /** Unique identifier: `factory-{chainId}-{address}` */
   id: Scalars['String']['output'];
 };
 
 
-/**
- * Entity for Merkle factories, which deploy campaigns.
- *
- */
+/** Entity for Merkle factories, which deploy campaigns. */
 export type FactoryCampaignsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Campaign_OrderBy>;
@@ -1775,56 +1522,26 @@ export type QueryWatchersArgs = {
   where?: InputMaybe<Watcher_Filter>;
 };
 
-/**
- * Used in Merkle Lockup campaigns for the vesting schedule.
- *
- */
+/** Used in Merkle Lockup campaigns for the vesting schedule. */
 export type Tranche = {
   __typename?: 'Tranche';
-  /**
-   * The campaign in which this tranche was created.
-   *
-   */
+  /** The campaign in which this tranche was created. */
   campaign: Campaign;
-  /**
-   * Duration of the tranche, in seconds.
-   *
-   */
+  /** Duration of the tranche, in seconds. */
   duration: Scalars['BigInt']['output'];
-  /**
-   * Total duration accrued at the end of the tranche. This is the sum of this tranche's duration and all previous tranches' durations.
-   *
-   */
+  /** Total duration accrued at the end of the tranche. This is the sum of this tranche's duration and all previous tranches' durations. */
   endDuration: Scalars['BigInt']['output'];
-  /**
-   * Total percentage unlocked at the end of the tranche. This is the sum of this tranche's percentage and all previous tranches' percentages.
-   *
-   */
+  /** Total percentage unlocked at the end of the tranche. This is the sum of this tranche's percentage and all previous tranches' percentages. */
   endPercentage: Scalars['BigInt']['output'];
-  /**
-   * Unique identifier: `tranche-{campaignId}-{position}`
-   *
-   */
+  /** Unique identifier: `tranche-{campaignId}-{position}` */
   id: Scalars['String']['output'];
-  /**
-   * Percentage of the total amount unlocked by this tranche.
-   *
-   */
+  /** Percentage of the total amount unlocked by this tranche. */
   percentage: Scalars['BigInt']['output'];
-  /**
-   * Position of the tranche inside the array.
-   *
-   */
+  /** Position of the tranche inside the array. */
   position: Scalars['BigInt']['output'];
-  /**
-   * Total duration accrued at the start of the tranche. This is the sum of all previous tranches' durations.
-   *
-   */
+  /** Total duration accrued at the start of the tranche. This is the sum of all previous tranches' durations. */
   startDuration: Scalars['BigInt']['output'];
-  /**
-   * Total percentage unlocked at the start of the tranche. This is the sum of all previous tranches' percentages.
-   *
-   */
+  /** Total percentage unlocked at the start of the tranche. This is the sum of all previous tranches' percentages. */
   startPercentage: Scalars['BigInt']['output'];
 };
 
@@ -1981,25 +1698,13 @@ export enum Tranche_OrderBy {
 
 export type Watcher = {
   __typename?: 'Watcher';
-  /**
-   * Global counter for actions.
-   *
-   */
+  /** Global counter for actions. */
   actionCounter: Scalars['BigInt']['output'];
-  /**
-   * Global counter.
-   *
-   */
+  /** Global counter. */
   campaignCounter: Scalars['BigInt']['output'];
-  /**
-   * Alias for id.
-   *
-   */
+  /** Alias for id. */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * The chain ID. There is one watcher per subgraph.
-   *
-   */
+  /** The chain ID. There is one watcher per subgraph. */
   id: Scalars['String']['output'];
 };
 
@@ -2081,7 +1786,6 @@ export type _Meta_ = {
    * will be null if the _meta field has a block constraint that asks for
    * a block number. It will be filled if the _meta field has no block constraint
    * and therefore asks for the latest  block
-   *
    */
   block: _Block_;
   /** The deployment ID */

@@ -34,6 +34,7 @@ export type Action = {
   claimIndex?: Maybe<Scalars['numeric']['output']>;
   claimRecipient?: Maybe<Scalars['String']['output']>;
   claimStreamId?: Maybe<Scalars['String']['output']>;
+  claimTo?: Maybe<Scalars['String']['output']>;
   claimTokenId?: Maybe<Scalars['numeric']['output']>;
   clawbackAmount?: Maybe<Scalars['numeric']['output']>;
   clawbackFrom?: Maybe<Scalars['String']['output']>;
@@ -143,6 +144,7 @@ export type Action_Bool_Exp = {
   claimIndex?: InputMaybe<Numeric_Comparison_Exp>;
   claimRecipient?: InputMaybe<String_Comparison_Exp>;
   claimStreamId?: InputMaybe<String_Comparison_Exp>;
+  claimTo?: InputMaybe<String_Comparison_Exp>;
   claimTokenId?: InputMaybe<Numeric_Comparison_Exp>;
   clawbackAmount?: InputMaybe<Numeric_Comparison_Exp>;
   clawbackFrom?: InputMaybe<String_Comparison_Exp>;
@@ -166,6 +168,7 @@ export type Action_Max_Fields = {
   claimIndex?: Maybe<Scalars['numeric']['output']>;
   claimRecipient?: Maybe<Scalars['String']['output']>;
   claimStreamId?: Maybe<Scalars['String']['output']>;
+  claimTo?: Maybe<Scalars['String']['output']>;
   claimTokenId?: Maybe<Scalars['numeric']['output']>;
   clawbackAmount?: Maybe<Scalars['numeric']['output']>;
   clawbackFrom?: Maybe<Scalars['String']['output']>;
@@ -188,6 +191,7 @@ export type Action_Max_Order_By = {
   claimIndex?: InputMaybe<Order_By>;
   claimRecipient?: InputMaybe<Order_By>;
   claimStreamId?: InputMaybe<Order_By>;
+  claimTo?: InputMaybe<Order_By>;
   claimTokenId?: InputMaybe<Order_By>;
   clawbackAmount?: InputMaybe<Order_By>;
   clawbackFrom?: InputMaybe<Order_By>;
@@ -211,6 +215,7 @@ export type Action_Min_Fields = {
   claimIndex?: Maybe<Scalars['numeric']['output']>;
   claimRecipient?: Maybe<Scalars['String']['output']>;
   claimStreamId?: Maybe<Scalars['String']['output']>;
+  claimTo?: Maybe<Scalars['String']['output']>;
   claimTokenId?: Maybe<Scalars['numeric']['output']>;
   clawbackAmount?: Maybe<Scalars['numeric']['output']>;
   clawbackFrom?: Maybe<Scalars['String']['output']>;
@@ -233,6 +238,7 @@ export type Action_Min_Order_By = {
   claimIndex?: InputMaybe<Order_By>;
   claimRecipient?: InputMaybe<Order_By>;
   claimStreamId?: InputMaybe<Order_By>;
+  claimTo?: InputMaybe<Order_By>;
   claimTokenId?: InputMaybe<Order_By>;
   clawbackAmount?: InputMaybe<Order_By>;
   clawbackFrom?: InputMaybe<Order_By>;
@@ -256,6 +262,7 @@ export type Action_Order_By = {
   claimIndex?: InputMaybe<Order_By>;
   claimRecipient?: InputMaybe<Order_By>;
   claimStreamId?: InputMaybe<Order_By>;
+  claimTo?: InputMaybe<Order_By>;
   claimTokenId?: InputMaybe<Order_By>;
   clawbackAmount?: InputMaybe<Order_By>;
   clawbackFrom?: InputMaybe<Order_By>;
@@ -286,6 +293,8 @@ export enum Action_Select_Column {
   ClaimRecipient = 'claimRecipient',
   /** column name */
   ClaimStreamId = 'claimStreamId',
+  /** column name */
+  ClaimTo = 'claimTo',
   /** column name */
   ClaimTokenId = 'claimTokenId',
   /** column name */
@@ -407,6 +416,7 @@ export type Action_Stream_Cursor_Value_Input = {
   claimIndex?: InputMaybe<Scalars['numeric']['input']>;
   claimRecipient?: InputMaybe<Scalars['String']['input']>;
   claimStreamId?: InputMaybe<Scalars['String']['input']>;
+  claimTo?: InputMaybe<Scalars['String']['input']>;
   claimTokenId?: InputMaybe<Scalars['numeric']['input']>;
   clawbackAmount?: InputMaybe<Scalars['numeric']['input']>;
   clawbackFrom?: InputMaybe<Scalars['String']['input']>;
@@ -1066,6 +1076,7 @@ export type Campaign = {
   /** An object relationship */
   asset?: Maybe<Asset>;
   asset_id: Scalars['String']['output'];
+  campaignStartTime: Scalars['numeric']['output'];
   category: Scalars['campaigncategory']['output'];
   chainId: Scalars['numeric']['output'];
   claimedAmount: Scalars['numeric']['output'];
@@ -1233,6 +1244,7 @@ export type Campaign_Aggregate_Order_By = {
 export type Campaign_Avg_Fields = {
   __typename?: 'Campaign_avg_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1253,6 +1265,7 @@ export type Campaign_Avg_Fields = {
 /** order by avg() on columns of table "Campaign" */
 export type Campaign_Avg_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1284,6 +1297,7 @@ export type Campaign_Bool_Exp = {
   aggregateAmount?: InputMaybe<Numeric_Comparison_Exp>;
   asset?: InputMaybe<Asset_Bool_Exp>;
   asset_id?: InputMaybe<String_Comparison_Exp>;
+  campaignStartTime?: InputMaybe<Numeric_Comparison_Exp>;
   category?: InputMaybe<Campaigncategory_Comparison_Exp>;
   chainId?: InputMaybe<Numeric_Comparison_Exp>;
   claimedAmount?: InputMaybe<Numeric_Comparison_Exp>;
@@ -1329,6 +1343,7 @@ export type Campaign_Max_Fields = {
   admin?: Maybe<Scalars['String']['output']>;
   aggregateAmount?: Maybe<Scalars['numeric']['output']>;
   asset_id?: Maybe<Scalars['String']['output']>;
+  campaignStartTime?: Maybe<Scalars['numeric']['output']>;
   category?: Maybe<Scalars['campaigncategory']['output']>;
   chainId?: Maybe<Scalars['numeric']['output']>;
   claimedAmount?: Maybe<Scalars['numeric']['output']>;
@@ -1364,6 +1379,7 @@ export type Campaign_Max_Order_By = {
   admin?: InputMaybe<Order_By>;
   aggregateAmount?: InputMaybe<Order_By>;
   asset_id?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   category?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
@@ -1400,6 +1416,7 @@ export type Campaign_Min_Fields = {
   admin?: Maybe<Scalars['String']['output']>;
   aggregateAmount?: Maybe<Scalars['numeric']['output']>;
   asset_id?: Maybe<Scalars['String']['output']>;
+  campaignStartTime?: Maybe<Scalars['numeric']['output']>;
   category?: Maybe<Scalars['campaigncategory']['output']>;
   chainId?: Maybe<Scalars['numeric']['output']>;
   claimedAmount?: Maybe<Scalars['numeric']['output']>;
@@ -1435,6 +1452,7 @@ export type Campaign_Min_Order_By = {
   admin?: InputMaybe<Order_By>;
   aggregateAmount?: InputMaybe<Order_By>;
   asset_id?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   category?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
@@ -1473,6 +1491,7 @@ export type Campaign_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
   asset?: InputMaybe<Asset_Order_By>;
   asset_id?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   category?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
@@ -1521,6 +1540,8 @@ export enum Campaign_Select_Column {
   AggregateAmount = 'aggregateAmount',
   /** column name */
   AssetId = 'asset_id',
+  /** column name */
+  CampaignStartTime = 'campaignStartTime',
   /** column name */
   Category = 'category',
   /** column name */
@@ -1625,6 +1646,7 @@ export enum Campaign_Select_Column_Campaign_Aggregate_Bool_Exp_Bool_Or_Arguments
 export type Campaign_Stddev_Fields = {
   __typename?: 'Campaign_stddev_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1645,6 +1667,7 @@ export type Campaign_Stddev_Fields = {
 /** order by stddev() on columns of table "Campaign" */
 export type Campaign_Stddev_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1666,6 +1689,7 @@ export type Campaign_Stddev_Order_By = {
 export type Campaign_Stddev_Pop_Fields = {
   __typename?: 'Campaign_stddev_pop_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1686,6 +1710,7 @@ export type Campaign_Stddev_Pop_Fields = {
 /** order by stddev_pop() on columns of table "Campaign" */
 export type Campaign_Stddev_Pop_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1707,6 +1732,7 @@ export type Campaign_Stddev_Pop_Order_By = {
 export type Campaign_Stddev_Samp_Fields = {
   __typename?: 'Campaign_stddev_samp_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1727,6 +1753,7 @@ export type Campaign_Stddev_Samp_Fields = {
 /** order by stddev_samp() on columns of table "Campaign" */
 export type Campaign_Stddev_Samp_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1758,6 +1785,7 @@ export type Campaign_Stream_Cursor_Value_Input = {
   admin?: InputMaybe<Scalars['String']['input']>;
   aggregateAmount?: InputMaybe<Scalars['numeric']['input']>;
   asset_id?: InputMaybe<Scalars['String']['input']>;
+  campaignStartTime?: InputMaybe<Scalars['numeric']['input']>;
   category?: InputMaybe<Scalars['campaigncategory']['input']>;
   chainId?: InputMaybe<Scalars['numeric']['input']>;
   claimedAmount?: InputMaybe<Scalars['numeric']['input']>;
@@ -1797,6 +1825,7 @@ export type Campaign_Stream_Cursor_Value_Input = {
 export type Campaign_Sum_Fields = {
   __typename?: 'Campaign_sum_fields';
   aggregateAmount?: Maybe<Scalars['numeric']['output']>;
+  campaignStartTime?: Maybe<Scalars['numeric']['output']>;
   chainId?: Maybe<Scalars['numeric']['output']>;
   claimedAmount?: Maybe<Scalars['numeric']['output']>;
   claimedCount?: Maybe<Scalars['numeric']['output']>;
@@ -1817,6 +1846,7 @@ export type Campaign_Sum_Fields = {
 /** order by sum() on columns of table "Campaign" */
 export type Campaign_Sum_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1838,6 +1868,7 @@ export type Campaign_Sum_Order_By = {
 export type Campaign_Var_Pop_Fields = {
   __typename?: 'Campaign_var_pop_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1858,6 +1889,7 @@ export type Campaign_Var_Pop_Fields = {
 /** order by var_pop() on columns of table "Campaign" */
 export type Campaign_Var_Pop_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1879,6 +1911,7 @@ export type Campaign_Var_Pop_Order_By = {
 export type Campaign_Var_Samp_Fields = {
   __typename?: 'Campaign_var_samp_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1899,6 +1932,7 @@ export type Campaign_Var_Samp_Fields = {
 /** order by var_samp() on columns of table "Campaign" */
 export type Campaign_Var_Samp_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;
@@ -1920,6 +1954,7 @@ export type Campaign_Var_Samp_Order_By = {
 export type Campaign_Variance_Fields = {
   __typename?: 'Campaign_variance_fields';
   aggregateAmount?: Maybe<Scalars['Float']['output']>;
+  campaignStartTime?: Maybe<Scalars['Float']['output']>;
   chainId?: Maybe<Scalars['Float']['output']>;
   claimedAmount?: Maybe<Scalars['Float']['output']>;
   claimedCount?: Maybe<Scalars['Float']['output']>;
@@ -1940,6 +1975,7 @@ export type Campaign_Variance_Fields = {
 /** order by variance() on columns of table "Campaign" */
 export type Campaign_Variance_Order_By = {
   aggregateAmount?: InputMaybe<Order_By>;
+  campaignStartTime?: InputMaybe<Order_By>;
   chainId?: InputMaybe<Order_By>;
   claimedAmount?: InputMaybe<Order_By>;
   claimedCount?: InputMaybe<Order_By>;

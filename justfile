@@ -41,7 +41,7 @@ default: full-check
     just codegen-gql
     pnpm tsc -p tsconfig.build.json
 alias b := build
-alias build-packages := build
+alias build-package := build
 
 # Fetch assets from The Graph subgraphs and save them to JSON files
 [group("cli")]
@@ -214,18 +214,18 @@ _codegen-graph-bindings indexer:
 [group("gql")]
 [group("envio")]
 codegen-gql-envio:
-    pnpm graphql-codegen --config ./codegen/gql-config/airdrops/envio.ts
-    pnpm graphql-codegen --config ./codegen/gql-config/flow/envio.ts
-    pnpm graphql-codegen --config ./codegen/gql-config/lockup/envio.ts
+    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/envio.ts
+    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/envio.ts
+    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/lockup/envio.ts
 
 # Codegen GraphQL types and queries for Graph indexers
 [group("codegen")]
 [group("gql")]
 [group("graph")]
 codegen-gql-graph:
-    pnpm graphql-codegen --config ./codegen/gql-config/airdrops/graph.ts
-    pnpm graphql-codegen --config ./codegen/gql-config/flow/graph.ts
-    pnpm graphql-codegen --config ./codegen/gql-config/lockup/graph.ts
+    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/graph.ts
+    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/graph.ts
+    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/lockup/graph.ts
 
 # ---------------------------------------------------------------------------- #
 #                                SCRIPTS: PRINT                                #

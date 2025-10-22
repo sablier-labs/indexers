@@ -44,9 +44,10 @@ function getOutPath(vendor: V, protocol: P) {
 
 export function getConfig(vendor: V, protocol: P): CodegenConfig {
   const indexer = getIndexer({ chainId: sepolia.id, protocol, vendor });
-  if (!indexer?.endpoint.url) {
+  if (!indexer || !indexer.endpoint.url || !indexer.testingURL) {
     throw new Error(`Indexer not found for protocol ${protocol} and vendor ${vendor}`);
   }
+  const url = vendor === "envio" ? indexer.endpoint.url : indexer.testingURL;
   return {
     documents: getDocumentsPaths(vendor, protocol),
     generates: {
@@ -59,6 +60,6 @@ export function getConfig(vendor: V, protocol: P): CodegenConfig {
         },
       },
     },
-    schema: [indexer.endpoint.url],
+    schema: [url],
   };
 }

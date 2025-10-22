@@ -17,99 +17,47 @@ export type Scalars = {
   BigDecimal: { input: any; output: any; }
   BigInt: { input: any; output: any; }
   Bytes: { input: any; output: any; }
-  /**
-   * 8 bytes signed integer
-   *
-   */
+  /** 8 bytes signed integer */
   Int8: { input: any; output: any; }
-  /**
-   * A string representation of microseconds UNIX timestamp (16 digits)
-   *
-   */
+  /** A string representation of microseconds UNIX timestamp (16 digits) */
   Timestamp: { input: any; output: any; }
 };
 
-/**
- * A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
- *
- */
+/** A generic entity for tracking protocol actions. There may be multiple actions for a single tx. */
 export type Action = {
   __typename?: 'Action';
-  /**
-   * Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
-   *
-   */
+  /** Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender. */
   addressA?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
-   *
-   */
+  /** Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient. */
   addressB?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * 1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
-   *
-   */
+  /** 1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount. */
   amountA?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * 2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
-   *
-   */
+  /** 2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount. */
   amountB?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Block number of the Ethereum transaction.
-   *
-   */
+  /** Block number of the Ethereum transaction. */
   block: Scalars['BigInt']['output'];
-  /**
-   * Category of action, e.g., Deposit.
-   *
-   */
+  /** Category of action, e.g., Deposit. */
   category: ActionCategory;
-  /**
-   * The chain ID where the action was created (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the action was created (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * Contract through which the action was triggered.
-   *
-   */
+  /** Contract through which the action was triggered. */
   contract: Scalars['Bytes']['output'];
   /**
    * The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
    * See https://docs.sablier.com/concepts/fees
-   *
    */
   fee?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * The msg.sender of the Ethereum transaction.
-   *
-   */
+  /** The tx.origin of the Ethereum transaction. */
   from: Scalars['Bytes']['output'];
-  /**
-   * Hash of the Ethereum transaction.
-   *
-   */
+  /** Hash of the Ethereum transaction. */
   hash: Scalars['Bytes']['output'];
-  /**
-   * Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
-   *
-   */
+  /** Unique identifier: `action-{chainId}-{txHash}-{logIndex}` */
   id: Scalars['String']['output'];
-  /**
-   * Stream linked to this action, if any.
-   *
-   */
+  /** Stream linked to this action, if any. */
   stream?: Maybe<Stream>;
-  /**
-   * Unique global id as tracked by the `Watcher` entity.
-   *
-   */
+  /** Unique global id as tracked by the `Watcher` entity. */
   subgraphId: Scalars['BigInt']['output'];
-  /**
-   * Unix timestamp of the Ethereum transaction.
-   *
-   */
+  /** Unix timestamp of the Ethereum transaction. */
   timestamp: Scalars['BigInt']['output'];
 };
 
@@ -338,54 +286,27 @@ export enum Aggregation_Interval {
   Hour = 'hour'
 }
 
-/**
- * ERC-20 asset
- *
- */
+/** ERC-20 asset */
 export type Asset = {
   __typename?: 'Asset';
-  /**
-   * Address of the ERC-20 token.
-   *
-   */
+  /** Address of the ERC-20 token. */
   address: Scalars['Bytes']['output'];
-  /**
-   * The chain ID where the asset exists (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the asset exists (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * Decimals of the ERC20 token.
-   *
-   */
+  /** Decimals of the ERC20 token. */
   decimals: Scalars['BigInt']['output'];
-  /**
-   * Unique identifier: `asset-{chainId}-{address}`
-   *
-   */
+  /** Unique identifier: `asset-{chainId}-{address}` */
   id: Scalars['String']['output'];
-  /**
-   * Name of the ERC20 token.
-   *
-   */
+  /** Name of the ERC20 token. */
   name: Scalars['String']['output'];
-  /**
-   * Streams that rely on this token
-   *
-   */
+  /** Streams that rely on this token */
   streams: Array<Stream>;
-  /**
-   * Symbol of the ERC20 token.
-   *
-   */
+  /** Symbol of the ERC20 token. */
   symbol: Scalars['String']['output'];
 };
 
 
-/**
- * ERC-20 asset
- *
- */
+/** ERC-20 asset */
 export type AssetStreamsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Stream_OrderBy>;
@@ -504,44 +425,22 @@ export enum Asset_OrderBy {
  *
  * Note: the entity can be immutable because a batch is only updated in the same block.
  * See https://thegraph.com/docs/en/subgraphs/developing/creating/ql-schema/#defining-entities
- *
  */
 export type Batch = {
   __typename?: 'Batch';
-  /**
-   * The sender address that created this batch.
-   *
-   */
+  /** The sender address that created this batch. */
   batcher?: Maybe<Batcher>;
-  /**
-   * Hash of the Ethereum transaction that created this batch.
-   *
-   */
+  /** Hash of the Ethereum transaction that created this batch. */
   hash?: Maybe<Scalars['Bytes']['output']>;
-  /**
-   * Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
-   *
-   */
+  /** Unique identifier: `batch-{chainId}-{txHash}-{batcher}` */
   id: Scalars['String']['output'];
-  /**
-   * Index of the batch based on the `batchCounter` in the `Batcher` entity.
-   *
-   */
+  /** Index of the batch based on the `batchCounter` in the `Batcher` entity. */
   position?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Number of streams part of this batch.
-   *
-   */
+  /** Number of streams part of this batch. */
   size: Scalars['BigInt']['output'];
-  /**
-   * Streams part of this batch.
-   *
-   */
+  /** Streams part of this batch. */
   streams: Array<Stream>;
-  /**
-   * Timestamp of the transaction that created this batch.
-   *
-   */
+  /** Timestamp of the transaction that created this batch. */
   timestamp?: Maybe<Scalars['BigInt']['output']>;
 };
 
@@ -552,7 +451,6 @@ export type Batch = {
  *
  * Note: the entity can be immutable because a batch is only updated in the same block.
  * See https://thegraph.com/docs/en/subgraphs/developing/creating/ql-schema/#defining-entities
- *
  */
 export type BatchStreamsArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -657,34 +555,19 @@ export enum Batch_OrderBy {
   Timestamp = 'timestamp'
 }
 
-/**
- * Sender address that created batches.
- *
- */
+/** Sender address that created batches. */
 export type Batcher = {
   __typename?: 'Batcher';
-  /**
-   * Total number of batches started by this sender.
-   *
-   */
+  /** Total number of batches started by this sender. */
   batchCounter: Scalars['BigInt']['output'];
-  /**
-   * Batches started by this sender.
-   *
-   */
+  /** Batches started by this sender. */
   batches: Array<Batch>;
-  /**
-   * Unique identifier: `batcher-{chainId}-{sender}`
-   *
-   */
+  /** Unique identifier: `batcher-{chainId}-{sender}` */
   id: Scalars['String']['output'];
 };
 
 
-/**
- * Sender address that created batches.
- *
- */
+/** Sender address that created batches. */
 export type BatcherBatchesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Batch_OrderBy>;
@@ -745,6 +628,214 @@ export type Block_Height = {
   number_gte?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** A Sablier protocol contract */
+export type Contract = {
+  __typename?: 'Contract';
+  /** Contract address */
+  address: Scalars['Bytes']['output'];
+  /** Contract alias (e.g., "FL", "LK") */
+  alias: Scalars['String']['output'];
+  /** Contract category (e.g., "Flow", "Lockup") */
+  category: Scalars['String']['output'];
+  /** The chain ID where the contract exists */
+  chainId: Scalars['BigInt']['output'];
+  /** Unique identifier: contract-{chainId}-{address} */
+  id: Scalars['String']['output'];
+};
+
+export type Contract_Filter = {
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  address?: InputMaybe<Scalars['Bytes']['input']>;
+  address_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  address_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  address_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  address_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  address_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  address_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  address_not?: InputMaybe<Scalars['Bytes']['input']>;
+  address_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  address_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  alias?: InputMaybe<Scalars['String']['input']>;
+  alias_contains?: InputMaybe<Scalars['String']['input']>;
+  alias_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  alias_ends_with?: InputMaybe<Scalars['String']['input']>;
+  alias_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  alias_gt?: InputMaybe<Scalars['String']['input']>;
+  alias_gte?: InputMaybe<Scalars['String']['input']>;
+  alias_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  alias_lt?: InputMaybe<Scalars['String']['input']>;
+  alias_lte?: InputMaybe<Scalars['String']['input']>;
+  alias_not?: InputMaybe<Scalars['String']['input']>;
+  alias_not_contains?: InputMaybe<Scalars['String']['input']>;
+  alias_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  alias_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  alias_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  alias_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  alias_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  alias_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  alias_starts_with?: InputMaybe<Scalars['String']['input']>;
+  alias_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  and?: InputMaybe<Array<InputMaybe<Contract_Filter>>>;
+  category?: InputMaybe<Scalars['String']['input']>;
+  category_contains?: InputMaybe<Scalars['String']['input']>;
+  category_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  category_ends_with?: InputMaybe<Scalars['String']['input']>;
+  category_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  category_gt?: InputMaybe<Scalars['String']['input']>;
+  category_gte?: InputMaybe<Scalars['String']['input']>;
+  category_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  category_lt?: InputMaybe<Scalars['String']['input']>;
+  category_lte?: InputMaybe<Scalars['String']['input']>;
+  category_not?: InputMaybe<Scalars['String']['input']>;
+  category_not_contains?: InputMaybe<Scalars['String']['input']>;
+  category_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  category_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  category_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  category_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  category_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  category_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  category_starts_with?: InputMaybe<Scalars['String']['input']>;
+  category_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  chainId?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  chainId_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_not?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  id_contains?: InputMaybe<Scalars['String']['input']>;
+  id_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_ends_with?: InputMaybe<Scalars['String']['input']>;
+  id_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_gt?: InputMaybe<Scalars['String']['input']>;
+  id_gte?: InputMaybe<Scalars['String']['input']>;
+  id_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  id_lt?: InputMaybe<Scalars['String']['input']>;
+  id_lte?: InputMaybe<Scalars['String']['input']>;
+  id_not?: InputMaybe<Scalars['String']['input']>;
+  id_not_contains?: InputMaybe<Scalars['String']['input']>;
+  id_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  id_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  id_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  id_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_starts_with?: InputMaybe<Scalars['String']['input']>;
+  id_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  or?: InputMaybe<Array<InputMaybe<Contract_Filter>>>;
+};
+
+export enum Contract_OrderBy {
+  Address = 'address',
+  Alias = 'alias',
+  Category = 'category',
+  ChainId = 'chainId',
+  Id = 'id'
+}
+
+/**
+ * Older streams are no longer indexed.
+ * See https://x.com/Sablier/status/1914326014995620114
+ */
+export type DeprecatedStream = {
+  __typename?: 'DeprecatedStream';
+  /** The chain ID where the stream was created (e.g., 137 for Polygon). */
+  chainId: Scalars['BigInt']['output'];
+  /** The address of the contract that created the stream. */
+  contractAddress: Scalars['Bytes']['output'];
+  /** Hash of the Ethereum transaction that created this stream. */
+  hash: Scalars['Bytes']['output'];
+  /** Unique identifier: \`{contractAddress}-{chainId}-{tokenId}\` */
+  id: Scalars['String']['output'];
+  /** Unix timestamp of the Ethereum transaction that created this stream. */
+  timestamp: Scalars['BigInt']['output'];
+  /** The id provided by the NFT contract. It's the ERC-721 tokenId. */
+  tokenId: Scalars['BigInt']['output'];
+};
+
+export type DeprecatedStream_Filter = {
+  /** Filter for the block changed event. */
+  _change_block?: InputMaybe<BlockChangedFilter>;
+  and?: InputMaybe<Array<InputMaybe<DeprecatedStream_Filter>>>;
+  chainId?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  chainId_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_not?: InputMaybe<Scalars['BigInt']['input']>;
+  chainId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  contractAddress?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  contractAddress_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_not?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  contractAddress_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  hash?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_gt?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_gte?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  hash_lt?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_lte?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_not?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_not_contains?: InputMaybe<Scalars['Bytes']['input']>;
+  hash_not_in?: InputMaybe<Array<Scalars['Bytes']['input']>>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  id_contains?: InputMaybe<Scalars['String']['input']>;
+  id_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_ends_with?: InputMaybe<Scalars['String']['input']>;
+  id_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_gt?: InputMaybe<Scalars['String']['input']>;
+  id_gte?: InputMaybe<Scalars['String']['input']>;
+  id_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  id_lt?: InputMaybe<Scalars['String']['input']>;
+  id_lte?: InputMaybe<Scalars['String']['input']>;
+  id_not?: InputMaybe<Scalars['String']['input']>;
+  id_not_contains?: InputMaybe<Scalars['String']['input']>;
+  id_not_contains_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  id_not_ends_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_not_in?: InputMaybe<Array<Scalars['String']['input']>>;
+  id_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  id_not_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  id_starts_with?: InputMaybe<Scalars['String']['input']>;
+  id_starts_with_nocase?: InputMaybe<Scalars['String']['input']>;
+  or?: InputMaybe<Array<InputMaybe<DeprecatedStream_Filter>>>;
+  timestamp?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  timestamp_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_not?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  tokenId?: InputMaybe<Scalars['BigInt']['input']>;
+  tokenId_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  tokenId_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  tokenId_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+  tokenId_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  tokenId_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  tokenId_not?: InputMaybe<Scalars['BigInt']['input']>;
+  tokenId_not_in?: InputMaybe<Array<Scalars['BigInt']['input']>>;
+};
+
+export enum DeprecatedStream_OrderBy {
+  ChainId = 'chainId',
+  ContractAddress = 'contractAddress',
+  Hash = 'hash',
+  Id = 'id',
+  Timestamp = 'timestamp',
+  TokenId = 'tokenId'
+}
+
 /** Defines the order direction, either ascending or descending */
 export enum OrderDirection {
   Asc = 'asc',
@@ -763,6 +854,10 @@ export type Query = {
   batcher?: Maybe<Batcher>;
   batchers: Array<Batcher>;
   batches: Array<Batch>;
+  contract?: Maybe<Contract>;
+  contracts: Array<Contract>;
+  deprecatedStream?: Maybe<DeprecatedStream>;
+  deprecatedStreams: Array<DeprecatedStream>;
   stream?: Maybe<Stream>;
   streams: Array<Stream>;
   watcher?: Maybe<Watcher>;
@@ -847,6 +942,42 @@ export type QueryBatchesArgs = {
 };
 
 
+export type QueryContractArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID']['input'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryContractsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Contract_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Contract_Filter>;
+};
+
+
+export type QueryDeprecatedStreamArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID']['input'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryDeprecatedStreamsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<DeprecatedStream_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<DeprecatedStream_Filter>;
+};
+
+
 export type QueryStreamArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID']['input'];
@@ -884,190 +1015,92 @@ export type QueryWatchersArgs = {
 
 export type Stream = {
   __typename?: 'Stream';
-  /**
-   * Actions triggered by this stream.
-   *
-   */
+  /** Actions triggered by this stream. */
   actions: Array<Action>;
-  /**
-   * Like the id: `{contractAlias}-{chainId}-{tokenId}`
-   *
-   */
+  /** Like the id: `{contractAlias}-{chainId}-{tokenId}` */
   alias: Scalars['String']['output'];
-  /**
-   * ERC-20 token distributed via this stream.
-   *
-   */
+  /** ERC-20 token distributed via this stream. */
   asset: Asset;
   /**
    * ERC-20 token decimals. Stored here to avoid loading the asset entity on each stream.
    * Note: the "Value" suffix is added because of a bug in GraphQL Code Generator.
-   *
    */
   assetDecimalsValue: Scalars['BigInt']['output'];
-  /**
-   * This is equivalent to the value returned by ERC20.balanceOf, and it changes after deposit and withdrawal.
-   *
-   */
+  /** This is equivalent to the value returned by ERC20.balanceOf, and it changes after deposit and withdrawal. */
   availableAmount: Scalars['BigInt']['output'];
   /**
    * The batch the stream may be part of.
    * Note: this is available only when created within a batch create transaction.
-   *
    */
   batch: Batch;
-  /**
-   * Category used for sorting.
-   *
-   */
+  /** Category used for sorting. */
   category: StreamCategory;
-  /**
-   * The chain ID where the stream was created (e.g., 137 for Polygon).
-   *
-   */
+  /** The chain ID where the stream was created (e.g., 137 for Polygon). */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * The address of the contract the stream originates from.
-   *
-   */
+  /** The address of the contract the stream originates from. */
   contract: Scalars['Bytes']['output'];
-  /**
-   * The account that created the stream, which can be different from the sender.
-   *
-   */
+  /** The account that created the stream, which can be different from the sender. */
   creator: Scalars['Bytes']['output'];
-  /**
-   * Unix timestamp indicating the time when the stream will become insolvent.
-   *
-   */
+  /** Unix timestamp indicating the time when the stream will become insolvent. */
   depletionTime: Scalars['BigInt']['output'];
-  /**
-   * The sum of all deposits.
-   *
-   */
+  /** The sum of all deposits. */
   depositedAmount: Scalars['BigInt']['output'];
-  /**
-   * The amount of debt forgiven by a void action.
-   *
-   */
+  /** The amount of debt forgiven by a void action. */
   forgivenDebt: Scalars['BigInt']['output'];
-  /**
-   * Hash of the Ethereum transaction that created this stream.
-   *
-   */
+  /** Hash of the Ethereum transaction that created this stream. */
   hash: Scalars['Bytes']['output'];
-  /**
-   * Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
-   *
-   */
+  /** Unique identifier: `{contractAddress}-{chainId}-{tokenId}` */
   id: Scalars['String']['output'];
-  /**
-   * Action in which the payment rate was adjusted.
-   *
-   */
+  /** Action in which the payment rate was adjusted. */
   lastAdjustmentAction?: Maybe<Action>;
-  /**
-   * Unix timestamp for when the payment rate was adjusted.
-   *
-   */
+  /** Unix timestamp for when the payment rate was adjusted. */
   lastAdjustmentTimestamp: Scalars['BigInt']['output'];
-  /**
-   * Flag indicating if a stream is paused.
-   *
-   */
+  /** Flag indicating if a stream is paused. */
   paused: Scalars['Boolean']['output'];
-  /**
-   * Action in which the stream was paused.
-   *
-   */
+  /** Action in which the stream was paused. */
   pausedAction?: Maybe<Action>;
-  /**
-   * Unix timestamp for when the stream was paused.
-   *
-   */
+  /** Unix timestamp for when the stream was paused. */
   pausedTime?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * Position in the batch, if available.
-   *
-   */
+  /** Position in the batch, if available. */
   position: Scalars['BigInt']['output'];
-  /**
-   * Current payment rate per second, denominated in 18 decimals.
-   *
-   */
+  /** Current payment rate per second, denominated in 18 decimals. */
   ratePerSecond: Scalars['BigInt']['output'];
   /**
    * Current recipient of the stream, with permission to withdraw funds to any third-party address.
    * Note: the recipient can change on NFT transfer.
-   *
    */
   recipient: Scalars['Bytes']['output'];
-  /**
-   * The sum of all refunds.
-   *
-   */
+  /** The sum of all refunds. */
   refundedAmount: Scalars['BigInt']['output'];
-  /**
-   * Manager of the stream, with ability to cancel the stream.
-   *
-   */
+  /** Manager of the stream, with ability to cancel the stream. */
   sender: Scalars['Bytes']['output'];
-  /**
-   * The amount streamed up until the time of the last adjustment, denominated in 18 decimals.
-   *
-   */
+  /** The amount streamed up until the time of the last adjustment, denominated in 18 decimals. */
   snapshotAmount: Scalars['BigInt']['output'];
-  /**
-   * Unix timestamp for the start of the stream.
-   *
-   */
+  /** Unix timestamp for the start of the stream. */
   startTime: Scalars['BigInt']['output'];
   /**
    * Unique global id as tracked by the `Watcher` entity.
    * ኆ80 This may change if new data sources are added and the chronological order of streams changes.
-   *
    */
   subgraphId: Scalars['BigInt']['output'];
-  /**
-   * Unix timestamp of the Ethereum transaction that created this stream.
-   *
-   */
+  /** Unix timestamp of the Ethereum transaction that created this stream. */
   timestamp: Scalars['BigInt']['output'];
-  /**
-   * The id provided by the Lockup contract. This is the ERC-721 tokenId.
-   *
-   */
+  /** The id provided by the NFT contract. It's the ERC-721 tokenId. */
   tokenId: Scalars['BigInt']['output'];
   /**
    * Flag indicating the transferability of the stream. This is set when the stream is created, and cannot
    * be changed later.
-   *
    */
   transferable: Scalars['Boolean']['output'];
-  /**
-   * Version of contract, e.g., v1.0.
-   *
-   */
+  /** Version of contract, e.g., v1.0. */
   version: Scalars['String']['output'];
-  /**
-   * Flag indicating if a stream is voided.
-   *
-   */
+  /** Flag indicating if a stream is voided. */
   voided: Scalars['Boolean']['output'];
-  /**
-   * Action in which the stream was voided.
-   *
-   */
+  /** Action in which the stream was voided. */
   voidedAction?: Maybe<Action>;
-  /**
-   * Unix timestamp for when the stream was voided.
-   *
-   */
+  /** Unix timestamp for when the stream was voided. */
   voidedTime?: Maybe<Scalars['BigInt']['output']>;
-  /**
-   * The sum of all withdrawn amounts.
-   *
-   */
+  /** The sum of all withdrawn amounts. */
   withdrawnAmount: Scalars['BigInt']['output'];
 };
 
@@ -1561,25 +1594,13 @@ export enum Stream_OrderBy {
 
 export type Watcher = {
   __typename?: 'Watcher';
-  /**
-   * Global counter for actions.
-   *
-   */
+  /** Global counter for actions. */
   actionCounter: Scalars['BigInt']['output'];
-  /**
-   * Alias for id.
-   *
-   */
+  /** Alias for id. */
   chainId: Scalars['BigInt']['output'];
-  /**
-   * The chain ID. There is one watcher per subgraph.
-   *
-   */
+  /** The chain ID. There is one watcher per subgraph. */
   id: Scalars['String']['output'];
-  /**
-   * Global counter.
-   *
-   */
+  /** Global counter. */
   streamCounter: Scalars['BigInt']['output'];
 };
 
@@ -1661,7 +1682,6 @@ export type _Meta_ = {
    * will be null if the _meta field has a block constraint that asks for
    * a block number. It will be filled if the _meta field has no block constraint
    * and therefore asks for the latest  block
-   *
    */
   block: _Block_;
   /** The deployment ID */
