@@ -9,8 +9,8 @@ export namespace Airdrops {
     Claim = "Claim",
     Clawback = "Clawback",
     Create = "Create",
-    TransferAdmin = "TransferAdmin",
     LowerMinFeeUSD = "LowerMinFeeUSD",
+    TransferAdmin = "TransferAdmin",
   }
 
   export enum CampaignCategory {

@@ -2,8 +2,8 @@ enum ActionCategory {
   Claim
   Clawback
   Create
-  TransferAdmin
   LowerMinFeeUSD
+  TransferAdmin
 }
 
 enum CampaignCategory {
