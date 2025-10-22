@@ -23,8 +23,6 @@ jobs:
 
       - name: Set up devkit
         uses: sablier-labs/devkit/actions/setup@main
-        with:
-          package-manager: pnpm
 
       - name: Codegen Envio indexers
         run: just codegen-envio
