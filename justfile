@@ -56,9 +56,7 @@ clean globs=GLOBS_CLEAN:
 # Codegen all indexers
 [group("codegen")]
 @codegen:
-    just codegen-envio
-    echo ""
-    just codegen-graph
+    just concurrent-vendors "just codegen-envio" "just codegen-graph"
 alias codegen-indexers := codegen
 
 # Export the schemas to the ./src directory
@@ -206,26 +204,27 @@ _codegen-graph-bindings indexer:
 [group("codegen")]
 [group("gql")]
 @codegen-gql:
-    just codegen-gql-envio
-    just codegen-gql-graph
+    just concurrent-vendors "just codegen-gql-envio" "just codegen-gql-graph"
 
 # Codegen GraphQL types and queries for Envio indexers
 [group("codegen")]
 [group("gql")]
 [group("envio")]
 codegen-gql-envio:
-    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/envio.ts
-    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/envio.ts
-    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/lockup/envio.ts
+    just concurrent-protocol-indexers \
+        "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/envio.ts" \
+        "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/envio.ts" \
+        "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/lockup/envio.ts"
 
 # Codegen GraphQL types and queries for Graph indexers
 [group("codegen")]
 [group("gql")]
 [group("graph")]
 codegen-gql-graph:
-    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/graph.ts
-    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/graph.ts
-    pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/lockup/graph.ts
+    just concurrent-protocol-indexers \
+        "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/graph.ts" \
+        "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/graph.ts" \
+        "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/lockup/graph.ts"
 
 # ---------------------------------------------------------------------------- #
 #                                SCRIPTS: PRINT                                #
@@ -255,15 +254,46 @@ codegen-gql-graph:
 @cli *args:
     pnpm tsx cli/index.ts {{ args }}
 
+# Helper to run four commands in parallel (airdrops, analytics, flow, lockup)
+[private]
+@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4:
+    pnpm concurrently --group \
+        -n "airdrops,analytics,flow,lockup" \
+        -c "blue,cyan,green,yellow" \
+        "{{ cmd1 }}" \
+        "{{ cmd2 }}" \
+        "{{ cmd3 }}" \
+        "{{ cmd4 }}"
+
+# Helper to run three commands in parallel (airdrops, flow, lockup)
+[private]
+@concurrent-protocol-indexers cmd1 cmd2 cmd3:
+    pnpm concurrently --group \
+        -n "airdrops,flow,lockup" \
+        -c "blue,green,yellow" \
+        "{{ cmd1 }}" \
+        "{{ cmd2 }}" \
+        "{{ cmd3 }}"
+
+# Helper to run two commands in parallel (envio & graph)
+[private]
+@concurrent-vendors cmd1 cmd2:
+    pnpm concurrently --group \
+        -n "envio,graph" \
+        -c "cyan,magenta" \
+        "{{ cmd1 }}" \
+        "{{ cmd2 }}"
+
 # Helper to run a recipe for all protocols or a specific one
 [private]
 [script]
 envio-for-each recipe indexer:
     if [ "{{ indexer }}" = "all" ]; then
-        just {{ recipe }} airdrops
-        just {{ recipe }} analytics
-        just {{ recipe }} flow
-        just {{ recipe }} lockup
+        just concurrent-envio-indexers \
+            "just {{ recipe }} airdrops" \
+            "just {{ recipe }} analytics" \
+            "just {{ recipe }} flow" \
+            "just {{ recipe }} lockup"
     else
         just {{ recipe }} {{ indexer }}
     fi
@@ -273,9 +303,10 @@ envio-for-each recipe indexer:
 [script]
 graph-for-each recipe indexer:
     if [ "{{ indexer }}" = "all" ]; then
-        just {{ recipe }} airdrops
-        just {{ recipe }} flow
-        just {{ recipe }} lockup
+        just concurrent-protocol-indexers \
+            "just {{ recipe }} airdrops" \
+            "just {{ recipe }} flow" \
+            "just {{ recipe }} lockup"
     else
         just {{ recipe }} {{ indexer }}
     fi
