@@ -1,6 +1,6 @@
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
-import { Version } from "sablier";
+import { isVersionAfter, Version } from "sablier";
 import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";
@@ -29,7 +29,7 @@ export const fetchProxender = experimental_createEffect(
   async ({ context, input }) => {
     // PRBProxy was only used in Lockup v1.0
     const version = getContractVersion("lockup", input.chainId, input.lockupAddress as Envio.Address);
-    if (version !== Version.Lockup.V1_0) {
+    if (isVersionAfter(version, Version.Lockup.V1_0)) {
       return NOT_AVAILABLE;
     }
 
