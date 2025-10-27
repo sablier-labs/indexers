@@ -2,7 +2,7 @@ name: Cron Tests
 
 on:
   schedule:
-    - cron: "0 4 * * *" # at 04:00 UTC every day
+    - cron: "0 4 */4 * *" # at 04:00 UTC every 4th day
   workflow_dispatch:
 
 jobs:
@@ -16,8 +16,6 @@ jobs:
 
       - name: Set up devkit
         uses: sablier-labs/devkit/actions/setup@main
-        with:
-          package-manager: pnpm
 
       - name: Generate the indexer bindings
         run: just codegen
