@@ -25,7 +25,7 @@ export const colors = {
 /*                              TABLE HELPERS                                 */
 /* -------------------------------------------------------------------------- */
 
-type TableTheme = "cyan" | "green" | "red" | "yellow";
+type TableTheme = "cyan" | "gray" | "green" | "magenta" | "red" | "yellow";
 
 type TableOptions = {
   colWidths?: number[];
@@ -40,10 +40,31 @@ type TableOptions = {
 export function createTable(options: TableOptions = {}): Table.Table {
   const { colWidths, head = [], theme = "cyan", wordWrap = true } = options;
 
-  const themeColor = theme === "cyan" ? "cyan" : theme === "green" ? "green" : theme === "red" ? "red" : "yellow";
+  const themeColor =
+    theme === "cyan"
+      ? "cyan"
+      : theme === "gray"
+        ? "gray"
+        : theme === "green"
+          ? "green"
+          : theme === "magenta"
+            ? "magenta"
+            : theme === "red"
+              ? "red"
+              : "yellow";
 
   const chalkFn =
-    theme === "cyan" ? chalk.cyan : theme === "green" ? chalk.green : theme === "red" ? chalk.red : chalk.yellow;
+    theme === "cyan"
+      ? chalk.cyan
+      : theme === "gray"
+        ? chalk.gray
+        : theme === "green"
+          ? chalk.green
+          : theme === "magenta"
+            ? chalk.magenta
+            : theme === "red"
+              ? chalk.red
+              : chalk.yellow;
 
   return new Table({
     colWidths,
@@ -84,11 +105,15 @@ export function displayHeader(text: string, theme: TableTheme = "cyan"): void {
   const chalkFn =
     theme === "cyan"
       ? colors.info
-      : theme === "green"
-        ? colors.success
-        : theme === "red"
-          ? colors.error
-          : colors.warning;
+      : theme === "gray"
+        ? colors.dim
+        : theme === "green"
+          ? colors.success
+          : theme === "magenta"
+            ? chalk.magenta
+            : theme === "red"
+              ? colors.error
+              : colors.warning;
 
   console.log("");
   console.log(separator);
