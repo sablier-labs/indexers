@@ -1,5 +1,6 @@
 import "../envio.just"
 
+# Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
 export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
     arr=(
         "CryptoFeesDaily"
