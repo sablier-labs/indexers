@@ -44,7 +44,7 @@ importers:
         version: https://codeload.github.com/sablier-labs/devkit/tar.gz/41aa269359fa24714f5604f7ef8afd68bbbb7f35
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/b843c362de7ba181b185a64d1957cc9092a41a9a
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/5d246367b2174e287b86877870332daeb5719be2
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -1312,8 +1312,8 @@ packages:
     version: 1.1.0
     engines: {node: '>=20'}
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/b843c362de7ba181b185a64d1957cc9092a41a9a':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/b843c362de7ba181b185a64d1957cc9092a41a9a}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5d246367b2174e287b86877870332daeb5719be2':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/5d246367b2174e287b86877870332daeb5719be2}
     version: 1.0.0-beta.0
     engines: {node: '>=22'}
 
@@ -5423,7 +5423,7 @@ snapshots:
 
   '@sablier/devkit@https://codeload.github.com/sablier-labs/devkit/tar.gz/41aa269359fa24714f5604f7ef8afd68bbbb7f35': {}
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/b843c362de7ba181b185a64d1957cc9092a41a9a': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5d246367b2174e287b86877870332daeb5719be2': {}
 
   '@scure/base@1.1.9': {}
 
