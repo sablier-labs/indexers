@@ -21,38 +21,23 @@ After generating code, run these commands **in order**.
 
 **Command sequence:**
 
-1. **Identify which file types changed** — determines which tools to use in steps 2-5
+1. **Identify which file types changed**
 
-2. **`just prettier-write <files>`** — auto-fix Markdown/YAML (skip if none changed)
+2. **`just biome-lint <files>`** — lint JS/TS/JSON/CSS/GraphQL (skip if none changed)
 
-3. **`just biome-write <files>`** — auto-fix JS/TS/JSON/CSS/GraphQL (skip if none changed)
-
-4. **`just prettier-check <files>`** — verify Markdown/YAML formatting (skip if none changed)
-
-5. **`just biome-check <files>`** — verify JS/TS/JSON/CSS/GraphQL formatting (skip if none changed)
-
-6. **`just tsc-check`** — verify TypeScript types (always run on entire project)
+3. **`just tsc-check`** — verify TypeScript types (always run on entire project)
 
 **Examples:**
 
 ```bash
 # Fewer than 10 files: use specific paths
-just prettier-write README.md CHANGELOG.md
-just biome-write app/page.tsx app/layout.tsx
-just prettier-check README.md CHANGELOG.md
-just biome-check app/page.tsx app/layout.tsx
+just biome-lint app/page.tsx app/layout.tsx
 
-# Fewer than 10 files: use globs
-just prettier-write "docs/**/*.md"
-just biome-write "app/**/*.ts" "app/**/*.tsx"
-just prettier-check "docs/**/*.md"
-just biome-check "app/**/*.ts" "app/**/*.tsx"
+# More than 10 files: use globs
+just biome-lint app/**/*.ts app/**/*.tsx
 
 # 10+ files: omit file arguments
-just prettier-write
-just biome-write
-just prettier-check
-just biome-check
+just biome-lint
 
 # TypeScript check always runs on entire project
 just tsc-check

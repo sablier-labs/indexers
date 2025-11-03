@@ -17,7 +17,7 @@
     "sablier": "^1.x"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
+    "@biomejs/biome": "^2.3.2",
     "@graphprotocol/graph-cli": "0.97.1",
     "@graphprotocol/graph-ts": "0.38.1",
     "@graphql-codegen/cli": "^5.0.7",
