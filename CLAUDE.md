@@ -23,7 +23,7 @@ After generating code, run these commands **in order**.
 
 1. **Identify which file types changed**
 
-2. **`na biome lint <files>`** — lint JS/TS/JSON/GraphQL (skip if none changed)
+2. **`na biome lint <files>`** — lint JS/TS/JSON/CSS/GraphQL (skip if none changed)
 
 3. **`na tsc`** — verify TypeScript types (always run on entire project)
 
@@ -31,10 +31,10 @@ After generating code, run these commands **in order**.
 
 ```bash
 # Fewer than 10 files: use specific paths
-na biome lint "app/page.tsx" "app/layout.tsx"
+na biome lint app/page.tsx app/layout.tsx
 
 # More than 10 files: use globs
-na biome lint "app/**/*.ts" "app/**/*.tsx"
+na biome lint app/**/*.ts app/**/*.tsx
 
 # 10+ files: omit file arguments
 na biome lint
