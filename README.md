@@ -24,50 +24,15 @@ indexer for each protocol:
 - [Sablier Flow](https://docs.sablier.com/api/flow/indexers) - Payment streams data
 - [Sablier Lockup](https://docs.sablier.com/api/lockup/indexers) - Vesting streams data
 
-## Deployments 🚀
+## Quickstart 🚀
 
-### Envio
+Query the Envio GraphQL endpoints directly to access Sablier protocol data:
 
-Sync the changes to the `deployment/main` branch, and the Envio Hosted Service will automatically build and deploy the
-new indexers.
+- **Airdrops**: `https://indexer.hyperindex.xyz/508d217/v1/graphql`
+- **Flow**: `https://indexer.hyperindex.xyz/3b4ea6b/v1/graphql`
+- **Lockup**: `https://indexer.hyperindex.xyz/53b7e25/v1/graphql`
 
-### The Graph
-
-#### Version Label
-
-Each subgraph has a version label used to track changes made to the subgraph. The format is:
-
-```text
-v{PROTOCOL_VERSION}--v{SUBGRAPH_VERSION}
-```
-
-Here's an example for how to set the next version label if the current version label is `v2.0--v1.0.0`:
-
-| Change                       | New Version Label     |
-| ---------------------------- | --------------------- |
-| Hot fix                      | `v2.0--v1.0.1`        |
-| New addresses or features    | `v2.0--v1.1.0`        |
-| Staging new protocol release | `v2.1--v1.0.0-beta.0` |
-| New protocol release         | `v2.1--v1.0.0`        |
-
-For a full list of protocol versions, see the [Sablier SDK](https://github.com/sablier-labs/sdk) (run the
-`print-versions` command).
-
-#### Scripts
-
-Go to each protocol's directory and run the `deploy-all` recipe. For example:
-
-```shell
-cd graph/lockup
-just deploy-all v2.1--v1.0.0
-```
-
-Then, do the same for the other protocols.
-
-> [!NOTE]
->
-> The Graph is not officially supported on some chains, e.g. Lightlink. To make deployments to these custom instances of
-> The Graph, use the `deploy-custom` recipe.
+For detailed documentation, queries, and examples, visit our [API docs](https://docs.sablier.com/api/overview).
 
 ## Contributing 🤝
 
