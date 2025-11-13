@@ -131,7 +131,7 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
 
 const CUSTOMS: IndexerGraphMap[] = [
   custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
-  custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/{SUBGRAPH_NAME}"),
+  custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/core/{SUBGRAPH_NAME}"),
 ];
 
 const OFFICIALS: IndexerGraphMap[] = [
