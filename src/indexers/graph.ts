@@ -31,6 +31,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
   [chains.mainnet.id]: "ethereum",
+  [chains.coreDao.id]: "core",
 };
 
 /**
