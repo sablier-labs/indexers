@@ -116,7 +116,7 @@ alias da := deploy-all
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             ;;
         *)
-            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: lightlink, core-dao"
+            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: lightlink, core"
             exit 1
             ;;
     esac
