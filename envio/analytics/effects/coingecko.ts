@@ -3,7 +3,7 @@ import axiosRetry from "axios-retry";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
 import _ from "lodash";
-import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/dist/chains";
+import { avalanche, berachain, bsc, chiliz, hyperevm, mainnet, polygon, sonic, sophon, xdc } from "sablier/evm/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants";
 
 const MAX_RETRIES = 5;
