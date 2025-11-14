@@ -1,7 +1,7 @@
 import type { DocumentNode } from "graphql";
 import gql from "graphql-tag";
 import _ from "lodash";
-import { Protocol } from "sablier";
+import { Protocol } from "sablier/evm";
 import type { Indexer } from "../src";
 
 export namespace Airdrops {

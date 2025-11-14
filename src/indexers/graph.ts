@@ -2,7 +2,8 @@
  * @file Use this file to define new indexers for The Graph.
  *
  */
-import { chains, Protocol, sablier } from "sablier";
+import { sablier } from "sablier";
+import { chains, Protocol } from "sablier/evm";
 import { SUBGRAPH_STUDIO_USER_ID } from "../constants";
 import { Vendor } from "../enums";
 import type { Indexer } from "../types";

@@ -1,6 +1,7 @@
 import _ from "lodash";
 import type { Sablier } from "sablier";
-import { contracts, sablier, Version } from "sablier";
+import { sablier } from "sablier";
+import { contracts, Version } from "sablier/evm";
 import type { GraphManifest } from "../manifest-types";
 import { getSources } from "./get-sources";
 
