@@ -9,7 +9,7 @@
  * As well as for the equivalence tests in:
  * @see {@link file://./../tests/vendors/equivalence/create-test.ts}
  */
-import { sepolia } from "sablier/dist/chains";
+import { sepolia } from "sablier/evm/chains";
 import { getIndexer } from "./indexers/getters";
 import type { Indexer } from "./types";
 

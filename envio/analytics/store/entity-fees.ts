@@ -2,7 +2,7 @@
  * @see {@link: file://./../analytics.graphql}
  */
 import { sablier } from "sablier";
-import { gnosis, tangle } from "sablier/dist/chains";
+import { gnosis, tangle } from "sablier/evm/chains";
 import { formatEther, parseEther, parseUnits } from "viem";
 import type { Envio } from "../../common/bindings";
 import { FEB_03_2025 } from "../../common/constants";

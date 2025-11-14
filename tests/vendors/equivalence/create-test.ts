@@ -2,7 +2,7 @@ import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
-import { mainnet, sepolia } from "sablier/dist/chains";
+import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
 import { logger } from "../../../lib/winston";
 import type { Indexer } from "../../../src";
