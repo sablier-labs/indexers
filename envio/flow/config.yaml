@@ -16,7 +16,7 @@ field_selection:
 contracts:
   - name: "SablierFlow_v1_0"
     handler: "mappings/v1.0/SablierFlow.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v1.0/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/flow/v1.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -31,7 +31,7 @@ contracts:
       - event: "WithdrawFromFlowStream"
   - name: "SablierFlow_v1_1"
     handler: "mappings/v1.1/SablierFlow.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v1.1/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/flow/v1.1/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -46,7 +46,7 @@ contracts:
       - event: "WithdrawFromFlowStream"
   - name: "SablierFlow_v2_0"
     handler: "mappings/v2.0/SablierFlow.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/flow/v2.0/SablierFlow.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/flow/v2.0/SablierFlow.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -235,7 +235,7 @@ networks:
         start_block: 15120566
       - address: "0x977fdf70abed6b60eeccee85322bea4575b0b6ed"
         name: "SablierFlow_v2_0"
-        start_block: 168340950
+        start_block: 24174155
     id: 59144
     rpc:
       - for: "fallback"

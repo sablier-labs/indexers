@@ -1,6 +1,6 @@
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
-import { Version } from "sablier";
+import { Version } from "sablier/evm";
 import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";

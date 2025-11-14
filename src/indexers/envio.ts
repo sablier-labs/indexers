@@ -3,7 +3,7 @@
  *
  * @see https://docs.envio.dev/docs/HyperSync/hypersync-supported-networks
  */
-import { chains, Protocol } from "sablier";
+import { chains, Protocol } from "sablier/evm";
 import { Vendor } from "../enums";
 import type { Indexer } from "../types";
 import { envioDeployments } from "./envio-deployments";

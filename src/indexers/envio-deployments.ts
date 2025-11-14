@@ -1,4 +1,4 @@
-import { Protocol } from "sablier";
+import { Protocol } from "sablier/evm";
 import type { Indexer } from "../types";
 
 function getURL(id: string) {

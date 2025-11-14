@@ -1,4 +1,4 @@
-import { Version } from "sablier";
+import { Version } from "sablier/evm";
 import type { Envio } from "../../common/bindings";
 import { NOT_AVAILABLE } from "../../common/constants";
 import { getContract } from "../../common/deployments";

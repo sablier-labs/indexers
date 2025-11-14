@@ -2,7 +2,7 @@
  * @see https://github.com/sablier-labs/flow/blob/main/CHANGELOG.md
  */
 import type { Sablier } from "sablier";
-import { contracts } from "sablier";
+import { contracts } from "sablier/evm";
 import type { Types } from "../lib/types";
 import type { Indexer } from "../src/types";
 import { erc721 } from "./common/erc721";
