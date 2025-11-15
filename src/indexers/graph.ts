@@ -2,7 +2,8 @@
  * @file Use this file to define new indexers for The Graph.
  *
  */
-import { chains, Protocol, sablier } from "sablier";
+import { sablier } from "sablier";
+import { chains, Protocol } from "sablier/evm";
 import { SUBGRAPH_STUDIO_USER_ID } from "../constants";
 import { Vendor } from "../enums";
 import type { Indexer } from "../types";
@@ -23,6 +24,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
+  [chains.coreDao.id]: "core",
 };
 
 /**
@@ -30,6 +32,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
   [chains.mainnet.id]: "ethereum",
+  [chains.coreDao.id]: "core",
 };
 
 /**
@@ -129,6 +132,7 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
 
 const CUSTOMS: IndexerGraphMap[] = [
   custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
+  custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/core/{SUBGRAPH_NAME}"),
 ];
 
 const OFFICIALS: IndexerGraphMap[] = [
