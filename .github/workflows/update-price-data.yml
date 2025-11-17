@@ -45,7 +45,7 @@ jobs:
       - name: Generate timestamp
         if: steps.changes.outputs.changed == 'true'
         id: timestamp
-        run: echo "human=$(date '+%B %d, %Y at %H:%M UTC')" >> $GITHUB_OUTPUT
+        run: echo "human=$(date '+%b %d, %Y at %H:%M UTC')" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.changes.outputs.changed == 'true'
@@ -56,7 +56,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
           git add pnpm-lock.yaml envio/analytics/.envio/cache/*.tsv
-          git commit -m "chore(deps): update @sablier/price-data and sync cache - ${{ steps.timestamp.outputs.human }}"
+          git commit -m "chore: bump @sablier/price-data and sync cache - ${{ steps.timestamp.outputs.human }}"
           git push
 
       - name: Add summary
