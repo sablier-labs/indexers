@@ -4,6 +4,8 @@
 
 Cannot be refactored to share code with other parts of the codebase.
 
+**Dependencies**: Only `@graphprotocol/graph-ts` is allowed. No other npm packages can be used.
+
 ## Schema Editing
 
 **DO NOT** edit `{indexer}/schema.graphql` files directly.
