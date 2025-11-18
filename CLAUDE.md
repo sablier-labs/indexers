@@ -10,7 +10,7 @@ The data is used to power the [Sablier Interface](https://app.sablier.com).
 
 We support two indexing services: [Envio](https://envio.dev) and [The Graph](https://thegraph.com).
 
-## Most Important Thing
+## Lint Rules
 
 After generating code, run these commands **in order**.
 

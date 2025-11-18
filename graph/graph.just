@@ -2,7 +2,7 @@
 # Go to each indexer's directory and run `just --list` to see the available recipes.
 mod root "../justfile"
 
-set allow-duplicate-variables := true
+set allow-duplicate-variables
 set dotenv-path := "{{ source_dir() }}/../../.env"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set unstable
