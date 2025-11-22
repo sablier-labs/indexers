@@ -1,5 +1,6 @@
 import type { Sablier } from "sablier";
-import { sablier, Version } from "sablier";
+import { sablier } from "sablier";
+import { Version } from "sablier/evm";
 import type { Envio } from "./bindings";
 import { SEP_19_2025 } from "./constants";
 import type { DeprecatedStreamContext } from "./store/entity-deprecated-stream";

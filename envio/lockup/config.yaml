@@ -16,7 +16,7 @@ field_selection:
 contracts:
   - name: "SablierV2LockupDynamic_v1_0"
     handler: "mappings/v1.0/SablierV2LockupDynamic.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.0/SablierV2LockupDynamic.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.0/SablierV2LockupDynamic.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -27,7 +27,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierV2LockupDynamic_v1_1"
     handler: "mappings/v1.1/SablierV2LockupDynamic.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.1/SablierV2LockupDynamic.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.1/SablierV2LockupDynamic.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -38,7 +38,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierV2LockupDynamic_v1_2"
     handler: "mappings/v1.2/SablierV2LockupDynamic.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.2/SablierV2LockupDynamic.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.2/SablierV2LockupDynamic.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -49,7 +49,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierV2LockupLinear_v1_0"
     handler: "mappings/v1.0/SablierV2LockupLinear.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.0/SablierV2LockupLinear.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.0/SablierV2LockupLinear.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -60,7 +60,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierV2LockupLinear_v1_1"
     handler: "mappings/v1.1/SablierV2LockupLinear.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.1/SablierV2LockupLinear.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.1/SablierV2LockupLinear.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -71,7 +71,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierV2LockupLinear_v1_2"
     handler: "mappings/v1.2/SablierV2LockupLinear.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.2/SablierV2LockupLinear.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.2/SablierV2LockupLinear.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -82,7 +82,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierV2LockupTranched_v1_2"
     handler: "mappings/v1.2/SablierV2LockupTranched.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v1.2/SablierV2LockupTranched.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v1.2/SablierV2LockupTranched.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -93,7 +93,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierLockup_v2_0"
     handler: "mappings/v2.0/SablierLockup.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v2.0/SablierLockup.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v2.0/SablierLockup.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"
@@ -106,7 +106,7 @@ contracts:
       - event: "WithdrawFromLockupStream"
   - name: "SablierLockup_v3_0"
     handler: "mappings/v3.0/SablierLockup.ts"
-    abi_file_path: "../../node_modules/sablier/dist/abi/lockup/v3.0/SablierLockup.json"
+    abi_file_path: "../../node_modules/sablier/dist/evm/abi/lockup/v3.0/SablierLockup.json"
     events:
       - event: "Approval"
       - event: "ApprovalForAll"

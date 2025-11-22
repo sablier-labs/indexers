@@ -1,4 +1,4 @@
-import { sepolia } from "sablier/dist/chains";
+import { sepolia } from "sablier/evm/chains";
 import { getIndexer } from "../../../src/indexers/getters";
 import * as Envio from "../../../src/queries/lockup/envio";
 import * as Graph from "../../../src/queries/lockup/graph";

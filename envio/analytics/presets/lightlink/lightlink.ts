@@ -2,7 +2,7 @@
  * @file LightLink preset data initialization.
  */
 
-import { lightlink } from "sablier/dist/chains";
+import { lightlink } from "sablier/evm/chains";
 import type { HandlerContext } from "../../bindings";
 import * as Helpers from "../helpers";
 import feeCollections from "./lightlink-fee-collections.json";
