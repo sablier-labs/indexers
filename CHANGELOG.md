@@ -15,7 +15,7 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 
 ### Added
 
-- Add new EVM chains: Core DAO ([#249](https://github.com/sablier-labs/indexers/pull/249))
+- Add new EVM chains: Core DAO, MONAD ([#249](https://github.com/sablier-labs/indexers/pull/249))
 - Bump sablier package and fix the import paths
 
 ## [1.2.0] - 2025-10-22
