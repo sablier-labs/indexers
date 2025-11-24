@@ -16,82 +16,82 @@ field_selection:
 contracts:
   - name: "SablierV2MerkleStreamerFactory_v1_1"
     handler: "mappings/v1.1/SablierV2MerkleStreamerFactory.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.1/SablierV2MerkleStreamerFactory.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.1/SablierV2MerkleStreamerFactory.json"
     events:
       - event: "CreateMerkleStreamerLL"
   - name: "SablierV2MerkleStreamerLL_v1_1"
     handler: "mappings/v1.1/SablierV2MerkleStreamerLL.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.1/SablierV2MerkleStreamerLL.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.1/SablierV2MerkleStreamerLL.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
   - name: "SablierV2MerkleLockupFactory_v1_2"
     handler: "mappings/v1.2/SablierV2MerkleLockupFactory.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.2/SablierV2MerkleLockupFactory.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.2/SablierV2MerkleLockupFactory.json"
     events:
       - event: "CreateMerkleLL"
       - event: "CreateMerkleLT"
   - name: "SablierV2MerkleLL_v1_2"
     handler: "mappings/v1.2/SablierV2MerkleLL.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.2/SablierV2MerkleLL.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.2/SablierV2MerkleLL.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
   - name: "SablierV2MerkleLT_v1_2"
     handler: "mappings/v1.2/SablierV2MerkleLT.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.2/SablierV2MerkleLT.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.2/SablierV2MerkleLT.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
   - name: "SablierMerkleFactory_v1_3"
     handler: "mappings/v1.3/SablierMerkleFactory.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.3/SablierMerkleFactory.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.3/SablierMerkleFactory.json"
     events:
       - event: "CreateMerkleInstant"
       - event: "CreateMerkleLL"
       - event: "CreateMerkleLT"
   - name: "SablierMerkleInstant_v1_3"
     handler: "mappings/v1.3/SablierMerkleInstant.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.3/SablierMerkleInstant.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.3/SablierMerkleInstant.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
   - name: "SablierMerkleLL_v1_3"
     handler: "mappings/v1.3/SablierMerkleLL.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.3/SablierMerkleLL.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.3/SablierMerkleLL.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
   - name: "SablierMerkleLT_v1_3"
     handler: "mappings/v1.3/SablierMerkleLT.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v1.3/SablierMerkleLT.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v1.3/SablierMerkleLT.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
       - event: "Claim"
   - name: "SablierFactoryMerkleInstant_v2_0"
     handler: "mappings/v2.0/SablierFactoryMerkleInstant.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v2.0/SablierFactoryMerkleInstant.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v2.0/SablierFactoryMerkleInstant.json"
     events:
       - event: "CreateMerkleInstant"
   - name: "SablierFactoryMerkleLL_v2_0"
     handler: "mappings/v2.0/SablierFactoryMerkleLL.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v2.0/SablierFactoryMerkleLL.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v2.0/SablierFactoryMerkleLL.json"
     events:
       - event: "CreateMerkleLL"
   - name: "SablierFactoryMerkleLT_v2_0"
     handler: "mappings/v2.0/SablierFactoryMerkleLT.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v2.0/SablierFactoryMerkleLT.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v2.0/SablierFactoryMerkleLT.json"
     events:
       - event: "CreateMerkleLT"
   - name: "SablierMerkleInstant_v2_0"
     handler: "mappings/v2.0/SablierMerkleInstant.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v2.0/SablierMerkleInstant.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v2.0/SablierMerkleInstant.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
@@ -99,7 +99,7 @@ contracts:
       - event: "LowerMinFeeUSD"
   - name: "SablierMerkleLL_v2_0"
     handler: "mappings/v2.0/SablierMerkleLL.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v2.0/SablierMerkleLL.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v2.0/SablierMerkleLL.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
@@ -108,7 +108,7 @@ contracts:
       - event: "LowerMinFeeUSD"
   - name: "SablierMerkleLT_v2_0"
     handler: "mappings/v2.0/SablierMerkleLT.ts"
-    abi_file_path: "../../node_modules/sablier/dist/evm/abi/airdrops/v2.0/SablierMerkleLT.json"
+    abi_file_path: "../../node_modules/sablier/dist/abi/airdrops/v2.0/SablierMerkleLT.json"
     events:
       - event: "TransferAdmin"
       - event: "Clawback"
@@ -538,6 +538,26 @@ networks:
       - name: "SablierMerkleLT_v2_0"
     id: 34443
     start_block: 11343396
+  - contracts:
+      - address: "0xab15e653cd3bbce7b7412f81056a450bc0f2e7b9"
+        name: "SablierFactoryMerkleInstant_v2_0"
+        start_block: 34590049
+      - address: "0x7dcab43465c1ebda92133c92262a6c55394dd69e"
+        name: "SablierFactoryMerkleLL_v2_0"
+        start_block: 34590049
+      - address: "0xfa2bf3eddefe67631bffa5c53b621a9c6bebc9c3"
+        name: "SablierFactoryMerkleLT_v2_0"
+        start_block: 34590049
+      - name: "SablierMerkleInstant_v2_0"
+      - name: "SablierMerkleLL_v2_0"
+      - name: "SablierMerkleLT_v2_0"
+    id: 143
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://monad-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    start_block: 34590049
   - contracts:
       - address: "0x5e73bb96493c10919204045fcdb639d35ad859f8"
         name: "SablierV2MerkleLockupFactory_v1_2"

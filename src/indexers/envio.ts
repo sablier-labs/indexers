@@ -47,6 +47,7 @@ const SUPPORTED_CHAINS = [
   get(chains.linea.id),
   get(chains.mainnet.id),
   get(chains.mode.id),
+  get(chains.monad.id),
   get(chains.morph.id),
   get(chains.optimism.id),
   get(chains.polygon.id),
