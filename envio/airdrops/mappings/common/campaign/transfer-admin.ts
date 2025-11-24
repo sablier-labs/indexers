@@ -34,7 +34,7 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
+  await Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
 
   /* --------------------------------- ACTION --------------------------------- */
   Store.Action.create(context, event, watcher, {
