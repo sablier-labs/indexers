@@ -7,9 +7,10 @@ import type {
   SablierV2LockupLinear_v1_1_RenounceLockupStream_handler as Handler_v1_1,
   SablierV2LockupLinear_v1_2_RenounceLockupStream_handler as Handler_v1_2,
   SablierLockup_v2_0_RenounceLockupStream_handler as Handler_v2_0,
+  SablierLockup_v3_0_RenounceLockupStream_handler as Handler_v3_0,
 } from "../../bindings/src/Types.gen";
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2 & Handler_v2_0;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2 & Handler_v2_0 & Handler_v3_0;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
