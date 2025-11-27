@@ -91,13 +91,6 @@ test-vendors:
 #                                SCRIPTS: ENVIO                                #
 # ---------------------------------------------------------------------------- #
 
-# Verify price data in cache matches node_modules version
-[group("checks")]
-[group("cli")]
-[group("envio")]
-@price-data-check:
-    just cli price-data-check
-
 # Codegen everything for the Envio indexer (order matters):
 # 1. GraphQL schema
 # 2. Envio config YAML
@@ -131,6 +124,13 @@ _codegen-envio-bindings indexer:
 [group("envio")]
 @codegen-envio-config indexer="all":
     just cli codegen envio-config --indexer {{ indexer }}
+
+# Verify price data in cache matches node_modules version
+[group("checks")]
+[group("cli")]
+[group("envio")]
+@price-data-check:
+    just cli price-data-check
 
 # Sync price data from @sablier/price-data to Envio cache
 [group("cli")]
