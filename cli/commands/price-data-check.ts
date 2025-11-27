@@ -52,6 +52,7 @@ function priceDataCheckCommand(): Command {
     for (const { name, sourceDir } of requiredFiles) {
       const sourcePath = path.join(PRICE_DATA_DIR, sourceDir, name);
       const destPath = path.join(CACHE_DIR, name);
+      const relativeDestPath = "./" + path.relative(process.cwd(), destPath);
 
       // Check if both files exist
       if (!fs.existsSync(sourcePath)) {
@@ -59,17 +60,17 @@ function priceDataCheckCommand(): Command {
       }
 
       if (!fs.existsSync(destPath)) {
-        fileStatuses.push({ destPath, name, sourceDir, status: "missing" });
+        fileStatuses.push({ destPath: relativeDestPath, name, sourceDir, status: "missing" });
         continue;
       }
 
       // Compare files using diff
       try {
         execSync(`diff -q "${sourcePath}" "${destPath}"`, { stdio: "pipe" });
-        fileStatuses.push({ destPath, name, sourceDir, status: "in-sync" });
+        fileStatuses.push({ destPath: relativeDestPath, name, sourceDir, status: "in-sync" });
       } catch (_error) {
         // diff returns non-zero exit code if files differ
-        fileStatuses.push({ destPath, name, sourceDir, status: "out-of-sync" });
+        fileStatuses.push({ destPath: relativeDestPath, name, sourceDir, status: "out-of-sync" });
       }
     }
 
