@@ -121,17 +121,25 @@ function isToday(dateString: string): boolean {
   );
 }
 
-// Create axios instances with retry configuration for each API key
+function getApiKey(): string {
+  const apiKey = process.env.ENVIO_COINGECKO_API_KEY;
+  if (!apiKey) {
+    throw new Error("ENVIO_COINGECKO_API_KEY must be set");
+  }
+  return apiKey;
+}
+
+// Create axios instance with retry configuration
 const createAxiosInstance = (apiKey: string) => {
   const instance = axios.create({
     headers: {
-      "x-cg-demo-api-key": apiKey,
+      "x-cg-pro-api-key": apiKey,
     },
   });
 
   axiosRetry(instance, {
     onRetry: (_retryCount, _error, _requestConfig) => {
-      // This will be handled by the logger in fetchCoinPrice
+      // This will be handled by the logger in fetch functions
     },
     retries: MAX_RETRIES,
     retryCondition: (error) => {
@@ -152,8 +160,8 @@ const createAxiosInstance = (apiKey: string) => {
 };
 
 /**
- * Fetch the current price of a coin from CoinGecko's /simple/price endpoint.
- * Uses 3-way API key rotation for load distribution.
+ * Fetch the current price of a coin from CoinGecko Pro API's /simple/price endpoint.
+ * Uses axios-retry with exponential backoff (up to 5 retries).
  * @see https://docs.coingecko.com/reference/simple-price
  */
 async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<number> {
@@ -163,58 +171,27 @@ async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<
   url.searchParams.set("ids", coinId);
   url.searchParams.set("vs_currencies", "usd");
 
-  // Get API keys
-  const COINGECKO_API_KEY_1 = process.env.ENVIO_COINGECKO_API_KEY_1;
-  const COINGECKO_API_KEY_2 = process.env.ENVIO_COINGECKO_API_KEY_2;
-  const COINGECKO_API_KEY_3 = process.env.ENVIO_COINGECKO_API_KEY_3;
+  const axiosInstance = createAxiosInstance(getApiKey());
 
-  if (!COINGECKO_API_KEY_1 || !COINGECKO_API_KEY_2 || !COINGECKO_API_KEY_3) {
-    throw new Error("ENVIO_COINGECKO_API_KEY_1, ENVIO_COINGECKO_API_KEY_2, and ENVIO_COINGECKO_API_KEY_3 must be set");
-  }
+  try {
+    const response = await axiosInstance.get<CurrentPriceResponse>(url.toString());
 
-  const apiKeys = [COINGECKO_API_KEY_1, COINGECKO_API_KEY_2, COINGECKO_API_KEY_3];
-  const MAX_ATTEMPTS = 9; // 3 attempts per key
+    if (!response.data?.[coinId]?.usd) {
+      throw new Error(`Invalid response structure from CoinGecko /simple/price API`);
+    }
 
-  for (let i = 0; i < MAX_ATTEMPTS; i++) {
-    const keyIndex = i % 3;
-    const apiKey = apiKeys[keyIndex];
-    const apiKeyName = String(keyIndex + 1);
-
-    const axiosInstance = createAxiosInstance(apiKey);
-
-    try {
-      const response = await axiosInstance.get<CurrentPriceResponse>(url.toString());
-
-      if (!response.data?.[coinId]?.usd) {
-        throw new Error(`Invalid response structure from CoinGecko /simple/price API`);
-      }
-
-      return response.data[coinId].usd;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const status = error.response?.status;
-
-        logger.warn(
-          `Failed to fetch current price (attempt ${i + 1}/${MAX_ATTEMPTS}) with API key ${apiKeyName}: ${error.message}`,
-          {
-            apiKeyName,
-            attempt: i + 1,
-            currency,
-            status,
-            url: url.toString(),
-          },
-        );
-
-        if (i === MAX_ATTEMPTS - 1) {
-          logger.error(`All ${MAX_ATTEMPTS} attempts exhausted for CoinGecko current price fetch`, {
-            currency,
-          });
-        }
-      } else {
-        logger.error(`Unexpected error fetching CoinGecko current price: ${error}`, {
-          currency,
-        });
-      }
+    return response.data[coinId].usd;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      logger.error(`Failed to fetch current price after ${MAX_RETRIES} retries: ${error.message}`, {
+        currency,
+        status: error.response?.status,
+        url: url.toString(),
+      });
+    } else {
+      logger.error(`Unexpected error fetching CoinGecko current price: ${error}`, {
+        currency,
+      });
     }
   }
 
@@ -222,8 +199,7 @@ async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<
 }
 
 /**
- * Fetch the price of a coin from CoinGecko demo API using axios-retry with exponential backoff.
- * Alternates between three API keys for load distribution.
+ * Fetch the price of a coin from CoinGecko Pro API using axios-retry with exponential backoff (up to 5 retries).
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
 export async function fetchCoinPrice(logger: Logger, date: string, currency: string): Promise<number> {
@@ -238,62 +214,29 @@ export async function fetchCoinPrice(logger: Logger, date: string, currency: str
   url.searchParams.set("date", date);
   url.searchParams.set("localization", "false");
 
-  // Get API keys
-  const COINGECKO_API_KEY_1 = process.env.ENVIO_COINGECKO_API_KEY_1;
-  const COINGECKO_API_KEY_2 = process.env.ENVIO_COINGECKO_API_KEY_2;
-  const COINGECKO_API_KEY_3 = process.env.ENVIO_COINGECKO_API_KEY_3;
+  const axiosInstance = createAxiosInstance(getApiKey());
 
-  if (!COINGECKO_API_KEY_1 || !COINGECKO_API_KEY_2 || !COINGECKO_API_KEY_3) {
-    throw new Error("ENVIO_COINGECKO_API_KEY_1, ENVIO_COINGECKO_API_KEY_2, and ENVIO_COINGECKO_API_KEY_3 must be set");
-  }
+  try {
+    const response = await axiosInstance.get<CoinGeckoResponse>(url.toString());
 
-  const apiKeys = [COINGECKO_API_KEY_1, COINGECKO_API_KEY_2, COINGECKO_API_KEY_3];
-  const MAX_ATTEMPTS = 9; // 3 attempts per key
+    if (!response.data?.market_data?.current_price?.usd) {
+      throw new Error(`Invalid response structure from CoinGecko /coins/history API`);
+    }
 
-  for (let i = 0; i < MAX_ATTEMPTS; i++) {
-    const keyIndex = i % 3;
-    const apiKey = apiKeys[keyIndex];
-    const apiKeyName = String(keyIndex + 1);
-
-    const axiosInstance = createAxiosInstance(apiKey);
-
-    try {
-      const response = await axiosInstance.get<CoinGeckoResponse>(url.toString());
-
-      if (!response.data?.market_data?.current_price?.usd) {
-        throw new Error(`Invalid response structure from CoinGecko /coins/history API`);
-      }
-
-      return response.data.market_data.current_price.usd;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const status = error.response?.status;
-
-        logger.warn(
-          `Failed to fetch price (attempt ${i + 1}/${MAX_ATTEMPTS}) with API key ${apiKeyName}: ${error.message}`,
-          {
-            apiKeyName,
-            attempt: i + 1,
-            currency,
-            date,
-            status,
-            url: url.toString(),
-          },
-        );
-
-        // If this was the last attempt, log final error
-        if (i === MAX_ATTEMPTS - 1) {
-          logger.error(`All ${MAX_ATTEMPTS} attempts exhausted for CoinGecko price fetch`, {
-            currency,
-            date,
-          });
-        }
-      } else {
-        logger.error(`Unexpected error fetching CoinGecko price: ${error}`, {
-          currency,
-          date,
-        });
-      }
+    return response.data.market_data.current_price.usd;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      logger.error(`Failed to fetch price after ${MAX_RETRIES} retries: ${error.message}`, {
+        currency,
+        date,
+        status: error.response?.status,
+        url: url.toString(),
+      });
+    } else {
+      logger.error(`Unexpected error fetching CoinGecko price: ${error}`, {
+        currency,
+        date,
+      });
     }
   }
 
