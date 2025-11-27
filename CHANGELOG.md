@@ -11,14 +11,23 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 
-## [1.3.0] - 2025-11-13
+## [1.3.0] - 2025-11-27
+
+### Changed
+
+- Bump sablier package and fix the import paths
 
 ### Added
 
-- Add new EVM chains: Core DAO, MONAD ([#249](https://github.com/sablier-labs/indexers/pull/249))
-- Bump sablier package and fix the import paths
+- Add new EVM chains: Core DAO and Monad ([#249](https://github.com/sablier-labs/indexers/pull/249))
 
 ## [1.2.0] - 2025-10-22
+
+### Changed
+
+- Bump `sablier` package to v1.4.0
+- Update documentation in GraphQL files
+- Update `gql` bindings
 
 ### Added
 
@@ -27,12 +36,6 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 - Add `DeprecatedStream` entity in GraphQL schemas, and deprecate fee-less contracts
   ([#189](https://github.com/sablier-labs/indexers/pull/189))
 - Support the latest Sablier releases (Airdrops v2.0, and Flow v2.0, and Lockup v3.0)
-
-### Changed
-
-- Bump `sablier` package to v1.4.0
-- Update documentation in GraphQL files
-- Update `gql` bindings
 
 ### Fixed
 

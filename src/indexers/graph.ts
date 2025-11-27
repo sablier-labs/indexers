@@ -21,18 +21,18 @@ import type { Indexer } from "../types";
 const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
   [chains.blast.id]: "blast-mainnet",
+  [chains.coreDao.id]: "core",
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
-  [chains.coreDao.id]: "core",
 };
 
 /**
  * Custom chain slugs used by Sablier subgraphs.
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
-  [chains.mainnet.id]: "ethereum",
   [chains.coreDao.id]: "core",
+  [chains.mainnet.id]: "ethereum",
 };
 
 /**
@@ -194,6 +194,7 @@ const OFFICIALS: IndexerGraphMap[] = [
     flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",
     lockup: "GvpecytqVzLzuwuQB3enozXoaZRFoVx8Kr7qrfMiE9bs",
   }),
+  // Uncomment when The Graph fixes their support for Monad; see the TG chat
   // official(chains.monad.id, {
   //   airdrops: "6koYFSd8FQizdQWLTdRpL1yTmAbpMgN1vZN5W6ajZiTN",
   //   flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",

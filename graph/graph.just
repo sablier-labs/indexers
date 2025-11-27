@@ -18,11 +18,11 @@ ni := require("ni")
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
+COREDAO_AUTH_TOKEN := env("COREDAO_AUTH_TOKEN")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
-IPFS_CORE_URL := "https://thegraph.coredao.org/ipfs/"
+IPFS_URL_CORE_DAO := "https://thegraph.coredao.org/ipfs/"
 INDEXER_NAME := env("INDEXER_NAME")
-COREDAO_AUTH_TOKEN := env("COREDAO_AUTH_TOKEN")
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
@@ -100,7 +100,7 @@ alias da := deploy-all
 # Deploy to a custom Graph node
 [confirm("⚠️  Deploying to custom nodes overrides the production subgraph. Are you sure you want to do this? (y/N)")]
 [group("deploy")]
-[script]
+[script("bash")]
 @deploy-custom chain_slug version_label: codegen
     extra_args=""
     case {{ chain_slug }} in
@@ -111,12 +111,12 @@ alias da := deploy-all
             ;;
         core)
             node_url="https://thegraph.coredao.org/deploy/"
-            ipfs_url="{{ IPFS_CORE_URL }}"
+            ipfs_url="{{ IPFS_URL_CORE_DAO }}"
             extra_args="--deploy-key {{ COREDAO_AUTH_TOKEN }}"
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             ;;
         *)
-            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: lightlink, core"
+            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: Core DAO, Lightlink"
             exit 1
             ;;
     esac
