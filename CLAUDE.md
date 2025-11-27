@@ -25,7 +25,7 @@ After generating code, run these commands **in order**.
 
 2. **`na biome lint <files>`** — lint JS/TS/JSON/CSS/GraphQL (skip if none changed)
 
-3. **`na tsc`** — verify TypeScript types (always run on entire project)
+3. **`na tsc --noEmit`** — verify TypeScript types (always run on entire project)
 
 **Examples:**
 
