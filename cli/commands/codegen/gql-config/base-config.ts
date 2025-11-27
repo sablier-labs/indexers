@@ -7,7 +7,7 @@
 
 import { join } from "node:path";
 import type { CodegenConfig } from "@graphql-codegen/cli";
-import { sepolia } from "sablier/dist/chains";
+import { sepolia } from "sablier/evm/chains";
 import { EXPORTS_DIR } from "../../../../lib/paths";
 import { getIndexer } from "../../../../src/indexers/getters";
 import type { Indexer } from "../../../../src/types";

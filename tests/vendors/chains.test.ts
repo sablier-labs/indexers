@@ -1,7 +1,7 @@
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import axios from "axios";
 import _ from "lodash";
-import { Protocol } from "sablier";
+import { Protocol } from "sablier/evm";
 import { describe, expect, it } from "vitest";
 import { logger } from "../../lib/winston";
 import { envioChains } from "../../src/indexers/envio";

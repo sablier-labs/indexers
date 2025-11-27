@@ -2,7 +2,8 @@
  * @file Use this file to define new indexers for The Graph.
  *
  */
-import { chains, Protocol, sablier } from "sablier";
+import { sablier } from "sablier";
+import { chains, Protocol } from "sablier/evm";
 import { SUBGRAPH_STUDIO_USER_ID } from "../constants";
 import { Vendor } from "../enums";
 import type { Indexer } from "../types";
@@ -20,6 +21,7 @@ import type { Indexer } from "../types";
 const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
   [chains.blast.id]: "blast-mainnet",
+  [chains.coreDao.id]: "core",
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
@@ -29,6 +31,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  * Custom chain slugs used by Sablier subgraphs.
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
+  [chains.coreDao.id]: "core",
   [chains.mainnet.id]: "ethereum",
 };
 
@@ -129,6 +132,7 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
 
 const CUSTOMS: IndexerGraphMap[] = [
   custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
+  custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/core/{SUBGRAPH_NAME}"),
 ];
 
 const OFFICIALS: IndexerGraphMap[] = [
@@ -190,6 +194,12 @@ const OFFICIALS: IndexerGraphMap[] = [
     flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",
     lockup: "GvpecytqVzLzuwuQB3enozXoaZRFoVx8Kr7qrfMiE9bs",
   }),
+  // Uncomment when The Graph fixes their support for Monad; see the TG chat
+  // official(chains.monad.id, {
+  //   airdrops: "6koYFSd8FQizdQWLTdRpL1yTmAbpMgN1vZN5W6ajZiTN",
+  //   flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",
+  //   lockup: "GvpecytqVzLzuwuQB3enozXoaZRFoVx8Kr7qrfMiE9bs",
+  // }),
   official(chains.optimism.id, {
     airdrops: "CHJtCNDzPqngpa1YJoaVrjuufZL6k6VkEkG9ZFUMQzF7",
     flow: "AygPgsehNGSB4K7DYYtvBPhTpEiU4dCu3nt95bh9FhRf",

@@ -235,7 +235,7 @@ networks:
         start_block: 15120566
       - address: "0x977fdf70abed6b60eeccee85322bea4575b0b6ed"
         name: "SablierFlow_v2_0"
-        start_block: 168340950
+        start_block: 24174155
     id: 59144
     rpc:
       - for: "fallback"
@@ -276,6 +276,17 @@ networks:
         start_block: 29724479
     id: 34443
     start_block: 16616938
+  - contracts:
+      - address: "0x0340a829b6dc3adf7710a5baf1970914af4977f5"
+        name: "SablierFlow_v2_0"
+        start_block: 34582553
+    id: 143
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://monad-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    start_block: 34582553
   - contracts:
       - address: "0xfe6972d0ae797fae343e5a58d0c7d8513937f092"
         name: "SablierFlow_v1_0"
