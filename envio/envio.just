@@ -42,7 +42,7 @@ alias cc := codegen-config
 alias cs := codegen-schema
 
 # Envio CLI: dev, start, stop
-[script]
+[script("bash")]
 envio command tui_mode="tui_on" *args:
     set -a
     if [ "{{ tui_mode }}" = "tui_off" ]; then

@@ -138,6 +138,31 @@ _codegen-envio-bindings indexer:
 @price-data-sync:
     just cli price-data-sync
 
+# Deploy Envio indexer(s) by syncing current branch to deployment branches
+[confirm("This will force-push to deployment branch(es). Continue?")]
+[group("envio")]
+@deploy-envio indexer="all":
+    just envio-for-each _deploy-envio {{ indexer }}
+alias de := deploy-envio
+
+[private]
+[script("bash")]
+_deploy-envio indexer:
+    deployment_branch="deployment/{{ indexer }}"
+    echo "Deploying to $deployment_branch..."
+    git push --force origin HEAD:$deployment_branch
+    echo "✅ Deployed to $deployment_branch"
+
+# Deploy protocol Envio indexers (airdrops, flow, lockup)
+[confirm("This will force-push to deployment branches. Continue?")]
+[group("envio")]
+@deploy-envio-protocols:
+    just concurrent-protocol-indexers \
+        "just _deploy-envio airdrops" \
+        "just _deploy-envio flow" \
+        "just _deploy-envio lockup"
+alias dep := deploy-envio-protocols
+
 
 # ---------------------------------------------------------------------------- #
 #                                SCRIPTS: GRAPH                                #
@@ -148,7 +173,7 @@ _codegen-envio-bindings indexer:
 @build-graph-indexer indexer="all":
     just graph-for-each _build-graph-indexer {{ indexer }}
 
-[script]
+[script("bash")]
 _build-graph-indexer indexer: (codegen-graph indexer)
     manifest_path=graph/{{ indexer }}/manifests/mainnet.yaml
     pnpm graph build \
@@ -177,7 +202,7 @@ _build-graph-indexer indexer: (codegen-graph indexer)
 @codegen-graph-bindings indexer="all":
     just graph-for-each _codegen-graph-bindings {{ indexer }}
 
-[script]
+[script("bash")]
 _codegen-graph-bindings indexer:
     protocol_dir="graph/{{ indexer }}"
     bindings_dir=$protocol_dir/bindings
@@ -286,7 +311,7 @@ codegen-gql-graph:
 
 # Helper to run a recipe for all protocols or a specific one
 [private]
-[script]
+[script("bash")]
 envio-for-each recipe indexer:
     if [ "{{ indexer }}" = "all" ]; then
         just concurrent-envio-indexers \
@@ -300,7 +325,7 @@ envio-for-each recipe indexer:
 
 # Helper to run a recipe for all protocols or a specific one
 [private]
-[script]
+[script("bash")]
 graph-for-each recipe indexer:
     if [ "{{ indexer }}" = "all" ]; then
         just concurrent-protocol-indexers \

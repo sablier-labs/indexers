@@ -77,7 +77,7 @@ alias cs := codegen-schema
 # Deploy the subgraph (the chain_slug is The Graph's chain slug)
 [confirm("Confirm you want to deploy? (y/N)")]
 [group("deploy")]
-[script]
+[script("bash")]
 deploy chain_slug version_label: codegen-schema codegen-manifest
     subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
     manifest_path={{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml
@@ -131,7 +131,7 @@ alias dc := deploy-custom
 
 # Deploy to experimental subgraph on Ethereum Sepolia
 [group("deploy")]
-[script]
+[script("bash")]
 deploy-experimental version_label: codegen-schema (codegen-manifest "sepolia")
     subgraph_name=sablier-{{ INDEXER_NAME }}-experimental
     manifest_path={{ justfile_dir() }}/manifests/sepolia.yaml
