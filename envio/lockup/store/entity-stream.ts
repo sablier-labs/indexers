@@ -1,3 +1,4 @@
+import { isVersionAfter, isVersionBefore } from "sablier";
 import { Version } from "sablier/evm";
 import type { Envio } from "../../common/bindings";
 import { NOT_AVAILABLE } from "../../common/constants";
@@ -139,7 +140,7 @@ function addCliff(
 
   // In v2.0 and later, the cliff time is set to zero if there is no cliff.
   // See https://github.com/sablier-labs/lockup/blob/v2.0/src/libraries/Helpers.sol#L204-L219
-  if (stream.version === Version.Lockup.V2_0 || stream.version === Version.Lockup.V3_0) {
+  if (isVersionAfter(stream.version as Version.Lockup, Version.Lockup.V1_2)) {
     if (params.cliffTime !== 0n) {
       return {
         cliff: true,
@@ -169,7 +170,7 @@ function addCliff(
   // In v1.0 and v1.1, no cliff means the cliff time is equal to the start time.
   // See https://github.com/sablier-labs/lockup/blob/v1.1/src/libraries/Helpers.sol#L88-L103
   // See https://github.com/sablier-labs/lockup/blob/v1.0/src/libraries/Helpers.sol#L88-L103
-  if (stream.version === Version.Lockup.V1_0 || stream.version === Version.Lockup.V1_1) {
+  if (isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V1_2)) {
     if (cliffDuration !== 0n) {
       return {
         cliff: true,
@@ -206,10 +207,7 @@ function addLinearShape(stream: Entity.Stream, cliff?: boolean): Pick<Entity.Str
   }
 
   // Note: <v1.2 streams didn't have the unlock shapes.
-  const isV1_0 = stream.version === Version.Lockup.V1_0;
-  const isV1_1 = stream.version === Version.Lockup.V1_1;
-  const isV1_2 = stream.version === Version.Lockup.V1_2;
-  if (!isV1_0 && !isV1_1 && !isV1_2) {
+  if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
     return { shape: stream.shape };
   }
 
