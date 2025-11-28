@@ -20,12 +20,13 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
       : undefined;
     const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
 
+    // Order matters for readability in the YAML config file.
     networks.push({
-      contracts,
-      hypersync_config,
       id: chain.id,
-      rpc,
       start_block: 0,
+      hypersync_config,
+      rpc,
+      contracts,
     });
   }
 
