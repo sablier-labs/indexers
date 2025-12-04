@@ -1,6 +1,12 @@
 # See https://github.com/sablier-labs/devkit/blob/main/just/base.just
 import "./node_modules/@sablier/devkit/just/base.just"
 
+# Type check with tsgo (override devkit's tsc-check)
+[group("checks")]
+[no-cd]
+@tsc-check project="tsconfig.json":
+    na tsgo --noEmit --project {{ project }}
+
 set dotenv-load
 
 # ---------------------------------------------------------------------------- #
@@ -134,14 +140,14 @@ _codegen-envio-bindings indexer:
 [group("checks")]
 [group("cli")]
 [group("envio")]
-@price-data-check:
-    just cli price-data-check
+@prices-check:
+    just cli prices-check
 
 # Sync price data from @sablier/price-data to Envio cache
 [group("cli")]
 [group("envio")]
-@price-data-sync:
-    just cli price-data-sync
+@prices-sync:
+    just cli prices-sync
 
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
 [confirm("This will force-push to deployment branch(es). Continue?")]

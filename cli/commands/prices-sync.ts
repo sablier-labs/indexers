@@ -1,9 +1,10 @@
 import * as path from "node:path";
+import { Command as CliCommand } from "@effect/cli";
+import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
-import type { Command } from "commander";
-import * as fs from "fs-extra";
+import { Console, Effect } from "effect";
 import { coinConfigs } from "../../envio/analytics/effects/coingecko";
-import * as helpers from "../helpers";
+import { FileOperationError, ProcessError } from "../errors";
 import { colors, createTable, displayHeader } from "../shared/display-utils";
 
 const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
@@ -32,54 +33,61 @@ function getRequiredFiles(): Array<{ name: string; sourceDir: "crypto" | "forex"
   return files;
 }
 
-function priceDataSyncCommand(): Command {
-  const command = helpers.createBaseCmd("Sync price data from @sablier/price-data to Envio cache");
+type SyncResult = {
+  destPath: string;
+  name: string;
+  sourceDir: string;
+  status: "copied" | "error";
+};
 
-  command.action(async () => {
+const priceDataSyncLogic = () =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+
     displayHeader("🔄 SYNCING PRICE DATA", "cyan");
 
     // Ensure cache directory exists
-    fs.ensureDirSync(CACHE_DIR);
+    yield* fs.makeDirectory(CACHE_DIR, { recursive: true });
 
     // Remove existing TSV files
-    const existingFiles = fs.readdirSync(CACHE_DIR).filter((file) => file.endsWith(".tsv"));
-    if (existingFiles.length > 0) {
-      console.log("");
-      console.log(colors.warning(`🗑️  Removing ${existingFiles.length} existing TSV files from cache...`));
-      for (const file of existingFiles) {
-        fs.unlinkSync(path.join(CACHE_DIR, file));
+    const entries = yield* fs.readDirectory(CACHE_DIR);
+    const existingTsvFiles = entries.filter((file) => file.endsWith(".tsv"));
+
+    if (existingTsvFiles.length > 0) {
+      yield* Console.log("");
+      yield* Console.log(colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing TSV files from cache...`));
+      for (const file of existingTsvFiles) {
+        yield* fs.remove(path.join(CACHE_DIR, file));
       }
     }
 
     // Copy required files
     const requiredFiles = getRequiredFiles();
-    type SyncResult = {
-      destPath: string;
-      name: string;
-      sourceDir: string;
-      status: "copied" | "error";
-    };
-
     const results: SyncResult[] = [];
 
     for (const { name, sourceDir } of requiredFiles) {
       const sourcePath = path.join(PRICE_DATA_DIR, sourceDir, name);
       const destPath = path.join(CACHE_DIR, name);
 
-      if (!fs.existsSync(sourcePath)) {
-        throw new Error(`Source file not found: ${sourcePath}`);
+      const sourceExists = yield* fs.exists(sourcePath);
+      if (!sourceExists) {
+        return yield* Effect.fail(
+          new FileOperationError({ message: "Source file not found", operation: "read", path: sourcePath }),
+        );
       }
 
-      try {
-        fs.copyFileSync(sourcePath, destPath);
-        results.push({ destPath, name, sourceDir, status: "copied" });
-      } catch {
-        results.push({ destPath, name, sourceDir, status: "error" });
-      }
+      const copyResult = yield* fs.copy(sourcePath, destPath).pipe(
+        Effect.match({
+          onFailure: () => ({ destPath, name, sourceDir, status: "error" as const }),
+          onSuccess: () => ({ destPath, name, sourceDir, status: "copied" as const }),
+        }),
+      );
+
+      results.push(copyResult);
     }
 
     // Display sync results table
-    console.log("");
+    yield* Console.log("");
     const table = createTable({
       colWidths: [25, 15, 15, 45],
       head: ["File", "Source Dir", "Status", "Destination"],
@@ -91,13 +99,13 @@ function priceDataSyncCommand(): Command {
       table.push([colors.value(result.name), colors.dim(result.sourceDir), statusText, colors.dim(result.destPath)]);
     }
 
-    console.log(table.toString());
+    yield* Console.log(table.toString());
 
     // Summary statistics
     const copied = results.filter((r) => r.status === "copied").length;
     const errors = results.filter((r) => r.status === "error").length;
 
-    console.log("");
+    yield* Console.log("");
     const summaryTable = createTable({
       colWidths: [20, 10],
       head: ["Status", "Count"],
@@ -110,18 +118,17 @@ function priceDataSyncCommand(): Command {
       [chalk.cyan.bold("Total Files"), chalk.white.bold(results.length.toString())],
     );
 
-    console.log(summaryTable.toString());
+    yield* Console.log(summaryTable.toString());
 
-    console.log("");
+    yield* Console.log("");
     if (errors === 0) {
-      console.log(colors.success(`✅ Successfully synced ${copied} price data files to cache`));
+      yield* Console.log(colors.success(`✅ Successfully synced ${copied} price data files to cache`));
     } else {
-      console.log(colors.error(`❌ Sync completed with ${errors} errors`));
-      process.exit(1);
+      yield* Console.log(colors.error(`❌ Sync completed with ${errors} errors`));
+      return yield* Effect.fail(
+        new ProcessError({ command: "price-data-sync", message: `Sync completed with ${errors} errors` }),
+      );
     }
   });
 
-  return command;
-}
-
-export const priceDataSyncCmd = priceDataSyncCommand();
+export const pricesSyncCommand = CliCommand.make("prices-sync", {}, priceDataSyncLogic);
