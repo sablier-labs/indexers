@@ -2,56 +2,74 @@
  * @file Main CLI entry point for Sablier Indexers utilities
  *
  * @example
- * pnpm tsx cli check-vendors --chain-id 1
- * pnpm tsx cli codegen schema --vendor graph --indexer flow
- * pnpm tsx cli print-chains
+ * pnpm tsx cli print chains
+ * pnpm tsx cli print chains --graph
+ * pnpm tsx cli codegen (placeholder)
  */
 
-import { Command } from "commander";
+import { Command } from "@effect/cli";
+import { NodeRuntime } from "@effect/platform-node";
 import dotenv from "dotenv";
-import { checkVendorsCmd } from "./commands/check-vendors";
-import { envioConfigCmd } from "./commands/codegen/envio-config";
-import { graphManifestCmd } from "./commands/codegen/graph-manifest";
-import { schemaCmd } from "./commands/codegen/schema";
-import { exportSchemaCmd } from "./commands/export-schema";
-import { graphDeployAllCmd } from "./commands/graph-deploy-all";
-import { priceDataCheckCmd } from "./commands/price-data-check";
-import { priceDataSyncCmd } from "./commands/price-data-sync";
-import { printChainsCmd } from "./commands/print-chains";
+import { Effect } from "effect";
+import { checkVendorsCommand } from "./commands/check-vendors";
+import { envioConfigCommand } from "./commands/codegen/envio-config";
+import { graphManifestCommand } from "./commands/codegen/graph-manifest";
+import { schemaCommand } from "./commands/codegen/schema";
+import { exportSchemaCommand } from "./commands/export-schema";
+import { graphDeployAllCommand } from "./commands/graph-deploy-all";
+import { pricesCheckCommand } from "./commands/prices-check";
+import { pricesSyncCommand } from "./commands/prices-sync";
+import { printChainsCommand } from "./commands/print-chains";
+import { CliLive } from "./context";
 
-dotenv.config({ quiet: true });
+/* -------------------------------------------------------------------------- */
+/*                                PRINT GROUP                                 */
+/* -------------------------------------------------------------------------- */
 
-export async function main() {
-  const program = new Command();
-  program.name("indexers-cli").description("CLI for Sablier Indexers utilities");
+const printCommand = Command.make("print", {}).pipe(
+  Command.withDescription("Print information commands"),
+  Command.withSubcommands([printChainsCommand]),
+);
 
-  /* -------------------------------------------------------------------------- */
-  /*                                CODEGEN GROUP                               */
-  /* -------------------------------------------------------------------------- */
-  const codegen = program.command("codegen").description("Code generation commands");
+/* -------------------------------------------------------------------------- */
+/*                                CODEGEN GROUP                               */
+/* -------------------------------------------------------------------------- */
 
-  codegen.addCommand(envioConfigCmd.name("envio-config"));
-  codegen.addCommand(graphManifestCmd.name("graph-manifest"));
-  codegen.addCommand(schemaCmd.name("schema"));
+const codegenCommand = Command.make("codegen", {}).pipe(
+  Command.withDescription("Code generation commands"),
+  Command.withSubcommands([schemaCommand, envioConfigCommand, graphManifestCommand]),
+);
 
-  /* -------------------------------------------------------------------------- */
-  /*                                 PRINT GROUP                                */
-  /* -------------------------------------------------------------------------- */
-  const print = program.command("print").description("Print information commands");
+/* -------------------------------------------------------------------------- */
+/*                                ROOT COMMAND                                */
+/* -------------------------------------------------------------------------- */
 
-  print.addCommand(printChainsCmd.name("chains"));
+const rootCommand = Command.make("indexers-cli").pipe(
+  Command.withDescription("CLI for Sablier Indexers utilities"),
+  Command.withSubcommands([
+    printCommand,
+    codegenCommand,
+    checkVendorsCommand,
+    exportSchemaCommand,
+    graphDeployAllCommand,
+    pricesCheckCommand,
+    pricesSyncCommand,
+  ]),
+);
 
-  /* -------------------------------------------------------------------------- */
-  /*                                   OTHERS                                   */
-  /* -------------------------------------------------------------------------- */
+const cli = Command.run(rootCommand, {
+  name: "Indexers CLI",
+  version: "1.0.0",
+});
 
-  program.addCommand(priceDataCheckCmd.name("price-data-check"));
-  program.addCommand(checkVendorsCmd.name("check-vendors"));
-  program.addCommand(exportSchemaCmd.name("export-schema"));
-  program.addCommand(graphDeployAllCmd.name("graph-deploy-all"));
-  program.addCommand(priceDataSyncCmd.name("price-data-sync"));
+/* -------------------------------------------------------------------------- */
+/*                                   MAIN                                     */
+/* -------------------------------------------------------------------------- */
 
-  program.parse();
+export function main() {
+  dotenv.config({ quiet: true });
+
+  cli(process.argv).pipe(Effect.provide(CliLive), NodeRuntime.runMain);
 }
 
-main().catch(console.error);
+main();
