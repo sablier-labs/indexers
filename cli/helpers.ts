@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import { Command } from "commander";
+import { Effect } from "effect";
 import * as yaml from "js-yaml";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
@@ -7,61 +7,55 @@ import stripAnsi from "strip-ansi";
 import type { EnvioConfig } from "./commands/codegen/envio-config/config-types";
 import type { GraphManifest } from "./commands/codegen/graph-manifest/manifest-types";
 import { AUTOGEN_COMMENT, INDEXERS, VENDORS } from "./constants";
+import { ChainNotFoundError, ValidationError } from "./errors";
 import type { ChainArg, IndexerArg, VendorArg } from "./types";
 
-export function addChainOpt(command: Command): Command {
-  return command.option("-c, --chain <string>", 'chain slug (use "all" for all chains)');
-}
-
-export function addIndexerOpt(command: Command): Command {
-  return command.option("-i, --indexer <string>", `${INDEXERS.join(", ")}, or "all"`);
-}
-
-export function addVendorOpt(command: Command): Command {
-  return command.option("-v, --vendor <string>", `${VENDORS.join(", ")}, or "all"`);
-}
-
-export function createBaseCmd(description: string): Command {
-  return new Command()
-    .description(description)
-    .helpOption("-h, --help", "display help for command")
-    .option("--verbose", "enable verbose logging");
-}
-
-export function parseChainOpt(chainValue: string | undefined): ChainArg {
+export function parseChainOpt(
+  chainValue: string | undefined,
+): Effect.Effect<ChainArg, ValidationError | ChainNotFoundError> {
   if (!chainValue) {
-    throw new Error("--chain is required. Use 'all' to target all chains.");
+    return Effect.fail(
+      new ValidationError({ field: "chain", message: "--chain is required. Use 'all' to target all chains." }),
+    );
   }
 
   if (chainValue === "all") {
-    return "all";
+    return Effect.succeed("all");
   }
 
-  getChain(chainValue);
-  return chainValue as ChainArg;
+  return getChain(chainValue).pipe(Effect.map(() => chainValue as ChainArg));
 }
 
-export function parseIndexerOpt(indexerValue: string | undefined): IndexerArg {
+export function parseIndexerOpt(indexerValue: string | undefined): Effect.Effect<IndexerArg, ValidationError> {
   if (!indexerValue) {
-    throw new Error("--indexer is required. Use 'all' to target all indexers.");
+    return Effect.fail(
+      new ValidationError({ field: "indexer", message: "--indexer is required. Use 'all' to target all indexers." }),
+    );
   }
 
   if (![...INDEXERS, "all"].includes(indexerValue)) {
-    throw new Error(`--indexer must be either ${INDEXERS.join(", ")}, or "all"`);
+    return Effect.fail(
+      new ValidationError({ field: "indexer", message: `--indexer must be either ${INDEXERS.join(", ")}, or "all"` }),
+    );
   }
 
-  return indexerValue as IndexerArg;
+  return Effect.succeed(indexerValue as IndexerArg);
 }
-export function parseVendorOpt(vendorValue: string | undefined): VendorArg {
+
+export function parseVendorOpt(vendorValue: string | undefined): Effect.Effect<VendorArg, ValidationError> {
   if (!vendorValue) {
-    throw new Error("--vendor is required. Use 'all' to target all vendors.");
+    return Effect.fail(
+      new ValidationError({ field: "vendor", message: "--vendor is required. Use 'all' to target all vendors." }),
+    );
   }
 
   if (![...VENDORS, "all"].includes(vendorValue)) {
-    throw new Error(`--vendor must be either ${VENDORS.join(", ")}, or "all"`);
+    return Effect.fail(
+      new ValidationError({ field: "vendor", message: `--vendor must be either ${VENDORS.join(", ")}, or "all"` }),
+    );
   }
 
-  return vendorValue as VendorArg;
+  return Effect.succeed(vendorValue as VendorArg);
 }
 
 export function dumpYAML(input: GraphManifest.TopSection | EnvioConfig.TopSection): string {
@@ -74,16 +68,12 @@ export function dumpYAML(input: GraphManifest.TopSection | EnvioConfig.TopSectio
   return `${AUTOGEN_COMMENT}${yamlContent}`;
 }
 
-export function getChain(chainArg: string): Sablier.Chain {
+export function getChain(chainArg: string): Effect.Effect<Sablier.Chain, ChainNotFoundError> {
   const chain = sablier.chains.getBySlug(chainArg);
   if (!chain) {
-    const availableChains = sablier.chains
-      .getAll()
-      .map((c) => c.slug)
-      .join(", ");
-    throw new Error(`Chain "${chainArg}" is not supported.\nAvailable chains: ${availableChains}`);
+    return Effect.fail(new ChainNotFoundError({ chainSlug: chainArg }));
   }
-  return chain;
+  return Effect.succeed(chain);
 }
 
 export function getRelative(absolutePath: string): string {
