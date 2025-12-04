@@ -1,12 +1,6 @@
 # See https://github.com/sablier-labs/devkit/blob/main/just/base.just
 import "./node_modules/@sablier/devkit/just/base.just"
 
-# Type check with tsgo (override devkit's tsc-check)
-[group("checks")]
-[no-cd]
-@tsc-check project="tsconfig.json":
-    na tsgo --noEmit --project {{ project }}
-
 set dotenv-load
 
 # ---------------------------------------------------------------------------- #
