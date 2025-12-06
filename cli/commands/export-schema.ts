@@ -1,44 +1,49 @@
+import { Command } from "@effect/cli";
+import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
-import type { Command } from "commander";
-import * as fs from "fs-extra";
+import { Console, Effect } from "effect";
 import { print } from "graphql";
 import _ from "lodash";
 import paths from "../../lib/paths";
 import { getMergedSchema } from "../../schema";
 import { PROTOCOLS } from "../constants";
-import * as helpers from "../helpers";
+import { ProcessError } from "../errors";
+import { getRelative } from "../helpers";
 import { colors, createTable, displayHeader } from "../shared/display-utils";
 
-function exportSchemaCommand(): Command {
-  const command = helpers.createBaseCmd("Copy GraphQL schemas to the dist directory");
+type ExportResult = {
+  outputPath: string;
+  protocol: string;
+  status: "exported" | "error";
+};
 
-  command.action(async () => {
+const exportSchemaLogic = () =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+
     displayHeader("📦 EXPORTING GRAPHQL SCHEMAS", "cyan");
 
-    fs.ensureDirSync(paths.exports.schemas());
-
-    type ExportResult = {
-      outputPath: string;
-      protocol: string;
-      status: "exported" | "error";
-    };
+    // Ensure the export directory exists
+    const exportDir = paths.exports.schemas();
+    yield* fs.makeDirectory(exportDir, { recursive: true });
 
     const results: ExportResult[] = [];
 
+    // Process each protocol
     for (const protocol of PROTOCOLS) {
-      try {
+      const result = yield* Effect.gen(function* () {
         // Using Envio because they have the most complete schema. See the User and Revenue entities.
         const schema = print(getMergedSchema(protocol));
         const outputPath = paths.exports.schema(protocol);
-        fs.writeFileSync(outputPath, schema);
-        results.push({ outputPath: helpers.getRelative(outputPath), protocol, status: "exported" });
-      } catch {
-        results.push({ outputPath: "", protocol, status: "error" });
-      }
+        yield* fs.writeFileString(outputPath, schema);
+        return { outputPath: getRelative(outputPath), protocol, status: "exported" as const };
+      }).pipe(Effect.catchAll(() => Effect.succeed({ outputPath: "", protocol, status: "error" as const })));
+
+      results.push(result);
     }
 
     // Display results table
-    console.log("");
+    yield* Console.log("");
     const table = createTable({
       colWidths: [20, 50, 15],
       head: ["Protocol", "Output Path", "Status"],
@@ -50,13 +55,13 @@ function exportSchemaCommand(): Command {
       table.push([colors.value(_.capitalize(result.protocol)), colors.dim(result.outputPath), statusText]);
     }
 
-    console.log(table.toString());
+    yield* Console.log(table.toString());
 
     // Summary statistics
     const exported = results.filter((r) => r.status === "exported").length;
     const errors = results.filter((r) => r.status === "error").length;
 
-    console.log("");
+    yield* Console.log("");
     const summaryTable = createTable({
       colWidths: [20, 10],
       head: ["Status", "Count"],
@@ -69,18 +74,17 @@ function exportSchemaCommand(): Command {
       [chalk.cyan.bold("Total Schemas"), chalk.white.bold(results.length.toString())],
     );
 
-    console.log(summaryTable.toString());
+    yield* Console.log(summaryTable.toString());
 
-    console.log("");
+    yield* Console.log("");
     if (errors === 0) {
-      console.log(colors.success(`✅ Successfully exported ${exported} GraphQL schemas`));
+      yield* Console.log(colors.success(`✅ Successfully exported ${exported} GraphQL schemas`));
     } else {
-      console.log(colors.error(`❌ Export completed with ${errors} errors`));
-      process.exit(1);
+      yield* Console.log(colors.error(`❌ Export completed with ${errors} errors`));
+      return yield* Effect.fail(
+        new ProcessError({ command: "export-schema", message: `Export completed with ${errors} errors` }),
+      );
     }
   });
 
-  return command;
-}
-
-export const exportSchemaCmd = exportSchemaCommand();
+export const exportSchemaCommand = Command.make("export-schema", {}, exportSchemaLogic);
