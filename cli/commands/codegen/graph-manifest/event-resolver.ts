@@ -1,5 +1,5 @@
+import * as fs from "node:fs";
 import type { AbiEventParameter } from "abitype";
-import * as fs from "fs-extra";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
 import { sanitizeContractName } from "../../../../lib/helpers";

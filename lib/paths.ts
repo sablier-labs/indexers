@@ -1,6 +1,6 @@
+import * as fs from "node:fs";
 import path, { join } from "node:path";
 import appRoot from "app-root-path";
-import * as fs from "fs-extra";
 import type { Indexer } from "../src";
 import { getGraphChainSlug } from "../src/indexers/graph";
 import type { Types } from "./types";
