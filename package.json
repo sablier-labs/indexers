@@ -31,7 +31,6 @@
     "@pinax/graph-networks-registry": "^0.7.1",
     "@sablier/devkit": "github:sablier-labs/devkit#main",
     "@sablier/price-data": "github:sablier-labs/price-data#main",
-    "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.18",
     "@types/node": "^24.0.3",

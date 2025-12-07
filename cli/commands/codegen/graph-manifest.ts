@@ -11,12 +11,12 @@
  * Use 'all' to generate for all chains.
  */
 
+import * as fs from "node:fs";
 import { writeFileSync } from "node:fs";
 import * as path from "node:path";
 import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import * as fs from "fs-extra";
 import _ from "lodash";
 import { sablier } from "sablier";
 import paths from "../../../lib/paths";
@@ -69,7 +69,7 @@ function generateManifest(indexer: Indexer.Name, chainArg: string): Effect.Effec
   return Effect.gen(function* () {
     const chain = yield* helpers.getChain(chainArg);
     const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
-    fs.ensureDirSync(manifestsDir);
+    fs.mkdirSync(manifestsDir, { recursive: true });
 
     const manifestPath = writeManifestToFile(indexer as Indexer.Protocol, chain.id);
     yield* Console.log(`✅ Generated subgraph manifest for ${chainArg}`);
@@ -85,10 +85,11 @@ function generateAllChainManifests(
   return Effect.gen(function* () {
     const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
 
-    if (fs.pathExistsSync(manifestsDir)) {
-      fs.emptyDirSync(manifestsDir);
-      fs.ensureFileSync(path.join(manifestsDir, ".gitkeep"));
+    if (fs.existsSync(manifestsDir)) {
+      fs.rmSync(manifestsDir, { force: true, recursive: true });
     }
+    fs.mkdirSync(manifestsDir, { recursive: true });
+    fs.writeFileSync(path.join(manifestsDir, ".gitkeep"), "");
 
     const results: ManifestResult[] = [];
 
