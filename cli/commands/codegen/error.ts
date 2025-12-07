@@ -1,7 +1,7 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
+import { formatRelease } from "../../../lib/logger/helpers";
 import type { Types } from "../../../lib/types";
-import { formatRelease } from "../../../lib/winston/helpers";
 import type { Indexer } from "../../../src";
 
 export namespace CodegenError {

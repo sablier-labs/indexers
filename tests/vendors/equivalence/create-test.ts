@@ -4,7 +4,7 @@ import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
-import { logger } from "../../../lib/winston";
+import { logger } from "../../../lib/logger";
 import type { Indexer } from "../../../src";
 import type { Order_By, OrderDirection } from "../../../src/types";
 
@@ -80,7 +80,7 @@ async function fetchEntities(
       const stringifiedError = JSON.stringify(error, null, 2);
       logger.error(`Request failed: ${stringifiedError}`);
     } catch {
-      logger.error("Request failed:", error);
+      logger.error(`Request failed: ${error}`);
     }
     return undefined;
   }
