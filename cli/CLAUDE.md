@@ -4,13 +4,15 @@ Internal CLI for Sablier Indexers development and deployment operations.
 
 ## Architecture
 
-**Framework**: Commander.js
+**Framework**: @effect/cli (Effect-TS)
 
 **Structure**:
 
-- `cli/index.ts` - Entry point, command registration
-- `cli/commands/` - Individual command implementations
-- `cli/helpers.ts` - Shared utilities (createBaseCmd, parseIndexerOpt, etc.)
+- `cli/index.ts` - Entry point, command registration with @effect/cli
+- `cli/commands/` - Individual command implementations using Effect patterns
+- `cli/services/` - Service layers (http, filesystem, process, prompt, logging)
+- `cli/errors.ts` - Tagged error definitions
+- `cli/helpers.ts` - Shared utilities (parseIndexerOpt, dumpYAML, etc.)
 - `cli/types.ts` - TypeScript types
 
 **Invocation**:
@@ -27,39 +29,43 @@ Internal CLI for Sablier Indexers development and deployment operations.
 
 - `check-vendors` - Validate vendor configurations
 - `export-schema` - Export GraphQL schemas
-- `graph-deploy-all` - Deploy all indexers to The Graph
-- `price-data-check` - Validate price data cache
-- `price-data-sync` - Sync price data from @sablier/price-data
+- `graph-deploy-all` - Deploy all indexers to The Graph (supports `--dry-run`)
+- `prices-check` - Validate price data cache
+- `prices-sync` - Sync price data from @sablier/price-data
 
 ## Adding New Commands
 
 1. Create `cli/commands/your-command.ts`:
 
    ```typescript
-   import type { Command } from "commander";
-   import * as helpers from "../helpers";
+   import { Command, Options } from "@effect/cli";
+   import { Console, Effect } from "effect";
 
-   function createYourCommand(): Command {
-     const command = helpers.createBaseCmd("Description");
-
-     // Add options
-     command.option("-f, --flag <value>", "description");
-
-     command.action(async (options) => {
-       // Implementation
-     });
-
-     return command;
-   }
-
-   export const yourCmd = createYourCommand();
+   export const yourCommand = Command.make(
+     "your-command",
+     {
+       flag: Options.text("flag").pipe(Options.withAlias("f")),
+     },
+     ({ flag }) =>
+       Effect.gen(function* () {
+         // Implementation using Effect patterns
+         yield* Console.log(`Flag value: ${flag}`);
+       }),
+   ).pipe(Command.withDescription("Description of your command"));
    ```
 
 2. Register in `cli/index.ts`:
 
    ```typescript
-   import { yourCmd } from "./commands/your-command";
-   program.addCommand(yourCmd.name("your-command"));
+   import { yourCommand } from "./commands/your-command";
+
+   // Add to rootCommand subcommands array
+   const rootCommand = Command.make("indexers-cli").pipe(
+     Command.withSubcommands([
+       // ... existing commands
+       yourCommand,
+     ]),
+   );
    ```
 
 3. (Optional) Add justfile recipe:
@@ -67,3 +73,14 @@ Internal CLI for Sablier Indexers development and deployment operations.
    @your-command:
        just cli your-command
    ```
+
+## Effect Patterns
+
+Commands use Effect-TS patterns:
+
+- `Effect.gen` for sequential effect composition
+- `Console.log` for output (instead of console.log)
+- `FileSystem.FileSystem` for file operations
+- `HttpClient` for HTTP requests with automatic retry
+- `CommandExecutor` for shell command execution
+- Tagged errors from `cli/errors.ts` for typed error handling

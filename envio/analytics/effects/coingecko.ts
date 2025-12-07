@@ -177,7 +177,10 @@ async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<
     const response = await axiosInstance.get<CurrentPriceResponse>(url.toString());
 
     if (!response.data?.[coinId]?.usd) {
-      throw new Error(`Invalid response structure from CoinGecko /simple/price API`);
+      logger.warn(`No current price available from CoinGecko for ${currency}`, {
+        coinId,
+      });
+      return NO_PRICE;
     }
 
     return response.data[coinId].usd;
@@ -220,7 +223,11 @@ export async function fetchCoinPrice(logger: Logger, date: string, currency: str
     const response = await axiosInstance.get<CoinGeckoResponse>(url.toString());
 
     if (!response.data?.market_data?.current_price?.usd) {
-      throw new Error(`Invalid response structure from CoinGecko /coins/history API`);
+      logger.warn(`No price data available from CoinGecko for ${currency} on ${date}`, {
+        coinId,
+        date,
+      });
+      return NO_PRICE;
     }
 
     return response.data.market_data.current_price.usd;
