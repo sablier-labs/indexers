@@ -3,9 +3,9 @@ import type { AbiEventParameter } from "abitype";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
 import { sanitizeContractName } from "../../../../lib/helpers";
+import { logger } from "../../../../lib/logger";
 import paths from "../../../../lib/paths";
 import type { Types } from "../../../../lib/types";
-import { logger } from "../../../../lib/winston";
 import type { Indexer } from "../../../../src/types";
 import type { GraphManifest } from "./manifest-types";
 
