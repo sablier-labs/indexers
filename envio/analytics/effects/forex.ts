@@ -1,12 +1,9 @@
 import axios from "axios";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
 import _ from "lodash";
 import { CURRENCY_FREAKS_BASE_URL } from "../../common/constants";
-
-dayjs.extend(utc);
+import { isToday } from "../../common/time";
 
 type CurrencyFreaksResponse = {
   rate: number;
@@ -113,8 +110,4 @@ function handleCurrencyFreaksError(logger: Logger, error: unknown, url: URL): vo
       url: url.toString(),
     });
   }
-}
-
-function isToday(date: string): boolean {
-  return dayjs(date).isSame(dayjs().utc(), "day");
 }
