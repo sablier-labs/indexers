@@ -2,7 +2,6 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 import type { Logger } from "envio";
 import { experimental_createEffect, S } from "envio";
-import _ from "lodash";
 import {
   avalanche,
   berachain,
@@ -17,6 +16,7 @@ import {
   xdc,
 } from "sablier/evm/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants";
+import { isToday } from "../../common/time";
 
 const MAX_RETRIES = 5;
 const NO_PRICE = 0;
@@ -107,19 +107,6 @@ type CurrentPriceResponse = {
     usd: number;
   };
 };
-
-/**
- * Check if a date string (DD-MM-YYYY format) is today in UTC
- */
-function isToday(dateString: string): boolean {
-  const today = new Date();
-  const [day, month, year] = dateString.split("-");
-  return (
-    today.getUTCDate() === _.toInteger(day) &&
-    today.getUTCMonth() + 1 === _.toInteger(month) &&
-    today.getUTCFullYear() === _.toInteger(year)
-  );
-}
 
 function getApiKey(): string {
   const apiKey = process.env.ENVIO_COINGECKO_API_KEY;

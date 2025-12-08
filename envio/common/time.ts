@@ -46,6 +46,13 @@ export function getMonth(timestampInSeconds: number): string {
 }
 
 /**
+ * Check if a date string (YYYY-MM-DD format) is today in UTC.
+ */
+export function isToday(date: string): boolean {
+  return dayjs(date).isSame(dayjs().utc(), "day");
+}
+
+/**
  * This function converts a Unix timestamp to the first day of that month at 00:00:00.
  * @param timestampInSeconds - The Unix timestamp to convert, in seconds.
  * @returns The Date object representing the first day of the month at 00:00:00.
