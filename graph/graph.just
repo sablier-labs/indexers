@@ -116,7 +116,7 @@ alias da := deploy-all
             extra_args="--deploy-key {{ COREDAO_AUTH_TOKEN }}"
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             ;;
-        denergy)
+        denergychain)
             node_url="https://thegraph.denergychain.com/deploy"
             ipfs_url="https://ipfs.denergychain.com"
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
