@@ -22,6 +22,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
   [chains.blast.id]: "blast-mainnet",
   [chains.coreDao.id]: "core",
+  [chains.denergy.id]: "denergychain",
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
@@ -32,6 +33,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
   [chains.coreDao.id]: "core",
+  [chains.denergy.id]: "denergychain",
   [chains.mainnet.id]: "ethereum",
 };
 
