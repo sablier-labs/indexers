@@ -23,6 +23,7 @@ DENERGY_AUTH_TOKEN := env("DENERGY_AUTH_TOKEN")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
 IPFS_URL_CORE_DAO := "https://thegraph.coredao.org/ipfs/"
+IPFS_URL_DENERGY := "https://ipfs.denergychain.com"
 INDEXER_NAME := env("INDEXER_NAME")
 
 # ---------------------------------------------------------------------------- #
@@ -118,7 +119,7 @@ alias da := deploy-all
             ;;
         denergychain)
             node_url="https://thegraph.denergychain.com/deploy"
-            ipfs_url="https://ipfs.denergychain.com"
+            ipfs_url="{{ IPFS_URL_DENERGY }}"
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             extra_args="--access-token {{ DENERGY_AUTH_TOKEN }}"
             ;;
