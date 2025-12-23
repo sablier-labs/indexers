@@ -62,6 +62,11 @@ export const lockupStreamDefs = gql`
     intactAmount: BigInt!
 
     """
+    Flag indicating if the stream has been fully withdrawn (intactAmount is zero).
+    """
+    depleted: Boolean!
+
+    """
     Owner of the proxy when the stream is created through a PRBProxy (https://github.com/PaulRBerg/prb-proxy)
     Note that proxy = stream sender, and proxender = owner of proxy
     """

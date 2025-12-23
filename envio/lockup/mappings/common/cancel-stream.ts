@@ -38,6 +38,7 @@ const handler: Handler = async ({ context, event }) => {
     canceled: true,
     canceledAction_id: Id.action(event),
     canceledTime: BigInt(event.block.timestamp),
+    depleted: event.params.recipientAmount === 0n,
     intactAmount: event.params.recipientAmount,
   };
   context.Stream.set(updatedStream);

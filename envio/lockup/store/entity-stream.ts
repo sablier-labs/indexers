@@ -94,6 +94,7 @@ function createBase(
     cliffAmount: undefined,
     cliffTime: undefined,
     contract: event.srcAddress,
+    depleted: false,
     depositAmount: params.depositAmount,
     duration: params.endTime - params.startTime,
     endTime: params.endTime,

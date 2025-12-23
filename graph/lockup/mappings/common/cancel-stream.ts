@@ -1,4 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+import { ZERO } from "../../../common/constants";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
 import { Params } from "../../helpers/types";
@@ -20,6 +21,7 @@ export function handleCancelLockupStream(event: ethereum.Event, params: Params.C
   stream.cancelable = false;
   stream.canceled = true;
   stream.canceledTime = event.block.timestamp;
+  stream.depleted = params.recipientAmount.equals(ZERO);
   stream.intactAmount = params.recipientAmount; // The only amount remaining in the stream is the recipient amount
 
   /* --------------------------------- ACTION --------------------------------- */

@@ -42,6 +42,7 @@ const handler: Handler = async ({ context, event }) => {
   }
   const updatedStream = {
     ...stream,
+    depleted: intactAmount === 0n,
     intactAmount,
     withdrawnAmount: totalWithdrawnAmount,
   };
