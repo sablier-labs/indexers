@@ -14,8 +14,8 @@
 ## Workflow
 
 1. Edit files in `schema/`
-2. Run `just codegen-schema`
-3. Output written to `envio/{indexer}/schema.graphql` and `graph/{indexer}/schema.graphql`
+2. Run `just export-schema`
+3. Output written to `envio/{indexer}/{indexer}.graphql` and `graph/{indexer}/{indexer}.graphql`
 
 **NEVER** edit generated files directly.
 
