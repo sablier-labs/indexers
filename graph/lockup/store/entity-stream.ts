@@ -140,6 +140,7 @@ function createBaseStream(event: ethereum.Event, params: Params.CreateStreamComm
   stream.transferable = params.transferable;
   stream.version = contractVersion;
   stream.withdrawnAmount = ZERO;
+  stream.depleted = false;
 
   /* --------------------------------- ACTION --------------------------------- */
   const action = createAction(event, {

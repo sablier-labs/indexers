@@ -1,4 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+import { ZERO } from "../../../common/constants";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
 import { Params } from "../../helpers/types";
@@ -27,6 +28,7 @@ export function handleWithdrawFromStream(event: ethereum.Event, params: Params.W
   } else {
     stream.intactAmount = stream.depositAmount.minus(totalWithdrawnAmount);
   }
+  stream.depleted = stream.intactAmount.equals(ZERO);
   stream.save();
 
   /* --------------------------------- ACTION --------------------------------- */
