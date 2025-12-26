@@ -16,6 +16,18 @@ import { createDeprecatedStream } from "./entity-deprecated-stream";
 import { getOrCreateWatcher } from "./entity-watcher";
 
 /* -------------------------------------------------------------------------- */
+/*                                  HELPERS                                   */
+/* -------------------------------------------------------------------------- */
+
+function isV1x(version: string): boolean {
+  return (
+    areStringsEqual(version, LOCKUP_V1_0) ||
+    areStringsEqual(version, LOCKUP_V1_1) ||
+    areStringsEqual(version, LOCKUP_V1_2)
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 /*                                 PUBLIC API                                 */
 /* -------------------------------------------------------------------------- */
 
@@ -30,6 +42,7 @@ export function createStreamDynamic(
   }
 
   const stream = createBaseStream(event, commonParams);
+  addDynamicShape(stream, dynamicParams.segments);
   stream.save();
   addSegments(stream, dynamicParams.segments);
 }
@@ -70,6 +83,7 @@ export function createStreamTranched(
   }
 
   const stream = createBaseStream(event, commonParams);
+  addTranchedShape(stream, tranchedParams.tranches);
   stream.save();
   addTranches(stream, tranchedParams.tranches);
 }
@@ -134,6 +148,9 @@ function createBaseStream(event: ethereum.Event, params: Params.CreateStreamComm
   stream.recipient = params.recipient;
   stream.sender = params.sender;
   stream.shape = params.shape;
+  if (params.shape !== null) {
+    stream.shapeSource = "Event";
+  }
   stream.startTime = params.startTime;
   stream.timestamp = event.block.timestamp;
   stream.tokenId = tokenId;
@@ -215,24 +232,70 @@ function addCliff(
  * @see https://github.com/sablier-labs/interfaces/blob/30fffc0/packages/constants/src/stream/shape.ts#L12
  */
 function addLinearShape(stream: Entity.Stream, cliff: boolean): Entity.Stream {
-  // If the shape was already provided by the user, return it.
-  const shape = stream.shape;
-  if (shape !== null) {
+  if (stream.shape !== null) {
+    stream.shapeSource = "Event";
     return stream;
   }
 
-  // Note: <v1.2 streams didn't have the unlock shapes.
-  const isV1_0 = areStringsEqual(stream.version, LOCKUP_V1_0);
-  const isV1_1 = areStringsEqual(stream.version, LOCKUP_V1_1);
-  const isV1_2 = areStringsEqual(stream.version, LOCKUP_V1_2);
-  if (!isV1_0 && !isV1_1 && !isV1_2) {
+  if (!isV1x(stream.version)) {
     return stream;
   }
 
-  if (cliff) {
-    stream.shape = "cliff";
-  } else {
-    stream.shape = "linear";
+  stream.shape = cliff ? "cliff" : "linear";
+  stream.shapeSource = "Inferred";
+  return stream;
+}
+
+function addDynamicShape(stream: Entity.Stream, segments: Segment[]): Entity.Stream {
+  if (stream.shape !== null) {
+    stream.shapeSource = "Event";
+    return stream;
+  }
+
+  if (!isV1x(stream.version)) {
+    return stream;
+  }
+
+  if (segments.length == 0) {
+    return stream;
+  }
+
+  // Find first non-zero segment index
+  let firstNonZeroIndex = -1;
+  for (let i = 0; i < segments.length; i++) {
+    if (segments[i].amount.gt(ZERO)) {
+      firstNonZeroIndex = i;
+      break;
+    }
+  }
+  const hasCliff = firstNonZeroIndex > 0;
+
+  // Count non-zero segments and get exponent of first non-zero
+  let nonZeroCount = 0;
+  let exponent = ZERO;
+  for (let i = 0; i < segments.length; i++) {
+    if (segments[i].amount.gt(ZERO)) {
+      if (nonZeroCount == 0) {
+        exponent = segments[i].exponent;
+      }
+      nonZeroCount++;
+    }
+  }
+
+  if (nonZeroCount == 1) {
+    if (exponent.gt(ONE)) {
+      stream.shape = hasCliff ? "cliffExponential" : "exponential";
+    } else {
+      stream.shape = hasCliff ? "cliff" : "linear";
+    }
+  } else if (segments.length > 1) {
+    // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
+    // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
+    stream.shape = "backweighted";
+  }
+
+  if (stream.shape !== null) {
+    stream.shapeSource = "Inferred";
   }
   return stream;
 }
@@ -265,6 +328,41 @@ function addSegments(stream: Entity.Stream, segments: Segment[]): Entity.Stream 
     previous = current;
   }
 
+  return stream;
+}
+
+function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): Entity.Stream {
+  if (stream.shape !== null) {
+    stream.shapeSource = "Event";
+    return stream;
+  }
+
+  if (!isV1x(stream.version)) {
+    return stream;
+  }
+
+  const count = tranches.length;
+  if (count == 0) {
+    return stream;
+  }
+
+  if (count == 1) {
+    stream.shape = "timelock";
+  } else if (count == 2) {
+    stream.shape = "doubleUnlock";
+  } else {
+    const firstAmount = tranches[0].amount;
+    let allEqual = true;
+    for (let i = 1; i < count; i++) {
+      if (!tranches[i].amount.equals(firstAmount)) {
+        allEqual = false;
+        break;
+      }
+    }
+    stream.shape = allEqual ? "monthly" : "stepper";
+  }
+
+  stream.shapeSource = "Inferred";
   return stream;
 }
 

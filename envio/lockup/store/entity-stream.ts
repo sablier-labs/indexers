@@ -259,6 +259,8 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResul
       shape = hasCliff ? "cliff" : "linear";
     }
   } else if (segments.length > 1) {
+    // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
+    // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
     shape = "backweighted";
   }
 
