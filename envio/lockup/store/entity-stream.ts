@@ -9,13 +9,17 @@ import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";
 import { update as updateBatch } from "./entity-batch";
 
+type ShapeResult = Pick<Entity.Stream, "shape" | "shapeSource">;
+
 export function createDynamic(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamDynamic,
 ): Entity.Stream {
-  const stream = createBase(context, event, entities, params);
+  const baseStream = createBase(context, event, entities, params);
+  const shape = addDynamicShape(baseStream, params.segments);
+  const stream = { ...baseStream, ...shape };
   context.Stream.set(stream);
   addSegments(context, stream, params.segments);
   return stream;
@@ -31,7 +35,7 @@ export function createLinear(
 
   const cliff = addCliff(baseStream, params);
   const initial = addInitial(params);
-  const shape = addLinearShape(baseStream, cliff.cliff);
+  const shape = addLinearShape(baseStream, cliff.cliff ?? false);
 
   const stream: Entity.Stream = {
     ...baseStream,
@@ -49,7 +53,9 @@ export function createTranched(
   entities: Params.CreateEntities,
   params: Params.CreateStreamTranched,
 ): Entity.Stream {
-  const stream = createBase(context, event, entities, params);
+  const baseStream = createBase(context, event, entities, params);
+  const shape = addTranchedShape(baseStream, params.tranches);
+  const stream = { ...baseStream, ...shape };
   context.Stream.set(stream);
   addTranches(context, stream, params.tranches);
   return stream;
@@ -112,6 +118,7 @@ function createBase(
     renounceTime: undefined,
     sender,
     shape: params.shape ? sanitizeString(params.shape) : undefined,
+    shapeSource: params.shape ? "Event" : undefined,
     startTime: params.startTime,
     subgraphId: counter,
     timestamp: now,
@@ -202,21 +209,88 @@ function addInitial(params: Params.CreateStreamLinear): Pick<Entity.Stream, "ini
  * Older versions of Lockup did not have a shape field, but it can be inferred.
  * @see https://github.com/sablier-labs/interfaces/blob/30fffc0/packages/constants/src/stream/shape.ts#L12
  */
-function addLinearShape(stream: Entity.Stream, cliff?: boolean): Pick<Entity.Stream, "shape"> {
+function addLinearShape(stream: Entity.Stream, cliff: boolean): ShapeResult {
   if (stream.shape) {
-    return { shape: stream.shape };
+    return { shape: stream.shape, shapeSource: "Event" };
   }
-
-  // Note: <v1.2 streams didn't have the unlock shapes.
+  // v2.0+ without shape from event (shouldn't happen, but handle gracefully)
   if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
-    return { shape: stream.shape };
+    return { shape: undefined, shapeSource: undefined };
   }
 
-  if (cliff) {
-    return { shape: "cliff" };
-  } else {
-    return { shape: "linear" };
+  // v1.x inference
+  const shape = cliff ? "cliff" : "linear";
+  return { shape, shapeSource: "Inferred" };
+}
+
+function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResult {
+  if (stream.shape) {
+    return { shape: stream.shape, shapeSource: "Event" };
   }
+  // v2.0+ without shape from event (shouldn't happen, but handle gracefully)
+  if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
+    return { shape: undefined, shapeSource: undefined };
+  }
+
+  if (segments.length === 0) {
+    return { shape: undefined, shapeSource: undefined };
+  }
+
+  // Detect cliff by finding leading zero-amount segments
+  const firstNonZeroIndex = segments.findIndex((seg) => seg.amount > 0n);
+  const hasCliff = firstNonZeroIndex > 0;
+
+  // Count non-zero segments and get the exponent of the first non-zero segment
+  let nonZeroCount = 0;
+  let exponent = 0n;
+  for (const seg of segments) {
+    if (seg.amount > 0n) {
+      nonZeroCount++;
+      if (nonZeroCount === 1) exponent = seg.exponent;
+    }
+  }
+
+  let shape: string | undefined;
+  if (nonZeroCount === 1) {
+    if (exponent > 1n) {
+      shape = hasCliff ? "cliffExponential" : "exponential";
+    } else {
+      // Single segment with exponent <= 1 is mathematically linear
+      shape = hasCliff ? "cliff" : "linear";
+    }
+  } else if (segments.length > 1) {
+    shape = "backweighted";
+  }
+
+  return { shape, shapeSource: shape ? "Inferred" : undefined };
+}
+
+function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): ShapeResult {
+  if (stream.shape) {
+    return { shape: stream.shape, shapeSource: "Event" };
+  }
+  // v2.0+ without shape from event (shouldn't happen, but handle gracefully)
+  if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
+    return { shape: undefined, shapeSource: undefined };
+  }
+
+  const count = tranches.length;
+  if (count === 0) {
+    return { shape: undefined, shapeSource: undefined };
+  }
+
+  let shape: string;
+  if (count === 1) {
+    shape = "timelock";
+  } else if (count === 2) {
+    shape = "doubleUnlock";
+  } else {
+    const firstAmount = tranches[0].amount;
+    const allEqual = tranches.every((t) => t.amount === firstAmount);
+    shape = allEqual ? "monthly" : "stepper";
+  }
+
+  return { shape, shapeSource: "Inferred" };
 }
 
 function addSegments(context: Context.Handler, stream: Entity.Stream, segments: Segment[]): void {

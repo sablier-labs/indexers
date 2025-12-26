@@ -88,6 +88,11 @@ export const lockupStreamDefs = gql`
     """
     shape: String
 
+    """
+    The source of the shape value: Event (from contract event) or Inferred (computed by indexer).
+    """
+    shapeSource: ShapeSource
+
     # ------------------------------ LOCKUP-LINEAR ----------------------------- #
     """
     Flag for Linear streams with a cliff.

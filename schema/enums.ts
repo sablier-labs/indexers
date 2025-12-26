@@ -56,6 +56,11 @@ export namespace Lockup {
     LockupLinear = "LockupLinear",
     LockupTranched = "LockupTranched",
   }
+
+  export enum ShapeSource {
+    Event = "Event",
+    Inferred = "Inferred",
+  }
 }
 
 /**
@@ -87,7 +92,11 @@ export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
       enumDefs.push(getEnum(Flow.ActionCategory, "ActionCategory"), getEnum(Flow.StreamCategory, "StreamCategory"));
       break;
     case Protocol.Lockup:
-      enumDefs.push(getEnum(Lockup.ActionCategory, "ActionCategory"), getEnum(Lockup.StreamCategory, "StreamCategory"));
+      enumDefs.push(
+        getEnum(Lockup.ActionCategory, "ActionCategory"),
+        getEnum(Lockup.StreamCategory, "StreamCategory"),
+        getEnum(Lockup.ShapeSource, "ShapeSource"),
+      );
       break;
   }
 
