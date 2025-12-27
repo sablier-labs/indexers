@@ -125,10 +125,71 @@ function generateSchema(
 
 function generateAllIndexerSchemas(
   vendor: Indexer.Vendor
-): Effect.Effect<void, never, FileSystem.FileSystem> {
+): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
   return Effect.gen(function* () {
-    for (const i of INDEXERS) {
-      yield* generateSchema(vendor, i);
+    displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
+
+    const results = yield* Effect.forEach(INDEXERS, (indexer) =>
+      generateSchemaWithResult(vendor, indexer)
+    );
+
+    // Display results table
+    yield* Console.log("");
+    const table = createTable({
+      colWidths: [15, 15, 50, 15],
+      head: ["Vendor", "Indexer", "Output Path", "Status"],
+      theme: "cyan",
+    });
+
+    for (const result of results) {
+      if (result.status === "skipped") {
+        continue;
+      }
+
+      const statusText =
+        result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
+      table.push([
+        colors.value(_.capitalize(result.vendor)),
+        colors.value(_.capitalize(result.indexer)),
+        colors.dim(result.outputPath),
+        statusText,
+      ]);
+    }
+
+    yield* Console.log(table.toString());
+
+    // Summary statistics
+    const generated = results.filter((r) => r.status === "generated").length;
+    const errors = results.filter((r) => r.status === "error").length;
+    const skipped = results.filter((r) => r.status === "skipped").length;
+
+    yield* Console.log("");
+    const summaryTable = createTable({
+      colWidths: [20, 10],
+      head: ["Status", "Count"],
+      theme: "cyan",
+    });
+
+    summaryTable.push(
+      [colors.success("Generated"), colors.value(generated.toString())],
+      [colors.error("Errors"), colors.value(errors.toString())],
+      [colors.dim("Skipped"), colors.value(skipped.toString())],
+      [chalk.cyan.bold("Total Schemas"), chalk.white.bold((results.length - skipped).toString())]
+    );
+
+    yield* Console.log(summaryTable.toString());
+
+    yield* Console.log("");
+    if (errors === 0) {
+      yield* Console.log(colors.success(`✅ Successfully generated ${generated} GraphQL schemas`));
+    } else {
+      yield* Console.log(colors.error(`❌ Generation completed with ${errors} errors`));
+      return yield* Effect.fail(
+        new ProcessError({
+          command: "codegen schema",
+          message: `Schema generation completed with ${errors} errors`,
+        })
+      );
     }
   });
 }

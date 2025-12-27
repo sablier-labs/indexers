@@ -141,7 +141,7 @@ const priceDataSyncLogic = () =>
       yield* Console.log(colors.error(`❌ Sync completed with ${errors} errors`));
       return yield* Effect.fail(
         new ProcessError({
-          command: "price-data-sync",
+          command: "prices-sync",
           message: `Sync completed with ${errors} errors`,
         })
       );
