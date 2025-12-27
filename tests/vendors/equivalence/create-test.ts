@@ -4,7 +4,7 @@ import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
-import { logger } from "../../../lib/winston";
+import { logger } from "../../../lib/logger";
 import type { Indexer } from "../../../src";
 import type { Order_By, OrderDirection } from "../../../src/types";
 
@@ -47,20 +47,24 @@ type TestConfig = {
   };
   protocol: Indexer.Protocol;
   queries: {
-    envio: Array<TypedDocumentNode<QueryResponse, EnvioQueryVariables>>;
-    graph: Array<TypedDocumentNode<QueryResponse, GraphQueryVariables>>;
+    envio: TypedDocumentNode<QueryResponse, EnvioQueryVariables>[];
+    graph: TypedDocumentNode<QueryResponse, GraphQueryVariables>[];
   };
 };
 
 function getEntities(response: QueryResponse): Entities {
-  return "campaigns" in response ? response.campaigns : "streams" in response ? response.streams : response.actions;
+  return "campaigns" in response
+    ? response.campaigns
+    : "streams" in response
+      ? response.streams
+      : response.actions;
 }
 
 async function fetchEntities(
   vendor: Indexer.Vendor,
   endpoint: string,
   document: DocumentNode,
-  variables: EnvioQueryVariables | GraphQueryVariables,
+  variables: EnvioQueryVariables | GraphQueryVariables
 ): Promise<Entities | undefined> {
   let headers: Record<string, string> = {};
   if (vendor === "graph") {
@@ -80,7 +84,7 @@ async function fetchEntities(
       const stringifiedError = JSON.stringify(error, null, 2);
       logger.error(`Request failed: ${stringifiedError}`);
     } catch {
-      logger.error("Request failed:", error);
+      logger.error(`Request failed: ${error}`);
     }
     return undefined;
   }
@@ -141,7 +145,7 @@ function sanitizeEntity(entity: Entities[number], _vendor: Indexer.Vendor) {
 
       break;
     }
-    case 43114: {
+    case 43_114: {
       // Avalanche
       switch (asset) {
         // Scam token
@@ -193,9 +197,19 @@ export function createEquivalenceTest(config: TestConfig) {
 
       for (let i = 0; i < queries.envio.length; i++) {
         while (!done) {
-          const envioEntities = await fetchEntities("envio", endpoints.envio, queries.envio[i], envioVariables);
-          const graphEntities = await fetchEntities("graph", endpoints.graph, queries.graph[i], graphVariables);
-          if (!envioEntities || !graphEntities) {
+          const envioEntities = await fetchEntities(
+            "envio",
+            endpoints.envio,
+            queries.envio[i],
+            envioVariables
+          );
+          const graphEntities = await fetchEntities(
+            "graph",
+            endpoints.graph,
+            queries.graph[i],
+            graphVariables
+          );
+          if (!(envioEntities && graphEntities)) {
             throw new Error("Failed to fetch data from one of the endpoints");
           }
 
@@ -206,13 +220,15 @@ export function createEquivalenceTest(config: TestConfig) {
             sanitizeEntity(envioEntities[i], "envio");
             sanitizeEntity(graphEntities[i], "graph");
 
-            expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(graphEntities[i]);
+            expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(
+              graphEntities[i]
+            );
           }
 
           totalCount += envioEntities.length;
 
           if (envioEntities.length > 0 && envioEntities.length === envioVariables.first) {
-            const nextId = _.toNumber(envioEntities[envioEntities.length - 1].subgraphId);
+            const nextId = _.toNumber(envioEntities.at(-1)?.subgraphId);
             envioVariables.where.subgraphId = { _gt: nextId };
             graphVariables.where.subgraphId_gt = nextId;
             continue;
@@ -225,6 +241,6 @@ export function createEquivalenceTest(config: TestConfig) {
       expect(totalCount).toBeGreaterThan(0);
       logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
     },
-    timeout,
+    timeout
   );
 }

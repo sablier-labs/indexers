@@ -95,7 +95,10 @@ const getActions = /* GraphQL */ `
  * @param endpoint - The GraphQL endpoint URL
  * @returns All actions from the endpoint
  */
-export async function fetchAllActions(context: HandlerContext, endpoint: string): Promise<Action[]> {
+export async function fetchAllActions(
+  context: HandlerContext,
+  endpoint: string
+): Promise<Action[]> {
   const allActions: Action[] = [];
   let lastSubgraphId = 0;
   const batchSize = 1000;
@@ -136,12 +139,12 @@ export async function fetchAllActions(context: HandlerContext, endpoint: string)
       if (actions.length < batchSize) {
         hasMore = false;
       } else {
-        lastSubgraphId = Number(actions[actions.length - 1].subgraphId);
+        lastSubgraphId = Number(actions.at(-1)?.subgraphId);
         context.log.debug(`Fetched ${allActions.length} actions so far...`);
       }
     } catch (error) {
       context.log.error(
-        `Error fetching actions from GraphQL endpoint: ${error instanceof Error ? error.message : String(error)}`,
+        `Error fetching actions from GraphQL endpoint: ${error instanceof Error ? error.message : String(error)}`
       );
       hasMore = false;
     }
@@ -157,7 +160,11 @@ export async function fetchAllActions(context: HandlerContext, endpoint: string)
  * @param chainId - The chain ID for the actions
  * @param actions - The actions to process
  */
-export async function processActions(context: HandlerContext, chainId: number, actions: Action[]): Promise<void> {
+export async function processActions(
+  context: HandlerContext,
+  chainId: number,
+  actions: Action[]
+): Promise<void> {
   if (actions.length === 0) {
     context.log.info(`No actions found for chain ${chainId}`);
     return;
@@ -186,7 +193,7 @@ export async function processActions(context: HandlerContext, chainId: number, a
         },
       };
 
-      const promises = [];
+      const promises: Promise<void>[] = [];
 
       // Track fees only if non-zero
       if (BigInt(action.fee) !== BigInt(0)) {
@@ -194,11 +201,13 @@ export async function processActions(context: HandlerContext, chainId: number, a
       }
 
       // Filter out null/undefined addresses
-      const addresses = [action.addressA, action.addressB, action.from].filter((addr): addr is string => addr != null);
+      const addresses = [action.addressA, action.addressB, action.from].filter(
+        (addr): addr is string => addr != null
+      );
       promises.push(Store.User.createOrUpdate(context, event, addresses));
 
       await Promise.all(promises);
-    }),
+    })
   );
 
   // Log failures
@@ -220,13 +229,15 @@ export async function processFeeCollections(
   context: HandlerContext,
   chainId: number,
   feeCollections: FeeCollectionPreset[],
-  protocol: Sablier.Protocol,
+  protocol: Sablier.Protocol
 ): Promise<void> {
   if (feeCollections.length === 0) {
     return;
   }
 
-  context.log.info(`Processing ${feeCollections.length} hardcoded fee collections for chain ${chainId}`);
+  context.log.info(
+    `Processing ${feeCollections.length} hardcoded fee collections for chain ${chainId}`
+  );
 
   const results = await Promise.allSettled(
     feeCollections.map(async (fc) => {
@@ -255,7 +266,7 @@ export async function processFeeCollections(
         amount: parseEther(fc.amount),
         protocol,
       });
-    }),
+    })
   );
 
   // Log failures

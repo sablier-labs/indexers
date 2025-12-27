@@ -16,9 +16,11 @@ onBlock(
   },
   async ({ context }) => {
     // Disable preload optimization to prevent double-run.
-    if (context.isPreload) return;
+    if (context.isPreload) {
+      return;
+    }
 
     // Initialize LightLink data
     await initializeLightLinkData(context);
-  },
+  }
 );

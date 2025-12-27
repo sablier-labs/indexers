@@ -50,7 +50,7 @@ function createClient(chainId: number): PublicClient {
   const transports = uniqueRpcUrls.map((url) =>
     http(url, {
       batch: true, // Enable request batching for better performance
-    }),
+    })
   );
 
   // Create public client with fallback transport for resilience

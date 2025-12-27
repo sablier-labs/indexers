@@ -4,7 +4,7 @@
 
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { formatEther, parseEther } from "viem";
+import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
@@ -24,7 +24,11 @@ type LoadedEntities = {
   feeCollectionTransactionId: string;
 };
 
-export async function create(context: HandlerContext, event: Envio.Event, params: Params): Promise<void> {
+export async function create(
+  context: HandlerContext,
+  event: Envio.Event,
+  params: Params
+): Promise<void> {
   const { admin, airdropCampaign, amount, protocol } = params;
 
   // Ignore zero-amount fee collections. This behavior is allowed in the contracts due to the
@@ -47,13 +51,13 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   const amountFormatted = formatEther(amount);
 
   // Update daily aggregates
-  upsertFeeCollection(context, entities, event, { amountFormatted, currency });
+  upsertFeeCollection(context, entities, event, { amount, currency });
 
   // Create transaction entity
   const transaction: Entity.FeeCollection = {
     admin,
-    airdropCampaign: airdropCampaign,
-    amount: amount,
+    airdropCampaign,
+    amount,
     amountDisplay: amountFormatted,
     block: BigInt(event.block.number),
     caller: event.transaction.from || "",
@@ -71,9 +75,17 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   context.FeeCollection.set(transaction);
 }
 
-async function loadEntities(context: HandlerContext, event: Envio.Event, currency: string): Promise<LoadedEntities> {
+async function loadEntities(
+  context: HandlerContext,
+  event: Envio.Event,
+  currency: string
+): Promise<LoadedEntities> {
   const feeCollectionId = Id.feeCollectionDaily(event.block.timestamp, currency);
-  const feeCollectionTransactionId = Id.feeCollection(event.chainId, event.transaction.hash, event.logIndex);
+  const feeCollectionTransactionId = Id.feeCollection(
+    event.chainId,
+    event.transaction.hash,
+    event.logIndex
+  );
 
   const [feeCollection, feeCollectionTransaction] = await Promise.all([
     context.FeeCollectionDaily.get(feeCollectionId),
@@ -92,29 +104,29 @@ function upsertFeeCollection(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { amountFormatted: string; currency: string },
+  params: { amount: bigint; currency: string }
 ): void {
   let { feeCollection } = entities;
   const { feeCollectionId } = entities;
-  const { amountFormatted, currency } = params;
+  const { amount, currency } = params;
 
   const date = getDate(event.block.timestamp);
 
-  if (!feeCollection) {
+  if (feeCollection) {
+    const newAmount = feeCollection.amount + amount;
     feeCollection = {
-      amount: parseEther(amountFormatted),
-      amountDisplay: amountFormatted,
+      ...feeCollection,
+      amount: newAmount,
+      amountDisplay: formatEther(newAmount),
+    };
+  } else {
+    feeCollection = {
+      amount,
+      amountDisplay: formatEther(amount),
       currency,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: feeCollectionId,
-    };
-  } else {
-    const newAmount = (Number(feeCollection.amountDisplay) + Number(amountFormatted)).toString();
-    feeCollection = {
-      ...feeCollection,
-      amount: parseEther(newAmount),
-      amountDisplay: newAmount,
     };
   }
 

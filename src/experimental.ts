@@ -16,7 +16,10 @@ import type { Indexer } from "./types";
 /**
  * The experimental indexers run on Sepolia.
  */
-export function getExperimentalURL(opts: { protocol: Indexer.Protocol; vendor: Indexer.Vendor }): string {
+export function getExperimentalURL(opts: {
+  protocol: Indexer.Protocol;
+  vendor: Indexer.Vendor;
+}): string {
   const { protocol, vendor } = opts;
   if (vendor === "envio") {
     const id = {

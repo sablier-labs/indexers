@@ -36,7 +36,7 @@ function createEffect(currency: string) {
     },
     async ({ context, input: date }) => {
       return await fetchCoinPrice(context.log, date, currency);
-    },
+    }
   );
 }
 
@@ -192,7 +192,11 @@ async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<
  * Fetch the price of a coin from CoinGecko Pro API using axios-retry with exponential backoff (up to 5 retries).
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
-export async function fetchCoinPrice(logger: Logger, date: string, currency: string): Promise<number> {
+export async function fetchCoinPrice(
+  logger: Logger,
+  date: string,
+  currency: string
+): Promise<number> {
   // Route current-day requests to the live price endpoint
   if (isToday(date)) {
     return await fetchCurrentCoinPrice(logger, currency);

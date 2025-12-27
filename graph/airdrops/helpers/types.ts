@@ -53,11 +53,11 @@ export namespace Params {
   }
 
   export class CreateCampaignLockup {
-    cancelable: boolean = false;
+    cancelable = false;
     lockup: Address = Address.zero();
     shape: string | null = null;
     startTime: BigInt | null = null;
-    transferable: boolean = false;
+    transferable = false;
     totalDuration: BigInt = BigInt.zero();
   }
   export class CreateCampaignLL extends CreateCampaignLockup {

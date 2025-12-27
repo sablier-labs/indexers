@@ -1,7 +1,9 @@
 import { CreateLockupLinearStream } from "../../../bindings/SablierLockup_v3_0/SablierLockup";
 import { Store } from "../../../store";
 
-export function handle_SablierLockup_v3_0_CreateLockupLinearStream(event: CreateLockupLinearStream): void {
+export function handle_SablierLockup_v3_0_CreateLockupLinearStream(
+  event: CreateLockupLinearStream
+): void {
   const params = event.params;
   const commonParams = params.commonParams;
 
@@ -25,6 +27,6 @@ export function handle_SablierLockup_v3_0_CreateLockupLinearStream(event: Create
       cliffTime: params.cliffTime,
       unlockAmountCliff: params.unlockAmounts.cliff,
       unlockAmountStart: params.unlockAmounts.start,
-    },
+    }
   );
 }

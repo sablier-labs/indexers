@@ -4,7 +4,10 @@ import { CommonParams } from "../../../common/types";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
-export function handleCreateFlowStream(event: ethereum.Event, params: Params.CreateFlowStream): void {
+export function handleCreateFlowStream(
+  event: ethereum.Event,
+  params: Params.CreateFlowStream
+): void {
   Store.Contract.loadOrCreate(event.address);
   if (isDeprecatedFlowContract(event, "flow", params.token)) {
     Store.DeprecatedStream.create(event, event.address, params.streamId);

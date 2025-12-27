@@ -1,11 +1,11 @@
+import * as fs from "node:fs";
 import type { AbiEventParameter } from "abitype";
-import * as fs from "fs-extra";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
 import { sanitizeContractName } from "../../../../lib/helpers";
+import { logger } from "../../../../lib/logger";
 import paths from "../../../../lib/paths";
 import type { Types } from "../../../../lib/types";
-import { logger } from "../../../../lib/winston";
 import type { Indexer } from "../../../../src/types";
 import type { GraphManifest } from "./manifest-types";
 
@@ -15,7 +15,10 @@ import type { GraphManifest } from "./manifest-types";
  * @param event The event object; @see Types.Event
  * @returns A {@link typeof GraphManifest.EventHandler} object
  */
-export function resolveEventHandler(indexer: Indexer.Name, event: Types.Event): GraphManifest.EventHandler | null {
+export function resolveEventHandler(
+  indexer: Indexer.Name,
+  event: Types.Event,
+): GraphManifest.EventHandler | null {
   const { contractName, eventName, indexers, protocol, version } = event;
   if (!indexers.includes(indexer)) {
     return null;
@@ -37,7 +40,9 @@ export function resolveEventHandler(indexer: Indexer.Name, event: Types.Event): 
       handler: `handle_${sanitizedContractName}_${eventName}`,
     };
   } catch (error) {
-    logger.error(`Error processing ABI for contract ${contractName} and event ${eventName}: ${error}`);
+    logger.error(
+      `Error processing ABI for contract ${contractName} and event ${eventName}: ${error}`,
+    );
     throw error;
   }
 }

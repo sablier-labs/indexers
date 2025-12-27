@@ -35,5 +35,10 @@ Contract.Lockup.Lockup_v3_0.CreateLockupTranchedStream.handler(async ({ context,
   const funder = commonParams[0];
   const sender = commonParams[1];
   const recipient = commonParams[2];
-  await Store.User.createOrUpdate(context, event, [funder, sender, recipient, event.transaction.from]);
+  await Store.User.createOrUpdate(context, event, [
+    funder,
+    sender,
+    recipient,
+    event.transaction.from,
+  ]);
 });

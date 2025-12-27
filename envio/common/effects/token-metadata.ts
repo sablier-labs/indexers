@@ -55,7 +55,7 @@ export const fetchTokenMetadata = experimental_createEffect(
       });
       return UNKNOWN;
     }
-  },
+  }
 );
 
 /* -------------------------------------------------------------------------- */
@@ -98,7 +98,11 @@ async function fetch(chainId: number, address: Envio.Address): Promise<RPCData.E
 
   const decimals = results[0].result ?? DECIMALS_DEFAULT;
   if (results[1].status !== "failure" && results[2].status !== "failure") {
-    const metadata = { decimals, name: sanitize(results[1].result), symbol: sanitize(results[2].result) };
+    const metadata = {
+      decimals,
+      name: sanitize(results[1].result),
+      symbol: sanitize(results[2].result),
+    };
     return metadata;
   }
 
@@ -106,7 +110,10 @@ async function fetch(chainId: number, address: Envio.Address): Promise<RPCData.E
   return metadata;
 }
 
-async function fetchBytes32(chainId: number, address: Envio.Address): Promise<RPCData.ERC20Metadata> {
+async function fetchBytes32(
+  chainId: number,
+  address: Envio.Address
+): Promise<RPCData.ERC20Metadata> {
   const client = getClient(chainId);
   const erc20Bytes32 = { abi: erc20Abi_bytes32, address: address as `0x${string}` };
 

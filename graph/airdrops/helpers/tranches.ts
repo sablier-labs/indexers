@@ -9,7 +9,7 @@ export function convertTranchesV1_2(tranches: StructTrancheV1_2[]): TrancheWithP
   return convertTranches<StructTrancheV1_2>(
     tranches,
     (tranche) => tranche.unlockPercentage,
-    (tranche) => tranche.duration,
+    (tranche) => tranche.duration
   );
 }
 
@@ -17,7 +17,7 @@ export function convertTranchesV1_3(tranches: StructTrancheV1_3[]): TrancheWithP
   return convertTranches<StructTrancheV1_3>(
     tranches,
     (tranche) => tranche.unlockPercentage,
-    (tranche) => tranche.duration,
+    (tranche) => tranche.duration
   );
 }
 
@@ -25,14 +25,14 @@ export function convertTranchesV2_0(tranches: StructTrancheV2_0[]): TrancheWithP
   return convertTranches<StructTrancheV2_0>(
     tranches,
     (tranche) => tranche.unlockPercentage,
-    (tranche) => tranche.duration,
+    (tranche) => tranche.duration
   );
 }
 
 function convertTranches<T>(
   tranches: T[],
   getUnlockPercentage: (tranche: T) => BigInt,
-  getDuration: (tranche: T) => BigInt,
+  getDuration: (tranche: T) => BigInt
 ): TrancheWithPercentage[] {
   const result: TrancheWithPercentage[] = [];
 

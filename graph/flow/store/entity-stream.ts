@@ -8,7 +8,10 @@ import { getOrCreateAsset } from "./entity-asset";
 import { createOrUpdateBatch } from "./entity-batch";
 import { getOrCreateWatcher } from "./entity-watcher";
 
-export function createStream(event: ethereum.Event, params: Params.CreateFlowStream): Entity.Stream {
+export function createStream(
+  event: ethereum.Event,
+  params: Params.CreateFlowStream
+): Entity.Stream {
   const chainId = readChainId();
   const tokenId = params.streamId;
   const streamId = Id.stream(dataSource.address(), tokenId);

@@ -47,7 +47,7 @@ describe("CoinGecko Effects", () => {
           "Chains by currency:",
           ...Array.from(chainsByCurrency.entries()).map(
             ([currency, chains]) =>
-              `  ${currency}: ${chains.join(", ")} ${supportedCurrencies.includes(currency) ? "✅" : "❌"}`,
+              `  ${currency}: ${chains.join(", ")} ${supportedCurrencies.includes(currency) ? "✅" : "❌"}`
           ),
         ].join("\n");
 
@@ -66,7 +66,7 @@ describe("CoinGecko Effects", () => {
       });
 
       const unusedEffects = supportedCurrencies.filter(
-        (currency) => currency !== "GBP" && !usedCurrencies.has(currency),
+        (currency) => currency !== "GBP" && !usedCurrencies.has(currency)
       );
 
       expect(unusedEffects).toEqual([]);

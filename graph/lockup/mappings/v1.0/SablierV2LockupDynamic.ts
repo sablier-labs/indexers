@@ -34,7 +34,9 @@ export function handle_SablierV2LockupDynamic_v1_0_ApprovalForAll(event: Approva
   });
 }
 
-export function handle_SablierV2LockupDynamic_v1_0_CancelLockupStream(event: CancelLockupStream): void {
+export function handle_SablierV2LockupDynamic_v1_0_CancelLockupStream(
+  event: CancelLockupStream
+): void {
   handleCancelLockupStream(event, {
     recipient: event.params.recipient,
     recipientAmount: event.params.recipientAmount,
@@ -44,7 +46,9 @@ export function handle_SablierV2LockupDynamic_v1_0_CancelLockupStream(event: Can
   });
 }
 
-export function handle_SablierV2LockupDynamic_v1_0_CreateLockupDynamicStream(event: CreateLockupDynamicStream): void {
+export function handle_SablierV2LockupDynamic_v1_0_CreateLockupDynamicStream(
+  event: CreateLockupDynamicStream
+): void {
   const params = event.params;
 
   Store.Contract.loadOrCreate(event.address);
@@ -67,11 +71,13 @@ export function handle_SablierV2LockupDynamic_v1_0_CreateLockupDynamicStream(eve
     },
     {
       segments: convertSegmentsV1_0(params.segments),
-    },
+    }
   );
 }
 
-export function handle_SablierV2LockupDynamic_v1_0_RenounceLockupStream(event: RenounceLockupStream): void {
+export function handle_SablierV2LockupDynamic_v1_0_RenounceLockupStream(
+  event: RenounceLockupStream
+): void {
   handleRenounceLockupStream(event, {
     streamId: event.params.streamId,
   });
@@ -85,7 +91,9 @@ export function handle_SablierV2LockupDynamic_v1_0_Transfer(event: Transfer): vo
   });
 }
 
-export function handle_SablierV2LockupDynamic_v1_0_WithdrawFromLockupStream(event: WithdrawFromLockupStream): void {
+export function handle_SablierV2LockupDynamic_v1_0_WithdrawFromLockupStream(
+  event: WithdrawFromLockupStream
+): void {
   handleWithdrawFromStream(event, {
     amount: event.params.amount,
     streamId: event.params.streamId,

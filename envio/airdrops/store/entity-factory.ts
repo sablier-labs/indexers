@@ -3,7 +3,11 @@ import { getContractAlias } from "../../common/deployments";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 
-export function create(context: Context.Handler, chainId: number, factoryAddress: Envio.Address): Entity.Factory {
+export function create(
+  context: Context.Handler,
+  chainId: number,
+  factoryAddress: Envio.Address
+): Entity.Factory {
   const factory: Entity.Factory = {
     address: factoryAddress,
     alias: getContractAlias("airdrops", chainId, factoryAddress),

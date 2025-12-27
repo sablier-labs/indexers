@@ -61,7 +61,9 @@ const handler: Handler = async ({ context, event }) => {
     claimAmount: event.params.amount,
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
-    claimStreamId: campaign.lockup ? Id.stream(campaign.lockup, event.chainId, event.params.streamId) : undefined,
+    claimStreamId: campaign.lockup
+      ? Id.stream(campaign.lockup, event.chainId, event.params.streamId)
+      : undefined,
     claimTo: _.get(event.params, "to") ?? event.params.recipient,
     claimTokenId: BigInt(event.params.streamId),
     fee,

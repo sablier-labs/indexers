@@ -18,7 +18,11 @@ import { areStringsEqual as cmp } from "./strings";
  * @see https://github.com/sablier-labs/indexers/issues/82
  * @see https://x.com/Sablier/status/1914326014995620114
  */
-export function isDeprecatedContract(event: ethereum.Event, protocol: string, asset: Address): boolean {
+export function isDeprecatedContract(
+  event: ethereum.Event,
+  protocol: string,
+  asset: Address
+): boolean {
   // All actions before Sep 19, 2025 are indexed.
   if (event.block.timestamp.lt(SEP_19_2025)) {
     return false;

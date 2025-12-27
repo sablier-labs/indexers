@@ -20,7 +20,7 @@ export function handleClaimInstant(event: ethereum.Event, params: Params.ClaimIn
   Store.Action.create(event, {
     campaign: campaign.id,
     category: "Claim",
-    claimAmount: claimAmount,
+    claimAmount,
     claimIndex: params.index,
     claimRecipient: params.recipient,
     claimTo: params.to,

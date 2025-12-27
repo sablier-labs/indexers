@@ -2,7 +2,9 @@ import { CreateMerkleStreamerLL } from "../../bindings/SablierV2MerkleStreamerFa
 import { SablierV2MerkleStreamerLL_v1_1 as TemplateLL } from "../../bindings/templates";
 import { handleCreateMerkleLL } from "../common";
 
-export function handle_SablierV2MerkleStreamerFactory_v1_1_CreateMerkleStreamerLL(event: CreateMerkleStreamerLL): void {
+export function handle_SablierV2MerkleStreamerFactory_v1_1_CreateMerkleStreamerLL(
+  event: CreateMerkleStreamerLL
+): void {
   const params = event.params;
 
   handleCreateMerkleLL(
@@ -32,6 +34,6 @@ export function handle_SablierV2MerkleStreamerFactory_v1_1_CreateMerkleStreamerL
       startTime: null, // all v1.1 streams use the claim time as the start time
       totalDuration: params.streamDurations.total,
       transferable: params.transferable,
-    },
+    }
   );
 }

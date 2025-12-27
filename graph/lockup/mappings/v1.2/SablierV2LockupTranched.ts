@@ -34,7 +34,9 @@ export function handle_SablierV2LockupTranched_v1_2_ApprovalForAll(event: Approv
   });
 }
 
-export function handle_SablierV2LockupTranched_v1_2_CancelLockupStream(event: CancelLockupStream): void {
+export function handle_SablierV2LockupTranched_v1_2_CancelLockupStream(
+  event: CancelLockupStream
+): void {
   handleCancelLockupStream(event, {
     recipient: event.params.recipient,
     recipientAmount: event.params.recipientAmount,
@@ -45,7 +47,7 @@ export function handle_SablierV2LockupTranched_v1_2_CancelLockupStream(event: Ca
 }
 
 export function handle_SablierV2LockupTranched_v1_2_CreateLockupTranchedStream(
-  event: CreateLockupTranchedStream,
+  event: CreateLockupTranchedStream
 ): void {
   const params = event.params;
 
@@ -69,11 +71,13 @@ export function handle_SablierV2LockupTranched_v1_2_CreateLockupTranchedStream(
     },
     {
       tranches: convertTranchesV1_2(params.tranches),
-    },
+    }
   );
 }
 
-export function handle_SablierV2LockupTranched_v1_2_RenounceLockupStream(event: RenounceLockupStream): void {
+export function handle_SablierV2LockupTranched_v1_2_RenounceLockupStream(
+  event: RenounceLockupStream
+): void {
   handleRenounceLockupStream(event, {
     streamId: event.params.streamId,
   });
@@ -87,7 +91,9 @@ export function handle_SablierV2LockupTranched_v1_2_Transfer(event: Transfer): v
   });
 }
 
-export function handle_SablierV2LockupTranched_v1_2_WithdrawFromLockupStream(event: WithdrawFromLockupStream): void {
+export function handle_SablierV2LockupTranched_v1_2_WithdrawFromLockupStream(
+  event: WithdrawFromLockupStream
+): void {
   handleWithdrawFromStream(event, {
     amount: event.params.amount,
     streamId: event.params.streamId,

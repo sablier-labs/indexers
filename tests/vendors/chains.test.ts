@@ -3,7 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import { Protocol } from "sablier/evm";
 import { describe, expect, it } from "vitest";
-import { logger } from "../../lib/winston";
+import { logger } from "../../lib/logger";
 import { envioChains } from "../../src/indexers/envio";
 import { getIndexerGraph } from "../../src/indexers/getters";
 import { graphChains } from "../../src/indexers/graph";
@@ -24,8 +24,12 @@ describe("Vendors", () => {
       });
 
       if (unsupported.length > 0) {
-        logger.warn(`Chain IDs used by the Sablier Indexers but not supported by The Graph: ${unsupported}`);
-        logger.warn(`All chain IDs supported by The Graph: ${Array.from(supportedChainIds).sort((a, b) => a - b)}`);
+        logger.warn(
+          `Chain IDs used by the Sablier Indexers but not supported by The Graph: ${unsupported}`
+        );
+        logger.warn(
+          `All chain IDs supported by The Graph: ${Array.from(supportedChainIds).sort((a, b) => a - b)}`
+        );
       }
 
       expect(unsupported).toHaveLength(0);
@@ -34,17 +38,23 @@ describe("Vendors", () => {
 
   describe("Envio", () => {
     it("should have the indexer chains supported by Envio", async () => {
-      const response = await axios.get<Array<{ chain_id: number }>>("https://chains.hyperquery.xyz/active_chains");
+      const response = await axios.get<Array<{ chain_id: number }>>(
+        "https://chains.hyperquery.xyz/active_chains"
+      );
       const supportedChainIds = response.data.map((c) => c.chain_id);
 
       // Chains that use RPC as a data source are not supported by Envio.
       const unsupported = envioChains.filter((c) => {
-        return !supportedChainIds.includes(c.id) && !c.config?.hypersync && !c.config?.rpcOnly;
+        return !(supportedChainIds.includes(c.id) || c.config?.hypersync || c.config?.rpcOnly);
       });
 
       if (unsupported.length > 0) {
-        logger.warn(`Chain IDs used by the Sablier Indexers but not supported by Envio: ${unsupported}`);
-        logger.warn(`All chain IDs supported by Envio: ${Array.from(supportedChainIds).sort((a, b) => a - b)}`);
+        logger.warn(
+          `Chain IDs used by the Sablier Indexers but not supported by Envio: ${unsupported}`
+        );
+        logger.warn(
+          `All chain IDs supported by Envio: ${Array.from(supportedChainIds).sort((a, b) => a - b)}`
+        );
       }
 
       expect(unsupported).toHaveLength(0);

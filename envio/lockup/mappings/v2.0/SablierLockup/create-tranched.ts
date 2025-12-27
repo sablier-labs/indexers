@@ -69,7 +69,7 @@ Contract.Lockup_v2_0.CreateLockupTranchedStream.handler(async ({ context, event 
     depositAmount: commonParams[3][0],
     endTime: commonParams[7][1],
     funder: commonParams[0],
-    proxender: proxender,
+    proxender,
     recipient,
     sender,
     shape: commonParams[8],

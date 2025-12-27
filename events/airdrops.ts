@@ -31,7 +31,7 @@ const CLAIM_EVENTS: ClaimEventsConfig = {
 
 const names = contracts.names;
 
-const DEFAULT_INDEXERS: Array<Indexer.Name> = ["airdrops", "analytics"];
+const DEFAULT_INDEXERS: Indexer.Name[] = ["airdrops", "analytics"];
 
 const LOWER_MIN_FEE_EVENTS: Record<Sablier.Version.Airdrops, readonly string[]> = {
   "v1.1": [],
@@ -44,7 +44,7 @@ function get(
   version: Sablier.Version.Airdrops,
   contractName: string,
   eventName: string,
-  indexers: Array<Indexer.Name> = DEFAULT_INDEXERS,
+  indexers: Indexer.Name[] = DEFAULT_INDEXERS
 ): Types.Event {
   return {
     contractName,
@@ -56,12 +56,18 @@ function get(
 }
 
 // Generic merkle contract builder for campaign events
-function campaign(type: CampaignType, version: Sablier.Version.Airdrops, contractName: string): Types.Event[] {
+function campaign(
+  type: CampaignType,
+  version: Sablier.Version.Airdrops,
+  contractName: string
+): Types.Event[] {
   return [
     get(version, contractName, "TransferAdmin"),
     get(version, contractName, "Clawback"),
     ...CLAIM_EVENTS[type][version].map((event) => get(version, contractName, event)),
-    ...LOWER_MIN_FEE_EVENTS[version].map((event) => get(version, contractName, event, ["airdrops"])),
+    ...LOWER_MIN_FEE_EVENTS[version].map((event) =>
+      get(version, contractName, event, ["airdrops"])
+    ),
   ];
 }
 
@@ -70,7 +76,7 @@ function factory(
   version: Sablier.Version.Airdrops,
   contractName: string,
   events: string[],
-  indexerOverrides?: Record<string, Indexer.Name[]>,
+  indexerOverrides?: Record<string, Indexer.Name[]>
 ): Record<string, Record<string, Types.Event[]>> {
   return {
     [contractName]: {
@@ -114,18 +120,23 @@ const airdropHandlers: Types.EventMap = {
     ["CollectFees", "CreateMerkleInstant", "CreateMerkleLL", "CreateMerkleLT"],
     {
       CollectFees: ["analytics"], // index "CollectFees" event only in the Analytics indexer
-    },
+    }
   ),
 
   /* -------------------------------------------------------------------------- */
   /*                                V1.3 and V2.0                               */
   /* -------------------------------------------------------------------------- */
-  [names.SABLIER_MERKLE_INSTANT]: versions((v) => campaign("instant", v, names.SABLIER_MERKLE_INSTANT))([
+  [names.SABLIER_MERKLE_INSTANT]: versions((v) =>
+    campaign("instant", v, names.SABLIER_MERKLE_INSTANT)
+  )(["v1.3", "v2.0"]),
+  [names.SABLIER_MERKLE_LL]: versions((v) => campaign("LL", v, names.SABLIER_MERKLE_LL))([
     "v1.3",
     "v2.0",
   ]),
-  [names.SABLIER_MERKLE_LL]: versions((v) => campaign("LL", v, names.SABLIER_MERKLE_LL))(["v1.3", "v2.0"]),
-  [names.SABLIER_MERKLE_LT]: versions((v) => campaign("LT", v, names.SABLIER_MERKLE_LT))(["v1.3", "v2.0"]),
+  [names.SABLIER_MERKLE_LT]: versions((v) => campaign("LT", v, names.SABLIER_MERKLE_LT))([
+    "v1.3",
+    "v2.0",
+  ]),
 
   /* -------------------------------------------------------------------------- */
   /*                                    V2.0                                    */
