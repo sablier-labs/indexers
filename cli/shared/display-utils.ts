@@ -82,7 +82,7 @@ export function createTable(options: TableOptions = {}): Table.Table {
  */
 export function createSummaryTable(
   data: Array<{ label: string; value: string | number }>,
-  theme: TableTheme = "cyan",
+  theme: TableTheme = "cyan"
 ): Table.Table {
   const table = createTable({ head: ["Metric", "Value"], theme });
 

@@ -70,7 +70,7 @@ Contract.Lockup_v2_0.CreateLockupDynamicStream.handler(async ({ context, event }
     depositAmount: commonParams[3][0],
     endTime: commonParams[7][1],
     funder: commonParams[0],
-    proxender: proxender,
+    proxender,
     recipient,
     segments: convertSegments(event.params.segments),
     sender,

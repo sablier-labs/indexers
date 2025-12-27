@@ -4,7 +4,9 @@ import { CreateMerkleInstant } from "../../../bindings/SablierFactoryMerkleInsta
 import { SablierMerkleInstant_v2_0 as TemplateInstant_v2_0 } from "../../../bindings/templates";
 import { Store } from "../../../store";
 
-export function handle_SablierFactoryMerkleInstant_v2_0_CreateMerkleInstant(event: CreateMerkleInstant): void {
+export function handle_SablierFactoryMerkleInstant_v2_0_CreateMerkleInstant(
+  event: CreateMerkleInstant
+): void {
   const params = event.params;
   const baseParams = params.params;
 

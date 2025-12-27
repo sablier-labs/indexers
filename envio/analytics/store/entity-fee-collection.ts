@@ -24,7 +24,11 @@ type LoadedEntities = {
   feeCollectionTransactionId: string;
 };
 
-export async function create(context: HandlerContext, event: Envio.Event, params: Params): Promise<void> {
+export async function create(
+  context: HandlerContext,
+  event: Envio.Event,
+  params: Params
+): Promise<void> {
   const { admin, airdropCampaign, amount, protocol } = params;
 
   // Ignore zero-amount fee collections. This behavior is allowed in the contracts due to the
@@ -52,8 +56,8 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   // Create transaction entity
   const transaction: Entity.FeeCollection = {
     admin,
-    airdropCampaign: airdropCampaign,
-    amount: amount,
+    airdropCampaign,
+    amount,
     amountDisplay: amountFormatted,
     block: BigInt(event.block.number),
     caller: event.transaction.from || "",
@@ -71,9 +75,17 @@ export async function create(context: HandlerContext, event: Envio.Event, params
   context.FeeCollection.set(transaction);
 }
 
-async function loadEntities(context: HandlerContext, event: Envio.Event, currency: string): Promise<LoadedEntities> {
+async function loadEntities(
+  context: HandlerContext,
+  event: Envio.Event,
+  currency: string
+): Promise<LoadedEntities> {
   const feeCollectionId = Id.feeCollectionDaily(event.block.timestamp, currency);
-  const feeCollectionTransactionId = Id.feeCollection(event.chainId, event.transaction.hash, event.logIndex);
+  const feeCollectionTransactionId = Id.feeCollection(
+    event.chainId,
+    event.transaction.hash,
+    event.logIndex
+  );
 
   const [feeCollection, feeCollectionTransaction] = await Promise.all([
     context.FeeCollectionDaily.get(feeCollectionId),
@@ -92,7 +104,7 @@ function upsertFeeCollection(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { amountFormatted: string; currency: string },
+  params: { amountFormatted: string; currency: string }
 ): void {
   let { feeCollection } = entities;
   const { feeCollectionId } = entities;
@@ -100,7 +112,14 @@ function upsertFeeCollection(
 
   const date = getDate(event.block.timestamp);
 
-  if (!feeCollection) {
+  if (feeCollection) {
+    const newAmount = (Number(feeCollection.amountDisplay) + Number(amountFormatted)).toString();
+    feeCollection = {
+      ...feeCollection,
+      amount: parseEther(newAmount),
+      amountDisplay: newAmount,
+    };
+  } else {
     feeCollection = {
       amount: parseEther(amountFormatted),
       amountDisplay: amountFormatted,
@@ -108,13 +127,6 @@ function upsertFeeCollection(
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: feeCollectionId,
-    };
-  } else {
-    const newAmount = (Number(feeCollection.amountDisplay) + Number(amountFormatted)).toString();
-    feeCollection = {
-      ...feeCollection,
-      amount: parseEther(newAmount),
-      amountDisplay: newAmount,
     };
   }
 

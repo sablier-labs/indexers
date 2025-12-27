@@ -12,7 +12,7 @@ export type DeprecatedStreamContext = {
 export function create(
   context: DeprecatedStreamContext,
   event: Envio.Event,
-  tokenId: bigint,
+  tokenId: bigint
 ): CommonEntities.DeprecatedStream {
   const deprecatedStream: CommonEntities.DeprecatedStream = {
     chainId: BigInt(event.chainId),

@@ -11,7 +11,9 @@ export namespace CriticalError {
 
   export class ContractNotFound extends Error {
     constructor(protocol: Indexer.Protocol, chainId: number, contractAddress: string) {
-      super(`Contract not found for address: ${contractAddress}, protocol: ${protocol}, chain ID ${chainId}`);
+      super(
+        `Contract not found for address: ${contractAddress}, protocol: ${protocol}, chain ID ${chainId}`
+      );
       this.name = "ContractNotFoundError";
     }
   }
@@ -19,7 +21,7 @@ export namespace CriticalError {
   export class ContractAliasNotFound extends Error {
     constructor(protocol: Indexer.Protocol, chainId: number, contractAddress: string) {
       super(
-        `Contract alias not available for contract: ${contractAddress}, protocol: ${protocol}, chain ID ${chainId}`,
+        `Contract alias not available for contract: ${contractAddress}, protocol: ${protocol}, chain ID ${chainId}`
       );
       this.name = "ContractAliasNotFoundError";
     }
@@ -28,7 +30,7 @@ export namespace CriticalError {
   export class ContractVersionNotFound extends Error {
     constructor(protocol: Indexer.Protocol, chainId: number, contractAddress: string) {
       super(
-        `Contract version not available for contract: ${contractAddress}, protocol: ${protocol}, chain ID ${chainId}`,
+        `Contract version not available for contract: ${contractAddress}, protocol: ${protocol}, chain ID ${chainId}`
       );
       this.name = "ContractVersionNotFoundError";
     }

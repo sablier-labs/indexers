@@ -15,7 +15,7 @@ type Input<P extends Params.CreateStreamCommon> = {
     context: Context.Handler,
     event: Envio.Event,
     entities: Params.CreateEntities,
-    params: P,
+    params: P
   ) => Entity.Stream;
   event: Envio.Event;
   entities: Params.CreateEntities;
@@ -23,7 +23,7 @@ type Input<P extends Params.CreateStreamCommon> = {
 };
 
 export async function createStream<P extends Params.CreateStreamCommon>(
-  input: Input<P>,
+  input: Input<P>
 ): Promise<Entity.Stream | null> {
   const { context, createInStore, event, entities, params } = input;
 

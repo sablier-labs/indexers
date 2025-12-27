@@ -1,5 +1,12 @@
 import { Contract } from "../../bindings";
-import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
+import {
+  approval,
+  approvalForAll,
+  cancelStream,
+  renounceStream,
+  transfer,
+  withdrawStream,
+} from "../common";
 
 Contract.Lockup_v3_0.ApprovalForAll.handler(approvalForAll.handler);
 Contract.Lockup_v3_0.Approval.handler(approval.handler);

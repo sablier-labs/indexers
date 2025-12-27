@@ -14,7 +14,12 @@
 
 import path from "node:path";
 import { Command, Options } from "@effect/cli";
-import { CommandExecutor, FileSystem, Command as PlatformCommand, Terminal } from "@effect/platform";
+import {
+  CommandExecutor,
+  FileSystem,
+  Command as PlatformCommand,
+  Terminal,
+} from "@effect/platform";
 import chalk from "chalk";
 import Table from "cli-table3";
 import dayjs from "dayjs";
@@ -55,23 +60,25 @@ type FailedDeployment = {
 
 const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup"] as const).pipe(
   Options.withAlias("i"),
-  Options.withDescription("Indexer to deploy"),
+  Options.withDescription("Indexer to deploy")
 );
 
 const versionLabelOption = Options.text("version-label").pipe(
   Options.withAlias("v"),
-  Options.withDescription("Version label for the deployment"),
+  Options.withDescription("Version label for the deployment")
 );
 
 const excludeChainsOption = Options.text("exclude-chains").pipe(
   Options.withAlias("e"),
-  Options.withDescription("Comma-separated list of chain IDs to exclude from deployment (e.g., '1,10,137')"),
-  Options.optional,
+  Options.withDescription(
+    "Comma-separated list of chain IDs to exclude from deployment (e.g., '1,10,137')"
+  ),
+  Options.optional
 );
 
 const dryRunOption = Options.boolean("dry-run").pipe(
   Options.withDescription("Test deployment without actually running commands"),
-  Options.withDefault(false),
+  Options.withDefault(false)
 );
 
 /* -------------------------------------------------------------------------- */
@@ -80,7 +87,7 @@ const dryRunOption = Options.boolean("dry-run").pipe(
 
 function validateVersionLabel(
   indexer: Indexer.Protocol,
-  versionLabel: string,
+  versionLabel: string
 ): Effect.Effect<void, ValidationError, never> {
   const requirements: Record<Indexer.Protocol, string[]> = {
     airdrops: ["v1.3", "v2.0"],
@@ -90,7 +97,9 @@ function validateVersionLabel(
 
   const allowedPrefixes = requirements[indexer];
   if (!allowedPrefixes) {
-    return Effect.fail(new ValidationError({ field: "indexer", message: `Unknown indexer: ${indexer}` }));
+    return Effect.fail(
+      new ValidationError({ field: "indexer", message: `Unknown indexer: ${indexer}` })
+    );
   }
 
   const isValid = allowedPrefixes.some((prefix) => versionLabel.startsWith(prefix));
@@ -99,7 +108,7 @@ function validateVersionLabel(
       new ValidationError({
         field: "versionLabel",
         message: `New version label for ${indexer} indexer must start with one of: ${allowedPrefixes.join(", ")}. Got: ${versionLabel}`,
-      }),
+      })
     );
   }
 
@@ -107,7 +116,7 @@ function validateVersionLabel(
 }
 
 function parseExcludedChainIds(
-  excludeChains: Option.Option<string>,
+  excludeChains: Option.Option<string>
 ): Effect.Effect<Set<number>, ValidationError, never> {
   return Effect.gen(function* () {
     if (Option.isNone(excludeChains)) {
@@ -125,7 +134,7 @@ function parseExcludedChainIds(
           new ValidationError({
             field: "excludeChains",
             message: `Invalid chain ID: ${idStr}. Must be positive integer.`,
-          }),
+          })
         );
       }
       excludedChainIds.add(chainId);
@@ -175,7 +184,7 @@ function promptUserConfirmation(): Effect.Effect<void, UserAbortError, Terminal.
     }
   }).pipe(
     // QuitException (Ctrl+C) and PlatformError should also abort
-    Effect.catchAll(() => Effect.fail(new UserAbortError({}))),
+    Effect.catchAll(() => Effect.fail(new UserAbortError({})))
   );
 }
 
@@ -218,7 +227,7 @@ function buildDeploymentList(indexer: Indexer.Protocol, excludedChainIds: Set<nu
 
 function displayDeploymentPlan(
   deployments: Deployment[],
-  excludedChains: Array<{ chainId: number; chainName: string }>,
+  excludedChains: Array<{ chainId: number; chainName: string }>
 ) {
   return Effect.gen(function* () {
     yield* Console.log(chalk.cyan(`📊 Found ${deployments.length} chains to deploy to:`));
@@ -254,7 +263,7 @@ function deployToChain(
   indexer: Indexer.Protocol,
   versionLabel: string,
   logger: ReturnType<typeof createFileLogger>,
-  dryRun: boolean,
+  dryRun: boolean
 ) {
   const indexerName = `sablier-${indexer}-${deployment.chainSlug}`;
   const manifestPath = paths.graph.manifest(indexer, deployment.chainId);
@@ -266,12 +275,16 @@ function deployToChain(
     "--version-label",
     versionLabel,
     indexerName,
-    manifestPath,
+    manifestPath
   ).pipe(PlatformCommand.workingDirectory(workingDir));
 
   return Effect.gen(function* () {
-    const spinner = ora(`Deploying to ${deployment.chainName} (${deployment.chainSlug})...`).start();
-    yield* logger.log(`🚀 Starting deployment to ${deployment.chainName} (${deployment.chainSlug})...`);
+    const spinner = ora(
+      `Deploying to ${deployment.chainName} (${deployment.chainSlug})...`
+    ).start();
+    yield* logger.log(
+      `🚀 Starting deployment to ${deployment.chainName} (${deployment.chainSlug})...`
+    );
 
     const commandStr = `pnpm graph deploy --version-label ${versionLabel} ${indexerName} ${manifestPath}`;
     yield* logger.log(`COMMAND: ${commandStr}`);
@@ -321,10 +334,12 @@ function deployToChain(
           const errorMessage = error instanceof Error ? error.message : String(error);
           return Effect.all([
             logger.log(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`),
-            Console.log(chalk.red(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`)),
+            Console.log(
+              chalk.red(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`)
+            ),
           ]).pipe(Effect.map(() => ({ error: errorMessage, success: false }) as const));
-        }),
-      ),
+        })
+      )
     );
   });
 }
@@ -335,7 +350,7 @@ function displaySummary(
   deploymentIds: DeploymentResult[],
   failedDeployments: FailedDeployment[],
   startTime: number,
-  logger: ReturnType<typeof createFileLogger>,
+  logger: ReturnType<typeof createFileLogger>
 ) {
   return Effect.gen(function* () {
     const failureCount = failedDeployments.length;
@@ -352,13 +367,19 @@ function displaySummary(
       },
     });
 
-    const successRate = deployments.length > 0 ? ((successCount / deployments.length) * 100).toFixed(1) : "0.0";
-    const failureRate = deployments.length > 0 ? ((failureCount / deployments.length) * 100).toFixed(1) : "0.0";
+    const successRate =
+      deployments.length > 0 ? ((successCount / deployments.length) * 100).toFixed(1) : "0.0";
+    const failureRate =
+      deployments.length > 0 ? ((failureCount / deployments.length) * 100).toFixed(1) : "0.0";
 
     summaryTable.push(
-      [chalk.green("✅ Successful"), chalk.white(successCount.toString()), chalk.green(`${successRate}%`)],
+      [
+        chalk.green("✅ Successful"),
+        chalk.white(successCount.toString()),
+        chalk.green(`${successRate}%`),
+      ],
       [chalk.red("❌ Failed"), chalk.white(failureCount.toString()), chalk.red(`${failureRate}%`)],
-      [chalk.cyan("📊 Total"), chalk.white(deployments.length.toString()), chalk.cyan("100.0%")],
+      [chalk.cyan("📊 Total"), chalk.white(deployments.length.toString()), chalk.cyan("100.0%")]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -379,7 +400,10 @@ function displaySummary(
       });
 
       for (const { indexerName, deploymentId } of deploymentIds) {
-        deploymentsTable.push([chalk.cyan(indexerName), deploymentId ? chalk.yellow(deploymentId) : chalk.gray("N/A")]);
+        deploymentsTable.push([
+          chalk.cyan(indexerName),
+          deploymentId ? chalk.yellow(deploymentId) : chalk.gray("N/A"),
+        ]);
       }
 
       yield* Console.log(deploymentsTable.toString());
@@ -418,7 +442,10 @@ function displaySummary(
 
     if (failureCount > 0) {
       return yield* Effect.fail(
-        new GraphDeployError({ chainSlug: "multiple", message: `Deployment completed with ${failureCount} failures` }),
+        new GraphDeployError({
+          chainSlug: "multiple",
+          message: `Deployment completed with ${failureCount} failures`,
+        })
       );
     }
   });
@@ -451,7 +478,7 @@ const graphDeployAllLogic = (options: {
     yield* logger.log(`  --indexer: ${options.indexer}`);
     yield* logger.log(`  --version-label: ${options.versionLabel}`);
     yield* logger.log(
-      `  --exclude-chains: ${Option.isNone(options.excludeChains) ? "none" : options.excludeChains.value}`,
+      `  --exclude-chains: ${Option.isNone(options.excludeChains) ? "none" : options.excludeChains.value}`
     );
     yield* logger.log(`  --dry-run: ${options.dryRun}`);
 
@@ -463,7 +490,9 @@ const graphDeployAllLogic = (options: {
 
     yield* Console.log("");
     yield* Console.log(
-      chalk.cyan(`🚀 Deploying all official ${_.capitalize(options.indexer)} indexers to The Graph...`),
+      chalk.cyan(
+        `🚀 Deploying all official ${_.capitalize(options.indexer)} indexers to The Graph...`
+      )
     );
     yield* Console.log(chalk.cyan(`📦 Version label: ${options.versionLabel}`));
     if (options.dryRun) {
@@ -474,26 +503,28 @@ const graphDeployAllLogic = (options: {
         chalk.yellow(
           `🚫 Excluding chain IDs: ${Array.from(excludedChainIds)
             .sort((a, b) => a - b)
-            .join(", ")}`,
-        ),
+            .join(", ")}`
+        )
       );
     }
     yield* Console.log("");
 
-    yield* logger.log(`🚀 Deploying all official ${_.capitalize(options.indexer)} indexers to The Graph...`);
+    yield* logger.log(
+      `🚀 Deploying all official ${_.capitalize(options.indexer)} indexers to The Graph...`
+    );
     yield* logger.log(`📦 Version label: ${options.versionLabel}`);
     if (excludedChainIds.size > 0) {
       yield* logger.log(
         `🚫 Excluding chain IDs: ${Array.from(excludedChainIds)
           .sort((a, b) => a - b)
-          .join(", ")}`,
+          .join(", ")}`
       );
     }
 
     // Prompt user for confirmation
     const confirmed = yield* promptUserConfirmation().pipe(
       Effect.as(true),
-      Effect.catchTag("UserAbortError", () => Effect.succeed(false)),
+      Effect.catchTag("UserAbortError", () => Effect.succeed(false))
     );
 
     if (!confirmed) {
@@ -504,7 +535,10 @@ const graphDeployAllLogic = (options: {
     }
 
     // Build deployment list
-    const { deployments, excludedChains } = yield* buildDeploymentList(options.indexer, excludedChainIds);
+    const { deployments, excludedChains } = yield* buildDeploymentList(
+      options.indexer,
+      excludedChainIds
+    );
     yield* displayDeploymentPlan(deployments, excludedChains);
 
     // Deploy to each chain sequentially
@@ -513,12 +547,21 @@ const graphDeployAllLogic = (options: {
     let successCount = 0;
 
     for (const deployment of deployments) {
-      const result = yield* deployToChain(deployment, options.indexer, options.versionLabel, logger, options.dryRun);
+      const result = yield* deployToChain(
+        deployment,
+        options.indexer,
+        options.versionLabel,
+        logger,
+        options.dryRun
+      );
 
       if (result.success) {
         successCount += 1;
         if (result.deploymentId) {
-          deploymentIds.push({ deploymentId: result.deploymentId, indexerName: result.indexerName });
+          deploymentIds.push({
+            deploymentId: result.deploymentId,
+            indexerName: result.indexerName,
+          });
         }
       } else {
         failedDeployments.push({ chainSlug: deployment.chainSlug, error: result.error });
@@ -534,7 +577,14 @@ const graphDeployAllLogic = (options: {
     }
 
     // Display summary
-    yield* displaySummary(deployments, successCount, deploymentIds, failedDeployments, startTime, logger);
+    yield* displaySummary(
+      deployments,
+      successCount,
+      deploymentIds,
+      failedDeployments,
+      startTime,
+      logger
+    );
   });
 
 export const graphDeployAllCommand = Command.make(
@@ -545,5 +595,5 @@ export const graphDeployAllCommand = Command.make(
     indexer: indexerOption,
     versionLabel: versionLabelOption,
   },
-  graphDeployAllLogic,
+  graphDeployAllLogic
 );

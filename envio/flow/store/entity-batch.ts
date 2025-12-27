@@ -29,7 +29,7 @@ export function update(
   context: Context.Handler,
   event: Envio.Event,
   batch: Entity.Batch,
-  batcher: Entity.Batcher,
+  batcher: Entity.Batcher
 ): void {
   const newBatchSize = batch.size + 1n;
 

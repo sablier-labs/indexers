@@ -2,7 +2,9 @@ import { CreateMerkleLL } from "../../../bindings/SablierV2MerkleLockupFactory_v
 import { SablierV2MerkleLL_v1_2 as TemplateLL } from "../../../bindings/templates";
 import { handleCreateMerkleLL } from "../../common";
 
-export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLL(event: CreateMerkleLL): void {
+export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLL(
+  event: CreateMerkleLL
+): void {
   const params = event.params;
   const baseParams = params.baseParams;
 
@@ -33,6 +35,6 @@ export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLL(event: C
       startTime: null, // all v1.2 streams use the claim time as the start time
       totalDuration: params.streamDurations.total,
       transferable: baseParams.transferable,
-    },
+    }
   );
 }

@@ -2,7 +2,14 @@
   "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
   "entry": ["**/index.ts"],
   "ignoreBinaries": ["just"],
-  "ignoreDependencies": ["@graphprotocol/.+", "@graphql-codegen/.+", "assemblyscript", "dayjs", "envio", "husky"],
+  "ignoreDependencies": [
+    "@graphprotocol/.+",
+    "@graphql-codegen/.+",
+    "assemblyscript",
+    "dayjs",
+    "envio",
+    "husky"
+  ],
   "project": [
     "**/*.{js,ts}",
     "!codegen/gql-config/**/*",

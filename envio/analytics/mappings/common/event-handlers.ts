@@ -13,9 +13,13 @@ import { Store } from "../../store";
 export async function handleApproval(
   context: HandlerContext,
   event: Envio.Event,
-  params: { owner: string; approved: string },
+  params: { owner: string; approved: string }
 ): Promise<void> {
-  await Store.User.createOrUpdate(context, event, [params.owner, params.approved, event.transaction.from]);
+  await Store.User.createOrUpdate(context, event, [
+    params.owner,
+    params.approved,
+    event.transaction.from,
+  ]);
 }
 
 /**
@@ -25,9 +29,13 @@ export async function handleApproval(
 export async function handleApprovalForAll(
   context: HandlerContext,
   event: Envio.Event,
-  params: { owner: string; operator: string },
+  params: { owner: string; operator: string }
 ): Promise<void> {
-  await Store.User.createOrUpdate(context, event, [params.owner, params.operator, event.transaction.from]);
+  await Store.User.createOrUpdate(context, event, [
+    params.owner,
+    params.operator,
+    event.transaction.from,
+  ]);
 }
 
 /**
@@ -37,7 +45,7 @@ export async function handleApprovalForAll(
 export async function handleTransfer(
   context: HandlerContext,
   event: Envio.Event,
-  params: { from: string; to: string },
+  params: { from: string; to: string }
 ): Promise<void> {
   await Store.User.createOrUpdate(context, event, [params.from, params.to, event.transaction.from]);
 }

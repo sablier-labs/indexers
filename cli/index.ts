@@ -28,7 +28,7 @@ import { CliLive } from "./context";
 
 const printCommand = Command.make("print", {}).pipe(
   Command.withDescription("Print information commands"),
-  Command.withSubcommands([printChainsCommand]),
+  Command.withSubcommands([printChainsCommand])
 );
 
 /* -------------------------------------------------------------------------- */
@@ -37,7 +37,7 @@ const printCommand = Command.make("print", {}).pipe(
 
 const codegenCommand = Command.make("codegen", {}).pipe(
   Command.withDescription("Code generation commands"),
-  Command.withSubcommands([schemaCommand, envioConfigCommand, graphManifestCommand]),
+  Command.withSubcommands([schemaCommand, envioConfigCommand, graphManifestCommand])
 );
 
 /* -------------------------------------------------------------------------- */
@@ -54,7 +54,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
     graphDeployAllCommand,
     pricesCheckCommand,
     pricesSyncCommand,
-  ]),
+  ])
 );
 
 const cli = Command.run(rootCommand, {

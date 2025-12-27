@@ -35,53 +35,57 @@ struct Durations {
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.contractRegister(({ context, event }) => {
-  if (isDeprecatedFactory({ asset: event.params.asset, event, protocol: "airdrops" })) {
-    return;
+Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.contractRegister(
+  ({ context, event }) => {
+    if (isDeprecatedFactory({ asset: event.params.asset, event, protocol: "airdrops" })) {
+      return;
+    }
+    const lockupAddress = event.params.lockupLinear;
+    if (!isOfficialLockup(context.log, event, lockupAddress)) {
+      return;
+    }
+    const campaignAddress = event.params.merkleStreamer;
+    context.addSablierV2MerkleStreamerLL_v1_1(campaignAddress);
   }
-  const lockupAddress = event.params.lockupLinear;
-  if (!isOfficialLockup(context.log, event, lockupAddress)) {
-    return;
-  }
-  const campaignAddress = event.params.merkleStreamer;
-  context.addSablierV2MerkleStreamerLL_v1_1(campaignAddress);
-});
+);
 
-Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handler(async ({ context, event }) => {
-  const result = await preloadCreateEntities({ context, event, params: event.params });
-  if (!result) {
-    return;
-  }
-  const { entities } = result;
+Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handler(
+  async ({ context, event }) => {
+    const result = await preloadCreateEntities({ context, event, params: event.params });
+    if (!result) {
+      return;
+    }
+    const { entities } = result;
 
-  const params: Params.CreateCampaignLL = {
-    admin: event.params.admin,
-    aggregateAmount: event.params.aggregateAmount,
-    asset: event.params.asset,
-    campaignAddress: event.params.merkleStreamer,
-    campaignStartTime: BigInt(event.block.timestamp),
-    cancelable: event.params.cancelable,
-    category: "LockupLinear",
-    cliffDuration: event.params.streamDurations[0],
-    cliffPercentage: undefined,
-    expiration: event.params.expiration,
-    ipfsCID: event.params.ipfsCID,
-    lockup: event.params.lockupLinear,
-    merkleRoot: event.params.merkleRoot,
-    minimumFee: undefined,
-    name: undefined,
-    recipientCount: event.params.recipientsCount,
-    shape: undefined,
-    startPercentage: undefined,
-    startTime: undefined, // all v1.1 streams use the claim time as the start time
-    totalDuration: event.params.streamDurations[1],
-    transferable: event.params.transferable,
-  };
-  await createMerkle({
-    context,
-    createInStore: Store.Campaign.createLL,
-    entities,
-    event,
-    params,
-  });
-});
+    const params: Params.CreateCampaignLL = {
+      admin: event.params.admin,
+      aggregateAmount: event.params.aggregateAmount,
+      asset: event.params.asset,
+      campaignAddress: event.params.merkleStreamer,
+      campaignStartTime: BigInt(event.block.timestamp),
+      cancelable: event.params.cancelable,
+      category: "LockupLinear",
+      cliffDuration: event.params.streamDurations[0],
+      cliffPercentage: undefined,
+      expiration: event.params.expiration,
+      ipfsCID: event.params.ipfsCID,
+      lockup: event.params.lockupLinear,
+      merkleRoot: event.params.merkleRoot,
+      minimumFee: undefined,
+      name: undefined,
+      recipientCount: event.params.recipientsCount,
+      shape: undefined,
+      startPercentage: undefined,
+      startTime: undefined, // all v1.1 streams use the claim time as the start time
+      totalDuration: event.params.streamDurations[1],
+      transferable: event.params.transferable,
+    };
+    await createMerkle({
+      context,
+      createInStore: Store.Campaign.createLL,
+      entities,
+      event,
+      params,
+    });
+  }
+);

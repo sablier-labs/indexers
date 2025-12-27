@@ -113,7 +113,9 @@ export function handle_SablierFlow_v1_1_VoidFlowStream(event: VoidFlowStream): v
   });
 }
 
-export function handle_SablierFlow_v1_1_WithdrawFromFlowStream(event: WithdrawFromFlowStream): void {
+export function handle_SablierFlow_v1_1_WithdrawFromFlowStream(
+  event: WithdrawFromFlowStream
+): void {
   handleWithdrawFromFlowStream(event, {
     caller: event.params.caller,
     streamId: event.params.streamId,

@@ -2,7 +2,11 @@ import type { Envio } from "../../common/bindings";
 import { getDay } from "../../common/time";
 import type { Context, Entity } from "../bindings";
 
-export function create(context: Context.Handler, event: Envio.Event, campaignId: string): Entity.Activity {
+export function create(
+  context: Context.Handler,
+  event: Envio.Event,
+  campaignId: string
+): Entity.Activity {
   const timestamp = event.block.timestamp;
   const day = getDay(timestamp);
 
@@ -19,7 +23,11 @@ export function create(context: Context.Handler, event: Envio.Event, campaignId:
   return activity;
 }
 
-export function update(context: Context.Handler, activity: Entity.Activity, amount: bigint): Entity.Activity {
+export function update(
+  context: Context.Handler,
+  activity: Entity.Activity,
+  amount: bigint
+): Entity.Activity {
   const updatedActivity: Entity.Activity = {
     ...activity,
     amount: activity.amount + amount,

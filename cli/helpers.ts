@@ -11,11 +11,14 @@ import { ChainNotFoundError, ValidationError } from "./errors";
 import type { ChainArg, IndexerArg, VendorArg } from "./types";
 
 export function parseChainOpt(
-  chainValue: string | undefined,
+  chainValue: string | undefined
 ): Effect.Effect<ChainArg, ValidationError | ChainNotFoundError> {
   if (!chainValue) {
     return Effect.fail(
-      new ValidationError({ field: "chain", message: "--chain is required. Use 'all' to target all chains." }),
+      new ValidationError({
+        field: "chain",
+        message: "--chain is required. Use 'all' to target all chains.",
+      })
     );
   }
 
@@ -26,32 +29,48 @@ export function parseChainOpt(
   return getChain(chainValue).pipe(Effect.map(() => chainValue as ChainArg));
 }
 
-export function parseIndexerOpt(indexerValue: string | undefined): Effect.Effect<IndexerArg, ValidationError> {
+export function parseIndexerOpt(
+  indexerValue: string | undefined
+): Effect.Effect<IndexerArg, ValidationError> {
   if (!indexerValue) {
     return Effect.fail(
-      new ValidationError({ field: "indexer", message: "--indexer is required. Use 'all' to target all indexers." }),
+      new ValidationError({
+        field: "indexer",
+        message: "--indexer is required. Use 'all' to target all indexers.",
+      })
     );
   }
 
   if (![...INDEXERS, "all"].includes(indexerValue)) {
     return Effect.fail(
-      new ValidationError({ field: "indexer", message: `--indexer must be either ${INDEXERS.join(", ")}, or "all"` }),
+      new ValidationError({
+        field: "indexer",
+        message: `--indexer must be either ${INDEXERS.join(", ")}, or "all"`,
+      })
     );
   }
 
   return Effect.succeed(indexerValue as IndexerArg);
 }
 
-export function parseVendorOpt(vendorValue: string | undefined): Effect.Effect<VendorArg, ValidationError> {
+export function parseVendorOpt(
+  vendorValue: string | undefined
+): Effect.Effect<VendorArg, ValidationError> {
   if (!vendorValue) {
     return Effect.fail(
-      new ValidationError({ field: "vendor", message: "--vendor is required. Use 'all' to target all vendors." }),
+      new ValidationError({
+        field: "vendor",
+        message: "--vendor is required. Use 'all' to target all vendors.",
+      })
     );
   }
 
   if (![...VENDORS, "all"].includes(vendorValue)) {
     return Effect.fail(
-      new ValidationError({ field: "vendor", message: `--vendor must be either ${VENDORS.join(", ")}, or "all"` }),
+      new ValidationError({
+        field: "vendor",
+        message: `--vendor must be either ${VENDORS.join(", ")}, or "all"`,
+      })
     );
   }
 

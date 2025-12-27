@@ -7,7 +7,7 @@ import * as Entity from "../bindings/schema";
 export function createOrUpdateActivity(
   event: ethereum.Event,
   campaign: Entity.Campaign,
-  amount: BigInt,
+  amount: BigInt
 ): Entity.Activity {
   const timestamp = event.block.timestamp;
   const day = getDay(timestamp);

@@ -8,21 +8,21 @@ describe("Id", () => {
   describe("dailyFiatFees", () => {
     it("should create daily fiat fees id", () => {
       // Unix timestamp for 2024-01-15 12:30:00 UTC
-      const timestamp = 1705323000;
+      const timestamp = 1_705_323_000;
       const actual = Id.dailyFiatFees(timestamp);
       expect(actual).toBe("2024-01-15");
     });
 
     it("should handle different chain ids", () => {
       // Unix timestamp for 2023-12-25 00:00:00 UTC
-      const timestamp = 1703462400;
+      const timestamp = 1_703_462_400;
       const actual = Id.dailyFiatFees(timestamp);
       expect(actual).toBe("2023-12-25");
     });
 
     it("should handle timestamps at different times of day", () => {
       // Unix timestamp for 2024-06-01 23:59:59 UTC
-      const timestamp = 1717286399;
+      const timestamp = 1_717_286_399;
       const actual = Id.dailyFiatFees(timestamp);
       expect(actual).toBe("2024-06-01");
     });
@@ -41,21 +41,21 @@ describe("Id", () => {
   describe("dailyCryptoFees", () => {
     it("should create daily crypto fees id", () => {
       // Unix timestamp for 2024-01-15 12:30:00 UTC
-      const timestamp = 1705323000;
+      const timestamp = 1_705_323_000;
       const actual = Id.dailyCryptoFees(1, timestamp);
       expect(actual).toBe("2024-01-15_ETH");
     });
 
     it("should handle different chain ids", () => {
       // Unix timestamp for 2023-12-25 00:00:00 UTC
-      const timestamp = 1703462400;
+      const timestamp = 1_703_462_400;
       const actual = Id.dailyCryptoFees(137, timestamp);
       expect(actual).toBe("2023-12-25_POL");
     });
 
     it("should handle timestamps at different times of day", () => {
       // Unix timestamp for 2024-06-01 23:59:59 UTC
-      const timestamp = 1717286399;
+      const timestamp = 1_717_286_399;
       const actual = Id.dailyCryptoFees(1, timestamp);
       expect(actual).toBe("2024-06-01_ETH");
     });

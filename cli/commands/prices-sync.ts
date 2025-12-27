@@ -55,7 +55,9 @@ const priceDataSyncLogic = () =>
 
     if (existingTsvFiles.length > 0) {
       yield* Console.log("");
-      yield* Console.log(colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing TSV files from cache...`));
+      yield* Console.log(
+        colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing TSV files from cache...`)
+      );
       for (const file of existingTsvFiles) {
         yield* fs.remove(path.join(CACHE_DIR, file));
       }
@@ -72,7 +74,11 @@ const priceDataSyncLogic = () =>
       const sourceExists = yield* fs.exists(sourcePath);
       if (!sourceExists) {
         return yield* Effect.fail(
-          new FileOperationError({ message: "Source file not found", operation: "read", path: sourcePath }),
+          new FileOperationError({
+            message: "Source file not found",
+            operation: "read",
+            path: sourcePath,
+          })
         );
       }
 
@@ -80,7 +86,7 @@ const priceDataSyncLogic = () =>
         Effect.match({
           onFailure: () => ({ destPath, name, sourceDir, status: "error" as const }),
           onSuccess: () => ({ destPath, name, sourceDir, status: "copied" as const }),
-        }),
+        })
       );
 
       results.push(copyResult);
@@ -95,8 +101,14 @@ const priceDataSyncLogic = () =>
     });
 
     for (const result of results) {
-      const statusText = result.status === "copied" ? colors.success("✅ Copied") : colors.error("❌ Error");
-      table.push([colors.value(result.name), colors.dim(result.sourceDir), statusText, colors.dim(result.destPath)]);
+      const statusText =
+        result.status === "copied" ? colors.success("✅ Copied") : colors.error("❌ Error");
+      table.push([
+        colors.value(result.name),
+        colors.dim(result.sourceDir),
+        statusText,
+        colors.dim(result.destPath),
+      ]);
     }
 
     yield* Console.log(table.toString());
@@ -115,18 +127,23 @@ const priceDataSyncLogic = () =>
     summaryTable.push(
       [colors.success("Copied"), colors.value(copied.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
-      [chalk.cyan.bold("Total Files"), chalk.white.bold(results.length.toString())],
+      [chalk.cyan.bold("Total Files"), chalk.white.bold(results.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
 
     yield* Console.log("");
     if (errors === 0) {
-      yield* Console.log(colors.success(`✅ Successfully synced ${copied} price data files to cache`));
+      yield* Console.log(
+        colors.success(`✅ Successfully synced ${copied} price data files to cache`)
+      );
     } else {
       yield* Console.log(colors.error(`❌ Sync completed with ${errors} errors`));
       return yield* Effect.fail(
-        new ProcessError({ command: "price-data-sync", message: `Sync completed with ${errors} errors` }),
+        new ProcessError({
+          command: "price-data-sync",
+          message: `Sync completed with ${errors} errors`,
+        })
       );
     }
   });

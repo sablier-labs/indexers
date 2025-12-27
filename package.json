@@ -29,7 +29,7 @@
     "@graphql-tools/merge": "^9.0.24",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@pinax/graph-networks-registry": "^0.7.1",
-    "@sablier/devkit": "^1.9.1",
+    "@sablier/devkit": "^1.9.2",
     "@sablier/price-data": "github:sablier-labs/price-data#main",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.18",
@@ -63,6 +63,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2",
+    "ultracite": "^6.5.0",
     "viem": "^2.40.3",
     "vite": "^7.0.4",
     "vitest": "^3.2.4"

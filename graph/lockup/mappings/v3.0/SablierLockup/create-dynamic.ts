@@ -2,7 +2,9 @@ import { CreateLockupDynamicStream } from "../../../bindings/SablierLockup_v3_0/
 import { convertSegmentsV3_0 } from "../../../helpers";
 import { Store } from "../../../store";
 
-export function handle_SablierLockup_v3_0_CreateLockupDynamicStream(event: CreateLockupDynamicStream): void {
+export function handle_SablierLockup_v3_0_CreateLockupDynamicStream(
+  event: CreateLockupDynamicStream
+): void {
   const params = event.params;
   const commonParams = params.commonParams;
 
@@ -24,6 +26,6 @@ export function handle_SablierLockup_v3_0_CreateLockupDynamicStream(event: Creat
     },
     {
       segments: convertSegmentsV3_0(event.params.segments),
-    },
+    }
   );
 }

@@ -19,7 +19,11 @@ const erc20Bytes = get("ERC20Bytes");
 const prbProxy = get("PRBProxy");
 const prbProxyRegistry = get("PRBProxyRegistry");
 
-export function getABIEntries(protocol: Indexer.Protocol, contractName: string, version: Types.Version) {
+export function getABIEntries(
+  protocol: Indexer.Protocol,
+  contractName: string,
+  version: Types.Version,
+) {
   const contract = _.find(indexedContracts[protocol], (c) => {
     return c.name === contractName && c.versions.includes(version);
   });

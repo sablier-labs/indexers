@@ -11,7 +11,10 @@ import { getOrCreateAsset } from "./entity-asset";
 import { getOrCreateFactory } from "./entity-factory";
 import { getOrCreateWatcher } from "./entity-watcher";
 
-export function createCampaignInstant(event: ethereum.Event, params: Params.CreateCampaignBase): void {
+export function createCampaignInstant(
+  event: ethereum.Event,
+  params: Params.CreateCampaignBase
+): void {
   const campaign = createBaseCampaign(event, params);
   campaign.save();
 }
@@ -19,7 +22,7 @@ export function createCampaignInstant(event: ethereum.Event, params: Params.Crea
 export function createCampaignLL(
   event: ethereum.Event,
   paramsBase: Params.CreateCampaignBase,
-  paramsLL: Params.CreateCampaignLL,
+  paramsLL: Params.CreateCampaignLL
 ): void {
   let campaign = createBaseCampaign(event, paramsBase);
 
@@ -41,7 +44,7 @@ export function createCampaignLL(
 export function createCampaignLT(
   event: ethereum.Event,
   paramsBase: Params.CreateCampaignBase,
-  paramsLT: Params.CreateCampaignLT,
+  paramsLT: Params.CreateCampaignLT
 ): void {
   let campaign = createBaseCampaign(event, paramsBase);
 
@@ -79,13 +82,20 @@ export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigIn
   campaign.save();
 }
 
-export function updateCampaignClawback(event: ethereum.Event, campaign: Entity.Campaign, actionId: string): void {
+export function updateCampaignClawback(
+  event: ethereum.Event,
+  campaign: Entity.Campaign,
+  actionId: string
+): void {
   campaign.clawbackAction = actionId;
   campaign.clawbackTime = event.block.timestamp;
   campaign.save();
 }
 
-function createBaseCampaign(event: ethereum.Event, params: Params.CreateCampaignBase): Entity.Campaign {
+function createBaseCampaign(
+  event: ethereum.Event,
+  params: Params.CreateCampaignBase
+): Entity.Campaign {
   const campaignId = Id.campaign(params.campaignAddress);
   const campaign = new Entity.Campaign(campaignId);
   const asset = getOrCreateAsset(params.asset);
@@ -139,7 +149,10 @@ function createBaseCampaign(event: ethereum.Event, params: Params.CreateCampaign
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
 
-function addTranchesWithPercentages(campaign: Entity.Campaign, tranches: TrancheWithPercentage[]): Entity.Campaign {
+function addTranchesWithPercentages(
+  campaign: Entity.Campaign,
+  tranches: TrancheWithPercentage[]
+): Entity.Campaign {
   // The start time of the stream is the first tranche's start time, so we use zero for the initial duration.
   let previous = new TrancheWithPercentage(ZERO, ZERO);
 
@@ -164,7 +177,10 @@ function addTranchesWithPercentages(campaign: Entity.Campaign, tranches: Tranche
   return campaign;
 }
 
-function initLockupCampaign(campaign: Entity.Campaign, params: Params.CreateCampaignLockup): Entity.Campaign {
+function initLockupCampaign(
+  campaign: Entity.Campaign,
+  params: Params.CreateCampaignLockup
+): Entity.Campaign {
   campaign.lockup = params.lockup;
   campaign.streamCancelable = params.cancelable;
   campaign.streamShape = params.shape;

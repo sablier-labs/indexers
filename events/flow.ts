@@ -7,13 +7,13 @@ import type { Types } from "../lib/types";
 import type { Indexer } from "../src/types";
 import { erc721 } from "./common/erc721";
 
-const DEFAULT_INDEXERS: Array<Indexer.Name> = ["flow", "analytics"];
+const DEFAULT_INDEXERS: Indexer.Name[] = ["flow", "analytics"];
 
 function get(
   version: Sablier.Version.Flow,
   contractName: string,
   eventName: string,
-  indexers: Array<Indexer.Name> = DEFAULT_INDEXERS,
+  indexers: Indexer.Name[] = DEFAULT_INDEXERS
 ): Types.Event {
   return {
     contractName,
@@ -40,7 +40,10 @@ function base(version: Sablier.Version.Flow): Types.Event[] {
 }
 
 const v1_0 = base("v1.0");
-const v1_1: Types.Event[] = [...base("v1.1"), get("v1.1", contracts.names.SABLIER_FLOW, "CollectFees", ["analytics"])];
+const v1_1: Types.Event[] = [
+  ...base("v1.1"),
+  get("v1.1", contracts.names.SABLIER_FLOW, "CollectFees", ["analytics"]),
+];
 const v2_0: Types.Event[] = base("v2.0");
 
 const flowEvents: Types.EventMap = {

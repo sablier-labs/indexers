@@ -73,7 +73,9 @@ function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
  */
 function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL: string): Indexer {
   if (!templateURL.includes(NAME_TEMPLATING_VAR)) {
-    throw new Error(`Template URL for custom Graph indexer does not include ${NAME_TEMPLATING_VAR}`);
+    throw new Error(
+      `Template URL for custom Graph indexer does not include ${NAME_TEMPLATING_VAR}`
+    );
   }
   const subgraphName = getSubgraphName(chainId, protocol);
 
@@ -133,9 +135,15 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
 }
 
 const CUSTOMS: IndexerGraphMap[] = [
-  custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
+  custom(
+    chains.lightlink.id,
+    "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"
+  ),
   custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/core/{SUBGRAPH_NAME}"),
-  custom(chains.denergy.id, "https://thegraph.denergychain.com/subgraphs/name/denergychain/{SUBGRAPH_NAME}"),
+  custom(
+    chains.denergy.id,
+    "https://thegraph.denergychain.com/subgraphs/name/denergychain/{SUBGRAPH_NAME}"
+  ),
 ];
 
 const OFFICIALS: IndexerGraphMap[] = [

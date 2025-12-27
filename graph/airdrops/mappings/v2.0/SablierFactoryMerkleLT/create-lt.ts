@@ -32,6 +32,6 @@ export function handle_SablierFactoryMerkleLT_v2_0_CreateMerkleLT(event: CreateM
       totalDuration: params.totalDuration,
       tranchesWithPercentages: convertTranchesV2_0(baseParams.tranchesWithPercentages),
       transferable: baseParams.transferable,
-    },
+    }
   );
 }

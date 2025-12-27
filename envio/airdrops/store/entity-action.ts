@@ -7,7 +7,7 @@ export function create(
   context: Context.Handler,
   event: Envio.Event,
   watcher: Entity.Watcher,
-  params: Params.Action,
+  params: Params.Action
 ): Entity.Action {
   const action: Entity.Action = {
     block: BigInt(event.block.number),

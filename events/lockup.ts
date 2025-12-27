@@ -7,13 +7,13 @@ import type { Types } from "../lib/types";
 import type { Indexer } from "../src/types";
 import { erc721 } from "./common/erc721";
 
-const DEFAULT_INDEXERS: Array<Indexer.Name> = ["lockup", "analytics"];
+const DEFAULT_INDEXERS: Indexer.Name[] = ["lockup", "analytics"];
 
 function get(
   version: Sablier.Version.Lockup,
   contractName: string,
   eventName: string,
-  indexers: Array<Indexer.Name> = DEFAULT_INDEXERS,
+  indexers: Indexer.Name[] = DEFAULT_INDEXERS
 ): Types.Event {
   return {
     contractName,

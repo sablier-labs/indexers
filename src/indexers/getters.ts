@@ -9,9 +9,8 @@ export function getIndexer(opts: { chainId: number; protocol: P; vendor: V }): I
   const { chainId, protocol, vendor } = opts;
   if (vendor === "envio") {
     return indexers.envio[protocol].find((c) => c.chainId === chainId);
-  } else {
-    return indexers.graph[protocol].find((c) => c.chainId === chainId);
   }
+  return indexers.graph[protocol].find((c) => c.chainId === chainId);
 }
 export const getIndexerGraph = (opts: { chainId: number; protocol: P }): I | undefined =>
   getIndexer({ ...opts, vendor: "graph" });

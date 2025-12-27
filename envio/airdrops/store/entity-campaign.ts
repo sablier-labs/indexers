@@ -10,7 +10,7 @@ export function createInstant(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateCampaignBase,
+  params: Params.CreateCampaignBase
 ): Entity.Campaign {
   const campaign = createBaseCampaign(context, event, entities, params);
   context.Campaign.set(campaign);
@@ -21,7 +21,7 @@ export function createLL(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateCampaignLL,
+  params: Params.CreateCampaignLL
 ): Entity.Campaign {
   let campaign = createBaseCampaign(context, event, entities, params);
   const lockupCampaign = createLockupCampaign(params);
@@ -42,7 +42,7 @@ export function createLT(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateCampaignLT,
+  params: Params.CreateCampaignLT
 ): Entity.Campaign {
   let campaign = createBaseCampaign(context, event, entities, params);
   const lockupCampaign = createLockupCampaign(params);
@@ -58,7 +58,7 @@ export function createLT(
 export async function updateAdmin(
   context: Context.Handler,
   campaign: Entity.Campaign,
-  newAdmin: Envio.Address,
+  newAdmin: Envio.Address
 ): Promise<void> {
   const asset = await context.Asset.get(campaign.asset_id);
   if (!asset) {
@@ -74,7 +74,11 @@ export async function updateAdmin(
   context.Campaign.set(updatedCampaign);
 }
 
-export function updateClaimed(context: Context.Handler, campaign: Entity.Campaign, amount: bigint): void {
+export function updateClaimed(
+  context: Context.Handler,
+  campaign: Entity.Campaign,
+  amount: bigint
+): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
     claimedAmount: campaign.claimedAmount + amount,
@@ -83,7 +87,11 @@ export function updateClaimed(context: Context.Handler, campaign: Entity.Campaig
   context.Campaign.set(updatedCampaign);
 }
 
-export function updateClawback(context: Context.Handler, event: Envio.Event, campaign: Entity.Campaign): void {
+export function updateClawback(
+  context: Context.Handler,
+  event: Envio.Event,
+  campaign: Entity.Campaign
+): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
     clawbackAction_id: Id.action(event),
@@ -92,7 +100,11 @@ export function updateClawback(context: Context.Handler, event: Envio.Event, cam
   context.Campaign.set(updatedCampaign);
 }
 
-export function updateFee(context: Context.Handler, campaign: Entity.Campaign, newFee: bigint): void {
+export function updateFee(
+  context: Context.Handler,
+  campaign: Entity.Campaign,
+  newFee: bigint
+): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
     fee: newFee,
@@ -108,7 +120,7 @@ function createBaseCampaign(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateCampaignBase,
+  params: Params.CreateCampaignBase
 ): Entity.Campaign {
   const factoryVersion = getContractVersion("airdrops", event.chainId, entities.factory.address);
 
@@ -172,7 +184,7 @@ function createBaseCampaign(
 function addTranchesWithPercentages(
   context: Context.Handler,
   campaign: Entity.Campaign,
-  tranches: TrancheWithPercentage[],
+  tranches: TrancheWithPercentage[]
 ): void {
   // The start time of the stream is the first tranche's start time, so we use zero for the initial duration.
   let previous = { duration: 0n, unlockPercentage: 0n };

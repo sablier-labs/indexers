@@ -9,7 +9,7 @@ import { Id } from "../helpers";
 export async function trackMonthlyActiveUser(
   context: HandlerContext,
   event: Envio.Event,
-  userAddress: string,
+  userAddress: string
 ): Promise<void> {
   // Stop if it's the preload phase
   if (context.isPreload) {

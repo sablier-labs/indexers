@@ -11,7 +11,7 @@ export function convertSegmentsV1_0(eventSegments: StructSegmentV1_0[]): Segment
     eventSegments,
     (segment) => segment.amount,
     (segment) => segment.exponent,
-    (segment) => segment.milestone,
+    (segment) => segment.milestone
   );
 }
 
@@ -20,7 +20,7 @@ export function convertSegmentsV1_1(eventSegments: StructSegmentV1_1[]): Segment
     eventSegments,
     (segment) => segment.amount,
     (segment) => segment.exponent,
-    (segment) => segment.milestone,
+    (segment) => segment.milestone
   );
 }
 
@@ -33,7 +33,7 @@ export function convertSegmentsV1_2(eventSegments: StructSegmentV1_2[]): Segment
     eventSegments,
     (segment) => segment.amount,
     (segment) => segment.exponent,
-    (segment) => segment.timestamp,
+    (segment) => segment.timestamp
   );
 }
 
@@ -42,7 +42,7 @@ export function convertSegmentsV2_0(eventSegments: StructSegmentV2_0[]): Segment
     eventSegments,
     (segment) => segment.amount,
     (segment) => segment.exponent,
-    (segment) => segment.timestamp,
+    (segment) => segment.timestamp
   );
 }
 
@@ -51,7 +51,7 @@ export function convertSegmentsV3_0(eventSegments: StructSegmentV3_0[]): Segment
     eventSegments,
     (segment) => segment.amount,
     (segment) => segment.exponent,
-    (segment) => segment.timestamp,
+    (segment) => segment.timestamp
   );
 }
 
@@ -59,7 +59,7 @@ function convertSegments<T>(
   eventSegments: T[],
   getAmount: (segment: T) => BigInt,
   getExponent: (segment: T) => BigInt,
-  getMilestone: (segment: T) => BigInt,
+  getMilestone: (segment: T) => BigInt
 ): Segment[] {
   const result: Segment[] = [];
 

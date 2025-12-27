@@ -6,7 +6,7 @@ import * as Entity from "../bindings/schema";
 export function createDeprecatedStream(
   event: ethereum.Event,
   address: Address,
-  tokenId: BigInt,
+  tokenId: BigInt
 ): Entity.DeprecatedStream {
   const id = Id.stream(address, tokenId);
   const deprecatedStream = new Entity.DeprecatedStream(id);

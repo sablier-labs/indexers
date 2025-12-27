@@ -16,14 +16,17 @@ type Input<P extends Params.CreateCampaignBase> = {
     context: Context.Handler,
     event: Envio.Event,
     entities: Params.CreateEntities,
-    params: P,
+    params: P
   ) => Entity.Campaign;
   event: Envio.Event;
   entities: Params.CreateEntities;
   params: P;
 };
 
-export async function createMerkle<P extends Params.CreateCampaignBase>(input: Input<P>): Promise<void> {
+// biome-ignore lint/suspicious/useAwait: TODO fix later
+export async function createMerkle<P extends Params.CreateCampaignBase>(
+  input: Input<P>
+): Promise<void> {
   const { context, createInStore, event, entities, params } = input;
 
   /* -------------------------------- CAMPAIGN -------------------------------- */

@@ -14,14 +14,16 @@ Contract.Lockup.LockupTranched_v1_2.CancelLockupStream.handler(async ({ context,
   ]);
 });
 
-Contract.Lockup.LockupTranched_v1_2.CreateLockupTranchedStream.handler(async ({ context, event }) => {
-  await Store.User.createOrUpdate(context, event, [
-    event.params.sender,
-    event.params.recipient,
-    event.params.funder,
-    event.transaction.from,
-  ]);
-});
+Contract.Lockup.LockupTranched_v1_2.CreateLockupTranchedStream.handler(
+  async ({ context, event }) => {
+    await Store.User.createOrUpdate(context, event, [
+      event.params.sender,
+      event.params.recipient,
+      event.params.funder,
+      event.transaction.from,
+    ]);
+  }
+);
 
 Contract.Lockup.LockupTranched_v1_2.RenounceLockupStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.transaction.from]);

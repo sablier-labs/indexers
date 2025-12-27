@@ -25,10 +25,13 @@ import { createEnvioConfig } from "./envio-config/index";
 /*                                   OPTIONS                                  */
 /* -------------------------------------------------------------------------- */
 
-const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup", "analytics", "all"] as const).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to generate config for"),
-);
+const indexerOption = Options.choice("indexer", [
+  "airdrops",
+  "flow",
+  "lockup",
+  "analytics",
+  "all",
+] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate config for"));
 
 /* -------------------------------------------------------------------------- */
 /*                                   COMMAND                                  */
@@ -54,7 +57,9 @@ function generateConfig(indexer: Indexer.Name): Effect.Effect<void, never, FileS
   }).pipe(Effect.orDie);
 }
 
-function generateConfigWithResult(indexer: Indexer.Name): Effect.Effect<ConfigResult, never, FileSystem.FileSystem> {
+function generateConfigWithResult(
+  indexer: Indexer.Name
+): Effect.Effect<ConfigResult, never, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const config = createEnvioConfig(indexer);
@@ -62,7 +67,9 @@ function generateConfigWithResult(indexer: Indexer.Name): Effect.Effect<ConfigRe
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
     return { configPath: helpers.getRelative(configPath), indexer, status: "generated" as const };
-  }).pipe(Effect.catchAll(() => Effect.succeed({ configPath: "", indexer, status: "error" as const })));
+  }).pipe(
+    Effect.catchAll(() => Effect.succeed({ configPath: "", indexer, status: "error" as const }))
+  );
 }
 
 function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
@@ -81,8 +88,13 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
     });
 
     for (const result of results) {
-      const statusText = result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
-      table.push([colors.value(_.capitalize(result.indexer)), colors.dim(result.configPath), statusText]);
+      const statusText =
+        result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
+      table.push([
+        colors.value(_.capitalize(result.indexer)),
+        colors.dim(result.configPath),
+        statusText,
+      ]);
     }
 
     yield* Console.log(table.toString());
@@ -101,7 +113,7 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
     summaryTable.push(
       [colors.success("Generated"), colors.value(generated.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
-      [chalk.white.bold("Total Configs"), chalk.white.bold(results.length.toString())],
+      [chalk.white.bold("Total Configs"), chalk.white.bold(results.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -115,7 +127,7 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
         new ProcessError({
           command: "codegen envio-config",
           message: `Config generation completed with ${errors} errors`,
-        }),
+        })
       );
     }
   });
@@ -132,4 +144,8 @@ const envioConfigLogic = (options: { readonly indexer: Indexer.Name | "all" }) =
     return yield* generateConfig(indexerArg);
   });
 
-export const envioConfigCommand = Command.make("envio-config", { indexer: indexerOption }, envioConfigLogic);
+export const envioConfigCommand = Command.make(
+  "envio-config",
+  { indexer: indexerOption },
+  envioConfigLogic
+);

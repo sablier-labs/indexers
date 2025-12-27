@@ -30,13 +30,16 @@ import { colors, createTable, displayHeader } from "../../shared/display-utils";
 
 const vendorOption = Options.choice("vendor", ["graph", "envio", "all"] as const).pipe(
   Options.withAlias("v"),
-  Options.withDescription("Vendor to generate schemas for"),
+  Options.withDescription("Vendor to generate schemas for")
 );
 
-const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup", "analytics", "all"] as const).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to generate schema for"),
-);
+const indexerOption = Options.choice("indexer", [
+  "airdrops",
+  "flow",
+  "lockup",
+  "analytics",
+  "all",
+] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
 
 /* -------------------------------------------------------------------------- */
 /*                                   COMMAND                                  */
@@ -56,7 +59,7 @@ type SchemaResult = {
  */
 function generateSchemaWithResult(
   vendor: Indexer.Vendor,
-  indexer: Indexer.Name,
+  indexer: Indexer.Name
 ): Effect.Effect<SchemaResult, never, FileSystem.FileSystem> {
   if (EXCLUDED_INDEXERS.includes(indexer)) {
     return Effect.succeed({
@@ -88,8 +91,8 @@ function generateSchemaWithResult(
         outputPath: "",
         status: "error" as const,
         vendor,
-      }),
-    ),
+      })
+    )
   );
 }
 
@@ -98,7 +101,7 @@ function generateSchemaWithResult(
  */
 function generateSchema(
   vendor: Indexer.Vendor,
-  indexer: Indexer.Name,
+  indexer: Indexer.Name
 ): Effect.Effect<void, never, FileSystem.FileSystem> {
   if (EXCLUDED_INDEXERS.includes(indexer)) {
     return Effect.void;
@@ -113,14 +116,16 @@ function generateSchema(
     yield* fs.writeFileString(outputPath, schema);
 
     yield* Console.log(
-      `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(indexer)} indexer`,
+      `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(indexer)} indexer`
     );
     yield* Console.log(`📁 Output path: ${helpers.getRelative(outputPath)}`);
     yield* Console.log("");
   }).pipe(Effect.orDie);
 }
 
-function generateAllIndexerSchemas(vendor: Indexer.Vendor): Effect.Effect<void, never, FileSystem.FileSystem> {
+function generateAllIndexerSchemas(
+  vendor: Indexer.Vendor
+): Effect.Effect<void, never, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     for (const i of INDEXERS) {
       yield* generateSchema(vendor, i);
@@ -129,7 +134,7 @@ function generateAllIndexerSchemas(vendor: Indexer.Vendor): Effect.Effect<void, 
 }
 
 function generateAllVendorSchemas(
-  indexerArg: Indexer.Name | "all",
+  indexerArg: Indexer.Name | "all"
 ): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
@@ -148,7 +153,7 @@ function generateAllVendorSchemas(
 
     // Generate schemas with Effect.forEach
     const results = yield* Effect.forEach(combinations, ({ vendor, indexer }) =>
-      generateSchemaWithResult(vendor, indexer),
+      generateSchemaWithResult(vendor, indexer)
     );
 
     // Display results table
@@ -160,9 +165,12 @@ function generateAllVendorSchemas(
     });
 
     for (const result of results) {
-      if (result.status === "skipped") continue;
+      if (result.status === "skipped") {
+        continue;
+      }
 
-      const statusText = result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
+      const statusText =
+        result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
       table.push([
         colors.value(_.capitalize(result.vendor)),
         colors.value(_.capitalize(result.indexer)),
@@ -189,7 +197,7 @@ function generateAllVendorSchemas(
       [colors.success("Generated"), colors.value(generated.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
       [colors.dim("Skipped"), colors.value(skipped.toString())],
-      [chalk.cyan.bold("Total Schemas"), chalk.white.bold((results.length - skipped).toString())],
+      [chalk.cyan.bold("Total Schemas"), chalk.white.bold((results.length - skipped).toString())]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -200,13 +208,19 @@ function generateAllVendorSchemas(
     } else {
       yield* Console.log(colors.error(`❌ Generation completed with ${errors} errors`));
       return yield* Effect.fail(
-        new ProcessError({ command: "codegen schema", message: `Schema generation completed with ${errors} errors` }),
+        new ProcessError({
+          command: "codegen schema",
+          message: `Schema generation completed with ${errors} errors`,
+        })
       );
     }
   });
 }
 
-const schemaLogic = (options: { readonly vendor: "graph" | "envio" | "all"; readonly indexer: Indexer.Name | "all" }) =>
+const schemaLogic = (options: {
+  readonly vendor: "graph" | "envio" | "all";
+  readonly indexer: Indexer.Name | "all";
+}) =>
   Effect.gen(function* () {
     const vendorArg = options.vendor;
     const indexerArg = options.indexer;
@@ -222,4 +236,8 @@ const schemaLogic = (options: { readonly vendor: "graph" | "envio" | "all"; read
     return yield* generateSchema(vendorArg, indexerArg);
   });
 
-export const schemaCommand = Command.make("schema", { indexer: indexerOption, vendor: vendorOption }, schemaLogic);
+export const schemaCommand = Command.make(
+  "schema",
+  { indexer: indexerOption, vendor: vendorOption },
+  schemaLogic
+);

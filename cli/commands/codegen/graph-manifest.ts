@@ -31,14 +31,19 @@ import { createGraphManifest } from "./graph-manifest/index";
 /*                                   OPTIONS                                  */
 /* -------------------------------------------------------------------------- */
 
-const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup", "all"] as const).pipe(
+const indexerOption = Options.choice("indexer", [
+  "airdrops",
+  "flow",
+  "lockup",
+  "all",
+] as const).pipe(
   Options.withAlias("i"),
-  Options.withDescription("Indexer to generate manifest for"),
+  Options.withDescription("Indexer to generate manifest for")
 );
 
 const chainOption = Options.text("chain").pipe(
   Options.withAlias("c"),
-  Options.withDescription('Chain slug (use "all" for all chains)'),
+  Options.withDescription('Chain slug (use "all" for all chains)')
 );
 
 /* -------------------------------------------------------------------------- */
@@ -65,7 +70,10 @@ function writeManifestToFile(indexer: Indexer.Name, chainId: number): string {
   return helpers.getRelative(manifestPath);
 }
 
-function generateManifest(indexer: Indexer.Name, chainArg: string): Effect.Effect<void, Error, never> {
+function generateManifest(
+  indexer: Indexer.Name,
+  chainArg: string
+): Effect.Effect<void, Error, never> {
   return Effect.gen(function* () {
     const chain = yield* helpers.getChain(chainArg);
     const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
@@ -80,7 +88,7 @@ function generateManifest(indexer: Indexer.Name, chainArg: string): Effect.Effec
 
 function generateAllChainManifests(
   indexer: Indexer.Name,
-  suppressFinalLog = false,
+  suppressFinalLog = false
 ): Effect.Effect<number, Error, never> {
   return Effect.gen(function* () {
     const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
@@ -97,21 +105,34 @@ function generateAllChainManifests(
       try {
         const manifestPath = writeManifestToFile(indexer as Indexer.Protocol, chainId);
         const chain = sablier.chains.get(chainId);
-        results.push({ chainId, chainName: chain?.name || "Unknown", manifestPath, status: "generated" });
+        results.push({
+          chainId,
+          chainName: chain?.name || "Unknown",
+          manifestPath,
+          status: "generated",
+        });
       } catch {
         const chain = sablier.chains.get(chainId);
-        results.push({ chainId, chainName: chain?.name || "Unknown", manifestPath: "", status: "error" });
+        results.push({
+          chainId,
+          chainName: chain?.name || "Unknown",
+          manifestPath: "",
+          status: "error",
+        });
       }
     }
 
     if (results.length === 0) {
       return yield* Effect.fail(
-        new Error(`No manifests generated for indexer ${_.capitalize(indexer)}. This is a bug.`),
+        new Error(`No manifests generated for indexer ${_.capitalize(indexer)}. This is a bug.`)
       );
     }
 
     if (!suppressFinalLog) {
-      displayHeader(`📋 GENERATING GRAPH MANIFESTS: ${_.capitalize(indexer).toUpperCase()}`, "cyan");
+      displayHeader(
+        `📋 GENERATING GRAPH MANIFESTS: ${_.capitalize(indexer).toUpperCase()}`,
+        "cyan"
+      );
 
       yield* Console.log("");
       const table = createTable({
@@ -121,7 +142,8 @@ function generateAllChainManifests(
       });
 
       for (const result of results) {
-        const statusText = result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
+        const statusText =
+          result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
         table.push([
           colors.value(result.chainName),
           colors.dim(result.chainId.toString()),
@@ -146,7 +168,7 @@ function generateAllChainManifests(
       summaryTable.push(
         [colors.success("Generated"), colors.value(generated.toString())],
         [colors.error("Errors"), colors.value(errors.toString())],
-        [chalk.white.bold("Total Manifests"), chalk.white.bold(results.length.toString())],
+        [chalk.white.bold("Total Manifests"), chalk.white.bold(results.length.toString())]
       );
 
       yield* Console.log(summaryTable.toString());
@@ -168,7 +190,9 @@ function generateAllProtocolManifests(chainArg: string): Effect.Effect<void, Err
       if (chainArg === "all") {
         const filesGenerated = yield* generateAllChainManifests(p, true);
         totalCount += filesGenerated;
-        yield* Console.log(`✅ Generated ${filesGenerated} manifests for ${_.capitalize(p)} protocol`);
+        yield* Console.log(
+          `✅ Generated ${filesGenerated} manifests for ${_.capitalize(p)} protocol`
+        );
         continue;
       }
 
@@ -205,5 +229,5 @@ const graphManifestLogic = (options: {
 export const graphManifestCommand = Command.make(
   "graph-manifest",
   { chain: chainOption, indexer: indexerOption },
-  graphManifestLogic,
+  graphManifestLogic
 );

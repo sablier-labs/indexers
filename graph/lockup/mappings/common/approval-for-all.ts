@@ -3,7 +3,10 @@ import { ONE, ZERO } from "../../../common/constants";
 import { CommonParams } from "../../../common/types";
 import { Store } from "../../store";
 
-export function handleApprovalForAll(event: ethereum.Event, params: CommonParams.ApprovalForAll): void {
+export function handleApprovalForAll(
+  event: ethereum.Event,
+  params: CommonParams.ApprovalForAll
+): void {
   Store.Action.create(event, {
     addressA: params.owner,
     addressB: params.operator,

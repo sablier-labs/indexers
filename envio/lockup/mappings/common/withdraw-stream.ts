@@ -34,7 +34,7 @@ const handler: Handler = async ({ context, event }) => {
   const withdrawAmount = event.params.amount;
   const totalWithdrawnAmount = stream.withdrawnAmount + withdrawAmount;
 
-  let intactAmount: bigint = 0n;
+  let intactAmount = 0n;
   if (stream.canceledAction_id) {
     intactAmount = stream.intactAmount - withdrawAmount; // Subtract the intact amount set in the cancel action
   } else {

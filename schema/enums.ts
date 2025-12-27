@@ -85,17 +85,20 @@ export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
     case Protocol.Airdrops:
       enumDefs.push(
         getEnum(Airdrops.ActionCategory, "ActionCategory"),
-        getEnum(Airdrops.CampaignCategory, "CampaignCategory"),
+        getEnum(Airdrops.CampaignCategory, "CampaignCategory")
       );
       break;
     case Protocol.Flow:
-      enumDefs.push(getEnum(Flow.ActionCategory, "ActionCategory"), getEnum(Flow.StreamCategory, "StreamCategory"));
+      enumDefs.push(
+        getEnum(Flow.ActionCategory, "ActionCategory"),
+        getEnum(Flow.StreamCategory, "StreamCategory")
+      );
       break;
     case Protocol.Lockup:
       enumDefs.push(
         getEnum(Lockup.ActionCategory, "ActionCategory"),
         getEnum(Lockup.StreamCategory, "StreamCategory"),
-        getEnum(Lockup.ShapeSource, "ShapeSource"),
+        getEnum(Lockup.ShapeSource, "ShapeSource")
       );
       break;
   }

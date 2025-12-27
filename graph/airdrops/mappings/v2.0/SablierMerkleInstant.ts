@@ -4,7 +4,12 @@ import {
   LowerMinFeeUSD,
   TransferAdmin,
 } from "../../bindings/templates/SablierMerkleInstant_v2_0/SablierMerkleInstant";
-import { handleClaimInstant, handleClawback, handleLowerMinFeeUSD, handleTransferAdmin } from "../common";
+import {
+  handleClaimInstant,
+  handleClawback,
+  handleLowerMinFeeUSD,
+  handleTransferAdmin,
+} from "../common";
 
 export function handle_SablierMerkleInstant_v2_0_TransferAdmin(event: TransferAdmin): void {
   handleTransferAdmin(event, {

@@ -24,13 +24,17 @@ Contract.Airdrops.Campaign.MerkleInstant_v2_0.ClaimInstant.handler(async ({ cont
     context,
     event,
     [event.params.recipient, event.params.to, event.transaction.from],
-    isAirdropClaim,
+    isAirdropClaim
   );
   await Store.Fees.createOrUpdate(context, event);
 });
 
 Contract.Airdrops.Campaign.MerkleInstant_v2_0.Clawback.handler(async ({ context, event }) => {
-  await Store.User.createOrUpdate(context, event, [event.params.admin, event.params.to, event.transaction.from]);
+  await Store.User.createOrUpdate(context, event, [
+    event.params.admin,
+    event.params.to,
+    event.transaction.from,
+  ]);
 });
 
 Contract.Airdrops.Campaign.MerkleInstant_v2_0.TransferAdmin.handler(async ({ context, event }) => {

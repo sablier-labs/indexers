@@ -1,10 +1,12 @@
 import { Contract } from "../../../../bindings";
 import { Store } from "../../../../store";
 
-Contract.Airdrops.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.contractRegister(({ context, event }) => {
-  const campaignAddress = event.params.merkleInstant;
-  context.addSablierMerkleInstant_v2_0(campaignAddress);
-});
+Contract.Airdrops.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.contractRegister(
+  ({ context, event }) => {
+    const campaignAddress = event.params.merkleInstant;
+    context.addSablierMerkleInstant_v2_0(campaignAddress);
+  }
+);
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -35,7 +37,9 @@ struct ConstructorParams {
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Airdrops.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.handler(async ({ context, event }) => {
-  const initialAdmin = event.params.params[3];
-  await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
-});
+Contract.Airdrops.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.handler(
+  async ({ context, event }) => {
+    const initialAdmin = event.params.params[3];
+    await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
+  }
+);

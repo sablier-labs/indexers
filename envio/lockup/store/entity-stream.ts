@@ -15,7 +15,7 @@ export function createDynamic(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateStreamDynamic,
+  params: Params.CreateStreamDynamic
 ): Entity.Stream {
   const baseStream = createBase(context, event, entities, params);
   const shape = addDynamicShape(baseStream, params.segments);
@@ -29,7 +29,7 @@ export function createLinear(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateStreamLinear,
+  params: Params.CreateStreamLinear
 ): Entity.Stream {
   const baseStream = createBase(context, event, entities, params);
 
@@ -51,7 +51,7 @@ export function createTranched(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateStreamTranched,
+  params: Params.CreateStreamTranched
 ): Entity.Stream {
   const baseStream = createBase(context, event, entities, params);
   const shape = addTranchedShape(baseStream, params.tranches);
@@ -69,7 +69,7 @@ function createBase(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.CreateStreamCommon,
+  params: Params.CreateStreamCommon
 ): Entity.Stream {
   const { asset, batch, batcher, watcher } = entities;
 
@@ -142,7 +142,7 @@ function createBase(
 
 function addCliff(
   stream: Entity.Stream,
-  params: Params.CreateStreamLinear,
+  params: Params.CreateStreamLinear
 ): Pick<Entity.Stream, "cliff" | "cliffAmount" | "cliffTime"> {
   const defaultCliff = { cliff: false, cliffAmount: undefined, cliffTime: undefined };
 
@@ -192,7 +192,9 @@ function addCliff(
   throw new Error(`Unknown Lockup version: ${stream.version}`);
 }
 
-function addInitial(params: Params.CreateStreamLinear): Pick<Entity.Stream, "initial" | "initialAmount"> {
+function addInitial(
+  params: Params.CreateStreamLinear
+): Pick<Entity.Stream, "initial" | "initialAmount"> {
   if (params.unlockAmountStart && params.unlockAmountStart > 0n) {
     return {
       initial: true,
@@ -246,7 +248,9 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResul
   for (const seg of segments) {
     if (seg.amount > 0n) {
       nonZeroCount++;
-      if (nonZeroCount === 1) exponent = seg.exponent;
+      if (nonZeroCount === 1) {
+        exponent = seg.exponent;
+      }
     }
   }
 
