@@ -19,9 +19,11 @@ ni := require("ni")
 # ---------------------------------------------------------------------------- #
 
 COREDAO_AUTH_TOKEN := env("COREDAO_AUTH_TOKEN")
+DENERGY_AUTH_TOKEN := env("DENERGY_AUTH_TOKEN")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
 IPFS_URL_CORE_DAO := "https://thegraph.coredao.org/ipfs/"
+IPFS_URL_DENERGY := "https://ipfs.denergychain.com"
 INDEXER_NAME := env("INDEXER_NAME")
 
 # ---------------------------------------------------------------------------- #
@@ -104,19 +106,25 @@ alias da := deploy-all
 @deploy-custom chain_slug version_label: codegen
     extra_args=""
     case {{ chain_slug }} in
-        lightlink)
-            node_url="https://graph.phoenix.lightlink.io/rpc"
-            ipfs_url="{{ IPFS_URL }}"
-            subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
-            ;;
         core)
             node_url="https://thegraph.coredao.org/deploy/"
             ipfs_url="{{ IPFS_URL_CORE_DAO }}"
             extra_args="--deploy-key {{ COREDAO_AUTH_TOKEN }}"
             subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
             ;;
+        denergychain)
+            node_url="https://thegraph.denergychain.com/deploy"
+            ipfs_url="{{ IPFS_URL_DENERGY }}"
+            subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
+            extra_args="--access-token {{ DENERGY_AUTH_TOKEN }}"
+            ;;
+        lightlink)
+            node_url="https://graph.phoenix.lightlink.io/rpc"
+            ipfs_url="{{ IPFS_URL }}"
+            subgraph_name={{ chain_slug }}/sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
+            ;;
         *)
-            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: Core DAO, Lightlink"
+            echo "Error: Unsupported chain '{{ chain_slug }}'. Supported chains: Core DAO, Denergy, Lightlink"
             exit 1
             ;;
     esac

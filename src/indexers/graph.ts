@@ -22,6 +22,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
   [chains.blast.id]: "blast-mainnet",
   [chains.coreDao.id]: "core",
+  [chains.denergy.id]: "denergychain",
   [chains.polygon.id]: "matic",
   [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
@@ -32,6 +33,7 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
   [chains.coreDao.id]: "core",
+  [chains.denergy.id]: "denergychain",
   [chains.mainnet.id]: "ethereum",
 };
 
@@ -133,6 +135,7 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
 const CUSTOMS: IndexerGraphMap[] = [
   custom(chains.lightlink.id, "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"),
   custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/core/{SUBGRAPH_NAME}"),
+  custom(chains.denergy.id, "https://thegraph.denergychain.com/subgraphs/name/denergychain/{SUBGRAPH_NAME}"),
 ];
 
 const OFFICIALS: IndexerGraphMap[] = [
