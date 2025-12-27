@@ -69,6 +69,23 @@
           }
         }
       }
+    },
+    /* -------------------------------------------------------------------------- */
+    /*                              GRAPHQL SCHEMAS                               */
+    /* -------------------------------------------------------------------------- */
+    // Re-enable formatting for envio graphql files (ultracite disables it by default)
+    {
+      "includes": ["envio/**/*.graphql"],
+      "formatter": { "enabled": true },
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "style": {
+            // We use PascalCase for enum values, not ALL_CAPS
+            "useGraphqlNamingConvention": "off"
+          }
+        }
+      }
     }
   ]
 }
