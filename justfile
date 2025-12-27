@@ -77,7 +77,7 @@ alias codegen-indexers := codegen
     just --quiet biome-write "envio/**/*.graphql"
 
 # Open the Envio dashboard in the default browser
-[group("envio")]
+[group("envio"), unix]
 @open-envio:
     open "https://envio.dev/app/sablier-labs"
 

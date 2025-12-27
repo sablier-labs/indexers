@@ -271,7 +271,7 @@ function deployToChain(
       yield* logger.log(`DRY RUN: Would execute command in ${workingDir}`);
       spinner.stop();
       yield* Console.log(chalk.yellow(`[DRY RUN] Would deploy to ${deployment.chainName}`));
-      yield* logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`));
+      yield* logger.log(`[DRY RUN] Would deploy to ${deployment.chainName}`);
       return { deploymentId: undefined, indexerName, success: true } as const;
     }
 
