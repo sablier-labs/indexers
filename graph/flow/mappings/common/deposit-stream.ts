@@ -6,7 +6,10 @@ import { scale } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
-export function handleDepositFlowStream(event: ethereum.Event, params: Params.DepositFlowStream): void {
+export function handleDepositFlowStream(
+  event: ethereum.Event,
+  params: Params.DepositFlowStream
+): void {
   const id = params.streamId;
   if (Store.DeprecatedStream.exists(event.address, id)) {
     return;

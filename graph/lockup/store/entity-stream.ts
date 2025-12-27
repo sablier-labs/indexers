@@ -1,5 +1,13 @@
 import { BigInt, dataSource, ethereum } from "@graphprotocol/graph-ts";
-import { LOCKUP_V1_0, LOCKUP_V1_1, LOCKUP_V1_2, LOCKUP_V2_0, LOCKUP_V3_0, ONE, ZERO } from "../../common/constants";
+import {
+  LOCKUP_V1_0,
+  LOCKUP_V1_1,
+  LOCKUP_V1_2,
+  LOCKUP_V2_0,
+  LOCKUP_V3_0,
+  ONE,
+  ZERO,
+} from "../../common/constants";
 import { readChainId, readContractVersion } from "../../common/context";
 import { isDeprecatedContract as isDeprecatedLockupContract } from "../../common/deprecated";
 import { Id } from "../../common/id";
@@ -34,7 +42,7 @@ function isV1x(version: string): boolean {
 export function createStreamDynamic(
   event: ethereum.Event,
   commonParams: Params.CreateStreamCommon,
-  dynamicParams: Params.CreateStreamDynamic,
+  dynamicParams: Params.CreateStreamDynamic
 ): void {
   if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
     createDeprecatedStream(event, event.address, commonParams.streamId);
@@ -50,7 +58,7 @@ export function createStreamDynamic(
 export function createStreamLinear(
   event: ethereum.Event,
   commonParams: Params.CreateStreamCommon,
-  linearParams: Params.CreateStreamLinear,
+  linearParams: Params.CreateStreamLinear
 ): void {
   if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
     createDeprecatedStream(event, event.address, commonParams.streamId);
@@ -75,7 +83,7 @@ export function createStreamLinear(
 export function createStreamTranched(
   event: ethereum.Event,
   commonParams: Params.CreateStreamCommon,
-  tranchedParams: Params.CreateStreamTranched,
+  tranchedParams: Params.CreateStreamTranched
 ): void {
   if (isDeprecatedLockupContract(event, "lockup", commonParams.asset)) {
     createDeprecatedStream(event, event.address, commonParams.streamId);
@@ -178,11 +186,14 @@ function createBaseStream(event: ethereum.Event, params: Params.CreateStreamComm
 function addCliff(
   stream: Entity.Stream,
   commonParams: Params.CreateStreamCommon,
-  linearParams: Params.CreateStreamLinear,
+  linearParams: Params.CreateStreamLinear
 ): Entity.Stream {
   // In v2.0 and later, the cliff time is set to zero if there is no cliff.
   // See https://github.com/sablier-labs/lockup/blob/v2.0.1/src/libraries/Helpers.sol#L204-L219
-  if (areStringsEqual(stream.version, LOCKUP_V2_0) || areStringsEqual(stream.version, LOCKUP_V3_0)) {
+  if (
+    areStringsEqual(stream.version, LOCKUP_V2_0) ||
+    areStringsEqual(stream.version, LOCKUP_V3_0)
+  ) {
     if (linearParams.cliffTime.gt(ZERO)) {
       stream.cliff = true;
       stream.cliffAmount = linearParams.unlockAmountCliff;
@@ -212,7 +223,10 @@ function addCliff(
   // In v1.0 and v1.1, no cliff means the cliff duration is zero, i.e., cliff time is the same as start time.
   // See https://github.com/sablier-labs/lockup/blob/v1.1.2/src/libraries/Helpers.sol#L88-L103
   // See https://github.com/sablier-labs/lockup/blob/v1.0.2/src/libraries/Helpers.sol#L88-L103
-  if (areStringsEqual(stream.version, LOCKUP_V1_0) || areStringsEqual(stream.version, LOCKUP_V1_1)) {
+  if (
+    areStringsEqual(stream.version, LOCKUP_V1_0) ||
+    areStringsEqual(stream.version, LOCKUP_V1_1)
+  ) {
     if (cliffDuration.gt(ZERO)) {
       stream.cliff = true;
       stream.cliffAmount = commonParams.depositAmount.times(cliffDuration).div(totalDuration);

@@ -15,7 +15,7 @@ type VendorCheckResult = {
 
 const chainIdOption = Options.integer("chain-id").pipe(
   Options.withDescription("Chain ID to check"),
-  Options.withAlias("c"),
+  Options.withAlias("c")
 );
 
 const checkEnvioSupport = (chainId: number) =>
@@ -33,7 +33,9 @@ const checkEnvioSupport = (chainId: number) =>
       Effect.flatMap((response) => response.json),
       Effect.flatMap((data) => {
         if (!Array.isArray(data)) {
-          return Effect.fail(new VendorApiError({ message: "Unexpected API response format", vendor: "envio" }));
+          return Effect.fail(
+            new VendorApiError({ message: "Unexpected API response format", vendor: "envio" })
+          );
         }
         const supportedChainIds = (data as Array<{ chain_id: number }>).map((c) => c.chain_id);
         return Effect.succeed({
@@ -42,7 +44,12 @@ const checkEnvioSupport = (chainId: number) =>
         } satisfies VendorCheckResult);
       }),
       // Retry with exponential backoff matching axios-retry behavior
-      Effect.retry(Schedule.exponential("100 millis").pipe(Schedule.intersect(Schedule.recurs(3)), Schedule.jittered)),
+      Effect.retry(
+        Schedule.exponential("100 millis").pipe(
+          Schedule.intersect(Schedule.recurs(3)),
+          Schedule.jittered
+        )
+      ),
       // Catch all errors and return unsupported status
       Effect.catchAll((error) => {
         const errorMessage = error instanceof Error ? error.message : String(error);
@@ -50,7 +57,7 @@ const checkEnvioSupport = (chainId: number) =>
           note: `API error: ${errorMessage}`,
           supported: false,
         } satisfies VendorCheckResult);
-      }),
+      })
     );
 
     return result;
@@ -75,8 +82,8 @@ const checkGraphSupport = (chainId: number): Effect.Effect<VendorCheckResult> =>
       Effect.succeed({
         note: `API error: ${error.message}`,
         supported: false,
-      } satisfies VendorCheckResult),
-    ),
+      } satisfies VendorCheckResult)
+    )
   );
 
 const checkVendorsLogic = (options: { readonly chainId: number }) =>
@@ -86,7 +93,7 @@ const checkVendorsLogic = (options: { readonly chainId: number }) =>
     // Validate chain ID
     if (chainId <= 0) {
       return yield* Effect.fail(
-        new ValidationError({ field: "chainId", message: "Chain ID must be a positive number" }),
+        new ValidationError({ field: "chainId", message: "Chain ID must be a positive number" })
       );
     }
 
@@ -106,7 +113,7 @@ const checkVendorsLogic = (options: { readonly chainId: number }) =>
 
     chainInfoTable.push(
       [colors.value("Chain ID"), colors.value(chainId.toString())],
-      [colors.value("Chain Name"), colors.value(chainName)],
+      [colors.value("Chain Name"), colors.value(chainName)]
     );
 
     yield* Console.log(chainInfoTable.toString());
@@ -133,7 +140,7 @@ const checkVendorsLogic = (options: { readonly chainId: number }) =>
         colors.value("The Graph"),
         graphResult.supported ? colors.success("✅ Supported") : colors.error("❌ Not Supported"),
         colors.dim(graphResult.note || "—"),
-      ],
+      ]
     );
 
     yield* Console.log(resultsTable.toString());
@@ -150,4 +157,8 @@ const checkVendorsLogic = (options: { readonly chainId: number }) =>
     }
   });
 
-export const checkVendorsCommand = Command.make("check-vendors", { chainId: chainIdOption }, checkVendorsLogic);
+export const checkVendorsCommand = Command.make(
+  "check-vendors",
+  { chainId: chainIdOption },
+  checkVendorsLogic
+);

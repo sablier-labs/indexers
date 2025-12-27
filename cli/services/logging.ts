@@ -28,10 +28,12 @@ export const makeFileLogger = (logFilePath: string) =>
           fs.readFileString(logFilePath).pipe(
             Effect.flatMap((content) => fs.writeFileString(logFilePath, `${content}${message}\n`)),
             Effect.catchAll(() => fs.writeFileString(logFilePath, `${message}\n`)),
-            Effect.catchAll((e) => Effect.fail(new Error(String(e)))),
+            Effect.catchAll((e) => Effect.fail(new Error(String(e))))
           ),
         createLogFile: (path: string) =>
-          fs.writeFileString(path, "").pipe(Effect.catchAll((e) => Effect.fail(new Error(String(e))))),
+          fs
+            .writeFileString(path, "")
+            .pipe(Effect.catchAll((e) => Effect.fail(new Error(String(e))))),
       };
-    }),
+    })
   );

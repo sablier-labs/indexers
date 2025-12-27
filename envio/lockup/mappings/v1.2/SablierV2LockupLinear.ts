@@ -1,7 +1,14 @@
 import { Contract } from "../../bindings";
 import type { Params } from "../../helpers/types";
 import { Store } from "../../store";
-import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
+import {
+  approval,
+  approvalForAll,
+  cancelStream,
+  renounceStream,
+  transfer,
+  withdrawStream,
+} from "../common";
 import { createStream } from "../common/create-stream";
 import { preloadCreateEntities } from "../common/preload";
 
@@ -54,7 +61,7 @@ Contract.LockupLinear_v1_2.CreateLockupLinearStream.handler(async ({ context, ev
     depositAmount: event.params.amounts[0],
     endTime: event.params.timestamps[2],
     funder: event.params.funder,
-    proxender: proxender,
+    proxender,
     recipient: event.params.recipient,
     sender: event.params.sender,
     startTime: event.params.timestamps[0],

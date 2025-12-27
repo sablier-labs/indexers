@@ -5,7 +5,10 @@ import { CommonParams } from "../../../common/types";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
-export function handleWithdrawFromStream(event: ethereum.Event, params: Params.WithdrawFromStream): void {
+export function handleWithdrawFromStream(
+  event: ethereum.Event,
+  params: Params.WithdrawFromStream
+): void {
   const tokenId = params.streamId;
   if (Store.DeprecatedStream.exists(event.address, tokenId)) {
     return;

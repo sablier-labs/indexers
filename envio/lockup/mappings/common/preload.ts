@@ -68,7 +68,14 @@ export async function preloadCreateEntities({
   });
 
   const entities: Params.CreateEntities = {
-    asset: asset ?? (CommonStore.Asset.create(context, event.chainId, params.asset, assetMetadata) as Entity.Asset),
+    asset:
+      asset ??
+      (CommonStore.Asset.create(
+        context,
+        event.chainId,
+        params.asset,
+        assetMetadata
+      ) as Entity.Asset),
     batch: batch ?? Store.Batch.create(event, params.sender),
     batcher: batcher ?? Store.Batcher.create(context, event, params.sender),
     watcher: watcher ?? (CommonStore.Watcher.create(event.chainId) as Entity.Watcher),

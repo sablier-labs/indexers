@@ -34,7 +34,7 @@ export const fetchGBPExchangeRate = experimental_createEffect(
       return await fetchTodayGBPRate(context.log, CURRENCY_FREAKS_API_KEY);
     }
     return await fetchFromCurrencyFreaksAPI(context.log, date, CURRENCY_FREAKS_API_KEY);
-  },
+  }
 );
 
 /**
@@ -77,7 +77,11 @@ async function fetchTodayGBPRate(logger: Logger, apiKey: string): Promise<number
 /**
  * @see https://currencyfreaks.com/documentation.html
  */
-export async function fetchFromCurrencyFreaksAPI(logger: Logger, date: string, apiKey: string): Promise<number> {
+export async function fetchFromCurrencyFreaksAPI(
+  logger: Logger,
+  date: string,
+  apiKey: string
+): Promise<number> {
   const url = new URL(`${CURRENCY_FREAKS_BASE_URL}/convert/historical`);
   url.searchParams.set("apikey", apiKey);
   url.searchParams.set("date", date);
@@ -91,7 +95,7 @@ export async function fetchFromCurrencyFreaksAPI(logger: Logger, date: string, a
     if (!response.data.rate || _.isNaN(response.data.rate)) {
       logger.error("Failed to fetch exchange rate: API returned error", {
         date,
-        response: response,
+        response,
         url: url.toString(),
       });
       return NO_PRICE;

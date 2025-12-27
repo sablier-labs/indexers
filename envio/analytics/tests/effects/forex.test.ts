@@ -61,7 +61,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
           date: "2023-01-01",
           response: mockResponse,
           url: expect.stringContaining(CURRENCY_FREAKS_BASE_URL),
-        }),
+        })
       );
     });
 
@@ -82,7 +82,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
         expect.objectContaining({
           date: "2023-01-01",
           response: mockResponse,
-        }),
+        })
       );
     });
 
@@ -103,7 +103,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
         expect.objectContaining({
           date: "2023-01-01",
           response: mockResponse,
-        }),
+        })
       );
     });
 
@@ -120,7 +120,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
         "Failed to fetch exchange rate from CurrencyFreaks API: Network Error",
         expect.objectContaining({
           url: expect.stringContaining(CURRENCY_FREAKS_BASE_URL),
-        }),
+        })
       );
     });
 
@@ -152,7 +152,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
       await fetchFromCurrencyFreaksAPI(mockLogger, "2023-12-25", "test-api-key");
 
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`,
+        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`
       );
     });
   });
@@ -171,7 +171,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       expect(result).toBe(1.2345);
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-01-01&from=GBP&to=USD&amount=1`,
+        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-01-01&from=GBP&to=USD&amount=1`
       );
     });
 
@@ -188,7 +188,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       expect(result).toBe(1.3456);
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`,
+        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`
       );
     });
   });

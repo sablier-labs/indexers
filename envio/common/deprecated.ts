@@ -54,7 +54,10 @@ export function isDeprecatedContract({
   return true;
 }
 
-export async function isDeprecatedStream(context: DeprecatedStreamContext, streamId: string): Promise<boolean> {
+export async function isDeprecatedStream(
+  context: DeprecatedStreamContext,
+  streamId: string
+): Promise<boolean> {
   return Boolean(await context.DeprecatedStream.get(streamId));
 }
 

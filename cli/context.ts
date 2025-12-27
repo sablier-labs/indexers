@@ -23,5 +23,5 @@ export const CliLive = Layer.mergeAll(
   NodeContext.layer,
   HttpClientLive,
   PromptServiceLayerLive,
-  CliConfig.layer({ showBuiltIns: false }),
+  CliConfig.layer({ showBuiltIns: false })
 );

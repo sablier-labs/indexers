@@ -16,11 +16,15 @@ const fileLogger = LOG_FILE_PATH
         fs.appendFileSync(LOG_FILE_PATH, line);
       });
     })()
-  : Logger.make(() => {});
+  : // biome-ignore lint/suspicious/noEmptyBlockStatements: empty block is fine here
+    Logger.make(() => {});
 
 const combined = LOG_FILE_PATH ? Logger.zip(consoleLogger, fileLogger) : consoleLogger;
 
-export const LoggerLayer = Layer.merge(Logger.minimumLogLevel(level), Logger.replace(Logger.defaultLogger, combined));
+export const LoggerLayer = Layer.merge(
+  Logger.minimumLogLevel(level),
+  Logger.replace(Logger.defaultLogger, combined)
+);
 
 const runtime = ManagedRuntime.make(LoggerLayer);
 

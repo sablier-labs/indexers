@@ -37,7 +37,11 @@ const exportSchemaLogic = () =>
         const outputPath = paths.exports.schema(protocol);
         yield* fs.writeFileString(outputPath, schema);
         return { outputPath: getRelative(outputPath), protocol, status: "exported" as const };
-      }).pipe(Effect.catchAll(() => Effect.succeed({ outputPath: "", protocol, status: "error" as const })));
+      }).pipe(
+        Effect.catchAll(() =>
+          Effect.succeed({ outputPath: "", protocol, status: "error" as const })
+        )
+      );
 
       results.push(result);
     }
@@ -51,8 +55,13 @@ const exportSchemaLogic = () =>
     });
 
     for (const result of results) {
-      const statusText = result.status === "exported" ? colors.success("✅ Exported") : colors.error("❌ Error");
-      table.push([colors.value(_.capitalize(result.protocol)), colors.dim(result.outputPath), statusText]);
+      const statusText =
+        result.status === "exported" ? colors.success("✅ Exported") : colors.error("❌ Error");
+      table.push([
+        colors.value(_.capitalize(result.protocol)),
+        colors.dim(result.outputPath),
+        statusText,
+      ]);
     }
 
     yield* Console.log(table.toString());
@@ -71,7 +80,7 @@ const exportSchemaLogic = () =>
     summaryTable.push(
       [colors.success("Exported"), colors.value(exported.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
-      [chalk.cyan.bold("Total Schemas"), chalk.white.bold(results.length.toString())],
+      [chalk.cyan.bold("Total Schemas"), chalk.white.bold(results.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -82,7 +91,10 @@ const exportSchemaLogic = () =>
     } else {
       yield* Console.log(colors.error(`❌ Export completed with ${errors} errors`));
       return yield* Effect.fail(
-        new ProcessError({ command: "export-schema", message: `Export completed with ${errors} errors` }),
+        new ProcessError({
+          command: "export-schema",
+          message: `Export completed with ${errors} errors`,
+        })
       );
     }
   });

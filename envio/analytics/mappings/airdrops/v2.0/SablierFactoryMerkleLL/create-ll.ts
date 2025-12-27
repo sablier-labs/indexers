@@ -2,14 +2,16 @@ import { isOfficialLockup } from "../../../../../common/helpers";
 import { Contract } from "../../../../bindings";
 import { Store } from "../../../../store";
 
-Contract.Airdrops.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.params[8];
-  if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
-    return;
+Contract.Airdrops.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.contractRegister(
+  ({ context, event }) => {
+    const lockupAddress = event.params.params[8];
+    if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
+      return;
+    }
+    const campaignAddress = event.params.merkleLL;
+    context.addSablierMerkleLL_v2_0(campaignAddress);
   }
-  const campaignAddress = event.params.merkleLL;
-  context.addSablierMerkleLL_v2_0(campaignAddress);
-});
+);
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -49,11 +51,13 @@ struct ConstructorParams {
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Airdrops.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.handler(async ({ context, event }) => {
-  const lockupAddress = event.params.params[8];
-  if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
-    return;
+Contract.Airdrops.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.handler(
+  async ({ context, event }) => {
+    const lockupAddress = event.params.params[8];
+    if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
+      return;
+    }
+    const initialAdmin = event.params.params[6];
+    await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
   }
-  const initialAdmin = event.params.params[6];
-  await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
-});
+);

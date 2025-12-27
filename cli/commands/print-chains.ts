@@ -19,7 +19,7 @@ type ChainData = {
 const graphOption = Options.boolean("graph").pipe(
   Options.withAlias("g"),
   Options.withDescription("Use The Graph chain slugs instead of Sablier slugs"),
-  Options.withDefault(false),
+  Options.withDefault(false)
 );
 
 const printChainsLogic = (options: { readonly graph: boolean }) =>
@@ -128,7 +128,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
       [colors.success("Both Vendors"), colors.value(stats.both.toString())],
       [chalk.yellow("Envio Only"), colors.value(stats.envioOnly.toString())],
       [chalk.magenta("Graph Only"), colors.value(stats.graphOnly.toString())],
-      [colors.value("Total Chains"), colors.value(stats.total.toString())],
+      [colors.value("Total Chains"), colors.value(stats.total.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -136,7 +136,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     // Notes
     if (!useGraphSlugs) {
       yield* Console.log(
-        `\n${colors.info("ℹ")} Note: These are Sablier chain slugs. Use ${colors.highlight("--graph")} flag for The Graph slugs.`,
+        `\n${colors.info("ℹ")} Note: These are Sablier chain slugs. Use ${colors.highlight("--graph")} flag for The Graph slugs.`
       );
     }
   });

@@ -9,7 +9,7 @@ export function create(
   context: AssetContext,
   chainId: number,
   assetAddress: Envio.Address,
-  metadata: RPCData.ERC20Metadata,
+  metadata: RPCData.ERC20Metadata
 ): CommonEntities.Asset {
   const asset: CommonEntities.Asset = {
     address: assetAddress,

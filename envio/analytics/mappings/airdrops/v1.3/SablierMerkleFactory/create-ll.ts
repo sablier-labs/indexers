@@ -2,14 +2,16 @@ import { isOfficialLockup } from "../../../../../common/helpers";
 import { Contract } from "../../../../bindings";
 import { Store } from "../../../../store";
 
-Contract.Airdrops.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.lockup;
-  if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
-    return;
+Contract.Airdrops.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(
+  ({ context, event }) => {
+    const lockupAddress = event.params.lockup;
+    if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
+      return;
+    }
+    const campaignAddress = event.params.merkleLL;
+    context.addSablierMerkleLL_v1_3(campaignAddress);
   }
-  const campaignAddress = event.params.merkleLL;
-  context.addSablierMerkleLL_v1_3(campaignAddress);
-});
+);
 
 /*
 ──────────────────────────────────────────────────────────────

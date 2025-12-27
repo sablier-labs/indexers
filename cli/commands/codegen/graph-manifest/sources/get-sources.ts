@@ -127,7 +127,11 @@ function getEntities(protocol: Indexer.Protocol): string[] {
 /**
  * Helper for accessing mapping configuration based on protocol and version.
  */
-function getMapping(params: { protocol: Indexer.Protocol; contractName: string; version: Types.Version }) {
+function getMapping(params: {
+  protocol: Indexer.Protocol;
+  contractName: string;
+  version: Types.Version;
+}) {
   const { protocol, version, contractName } = params;
 
   return {

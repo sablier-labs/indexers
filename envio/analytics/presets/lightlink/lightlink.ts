@@ -13,12 +13,17 @@ import feeCollections from "./lightlink-fee-collections.json";
  */
 export async function initializeLightLinkData(context: HandlerContext): Promise<void> {
   // Process hardcoded fee collections
-  await Helpers.processFeeCollections(context, lightlink.id, feeCollections as Helpers.FeeCollectionPreset[], "lockup");
+  await Helpers.processFeeCollections(
+    context,
+    lightlink.id,
+    feeCollections as Helpers.FeeCollectionPreset[],
+    "lockup"
+  );
 
   // Fetch actions from LightLink subgraph
   const actions = await Helpers.fetchAllActions(
     context,
-    "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/sablier-lockup-lightlink",
+    "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/sablier-lockup-lightlink"
   );
 
   // Process fetched actions

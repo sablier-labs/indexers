@@ -16,7 +16,10 @@ export const indexedContracts: Types.ProtocolMap<CS[]> = {
 /**
  * This function is called from the Envio indexer so we should not use the Winston logger.
  */
-export function convertToIndexed(contract: Sablier.Contract, version: Types.Version): Types.Contract {
+export function convertToIndexed(
+  contract: Sablier.Contract,
+  version: Types.Version
+): Types.Contract {
   return {
     address: contract.address.toLowerCase() as Sablier.Address,
     alias: contract.alias ?? "",

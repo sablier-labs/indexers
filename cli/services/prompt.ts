@@ -38,7 +38,7 @@ export const PromptServiceLive = Layer.effect(
           return yield* Effect.fail(new UserAbortError({}));
         }).pipe(Effect.catchAll(() => Effect.fail(new UserAbortError({})))),
     };
-  }),
+  })
 );
 
 /**

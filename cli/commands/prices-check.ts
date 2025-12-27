@@ -59,7 +59,11 @@ const priceDataCheckLogic = () =>
       const sourceExists = yield* fs.exists(sourcePath);
       if (!sourceExists) {
         return yield* Effect.fail(
-          new FileOperationError({ message: "Source file not found", operation: "read", path: sourcePath }),
+          new FileOperationError({
+            message: "Source file not found",
+            operation: "read",
+            path: sourcePath,
+          })
         );
       }
 
@@ -71,12 +75,14 @@ const priceDataCheckLogic = () =>
       }
 
       // Compare files using diff
-      const diffResult = yield* executor.string(PlatformCommand.make("diff", "-q", sourcePath, destPath)).pipe(
-        Effect.match({
-          onFailure: () => "out-of-sync" as const,
-          onSuccess: () => "in-sync" as const,
-        }),
-      );
+      const diffResult = yield* executor
+        .string(PlatformCommand.make("diff", "-q", sourcePath, destPath))
+        .pipe(
+          Effect.match({
+            onFailure: () => "out-of-sync" as const,
+            onSuccess: () => "in-sync" as const,
+          })
+        );
 
       fileStatuses.push({ destPath: relativeDestPath, name, sourceDir, status: diffResult });
     }
@@ -97,7 +103,12 @@ const priceDataCheckLogic = () =>
             ? colors.error("❌ Missing")
             : colors.error("❌ Out of Sync");
 
-      table.push([colors.value(file.name), colors.dim(file.sourceDir), statusText, colors.dim(file.destPath)]);
+      table.push([
+        colors.value(file.name),
+        colors.dim(file.sourceDir),
+        statusText,
+        colors.dim(file.destPath),
+      ]);
     }
 
     yield* Console.log(table.toString());
@@ -118,7 +129,7 @@ const priceDataCheckLogic = () =>
       [colors.success("In Sync"), colors.value(inSync.toString())],
       [colors.error("Out of Sync"), colors.value(outOfSync.toString())],
       [colors.error("Missing"), colors.value(missing.toString())],
-      [chalk.cyan.bold("Total Files"), chalk.white.bold(fileStatuses.length.toString())],
+      [chalk.cyan.bold("Total Files"), chalk.white.bold(fileStatuses.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -135,11 +146,13 @@ const priceDataCheckLogic = () =>
 
       errorTable.push(
         [colors.error("❌ Price data is out of sync!")],
-        [colors.value(`Run ${colors.highlight("just price-data-sync")} to fix and commit changes.`)],
+        [colors.value(`Run ${colors.highlight("just price-data-sync")} to fix and commit changes.`)]
       );
 
       yield* Console.log(errorTable.toString());
-      return yield* Effect.fail(new ValidationError({ field: "priceData", message: "Price data is out of sync" }));
+      return yield* Effect.fail(
+        new ValidationError({ field: "priceData", message: "Price data is out of sync" })
+      );
     }
 
     yield* Console.log("");

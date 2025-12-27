@@ -11,7 +11,7 @@ export function handleCreateMerkleLL(
   templateCreator: (address: Address, context: DataSourceContext) => void,
   event: ethereum.Event,
   paramsBase: Params.CreateCampaignBase,
-  paramsLL: Params.CreateCampaignLL,
+  paramsLL: Params.CreateCampaignLL
 ): void {
   if (isDeprecatedFactory(event, "airdrops", paramsBase.asset)) {
     return;
@@ -33,7 +33,7 @@ export function handleCreateMerkleLT(
   templateCreator: (address: Address, context: DataSourceContext) => void,
   event: ethereum.Event,
   paramsBase: Params.CreateCampaignBase,
-  paramsLT: Params.CreateCampaignLT,
+  paramsLT: Params.CreateCampaignLT
 ): void {
   if (isDeprecatedFactory(event, "airdrops", paramsBase.asset)) {
     return;
@@ -54,7 +54,7 @@ export function handleCreateMerkleLT(
 
 function createTemplate(
   templateCreator: (address: Address, context: DataSourceContext) => void,
-  campaignAddress: Address,
+  campaignAddress: Address
 ): void {
   const context = new DataSourceContext();
   context.setBigInt("chainId", readChainId());

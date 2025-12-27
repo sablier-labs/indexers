@@ -29,7 +29,7 @@ export function handleClaimLockup(event: ethereum.Event, params: Params.ClaimLoc
   Store.Action.create(event, {
     campaign: campaign.id,
     category: "Claim",
-    claimAmount: claimAmount,
+    claimAmount,
     claimIndex: params.index,
     claimRecipient: params.recipient,
     claimStreamId: streamId,

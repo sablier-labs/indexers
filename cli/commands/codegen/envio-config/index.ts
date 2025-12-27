@@ -24,7 +24,11 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       ...createContracts(indexer, "flow", includeProtocolInPath),
       ...createContracts(indexer, "lockup", includeProtocolInPath),
     ];
-    networks = mergeNetworks([...createNetworks("airdrops"), ...createNetworks("flow"), ...createNetworks("lockup")]);
+    networks = mergeNetworks([
+      ...createNetworks("airdrops"),
+      ...createNetworks("flow"),
+      ...createNetworks("lockup"),
+    ]);
     // Filter out testnets from analytics indexer.
     networks = networks.filter((network) => {
       const chain = sablier.chains.get(network.id);

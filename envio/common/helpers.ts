@@ -18,7 +18,7 @@ export function isOfficialLockup(
   logger: Envio.Logger,
   event: Envio.Event,
   address: string,
-  options: { allowAll?: boolean } = {},
+  options: { allowAll?: boolean } = {}
 ): boolean {
   if (options.allowAll) {
     // For analytics, we want to track all lockup contracts, not just official ones
