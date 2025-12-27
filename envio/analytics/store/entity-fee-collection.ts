@@ -4,7 +4,7 @@
 
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { formatEther, parseEther } from "viem";
+import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
@@ -51,7 +51,7 @@ export async function create(
   const amountFormatted = formatEther(amount);
 
   // Update daily aggregates
-  upsertFeeCollection(context, entities, event, { amountFormatted, currency });
+  upsertFeeCollection(context, entities, event, { amount, currency });
 
   // Create transaction entity
   const transaction: Entity.FeeCollection = {
@@ -104,25 +104,25 @@ function upsertFeeCollection(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { amountFormatted: string; currency: string }
+  params: { amount: bigint; currency: string }
 ): void {
   let { feeCollection } = entities;
   const { feeCollectionId } = entities;
-  const { amountFormatted, currency } = params;
+  const { amount, currency } = params;
 
   const date = getDate(event.block.timestamp);
 
   if (feeCollection) {
-    const newAmount = (Number(feeCollection.amountDisplay) + Number(amountFormatted)).toString();
+    const newAmount = feeCollection.amount + amount;
     feeCollection = {
       ...feeCollection,
-      amount: parseEther(newAmount),
-      amountDisplay: newAmount,
+      amount: newAmount,
+      amountDisplay: formatEther(newAmount),
     };
   } else {
     feeCollection = {
-      amount: parseEther(amountFormatted),
-      amountDisplay: amountFormatted,
+      amount,
+      amountDisplay: formatEther(amount),
       currency,
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),

@@ -10,8 +10,5 @@
   },
   "enabledPlugins": {
     "envio-hyperindex@envio-plugins": true
-  },
-  "permissions": {
-    "allow": []
   }
 }
