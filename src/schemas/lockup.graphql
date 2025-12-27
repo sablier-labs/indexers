@@ -14,6 +14,11 @@ enum StreamCategory {
   LockupTranched
 }
 
+enum ShapeSource {
+  Event
+  Inferred
+}
+
 """
 ERC-20 asset
 """
@@ -217,6 +222,10 @@ type Stream @entity(immutable: false) {
   Available since Lockup v2.0.
   """
   shape: String
+  """
+  The source of the shape value: Event (from contract event) or Inferred (computed by indexer).
+  """
+  shapeSource: ShapeSource
   """
   Flag for Linear streams with a cliff.
   """
