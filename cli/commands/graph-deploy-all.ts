@@ -18,7 +18,7 @@ import { CommandExecutor, FileSystem, Command as PlatformCommand, Terminal } fro
 import chalk from "chalk";
 import Table from "cli-table3";
 import dayjs from "dayjs";
-import { Console, Effect, Option } from "effect";
+import { Chunk, Console, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
@@ -259,6 +259,15 @@ function deployToChain(
   const indexerName = `sablier-${indexer}-${deployment.chainSlug}`;
   const manifestPath = paths.graph.manifest(indexer, deployment.chainId);
   const workingDir = path.join(ROOT_DIR, "graph", indexer);
+  const command = PlatformCommand.make(
+    "pnpm",
+    "graph",
+    "deploy",
+    "--version-label",
+    versionLabel,
+    indexerName,
+    manifestPath,
+  ).pipe(PlatformCommand.workingDirectory(workingDir));
 
   return Effect.gen(function* () {
     const spinner = ora(`Deploying to ${deployment.chainName} (${deployment.chainSlug})...`).start();
@@ -275,33 +284,38 @@ function deployToChain(
       return { deploymentId: undefined, indexerName, success: true } as const;
     }
 
-    const executor = yield* CommandExecutor.CommandExecutor;
+    return yield* Effect.scoped(
+      Effect.gen(function* () {
+        const executor = yield* CommandExecutor.CommandExecutor;
+        const process = yield* executor.start(command);
+        const [stdoutChunks, stderrChunks, exitCode] = yield* Effect.all([
+          Stream.runCollect(process.stdout),
+          Stream.runCollect(process.stderr),
+          process.exitCode,
+        ]);
 
-    return yield* executor
-      .string(
-        PlatformCommand.make(
-          "pnpm",
-          "graph",
-          "deploy",
-          "--version-label",
-          versionLabel,
-          indexerName,
-          manifestPath,
-        ).pipe(PlatformCommand.workingDirectory(workingDir)),
-      )
-      .pipe(
-        Effect.tap((result) => logger.log(`STDOUT:\n${result}`)),
-        Effect.map((result) => {
-          const deploymentId = helpers.extractDeploymentId(result);
-          spinner.stop();
-          return { deploymentId, indexerName, success: true } as const;
-        }),
-        Effect.tap(() =>
-          Effect.all([
-            Console.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
-            logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
-          ]),
-        ),
+        const stdout = Buffer.concat(Chunk.toReadonlyArray(stdoutChunks)).toString("utf-8");
+        const stderr = Buffer.concat(Chunk.toReadonlyArray(stderrChunks)).toString("utf-8");
+
+        yield* logger.log(`STDOUT:\n${stdout}`);
+        if (stderr.trim().length > 0) {
+          yield* logger.log(`STDERR:\n${stderr}`);
+        }
+
+        if (exitCode !== 0) {
+          return yield* Effect.fail(new Error(`Command failed with exit code ${exitCode}`));
+        }
+
+        const deploymentId = helpers.extractDeploymentId(stdout);
+        spinner.stop();
+
+        yield* Effect.all([
+          Console.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
+          logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
+        ]);
+
+        return { deploymentId, indexerName, success: true } as const;
+      }).pipe(
         Effect.catchAll((error) => {
           spinner.stop();
           const errorMessage = error instanceof Error ? error.message : String(error);
@@ -310,19 +324,20 @@ function deployToChain(
             Console.log(chalk.red(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`)),
           ]).pipe(Effect.map(() => ({ error: errorMessage, success: false }) as const));
         }),
-      );
+      ),
+    );
   });
 }
 
 function displaySummary(
   deployments: Deployment[],
+  successCount: number,
   deploymentIds: DeploymentResult[],
   failedDeployments: FailedDeployment[],
   startTime: number,
   logger: ReturnType<typeof createFileLogger>,
 ) {
   return Effect.gen(function* () {
-    const successCount = deploymentIds.length;
     const failureCount = failedDeployments.length;
 
     yield* Console.log("");
@@ -476,7 +491,17 @@ const graphDeployAllLogic = (options: {
     }
 
     // Prompt user for confirmation
-    yield* promptUserConfirmation();
+    const confirmed = yield* promptUserConfirmation().pipe(
+      Effect.as(true),
+      Effect.catchTag("UserAbortError", () => Effect.succeed(false)),
+    );
+
+    if (!confirmed) {
+      yield* Console.log(chalk.yellow("❌ Deployment canceled by user"));
+      yield* logger.log("❌ Deployment canceled by user");
+      yield* logger.log("=== Graph Deploy All Session Ended ===");
+      return;
+    }
 
     // Build deployment list
     const { deployments, excludedChains } = yield* buildDeploymentList(options.indexer, excludedChainIds);
@@ -485,11 +510,13 @@ const graphDeployAllLogic = (options: {
     // Deploy to each chain sequentially
     const deploymentIds: DeploymentResult[] = [];
     const failedDeployments: FailedDeployment[] = [];
+    let successCount = 0;
 
     for (const deployment of deployments) {
       const result = yield* deployToChain(deployment, options.indexer, options.versionLabel, logger, options.dryRun);
 
       if (result.success) {
+        successCount += 1;
         if (result.deploymentId) {
           deploymentIds.push({ deploymentId: result.deploymentId, indexerName: result.indexerName });
         }
@@ -507,7 +534,7 @@ const graphDeployAllLogic = (options: {
     }
 
     // Display summary
-    yield* displaySummary(deployments, deploymentIds, failedDeployments, startTime, logger);
+    yield* displaySummary(deployments, successCount, deploymentIds, failedDeployments, startTime, logger);
   });
 
 export const graphDeployAllCommand = Command.make(

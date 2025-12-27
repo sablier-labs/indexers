@@ -29,7 +29,7 @@
     "@graphql-tools/merge": "^9.0.24",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@pinax/graph-networks-registry": "^0.7.1",
-    "@sablier/devkit": "github:sablier-labs/devkit#main",
+    "@sablier/devkit": "^1.9.1",
     "@sablier/price-data": "github:sablier-labs/price-data#main",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.18",
