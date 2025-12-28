@@ -7,7 +7,7 @@
  * pnpm tsx cli codegen schema --vendor graph --indexer flow
  *
  * @param --vendor - Required: 'graph', 'envio', or 'all'
- * @param --indexer - Required: 'airdrops', 'flow', 'lockup', or 'all'
+ * @param --indexer - Required: 'airdrops', 'flow', 'lockup', 'analytics', or 'all'
  */
 
 import { Command, Options } from "@effect/cli";
@@ -37,6 +37,7 @@ const indexerOption = Options.choice("indexer", [
   "airdrops",
   "flow",
   "lockup",
+  "analytics",
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
 
@@ -269,6 +270,12 @@ const schemaLogic = (options: {
   Effect.gen(function* () {
     const vendorArg = options.vendor;
     const indexerArg = options.indexer;
+
+    // Analytics has a manually maintained schema, skip generation
+    if (indexerArg === "analytics") {
+      yield* Console.log("⏭️  Skipping analytics (uses manually maintained schema)");
+      return;
+    }
 
     if (vendorArg === "all") {
       return yield* generateAllVendorSchemas(indexerArg);
