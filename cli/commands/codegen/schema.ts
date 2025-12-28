@@ -7,7 +7,7 @@
  * pnpm tsx cli codegen schema --vendor graph --indexer flow
  *
  * @param --vendor - Required: 'graph', 'envio', or 'all'
- * @param --indexer - Required: 'airdrops', 'flow', 'lockup', 'analytics', or 'all'
+ * @param --indexer - Required: 'airdrops', 'flow', 'lockup', or 'all'
  */
 
 import { Command, Options } from "@effect/cli";
@@ -37,15 +37,12 @@ const indexerOption = Options.choice("indexer", [
   "airdrops",
   "flow",
   "lockup",
-  "analytics",
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
 
 /* -------------------------------------------------------------------------- */
 /*                                   COMMAND                                  */
 /* -------------------------------------------------------------------------- */
-
-const EXCLUDED_INDEXERS: Indexer.Name[] = ["analytics"];
 
 type SchemaResult = {
   indexer: Indexer.Name;
@@ -61,15 +58,6 @@ function generateSchemaWithResult(
   vendor: Indexer.Vendor,
   indexer: Indexer.Name
 ): Effect.Effect<SchemaResult, never, FileSystem.FileSystem> {
-  if (EXCLUDED_INDEXERS.includes(indexer)) {
-    return Effect.succeed({
-      indexer,
-      outputPath: "",
-      status: "skipped",
-      vendor,
-    });
-  }
-
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const mergedSchema = print(getMergedSchema(indexer));
@@ -103,10 +91,6 @@ function generateSchema(
   vendor: Indexer.Vendor,
   indexer: Indexer.Name
 ): Effect.Effect<void, never, FileSystem.FileSystem> {
-  if (EXCLUDED_INDEXERS.includes(indexer)) {
-    return Effect.void;
-  }
-
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const mergedSchema = print(getMergedSchema(indexer));
