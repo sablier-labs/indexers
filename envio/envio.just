@@ -3,6 +3,9 @@
 mod root "../justfile"
 
 set allow-duplicate-variables
+set dotenv-load
+# Two levels up: from individual indexer dirs (e.g., envio/flow/) to repo root
+set dotenv-path := "../../.env"
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set unstable
 
@@ -51,6 +54,7 @@ envio command tui_mode="tui_on" *args:
         TUI_OFF=false
     fi
     pnpm envio {{ command }} {{ args }} \
+        --directory {{ justfile_dir() }} \
         --config {{ justfile_dir() }}/config.yaml \
         --output-directory {{ justfile_dir() }}/bindings
 

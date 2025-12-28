@@ -2,7 +2,11 @@ import type { Envio } from "../../common/bindings";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 
-export function create(context: Context.Handler, event: Envio.Event, sender: Envio.Address): Entity.Batcher {
+export function create(
+  context: Context.Handler,
+  event: Envio.Event,
+  sender: Envio.Address
+): Entity.Batcher {
   const batcher: Entity.Batcher = {
     batchCounter: 0n,
     id: Id.batcher(event.chainId, sender),

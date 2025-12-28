@@ -1,6 +1,6 @@
+import * as fs from "node:fs";
 import path, { join } from "node:path";
 import appRoot from "app-root-path";
-import * as fs from "fs-extra";
 import type { Indexer } from "../src";
 import { getGraphChainSlug } from "../src/indexers/graph";
 import type { Types } from "./types";
@@ -19,7 +19,16 @@ const paths = {
   abi: (contractName: string, indexer?: I, version?: Types.Version): string => {
     if (indexer && version) {
       // Use sablier package for Sablier contracts
-      return join(ROOT_DIR, "node_modules", "sablier", "dist", "abi", indexer, version, `${contractName}.json`);
+      return join(
+        ROOT_DIR,
+        "node_modules",
+        "sablier",
+        "dist",
+        "abi",
+        indexer,
+        version,
+        `${contractName}.json`
+      );
     }
     // Keep local path for non-Sablier contracts (ERC20, PRBProxy)
     return join(ABI_DIR, `${contractName}.json`);

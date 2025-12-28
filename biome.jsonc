@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["@sablier/devkit/biome"],
+  "extends": ["ultracite/core", "@sablier/devkit/biome"],
   "files": {
     "includes": [
       "**/*.{graphql,js,json,jsonc,ts}",
@@ -9,13 +9,44 @@
       "!src/gql/**/*.ts"
     ]
   },
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "off" // enable later
+      },
+      "style": {
+        "noNestedTernary": "off",
+        "noEnum": "off"
+      }
+    }
+  },
   "overrides": [
     /* -------------------------------------------------------------------------- */
     /*                                YAML CODEGEN                                */
     /* -------------------------------------------------------------------------- */
     {
-      "includes": ["cli/commands/codegen/envio-config/**/*.ts", "cli/commands/codegen/graph-manifest/**/*.ts"],
+      "includes": [
+        "cli/commands/codegen/envio-config/**/*.ts",
+        "cli/commands/codegen/graph-manifest/**/*.ts"
+      ],
       "assist": { "actions": { "source": { "useSortedKeys": "off" } } }
+    },
+    /* -------------------------------------------------------------------------- */
+    /*                                   GRAPHQL                                  */
+    /* -------------------------------------------------------------------------- */
+    // Re-enable formatting for envio graphql files (ultracite disables it by default)
+    {
+      "includes": ["**/*.graphql"],
+      "formatter": { "enabled": true },
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "style": {
+            // We use PascalCase for enum values, not ALL_CAPS
+            "useGraphqlNamingConvention": "off"
+          }
+        }
+      }
     },
     /* -------------------------------------------------------------------------- */
     /*                               ASSEMBLYSCRIPT                               */
@@ -25,8 +56,21 @@
       "linter": {
         "rules": {
           "complexity": { "useOptionalChain": "off" },
-          "style": { "useImportType": "off" },
+          "style": { "useForOf": "off", "useImportType": "off" },
           "suspicious": { "noDoubleEquals": "off", "noShadowRestrictedNames": "off" }
+        }
+      }
+    },
+    /* -------------------------------------------------------------------------- */
+    /*                               ENVIO MAPPINGS                               */
+    /* -------------------------------------------------------------------------- */
+    {
+      "includes": ["**/mappings/**/*"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
         }
       }
     },

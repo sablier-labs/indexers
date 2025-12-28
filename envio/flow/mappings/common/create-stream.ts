@@ -62,7 +62,8 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   const entities = {
-    asset: asset ?? CommonStore.Asset.create(context, event.chainId, event.params.token, assetMetadata),
+    asset:
+      asset ?? CommonStore.Asset.create(context, event.chainId, event.params.token, assetMetadata),
     batch: batch ?? Store.Batch.create(event, event.params.sender),
     batcher: batcher ?? Store.Batcher.create(context, event, event.params.sender),
     watcher: watcher ?? CommonStore.Watcher.create(event.chainId),

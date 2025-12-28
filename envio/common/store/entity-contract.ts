@@ -9,7 +9,7 @@ type ContractContext = { Contract: { set: (contract: CommonEntities.Contract) =>
 export function create(
   context: ContractContext,
   event: { chainId: number; srcAddress: Envio.Address },
-  protocol: Indexer.Protocol,
+  protocol: Indexer.Protocol
 ): CommonEntities.Contract {
   const contractMetadata = getContract(protocol, event.chainId, event.srcAddress);
 

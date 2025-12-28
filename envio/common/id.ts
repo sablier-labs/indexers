@@ -23,7 +23,11 @@ export namespace Id {
    * @example
    * 0xe0bfe071da104e571298f8b6e0fce44c512c1ff4-137-42
    */
-  export function stream(contractAddress: Envio.Address, chainId: number, tokenId: bigint | string): string {
+  export function stream(
+    contractAddress: Envio.Address,
+    chainId: number,
+    tokenId: bigint | string
+  ): string {
     return `${contractAddress.toLowerCase()}-${chainId}-${tokenId}`;
   }
 
@@ -31,7 +35,11 @@ export namespace Id {
    * @example
    * LK-137-42
    */
-  export function streamAlias(contractAlias: Envio.Address, chainId: number, tokenId: bigint): string {
+  export function streamAlias(
+    contractAlias: Envio.Address,
+    chainId: number,
+    tokenId: bigint
+  ): string {
     return `${contractAlias}-${chainId}-${tokenId}`;
   }
 

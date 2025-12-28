@@ -3,7 +3,9 @@ import { SablierV2MerkleLT_v1_2 as TemplateLT } from "../../../bindings/template
 import { convertTranchesV1_2 } from "../../../helpers";
 import { handleCreateMerkleLT } from "../../common";
 
-export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLT(event: CreateMerkleLT): void {
+export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLT(
+  event: CreateMerkleLT
+): void {
   const params = event.params;
   const baseParams = params.baseParams;
 
@@ -32,6 +34,6 @@ export function handle_SablierV2MerkleLockupFactory_v1_2_CreateMerkleLT(event: C
       totalDuration: params.totalDuration,
       tranchesWithPercentages: convertTranchesV1_2(params.tranchesWithPercentages),
       transferable: baseParams.transferable,
-    },
+    }
   );
 }

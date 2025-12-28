@@ -6,7 +6,7 @@ import * as Entity from "../bindings/schema";
 export function createDeprecatedStream(
   event: ethereum.Event,
   sablierContract: Address,
-  tokenId: BigInt,
+  tokenId: BigInt
 ): Entity.DeprecatedStream {
   const id = Id.stream(sablierContract, tokenId);
   const deprecatedStream = new Entity.DeprecatedStream(id);

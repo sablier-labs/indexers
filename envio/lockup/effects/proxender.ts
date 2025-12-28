@@ -6,7 +6,11 @@ import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";
 import type { Envio } from "../../common/bindings";
-import { NOT_AVAILABLE, PRB_PROXY_REGISTRY_v4_0_0, PRB_PROXY_REGISTRY_v4_0_1 } from "../../common/constants";
+import {
+  NOT_AVAILABLE,
+  PRB_PROXY_REGISTRY_v4_0_0,
+  PRB_PROXY_REGISTRY_v4_0_1,
+} from "../../common/constants";
 import { getContractVersion } from "../../common/deployments";
 import { getClient } from "../../common/rpc-clients";
 
@@ -29,18 +33,26 @@ export const fetchProxender = experimental_createEffect(
   },
   async ({ context, input }) => {
     // PRBProxy was only used in Lockup v1.0
-    const version = getContractVersion("lockup", input.chainId, input.lockupAddress as Envio.Address);
+    const version = getContractVersion(
+      "lockup",
+      input.chainId,
+      input.lockupAddress as Envio.Address
+    );
     if (isVersionAfter(version, Version.Lockup.V1_0)) {
       return NOT_AVAILABLE;
     }
 
-    const owner = await fetchProxyOwner(context.log, input.chainId, input.streamSender as Envio.Address);
+    const owner = await fetchProxyOwner(
+      context.log,
+      input.chainId,
+      input.streamSender as Envio.Address
+    );
     if (!owner) {
       return NOT_AVAILABLE;
     }
 
     return owner;
-  },
+  }
 );
 
 /* -------------------------------------------------------------------------- */
@@ -50,7 +62,7 @@ export const fetchProxender = experimental_createEffect(
 async function fetchProxyOwner(
   logger: Logger,
   chainId: number,
-  streamSender: Envio.Address,
+  streamSender: Envio.Address
 ): Promise<Envio.Address | undefined> {
   const client = getClient(chainId);
 
@@ -91,7 +103,7 @@ async function fetchProxyOwner(
 async function fetchReverse(
   chainId: number,
   registry: Envio.Address,
-  owner: Envio.Address,
+  owner: Envio.Address
 ): Promise<Envio.Address | undefined> {
   const client = getClient(chainId);
 

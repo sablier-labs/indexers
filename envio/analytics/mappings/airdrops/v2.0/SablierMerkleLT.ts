@@ -33,7 +33,7 @@ Contract.Airdrops.Campaign.MerkleLT_v2_0.ClaimLTWithTransfer.handler(async ({ co
     context,
     event,
     [event.params.recipient, event.params.to, event.transaction.from],
-    isAirdropClaim,
+    isAirdropClaim
   );
   await Store.Fees.createOrUpdate(context, event);
 });
@@ -44,13 +44,17 @@ Contract.Airdrops.Campaign.MerkleLT_v2_0.ClaimLTWithVesting.handler(async ({ con
     context,
     event,
     [event.params.recipient, event.params.to, event.transaction.from],
-    isAirdropClaim,
+    isAirdropClaim
   );
   await Store.Fees.createOrUpdate(context, event);
 });
 
 Contract.Airdrops.Campaign.MerkleLT_v2_0.Clawback.handler(async ({ context, event }) => {
-  await Store.User.createOrUpdate(context, event, [event.params.admin, event.params.to, event.transaction.from]);
+  await Store.User.createOrUpdate(context, event, [
+    event.params.admin,
+    event.params.to,
+    event.transaction.from,
+  ]);
 });
 
 Contract.Airdrops.Campaign.MerkleLT_v2_0.TransferAdmin.handler(async ({ context, event }) => {

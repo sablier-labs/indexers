@@ -9,7 +9,7 @@ export function create<TAction extends CommonEntities.StreamAction>(
   },
   event: Envio.Event,
   watcher: CommonEntities.StreamWatcher,
-  params: CommonParams.Action,
+  params: CommonParams.Action
 ): TAction {
   const id = Id.action(event);
 

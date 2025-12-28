@@ -5,7 +5,10 @@ import { scale } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
-export function handleAdjustFlowStream(event: ethereum.Event, params: Params.AdjustFlowStream): void {
+export function handleAdjustFlowStream(
+  event: ethereum.Event,
+  params: Params.AdjustFlowStream
+): void {
   const tokenId = params.tokenId;
   if (Store.DeprecatedStream.exists(event.address, tokenId)) {
     return;

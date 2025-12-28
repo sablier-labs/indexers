@@ -16,10 +16,10 @@ function getInclude() {
  * The CI cron tests perform JSON-RPC calls to external services, which are flaky, so we have to retry them.
  */
 function getRetry() {
-  return !CI ? 0 : 15;
+  return CI ? 15 : 0;
 }
 function getTimeout() {
-  return !CI ? 10_000 : 100_000; // 10 seconds normally, 100 seconds in CI
+  return CI ? 100_000 : 10_000; // 10 seconds normally, 100 seconds in CI
 }
 
 function getReporters() {

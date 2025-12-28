@@ -4,8 +4,8 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { convertToIndexed, indexedContracts } from "../../../../../contracts";
 import { sanitizeContractName } from "../../../../../lib/helpers";
+import { logger, messages } from "../../../../../lib/logger";
 import type { Types } from "../../../../../lib/types";
-import { logger, messages } from "../../../../../lib/winston";
 import { getMergedSchema } from "../../../../../schema/merger";
 import type { Indexer } from "../../../../../src";
 import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph";
@@ -127,7 +127,11 @@ function getEntities(protocol: Indexer.Protocol): string[] {
 /**
  * Helper for accessing mapping configuration based on protocol and version.
  */
-function getMapping(params: { protocol: Indexer.Protocol; contractName: string; version: Types.Version }) {
+function getMapping(params: {
+  protocol: Indexer.Protocol;
+  contractName: string;
+  version: Types.Version;
+}) {
   const { protocol, version, contractName } = params;
 
   return {

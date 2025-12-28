@@ -8,7 +8,7 @@ import { CriticalError } from "./errors";
 export function getContract(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address,
+  contractAddress: Envio.Address
 ): Types.Contract {
   const contract = sablier.contracts.get({ chainId, contractAddress, protocol });
   if (!contract) {
@@ -23,7 +23,11 @@ export function getContract(
   return convertToIndexed(contract, contract.version);
 }
 
-export function getContractAlias(protocol: Indexer.Protocol, chainId: number, contractAddress: Envio.Address) {
+export function getContractAlias(
+  protocol: Indexer.Protocol,
+  chainId: number,
+  contractAddress: Envio.Address
+) {
   const contract = getContract(protocol, chainId, contractAddress);
   if (!contract.alias) {
     throw new CriticalError.ContractAliasNotFound(protocol, chainId, contractAddress);
@@ -31,7 +35,11 @@ export function getContractAlias(protocol: Indexer.Protocol, chainId: number, co
   return contract.alias;
 }
 
-export function getContractVersion(protocol: Indexer.Protocol, chainId: number, contractAddress: Envio.Address) {
+export function getContractVersion(
+  protocol: Indexer.Protocol,
+  chainId: number,
+  contractAddress: Envio.Address
+) {
   const contract = getContract(protocol, chainId, contractAddress);
   if (!contract.version) {
     throw new CriticalError.ContractVersionNotFound(protocol, chainId, contractAddress);

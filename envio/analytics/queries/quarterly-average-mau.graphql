@@ -1,5 +1,7 @@
 query QuarterlyAverageMAU($quarterStart: timestamptz!, $quarterEnd: timestamptz!) {
-  UsersActiveMonthly_aggregate(where: { monthTimestamp: { _gte: $quarterStart, _lt: $quarterEnd } }) {
+  UsersActiveMonthly_aggregate(
+    where: { monthTimestamp: { _gte: $quarterStart, _lt: $quarterEnd } }
+  ) {
     aggregate {
       avg {
         count

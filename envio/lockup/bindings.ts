@@ -30,7 +30,11 @@ export namespace Contract {
 }
 
 // Enums
-import type { ActionCategory_t, ShapeSource_t, StreamCategory_t } from "./bindings/src/db/Enums.gen";
+import type {
+  ActionCategory_t,
+  ShapeSource_t,
+  StreamCategory_t,
+} from "./bindings/src/db/Enums.gen";
 export namespace Enum {
   export type ActionCategory = ActionCategory_t;
   export type ShapeSource = ShapeSource_t;

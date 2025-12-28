@@ -19,7 +19,10 @@ export function create(chainId: number): CommonEntities.StreamWatcher {
   return watcher;
 }
 
-export function incrementActionCounter(context: WatcherContext, watcher: CommonEntities.StreamWatcher): void {
+export function incrementActionCounter(
+  context: WatcherContext,
+  watcher: CommonEntities.StreamWatcher
+): void {
   const updatedWatcher = {
     ...watcher,
     actionCounter: watcher.actionCounter + 1n,
@@ -27,7 +30,10 @@ export function incrementActionCounter(context: WatcherContext, watcher: CommonE
   context.Watcher.set(updatedWatcher);
 }
 
-export function incrementCounters(context: WatcherContext, watcher: CommonEntities.StreamWatcher): void {
+export function incrementCounters(
+  context: WatcherContext,
+  watcher: CommonEntities.StreamWatcher
+): void {
   const updatedWatcher = {
     ...watcher,
     actionCounter: watcher.actionCounter + 1n,

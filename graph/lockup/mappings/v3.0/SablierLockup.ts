@@ -59,7 +59,9 @@ export function handle_SablierLockup_v3_0_Transfer(event: Transfer): void {
   });
 }
 
-export function handle_SablierLockup_v3_0_WithdrawFromLockupStream(event: WithdrawFromLockupStream): void {
+export function handle_SablierLockup_v3_0_WithdrawFromLockupStream(
+  event: WithdrawFromLockupStream
+): void {
   handleWithdrawFromStream(event, {
     amount: event.params.amount,
     streamId: event.params.streamId,

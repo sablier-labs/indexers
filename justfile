@@ -77,7 +77,7 @@ alias codegen-indexers := codegen
     just --quiet biome-write "envio/**/*.graphql"
 
 # Open the Envio dashboard in the default browser
-[group("envio")]
+[group("envio"), unix]
 @open-envio:
     open "https://envio.dev/app/sablier-labs"
 
@@ -134,14 +134,14 @@ _codegen-envio-bindings indexer:
 [group("checks")]
 [group("cli")]
 [group("envio")]
-@price-data-check:
-    just cli price-data-check
+@prices-check:
+    just cli prices-check
 
 # Sync price data from @sablier/price-data to Envio cache
 [group("cli")]
 [group("envio")]
-@price-data-sync:
-    just cli price-data-sync
+@prices-sync:
+    just cli prices-sync
 
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
 [confirm("This will force-push to deployment branch(es). Continue?")]

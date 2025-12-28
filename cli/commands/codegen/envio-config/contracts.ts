@@ -31,7 +31,11 @@ export function createContracts(
   return contracts;
 }
 
-function getRelativeAbiFilePath(protocol: Indexer.Protocol, contractName: string, version: Types.Version): string {
+function getRelativeAbiFilePath(
+  protocol: Indexer.Protocol,
+  contractName: string,
+  version: Types.Version,
+): string {
   const envioConfigDir = paths.envio.config(protocol);
   const abiPath = paths.abi(contractName, protocol, version);
   return getRelativePath(envioConfigDir, abiPath);

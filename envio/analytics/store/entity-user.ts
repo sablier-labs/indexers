@@ -20,7 +20,7 @@ export async function createOrUpdate(
   context: HandlerContext,
   event: Envio.Event,
   addresses: (string | undefined)[],
-  isAirdropClaim: boolean = false,
+  isAirdropClaim = false
 ): Promise<void> {
   // Filter out invalid addresses and normalize to lowercase
   const users = addresses
@@ -38,11 +38,15 @@ export async function createOrUpdate(
   }
 
   // Load the entities
-  const userEntities = await Promise.all(uniqueUsers.map((u) => context.User.get(Id.user(event.chainId, u.address))));
+  const userEntities = await Promise.all(
+    uniqueUsers.map((u) => context.User.get(Id.user(event.chainId, u.address)))
+  );
   const userTxEntities = await Promise.all(
     uniqueUsers.map((u) =>
-      context.UserTransaction.get(Id.userTransaction(Id.user(event.chainId, u.address), event.transaction.hash)),
-    ),
+      context.UserTransaction.get(
+        Id.userTransaction(Id.user(event.chainId, u.address), event.transaction.hash)
+      )
+    )
   );
 
   // Stop if it's the preload phase: https://docs.envio.dev/docs/HyperIndex/preload-optimization#migrating-from-loaders

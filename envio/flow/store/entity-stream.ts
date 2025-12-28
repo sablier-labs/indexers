@@ -9,7 +9,7 @@ export function create(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
-  params: Params.Create,
+  params: Params.Create
 ): Entity.Stream {
   const { asset, batch, batcher, watcher } = entities;
 
@@ -48,7 +48,7 @@ export function create(
     startTime: params.startTime,
     subgraphId: counter,
     timestamp: BigInt(event.block.timestamp),
-    tokenId: tokenId,
+    tokenId,
     transferable: params.transferable,
     version: flow.version,
     voided: false,

@@ -2,7 +2,14 @@ import { Contract } from "../../bindings";
 import { convertSegments } from "../../helpers";
 import type { Params } from "../../helpers/types";
 import { Store } from "../../store";
-import { approval, approvalForAll, cancelStream, renounceStream, transfer, withdrawStream } from "../common";
+import {
+  approval,
+  approvalForAll,
+  cancelStream,
+  renounceStream,
+  transfer,
+  withdrawStream,
+} from "../common";
 import { createStream } from "../common/create-stream";
 import { preloadCreateEntities } from "../common/preload";
 
@@ -60,7 +67,7 @@ Contract.LockupDynamic_v1_0.CreateLockupDynamicStream.handler(async ({ context, 
     depositAmount: event.params.amounts[0],
     endTime: event.params.range[1],
     funder: event.params.funder,
-    proxender: proxender,
+    proxender,
     recipient: event.params.recipient,
     segments: convertSegments(event.params.segments),
     sender: event.params.sender,

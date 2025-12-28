@@ -4,7 +4,7 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import { indexedContracts } from "../../../../contracts";
 import { sanitizeContractName } from "../../../../lib/helpers";
-import { logger, messages } from "../../../../lib/winston";
+import { logger, messages } from "../../../../lib/logger";
 import { envioChains } from "../../../../src/indexers/envio";
 import type { Indexer } from "../../../../src/types";
 import { CodegenError } from "../error";
@@ -90,7 +90,10 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] |
  * 5. Collects the contract address, name, and start block
  * 6. Throws errors if required contracts are missing or no contracts found
  */
-function extractContracts(protocol: Indexer.Protocol, chainId: number): EnvioConfig.NetworkContract[] {
+function extractContracts(
+  protocol: Indexer.Protocol,
+  chainId: number,
+): EnvioConfig.NetworkContract[] {
   const networkContracts: EnvioConfig.NetworkContract[] = [];
 
   for (const release of sablier.releases.getAll({ protocol })) {
@@ -104,7 +107,9 @@ function extractContracts(protocol: Indexer.Protocol, chainId: number): EnvioCon
     }
 
     // Filter all contracts that match the release version.
-    const filteredContracts = indexedContracts[protocol].filter((c) => c.versions.includes(release.version));
+    const filteredContracts = indexedContracts[protocol].filter((c) =>
+      c.versions.includes(release.version),
+    );
 
     for (const filteredContract of filteredContracts) {
       const { name: contractName, isTemplate } = filteredContract;

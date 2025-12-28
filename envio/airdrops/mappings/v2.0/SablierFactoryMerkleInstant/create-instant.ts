@@ -4,9 +4,11 @@ import { Store } from "../../../store";
 import { preloadCreateEntities } from "../../common/factory";
 import { createMerkle } from "../../common/factory/create-merkle";
 
-Contract.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.contractRegister(({ event, context }) => {
-  context.addSablierMerkleInstant_v2_0(event.params.merkleInstant);
-});
+Contract.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.contractRegister(
+  ({ event, context }) => {
+    context.addSablierMerkleInstant_v2_0(event.params.merkleInstant);
+  }
+);
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -36,40 +38,42 @@ struct ConstructorParams {
 ──────────────────────────────────────────────────────────────
 */
 
-Contract.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.handler(async ({ context, event }) => {
-  const result = await preloadCreateEntities({
-    context,
-    event,
-    params: {
-      admin: event.params.params[3],
-      asset: event.params.params[6],
-    },
-  });
-  if (!result) {
-    return;
-  }
+Contract.Factory.FactoryMerkleInstant_v2_0.CreateMerkleInstant.handler(
+  async ({ context, event }) => {
+    const result = await preloadCreateEntities({
+      context,
+      event,
+      params: {
+        admin: event.params.params[3],
+        asset: event.params.params[6],
+      },
+    });
+    if (!result) {
+      return;
+    }
 
-  const { entities } = result;
-  const baseParams = event.params.params;
-  const params: Params.CreateCampaignBase = {
-    admin: baseParams[3],
-    aggregateAmount: event.params.aggregateAmount,
-    asset: baseParams[6],
-    campaignAddress: event.params.merkleInstant,
-    campaignStartTime: baseParams[1],
-    category: "Instant",
-    expiration: baseParams[2],
-    ipfsCID: baseParams[4],
-    merkleRoot: baseParams[5],
-    minimumFee: event.params.minFeeUSD,
-    name: baseParams[0],
-    recipientCount: event.params.recipientCount,
-  };
-  await createMerkle({
-    context,
-    createInStore: Store.Campaign.createInstant,
-    entities,
-    event,
-    params,
-  });
-});
+    const { entities } = result;
+    const baseParams = event.params.params;
+    const params: Params.CreateCampaignBase = {
+      admin: baseParams[3],
+      aggregateAmount: event.params.aggregateAmount,
+      asset: baseParams[6],
+      campaignAddress: event.params.merkleInstant,
+      campaignStartTime: baseParams[1],
+      category: "Instant",
+      expiration: baseParams[2],
+      ipfsCID: baseParams[4],
+      merkleRoot: baseParams[5],
+      minimumFee: event.params.minFeeUSD,
+      name: baseParams[0],
+      recipientCount: event.params.recipientCount,
+    };
+    await createMerkle({
+      context,
+      createInStore: Store.Campaign.createInstant,
+      entities,
+      event,
+      params,
+    });
+  }
+);

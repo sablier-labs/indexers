@@ -25,7 +25,7 @@ const PROTOCOL_MAP: Record<
   {
     bespoke?: string[];
     common?: string[];
-    generators?: Array<TsDefsGenerator>;
+    generators?: TsDefsGenerator[];
   }
 > = {
   airdrops: {

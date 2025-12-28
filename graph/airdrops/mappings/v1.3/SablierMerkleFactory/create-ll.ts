@@ -33,6 +33,6 @@ export function handle_SablierMerkleFactory_v1_3_CreateMerkleLL(event: CreateMer
       startTime: params.schedule.startTime,
       totalDuration: params.schedule.totalDuration,
       transferable: params.transferable,
-    },
+    }
   );
 }

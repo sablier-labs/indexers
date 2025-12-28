@@ -52,7 +52,7 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     const date = getDate(event.block.timestamp);
     const chain = sablier.chains.getOrThrow(event.chainId);
     const currency = chain.nativeCurrency.symbol;
-    let priceUSD: number = 0;
+    let priceUSD = 0;
 
     if (event.chainId !== gnosis.id) {
       if (!coinConfigs[currency]) {
@@ -89,7 +89,7 @@ function createFeeTx(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { currency: string; gbpValue: string; msgValue: string; usdValue: string },
+  params: { currency: string; gbpValue: string; msgValue: string; usdValue: string }
 ): void {
   const { feeTxId, dailyFiatFeesId, dailyCryptoFeesId } = entities;
   const { currency, gbpValue, msgValue, usdValue } = params;
@@ -140,23 +140,13 @@ function upsertFiatFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { date: string; gbpValue: string; msgValue: string; usdValue: string },
+  params: { date: string; gbpValue: string; msgValue: string; usdValue: string }
 ): void {
   let { dailyFiatFees } = entities;
   const { dailyFiatFeesId } = entities;
   const { date, gbpValue, usdValue } = params;
 
-  if (!dailyFiatFees) {
-    dailyFiatFees = {
-      amountDisplayGBP: gbpValue,
-      amountDisplayUSD: usdValue,
-      amountGBP: parseUnits(gbpValue, 2),
-      amountUSD: parseUnits(usdValue, 2),
-      date,
-      dateTimestamp: getDateTimestamp(event.block.timestamp),
-      id: dailyFiatFeesId,
-    };
-  } else {
+  if (dailyFiatFees) {
     const newGBPValue = (Number(dailyFiatFees.amountDisplayGBP) + Number(gbpValue)).toString();
     const newUSDValue = (Number(dailyFiatFees.amountDisplayUSD) + Number(usdValue)).toString();
     dailyFiatFees = {
@@ -165,6 +155,16 @@ function upsertFiatFeesDaily(
       amountDisplayUSD: newUSDValue,
       amountGBP: parseUnits(newGBPValue, 2),
       amountUSD: parseUnits(newUSDValue, 2),
+    };
+  } else {
+    dailyFiatFees = {
+      amountDisplayGBP: gbpValue,
+      amountDisplayUSD: usdValue,
+      amountGBP: parseUnits(gbpValue, 2),
+      amountUSD: parseUnits(usdValue, 2),
+      date,
+      dateTimestamp: getDateTimestamp(event.block.timestamp),
+      id: dailyFiatFeesId,
     };
   }
 
@@ -175,13 +175,20 @@ function upsertCryptoFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { currency: string; date: string; msgValue: string },
+  params: { currency: string; date: string; msgValue: string }
 ): void {
   let { dailyCryptoFees } = entities;
   const { dailyCryptoFeesId } = entities;
   const { currency, date, msgValue } = params;
 
-  if (!dailyCryptoFees) {
+  if (dailyCryptoFees) {
+    const newAmount = (Number(dailyCryptoFees.amountDisplay) + Number(msgValue)).toString();
+    dailyCryptoFees = {
+      ...dailyCryptoFees,
+      amount: parseEther(newAmount),
+      amountDisplay: newAmount,
+    };
+  } else {
     dailyCryptoFees = {
       amount: parseEther(msgValue),
       amountDisplay: msgValue,
@@ -190,13 +197,6 @@ function upsertCryptoFeesDaily(
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: dailyCryptoFeesId,
-    };
-  } else {
-    const newAmount = (Number(dailyCryptoFees.amountDisplay) + Number(msgValue)).toString();
-    dailyCryptoFees = {
-      ...dailyCryptoFees,
-      amount: parseEther(newAmount),
-      amountDisplay: newAmount,
     };
   }
 

@@ -1,4 +1,8 @@
-import { Claim, Clawback, TransferAdmin } from "../../bindings/templates/SablierV2MerkleLL_v1_2/SablierV2MerkleLL";
+import {
+  Claim,
+  Clawback,
+  TransferAdmin,
+} from "../../bindings/templates/SablierV2MerkleLL_v1_2/SablierV2MerkleLL";
 import { handleClaimLockup, handleClawback, handleTransferAdmin } from "../common";
 
 export function handle_SablierV2MerkleLL_v1_2_TransferAdmin(event: TransferAdmin): void {

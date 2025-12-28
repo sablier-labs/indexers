@@ -9,7 +9,7 @@ export function convertTranchesV1_2(eventTranches: StructTrancheV1_2[]): Tranche
   return convertTranches<StructTrancheV1_2>(
     eventTranches,
     (tranche) => tranche.amount,
-    (tranche) => tranche.timestamp,
+    (tranche) => tranche.timestamp
   );
 }
 
@@ -17,7 +17,7 @@ export function convertTranchesV2_0(eventTranches: StructTrancheV2_0[]): Tranche
   return convertTranches<StructTrancheV2_0>(
     eventTranches,
     (tranche) => tranche.amount,
-    (tranche) => tranche.timestamp,
+    (tranche) => tranche.timestamp
   );
 }
 
@@ -25,14 +25,14 @@ export function convertTranchesV3_0(eventTranches: StructTrancheV3_0[]): Tranche
   return convertTranches<StructTrancheV3_0>(
     eventTranches,
     (tranche) => tranche.amount,
-    (tranche) => tranche.timestamp,
+    (tranche) => tranche.timestamp
   );
 }
 
 function convertTranches<T>(
   eventTranches: T[],
   getAmount: (tranche: T) => BigInt,
-  getTimestamp: (tranche: T) => BigInt,
+  getTimestamp: (tranche: T) => BigInt
 ): Tranche[] {
   const result: Tranche[] = [];
 
