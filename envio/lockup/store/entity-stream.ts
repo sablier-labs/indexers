@@ -215,12 +215,7 @@ function addLinearShape(stream: Entity.Stream, cliff: boolean): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
-  // v2.0+ without shape from event (shouldn't happen, but handle gracefully)
-  if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
-    return { shape: undefined, shapeSource: undefined };
-  }
 
-  // v1.x inference
   const shape = cliff ? "cliff" : "linear";
   return { shape, shapeSource: "Inferred" };
 }
@@ -228,10 +223,6 @@ function addLinearShape(stream: Entity.Stream, cliff: boolean): ShapeResult {
 function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
-  }
-  // v2.0+ without shape from event (shouldn't happen, but handle gracefully)
-  if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
-    return { shape: undefined, shapeSource: undefined };
   }
 
   if (segments.length === 0) {
@@ -274,10 +265,6 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResul
 function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
-  }
-  // v2.0+ without shape from event (shouldn't happen, but handle gracefully)
-  if (!isVersionBefore(stream.version as Version.Lockup, Version.Lockup.V2_0)) {
-    return { shape: undefined, shapeSource: undefined };
   }
 
   const count = tranches.length;

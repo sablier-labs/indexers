@@ -25,18 +25,6 @@ import { createDeprecatedStream } from "./entity-deprecated-stream";
 import { getOrCreateWatcher } from "./entity-watcher";
 
 /* -------------------------------------------------------------------------- */
-/*                                  HELPERS                                   */
-/* -------------------------------------------------------------------------- */
-
-function isV1x(version: string): boolean {
-  return (
-    areStringsEqual(version, LOCKUP_V1_0) ||
-    areStringsEqual(version, LOCKUP_V1_1) ||
-    areStringsEqual(version, LOCKUP_V1_2)
-  );
-}
-
-/* -------------------------------------------------------------------------- */
 /*                                 PUBLIC API                                 */
 /* -------------------------------------------------------------------------- */
 
@@ -252,10 +240,6 @@ function addLinearShape(stream: Entity.Stream, cliff: boolean): Entity.Stream {
     return stream;
   }
 
-  if (!isV1x(stream.version)) {
-    return stream;
-  }
-
   stream.shape = cliff ? "cliff" : "linear";
   stream.shapeSource = "Inferred";
   return stream;
@@ -264,10 +248,6 @@ function addLinearShape(stream: Entity.Stream, cliff: boolean): Entity.Stream {
 function addDynamicShape(stream: Entity.Stream, segments: Segment[]): Entity.Stream {
   if (stream.shape !== null) {
     stream.shapeSource = "Event";
-    return stream;
-  }
-
-  if (!isV1x(stream.version)) {
     return stream;
   }
 
@@ -350,10 +330,6 @@ function addSegments(stream: Entity.Stream, segments: Segment[]): Entity.Stream 
 function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): Entity.Stream {
   if (stream.shape !== null) {
     stream.shapeSource = "Event";
-    return stream;
-  }
-
-  if (!isV1x(stream.version)) {
     return stream;
   }
 
