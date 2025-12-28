@@ -1,7 +1,7 @@
 import { isVersionAfter, isVersionBefore } from "sablier";
 import { Version } from "sablier/evm";
 import type { Envio } from "../../common/bindings";
-import { NOT_AVAILABLE } from "../../common/constants";
+import { NOT_AVAILABLE, UD2X18_ONE } from "../../common/constants";
 import { getContract } from "../../common/deployments";
 import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
@@ -256,10 +256,10 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResul
 
   let shape: string | undefined;
   if (nonZeroCount === 1) {
-    if (exponent > 1n) {
+    if (exponent > UD2X18_ONE) {
       shape = hasCliff ? "cliffExponential" : "exponential";
     } else {
-      // Single segment with exponent <= 1 is mathematically linear
+      // Single segment with exponent <= 1.0 (UD2x18) is mathematically linear
       shape = hasCliff ? "cliff" : "linear";
     }
   } else if (segments.length > 1) {

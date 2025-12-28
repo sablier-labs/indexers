@@ -6,6 +6,7 @@ import {
   LOCKUP_V2_0,
   LOCKUP_V3_0,
   ONE,
+  UD2X18_ONE,
   ZERO,
 } from "../../common/constants";
 import { readChainId, readContractVersion } from "../../common/context";
@@ -297,9 +298,10 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): Entity.Str
   }
 
   if (nonZeroCount == 1) {
-    if (exponent.gt(ONE)) {
+    if (exponent.gt(UD2X18_ONE)) {
       stream.shape = hasCliff ? "cliffExponential" : "exponential";
     } else {
+      // Single segment with exponent <= 1.0 (UD2x18) is mathematically linear
       stream.shape = hasCliff ? "cliff" : "linear";
     }
   } else if (segments.length > 1) {

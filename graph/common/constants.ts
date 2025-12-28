@@ -25,6 +25,9 @@ export const TEN = BigInt.fromU32(10);
 export const TWO = BigInt.fromU32(2);
 export const ZERO = BigInt.fromU32(0);
 
+/** UD2x18 representation of 1.0 (used for exponent comparisons). */
+export const UD2X18_ONE = TEN.pow(18);
+
 /* -------------------------------------------------------------------------- */
 /*                                   VERSIONS                                 */
 /* -------------------------------------------------------------------------- */

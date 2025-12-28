@@ -23,6 +23,9 @@ export const FEB_03_2025 = 1_738_540_800; // see https://x.com/Sablier/status/18
 export const DECIMALS_18 = 18n;
 export const DECIMALS_DEFAULT = 0;
 
+/** UD2x18 representation of 1.0 (used for exponent comparisons). */
+export const UD2X18_ONE = 1_000_000_000_000_000_000n;
+
 /* -------------------------------------------------------------------------- */
 /*                                    MISC                                    */
 /* -------------------------------------------------------------------------- */

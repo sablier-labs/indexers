@@ -144,7 +144,7 @@ _codegen-envio-bindings indexer:
     just cli prices-sync
 
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
-[confirm("This will force-push to deployment branch(es). Continue?")]
+[confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
 [group("envio")]
 @deploy-envio indexer="all":
     just envio-for-each _deploy-envio {{ indexer }}
@@ -159,7 +159,7 @@ _deploy-envio indexer:
     echo "✅ Deployed to $deployment_branch"
 
 # Deploy protocol Envio indexers (airdrops, flow, lockup)
-[confirm("This will force-push to deployment branches. Continue?")]
+[confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
 [group("envio")]
 @deploy-envio-protocols:
     just concurrent-protocol-indexers \
