@@ -107,7 +107,7 @@ const priceDataSyncLogic = () =>
         colors.value(result.name),
         colors.dim(result.sourceDir),
         statusText,
-        colors.dim(result.destPath),
+        colors.dim(path.relative(process.cwd(), result.destPath)),
       ]);
     }
 

@@ -63,7 +63,7 @@ jobs:
       - name: Run the code checks
         run: |
           just full-check
-          just price-data-check
+          just prices-check
 
       - name: Run the tests
         run: just test

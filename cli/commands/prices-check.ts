@@ -53,7 +53,7 @@ const priceDataCheckLogic = () =>
     for (const { name, sourceDir } of requiredFiles) {
       const sourcePath = path.join(PRICE_DATA_DIR, sourceDir, name);
       const destPath = path.join(CACHE_DIR, name);
-      const relativeDestPath = "./" + path.relative(process.cwd(), destPath);
+      const relativeDestPath = path.relative(process.cwd(), destPath);
 
       // Check if source file exists
       const sourceExists = yield* fs.exists(sourcePath);
