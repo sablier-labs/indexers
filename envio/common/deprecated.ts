@@ -1,6 +1,5 @@
 import type { Sablier } from "sablier";
-import { isVersionBefore, sablier } from "sablier";
-import { Version } from "sablier/evm";
+import { isReleasePayable, sablier } from "sablier";
 import type { Envio } from "./bindings";
 import { SEP_19_2025 } from "./constants";
 import type { DeprecatedStreamContext } from "./store/entity-deprecated-stream";
@@ -44,11 +43,9 @@ export function isDeprecatedContract({
    */
   switch (protocol) {
     case "airdrops":
-      return isVersionBefore(foundContract.version as Version.Airdrops, Version.Airdrops.V1_3);
     case "flow":
-      return isVersionBefore(foundContract.version as Version.Flow, Version.Flow.V1_1);
     case "lockup":
-      return isVersionBefore(foundContract.version as Version.Lockup, Version.Lockup.V2_0);
+      return !isReleasePayable(protocol, foundContract.version as Sablier.EVM.Version);
   }
 
   return true;
