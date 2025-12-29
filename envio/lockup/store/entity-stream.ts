@@ -1,13 +1,14 @@
 import { isVersionAfter, isVersionBefore } from "sablier";
 import { Version } from "sablier/evm";
 import type { Envio } from "../../common/bindings";
-import { NOT_AVAILABLE, UD2X18_ONE } from "../../common/constants";
+import { NOT_AVAILABLE } from "../../common/constants";
 import { getContract } from "../../common/deployments";
 import { sanitizeString } from "../../common/helpers";
 import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";
 import { update as updateBatch } from "./entity-batch";
+import { inferDynamicShape, inferLinearShape, inferTranchedShape } from "./shape-inference";
 
 type ShapeResult = Pick<Entity.Stream, "shape" | "shapeSource">;
 
@@ -215,50 +216,14 @@ function addLinearShape(stream: Entity.Stream, cliff: boolean): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
-
-  const shape = cliff ? "cliff" : "linear";
-  return { shape, shapeSource: "Inferred" };
+  return { shape: inferLinearShape(cliff), shapeSource: "Inferred" };
 }
 
 function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
-
-  if (segments.length === 0) {
-    return { shape: undefined, shapeSource: undefined };
-  }
-
-  // Detect cliff by finding leading zero-amount segments
-  const firstNonZeroIndex = segments.findIndex((seg) => seg.amount > 0n);
-  const hasCliff = firstNonZeroIndex > 0;
-
-  // Count non-zero segments and get the exponent of the first non-zero segment
-  let nonZeroCount = 0;
-  let exponent = 0n;
-  for (const seg of segments) {
-    if (seg.amount > 0n) {
-      nonZeroCount++;
-      if (nonZeroCount === 1) {
-        exponent = seg.exponent;
-      }
-    }
-  }
-
-  let shape: string | undefined;
-  if (nonZeroCount === 1) {
-    if (exponent > UD2X18_ONE) {
-      shape = hasCliff ? "cliffExponential" : "exponential";
-    } else {
-      // Single segment with exponent <= 1.0 (UD2x18) is mathematically linear
-      shape = hasCliff ? "cliff" : "linear";
-    }
-  } else if (segments.length > 1) {
-    // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
-    // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
-    shape = "backweighted";
-  }
-
+  const shape = inferDynamicShape(segments);
   return { shape, shapeSource: shape ? "Inferred" : undefined };
 }
 
@@ -266,24 +231,8 @@ function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): ShapeResu
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
-
-  const count = tranches.length;
-  if (count === 0) {
-    return { shape: undefined, shapeSource: undefined };
-  }
-
-  let shape: string;
-  if (count === 1) {
-    shape = "timelock";
-  } else if (count === 2) {
-    shape = "doubleUnlock";
-  } else {
-    const firstAmount = tranches[0].amount;
-    const allEqual = tranches.every((t) => t.amount === firstAmount);
-    shape = allEqual ? "monthly" : "stepper";
-  }
-
-  return { shape, shapeSource: "Inferred" };
+  const shape = inferTranchedShape(tranches);
+  return { shape, shapeSource: shape ? "Inferred" : undefined };
 }
 
 function addSegments(context: Context.Handler, stream: Entity.Stream, segments: Segment[]): void {

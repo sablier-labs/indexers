@@ -17,6 +17,7 @@ import { graphManifestCommand } from "./commands/codegen/graph-manifest";
 import { schemaCommand } from "./commands/codegen/schema";
 import { exportSchemaCommand } from "./commands/export-schema";
 import { graphDeployAllCommand } from "./commands/graph-deploy-all";
+import { graphDeployCustomCommand } from "./commands/graph-deploy-custom";
 import { pricesCheckCommand } from "./commands/prices-check";
 import { pricesSyncCommand } from "./commands/prices-sync";
 import { printChainsCommand } from "./commands/print-chains";
@@ -52,6 +53,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
     checkVendorsCommand,
     exportSchemaCommand,
     graphDeployAllCommand,
+    graphDeployCustomCommand,
     pricesCheckCommand,
     pricesSyncCommand,
   ])

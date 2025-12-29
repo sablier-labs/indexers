@@ -6,7 +6,6 @@ import {
   LOCKUP_V2_0,
   LOCKUP_V3_0,
   ONE,
-  UD2X18_ONE,
   ZERO,
 } from "../../common/constants";
 import { readChainId, readContractVersion } from "../../common/context";
@@ -23,6 +22,7 @@ import { getOrCreateAsset } from "./entity-asset";
 import { createOrCreateBatch } from "./entity-batch";
 import { createDeprecatedStream } from "./entity-deprecated-stream";
 import { getOrCreateWatcher } from "./entity-watcher";
+import { inferDynamicShape, inferLinearShape, inferTranchedShape } from "./shape-inference";
 
 /* -------------------------------------------------------------------------- */
 /*                                 PUBLIC API                                 */
@@ -239,8 +239,7 @@ function addLinearShape(stream: Entity.Stream, cliff: boolean): Entity.Stream {
     stream.shapeSource = "Event";
     return stream;
   }
-
-  stream.shape = cliff ? "cliff" : "linear";
+  stream.shape = inferLinearShape(cliff);
   stream.shapeSource = "Inferred";
   return stream;
 }
@@ -250,47 +249,9 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): Entity.Str
     stream.shapeSource = "Event";
     return stream;
   }
-
-  if (segments.length == 0) {
-    return stream;
-  }
-
-  // Find first non-zero segment index
-  let firstNonZeroIndex = -1;
-  for (let i = 0; i < segments.length; i++) {
-    if (segments[i].amount.gt(ZERO)) {
-      firstNonZeroIndex = i;
-      break;
-    }
-  }
-  const hasCliff = firstNonZeroIndex > 0;
-
-  // Count non-zero segments and get exponent of first non-zero
-  let nonZeroCount = 0;
-  let exponent = ZERO;
-  for (let i = 0; i < segments.length; i++) {
-    if (segments[i].amount.gt(ZERO)) {
-      if (nonZeroCount == 0) {
-        exponent = segments[i].exponent;
-      }
-      nonZeroCount++;
-    }
-  }
-
-  if (nonZeroCount == 1) {
-    if (exponent.gt(UD2X18_ONE)) {
-      stream.shape = hasCliff ? "cliffExponential" : "exponential";
-    } else {
-      // Single segment with exponent <= 1.0 (UD2x18) is mathematically linear
-      stream.shape = hasCliff ? "cliff" : "linear";
-    }
-  } else if (segments.length > 1) {
-    // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
-    // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
-    stream.shape = "backweighted";
-  }
-
-  if (stream.shape !== null) {
+  const shape = inferDynamicShape(segments);
+  if (shape !== null) {
+    stream.shape = shape;
     stream.shapeSource = "Inferred";
   }
   return stream;
@@ -332,29 +293,11 @@ function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): Entity.St
     stream.shapeSource = "Event";
     return stream;
   }
-
-  const count = tranches.length;
-  if (count == 0) {
-    return stream;
+  const shape = inferTranchedShape(tranches);
+  if (shape !== null) {
+    stream.shape = shape;
+    stream.shapeSource = "Inferred";
   }
-
-  if (count == 1) {
-    stream.shape = "timelock";
-  } else if (count == 2) {
-    stream.shape = "doubleUnlock";
-  } else {
-    const firstAmount = tranches[0].amount;
-    let allEqual = true;
-    for (let i = 1; i < count; i++) {
-      if (!tranches[i].amount.equals(firstAmount)) {
-        allEqual = false;
-        break;
-      }
-    }
-    stream.shape = allEqual ? "monthly" : "stepper";
-  }
-
-  stream.shapeSource = "Inferred";
   return stream;
 }
 
