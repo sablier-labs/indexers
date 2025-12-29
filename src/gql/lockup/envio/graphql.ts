@@ -17,6 +17,7 @@ export type Scalars = {
   actioncategory: { input: any; output: any; }
   jsonb: { input: any; output: any; }
   numeric: { input: any; output: any; }
+  shapesource: { input: any; output: any; }
   streamcategory: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
 };
@@ -1458,6 +1459,7 @@ export type Stream = {
   cliffAmount?: Maybe<Scalars['numeric']['output']>;
   cliffTime?: Maybe<Scalars['numeric']['output']>;
   contract: Scalars['String']['output'];
+  depleted: Scalars['Boolean']['output'];
   depositAmount: Scalars['numeric']['output'];
   duration: Scalars['numeric']['output'];
   endTime: Scalars['numeric']['output'];
@@ -1479,6 +1481,7 @@ export type Stream = {
   segments: Array<Segment>;
   sender: Scalars['String']['output'];
   shape?: Maybe<Scalars['String']['output']>;
+  shapeSource?: Maybe<Scalars['shapesource']['output']>;
   startTime: Scalars['numeric']['output'];
   subgraphId: Scalars['numeric']['output'];
   timestamp: Scalars['numeric']['output'];
@@ -1669,6 +1672,7 @@ export type Stream_Bool_Exp = {
   cliffAmount?: InputMaybe<Numeric_Comparison_Exp>;
   cliffTime?: InputMaybe<Numeric_Comparison_Exp>;
   contract?: InputMaybe<String_Comparison_Exp>;
+  depleted?: InputMaybe<Boolean_Comparison_Exp>;
   depositAmount?: InputMaybe<Numeric_Comparison_Exp>;
   duration?: InputMaybe<Numeric_Comparison_Exp>;
   endTime?: InputMaybe<Numeric_Comparison_Exp>;
@@ -1688,6 +1692,7 @@ export type Stream_Bool_Exp = {
   segments?: InputMaybe<Segment_Bool_Exp>;
   sender?: InputMaybe<String_Comparison_Exp>;
   shape?: InputMaybe<String_Comparison_Exp>;
+  shapeSource?: InputMaybe<Shapesource_Comparison_Exp>;
   startTime?: InputMaybe<Numeric_Comparison_Exp>;
   subgraphId?: InputMaybe<Numeric_Comparison_Exp>;
   timestamp?: InputMaybe<Numeric_Comparison_Exp>;
@@ -1727,6 +1732,7 @@ export type Stream_Max_Fields = {
   renounceTime?: Maybe<Scalars['numeric']['output']>;
   sender?: Maybe<Scalars['String']['output']>;
   shape?: Maybe<Scalars['String']['output']>;
+  shapeSource?: Maybe<Scalars['shapesource']['output']>;
   startTime?: Maybe<Scalars['numeric']['output']>;
   subgraphId?: Maybe<Scalars['numeric']['output']>;
   timestamp?: Maybe<Scalars['numeric']['output']>;
@@ -1763,6 +1769,7 @@ export type Stream_Max_Order_By = {
   renounceTime?: InputMaybe<Order_By>;
   sender?: InputMaybe<Order_By>;
   shape?: InputMaybe<Order_By>;
+  shapeSource?: InputMaybe<Order_By>;
   startTime?: InputMaybe<Order_By>;
   subgraphId?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
@@ -1800,6 +1807,7 @@ export type Stream_Min_Fields = {
   renounceTime?: Maybe<Scalars['numeric']['output']>;
   sender?: Maybe<Scalars['String']['output']>;
   shape?: Maybe<Scalars['String']['output']>;
+  shapeSource?: Maybe<Scalars['shapesource']['output']>;
   startTime?: Maybe<Scalars['numeric']['output']>;
   subgraphId?: Maybe<Scalars['numeric']['output']>;
   timestamp?: Maybe<Scalars['numeric']['output']>;
@@ -1836,6 +1844,7 @@ export type Stream_Min_Order_By = {
   renounceTime?: InputMaybe<Order_By>;
   sender?: InputMaybe<Order_By>;
   shape?: InputMaybe<Order_By>;
+  shapeSource?: InputMaybe<Order_By>;
   startTime?: InputMaybe<Order_By>;
   subgraphId?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
@@ -1864,6 +1873,7 @@ export type Stream_Order_By = {
   cliffAmount?: InputMaybe<Order_By>;
   cliffTime?: InputMaybe<Order_By>;
   contract?: InputMaybe<Order_By>;
+  depleted?: InputMaybe<Order_By>;
   depositAmount?: InputMaybe<Order_By>;
   duration?: InputMaybe<Order_By>;
   endTime?: InputMaybe<Order_By>;
@@ -1883,6 +1893,7 @@ export type Stream_Order_By = {
   segments_aggregate?: InputMaybe<Segment_Aggregate_Order_By>;
   sender?: InputMaybe<Order_By>;
   shape?: InputMaybe<Order_By>;
+  shapeSource?: InputMaybe<Order_By>;
   startTime?: InputMaybe<Order_By>;
   subgraphId?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
@@ -1924,6 +1935,8 @@ export enum Stream_Select_Column {
   /** column name */
   Contract = 'contract',
   /** column name */
+  Depleted = 'depleted',
+  /** column name */
   DepositAmount = 'depositAmount',
   /** column name */
   Duration = 'duration',
@@ -1958,6 +1971,8 @@ export enum Stream_Select_Column {
   /** column name */
   Shape = 'shape',
   /** column name */
+  ShapeSource = 'shapeSource',
+  /** column name */
   StartTime = 'startTime',
   /** column name */
   SubgraphId = 'subgraphId',
@@ -1982,6 +1997,8 @@ export enum Stream_Select_Column_Stream_Aggregate_Bool_Exp_Bool_And_Arguments_Co
   /** column name */
   Cliff = 'cliff',
   /** column name */
+  Depleted = 'depleted',
+  /** column name */
   Initial = 'initial',
   /** column name */
   Proxied = 'proxied',
@@ -1997,6 +2014,8 @@ export enum Stream_Select_Column_Stream_Aggregate_Bool_Exp_Bool_Or_Arguments_Col
   Canceled = 'canceled',
   /** column name */
   Cliff = 'cliff',
+  /** column name */
+  Depleted = 'depleted',
   /** column name */
   Initial = 'initial',
   /** column name */
@@ -2158,6 +2177,7 @@ export type Stream_Stream_Cursor_Value_Input = {
   cliffAmount?: InputMaybe<Scalars['numeric']['input']>;
   cliffTime?: InputMaybe<Scalars['numeric']['input']>;
   contract?: InputMaybe<Scalars['String']['input']>;
+  depleted?: InputMaybe<Scalars['Boolean']['input']>;
   depositAmount?: InputMaybe<Scalars['numeric']['input']>;
   duration?: InputMaybe<Scalars['numeric']['input']>;
   endTime?: InputMaybe<Scalars['numeric']['input']>;
@@ -2175,6 +2195,7 @@ export type Stream_Stream_Cursor_Value_Input = {
   renounceTime?: InputMaybe<Scalars['numeric']['input']>;
   sender?: InputMaybe<Scalars['String']['input']>;
   shape?: InputMaybe<Scalars['String']['input']>;
+  shapeSource?: InputMaybe<Scalars['shapesource']['input']>;
   startTime?: InputMaybe<Scalars['numeric']['input']>;
   subgraphId?: InputMaybe<Scalars['numeric']['input']>;
   timestamp?: InputMaybe<Scalars['numeric']['input']>;
@@ -3310,6 +3331,19 @@ export type Raw_Events_Stream_Cursor_Value_Input = {
   serial?: InputMaybe<Scalars['Int']['input']>;
   src_address?: InputMaybe<Scalars['String']['input']>;
   transaction_fields?: InputMaybe<Scalars['jsonb']['input']>;
+};
+
+/** Boolean expression to compare columns of type "shapesource". All fields are combined with logical 'AND'. */
+export type Shapesource_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['shapesource']['input']>;
+  _gt?: InputMaybe<Scalars['shapesource']['input']>;
+  _gte?: InputMaybe<Scalars['shapesource']['input']>;
+  _in?: InputMaybe<Array<Scalars['shapesource']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['shapesource']['input']>;
+  _lte?: InputMaybe<Scalars['shapesource']['input']>;
+  _neq?: InputMaybe<Scalars['shapesource']['input']>;
+  _nin?: InputMaybe<Array<Scalars['shapesource']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "streamcategory". All fields are combined with logical 'AND'. */
