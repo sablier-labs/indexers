@@ -1,4 +1,4 @@
-import { Shape } from "sablier/evm/shapes";
+import { Shape } from "sablier";
 import { UD2X18_ONE } from "../../common/constants";
 import type { Segment, Tranche } from "../helpers/types";
 
@@ -47,7 +47,7 @@ export function inferDynamicShape(segments: Segment[]): LockupShape | undefined 
   if (segments.length > 1) {
     // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
     // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
-    return Shape.Lockup.Backweighted;
+    return Shape.Lockup.TranchedBackweighted;
   }
 
   // Defensive: protocol invariants guarantee at least one non-zero segment when depositAmount > 0,
@@ -66,14 +66,14 @@ export function inferTranchedShape(tranches: Tranche[]): LockupShape | undefined
   }
 
   if (count === 1) {
-    return Shape.Lockup.Timelock;
+    return Shape.Lockup.TranchedTimelock;
   }
 
   if (count === 2) {
-    return Shape.Lockup.DoubleUnlock;
+    return Shape.Lockup.DynamicDoubleUnlock;
   }
 
   const firstAmount = tranches[0].amount;
   const allEqual = tranches.every((t) => t.amount === firstAmount);
-  return allEqual ? Shape.Lockup.Monthly : Shape.Lockup.Stepper;
+  return allEqual ? Shape.Lockup.TranchedMonthly : Shape.Lockup.TranchedStepper;
 }
