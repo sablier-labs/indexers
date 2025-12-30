@@ -1,8 +1,0 @@
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - bufferutil
-  - esbuild
-  - msgpackr-extract
-  - oxc-resolver
-  - rescript
-  - utf-8-validate

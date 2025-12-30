@@ -120,8 +120,15 @@ test-vendors:
 _codegen-envio-bindings indexer:
     indexer_dir="envio/{{ indexer }}"
     pnpm envio codegen \
-        --config $indexer_dir/config.yaml \
-        --output-directory $indexer_dir/bindings
+        --directory $indexer_dir \
+        --config config.yaml \
+        --output-directory bindings
+
+    # Verify the critical files were generated
+    if [ ! -f "$indexer_dir/bindings/src/Types.gen.ts" ]; then
+        echo "❌ Failed to generate Envio bindings for {{ indexer }}"
+        exit 1
+    fi
     echo "✅ Generated Envio bindings"
 
 # Codegen the Envio config YAML
