@@ -6,28 +6,40 @@ export type LockupShape = `${Shape.Lockup}`;
 
 /**
  * Map of legacy (non-prefixed) shape names to their canonical prefixed forms.
+ * Keys are lowercase with spaces removed for normalized matching.
  * Historically, shapes didn't have prefixes, but now they do.
  */
 const SHAPE_NORMALIZATION_MAP: Record<string, LockupShape> = {
   backweighted: Shape.Lockup.TranchedBackweighted,
-  cliffExponential: Shape.Lockup.DynamicCliffExponential,
-  doubleCliff: Shape.Lockup.DynamicDoubleUnlock,
-  doubleUnlock: Shape.Lockup.DynamicDoubleUnlock,
-  dynamicDoubleCliff: Shape.Lockup.DynamicDoubleUnlock,
+  cliffexponential: Shape.Lockup.DynamicCliffExponential,
+  clifflinear: Shape.Lockup.Cliff,
+  discreteweekly: Shape.Lockup.TranchedStepper,
+  doublecliff: Shape.Lockup.DynamicDoubleUnlock,
+  doubleunlock: Shape.Lockup.DynamicDoubleUnlock,
+  dynamicdoublecliff: Shape.Lockup.DynamicDoubleUnlock,
   exponential: Shape.Lockup.DynamicExponential,
+  exponentialdynamic: Shape.Lockup.DynamicExponential,
   monthly: Shape.Lockup.TranchedMonthly,
   stepper: Shape.Lockup.TranchedStepper,
   timelock: Shape.Lockup.TranchedTimelock,
-  unlockCliff: Shape.Lockup.LinearUnlockCliff,
-  unlockLinear: Shape.Lockup.LinearUnlockLinear,
+  unlockcliff: Shape.Lockup.LinearUnlockCliff,
+  unlocklinear: Shape.Lockup.LinearUnlockLinear,
 };
 
 /**
  * Normalize a shape from an event to its canonical prefixed form.
+ * Handles uppercase first letters, spaces, and word reordering.
  * Returns the shape unchanged if it's already in canonical form.
  */
 export function normalizeEventShape(shape: string): LockupShape {
-  return SHAPE_NORMALIZATION_MAP[shape] ?? (shape as LockupShape);
+  // Normalize: lowercase and remove spaces for map lookup
+  const key = shape.toLowerCase().replace(/ /g, "");
+  if (SHAPE_NORMALIZATION_MAP[key]) {
+    return SHAPE_NORMALIZATION_MAP[key];
+  }
+  // For canonical shapes, just lowercase the first character
+  const normalized = shape.charAt(0).toLowerCase() + shape.slice(1);
+  return normalized as LockupShape;
 }
 
 /**

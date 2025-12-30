@@ -22,54 +22,68 @@ export namespace LockupShape {
 
 /**
  * Normalize a shape from an event to its canonical prefixed form.
+ * Handles uppercase first letters, spaces, and word reordering.
  * Historically, shapes didn't have prefixes, but now they do.
  */
 export function normalizeEventShape(shape: string): string {
+  // Normalize: lowercase and remove spaces for matching
+  const key = shape.toLowerCase().replaceAll(" ", "");
+
   /* -------------------------------------------------------------------------- */
   /*                                   DYNAMIC                                  */
   /* -------------------------------------------------------------------------- */
-  if (shape == "exponential") {
+  if (key == "exponential") {
     return LockupShape.DynamicExponential;
   }
-  if (shape == "cliffExponential") {
+  if (key == "exponentialdynamic") {
+    return LockupShape.DynamicExponential;
+  }
+  if (key == "cliffexponential") {
     return LockupShape.DynamicCliffExponential;
   }
-  if (shape == "doubleUnlock") {
+  if (key == "doubleunlock") {
     return LockupShape.DynamicDoubleUnlock;
   }
   // "Double Unlock" used to be called "Double Cliff".
-  if (shape == "doubleCliff") {
+  if (key == "doublecliff") {
     return LockupShape.DynamicDoubleUnlock;
   }
-  if (shape == "dynamicDoubleCliff") {
+  if (key == "dynamicdoublecliff") {
     return LockupShape.DynamicDoubleUnlock;
   }
 
   /* -------------------------------------------------------------------------- */
   /*                                   LINEAR                                   */
   /* -------------------------------------------------------------------------- */
-  if (shape == "unlockLinear") {
+  if (key == "clifflinear") {
+    return LockupShape.Cliff;
+  }
+  if (key == "unlocklinear") {
     return LockupShape.LinearUnlockLinear;
   }
-  if (shape == "unlockCliff") {
+  if (key == "unlockcliff") {
     return LockupShape.LinearUnlockCliff;
   }
 
   /* -------------------------------------------------------------------------- */
   /*                                  TRANCHED                                  */
   /* -------------------------------------------------------------------------- */
-  if (shape == "stepper") {
+  if (key == "discreteweekly") {
     return LockupShape.TranchedStepper;
   }
-  if (shape == "timelock") {
+  if (key == "stepper") {
+    return LockupShape.TranchedStepper;
+  }
+  if (key == "timelock") {
     return LockupShape.TranchedTimelock;
   }
-  if (shape == "monthly") {
+  if (key == "monthly") {
     return LockupShape.TranchedMonthly;
   }
-  if (shape == "backweighted") {
+  if (key == "backweighted") {
     return LockupShape.TranchedBackweighted;
   }
 
-  return shape;
+  // For canonical shapes, just lowercase the first character
+  return shape.charAt(0).toLowerCase() + shape.substring(1);
 }
