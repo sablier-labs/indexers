@@ -18,6 +18,11 @@ export namespace LockupShape {
   export const LinearUnlockLinear: string = "linearUnlockLinear";
   export const LinearUnlockCliff: string = "linearUnlockCliff";
   export const DynamicDoubleUnlock: string = "dynamicDoubleUnlock";
+  export const DynamicTimelock: string = "dynamicTimelock";
+  export const DynamicMonthly: string = "dynamicMonthly";
+  export const DynamicStepper: string = "dynamicStepper";
+  export const DynamicUnlockLinear: string = "dynamicUnlockLinear";
+  export const DynamicUnlockCliff: string = "dynamicUnlockCliff";
 }
 
 /**
@@ -25,13 +30,20 @@ export namespace LockupShape {
  * Handles uppercase first letters, spaces, and word reordering.
  * Historically, shapes didn't have prefixes, but now they do.
  */
-export function normalizeEventShape(shape: string): string {
+export function normalizeEventShape(shape: string): string | null {
+  if (shape.length == 0) {
+    return null;
+  }
+
   // Normalize: lowercase and remove spaces for matching
   const key = shape.toLowerCase().replaceAll(" ", "");
 
   /* -------------------------------------------------------------------------- */
   /*                                   DYNAMIC                                  */
   /* -------------------------------------------------------------------------- */
+  if (key == "dynamicexponential") {
+    return LockupShape.DynamicExponential;
+  }
   if (key == "exponential") {
     return LockupShape.DynamicExponential;
   }
@@ -51,10 +63,31 @@ export function normalizeEventShape(shape: string): string {
   if (key == "dynamicdoublecliff") {
     return LockupShape.DynamicDoubleUnlock;
   }
+  if (key == "dynamictimelock") {
+    return LockupShape.DynamicTimelock;
+  }
+  if (key == "dynamicmonthly") {
+    return LockupShape.DynamicMonthly;
+  }
+  if (key == "dynamicstepper") {
+    return LockupShape.DynamicStepper;
+  }
+  if (key == "dynamicunlocklinear") {
+    return LockupShape.DynamicUnlockLinear;
+  }
+  if (key == "dynamicunlockcliff") {
+    return LockupShape.DynamicUnlockCliff;
+  }
 
   /* -------------------------------------------------------------------------- */
   /*                                   LINEAR                                   */
   /* -------------------------------------------------------------------------- */
+  if (key == "linear") {
+    return LockupShape.Linear;
+  }
+  if (key == "cliff") {
+    return LockupShape.Cliff;
+  }
   if (key == "clifflinear") {
     return LockupShape.Cliff;
   }

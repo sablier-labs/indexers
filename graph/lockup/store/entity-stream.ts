@@ -250,7 +250,7 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): Entity.Str
     stream.shapeSource = "Event";
     return stream;
   }
-  const shape = inferDynamicShape(segments);
+  const shape = inferDynamicShape(segments, stream.startTime);
   if (shape !== null) {
     stream.shape = shape;
     stream.shapeSource = "Inferred";

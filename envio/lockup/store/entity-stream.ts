@@ -228,7 +228,7 @@ function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResul
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
-  const shape = inferDynamicShape(segments);
+  const shape = inferDynamicShape(segments, stream.startTime);
   return { shape, shapeSource: shape ? "Inferred" : undefined };
 }
 
