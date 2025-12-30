@@ -1,7 +1,7 @@
 import { ethereum } from "@graphprotocol/graph-ts";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
-import { scale } from "../../helpers";
+import { computeDepletionTime, computeSnapshotAmount } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
@@ -23,17 +23,9 @@ export function handleRestartFlowStream(
   /* --------------------------------- STREAM --------------------------------- */
 
   // Restart is actually an adjustment.
-  const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
-  const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
-  const notWithdrawnAmount = stream.snapshotAmount.minus(withdrawnAmount);
-
   const now = event.block.timestamp;
-  let depletionTime = now;
-  if (availableAmount.gt(notWithdrawnAmount)) {
-    const extraAmount = availableAmount.minus(notWithdrawnAmount);
-    depletionTime = now.plus(extraAmount.div(params.ratePerSecond));
-  }
-  stream.depletionTime = depletionTime;
+  const snapshotAmount = computeSnapshotAmount(stream, now);
+  stream.depletionTime = computeDepletionTime(stream, now, snapshotAmount, params.ratePerSecond);
   stream.lastAdjustmentTimestamp = now;
   stream.paused = false;
   stream.pausedTime = null;

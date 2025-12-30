@@ -1,8 +1,7 @@
 import { ethereum } from "@graphprotocol/graph-ts";
-import { ZERO } from "../../../common/constants";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
-import { scale } from "../../helpers";
+import { computeDepletionTime, computeSnapshotAmount } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
@@ -26,20 +25,8 @@ export function handleRefundFromFlowStream(
   stream.availableAmount = stream.availableAmount.minus(params.amount);
 
   const now = event.block.timestamp;
-  const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
-  const elapsedTime = now.minus(stream.lastAdjustmentTimestamp);
-  const streamedAmount = stream.ratePerSecond.times(elapsedTime);
-  const snapshotAmount = stream.snapshotAmount.plus(streamedAmount);
-  const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
-  const notWithdrawnAmount = snapshotAmount.minus(withdrawnAmount);
-
-  // If the entire available amount is refunded, the stream starts accruing now.
-  const extraAmount = availableAmount.minus(notWithdrawnAmount);
-  const depletionTime = now;
-  if (extraAmount.notEqual(ZERO) && stream.ratePerSecond.notEqual(ZERO)) {
-    stream.depletionTime = now.plus(extraAmount.div(stream.ratePerSecond));
-  }
-  stream.depletionTime = depletionTime;
+  const snapshotAmount = computeSnapshotAmount(stream, now);
+  stream.depletionTime = computeDepletionTime(stream, now, snapshotAmount, stream.ratePerSecond);
   stream.save();
 
   /* --------------------------------- ACTION --------------------------------- */

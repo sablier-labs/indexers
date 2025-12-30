@@ -1,4 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
@@ -14,6 +15,7 @@ export function handleRenounceLockupStream(
 
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
+    logError("Stream not saved before this Renounce event: {}", [tokenId.toHexString()]);
     return;
   }
 

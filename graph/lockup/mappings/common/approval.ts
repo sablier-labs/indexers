@@ -1,5 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
-import { logInfo } from "../../../common/logger";
+import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
 import { Store } from "../../store";
 
@@ -11,7 +11,7 @@ export function handleApproval(event: ethereum.Event, params: CommonParams.Appro
 
   const stream = Store.Stream.get(tokenId);
   if (stream === null) {
-    logInfo("Stream not saved before this Approval event: {}", [tokenId.toHexString()]);
+    logError("Stream not saved before this Approval event: {}", [tokenId.toHexString()]);
     return;
   }
 

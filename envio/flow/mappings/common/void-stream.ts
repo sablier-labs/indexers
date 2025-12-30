@@ -7,7 +7,7 @@ import type {
   SablierFlow_v1_1_VoidFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_VoidFlowStream_handler as Handler_v2_0,
 } from "../../bindings/src/Types.gen";
-import { scale } from "../../helpers";
+import { computeSnapshotAmount, scale } from "../../helpers";
 
 type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
 
@@ -34,9 +34,7 @@ const handler: Handler = async ({ context, event }) => {
 
   // Void is actually an adjustment with the new rate set to zero.
   const now = BigInt(event.block.timestamp);
-  const elapsedTime = now - stream.lastAdjustmentTimestamp;
-  const streamedAmount = stream.ratePerSecond * elapsedTime;
-  const snapshotAmount = stream.snapshotAmount + streamedAmount;
+  const snapshotAmount = computeSnapshotAmount(stream, now);
 
   const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
   const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
@@ -47,15 +45,15 @@ const handler: Handler = async ({ context, event }) => {
     depletionTime: 0n,
     forgivenDebt: event.params.writtenOffDebt,
     lastAdjustmentAction_id: Id.action(event),
-    lastAdjustmentTimestamp: BigInt(event.block.timestamp),
+    lastAdjustmentTimestamp: now,
     paused: true,
     pausedAction_id: Id.action(event),
-    pausedTime: BigInt(event.block.timestamp),
+    pausedTime: now,
     ratePerSecond: 0n,
     snapshotAmount: maxAvailable < snapshotAmount ? maxAvailable : snapshotAmount,
     voided: true,
     voidedAction_id: Id.action(event),
-    voidedTime: BigInt(event.block.timestamp),
+    voidedTime: now,
   };
   context.Stream.set(updatedStream);
 

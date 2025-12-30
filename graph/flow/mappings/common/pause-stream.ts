@@ -2,6 +2,7 @@ import { ethereum } from "@graphprotocol/graph-ts";
 import { ZERO } from "../../../common/constants";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
+import { computeSnapshotAmount } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
@@ -21,9 +22,7 @@ export function handlePauseFlowStream(event: ethereum.Event, params: Params.Paus
 
   // Paused is actually an adjustment with the new rate set to zero.
   const now = event.block.timestamp;
-  const elapsedTime = now.minus(stream.lastAdjustmentTimestamp);
-  const streamedAmount = stream.ratePerSecond.times(elapsedTime);
-  const snapshotAmount = stream.snapshotAmount.plus(streamedAmount);
+  const snapshotAmount = computeSnapshotAmount(stream, now);
 
   stream.lastAdjustmentTimestamp = now;
   stream.paused = true;

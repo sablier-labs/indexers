@@ -1,7 +1,7 @@
 import { ethereum } from "@graphprotocol/graph-ts";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
-import { scale } from "../../helpers";
+import { computeDepletionTime, computeSnapshotAmount } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
@@ -22,25 +22,16 @@ export function handleAdjustFlowStream(
 
   /* --------------------------------- STREAM --------------------------------- */
   const now = event.block.timestamp;
-  let snapshotAmount = stream.snapshotAmount;
-  // If the stream has not started yet, the snapshot amount is not updated.
-  if (now.gt(stream.startTime)) {
-    const actualAdjustmentTime = stream.lastAdjustmentTimestamp.gt(stream.startTime)
-      ? stream.lastAdjustmentTimestamp
-      : stream.startTime;
-    const elapsedTime = now.minus(actualAdjustmentTime);
-    const streamedAmount = stream.ratePerSecond.times(elapsedTime);
-    snapshotAmount = stream.snapshotAmount.plus(streamedAmount);
-  }
+  const snapshotAmount = computeSnapshotAmount(stream, now);
 
   // The depletion time is recalculated only if the current depletion time is in the future.
   if (stream.depletionTime.gt(now)) {
-    const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
-    const notWithdrawn = snapshotAmount.minus(withdrawnAmount);
-    const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
-    const extraAmount = availableAmount.minus(notWithdrawn);
-    const actualStartTime = now.gt(stream.startTime) ? now : stream.startTime;
-    stream.depletionTime = actualStartTime.plus(extraAmount.div(params.newRatePerSecond));
+    stream.depletionTime = computeDepletionTime(
+      stream,
+      now,
+      snapshotAmount,
+      params.newRatePerSecond
+    );
   }
 
   stream.lastAdjustmentTimestamp = now;

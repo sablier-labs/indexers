@@ -6,7 +6,7 @@ import type {
   SablierFlow_v1_1_RefundFromFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_RefundFromFlowStream_handler as Handler_v2_0,
 } from "../../bindings/src/Types.gen";
-import { scale } from "../../helpers";
+import { computeDepletionTime, computeSnapshotAmount } from "../../helpers";
 
 type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
 
@@ -33,22 +33,18 @@ const handler: Handler = async ({ context, event }) => {
 
   const refundedAmount = stream.refundedAmount + event.params.amount;
   const availableAmount = stream.availableAmount - event.params.amount;
-  const scaledAvailableAmount = scale(availableAmount, stream.assetDecimalsValue);
 
   const now = BigInt(event.block.timestamp);
-  const elapsedTime = now - stream.lastAdjustmentTimestamp;
-  const streamedAmount = stream.ratePerSecond * elapsedTime;
-  const snapshotAmount = stream.snapshotAmount + streamedAmount;
-  const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
+  const snapshotAmount = computeSnapshotAmount(stream, now);
 
-  const notWithdrawnAmount = snapshotAmount - withdrawnAmount;
-
-  // If the entire available amount is refunded, the stream starts accruing now.
-  const extraAmount = scaledAvailableAmount - notWithdrawnAmount;
-  let depletionTime: bigint = now;
-  if (extraAmount !== 0n && stream.ratePerSecond !== 0n) {
-    depletionTime = now + extraAmount / stream.ratePerSecond;
-  }
+  // Create a temporary stream with updated availableAmount for depletion calculation
+  const streamWithUpdatedBalance = { ...stream, availableAmount };
+  const depletionTime = computeDepletionTime(
+    streamWithUpdatedBalance,
+    now,
+    snapshotAmount,
+    stream.ratePerSecond
+  );
 
   const updatedStream = {
     ...stream,

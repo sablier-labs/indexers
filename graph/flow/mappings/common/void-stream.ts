@@ -2,7 +2,7 @@ import { ethereum } from "@graphprotocol/graph-ts";
 import { ZERO } from "../../../common/constants";
 import { logError } from "../../../common/logger";
 import { CommonParams } from "../../../common/types";
-import { scale } from "../../helpers";
+import { computeSnapshotAmount, scale } from "../../helpers";
 import { Params } from "../../helpers/types";
 import { Store } from "../../store";
 
@@ -22,9 +22,7 @@ export function handleVoidFlowStream(event: ethereum.Event, params: Params.VoidF
 
   // Void is actually an adjustment with the new rate set to zero.
   const now = event.block.timestamp;
-  const elapsedTime = now.minus(stream.lastAdjustmentTimestamp);
-  const streamedAmount = stream.ratePerSecond.times(elapsedTime);
-  const snapshotAmount = stream.snapshotAmount.plus(streamedAmount);
+  const snapshotAmount = computeSnapshotAmount(stream, now);
 
   const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
   const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
