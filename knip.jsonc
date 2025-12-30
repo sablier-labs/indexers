@@ -6,7 +6,6 @@
     "@graphprotocol/.+",
     "@graphql-codegen/.+",
     "assemblyscript",
-    "dayjs",
     "envio",
     "husky"
   ],

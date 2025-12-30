@@ -1,7 +1,4 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
+import { DateTime } from "effect";
 
 /**
  * This function converts a Unix timestamp to a date in the format YYYY-MM-DD.
@@ -9,13 +6,13 @@ dayjs.extend(utc);
  * @returns The date in the format YYYY-MM-DD.
  */
 export function getDate(timestampInSeconds: number): string {
-  const utcDate = dayjs.unix(timestampInSeconds).utc();
-  return utcDate.format("YYYY-MM-DD");
+  const dt = DateTime.unsafeMake(timestampInSeconds * 1000);
+  return DateTime.formatIsoDateUtc(dt);
 }
 
 export function getDateTimestamp(timestampInSeconds: number): Date {
-  const utcDate = dayjs.unix(timestampInSeconds).utc();
-  return utcDate.startOf("day").toDate();
+  const dt = DateTime.unsafeMake(timestampInSeconds * 1000);
+  return DateTime.toDateUtc(DateTime.startOf(dt, "day"));
 }
 
 /**
@@ -24,7 +21,7 @@ export function getDateTimestamp(timestampInSeconds: number): Date {
  * @returns The Date object with the full timestamp.
  */
 export function getTimestamp(timestampInSeconds: number): Date {
-  return dayjs.unix(timestampInSeconds).utc().toDate();
+  return DateTime.toDateUtc(DateTime.unsafeMake(timestampInSeconds * 1000));
 }
 
 /**
@@ -41,15 +38,20 @@ export function getDay(timestamp: number): bigint {
  * @returns The month in the format YYYY-MM.
  */
 export function getMonth(timestampInSeconds: number): string {
-  const utcDate = dayjs.unix(timestampInSeconds).utc();
-  return utcDate.format("YYYY-MM");
+  const dt = DateTime.unsafeMake(timestampInSeconds * 1000);
+  const parts = DateTime.toPartsUtc(dt);
+  return `${parts.year}-${String(parts.month).padStart(2, "0")}`;
 }
 
 /**
  * Check if a date string (YYYY-MM-DD format) is today in UTC.
  */
 export function isToday(date: string): boolean {
-  return dayjs(date).isSame(dayjs().utc(), "day");
+  const input = DateTime.unsafeMake(date);
+  const now = DateTime.unsafeNow();
+  const inputDate = DateTime.formatIsoDateUtc(input);
+  const todayDate = DateTime.formatIsoDateUtc(now);
+  return inputDate === todayDate;
 }
 
 /**
@@ -58,6 +60,6 @@ export function isToday(date: string): boolean {
  * @returns The Date object representing the first day of the month at 00:00:00.
  */
 export function getMonthTimestamp(timestampInSeconds: number): Date {
-  const utcDate = dayjs.unix(timestampInSeconds).utc();
-  return utcDate.startOf("month").toDate();
+  const dt = DateTime.unsafeMake(timestampInSeconds * 1000);
+  return DateTime.toDateUtc(DateTime.startOf(dt, "month"));
 }

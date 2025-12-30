@@ -22,8 +22,7 @@ import {
 } from "@effect/platform";
 import chalk from "chalk";
 import Table from "cli-table3";
-import dayjs from "dayjs";
-import { Chunk, Console, Effect, Option, Stream } from "effect";
+import { Chunk, Console, DateTime, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
@@ -349,7 +348,7 @@ function displaySummary(
   successCount: number,
   deploymentIds: DeploymentResult[],
   failedDeployments: FailedDeployment[],
-  startTime: number,
+  startTime: DateTime.Utc,
   logger: ReturnType<typeof createFileLogger>
 ) {
   return Effect.gen(function* () {
@@ -432,8 +431,9 @@ function displaySummary(
     }
 
     // Log final statistics
-    const endTime = dayjs().valueOf();
-    const duration = ((endTime - startTime) / 1000).toFixed(2);
+    const endTime = DateTime.unsafeNow();
+    const durationMs = DateTime.distance(startTime, endTime);
+    const duration = (durationMs / 1000).toFixed(2);
     yield* Console.log("");
     yield* Console.log(chalk.cyan(`⏱️  Total execution time: ${duration} seconds`));
 
@@ -463,7 +463,12 @@ const graphDeployAllLogic = (options: {
 }) =>
   Effect.gen(function* () {
     // Setup file logging
-    const logFilePath = path.join(ROOT_DIR, ".logs", "graph-deploy-all", `${dayjs().unix()}.log`);
+    const logFilePath = path.join(
+      ROOT_DIR,
+      ".logs",
+      "graph-deploy-all",
+      `${Math.trunc(DateTime.toEpochMillis(DateTime.unsafeNow()) / 1000)}.log`
+    );
     const fs = yield* FileSystem.FileSystem;
     yield* fs.makeDirectory(path.dirname(logFilePath), { recursive: true });
 
@@ -471,7 +476,7 @@ const graphDeployAllLogic = (options: {
     yield* logger.log("=== Graph Deploy All Session Started ===");
     yield* logger.log(`Log file: ${logFilePath}`);
 
-    const startTime = dayjs().valueOf();
+    const startTime = DateTime.unsafeNow();
 
     // Log command arguments
     yield* logger.log("COMMAND ARGUMENTS:");
