@@ -5,7 +5,7 @@
     "": {
       "name": "@sablier/indexers",
       "dependencies": {
-        "sablier": "1.8.0-beta.13",
+        "sablier": "1.8.0-beta.15",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.3.2",
@@ -1569,7 +1569,7 @@
 
     "rxjs": ["rxjs@7.8.2", "", { "dependencies": { "tslib": "2.8.1" } }, "sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA=="],
 
-    "sablier": ["sablier@1.8.0-beta.13", "", { "dependencies": { "@coral-xyz/anchor": "^0.32.1", "@solana/web3.js": "^1.98.4", "lodash": "^4.17.21", "viem": "^2.39.3" } }, "sha512-YvFG1NsOMad5sysJCbh3dsoFQ3BrJzfTRmZOTz8zEafO8iwJTY95RUXK4sBJCPmM2YtiAUqhVERImXqtoiWmEg=="],
+    "sablier": ["sablier@1.8.0-beta.15", "", { "dependencies": { "@coral-xyz/anchor": "^0.32.1", "@solana/web3.js": "^1.98.4", "lodash": "^4.17.21", "viem": "^2.39.3" } }, "sha512-TCs+EjdVjWfNL+a5iEXZVf8hwaSWKcSb6gvt6zy2r0ywLs5m7JT+9EH/JujrMS30JShuvkvC50w/AtQ6tvyg5w=="],
 
     "safe-buffer": ["safe-buffer@5.2.1", "", {}, "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ=="],
 
