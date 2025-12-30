@@ -12,3 +12,11 @@ Run `just codegen-envio` to regenerate binding.
 # Example: Adding a new aggregate entity "Baz"
 export ENVIO_HASURA_PUBLIC_AGGREGATE := "Foo&Bar&Baz"
 ```
+
+## Production URLs
+
+For tasks involving GraphQL queries, use these endpoints:
+
+- **Airdrops**: https://indexer.hyperindex.xyz/508d217/v1/graphql
+- **Flow**: https://indexer.hyperindex.xyz/3b4ea6b/v1/graphql
+- **Lockup**: https://indexer.hyperindex.xyz/53b7e25/v1/graphql
