@@ -5,6 +5,32 @@ import type { Segment, Tranche } from "../helpers/types";
 export type LockupShape = `${Shape.Lockup}`;
 
 /**
+ * Map of legacy (non-prefixed) shape names to their canonical prefixed forms.
+ * Historically, shapes didn't have prefixes, but now they do.
+ */
+const SHAPE_NORMALIZATION_MAP: Record<string, LockupShape> = {
+  backweighted: Shape.Lockup.TranchedBackweighted,
+  cliffExponential: Shape.Lockup.DynamicCliffExponential,
+  doubleCliff: Shape.Lockup.DynamicDoubleUnlock,
+  doubleUnlock: Shape.Lockup.DynamicDoubleUnlock,
+  dynamicDoubleCliff: Shape.Lockup.DynamicDoubleUnlock,
+  exponential: Shape.Lockup.DynamicExponential,
+  monthly: Shape.Lockup.TranchedMonthly,
+  stepper: Shape.Lockup.TranchedStepper,
+  timelock: Shape.Lockup.TranchedTimelock,
+  unlockCliff: Shape.Lockup.LinearUnlockCliff,
+  unlockLinear: Shape.Lockup.LinearUnlockLinear,
+};
+
+/**
+ * Normalize a shape from an event to its canonical prefixed form.
+ * Returns the shape unchanged if it's already in canonical form.
+ */
+export function normalizeEventShape(shape: string): LockupShape {
+  return SHAPE_NORMALIZATION_MAP[shape] ?? (shape as LockupShape);
+}
+
+/**
  * Infer the shape of a linear stream based on whether it has a cliff.
  */
 export function inferLinearShape(cliff: boolean): LockupShape {
@@ -29,7 +55,7 @@ export function inferDynamicShape(segments: Segment[]): LockupShape | undefined 
   let exponent = 0n;
   for (const seg of segments) {
     if (seg.amount > 0n) {
-      nonZeroCount++;
+      nonZeroCount += 1;
       if (nonZeroCount === 1) {
         exponent = seg.exponent;
       }

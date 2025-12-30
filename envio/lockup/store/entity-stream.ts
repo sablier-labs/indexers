@@ -8,7 +8,12 @@ import { Id } from "../../common/id";
 import type { Context, Entity } from "../bindings";
 import type { Params, Segment, Tranche } from "../helpers/types";
 import { update as updateBatch } from "./entity-batch";
-import { inferDynamicShape, inferLinearShape, inferTranchedShape } from "./shape-inference";
+import {
+  inferDynamicShape,
+  inferLinearShape,
+  inferTranchedShape,
+  normalizeEventShape,
+} from "./shape-inference";
 
 type ShapeResult = Pick<Entity.Stream, "shape" | "shapeSource">;
 
@@ -118,7 +123,7 @@ function createBase(
     renounceAction_id: undefined,
     renounceTime: undefined,
     sender,
-    shape: params.shape ? sanitizeString(params.shape) : undefined,
+    shape: params.shape ? normalizeEventShape(sanitizeString(params.shape)) : undefined,
     shapeSource: params.shape ? "Event" : undefined,
     startTime: params.startTime,
     subgraphId: counter,

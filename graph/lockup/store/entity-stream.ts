@@ -12,6 +12,7 @@ import { readChainId, readContractVersion } from "../../common/context";
 import { isDeprecatedContract as isDeprecatedLockupContract } from "../../common/deprecated";
 import { Id } from "../../common/id";
 import { logError } from "../../common/logger";
+import { normalizeEventShape } from "../../common/shapes";
 import { areStringsEqual } from "../../common/strings";
 import { CommonParams } from "../../common/types";
 import * as Entity from "../bindings/schema";
@@ -144,8 +145,8 @@ function createBaseStream(event: ethereum.Event, params: Params.CreateStreamComm
   stream.intactAmount = params.depositAmount;
   stream.recipient = params.recipient;
   stream.sender = params.sender;
-  stream.shape = params.shape;
   if (params.shape !== null) {
+    stream.shape = normalizeEventShape(params.shape as string);
     stream.shapeSource = "Event";
   }
   stream.startTime = params.startTime;

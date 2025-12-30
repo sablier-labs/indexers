@@ -51,7 +51,7 @@ export function inferDynamicShape(segments: Segment[]): string | null {
   if (segments.length > 1) {
     // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
     // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
-    return LockupShape.Backweighted;
+    return LockupShape.TranchedBackweighted;
   }
 
   // Defensive: protocol invariants guarantee at least one non-zero segment when depositAmount > 0,
@@ -70,11 +70,11 @@ export function inferTranchedShape(tranches: Tranche[]): string | null {
   }
 
   if (count == 1) {
-    return LockupShape.Timelock;
+    return LockupShape.TranchedTimelock;
   }
 
   if (count == 2) {
-    return LockupShape.DoubleUnlock;
+    return LockupShape.DynamicDoubleUnlock;
   }
 
   const firstAmount = tranches[0].amount;
@@ -85,5 +85,5 @@ export function inferTranchedShape(tranches: Tranche[]): string | null {
       break;
     }
   }
-  return allEqual ? LockupShape.Monthly : LockupShape.Stepper;
+  return allEqual ? LockupShape.TranchedMonthly : LockupShape.TranchedStepper;
 }
