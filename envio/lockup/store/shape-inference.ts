@@ -5,7 +5,10 @@ import type { Segment, Tranche } from "../helpers/types";
 /** Maximum duration (in seconds) for an unlock segment to be considered a timelock. */
 const TIMELOCK_MAX_DURATION = 1n;
 
-export type LockupShape = `${Shape.Lockup}`;
+/** Sentinel value for streams with unrecognized segment/tranche patterns. */
+const UNKNOWN_SHAPE = "unknown" as const;
+
+export type LockupShape = `${Shape.Lockup}` | typeof UNKNOWN_SHAPE;
 
 /**
  * Map of legacy (non-prefixed) shape names to their canonical prefixed forms.
@@ -30,9 +33,11 @@ const SHAPE_NORMALIZATION_MAP: Record<string, LockupShape> = {
   exponential: Shape.Lockup.DynamicExponential,
   exponentialdynamic: Shape.Lockup.DynamicExponential,
   linear: Shape.Lockup.Linear,
+  lineartimelock: Shape.Lockup.LinearTimelock,
   monthly: Shape.Lockup.TranchedMonthly,
   stepper: Shape.Lockup.TranchedStepper,
   timelock: Shape.Lockup.TranchedTimelock,
+  unknown: UNKNOWN_SHAPE,
   unlockcliff: Shape.Lockup.LinearUnlockCliff,
   unlocklinear: Shape.Lockup.LinearUnlockLinear,
 };
@@ -147,9 +152,7 @@ export function inferDynamicShape(segments: Segment[], startTime: bigint): Locku
   }
 
   if (segments.length > 1) {
-    // Note: We check segments.length, not nonZeroCount, because the protocol enforces depositAmount > 0,
-    // meaning at least one segment must have a non-zero amount. Zero-amount segments are only used for cliffs.
-    return Shape.Lockup.TranchedBackweighted;
+    return UNKNOWN_SHAPE;
   }
 
   // Defensive: protocol invariants guarantee at least one non-zero segment when depositAmount > 0,
@@ -211,8 +214,15 @@ function areEvenSegmentDurationsEqual(segments: Segment[], startTime: bigint): b
 /**
  * Infer the shape of a tranched stream based on its tranches.
  * Returns undefined if there are no tranches.
+ *
+ * Discrimination logic for Monthly vs Stepper:
+ * - Monthly: Variable tranche durations (calendar months have different day counts)
+ * - Stepper: Equal tranche durations (fixed time intervals)
  */
-export function inferTranchedShape(tranches: Tranche[]): LockupShape | undefined {
+export function inferTranchedShape(
+  tranches: Tranche[],
+  startTime: bigint
+): LockupShape | undefined {
   const count = tranches.length;
   if (count === 0) {
     return undefined;
@@ -226,7 +236,20 @@ export function inferTranchedShape(tranches: Tranche[]): LockupShape | undefined
     return Shape.Lockup.DynamicDoubleUnlock;
   }
 
-  const firstAmount = tranches[0].amount;
-  const allEqual = tranches.every((t) => t.amount === firstAmount);
-  return allEqual ? Shape.Lockup.TranchedMonthly : Shape.Lockup.TranchedStepper;
+  // Calculate first tranche duration (from stream start to first unlock)
+  const firstDuration = tranches[0].timestamp - startTime;
+  let allDurationsEqual = true;
+
+  // Check if all durations between consecutive tranches are equal
+  for (let i = 1; i < count; i++) {
+    const duration = tranches[i].timestamp - tranches[i - 1].timestamp;
+    if (duration !== firstDuration) {
+      allDurationsEqual = false;
+      break;
+    }
+  }
+
+  // Equal durations = Stepper (fixed time intervals)
+  // Variable durations = Monthly (calendar months)
+  return allDurationsEqual ? Shape.Lockup.TranchedStepper : Shape.Lockup.TranchedMonthly;
 }

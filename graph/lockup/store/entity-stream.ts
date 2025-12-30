@@ -294,7 +294,7 @@ function addTranchedShape(stream: Entity.Stream, tranches: Tranche[]): Entity.St
     stream.shapeSource = "Event";
     return stream;
   }
-  const shape = inferTranchedShape(tranches);
+  const shape = inferTranchedShape(tranches, stream.startTime);
   if (shape !== null) {
     stream.shape = shape;
     stream.shapeSource = "Inferred";
