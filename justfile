@@ -247,7 +247,7 @@ _codegen-graph-bindings indexer:
 [group("codegen")]
 [group("gql")]
 [group("envio")]
-codegen-gql-envio:
+@codegen-gql-envio:
     just concurrent-protocol-indexers \
         "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/envio.ts" \
         "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/envio.ts" \
@@ -257,7 +257,7 @@ codegen-gql-envio:
 [group("codegen")]
 [group("gql")]
 [group("graph")]
-codegen-gql-graph:
+@codegen-gql-graph:
     just concurrent-protocol-indexers \
         "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/airdrops/graph.ts" \
         "pnpm graphql-codegen --config ./cli/commands/codegen/gql-config/flow/graph.ts" \
