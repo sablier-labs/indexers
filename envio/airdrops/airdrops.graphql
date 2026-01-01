@@ -11,6 +11,7 @@ enum CampaignCategory {
   Instant
   LockupLinear
   LockupTranched
+  VariableClaim
 }
 
 """
