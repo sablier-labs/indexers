@@ -8,9 +8,21 @@ const TIMELOCK_MAX_DURATION = ONE;
 
 /**
  * Infer the shape of a linear stream based on whether it has a cliff.
+ * Detects linearTimelock when cliff is followed by immediate unlock (≤ 1 second).
  */
-export function inferLinearShape(cliff: boolean): string {
-  return cliff ? LockupShape.Cliff : LockupShape.Linear;
+export function inferLinearShape(
+  cliff: boolean,
+  cliffTime: BigInt | null,
+  endTime: BigInt
+): string {
+  if (!cliff) {
+    return LockupShape.Linear;
+  }
+  // Detect linearTimelock: cliff followed by immediate unlock (≤ 1 second)
+  if (cliffTime !== null && endTime.minus(cliffTime).le(TIMELOCK_MAX_DURATION)) {
+    return LockupShape.LinearTimelock;
+  }
+  return LockupShape.Cliff;
 }
 
 /**

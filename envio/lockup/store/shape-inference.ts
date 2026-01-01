@@ -63,9 +63,21 @@ export function normalizeEventShape(shape: string): LockupShape | undefined {
 
 /**
  * Infer the shape of a linear stream based on whether it has a cliff.
+ * Detects linearTimelock when cliff is followed by immediate unlock (≤ 1 second).
  */
-export function inferLinearShape(cliff: boolean): LockupShape {
-  return cliff ? Shape.Lockup.Cliff : Shape.Lockup.Linear;
+export function inferLinearShape(
+  cliff: boolean,
+  cliffTime: bigint | undefined,
+  endTime: bigint
+): LockupShape {
+  if (!cliff) {
+    return Shape.Lockup.Linear;
+  }
+  // Detect linearTimelock: cliff followed by immediate unlock (≤ 1 second)
+  if (cliffTime !== undefined && endTime - cliffTime <= TIMELOCK_MAX_DURATION) {
+    return Shape.Lockup.LinearTimelock;
+  }
+  return Shape.Lockup.Cliff;
 }
 
 /**

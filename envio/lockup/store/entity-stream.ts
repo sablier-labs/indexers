@@ -41,7 +41,7 @@ export function createLinear(
 
   const cliff = addCliff(baseStream, params);
   const initial = addInitial(params);
-  const shape = addLinearShape(baseStream, cliff.cliff ?? false);
+  const shape = addLinearShape(baseStream, cliff.cliff ?? false, cliff.cliffTime, params.endTime);
 
   const stream: Entity.Stream = {
     ...baseStream,
@@ -217,11 +217,16 @@ function addInitial(
  * Older versions of Lockup did not have a shape field, but it can be inferred.
  * @see https://github.com/sablier-labs/interfaces/blob/30fffc0/packages/constants/src/stream/shape.ts#L12
  */
-function addLinearShape(stream: Entity.Stream, cliff: boolean): ShapeResult {
+function addLinearShape(
+  stream: Entity.Stream,
+  cliff: boolean,
+  cliffTime: bigint | undefined,
+  endTime: bigint
+): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
-  return { shape: inferLinearShape(cliff), shapeSource: "Inferred" };
+  return { shape: inferLinearShape(cliff, cliffTime, endTime), shapeSource: "Inferred" };
 }
 
 function addDynamicShape(stream: Entity.Stream, segments: Segment[]): ShapeResult {
