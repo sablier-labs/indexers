@@ -31,6 +31,14 @@ export namespace Params {
     to: Address;
   }
 
+  export class ClaimVCA {
+    claimAmount: BigInt;
+    forgoneAmount: BigInt;
+    index: BigInt;
+    recipient: Address;
+    to: Address;
+  }
+
   export class Clawback {
     admin: Address;
     amount: BigInt;
@@ -68,6 +76,12 @@ export namespace Params {
 
   export class CreateCampaignLT extends CreateCampaignLockup {
     tranchesWithPercentages: TrancheWithPercentage[];
+  }
+
+  export class CreateCampaignVCA {
+    unlockPercentage: BigInt | null;
+    vestingEndTime: BigInt;
+    vestingStartTime: BigInt;
   }
 
   export class TransferAdmin {

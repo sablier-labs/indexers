@@ -54,6 +54,36 @@ export function createCampaignLT(
   campaign.save();
 }
 
+export function createCampaignVCA(
+  event: ethereum.Event,
+  paramsBase: Params.CreateCampaignBase,
+  paramsVCA: Params.CreateCampaignVCA
+): void {
+  const campaign = createBaseCampaign(event, paramsBase);
+
+  const unlockPercentage = paramsVCA.unlockPercentage;
+  if (unlockPercentage !== null) {
+    campaign.streamInitial = unlockPercentage.gt(ZERO);
+    campaign.streamInitialPercentage = unlockPercentage;
+  } else {
+    campaign.streamInitial = false;
+  }
+
+  const vestingStartTime = paramsVCA.vestingStartTime;
+  if (vestingStartTime.gt(ZERO)) {
+    campaign.streamStart = true;
+    campaign.streamStartTime = vestingStartTime;
+  } else {
+    campaign.streamStart = false;
+  }
+
+  if (paramsVCA.vestingEndTime.gt(ZERO)) {
+    campaign.streamTotalDuration = paramsVCA.vestingEndTime.minus(paramsVCA.vestingStartTime);
+  }
+
+  campaign.save();
+}
+
 export function getCampaign(address: Address): Entity.Campaign | null {
   const id = Id.campaign(address);
   const campaign = Entity.Campaign.load(id);
