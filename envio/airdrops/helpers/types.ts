@@ -63,6 +63,13 @@ export namespace Params {
     category: "LockupTranched";
     tranchesWithPercentages: TrancheWithPercentage[];
   };
+
+  export type CreateCampaignVCA = CreateCampaignBase & {
+    category: "VariableClaim";
+    unlockPercentage: bigint | undefined;
+    vestingEndTime: bigint;
+    vestingStartTime: bigint;
+  };
 }
 
 export type TrancheWithPercentage = {
