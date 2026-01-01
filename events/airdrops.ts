@@ -5,7 +5,7 @@ import type { Sablier } from "sablier";
 import { contracts } from "sablier/evm";
 import type { Indexer, Model } from "../src/types.js";
 
-type CampaignType = "instant" | "LL" | "LT";
+type CampaignType = "instant" | "LL" | "LT" | "VCA";
 
 // Centralized version-specific claim events configuration
 type ClaimEventsConfig = {
@@ -25,6 +25,12 @@ const CLAIM_EVENTS: ClaimEventsConfig = {
     "v1.2": ["Claim"],
     "v1.3": ["Claim"],
     "v2.0": ["ClaimLTWithTransfer", "ClaimLTWithVesting"],
+  },
+  VCA: {
+    "v1.1": [],
+    "v1.2": [],
+    "v1.3": [],
+    "v2.0": ["ClaimVCA"],
   },
 };
 
@@ -143,6 +149,10 @@ const airdropHandlers: Model.EventMap = {
   ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_INSTANT, ["CreateMerkleInstant"]),
   ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_LL, ["CreateMerkleLL"]),
   ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_LT, ["CreateMerkleLT"]),
+  ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_VCA, ["CreateMerkleVCA"]),
+  [names.SABLIER_MERKLE_VCA]: {
+    "v2.0": campaign("VCA", "v2.0", names.SABLIER_MERKLE_VCA),
+  },
 } as const;
 
 export default airdropHandlers;
