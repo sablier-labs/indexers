@@ -18,8 +18,8 @@ ni := require("ni")
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
-COREDAO_AUTH_TOKEN := env("COREDAO_AUTH_TOKEN")
-DENERGY_AUTH_TOKEN := env("DENERGY_AUTH_TOKEN")
+COREDAO_AUTH_TOKEN := env("COREDAO_AUTH_TOKEN", "")
+DENERGY_AUTH_TOKEN := env("DENERGY_AUTH_TOKEN", "")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
 IPFS_URL_CORE_DAO := "https://thegraph.coredao.org/ipfs/"
