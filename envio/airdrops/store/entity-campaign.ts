@@ -55,6 +55,25 @@ export function createLT(
   return campaign;
 }
 
+export function createVCA(
+  context: Context.Handler,
+  event: Envio.Event,
+  entities: Params.CreateEntities,
+  params: Params.CreateCampaignVCA
+): Entity.Campaign {
+  let campaign = createBaseCampaign(context, event, entities, params);
+  campaign = {
+    ...campaign,
+    streamInitial: Boolean(params.unlockPercentage && params.unlockPercentage > 0n),
+    streamInitialPercentage: params.unlockPercentage ?? undefined,
+    streamStart: Boolean(params.vestingStartTime && params.vestingStartTime > 0n),
+    streamStartTime: params.vestingStartTime,
+    streamTotalDuration: params.vestingEndTime > 0n ? params.vestingEndTime - params.vestingStartTime : 0n,
+  };
+  context.Campaign.set(campaign);
+  return campaign;
+}
+
 export async function updateAdmin(
   context: Context.Handler,
   campaign: Entity.Campaign,
