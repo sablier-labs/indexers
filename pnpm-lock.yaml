@@ -53,7 +53,7 @@ importers:
         version: 1.9.2(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/43ee1869536deb8932830e63b17b9bd411d6489a
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/090c1c641fdaf25e1cc7d0054b910102a16ff61d
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1559,8 +1559,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/43ee1869536deb8932830e63b17b9bd411d6489a':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/43ee1869536deb8932830e63b17b9bd411d6489a}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/090c1c641fdaf25e1cc7d0054b910102a16ff61d':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/090c1c641fdaf25e1cc7d0054b910102a16ff61d}
     version: 1.0.0-beta.0
     engines: {node: '>=22'}
 
@@ -4647,6 +4647,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.19.0:
+    resolution: {integrity: sha512-blAT2mjOEIi0ZzruJfIhb3nps74PRWTCz1IjglWEEpQl5XS/UNama6u2/rjFkDDouqr4L67ry+1aGIALViWjDg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   wsl-utils@0.1.0:
     resolution: {integrity: sha512-h3Fbisa2nKGPxCpm89Hk33lBLsnaGBvctQopaBSOW/uIs6FTe1ATyAnKFJrzVs9vpGdsTe73WF3V4lIsk4Gacw==}
     engines: {node: '>=18'}
@@ -6264,7 +6276,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/43ee1869536deb8932830e63b17b9bd411d6489a': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/090c1c641fdaf25e1cc7d0054b910102a16ff61d': {}
 
   '@scure/base@1.1.9': {}
 
@@ -8782,7 +8794,7 @@ snapshots:
       buffer: 6.0.3
       eventemitter3: 5.0.1
       uuid: 8.3.2
-      ws: 8.18.3(bufferutil@4.1.0)(utf-8-validate@5.0.10)
+      ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     optionalDependencies:
       bufferutil: 4.1.0
       utf-8-validate: 5.0.10
@@ -9495,6 +9507,11 @@ snapshots:
       utf-8-validate: 5.0.10
 
   ws@8.18.3(bufferutil@4.1.0)(utf-8-validate@5.0.10):
+    optionalDependencies:
+      bufferutil: 4.1.0
+      utf-8-validate: 5.0.10
+
+  ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10):
     optionalDependencies:
       bufferutil: 4.1.0
       utf-8-validate: 5.0.10
