@@ -53,7 +53,7 @@ importers:
         version: 1.9.2(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/56a5d5e8f0097f9434727f6a7f39ff339e9a7ed0
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/a3e8c089e98cefd706c274abd666255b292ed99d
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1559,8 +1559,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/56a5d5e8f0097f9434727f6a7f39ff339e9a7ed0':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/56a5d5e8f0097f9434727f6a7f39ff339e9a7ed0}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a3e8c089e98cefd706c274abd666255b292ed99d':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/a3e8c089e98cefd706c274abd666255b292ed99d}
     version: 1.0.0-beta.0
     engines: {node: '>=22'}
 
@@ -6276,7 +6276,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/56a5d5e8f0097f9434727f6a7f39ff339e9a7ed0': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a3e8c089e98cefd706c274abd666255b292ed99d': {}
 
   '@scure/base@1.1.9': {}
 
