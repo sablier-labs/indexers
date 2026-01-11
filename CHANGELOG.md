@@ -11,6 +11,12 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 
+## [Unreleased]
+
+### Added
+
+- Add indexing support for Airdrops v2.0 VCA (Variable Claim Amount) campaigns
+
 ## [1.3.0] - 2025-11-27
 
 ### Changed
