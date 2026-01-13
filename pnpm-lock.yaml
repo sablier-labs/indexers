@@ -53,7 +53,7 @@ importers:
         version: 1.9.2(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/ea2d6da64de802c931cf74d1ada61c6ab81786a4
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/a48594475f948c18d22de4cde732a91b03613948
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -247,8 +247,8 @@ packages:
     resolution: {integrity: sha512-vbavdySgbTTrmFE+EsiqUTzlOr5bzlnJtUv9PynGCAKvfQqjIXbvFdumPM/GxMDfyuGMJaJAU6TO4zc1Jf1i8Q==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/runtime@7.28.4':
-    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
+  '@babel/runtime@7.28.6':
+    resolution: {integrity: sha512-05WQkdpL9COIMz4LjTxGpPNCdlpyimKppYNoJ5Di5EUObifl8t4tuLuUBBZEpoLYOmfvIWrsp9fCl0HoPRVTdA==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -1559,8 +1559,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/ea2d6da64de802c931cf74d1ada61c6ab81786a4':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/ea2d6da64de802c931cf74d1ada61c6ab81786a4}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a48594475f948c18d22de4cde732a91b03613948':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/a48594475f948c18d22de4cde732a91b03613948}
     version: 1.0.0-beta.0
     engines: {node: '>=22'}
 
@@ -4841,7 +4841,7 @@ snapshots:
 
   '@babel/runtime@7.27.6': {}
 
-  '@babel/runtime@7.28.4': {}
+  '@babel/runtime@7.28.6': {}
 
   '@babel/template@7.27.2':
     dependencies:
@@ -6276,7 +6276,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/ea2d6da64de802c931cf74d1ada61c6ab81786a4': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a48594475f948c18d22de4cde732a91b03613948': {}
 
   '@scure/base@1.1.9': {}
 
@@ -6327,7 +6327,7 @@ snapshots:
 
   '@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
-      '@babel/runtime': 7.28.4
+      '@babel/runtime': 7.28.6
       '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@solana/buffer-layout': 4.0.1
