@@ -38,8 +38,8 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
 /* -------------------------------------------------------------------------- */
 
 /**
- * Will return an URL like this: https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}
- * The API key will be loaded from the .env file.
+ * Will return a string URL like this: https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}
+ * The API keys will be loaded from the .env file. Make sure to set them!
  */
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
@@ -47,14 +47,14 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] |
 
   // If it's HyperSync, we use Infura and Alchemy as fallback RPCs.
   if (!rpcOnly) {
-    if (chain.rpc.infura && process.env.ENVIO_INFURA_API_KEY) {
+    if (chain.rpc.infura) {
       RPCs.push({
         for: "fallback",
         url: chain.rpc.infura("${ENVIO_INFURA_API_KEY}"),
       });
     }
 
-    if (chain.rpc.alchemy && process.env.ENVIO_ALCHEMY_API_KEY) {
+    if (chain.rpc.alchemy) {
       RPCs.push({
         for: "fallback",
         initial_block_interval: 2000,
