@@ -6,6 +6,7 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
+import type { COMPTROLLER_PROTOCOL } from "../../common/constants";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
@@ -14,7 +15,7 @@ type Params = {
   admin: string;
   airdropCampaign: string | undefined;
   amount: bigint;
-  protocol: Sablier.Protocol;
+  protocol: Sablier.Protocol | typeof COMPTROLLER_PROTOCOL;
 };
 
 type LoadedEntities = {

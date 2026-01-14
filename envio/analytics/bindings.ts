@@ -44,6 +44,8 @@ import {
   SablierLockup_v2_0,
   // Lockup v3.0
   SablierLockup_v3_0,
+  // Comptroller
+  SablierComptroller as SablierComptrollerHandler,
 } from "./bindings/src/Handlers.gen";
 
 export namespace Contract {
@@ -87,6 +89,8 @@ export namespace Contract {
     export const Lockup_v2_0 = SablierLockup_v2_0;
     export const Lockup_v3_0 = SablierLockup_v3_0;
   }
+
+  export const SablierComptroller = SablierComptrollerHandler;
 }
 
 // Entities

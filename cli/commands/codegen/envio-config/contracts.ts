@@ -8,6 +8,18 @@ import type { Types } from "../../../../lib/types";
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
+/**
+ * Only TransferFees event is tracked for the Comptroller contract.
+ */
+export function createComptrollerContract(): EnvioConfig.Contract {
+  return {
+    abi_file_path: "../../abi/SablierComptroller.json",
+    events: [{ event: "TransferFees" }],
+    handler: "mappings/comptroller/SablierComptroller.ts",
+    name: "SablierComptroller",
+  };
+}
+
 export function createContracts(
   indexer: Indexer.Name,
   protocol: Indexer.Protocol,

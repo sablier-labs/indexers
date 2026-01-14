@@ -2,8 +2,8 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
-import { createContracts } from "./contracts";
-import { createNetworks } from "./networks";
+import { createComptrollerContract, createContracts } from "./contracts";
+import { addComptrollerToNetworks, createNetworks } from "./networks";
 import { topSections } from "./top-sections";
 
 /**
@@ -16,13 +16,14 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
   let contracts: EnvioConfig.Contract[] = [];
   let networks: EnvioConfig.Network[] = [];
 
-  // The Analytics indexers monitors all protocols.
+  // The Analytics indexers monitors all protocols and the Comptroller contract.
   if (indexer === "analytics") {
     const includeProtocolInPath = true;
     contracts = [
       ...createContracts(indexer, "airdrops", includeProtocolInPath),
       ...createContracts(indexer, "flow", includeProtocolInPath),
       ...createContracts(indexer, "lockup", includeProtocolInPath),
+      createComptrollerContract(),
     ];
     networks = mergeNetworks([
       ...createNetworks("airdrops"),
@@ -34,6 +35,7 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       const chain = sablier.chains.get(network.id);
       return chain && !chain.isTestnet;
     });
+    networks = addComptrollerToNetworks(networks);
   } else {
     const protocol = indexer as Indexer.Protocol;
     contracts = createContracts(indexer, protocol);

@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/suspicious/noTemplateCurlyInString: $ sign needed in string */
 
 import _ from "lodash";
-import { sablier } from "sablier";
+import { comptroller, sablier } from "sablier";
 import { indexedContracts } from "../../../../contracts";
 import { sanitizeContractName } from "../../../../lib/helpers";
 import { logger, messages } from "../../../../lib/logger";
@@ -36,6 +36,30 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
+
+/**
+ * Adds the Comptroller contract to networks that have a Comptroller deployment.
+ * Uses the sablier SDK to get the correct address for each chain (handles Linea exception).
+ */
+export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
+  return networks.map((network) => {
+    const comptrollerDeployment = comptroller.get(network.id);
+    if (!comptrollerDeployment) {
+      return network;
+    }
+
+    const comptrollerNetworkContract: EnvioConfig.NetworkContract = {
+      address: comptrollerDeployment.address,
+      name: "SablierComptroller",
+      start_block: comptrollerDeployment.block,
+    };
+
+    return {
+      ...network,
+      contracts: [...network.contracts, comptrollerNetworkContract],
+    };
+  });
+}
 
 /**
  * Will return a string URL like this:https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
