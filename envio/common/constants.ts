@@ -10,10 +10,10 @@ export const PRB_PROXY_REGISTRY_v4_0_1: Envio.Address =
   "0x584009e9ede26e212182c9745f5c000191296a78";
 
 /* -------------------------------------------------------------------------- */
-/*                                 COMPTROLLER                                */
+/*                                 CONTRACTS                                */
 /* -------------------------------------------------------------------------- */
 
-export const COMPTROLLER_PROTOCOL = "comptroller" as const;
+export const COMPTROLLER = "comptroller" as const;
 
 /* -------------------------------------------------------------------------- */
 /*                                    DATES                                   */

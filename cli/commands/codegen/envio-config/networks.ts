@@ -10,7 +10,7 @@ import type { Indexer } from "../../../../src/types";
 import { CodegenError } from "../error";
 import type { EnvioConfig } from "./config-types";
 
-export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[] {
+export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];
 
   for (const chain of envioChains) {
@@ -39,7 +39,6 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
 
 /**
  * Adds the Comptroller contract to networks that have a Comptroller deployment.
- * Uses the sablier SDK to get the correct address for each chain (handles Linea exception).
  */
 export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
   return networks.map((network) => {

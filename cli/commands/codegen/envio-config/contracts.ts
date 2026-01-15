@@ -9,6 +9,7 @@ import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
 /**
+ * Comptroller is an upgradeable contract which is not a part of the normal versioned Sablier releases.
  * Only TransferFees event is tracked for the Comptroller contract.
  */
 export function createComptrollerContract(): EnvioConfig.Contract {
@@ -20,7 +21,7 @@ export function createComptrollerContract(): EnvioConfig.Contract {
   };
 }
 
-export function createContracts(
+export function createProtocolContracts(
   indexer: Indexer.Name,
   protocol: Indexer.Protocol,
   includeProtocolInPath: boolean = false,

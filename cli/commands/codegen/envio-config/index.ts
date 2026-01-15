@@ -2,8 +2,8 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
-import { createComptrollerContract, createContracts } from "./contracts";
-import { addComptrollerToNetworks, createNetworks } from "./networks";
+import { createComptrollerContract, createProtocolContracts } from "./contracts";
+import { addComptrollerToNetworks, createNetworksForProtocols } from "./networks";
 import { topSections } from "./top-sections";
 
 /**
@@ -20,15 +20,15 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
   if (indexer === "analytics") {
     const includeProtocolInPath = true;
     contracts = [
-      ...createContracts(indexer, "airdrops", includeProtocolInPath),
-      ...createContracts(indexer, "flow", includeProtocolInPath),
-      ...createContracts(indexer, "lockup", includeProtocolInPath),
+      ...createProtocolContracts(indexer, "airdrops", includeProtocolInPath),
+      ...createProtocolContracts(indexer, "flow", includeProtocolInPath),
+      ...createProtocolContracts(indexer, "lockup", includeProtocolInPath),
       createComptrollerContract(),
     ];
     networks = mergeNetworks([
-      ...createNetworks("airdrops"),
-      ...createNetworks("flow"),
-      ...createNetworks("lockup"),
+      ...createNetworksForProtocols("airdrops"),
+      ...createNetworksForProtocols("flow"),
+      ...createNetworksForProtocols("lockup"),
     ]);
     // Filter out testnets from analytics indexer.
     networks = networks.filter((network) => {
@@ -38,8 +38,8 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
     networks = addComptrollerToNetworks(networks);
   } else {
     const protocol = indexer as Indexer.Protocol;
-    contracts = createContracts(indexer, protocol);
-    networks = createNetworks(protocol);
+    contracts = createProtocolContracts(indexer, protocol);
+    networks = createNetworksForProtocols(protocol);
   }
 
   networks = setMinimumStartBlock(networks);

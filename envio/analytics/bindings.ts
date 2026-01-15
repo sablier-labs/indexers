@@ -5,6 +5,8 @@ export type { HandlerContext } from "./bindings/src/Types";
 
 // Contracts
 import {
+  // Comptroller
+  SablierComptroller,
   // Airdrops v1.1
   SablierV2MerkleStreamerFactory_v1_1,
   SablierV2MerkleStreamerLL_v1_1,
@@ -44,11 +46,11 @@ import {
   SablierLockup_v2_0,
   // Lockup v3.0
   SablierLockup_v3_0,
-  // Comptroller
-  SablierComptroller as SablierComptrollerHandler,
 } from "./bindings/src/Handlers.gen";
 
 export namespace Contract {
+  export const Comptroller = SablierComptroller;
+
   export namespace Airdrops {
     export namespace Factory {
       export const MerkleStreamerFactory_v1_1 = SablierV2MerkleStreamerFactory_v1_1;
@@ -89,8 +91,6 @@ export namespace Contract {
     export const Lockup_v2_0 = SablierLockup_v2_0;
     export const Lockup_v3_0 = SablierLockup_v3_0;
   }
-
-  export const SablierComptroller = SablierComptrollerHandler;
 }
 
 // Entities
