@@ -48,7 +48,6 @@ default:
 # Build the npm package
 @build:
     just export-schema
-    just codegen-gql
     pnpm tsc -p tsconfig.build.json
 alias b := build
 alias build-package := build

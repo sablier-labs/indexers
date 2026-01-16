@@ -1,8 +1,7 @@
 import { sepolia } from "sablier/evm/chains";
 import { getIndexer } from "../../../src/indexers/getters";
-import * as Envio from "../../../src/queries/lockup/envio";
-import * as Graph from "../../../src/queries/lockup/graph";
 import { createEquivalenceTest } from "./create-test";
+import { LockupEnvio, LockupGraph } from "./queries";
 
 /**
  * Use "https://api.studio.thegraph.com/query/82/sablier-lockup-experimental-2/version/latest" for mainnet tests
@@ -16,7 +15,7 @@ createEquivalenceTest({
   },
   protocol: "lockup",
   queries: {
-    envio: [Envio.getStreams, Envio.getActions],
-    graph: [Graph.getStreams, Graph.getActions],
+    envio: [LockupEnvio.getStreams, LockupEnvio.getActions],
+    graph: [LockupGraph.getStreams, LockupGraph.getActions],
   },
 });

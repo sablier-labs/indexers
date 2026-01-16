@@ -5,8 +5,7 @@
     "includes": [
       "**/*.{graphql,js,json,jsonc,ts}",
       "!envio/**/bindings/**/*",
-      "!graph/**/bindings/**/*",
-      "!src/gql/**/*.ts"
+      "!graph/**/bindings/**/*"
     ]
   },
   "linter": {

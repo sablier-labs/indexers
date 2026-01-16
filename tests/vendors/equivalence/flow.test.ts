@@ -1,8 +1,7 @@
 import { sepolia } from "sablier/evm/chains";
 import { getIndexer } from "../../../src/indexers/getters";
-import * as Envio from "../../../src/queries/flow/envio";
-import * as Graph from "../../../src/queries/flow/graph";
 import { createEquivalenceTest } from "./create-test";
+import { FlowEnvio, FlowGraph } from "./queries";
 
 createEquivalenceTest({
   chainId: sepolia.id,
@@ -12,7 +11,7 @@ createEquivalenceTest({
   },
   protocol: "flow",
   queries: {
-    envio: [Envio.getStreams, Envio.getActions],
-    graph: [Graph.getStreams, Graph.getActions],
+    envio: [FlowEnvio.getStreams, FlowEnvio.getActions],
+    graph: [FlowGraph.getStreams, FlowGraph.getActions],
   },
 });

@@ -1,8 +1,7 @@
 import { sepolia } from "sablier/evm/chains";
 import { getIndexer } from "../../../src/indexers/getters";
-import * as Envio from "../../../src/queries/airdrops/envio";
-import * as Graph from "../../../src/queries/airdrops/graph";
 import { createEquivalenceTest } from "./create-test";
+import { AirdropsEnvio, AirdropsGraph } from "./queries";
 
 createEquivalenceTest({
   chainId: sepolia.id,
@@ -12,7 +11,7 @@ createEquivalenceTest({
   },
   protocol: "airdrops",
   queries: {
-    envio: [Envio.getCampaignsWithActivities, Envio.getActions],
-    graph: [Graph.getCampaignsWithActivities, Graph.getActions],
+    envio: [AirdropsEnvio.getCampaignsWithActivities, AirdropsEnvio.getActions],
+    graph: [AirdropsGraph.getCampaignsWithActivities, AirdropsGraph.getActions],
   },
 });

@@ -2,20 +2,6 @@
   "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
   "entry": ["**/index.ts"],
   "ignoreBinaries": ["just"],
-  "ignoreDependencies": [
-    "@graphprotocol/.+",
-    "@graphql-codegen/.+",
-    "assemblyscript",
-    "envio",
-    "husky"
-  ],
-  "project": [
-    "**/*.{js,ts}",
-    "!codegen/gql-config/**/*",
-    "!envio/**/*",
-    "!graph/**/*",
-    "!src/fragments/**/*",
-    "!src/gql/**/*",
-    "!src/queries/**/*"
-  ]
+  "ignoreDependencies": ["@graphprotocol/.+", "assemblyscript", "envio", "husky"],
+  "project": ["**/*.{js,ts}", "!envio/**/*", "!graph/**/*"]
 }
