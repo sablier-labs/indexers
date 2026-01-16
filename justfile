@@ -83,13 +83,13 @@ alias codegen-indexers := codegen
 
 # Run tests
 [group("test")]
-test args="--silent":
+@test *args="--silent":
     pnpm vitest run --hideSkippedTests {{ args }}
 alias t := test
 
 # Run vendor tests
 [group("test")]
-test-vendors:
+@test-vendors:
     TEST_VENDORS=true pnpm vitest run --hideSkippedTests
 
 # ---------------------------------------------------------------------------- #

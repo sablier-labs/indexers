@@ -23,7 +23,6 @@ const paths = {
         ROOT_DIR,
         "node_modules",
         "sablier",
-        "dist",
         "abi",
         indexer,
         version,
