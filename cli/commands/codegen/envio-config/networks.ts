@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/suspicious/noTemplateCurlyInString: $ sign needed in string */
 
 import _ from "lodash";
-import { comptroller, sablier } from "sablier";
+import { sablier } from "sablier";
 import { indexedContracts } from "../../../../contracts";
 import { sanitizeContractName } from "../../../../lib/helpers";
 import { logger, messages } from "../../../../lib/logger";
@@ -44,7 +44,7 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
  */
 export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
   return networks.map((network) => {
-    const comptrollerDeployment = comptroller.get(network.id);
+    const comptrollerDeployment = sablier.comptroller.get(network.id);
     if (!comptrollerDeployment) {
       return network;
     }
