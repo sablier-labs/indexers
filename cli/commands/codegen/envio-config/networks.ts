@@ -39,6 +39,8 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
 
 /**
  * Adds the Comptroller contract to networks that have a Comptroller deployment.
+ * @see https://etherscan.io/address/0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399#code
+ * @see https://docs.sablier.com/concepts/governance
  */
 export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
   return networks.map((network) => {
@@ -61,7 +63,7 @@ export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): Envio
 }
 
 /**
- * Will return a string URL like this:https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
+ * Will return a string URL like this: https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
  * The API keys will be loaded from the .env file. Make sure to set them!
  */
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
