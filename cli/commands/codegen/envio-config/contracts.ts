@@ -8,7 +8,20 @@ import type { Types } from "../../../../lib/types";
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
-export function createContracts(
+/**
+ * Comptroller is an upgradeable contract which is not a part of the normal versioned Sablier releases.
+ * Only TransferFees event is tracked for the Comptroller contract.
+ */
+export function createComptrollerContract(): EnvioConfig.Contract {
+  return {
+    abi_file_path: "../../abi/SablierComptroller.json",
+    events: [{ event: "TransferFees" }],
+    handler: "mappings/comptroller/SablierComptroller.ts",
+    name: "SablierComptroller",
+  };
+}
+
+export function createProtocolContracts(
   indexer: Indexer.Name,
   protocol: Indexer.Protocol,
   includeProtocolInPath: boolean = false,

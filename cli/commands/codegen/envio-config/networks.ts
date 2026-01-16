@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/suspicious/noTemplateCurlyInString: $ sign needed in string */
 
 import _ from "lodash";
-import { sablier } from "sablier";
+import { comptroller, sablier } from "sablier";
 import { indexedContracts } from "../../../../contracts";
 import { sanitizeContractName } from "../../../../lib/helpers";
 import { logger, messages } from "../../../../lib/logger";
@@ -10,7 +10,7 @@ import type { Indexer } from "../../../../src/types";
 import { CodegenError } from "../error";
 import type { EnvioConfig } from "./config-types";
 
-export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[] {
+export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];
 
   for (const chain of envioChains) {
@@ -38,7 +38,32 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
 /* -------------------------------------------------------------------------- */
 
 /**
- * Will return a string URL like this:https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
+ * Adds the Comptroller contract to networks that have a Comptroller deployment.
+ * @see https://etherscan.io/address/0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399#code
+ * @see https://docs.sablier.com/concepts/governance
+ */
+export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
+  return networks.map((network) => {
+    const comptrollerDeployment = comptroller.get(network.id);
+    if (!comptrollerDeployment) {
+      return network;
+    }
+
+    const comptrollerNetworkContract: EnvioConfig.NetworkContract = {
+      address: comptrollerDeployment.address,
+      name: "SablierComptroller",
+      start_block: comptrollerDeployment.block,
+    };
+
+    return {
+      ...network,
+      contracts: [...network.contracts, comptrollerNetworkContract],
+    };
+  });
+}
+
+/**
+ * Will return a string URL like this: https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
  * The API keys will be loaded from the .env file. Make sure to set them!
  */
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {

@@ -6,6 +6,7 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings";
+import type { COMPTROLLER } from "../../common/constants";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
 import type { Entity, HandlerContext } from "../bindings";
 import { Id } from "../helpers";
@@ -14,7 +15,7 @@ type Params = {
   admin: string;
   airdropCampaign: string | undefined;
   amount: bigint;
-  protocol: Sablier.Protocol;
+  protocol: Sablier.Protocol | typeof COMPTROLLER;
 };
 
 type LoadedEntities = {
@@ -24,6 +25,18 @@ type LoadedEntities = {
   feeCollectionTransactionId: string;
 };
 
+/**
+ * Creates a FeeCollection entity to track when protocol fees are collected.
+ *
+ * Airdrops v1.3, Flow v1.1, and Lockup v2.0 emit the `CollectFees` event when protocol fees are
+ * collected.
+ *
+ * Starting from Airdrops v2.0, Flow v2.0, and Lockup v3.0, fee collection is handled via the
+ * Comptroller. The Comptroller acts as a single interface for managing fees across all Sablier
+ * protocols. Instead of emitting `CollectFees` from individual protocol contracts, the Comptroller
+ * emits `TransferFees` when fees are transferred to the fee recipient. This includes fees from all
+ * three protocols.
+ */
 export async function create(
   context: HandlerContext,
   event: Envio.Event,
