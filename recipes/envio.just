@@ -1,19 +1,14 @@
-# ---------------------------------------------------------------------------- #
-#                                SCRIPTS: ENVIO                                #
-# ---------------------------------------------------------------------------- #
-
 # Fetch assets from The Graph subgraphs and save them to JSON files
-[group("cli")]
-[group("envio")]
+[group("cli"), group("envio")]
 @check-vendors chain_id="1":
     just cli check-vendors --chain-id {{ chain_id }}
 
 # Codegen everything for the Envio indexer (order matters):
 # 1. GraphQL schema
 # 2. Envio config YAML
+# 3. Envio bindings
 [doc("Codegen everything for the Envio indexer")]
-[group("codegen")]
-[group("envio")]
+[group("codegen"), group("envio")]
 @codegen-envio indexer="all":
     just envio-for-each _codegen-envio {{ indexer }}
 
@@ -23,8 +18,7 @@
     just codegen-envio-bindings {{ indexer }}
 
 # Codegen the Envio bindings
-[group("codegen")]
-[group("envio")]
+[group("codegen"), group("envio")]
 @codegen-envio-bindings indexer="all":
     just envio-for-each _codegen-envio-bindings {{ indexer }}
 
@@ -44,33 +38,27 @@ _codegen-envio-bindings indexer:
     echo "✅ Generated Envio bindings"
 
 # Codegen the Envio config YAML
-[group("codegen")]
-[group("envio")]
+[group("codegen"), group("envio")]
 @codegen-envio-config indexer="all":
     just cli codegen envio-config --indexer {{ indexer }}
 
 # Verify price data in cache matches node_modules version
-[group("checks")]
-[group("cli")]
-[group("envio")]
+[group("checks"), group("cli"), group("envio")]
 @prices-check:
     just cli prices-check
 
 # Sync price data from @sablier/price-data to Envio cache
-[group("cli")]
-[group("envio")]
+[group("cli"), group("envio")]
 @prices-sync:
     just cli prices-sync
 
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
-[confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
-[group("envio")]
+[confirm("This will force-push to deployment branch(es). Continue? [y/N]"), group("envio")]
 @deploy-envio indexer="all":
     just envio-for-each _deploy-envio {{ indexer }}
 alias de := deploy-envio
 
-[private]
-[script("bash")]
+[private, script("bash")]
 _deploy-envio indexer:
     deployment_branch="deployment/{{ indexer }}"
     echo "Deploying to $deployment_branch..."
@@ -78,8 +66,7 @@ _deploy-envio indexer:
     echo "✅ Deployed to $deployment_branch"
 
 # Deploy protocol Envio indexers (airdrops, flow, lockup)
-[confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
-[group("envio")]
+[confirm("This will force-push to deployment branch(es). Continue? [y/N]"), group("envio")]
 @deploy-envio-protocols:
     just concurrent-protocol-indexers \
         "just _deploy-envio airdrops" \
@@ -91,3 +78,31 @@ alias dep := deploy-envio-protocols
 [group("envio"), unix]
 @open-envio:
     open "https://envio.dev/app/sablier-labs"
+
+# ---------------------------------------------------------------------------- #
+#                                 PRIVATE UTILS                                #
+# ---------------------------------------------------------------------------- #
+
+# Helper to run four commands in parallel (airdrops, analytics, flow, lockup)
+[private]
+@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4:
+    pnpm concurrently --group \
+        -n "airdrops,analytics,flow,lockup" \
+        -c "blue,cyan,green,yellow" \
+        "{{ cmd1 }}" \
+        "{{ cmd2 }}" \
+        "{{ cmd3 }}" \
+        "{{ cmd4 }}"
+
+# Helper to run an envio recipe for all protocols or a specific one
+[private, script("bash")]
+envio-for-each recipe indexer:
+    if [ "{{ indexer }}" = "all" ]; then
+        just concurrent-envio-indexers \
+            "just {{ recipe }} airdrops" \
+            "just {{ recipe }} analytics" \
+            "just {{ recipe }} flow" \
+            "just {{ recipe }} lockup"
+    else
+        just {{ recipe }} {{ indexer }}
+    fi

@@ -1,17 +1,25 @@
 # See https://github.com/sablier-labs/devkit/blob/main/just/base.just
 import "./node_modules/@sablier/devkit/just/base.just"
 
-# Import modular justfiles
-import "./just/helpers.just"
-import "./just/envio.just"
-import "./just/graph.just"
-import "./just/gql.just"
+# Import modular justfiles, which share the parent's settings, variables, and shell
+# See https://just.systems/man/en/imports.html
+import "./recipes/envio.just"
+import "./recipes/graph.just"
+import "./recipes/print.just"
+import "./recipes/typegen.just"
+import "./recipes/utils.just"
 
+# Load env vars from .env file
 set dotenv-load
 
 # ---------------------------------------------------------------------------- #
 #                                 DEPENDENCIES                                 #
 # ---------------------------------------------------------------------------- #
+
+# Ni: https://github.com/antfu-collective/ni
+na := require("na")
+ni := require("ni")
+nlx := require("nlx")
 
 # Pnpm: https://github.com/pnpm/pnpm
 pnpm := require("pnpm")
@@ -33,8 +41,9 @@ GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 #                                    RECIPES                                   #
 # ---------------------------------------------------------------------------- #
 
-# Show available commands
-default: full-check
+# Default: show all recipes
+default:
+    just --list
 
 # Build the npm package
 @build:
@@ -62,9 +71,7 @@ alias codegen-indexers := codegen
     just --quiet biome-write "{{ globs }}"
 
 # Codegen the GraphQL schema
-[group("codegen")]
-[group("envio")]
-[group("graph")]
+[group("codegen"), group("envio"), group("graph")]
 @codegen-schema vendor="all" indexer="all":
     just cli codegen schema \
         --vendor {{ vendor }} \
@@ -77,26 +84,6 @@ alias codegen-indexers := codegen
     pnpm vitest run --hideSkippedTests {{ args }}
 alias t := test
 
-# Run vendor tests
-[group("test")]
-@test-vendors:
-    TEST_VENDORS=true pnpm vitest run --hideSkippedTests
-
-# ---------------------------------------------------------------------------- #
-#                                SCRIPTS: PRINT                                #
-# ---------------------------------------------------------------------------- #
-
-# Print available chain arguments
-[group("cli")]
-@print-chains use_graph_slugs="false":
-    just cli print chains --graph {{ use_graph_slugs }}
-
-# Print available log levels available in Winston logger
-[group("cli")]
-@print-log-levels:
-    echo "Available log levels: error, warn, info, http, verbose, debug, silly"
-
-# Print available indexer arguments
-[group("cli")]
-@print-protocols:
-    echo "Available indexer arguments: all, flow, lockup, airdrops"
+test-vendors:
+    TEST_VENDORS=true \
+        pnpm vitest run --hideSkippedTests
