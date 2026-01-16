@@ -38,22 +38,15 @@ export function createNetworks(protocol: Indexer.Protocol): EnvioConfig.Network[
 /* -------------------------------------------------------------------------- */
 
 /**
- * Will return a string URL like this: https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}
+ * Will return a string URL like this:https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
  * The API keys will be loaded from the .env file. Make sure to set them!
  */
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
 
-  // If it's HyperSync, we use Infura and Alchemy as fallback RPCs.
+  // If it's HyperSync, we use Alchemy as fallback RPC.
   if (!rpcOnly) {
-    if (chain.rpc.infura) {
-      RPCs.push({
-        for: "fallback",
-        url: chain.rpc.infura("${ENVIO_INFURA_API_KEY}"),
-      });
-    }
-
     if (chain.rpc.alchemy) {
       RPCs.push({
         for: "fallback",
@@ -63,12 +56,8 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] |
       });
     }
   }
-  // Otherwise, use Routemesh as sync RPC.
   else {
-    RPCs.push({
-      for: "sync",
-      url: `https://lb.routeme.sh/rpc/${chainId}/\${ENVIO_ROUTEMESH_API_KEY}`,
-    });
+    throw new Error("RPC-only mode is temporary disabled");
   }
 
   if (RPCs.length === 0) {
