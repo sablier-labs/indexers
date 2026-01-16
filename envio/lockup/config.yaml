@@ -145,8 +145,6 @@ networks:
     start_block: 107508404
     rpc:
       - for: "fallback"
-        url: "https://arbitrum-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
         url: "https://arb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
@@ -181,8 +179,6 @@ networks:
   - id: 43114
     start_block: 32164219
     rpc:
-      - for: "fallback"
-        url: "https://avalanche-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -219,8 +215,6 @@ networks:
     start_block: 1750275
     rpc:
       - for: "fallback"
-        url: "https://base-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
         url: "https://base-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
@@ -255,8 +249,6 @@ networks:
   - id: 81457
     start_block: 243844
     rpc:
-      - for: "fallback"
-        url: "https://blast-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -300,8 +292,6 @@ networks:
   - id: 56
     start_block: 29646271
     rpc:
-      - for: "fallback"
-        url: "https://bsc-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -402,8 +392,6 @@ networks:
     start_block: 7728316
     rpc:
       - for: "fallback"
-        url: "https://linea-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
         url: "https://linea-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
@@ -426,8 +414,6 @@ networks:
   - id: 1
     start_block: 17613133
     rpc:
-      - for: "fallback"
-        url: "https://mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -511,8 +497,6 @@ networks:
     start_block: 106405061
     rpc:
       - for: "fallback"
-        url: "https://optimism-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
         url: "https://opt-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
@@ -547,8 +531,6 @@ networks:
   - id: 137
     start_block: 44637127
     rpc:
-      - for: "fallback"
-        url: "https://polygon-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -598,8 +580,6 @@ networks:
   - id: 534352
     start_block: 500707
     rpc:
-      - for: "fallback"
-        url: "https://scroll-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -665,8 +645,6 @@ networks:
     start_block: 13882080
     rpc:
       - for: "fallback"
-        url: "https://unichain-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
         url: "https://unichain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
@@ -689,8 +667,6 @@ networks:
   - id: 324
     start_block: 32472581
     rpc:
-      - for: "fallback"
-        url: "https://zksync-mainnet.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
@@ -721,8 +697,6 @@ networks:
     start_block: 7545175
     rpc:
       - for: "fallback"
-        url: "https://base-sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
-      - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
         url: "https://base-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
@@ -751,8 +725,6 @@ networks:
   - id: 11155111
     start_block: 4067889
     rpc:
-      - for: "fallback"
-        url: "https://sepolia.infura.io/v3/${ENVIO_INFURA_API_KEY}"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000

@@ -30,11 +30,7 @@ function createClient(chainId: number): PublicClient {
   // Build priority-ordered list of RPC URLs
   const rpcUrls: string[] = [];
 
-  // Add Infura and Alchemy endpoints if keys are available
-  if (chain.rpc.infura && process.env.ENVIO_INFURA_API_KEY) {
-    const infuraURL = chain.rpc.infura(process.env.ENVIO_INFURA_API_KEY);
-    rpcUrls.push(infuraURL);
-  }
+  // Add Alchemy endpoint if key is available
   if (chain.rpc.alchemy && process.env.ENVIO_ALCHEMY_API_KEY) {
     const alchemyURL = chain.rpc.alchemy(process.env.ENVIO_ALCHEMY_API_KEY);
     rpcUrls.push(alchemyURL);
