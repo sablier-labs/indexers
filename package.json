@@ -4,14 +4,30 @@
   "description": "Data indexers for the Sablier Protocol",
   "homepage": "https://github.com/sablier-labs/indexers#readme",
   "license": "GPL-3.0-or-later",
-  "main": "dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./_cjs/index.js",
+  "module": "./_esm/index.js",
+  "types": "./_types/index.d.ts",
+  "typings": "./_types/index.d.ts",
+  "sideEffects": false,
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
   "dependencies": {
     "sablier": "2.0.0-beta.24"
+  },
+  "exports": {
+    ".": {
+      "types": "./_types/index.d.ts",
+      "import": "./_esm/index.js",
+      "default": "./_cjs/index.js"
+    },
+    "./*": {
+      "types": "./_types/*.d.ts",
+      "import": "./_esm/*.js",
+      "default": "./_cjs/*.js"
+    },
+    "./package.json": "./package.json"
   },
   "peerDependencies": {
     "sablier": "^1.x"
@@ -69,8 +85,10 @@
     "node": ">=22"
   },
   "files": [
-    "banner.png",
-    "dist"
+    "_cjs",
+    "_esm",
+    "_types",
+    "banner.png"
   ],
   "publishConfig": {
     "access": "public"

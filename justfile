@@ -47,10 +47,46 @@ default:
 
 # Build the npm package
 @build:
-    just export-schema
-    pnpm tsc -p tsconfig.build.json
+    just --quiet export-schema
+    nlx del-cli _cjs _esm _types
+    echo "🗑️  Cleaned build files"
+    echo ""
+    echo "🔨 Building all packages..."
+    just tsc-build
+    echo ""
+    echo "✅ All packages built successfully"
 alias b := build
 alias build-package := build
+
+# Build with TypeScript CLI (parallel cjs/esm/types)
+@tsc-build:
+    nlx concurrently --group \
+        -n "cjs,esm,types" \
+        -c "blue,green,yellow" \
+        "just tsc-build-cjs" \
+        "just tsc-build-esm" \
+        "just tsc-build-types"
+    mkdir -p _cjs _esm
+    printf '{"type":"commonjs"}' > _cjs/package.json
+    printf '{"type":"module","sideEffects":false}' > _esm/package.json
+
+@tsc-build-cjs:
+    echo ""
+    echo "📦 Building CJS package..."
+    pnpm tsc -p configs/tsconfig.cjs.json
+    echo "✅ Built CJS package"
+
+@tsc-build-esm:
+    echo ""
+    echo "📦 Building ESM package..."
+    pnpm tsc -p configs/tsconfig.esm.json
+    echo "✅ Built ESM package"
+
+@tsc-build-types:
+    echo ""
+    echo "📦 Building types..."
+    pnpm tsc -p configs/tsconfig.types.json
+    echo "✅ Built types"
 
 # Remove build files
 clean globs=GLOBS_CLEAN:
