@@ -6,7 +6,7 @@ import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
 import { logger } from "../../../lib/logger";
 import type { Indexer } from "../../../src";
-import type { Order_By, OrderDirection } from "../../../src/types";
+import type { Order_By, OrderDirection } from "./types";
 
 type Entities = Array<{ subgraphId: string }>;
 type ActionsResponse = {
