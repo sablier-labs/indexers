@@ -34,7 +34,7 @@ export LOG_LEVEL := env("LOG_LEVEL", "info")
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
-GLOBS_CLEAN := "**/{.logs,bindings,build,generated}"
+GLOBS_CLEAN := "**/{.logs,bindings,build,dist,generated}"
 GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 
 # ---------------------------------------------------------------------------- #
@@ -44,58 +44,18 @@ GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 # Default: show all recipes
 default:
     just --list
-
-# Build the npm package
-@build:
-    just --quiet export-schema
-    nlx del-cli dist
-    echo "🗑️  Cleaned build files"
-    echo ""
-    echo "🔨 Building all packages..."
-    just tsc-build
-    echo ""
-    echo "✅ All packages built successfully"
-alias b := build
-alias build-package := build
-
-# Build with TypeScript CLI (parallel cjs/esm/types)
-@tsc-build:
-    nlx concurrently --group \
-        -n "cjs,esm,types" \
-        -c "blue,green,yellow" \
-        "just tsc-build-cjs" \
-        "just tsc-build-esm" \
-        "just tsc-build-types"
-    mkdir -p dist/cjs dist/esm
-    printf '{"type":"commonjs"}' > dist/cjs/package.json
-    printf '{"type":"module","sideEffects":false}' > dist/esm/package.json
-
-@tsc-build-cjs:
-    echo ""
-    echo "📦 Building CJS package..."
-    pnpm tsc -p configs/tsconfig.cjs.json
-    echo "✅ Built CJS package"
-
-@tsc-build-esm:
-    echo ""
-    echo "📦 Building ESM package..."
-    pnpm tsc -p configs/tsconfig.esm.json
-    echo "✅ Built ESM package"
-
-@tsc-build-types:
-    echo ""
-    echo "📦 Building types..."
-    pnpm tsc -p configs/tsconfig.types.json
-    echo "✅ Built types"
-
 # Remove build files
 clean globs=GLOBS_CLEAN:
-    pnpm dlx del-cli "{{ globs }}" "{{ GLOBS_CLEAN_IGNORE }}"
+    nlx del-cli \
+        "{{ globs }}" \
+        "{{ GLOBS_CLEAN_IGNORE }}"
 
 # Codegen all indexers
 [group("codegen")]
 @codegen:
-    just concurrent-vendors "just codegen-envio" "just codegen-graph"
+    just concurrent-vendors \
+        "just codegen-envio" \
+        "just codegen-graph"
 alias codegen-indexers := codegen
 
 # Export the schemas to the ./src directory
@@ -115,10 +75,74 @@ alias codegen-indexers := codegen
 
 # Run tests
 [group("test")]
-@test *args="--silent":
-    pnpm vitest run --hideSkippedTests {{ args }}
+@test *args="--hideSkippedTests --silent":
+    pnpm vitest run {{ args }}
 alias t := test
 
-test-vendors:
+# Run the vendor tests
+[group("test")]
+@test-vendors *args="--hideSkippedTests":
     TEST_VENDORS=true \
-        pnpm vitest run --hideSkippedTests
+        pnpm vitest run {{ args }}
+alias tv := test-vendors
+
+# ---------------------------------------------------------------------------- #
+#                                     BUILD                                    #
+# ---------------------------------------------------------------------------- #
+
+# Run the complete build pipeline
+#   1. Export GraphQL schemas
+#   2. Clean the dist directory
+#   3. Build all packages (CJS, ESM, types)
+[group("build")]
+@build:
+    just --quiet export-schema
+
+    nlx del-cli dist
+    echo "🗑️  Cleaned build files"
+    echo ""
+
+    echo "🔨 Building all packages..."
+    just tsc-build
+    echo ""
+    echo "✅ All packages built successfully"
+alias b := build
+alias build-package := build
+
+
+# Build with TypeScript CLI (parallel cjs/esm/types)
+[group("build")]
+@tsc-build:
+    nlx concurrently --group \
+        -n "cjs,esm,types" \
+        -c "blue,green,yellow" \
+        "just tsc-build-cjs" \
+        "just tsc-build-esm" \
+        "just tsc-build-types"
+    mkdir -p dist/cjs dist/esm
+    printf '{"type":"commonjs"}' > dist/cjs/package.json
+    printf '{"type":"module","sideEffects":false}' > dist/esm/package.json
+
+# Build the CJS package
+[group("build")]
+@tsc-build-cjs:
+    echo ""
+    echo "📦 Building CJS package..."
+    pnpm tsc -p configs/tsconfig.cjs.json
+    echo "✅ Built CJS package"
+
+# Build the ESM package
+[group("build")]
+@tsc-build-esm:
+    echo ""
+    echo "📦 Building ESM package..."
+    pnpm tsc -p configs/tsconfig.esm.json
+    echo "✅ Built ESM package"
+
+# Build the types package
+[group("build")]
+@tsc-build-types:
+    echo ""
+    echo "📦 Building types..."
+    pnpm tsc -p configs/tsconfig.types.json
+    echo "✅ Built types"

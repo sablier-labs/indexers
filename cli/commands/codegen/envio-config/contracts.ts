@@ -1,4 +1,3 @@
-/* biome-ignore-all assist/source/useSortedKeys: order matters */
 import _ from "lodash";
 import { indexedContracts } from "../../../../contracts";
 import { indexedEvents } from "../../../../events";

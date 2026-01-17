@@ -1,4 +1,3 @@
-/* biome-ignore-all assist/source/useSortedKeys: order matters */
 import type { Indexer } from "../../../../src/types";
 import type { EnvioConfig } from "./config-types";
 
