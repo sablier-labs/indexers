@@ -47,7 +47,7 @@ importers:
         version: 1.9.2(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/84d48407081c450160ce22f3e1df79a8760ba02b
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/0b2603e3e4ddf1b25849ec98379f2282ae635842
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1225,8 +1225,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/84d48407081c450160ce22f3e1df79a8760ba02b':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/84d48407081c450160ce22f3e1df79a8760ba02b}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/0b2603e3e4ddf1b25849ec98379f2282ae635842':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/0b2603e3e4ddf1b25849ec98379f2282ae635842}
     version: 1.0.0-beta.0
     engines: {node: '>=22'}
 
@@ -1326,6 +1326,9 @@ packages:
 
   '@types/node@25.0.3':
     resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
+
+  '@types/node@25.0.9':
+    resolution: {integrity: sha512-/rpCXHlCWeqClNBwUhDcusJxXYDjZTyE8v5oTO7WbL8eij2nKhUeU89/6xgjU7N4/Vh3He0BtyhJdQbDyhiXAw==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -4895,7 +4898,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/84d48407081c450160ce22f3e1df79a8760ba02b': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/0b2603e3e4ddf1b25849ec98379f2282ae635842': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5016,6 +5019,10 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
+  '@types/node@25.0.9':
+    dependencies:
+      undici-types: 7.16.0
+
   '@types/parse-json@4.0.2': {}
 
   '@types/uuid@8.3.4': {}
@@ -5026,7 +5033,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.0.3
+      '@types/node': 25.0.9
 
   '@vitest/expect@3.2.4':
     dependencies:
