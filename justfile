@@ -48,7 +48,7 @@ default:
 # Build the npm package
 @build:
     just --quiet export-schema
-    nlx del-cli _cjs _esm _types
+    nlx del-cli dist
     echo "🗑️  Cleaned build files"
     echo ""
     echo "🔨 Building all packages..."
@@ -66,9 +66,9 @@ alias build-package := build
         "just tsc-build-cjs" \
         "just tsc-build-esm" \
         "just tsc-build-types"
-    mkdir -p _cjs _esm
-    printf '{"type":"commonjs"}' > _cjs/package.json
-    printf '{"type":"module","sideEffects":false}' > _esm/package.json
+    mkdir -p dist/cjs dist/esm
+    printf '{"type":"commonjs"}' > dist/cjs/package.json
+    printf '{"type":"module","sideEffects":false}' > dist/esm/package.json
 
 @tsc-build-cjs:
     echo ""

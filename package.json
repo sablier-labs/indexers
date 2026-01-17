@@ -4,11 +4,11 @@
   "description": "Data indexers for the Sablier Protocol",
   "homepage": "https://github.com/sablier-labs/indexers#readme",
   "license": "GPL-3.0-or-later",
-  "main": "./_cjs/index.js",
-  "module": "./_esm/index.js",
-  "types": "./_types/index.d.ts",
-  "typings": "./_types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "sideEffects": false,
+  "types": "./dist/types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
@@ -18,14 +18,14 @@
   },
   "exports": {
     ".": {
-      "types": "./_types/index.d.ts",
-      "import": "./_esm/index.js",
-      "default": "./_cjs/index.js"
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/cjs/index.js"
     },
     "./*": {
-      "types": "./_types/*.d.ts",
-      "import": "./_esm/*.js",
-      "default": "./_cjs/*.js"
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/esm/*.js",
+      "default": "./dist/cjs/*.js"
     },
     "./package.json": "./package.json"
   },
@@ -54,7 +54,6 @@
     "assemblyscript": "^0.28.9",
     "axios": "^1.13.2",
     "axios-retry": "^4.5.0",
-    "chainlist-rpcs": "^0.5.260",
     "chalk": "^5.6.2",
     "cli-table3": "^0.6.5",
     "concurrently": "^9.2.1",
@@ -85,9 +84,7 @@
     "node": ">=22"
   },
   "files": [
-    "_cjs",
-    "_esm",
-    "_types",
+    "dist/**",
     "banner.png"
   ],
   "publishConfig": {

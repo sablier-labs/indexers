@@ -1,9 +1,6 @@
 # Directories
 .logs
 .serena
-_cjs
-_esm
-_types
 dist
 node_modules
 repomix

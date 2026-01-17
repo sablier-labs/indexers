@@ -6,6 +6,6 @@
     "declarationMap": false,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "outDir": "../_esm"
+    "outDir": "../dist/esm"
   }
 }

@@ -5,6 +5,6 @@
     "declaration": false,
     "declarationMap": false,
     "module": "NodeNext",
-    "outDir": "../_cjs"
+    "outDir": "../dist/cjs"
   }
 }
