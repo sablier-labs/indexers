@@ -75,9 +75,6 @@ importers:
       axios-retry:
         specifier: ^4.5.0
         version: 4.5.0(axios@1.13.2)
-      chainlist-rpcs:
-        specifier: ^0.5.260
-        version: 0.5.260
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -1669,9 +1666,6 @@ packages:
   chai@5.2.0:
     resolution: {integrity: sha512-mCuXncKXk5iCLhfhwTc0izo0gtEmpz5CtG2y8GiOINBlMVS6v8TMRc5TaLWKS6692m9+dVVfzgeVxR5UxWHTYw==}
     engines: {node: '>=12'}
-
-  chainlist-rpcs@0.5.260:
-    resolution: {integrity: sha512-RetFeUFZufZnrK/fUswP2x98sT1SeUftSQAix2scAE0t3kHl8USqAR2478bPWuxMoK7Q7ikXTcG1KHXNdwDsbg==}
 
   chalk@2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -5359,8 +5353,6 @@ snapshots:
       deep-eql: 5.0.2
       loupe: 3.1.4
       pathval: 2.0.0
-
-  chainlist-rpcs@0.5.260: {}
 
   chalk@2.4.2:
     dependencies:
