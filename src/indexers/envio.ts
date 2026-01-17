@@ -4,9 +4,9 @@
  * @see https://docs.envio.dev/docs/HyperSync/hypersync-supported-networks
  */
 import { chains, Protocol } from "sablier/evm";
-import { Vendor } from "../enums";
-import type { Indexer } from "../types";
-import { envioDeployments } from "./envio-deployments";
+import { Vendor } from "../enums.js";
+import type { Indexer } from "../types.js";
+import { envioDeployments } from "./envio-deployments.js";
 
 type EnvioChainConfig = {
   /**

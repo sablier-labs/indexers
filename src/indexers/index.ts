@@ -1,2 +1,2 @@
-export * from "./data";
-export * from "./getters";
+export * from "./data.js";
+export * from "./getters.js";

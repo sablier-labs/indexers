@@ -1,5 +1,5 @@
 import type { Sablier } from "sablier";
-import type * as enums from "./enums";
+import type * as enums from "./enums.js";
 
 export type Indexer = {
   chainId: number;

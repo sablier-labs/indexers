@@ -1,5 +1,5 @@
-import type { Indexer } from "../types";
-import { indexers } from "./data";
+import type { Indexer } from "../types.js";
+import { indexers } from "./data.js";
 
 type I = Indexer;
 type P = Indexer.Protocol;

@@ -4,9 +4,9 @@
  */
 import { sablier } from "sablier";
 import { chains, Protocol } from "sablier/evm";
-import { SUBGRAPH_STUDIO_USER_ID } from "../constants";
-import { Vendor } from "../enums";
-import type { Indexer } from "../types";
+import { SUBGRAPH_STUDIO_USER_ID } from "../constants.js";
+import { Vendor } from "../enums.js";
+import type { Indexer } from "../types.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */

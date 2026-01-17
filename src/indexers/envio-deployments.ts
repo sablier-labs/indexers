@@ -1,5 +1,5 @@
 import { Protocol } from "sablier/evm";
-import type { Indexer } from "../types";
+import type { Indexer } from "../types.js";
 
 function getURL(id: string) {
   return `https://indexer.hyperindex.xyz/${id}/v1/graphql`;

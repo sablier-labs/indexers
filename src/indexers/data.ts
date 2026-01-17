@@ -1,5 +1,5 @@
-import { envio } from "./envio";
-import { graph } from "./graph";
+import { envio } from "./envio.js";
+import { graph } from "./graph.js";
 
 export const indexers = {
   envio,

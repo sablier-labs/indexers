@@ -10,8 +10,8 @@
  * @see {@link file://./../tests/vendors/equivalence/create-test.ts}
  */
 import { sepolia } from "sablier/evm/chains";
-import { getIndexer } from "./indexers/getters";
-import type { Indexer } from "./types";
+import { getIndexer } from "./indexers/getters.js";
+import type { Indexer } from "./types.js";
 
 /**
  * The experimental indexers run on Sepolia.
