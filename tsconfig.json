@@ -1,6 +1,7 @@
 {
+  // We cannot use path aliases because it would break compatibility with Envio
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./node_modules/@sablier/devkit/tsconfig/base.json",
-  "exclude": ["node_modules", "envio/**/bindings/**/*", "graph/**/*"],
+  "exclude": ["node_modules", "envio/**/bindings", "graph"],
   "include": ["**/*.ts"]
 }

@@ -6,7 +6,6 @@ import "./node_modules/@sablier/devkit/just/base.just"
 import "./recipes/envio.just"
 import "./recipes/graph.just"
 import "./recipes/print.just"
-import "./recipes/typegen.just"
 import "./recipes/utils.just"
 
 # Load env vars from .env file
@@ -109,8 +108,7 @@ alias tv := test-vendors
 alias b := build
 alias build-package := build
 
-
-# Build with TypeScript CLI (parallel cjs/esm/types)
+# Build all packages in parallel
 [group("build")]
 @tsc-build:
     nlx concurrently --group \
