@@ -3,9 +3,9 @@
  */
 import type { Sablier } from "sablier";
 import { contracts } from "sablier/evm";
-import type { Types } from "../lib/types";
-import type { Indexer } from "../src/types";
-import { erc721 } from "./common/erc721";
+import type { Types } from "../lib/types.js";
+import type { Indexer } from "../src/types.js";
+import { erc721 } from "./common/erc721.js";
 
 const DEFAULT_INDEXERS: Indexer.Name[] = ["lockup", "analytics"];
 

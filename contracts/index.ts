@@ -1,9 +1,9 @@
 import type { Sablier } from "sablier";
-import type { Types } from "../lib/types";
-import type { Indexer } from "../src";
-import { airdropsContracts } from "./airdrops";
-import { flowContracts } from "./flow";
-import { lockupContracts } from "./lockup";
+import type { Types } from "../lib/types.js";
+import type { Indexer } from "../src/index.js";
+import { airdropsContracts } from "./airdrops.js";
+import { flowContracts } from "./flow.js";
+import { lockupContracts } from "./lockup.js";
 
 type CS = Types.ContractSource<Sablier.Version>;
 

@@ -1,5 +1,5 @@
-import type { Indexer } from "../../../../src/types";
-import type { EnvioConfig } from "./config-types";
+import type { Indexer } from "../../../../src/types.js";
+import type { EnvioConfig } from "./config-types.js";
 
 export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
   airdrops: get("airdrops"),

@@ -1,6 +1,6 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { formatRelease } from "./helpers";
+import { formatRelease } from "./helpers.js";
 
 export const messages = {
   contractNotFound: (release: Sablier.Release, chainId: number, contractName: string) => {

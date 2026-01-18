@@ -19,13 +19,13 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import paths from "../../../lib/paths";
-import type { Indexer } from "../../../src";
-import { graphChains } from "../../../src/indexers/graph";
-import { PROTOCOLS } from "../../constants";
-import * as helpers from "../../helpers";
-import { colors, createTable, displayHeader } from "../../shared/display-utils";
-import { createGraphManifest } from "./graph-manifest/index";
+import paths from "../../../lib/paths.js";
+import type { Indexer } from "../../../src/index.js";
+import { graphChains } from "../../../src/indexers/graph.js";
+import { PROTOCOLS } from "../../constants.js";
+import * as helpers from "../../helpers.js";
+import { colors, createTable, displayHeader } from "../../shared/display-utils.js";
+import { createGraphManifest } from "./graph-manifest/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   OPTIONS                                  */

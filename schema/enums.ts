@@ -1,8 +1,8 @@
 import type { DocumentNode } from "graphql";
-import gql from "graphql-tag";
+import { gql } from "graphql-tag";
 import _ from "lodash";
 import { Protocol } from "sablier/evm";
-import type { Indexer } from "../src";
+import type { Indexer } from "../src/index.js";
 
 export namespace Airdrops {
   export enum ActionCategory {

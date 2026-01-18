@@ -1,4 +1,4 @@
-import type { Types } from "./types";
+import type { Types } from "./types.js";
 
 /**
  * Sanitizes the name of a contract to be used in a YAML file.

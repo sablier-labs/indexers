@@ -1,7 +1,7 @@
 import { sepolia } from "sablier/evm/chains";
-import { getIndexer } from "../../../src/indexers/getters";
-import { createEquivalenceTest } from "./create-test";
-import { FlowEnvio, FlowGraph } from "./queries";
+import { getIndexer } from "../../../src/indexers/getters.js";
+import { createEquivalenceTest } from "./create-test.js";
+import { FlowEnvio, FlowGraph } from "./queries.js";
 
 createEquivalenceTest({
   chainId: sepolia.id,

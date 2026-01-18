@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import { ROOT_DIR } from "../paths";
+import { ROOT_DIR } from "../paths.js";
 
 export const LOG_LEVEL: string = process.env.LOG_LEVEL || "info";
 export const LOG_FILE_PATH: string =

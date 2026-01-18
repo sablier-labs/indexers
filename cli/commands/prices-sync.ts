@@ -3,41 +3,26 @@ import { Command as CliCommand } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { coinConfigs } from "../../envio/analytics/effects/coingecko";
-import { FileOperationError, ProcessError } from "../errors";
-import { colors, createTable, displayHeader } from "../shared/display-utils";
+import { ProcessError } from "../errors.js";
+import { colors, createTable, displayHeader } from "../shared/display-utils.js";
+import type { PriceDataFile } from "../shared/price-data.js";
+import { getRequiredPriceDataFiles } from "../shared/price-data.js";
 
 const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
 const PRICE_DATA_DIR = path.join(process.cwd(), "node_modules/@sablier/price-data");
 
 /**
- * Get list of required TSV files based on coinConfigs and forex rates
+ * Get list of required TSV files based on Sablier chain data and forex rates.
  */
-function getRequiredFiles(): Array<{ name: string; sourceDir: "crypto" | "forex" }> {
-  const files: Array<{ name: string; sourceDir: "crypto" | "forex" }> = [];
-
-  // Add all crypto currencies from coinConfigs
-  for (const currency of Object.keys(coinConfigs)) {
-    files.push({
-      name: `${currency}_USD.tsv`,
-      sourceDir: "crypto",
-    });
-  }
-
-  // Add forex rate (GBP_USD used in forex.ts)
-  files.push({
-    name: "GBP_USD.tsv",
-    sourceDir: "forex",
-  });
-
-  return files;
+function getRequiredFiles(): PriceDataFile[] {
+  return getRequiredPriceDataFiles();
 }
 
 type SyncResult = {
   destPath: string;
   name: string;
-  sourceDir: string;
-  status: "copied" | "error";
+  sourceDir: PriceDataFile["sourceDir"];
+  status: "copied" | "error" | "missing";
 };
 
 const priceDataSyncLogic = () =>
@@ -73,13 +58,13 @@ const priceDataSyncLogic = () =>
 
       const sourceExists = yield* fs.exists(sourcePath);
       if (!sourceExists) {
-        return yield* Effect.fail(
-          new FileOperationError({
-            message: "Source file not found",
-            operation: "read",
-            path: sourcePath,
-          })
-        );
+        results.push({
+          destPath,
+          name,
+          sourceDir,
+          status: "missing",
+        });
+        continue;
       }
 
       const copyResult = yield* fs.copy(sourcePath, destPath).pipe(
@@ -102,7 +87,11 @@ const priceDataSyncLogic = () =>
 
     for (const result of results) {
       const statusText =
-        result.status === "copied" ? colors.success("✅ Copied") : colors.error("❌ Error");
+        result.status === "copied"
+          ? colors.success("✅ Copied")
+          : result.status === "missing"
+            ? colors.warning("⚠️ Missing")
+            : colors.error("❌ Error");
       table.push([
         colors.value(result.name),
         colors.dim(result.sourceDir),
@@ -116,6 +105,7 @@ const priceDataSyncLogic = () =>
     // Summary statistics
     const copied = results.filter((r) => r.status === "copied").length;
     const errors = results.filter((r) => r.status === "error").length;
+    const missing = results.filter((r) => r.status === "missing").length;
 
     yield* Console.log("");
     const summaryTable = createTable({
@@ -126,6 +116,7 @@ const priceDataSyncLogic = () =>
 
     summaryTable.push(
       [colors.success("Copied"), colors.value(copied.toString())],
+      [colors.warning("Missing"), colors.value(missing.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
       [chalk.cyan.bold("Total Files"), chalk.white.bold(results.length.toString())]
     );

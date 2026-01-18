@@ -3,41 +3,26 @@ import { Command as CliCommand } from "@effect/cli";
 import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { coinConfigs } from "../../envio/analytics/effects/coingecko";
-import { FileOperationError, ValidationError } from "../errors";
-import { colors, createTable, displayHeader } from "../shared/display-utils";
+import { ValidationError } from "../errors.js";
+import { colors, createTable, displayHeader } from "../shared/display-utils.js";
+import type { PriceDataFile } from "../shared/price-data.js";
+import { getRequiredPriceDataFiles } from "../shared/price-data.js";
 
 const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
 const PRICE_DATA_DIR = path.join(process.cwd(), "node_modules/@sablier/price-data");
 
 /**
- * Get list of required TSV files based on coinConfigs and forex rates
+ * Get list of required TSV files based on Sablier chain data and forex rates.
  */
-function getRequiredFiles(): Array<{ name: string; sourceDir: "crypto" | "forex" }> {
-  const files: Array<{ name: string; sourceDir: "crypto" | "forex" }> = [];
-
-  // Add all crypto currencies from coinConfigs
-  for (const currency of Object.keys(coinConfigs)) {
-    files.push({
-      name: `${currency}_USD.tsv`,
-      sourceDir: "crypto",
-    });
-  }
-
-  // Add forex rate (GBP_USD used in forex.ts)
-  files.push({
-    name: "GBP_USD.tsv",
-    sourceDir: "forex",
-  });
-
-  return files;
+function getRequiredFiles(): PriceDataFile[] {
+  return getRequiredPriceDataFiles();
 }
 
 type FileStatus = {
   destPath: string;
   name: string;
-  sourceDir: string;
-  status: "in-sync" | "missing" | "out-of-sync";
+  sourceDir: PriceDataFile["sourceDir"];
+  status: "in-sync" | "missing-cache" | "out-of-sync";
 };
 
 const priceDataCheckLogic = () =>
@@ -58,19 +43,13 @@ const priceDataCheckLogic = () =>
       // Check if source file exists
       const sourceExists = yield* fs.exists(sourcePath);
       if (!sourceExists) {
-        return yield* Effect.fail(
-          new FileOperationError({
-            message: "Source file not found",
-            operation: "read",
-            path: sourcePath,
-          })
-        );
+        continue;
       }
 
       // Check if destination file exists
       const destExists = yield* fs.exists(destPath);
       if (!destExists) {
-        fileStatuses.push({ destPath: relativeDestPath, name, sourceDir, status: "missing" });
+        fileStatuses.push({ destPath: relativeDestPath, name, sourceDir, status: "missing-cache" });
         continue;
       }
 
@@ -99,8 +78,8 @@ const priceDataCheckLogic = () =>
       const statusText =
         file.status === "in-sync"
           ? colors.success("✅ In Sync")
-          : file.status === "missing"
-            ? colors.error("❌ Missing")
+          : file.status === "missing-cache"
+            ? colors.error("❌ Missing Cache")
             : colors.error("❌ Out of Sync");
 
       table.push([
@@ -115,8 +94,8 @@ const priceDataCheckLogic = () =>
 
     // Summary statistics
     const inSync = fileStatuses.filter((f) => f.status === "in-sync").length;
+    const missingCache = fileStatuses.filter((f) => f.status === "missing-cache").length;
     const outOfSync = fileStatuses.filter((f) => f.status === "out-of-sync").length;
-    const missing = fileStatuses.filter((f) => f.status === "missing").length;
 
     yield* Console.log("");
     const summaryTable = createTable({
@@ -127,15 +106,17 @@ const priceDataCheckLogic = () =>
 
     summaryTable.push(
       [colors.success("In Sync"), colors.value(inSync.toString())],
+      [colors.error("Missing Cache"), colors.value(missingCache.toString())],
       [colors.error("Out of Sync"), colors.value(outOfSync.toString())],
-      [colors.error("Missing"), colors.value(missing.toString())],
       [chalk.cyan.bold("Total Files"), chalk.white.bold(fileStatuses.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
 
     // Final status and exit
-    const outOfSyncFiles = fileStatuses.filter((f) => f.status !== "in-sync");
+    const outOfSyncFiles = fileStatuses.filter(
+      (f) => f.status === "missing-cache" || f.status === "out-of-sync"
+    );
 
     if (outOfSyncFiles.length > 0) {
       yield* Console.log("");

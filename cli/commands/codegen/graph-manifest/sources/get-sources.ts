@@ -2,18 +2,18 @@ import { Kind } from "graphql";
 import _ from "lodash";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { convertToIndexed, indexedContracts } from "../../../../../contracts";
-import { sanitizeContractName } from "../../../../../lib/helpers";
-import { logger, messages } from "../../../../../lib/logger";
-import type { Types } from "../../../../../lib/types";
-import { getMergedSchema } from "../../../../../schema/merger";
-import type { Indexer } from "../../../../../src";
-import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph";
-import { CodegenError } from "../../error";
-import { GRAPH_API_VERSION } from "../constants";
-import type { GraphManifest } from "../manifest-types";
-import { getABIEntries } from "./abi-entries";
-import eventHandlers from "./event-handlers";
+import { convertToIndexed, indexedContracts } from "../../../../../contracts/index.js";
+import { sanitizeContractName } from "../../../../../lib/helpers.js";
+import { logger, messages } from "../../../../../lib/logger/index.js";
+import type { Types } from "../../../../../lib/types.js";
+import { getMergedSchema } from "../../../../../schema/merger.js";
+import type { Indexer } from "../../../../../src/index.js";
+import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph.js";
+import { CodegenError } from "../../error.js";
+import { GRAPH_API_VERSION } from "../constants.js";
+import type { GraphManifest } from "../manifest-types.js";
+import { getABIEntries } from "./abi-entries.js";
+import eventHandlers from "./event-handlers.js";
 
 /**
  * Creates an array of data sources/templates for a subgraph manifest.

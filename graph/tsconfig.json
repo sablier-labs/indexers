@@ -3,5 +3,5 @@
   "compilerOptions": {
     "noLib": true
   },
-  "include": ["**/*.ts"]
+  "include": ["airdrops/", "common/", "flow/", "lockup/", "globals.d.ts"]
 }

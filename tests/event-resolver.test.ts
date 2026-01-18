@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { resolveEventHandler as resolve } from "../cli/commands/codegen/graph-manifest/event-resolver";
+import { resolveEventHandler as resolve } from "../cli/commands/codegen/graph-manifest/event-resolver.js";
 
 describe("Event handlers", () => {
   describe("Resolver function", () => {

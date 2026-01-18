@@ -1,6 +1,6 @@
 import type { Sablier } from "sablier";
 import { contracts, Version } from "sablier/evm";
-import type { Types } from "../lib/types";
+import type { Types } from "../lib/types.js";
 
 const { names } = contracts;
 

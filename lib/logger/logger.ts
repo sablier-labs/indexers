@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Effect, Layer, Logger, ManagedRuntime } from "effect";
-import { LOG_FILE_PATH, LOG_LEVEL } from "./constants";
-import { parseLogLevel } from "./helpers";
+import { LOG_FILE_PATH, LOG_LEVEL } from "./constants.js";
+import { parseLogLevel } from "./helpers.js";
 
 const level = parseLogLevel(LOG_LEVEL);
 

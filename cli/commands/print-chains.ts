@@ -3,9 +3,9 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import { indexers } from "../../src/indexers/data";
-import { getGraphChainSlug } from "../../src/indexers/graph";
-import { colors, createTable, displayHeader, formatStatus } from "../shared/display-utils";
+import { indexers } from "../../src/indexers/data.js";
+import { getGraphChainSlug } from "../../src/indexers/graph.js";
+import { colors, createTable, displayHeader, formatStatus } from "../shared/display-utils.js";
 
 type ChainData = {
   chainId: number;

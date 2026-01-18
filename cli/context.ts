@@ -1,8 +1,8 @@
 import { CliConfig } from "@effect/cli";
 import { NodeContext } from "@effect/platform-node";
 import { Layer } from "effect";
-import { HttpClientLive } from "./services/http";
-import { PromptServiceLayerLive } from "./services/prompt";
+import { HttpClientLive } from "./services/http.js";
+import { PromptServiceLayerLive } from "./services/prompt.js";
 
 /**
  * Compose all CLI service layers

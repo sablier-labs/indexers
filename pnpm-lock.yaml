@@ -43,8 +43,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1
       '@sablier/devkit':
-        specifier: ^1.10.3
-        version: 1.10.3(vitest@3.2.4)
+        specifier: ^1.11.0
+        version: 1.11.0(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
         version: https://codeload.github.com/sablier-labs/price-data/tar.gz/446cb18a7b457647be6b8cbfe341f867e63fa9d8
@@ -1213,8 +1213,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sablier/devkit@1.10.3':
-    resolution: {integrity: sha512-S1pgZoz6G7c8XO3HP5/kipT+W3MFdRaRc7wu9LbM82RVPeWoTfhsZb2a2/8A8CgpT3/MTr0P4So3jBT6ewSO2w==}
+  '@sablier/devkit@1.11.0':
+    resolution: {integrity: sha512-M6ybChkeYQgibKr6oCc3P8t8nXkhAYJEieAbk/8R0gsJDPHUEWfplJ+DCGFkGg/AigopA6rnBCb6qnoGzN9/Rg==}
     engines: {node: '>=20'}
     peerDependencies:
       vitest: '>=2.0.0'
@@ -4895,7 +4895,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.44.0':
     optional: true
 
-  '@sablier/devkit@1.10.3(vitest@3.2.4)':
+  '@sablier/devkit@1.11.0(vitest@3.2.4)':
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 

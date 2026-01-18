@@ -11,17 +11,17 @@ import { Command } from "@effect/cli";
 import { NodeRuntime } from "@effect/platform-node";
 import dotenv from "dotenv";
 import { Effect } from "effect";
-import { checkVendorsCommand } from "./commands/check-vendors";
-import { envioConfigCommand } from "./commands/codegen/envio-config";
-import { graphManifestCommand } from "./commands/codegen/graph-manifest";
-import { schemaCommand } from "./commands/codegen/schema";
-import { exportSchemaCommand } from "./commands/export-schema";
-import { graphDeployAllCommand } from "./commands/graph-deploy-all";
-import { graphDeployCustomCommand } from "./commands/graph-deploy-custom";
-import { pricesCheckCommand } from "./commands/prices-check";
-import { pricesSyncCommand } from "./commands/prices-sync";
-import { printChainsCommand } from "./commands/print-chains";
-import { CliLive } from "./context";
+import { checkVendorsCommand } from "./commands/check-vendors.js";
+import { envioConfigCommand } from "./commands/codegen/envio-config.js";
+import { graphManifestCommand } from "./commands/codegen/graph-manifest.js";
+import { schemaCommand } from "./commands/codegen/schema.js";
+import { exportSchemaCommand } from "./commands/export-schema.js";
+import { graphDeployAllCommand } from "./commands/graph-deploy-all.js";
+import { graphDeployCustomCommand } from "./commands/graph-deploy-custom.js";
+import { pricesCheckCommand } from "./commands/prices-check.js";
+import { pricesSyncCommand } from "./commands/prices-sync.js";
+import { printChainsCommand } from "./commands/print-chains.js";
+import { CliLive } from "./context.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                PRINT GROUP                                 */

@@ -12,7 +12,7 @@
  * @param --dry-run - Optional: Test deployment without actually running commands
  */
 
-import path from "node:path";
+import { dirname, join } from "node:path";
 import { Command, Options } from "@effect/cli";
 import {
   CommandExecutor,
@@ -26,12 +26,12 @@ import { Chunk, Console, DateTime, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
-import paths, { ROOT_DIR } from "../../lib/paths";
-import { getIndexerGraph } from "../../src/indexers";
-import { getSablierChainSlug } from "../../src/indexers/graph";
-import type { Indexer } from "../../src/types";
-import { GraphDeployError, UserAbortError, ValidationError } from "../errors";
-import * as helpers from "../helpers";
+import paths, { ROOT_DIR } from "../../lib/paths.js";
+import { getSablierChainSlug } from "../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../src/indexers/index.js";
+import type { Indexer } from "../../src/types.js";
+import { GraphDeployError, UserAbortError, ValidationError } from "../errors.js";
+import * as helpers from "../helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -266,7 +266,7 @@ function deployToChain(
 ) {
   const indexerName = `sablier-${indexer}-${deployment.chainSlug}`;
   const manifestPath = paths.graph.manifest(indexer, deployment.chainId);
-  const workingDir = path.join(ROOT_DIR, "graph", indexer);
+  const workingDir = join(ROOT_DIR, "graph", indexer);
   const command = PlatformCommand.make(
     "pnpm",
     "graph",
@@ -463,14 +463,14 @@ const graphDeployAllLogic = (options: {
 }) =>
   Effect.gen(function* () {
     // Setup file logging
-    const logFilePath = path.join(
+    const logFilePath = join(
       ROOT_DIR,
       ".logs",
       "graph-deploy-all",
       `${Math.trunc(DateTime.toEpochMillis(DateTime.unsafeNow()) / 1000)}.log`
     );
     const fs = yield* FileSystem.FileSystem;
-    yield* fs.makeDirectory(path.dirname(logFilePath), { recursive: true });
+    yield* fs.makeDirectory(dirname(logFilePath), { recursive: true });
 
     const logger = createFileLogger(logFilePath);
     yield* logger.log("=== Graph Deploy All Session Started ===");

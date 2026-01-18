@@ -1,11 +1,11 @@
 import _ from "lodash";
-import { indexedContracts } from "../../../../contracts";
-import { indexedEvents } from "../../../../events";
-import { sanitizeContractName } from "../../../../lib/helpers";
-import paths, { getRelativePath } from "../../../../lib/paths";
-import type { Types } from "../../../../lib/types";
-import type { Indexer } from "../../../../src/types";
-import type { EnvioConfig } from "./config-types";
+import { indexedContracts } from "../../../../contracts/index.js";
+import { indexedEvents } from "../../../../events/index.js";
+import { sanitizeContractName } from "../../../../lib/helpers.js";
+import paths, { getRelativePath } from "../../../../lib/paths.js";
+import type { Types } from "../../../../lib/types.js";
+import type { Indexer } from "../../../../src/types.js";
+import type { EnvioConfig } from "./config-types.js";
 
 /**
  * Comptroller is an upgradeable contract which is not a part of the normal versioned Sablier releases.

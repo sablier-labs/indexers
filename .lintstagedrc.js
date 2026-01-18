@@ -1,7 +1,7 @@
 /**
  * @type {import("lint-staged").Configuration}
  */
-module.exports = {
+const config = {
   "*.{graphql,js,json,jsonc,ts}": "pnpm biome check --no-errors-on-unmatched --write",
   "*.{js,ts}":
     "pnpm biome lint --no-errors-on-unmatched --unsafe --write --only correctness/noUnusedImports",
@@ -12,3 +12,5 @@ module.exports = {
     return [codegenSchemas, exportSchemas];
   },
 };
+
+export default config;

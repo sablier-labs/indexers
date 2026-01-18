@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { sablier } from "sablier";
-import type { Indexer } from "../../../../src/types";
-import type { EnvioConfig } from "./config-types";
-import { createComptrollerContract, createProtocolContracts } from "./contracts";
-import { addComptrollerToNetworks, createNetworksForProtocols } from "./networks";
-import { topSections } from "./top-sections";
+import type { Indexer } from "../../../../src/types.js";
+import type { EnvioConfig } from "./config-types.js";
+import { createComptrollerContract, createProtocolContracts } from "./contracts.js";
+import { addComptrollerToNetworks, createNetworksForProtocols } from "./networks.js";
+import { topSections } from "./top-sections.js";
 
 /**
  * Creates a Graph manifest for a given protocol and chain.

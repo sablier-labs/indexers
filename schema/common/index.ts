@@ -1,3 +1,3 @@
-export * from "./asset.graphql";
-export * from "./stream.graphql";
-export * from "./watcher.graphql";
+export * from "./asset.graphql.js";
+export * from "./stream.graphql.js";
+export * from "./watcher.graphql.js";

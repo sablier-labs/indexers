@@ -1,7 +1,7 @@
 import { Terminal } from "@effect/platform";
 import { NodeTerminal } from "@effect/platform-node";
 import { Context, Effect, Layer } from "effect";
-import { UserAbortError } from "../errors";
+import { UserAbortError } from "../errors.js";
 
 /**
  * PromptService for terminal user interactions

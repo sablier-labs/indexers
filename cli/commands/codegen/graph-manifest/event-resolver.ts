@@ -2,12 +2,12 @@ import * as fs from "node:fs";
 import type { AbiEventParameter } from "abitype";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
-import { sanitizeContractName } from "../../../../lib/helpers";
-import { logger } from "../../../../lib/logger";
-import paths from "../../../../lib/paths";
-import type { Types } from "../../../../lib/types";
-import type { Indexer } from "../../../../src/types";
-import type { GraphManifest } from "./manifest-types";
+import { sanitizeContractName } from "../../../../lib/helpers.js";
+import { logger } from "../../../../lib/logger/index.js";
+import paths from "../../../../lib/paths.js";
+import type { Types } from "../../../../lib/types.js";
+import type { Indexer } from "../../../../src/types.js";
+import type { GraphManifest } from "./manifest-types.js";
 
 /**
  * Resolves an event handler for The Graph manifest.

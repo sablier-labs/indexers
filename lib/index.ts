@@ -1,4 +1,4 @@
-export * from "./helpers";
-export * as logger from "./logger";
-export * from "./paths";
-export * from "./types";
+export * from "./helpers.js";
+export * as logger from "./logger/index.js";
+export * from "./paths.js";
+export * from "./types.js";

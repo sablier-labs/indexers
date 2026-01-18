@@ -4,9 +4,9 @@ import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
-import { logger } from "../../../lib/logger";
-import type { Indexer } from "../../../src";
-import type { Order_By, OrderDirection } from "./types";
+import { logger } from "../../../lib/logger/index.js";
+import type { Indexer } from "../../../src/index.js";
+import type { Order_By, OrderDirection } from "./types.js";
 
 type Entities = Array<{ subgraphId: string }>;
 type ActionsResponse = {

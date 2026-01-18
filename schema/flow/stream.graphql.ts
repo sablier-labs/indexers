@@ -1,5 +1,5 @@
 import { gql } from "graphql-tag";
-import { streamDefs as commonStreamDefs } from "../common/stream.graphql";
+import { streamDefs as commonStreamDefs } from "../common/stream.graphql.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                 FLOW DEFS                                 */

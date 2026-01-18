@@ -13,13 +13,13 @@ import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
-import paths from "../../../lib/paths";
-import type { Indexer } from "../../../src";
-import { INDEXERS } from "../../constants";
-import { ProcessError } from "../../errors";
-import * as helpers from "../../helpers";
-import { colors, createTable, displayHeader } from "../../shared/display-utils";
-import { createEnvioConfig } from "./envio-config/index";
+import paths from "../../../lib/paths.js";
+import type { Indexer } from "../../../src/index.js";
+import { INDEXERS } from "../../constants.js";
+import { ProcessError } from "../../errors.js";
+import * as helpers from "../../helpers.js";
+import { colors, createTable, displayHeader } from "../../shared/display-utils.js";
+import { createEnvioConfig } from "./envio-config/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   OPTIONS                                  */

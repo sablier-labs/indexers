@@ -2,7 +2,7 @@
  * Types needed for all indexers: Envio and The Graph.
  */
 import type { Sablier } from "sablier";
-import type { Indexer } from "../src";
+import type { Indexer } from "../src/index.js";
 
 export namespace Types {
   export type ComponentMap<T> = {

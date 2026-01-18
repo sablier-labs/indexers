@@ -1,9 +1,9 @@
 import _ from "lodash";
-import type { Indexer } from "../../../../src/types";
-import { CodegenError } from "../error";
-import type { GraphManifest } from "./manifest-types";
-import { createSources } from "./sources";
-import { topSections } from "./top-sections";
+import type { Indexer } from "../../../../src/types.js";
+import { CodegenError } from "../error.js";
+import type { GraphManifest } from "./manifest-types.js";
+import { createSources } from "./sources/index.js";
+import { topSections } from "./top-sections.js";
 
 /**
  * Creates a Graph manifest for a given protocol and chain.

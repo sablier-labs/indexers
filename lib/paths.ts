@@ -1,9 +1,9 @@
 import * as fs from "node:fs";
 import path, { join } from "node:path";
 import appRoot from "app-root-path";
-import type { Indexer } from "../src";
-import { getGraphChainSlug } from "../src/indexers/graph";
-import type { Types } from "./types";
+import type { Indexer } from "../src/index.js";
+import { getGraphChainSlug } from "../src/indexers/graph.js";
+import type { Types } from "./types.js";
 
 export const ROOT_DIR = appRoot.path;
 export const ABI_DIR = join(ROOT_DIR, "abi");

@@ -3,8 +3,8 @@
  */
 import type { Sablier } from "sablier";
 import { contracts } from "sablier/evm";
-import type { Types } from "../lib/types";
-import type { Indexer } from "../src/types";
+import type { Types } from "../lib/types.js";
+import type { Indexer } from "../src/types.js";
 
 type CampaignType = "instant" | "LL" | "LT";
 

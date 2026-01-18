@@ -2,13 +2,13 @@
 
 import _ from "lodash";
 import { sablier } from "sablier";
-import { indexedContracts } from "../../../../contracts";
-import { sanitizeContractName } from "../../../../lib/helpers";
-import { logger, messages } from "../../../../lib/logger";
-import { envioChains } from "../../../../src/indexers/envio";
-import type { Indexer } from "../../../../src/types";
-import { CodegenError } from "../error";
-import type { EnvioConfig } from "./config-types";
+import { indexedContracts } from "../../../../contracts/index.js";
+import { sanitizeContractName } from "../../../../lib/helpers.js";
+import { logger, messages } from "../../../../lib/logger/index.js";
+import { envioChains } from "../../../../src/indexers/envio.js";
+import type { Indexer } from "../../../../src/types.js";
+import { CodegenError } from "../error.js";
+import type { EnvioConfig } from "./config-types.js";
 
 export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];

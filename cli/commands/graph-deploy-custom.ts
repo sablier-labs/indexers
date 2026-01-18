@@ -18,9 +18,9 @@ import chalk from "chalk";
 import { Chunk, Console, Effect, Stream } from "effect";
 import ora from "ora";
 import { chains } from "sablier/evm";
-import paths, { ROOT_DIR } from "../../lib/paths";
-import { GraphDeployError, ValidationError } from "../errors";
-import * as helpers from "../helpers";
+import paths, { ROOT_DIR } from "../../lib/paths.js";
+import { GraphDeployError, ValidationError } from "../errors.js";
+import * as helpers from "../helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
