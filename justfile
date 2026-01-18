@@ -43,9 +43,11 @@ GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 # Default: show all recipes
 default:
     just --list
-# Remove build files
-clean globs=GLOBS_CLEAN:
-    nlx del-cli \
+
+# Clean build artifacts
+@clean globs=GLOBS_CLEAN:
+    echo "🧹 Deleting files:"
+    nlx del-cli --verbose \
         "{{ globs }}" \
         "{{ GLOBS_CLEAN_IGNORE }}"
 
