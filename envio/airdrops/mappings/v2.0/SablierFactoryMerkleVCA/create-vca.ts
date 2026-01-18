@@ -5,15 +5,14 @@ import { preloadCreateEntities } from "../../common/factory";
 import { createMerkle } from "../../common/factory/create-merkle";
 
 Contract.Factory.FactoryMerkleVCA_v2_0.CreateMerkleVCA.contractRegister(({ context, event }) => {
-  const campaignAddress = event.params.merkleVCA;
-  context.addSablierMerkleVCA_v2_0(campaignAddress);
+  context.addSablierMerkleVCA_v2_0(event.params.merkleVCA);
 });
 
 /*
 ──────────────────────────────────────────────────────────────
 Solidity Event Reference
-https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol
-https://github.com/sablier-labs/airdrops/blob/v2.0/src/interfaces/ISablierFactoryMerkleVCA.sol
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/types/DataTypes.sol#L141-L152
+https://github.com/sablier-labs/airdrops/blob/v2.0/src/interfaces/ISablierFactoryMerkleVCA.sol#L17-L24
 ──────────────────────────────────────────────────────────────
 
 event CreateMerkleVCA(
@@ -61,7 +60,7 @@ Contract.Factory.FactoryMerkleVCA_v2_0.CreateMerkleVCA.handler(async ({ context,
     asset: baseParams[6],
     campaignAddress: event.params.merkleVCA,
     campaignStartTime: baseParams[1],
-    category: "VariableClaim",
+    category: "VariableClaimAmount",
     expiration: baseParams[2],
     ipfsCID: baseParams[4],
     merkleRoot: baseParams[5],

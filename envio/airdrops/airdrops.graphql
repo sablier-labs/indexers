@@ -11,7 +11,7 @@ enum CampaignCategory {
   Instant
   LockupLinear
   LockupTranched
-  VariableClaim
+  VariableClaimAmount
 }
 
 """
@@ -149,6 +149,10 @@ type Action @entity(immutable: true) {
   Clawback action data: to
   """
   clawbackTo: Bytes
+  """
+  Forgone amount for VCA campaigns only.
+  """
+  forgoneAmount: BigInt
 }
 
 """

@@ -97,4 +97,11 @@ type Action @entity(immutable: true) {
   Clawback action data: to
   """
   clawbackTo: Bytes
+
+  # -------------------------------- Forgone --------------------------------- #
+
+  """
+  Forgone amount for VCA campaigns only.
+  """
+  forgoneAmount: BigInt
 }

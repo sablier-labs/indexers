@@ -24,6 +24,7 @@ export function create(
     clawbackFrom: params.clawbackFrom,
     clawbackTo: params.clawbackTo,
     fee: params.fee,
+    forgoneAmount: params.forgoneAmount,
     from: event.transaction.from || "",
     hash: event.transaction.hash,
     id: Id.action(event),

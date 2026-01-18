@@ -40,6 +40,7 @@ const handler: Handler = async ({ context, event }) => {
     claimRecipient: event.params.recipient,
     claimTo: event.params.to,
     fee: event.transaction.value,
+    forgoneAmount: event.params.forgoneAmount,
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
