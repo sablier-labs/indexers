@@ -13,13 +13,14 @@ export namespace Params {
     claimAmount?: bigint;
     claimIndex?: bigint;
     claimRecipient?: Envio.Address;
-    claimTo?: Envio.Address;
     claimStreamId?: string;
+    claimTo?: Envio.Address;
     claimTokenId?: bigint;
     clawbackAmount?: bigint;
     clawbackFrom?: Envio.Address;
     clawbackTo?: Envio.Address;
     fee?: bigint;
+    forgoneAmount?: bigint;
   };
 
   export type CreateEntities = {
@@ -65,7 +66,7 @@ export namespace Params {
   };
 
   export type CreateCampaignVCA = CreateCampaignBase & {
-    category: "VariableClaim";
+    category: "VariableClaimAmount";
     unlockPercentage: bigint | undefined;
     vestingEndTime: bigint;
     vestingStartTime: bigint;

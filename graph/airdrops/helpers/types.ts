@@ -14,6 +14,7 @@ export namespace Params {
     clawbackFrom: Address | null;
     clawbackTo: Address | null;
     fee: BigInt | null;
+    forgoneAmount: BigInt | null;
   }
 
   export class ClaimLockup {

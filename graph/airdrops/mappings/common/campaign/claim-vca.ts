@@ -25,5 +25,6 @@ export function handleClaimVCA(event: ethereum.Event, params: Params.ClaimVCA): 
     claimRecipient: params.recipient,
     claimTo: params.to,
     fee: isVersionWithFees() ? event.transaction.value : null,
+    forgoneAmount: params.forgoneAmount,
   } as Params.Action);
 }
