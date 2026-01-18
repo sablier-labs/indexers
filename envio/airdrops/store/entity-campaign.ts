@@ -68,7 +68,8 @@ export function createVCA(
     streamInitialPercentage: params.unlockPercentage ?? undefined,
     streamStart: Boolean(params.vestingStartTime && params.vestingStartTime > 0n),
     streamStartTime: params.vestingStartTime,
-    streamTotalDuration: params.vestingEndTime > 0n ? params.vestingEndTime - params.vestingStartTime : 0n,
+    streamTotalDuration:
+      params.vestingEndTime > 0n ? params.vestingEndTime - params.vestingStartTime : 0n,
   };
   context.Campaign.set(campaign);
   return campaign;

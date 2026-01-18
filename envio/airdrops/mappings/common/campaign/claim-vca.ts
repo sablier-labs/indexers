@@ -1,4 +1,3 @@
-import _ from "lodash";
 import { Id } from "../../../../common/id";
 import type { SablierMerkleVCA_v2_0_ClaimVCA_handler } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
