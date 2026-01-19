@@ -6,6 +6,13 @@
     "module": "ESNext",
     "moduleResolution": "Bundler"
   },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS",
+      "moduleResolution": "Node"
+    },
+    "transpileOnly": true
+  },
   "exclude": ["**/bindings/", "node_modules/"],
   "include": ["airdrops/", "analytics/", "common/", "flow/", "lockup/"]
 }
