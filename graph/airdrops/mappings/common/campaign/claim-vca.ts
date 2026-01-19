@@ -12,6 +12,7 @@ export function handleClaimVCA(event: ethereum.Event, params: Params.ClaimVCA): 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   const claimAmount = params.claimAmount;
   Store.Campaign.updateClaimed(campaign, claimAmount);
+  Store.Campaign.updateForgoneAmount(campaign, params.forgoneAmount);
 
   /* -------------------------------- ACTIVITY -------------------------------- */
   Store.Activity.createOrUpdate(event, campaign, claimAmount);

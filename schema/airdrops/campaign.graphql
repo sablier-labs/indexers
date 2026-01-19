@@ -194,6 +194,11 @@ type Campaign @entity(immutable: false) {
   streamTransferable: Boolean
 
   # --------------------------------- VCA Config -------------------------------- #
+  """
+  Total amount forgone by early claimers.
+  Only available for VCA campaigns.
+  """
+  vcaForgoneAmount: BigInt
 
   """
   The percentage unlocked immediately at vesting start.

@@ -129,6 +129,18 @@ export function updateFee(
   context.Campaign.set(updatedCampaign);
 }
 
+export function updateForgoneAmount(
+  context: Context.Handler,
+  campaign: Entity.Campaign,
+  amount: bigint
+): void {
+  const updatedCampaign: Entity.Campaign = {
+    ...campaign,
+    vcaForgoneAmount: (campaign.vcaForgoneAmount ?? 0n) + amount,
+  };
+  context.Campaign.set(updatedCampaign);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
@@ -181,6 +193,7 @@ function createBaseCampaign(
     subgraphId: entities.watcher.campaignCounter,
     timestamp: BigInt(event.block.timestamp),
     totalRecipients: params.recipientCount,
+    vcaForgoneAmount: undefined,
     vcaUnlockPercentage: undefined,
     vcaVestingEndTime: undefined,
     vcaVestingStartTime: undefined,
