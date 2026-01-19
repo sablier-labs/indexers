@@ -61,25 +61,9 @@ export function createCampaignVCA(
 ): void {
   const campaign = createBaseCampaign(event, paramsBase);
 
-  const unlockPercentage = paramsVCA.unlockPercentage;
-  if (unlockPercentage !== null) {
-    campaign.streamInitial = unlockPercentage.gt(ZERO);
-    campaign.streamInitialPercentage = unlockPercentage;
-  } else {
-    campaign.streamInitial = false;
-  }
-
-  const vestingStartTime = paramsVCA.vestingStartTime;
-  if (vestingStartTime.gt(ZERO)) {
-    campaign.streamStart = true;
-    campaign.streamStartTime = vestingStartTime;
-  } else {
-    campaign.streamStart = false;
-  }
-
-  if (paramsVCA.vestingEndTime.gt(ZERO)) {
-    campaign.streamTotalDuration = paramsVCA.vestingEndTime.minus(paramsVCA.vestingStartTime);
-  }
+  campaign.vcaUnlockPercentage = paramsVCA.unlockPercentage;
+  campaign.vcaVestingStartTime = paramsVCA.vestingStartTime;
+  campaign.vcaVestingEndTime = paramsVCA.vestingEndTime;
 
   campaign.save();
 }
