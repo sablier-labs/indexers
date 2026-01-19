@@ -64,12 +64,9 @@ export function createVCA(
   let campaign = createBaseCampaign(context, event, entities, params);
   campaign = {
     ...campaign,
-    streamInitial: Boolean(params.unlockPercentage && params.unlockPercentage > 0n),
-    streamInitialPercentage: params.unlockPercentage ?? undefined,
-    streamStart: Boolean(params.vestingStartTime && params.vestingStartTime > 0n),
-    streamStartTime: params.vestingStartTime,
-    streamTotalDuration:
-      params.vestingEndTime > 0n ? params.vestingEndTime - params.vestingStartTime : 0n,
+    vcaUnlockPercentage: params.unlockPercentage ?? undefined,
+    vcaVestingEndTime: params.vestingEndTime,
+    vcaVestingStartTime: params.vestingStartTime,
   };
   context.Campaign.set(campaign);
   return campaign;
@@ -184,6 +181,9 @@ function createBaseCampaign(
     subgraphId: entities.watcher.campaignCounter,
     timestamp: BigInt(event.block.timestamp),
     totalRecipients: params.recipientCount,
+    vcaUnlockPercentage: undefined,
+    vcaVestingEndTime: undefined,
+    vcaVestingStartTime: undefined,
     version: factoryVersion,
   };
 
