@@ -64,7 +64,7 @@ export function createVCA(
   let campaign = createBaseCampaign(context, event, entities, params);
   campaign = {
     ...campaign,
-    vcaUnlockPercentage: params.unlockPercentage ?? undefined,
+    vcaUnlockPercentage: params.unlockPercentage,
     vcaVestingEndTime: params.vestingEndTime,
     vcaVestingStartTime: params.vestingStartTime,
   };
