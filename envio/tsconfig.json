@@ -1,18 +1,21 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../node_modules/@sablier/devkit/tsconfig/base.json",
-  // Envio doesn't work with ESM .js imports
+  "exclude": ["**/bindings/", "node_modules/"],
+  "include": ["airdrops/", "analytics/", "common/", "flow/", "lockup/"],
+  // Keep ESM syntax for typechecking while allowing extensionless imports.
   "compilerOptions": {
+    // Preserve ESM import/export in source (no CJS rewrite during typechecking).
     "module": "ESNext",
+    // Match bundler-style resolution so extensionless relative imports are valid.
     "moduleResolution": "Bundler"
   },
+  // Envio requires CJS at runtime
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS",
       "moduleResolution": "Node"
     },
     "transpileOnly": true
-  },
-  "exclude": ["**/bindings/", "node_modules/"],
-  "include": ["airdrops/", "analytics/", "common/", "flow/", "lockup/"]
+  }
 }
