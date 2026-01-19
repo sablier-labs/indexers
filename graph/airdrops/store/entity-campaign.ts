@@ -96,6 +96,12 @@ export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigIn
   campaign.save();
 }
 
+export function updateCampaignForgoneAmount(campaign: Entity.Campaign, amount: BigInt): void {
+  const current = campaign.vcaForgoneAmount;
+  campaign.vcaForgoneAmount = current ? current.plus(amount) : amount;
+  campaign.save();
+}
+
 export function updateCampaignClawback(
   event: ethereum.Event,
   campaign: Entity.Campaign,
