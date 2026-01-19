@@ -27,6 +27,7 @@ const handler: Handler = async ({ context, event }) => {
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateClaimed(context, campaign, event.params.claimAmount);
+  Store.Campaign.updateForgoneAmount(context, campaign, event.params.forgoneAmount);
 
   /* -------------------------------- ACTIVITY -------------------------------- */
   Store.Activity.update(context, createdActivity, event.params.claimAmount);
