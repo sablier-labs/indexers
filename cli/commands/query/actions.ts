@@ -4,43 +4,19 @@
 
 import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc.js";
+import type { Dayjs } from "dayjs";
 import { Console, Effect } from "effect";
 import { sablier } from "sablier";
 import { formatUnits } from "viem";
 import { graph } from "../../../src/indexers/graph.js";
+import { colors, createTable, displayHeader } from "../../display-utils.js";
 import { ValidationError } from "../../errors.js";
-import { colors, createTable, displayHeader } from "../../shared/display-utils.js";
 import { fetchQuarterActionStats } from "./graph-client.js";
-
-// -------------------------------------------------------------------------- //
-//                                   SETUP                                    //
-// -------------------------------------------------------------------------- //
-
-dayjs.extend(utc);
-
-// -------------------------------------------------------------------------- //
-//                                    TYPES                                   //
-// -------------------------------------------------------------------------- //
-
-type QuarterNumber = 1 | 2 | 3 | 4;
-
-type QuarterWindow = {
-  end: dayjs.Dayjs;
-  name: string;
-  quarter: QuarterNumber;
-  start: dayjs.Dayjs;
-  year: number;
-};
+import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./quarter-utils.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //
 // -------------------------------------------------------------------------- //
-
-const QUARTER_PATTERN = /^([0-9]{4})-q([1-4])$/i;
-
-const DEFAULT_QUARTER_NAME = getMostRecentQuarterName(dayjs.utc());
 
 const chainIdOption = Options.integer("chain-id").pipe(
   Options.withAlias("c"),
@@ -57,51 +33,6 @@ const quarterOption = Options.text("quarter").pipe(
 //                                  HELPERS                                   //
 // -------------------------------------------------------------------------- //
 
-function formatQuarterName(opts: { quarter: QuarterNumber; year: number }): string {
-  return `${opts.year}-q${opts.quarter}`;
-}
-
-function getMostRecentQuarterName(referenceDate: dayjs.Dayjs): string {
-  const currentQuarter = getQuarterFromDate(referenceDate);
-  if (currentQuarter === 1) {
-    return formatQuarterName({ quarter: 4, year: referenceDate.year() - 1 });
-  }
-  return formatQuarterName({
-    quarter: (currentQuarter - 1) as QuarterNumber,
-    year: referenceDate.year(),
-  });
-}
-
-function getQuarterFromDate(referenceDate: dayjs.Dayjs): QuarterNumber {
-  const quarterIndex = Math.floor(referenceDate.month() / 3) + 1;
-  return quarterIndex as QuarterNumber;
-}
-
-function getQuarterWindow(quarterName: string): Effect.Effect<QuarterWindow, ValidationError> {
-  const match = QUARTER_PATTERN.exec(quarterName.trim());
-  if (!match) {
-    return Effect.fail(
-      new ValidationError({
-        field: "quarter",
-        message: "Quarter must be formatted as YYYY-q1, YYYY-q2, YYYY-q3, or YYYY-q4",
-      })
-    );
-  }
-
-  const year = Number(match[1]);
-  const quarter = Number(match[2]) as QuarterNumber;
-  const startMonth = (quarter - 1) * 3;
-  const start = dayjs.utc().year(year).month(startMonth).startOf("month");
-  const end = start.add(3, "month");
-  return Effect.succeed({
-    end,
-    name: formatQuarterName({ quarter, year }),
-    quarter,
-    start,
-    year,
-  });
-}
-
 function resolveIndexerUrl(chainId: number): Effect.Effect<string, ValidationError> {
   const indexer = graph.lockup.find((entry) => entry.chainId === chainId);
   if (!indexer) {
@@ -112,7 +43,7 @@ function resolveIndexerUrl(chainId: number): Effect.Effect<string, ValidationErr
   return Effect.succeed(indexer.endpoint.url);
 }
 
-function toUnixSeconds(value: dayjs.Dayjs): string {
+function toUnixSeconds(value: Dayjs): string {
   return value.unix().toString();
 }
 

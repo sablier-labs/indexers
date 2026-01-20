@@ -22,6 +22,9 @@ import { pricesCheckCommand } from "./commands/prices/check.js";
 import { pricesSyncCommand } from "./commands/prices/sync.js";
 import { printChainsCommand } from "./commands/print-chains.js";
 import { queryActionsCommand } from "./commands/query/actions.js";
+import { queryQuarterlyAverageMauCommand } from "./commands/query/quarterly-average-mau.js";
+import { queryTotalUsdFeesCommand } from "./commands/query/total-usd-fees.js";
+import { queryUniqueTransactionsCommand } from "./commands/query/unique-transactions.js";
 import { CliLive } from "./context.js";
 
 /* -------------------------------------------------------------------------- */
@@ -52,6 +55,9 @@ const rootCommand = Command.make("indexers-cli").pipe(
     printCommand,
     codegenCommand,
     queryActionsCommand,
+    queryQuarterlyAverageMauCommand,
+    queryTotalUsdFeesCommand,
+    queryUniqueTransactionsCommand,
     checkVendorsCommand,
     exportSchemaCommand,
     graphDeployAllCommand,

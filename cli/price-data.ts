@@ -1,5 +1,5 @@
 import { sablier } from "sablier";
-import { envioChains } from "../../src/indexers/envio.js";
+import { envioChains } from "../src/indexers/envio.js";
 
 export type PriceDataFile = {
   name: string;

@@ -3,10 +3,10 @@ import { Command as CliCommand } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
+import { colors, createTable, displayHeader } from "../../display-utils.js";
 import { ProcessError } from "../../errors.js";
-import { colors, createTable, displayHeader } from "../../shared/display-utils.js";
-import type { PriceDataFile } from "../../shared/price-data.js";
-import { getRequiredPriceDataFiles } from "../../shared/price-data.js";
+import type { PriceDataFile } from "../../price-data.js";
+import { getRequiredPriceDataFiles } from "../../price-data.js";
 
 const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
 const PRICE_DATA_DIR = path.join(process.cwd(), "node_modules/@sablier/price-data");

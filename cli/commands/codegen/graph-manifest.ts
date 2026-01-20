@@ -23,8 +23,8 @@ import paths from "../../../lib/paths.js";
 import type { Indexer } from "../../../src/index.js";
 import { graphChains } from "../../../src/indexers/graph.js";
 import { PROTOCOLS } from "../../constants.js";
+import { colors, createTable, displayHeader } from "../../display-utils.js";
 import * as helpers from "../../helpers.js";
-import { colors, createTable, displayHeader } from "../../shared/display-utils.js";
 import { createGraphManifest } from "./graph-manifest/index.js";
 
 /* -------------------------------------------------------------------------- */

@@ -7,9 +7,9 @@ import _ from "lodash";
 import paths from "../../lib/paths.js";
 import { getMergedSchema } from "../../schema/index.js";
 import { PROTOCOLS } from "../constants.js";
+import { colors, createTable, displayHeader } from "../display-utils.js";
 import { ProcessError } from "../errors.js";
 import { getRelative } from "../helpers.js";
-import { colors, createTable, displayHeader } from "../shared/display-utils.js";
 
 type ExportResult = {
   outputPath: string;
