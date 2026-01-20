@@ -21,6 +21,7 @@ import { graphDeployCustomCommand } from "./commands/graph-deploy/custom.js";
 import { pricesCheckCommand } from "./commands/prices/check.js";
 import { pricesSyncCommand } from "./commands/prices/sync.js";
 import { printChainsCommand } from "./commands/print-chains.js";
+import { queryActionsCommand } from "./commands/query/actions.js";
 import { CliLive } from "./context.js";
 
 /* -------------------------------------------------------------------------- */
@@ -50,6 +51,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
   Command.withSubcommands([
     printCommand,
     codegenCommand,
+    queryActionsCommand,
     checkVendorsCommand,
     exportSchemaCommand,
     graphDeployAllCommand,
