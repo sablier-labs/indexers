@@ -118,6 +118,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     };
 
     yield* Console.log("");
+    displayHeader("📊 CHAIN SUMMARY", "gray");
     const summaryTable = createTable({
       colWidths: [25, 10],
       head: ["Category", "Count"],
