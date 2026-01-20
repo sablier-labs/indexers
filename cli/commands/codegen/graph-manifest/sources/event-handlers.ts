@@ -10,8 +10,8 @@ function get(protocol: Indexer.Protocol): EventHandlersMap {
     _.mapValues(versions, (events) =>
       events
         .map((event) => resolveEventHandler(protocol as Indexer.Name, event))
-        .filter((handler): handler is GraphManifest.EventHandler => handler !== null),
-    ),
+        .filter((handler): handler is GraphManifest.EventHandler => handler !== null)
+    )
   );
 }
 

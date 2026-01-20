@@ -1,0 +1,41 @@
+name: Verify Envio Build Files
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{github.workflow}}-${{github.ref}}
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify-envio-build:
+    env:
+      ENVIO_ALCHEMY_API_KEY: ${{ secrets.ENVIO_ALCHEMY_API_KEY }}
+      ENVIO_ENVIRONMENT: development
+      ENVIO_ROUTEMESH_API_KEY: ${{ secrets.ENVIO_ROUTEMESH_API_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v5
+
+      - name: Set up devkit
+        uses: sablier-labs/devkit/actions/setup@main
+
+      - name: Codegen Envio indexers
+        run: just codegen-envio
+
+      # We need this until this gets implemented in Envio: https://github.com/enviodev/hyperindex/issues/575
+      - name: Verify Envio build files haven't changed
+        uses: tj-actions/verify-changed-files@v20
+        with:
+          fail-if-changed: true
+          fail-message: ❌ Envio build files are out of sync. Run 'just codegen-envio' locally and commit the changes.
+          files: |
+            ./envio/flow/config.yaml
+            ./envio/flow/flow.graphql
+            ./envio/lockup/config.yaml
+            ./envio/lockup/lockup.graphql
+            ./envio/airdrops/config.yaml
+            ./envio/airdrops/airdrops.graphql

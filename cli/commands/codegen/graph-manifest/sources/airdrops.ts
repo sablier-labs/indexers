@@ -73,7 +73,7 @@ function getLockups(context: GraphManifest.Context): GraphManifest.ContextItem.L
  */
 function areVersionsCompatible(
   airdrops: Sablier.Version.Airdrops,
-  lockup: Sablier.Version.Lockup,
+  lockup: Sablier.Version.Lockup
 ): boolean {
   const compatiblePairs: Record<Sablier.Version.Airdrops, Sablier.Version.Lockup[]> = {
     [Version.Airdrops.V1_1]: [Version.Lockup.V1_1, Version.Lockup.V1_2],

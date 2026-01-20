@@ -11,7 +11,7 @@ import { topSections } from "./top-sections.js";
  */
 export function createGraphManifest(
   protocol: Indexer.Protocol,
-  chainId: number,
+  chainId: number
 ): GraphManifest.TopSection {
   const topSection = topSections[protocol];
   const sources = createSources(protocol, chainId);

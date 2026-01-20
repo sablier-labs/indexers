@@ -4,8 +4,9 @@
   "files": {
     "includes": [
       "**/*.{graphql,js,json,jsonc,ts}",
-      "!envio/**/bindings/**/*",
-      "!graph/**/bindings/**/*"
+      "**/codegen", // needed because Ultracite disables it
+      "!envio/**/bindings",
+      "!graph/**/bindings"
     ]
   },
   "linter": {

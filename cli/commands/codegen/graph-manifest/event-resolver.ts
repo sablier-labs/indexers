@@ -17,7 +17,7 @@ import type { GraphManifest } from "./manifest-types.js";
  */
 export function resolveEventHandler(
   indexer: Indexer.Name,
-  event: Types.Event,
+  event: Types.Event
 ): GraphManifest.EventHandler | null {
   const { contractName, eventName, indexers, protocol, version } = event;
   if (!indexers.includes(indexer)) {
@@ -41,7 +41,7 @@ export function resolveEventHandler(
     };
   } catch (error) {
     logger.error(
-      `Error processing ABI for contract ${contractName} and event ${eventName}: ${error}`,
+      `Error processing ABI for contract ${contractName} and event ${eventName}: ${error}`
     );
     throw error;
   }

@@ -23,7 +23,7 @@ export function createComptrollerContract(): EnvioConfig.Contract {
 export function createProtocolContracts(
   indexer: Indexer.Name,
   protocol: Indexer.Protocol,
-  includeProtocolInPath: boolean = false,
+  includeProtocolInPath = false
 ): EnvioConfig.Contract[] {
   const contracts: EnvioConfig.Contract[] = [];
 
@@ -46,7 +46,7 @@ export function createProtocolContracts(
 function getRelativeAbiFilePath(
   protocol: Indexer.Protocol,
   contractName: string,
-  version: Types.Version,
+  version: Types.Version
 ): string {
   const envioConfigDir = paths.envio.config(protocol);
   const abiPath = paths.abi(contractName, protocol, version);

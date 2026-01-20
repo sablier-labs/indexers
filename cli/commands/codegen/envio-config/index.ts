@@ -91,7 +91,7 @@ function mergeNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
           return _.uniqWith([...objValue, ...srcValue], _.isEqual);
         }
         return undefined;
-      }),
+      })
     )
     .value();
 }

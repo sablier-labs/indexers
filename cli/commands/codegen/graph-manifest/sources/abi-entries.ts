@@ -22,7 +22,7 @@ const prbProxyRegistry = get("PRBProxyRegistry");
 export function getABIEntries(
   protocol: Indexer.Protocol,
   contractName: string,
-  version: Types.Version,
+  version: Types.Version
 ) {
   const contract = _.find(indexedContracts[protocol], (c) => {
     return c.name === contractName && c.versions.includes(version);

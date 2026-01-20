@@ -69,20 +69,19 @@ export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): Envio
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
+  const alchemyApiKey = process.env.ENVIO_ALCHEMY_API_KEY;
 
   // If it's HyperSync, we use Alchemy as fallback RPC.
-  if (!rpcOnly) {
-    if (chain.rpc.alchemy) {
-      RPCs.push({
-        for: "fallback",
-        initial_block_interval: 2000,
-        interval_ceiling: 2000,
-        url: chain.rpc.alchemy("${ENVIO_ALCHEMY_API_KEY}"),
-      });
-    }
-  }
-  else {
+  if (rpcOnly) {
     throw new Error("RPC-only mode is temporary disabled");
+  }
+  if (chain.rpc.alchemy && alchemyApiKey) {
+    RPCs.push({
+      for: "fallback",
+      initial_block_interval: 2000,
+      interval_ceiling: 2000,
+      url: chain.rpc.alchemy("${ENVIO_ALCHEMY_API_KEY}"),
+    });
   }
 
   if (RPCs.length === 0) {
@@ -106,7 +105,7 @@ function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] |
  */
 function extractContracts(
   protocol: Indexer.Protocol,
-  chainId: number,
+  chainId: number
 ): EnvioConfig.NetworkContract[] {
   const networkContracts: EnvioConfig.NetworkContract[] = [];
 
@@ -122,7 +121,7 @@ function extractContracts(
 
     // Filter all contracts that match the release version.
     const filteredContracts = indexedContracts[protocol].filter((c) =>
-      c.versions.includes(release.version),
+      c.versions.includes(release.version)
     );
 
     for (const filteredContract of filteredContracts) {
