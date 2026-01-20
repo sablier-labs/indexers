@@ -249,20 +249,10 @@ const OFFICIALS: IndexerGraphMap[] = [
   /* -------------------------------------------------------------------------- */
   /*                                  TESTNETS                                  */
   /* -------------------------------------------------------------------------- */
-  official(chains.arbitrumSepolia.id, {
-    airdrops: "3S7v3VkDq8XMBd8EFVhKur2Vk44xScaW8a4BRjoPuYWk",
-    flow: "2uWnxpYiDMkEMu1urxqt925mLfuax9XbvfcBoD97AU6d",
-    lockup: "ApEFvaPGARHedGmFp6TRQu7DoDHQKwt1LPWi1ka6DFHT",
-  }),
   official(chains.baseSepolia.id, {
     airdrops: "4R2hm27YJ7CVEJ97BbBJz2r4KTKYc8sTqqzrD8UzEfJt",
     flow: "AsnKT1waQMvuQxZAqfFuYwtRtAfN8uekDu75jPttfyLh",
     lockup: "DdiYENuyh5ztSybRJnBnCZuUgESkFasjGFHZUbURpKHz",
-  }),
-  official(chains.optimismSepolia.id, {
-    airdrops: "3kp1eR2T1XpvvLkSZ7Wtt45DbDaiykTes478RZ7zwTz",
-    flow: "EFKqBB6TeH6etGuHCffnbMbETEgDZ6U29Lgpc4gpYvdB",
-    lockup: "2LFYyhMVMUMYA2q7XMMnBvCs6v6awWxBeMuMk3tMtmiT",
   }),
   official(chains.sepolia.id, {
     airdrops: "8PLGDyXEsPgRTAnozL7MAjmTUFY4TBzs8i4F9Pq3wwSh",
