@@ -47,7 +47,7 @@ importers:
         version: 1.11.0(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/914f561ccc97ad357c9de849cbcb95d0fdd9f133
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/5622013df581e17c374ec8cdc091fc629d78623c
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1222,8 +1222,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/914f561ccc97ad357c9de849cbcb95d0fdd9f133':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/914f561ccc97ad357c9de849cbcb95d0fdd9f133}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5622013df581e17c374ec8cdc091fc629d78623c':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/5622013df581e17c374ec8cdc091fc629d78623c}
     version: 1.0.0-beta.0
     engines: {node: '>=22'}
 
@@ -2060,6 +2060,9 @@ packages:
 
   eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
+
+  eventemitter3@5.0.4:
+    resolution: {integrity: sha512-mlsTRyGaPBjPedk6Bvw+aqbsXDtoAyAzm5MO7JgU+yVRyMQ5O8bD4Kcci7BS85f93veegeCPkL8R4GLClnjLFw==}
 
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
@@ -4899,7 +4902,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/914f561ccc97ad357c9de849cbcb95d0fdd9f133': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5622013df581e17c374ec8cdc091fc629d78623c': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5778,6 +5781,8 @@ snapshots:
   eventemitter3@4.0.7: {}
 
   eventemitter3@5.0.1: {}
+
+  eventemitter3@5.0.4: {}
 
   events@3.3.0: {}
 
@@ -7013,7 +7018,7 @@ snapshots:
       '@types/uuid': 8.3.4
       '@types/ws': 8.18.1
       buffer: 6.0.3
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       uuid: 8.3.2
       ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)
     optionalDependencies:
