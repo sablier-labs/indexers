@@ -26,12 +26,12 @@ import { Chunk, Console, DateTime, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import ora from "ora";
 import { sablier } from "sablier";
-import paths, { ROOT_DIR } from "../../lib/paths.js";
-import { getSablierChainSlug } from "../../src/indexers/graph.js";
-import { getIndexerGraph } from "../../src/indexers/index.js";
-import type { Indexer } from "../../src/types.js";
-import { GraphDeployError, UserAbortError, ValidationError } from "../errors.js";
-import * as helpers from "../helpers.js";
+import paths, { ROOT_DIR } from "../../../lib/paths.js";
+import { getSablierChainSlug } from "../../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../../src/indexers/index.js";
+import type { Indexer } from "../../../src/types.js";
+import { GraphDeployError, UserAbortError, ValidationError } from "../../errors.js";
+import * as helpers from "../../helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
