@@ -32,13 +32,14 @@ type TableOptions = {
   head?: string[];
   theme?: TableTheme;
   wordWrap?: boolean;
+  wrapOnWordBoundary?: boolean;
 };
 
 /**
  * Create a formatted table with consistent styling
  */
 export function createTable(options: TableOptions = {}): Table.Table {
-  const { colWidths, head = [], theme = "cyan", wordWrap = true } = options;
+  const { colWidths, head = [], theme = "cyan", wordWrap = true, wrapOnWordBoundary } = options;
 
   let themeColor: string;
   switch (theme) {
@@ -92,6 +93,7 @@ export function createTable(options: TableOptions = {}): Table.Table {
       head: [],
     },
     wordWrap,
+    wrapOnWordBoundary,
   });
 }
 

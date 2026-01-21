@@ -24,7 +24,6 @@ import chalk from "chalk";
 import Table from "cli-table3";
 import { Chunk, Console, DateTime, Effect, Option, Stream } from "effect";
 import _ from "lodash";
-import ora from "ora";
 import { sablier } from "sablier";
 import paths, { ROOT_DIR } from "../../../lib/paths.js";
 import { getSablierChainSlug } from "../../../src/indexers/graph.js";
@@ -32,6 +31,7 @@ import { getIndexerGraph } from "../../../src/indexers/index.js";
 import type { Indexer } from "../../../src/types.js";
 import { GraphDeployError, UserAbortError, ValidationError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
+import { finishSpinner, startSpinner } from "../../spinner.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -278,9 +278,9 @@ function deployToChain(
   ).pipe(PlatformCommand.workingDirectory(workingDir));
 
   return Effect.gen(function* () {
-    const spinner = ora(
+    const spinner = startSpinner(
       `Deploying to ${deployment.chainName} (${deployment.chainSlug})...`
-    ).start();
+    );
     yield* logger.log(
       `🚀 Starting deployment to ${deployment.chainName} (${deployment.chainSlug})...`
     );
@@ -290,7 +290,7 @@ function deployToChain(
 
     if (dryRun) {
       yield* logger.log(`DRY RUN: Would execute command in ${workingDir}`);
-      spinner.stop();
+      finishSpinner(spinner, "stop");
       yield* Console.log(chalk.yellow(`[DRY RUN] Would deploy to ${deployment.chainName}`));
       yield* logger.log(`[DRY RUN] Would deploy to ${deployment.chainName}`);
       return { deploymentId: undefined, indexerName, success: true } as const;
@@ -319,23 +319,23 @@ function deployToChain(
         }
 
         const deploymentId = helpers.extractDeploymentId(stdout);
-        spinner.stop();
+        finishSpinner(spinner, "success", `Successfully deployed to ${deployment.chainName}`);
 
         yield* Effect.all([
-          Console.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
           logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
         ]);
 
         return { deploymentId, indexerName, success: true } as const;
       }).pipe(
         Effect.catchAll((error) => {
-          spinner.stop();
           const errorMessage = error instanceof Error ? error.message : String(error);
+          finishSpinner(
+            spinner,
+            "fail",
+            `Failed to deploy to ${deployment.chainName}: ${errorMessage}`
+          );
           return Effect.all([
             logger.log(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`),
-            Console.log(
-              chalk.red(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`)
-            ),
           ]).pipe(Effect.map(() => ({ error: errorMessage, success: false }) as const));
         })
       )

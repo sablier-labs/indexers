@@ -6,21 +6,19 @@ import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { colors, createTable, displayHeader } from "../../display.js";
+import { withSpinner } from "../../spinner.js";
 import { ENVIO_ANALYTICS_ENDPOINT, fetchUniqueTransactions } from "./clients/envio-client.js";
-import { formatTimestamp, getDateRange, toHasuraTimestamp } from "./utils/date-range.js";
+import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
+import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //
 // -------------------------------------------------------------------------- //
 
-const endOption = Options.text("end").pipe(
-  Options.withAlias("e"),
-  Options.withDescription("End date in YYYY-MM-DD or ISO 8601 format")
-);
-
-const startOption = Options.text("start").pipe(
-  Options.withAlias("s"),
-  Options.withDescription("Start date in YYYY-MM-DD or ISO 8601 format")
+const quarterOption = Options.text("quarter").pipe(
+  Options.withAlias("q"),
+  Options.withDefault(DEFAULT_QUARTER_NAME),
+  Options.withDescription("Quarter to query in YYYY-q1 format")
 );
 
 // -------------------------------------------------------------------------- //
@@ -41,9 +39,9 @@ function formatCount(value: bigint): string {
 //                                   COMMAND                                  //
 // -------------------------------------------------------------------------- //
 
-const queryUniqueTxsLogic = (options: { readonly end: string; readonly start: string }) =>
+const queryUniqueTxsLogic = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
-    const range = yield* getDateRange({ end: options.end, start: options.start });
+    const quarterWindow = yield* getQuarterWindow(options.quarter);
 
     displayHeader("🧾 UNIQUE TRANSACTIONS", "cyan");
 
@@ -54,18 +52,22 @@ const queryUniqueTxsLogic = (options: { readonly end: string; readonly start: st
     });
 
     infoTable.push(
-      [colors.value("Start (UTC)"), colors.dim(formatTimestamp(range.start))],
-      [colors.value("End (UTC)"), colors.dim(formatTimestamp(range.end))],
+      [colors.value("Quarter"), colors.value(quarterWindow.name.toUpperCase())],
+      [colors.value("Start (UTC)"), colors.dim(formatTimestamp(quarterWindow.start))],
+      [colors.value("End (UTC)"), colors.dim(formatTimestamp(quarterWindow.end))],
       [colors.value("Indexer"), colors.dim(ENVIO_ANALYTICS_ENDPOINT)]
     );
 
     yield* Console.log("");
     yield* Console.log(infoTable.toString());
 
-    const result = yield* fetchUniqueTransactions({
-      dateEnd: toHasuraTimestamp(range.end),
-      dateStart: toHasuraTimestamp(range.start),
-    });
+    const result = yield* withSpinner(
+      "Querying analytics...",
+      fetchUniqueTransactions({
+        dateEnd: toHasuraTimestamp(quarterWindow.end),
+        dateStart: toHasuraTimestamp(quarterWindow.start),
+      })
+    );
 
     const summaryTable = createTable({
       colWidths: [25, 25],
@@ -84,6 +86,6 @@ const queryUniqueTxsLogic = (options: { readonly end: string; readonly start: st
 
 export const queryUniqueTxsCommand = Command.make(
   "query-unique-txs",
-  { end: endOption, start: startOption },
+  { quarter: quarterOption },
   queryUniqueTxsLogic
 );

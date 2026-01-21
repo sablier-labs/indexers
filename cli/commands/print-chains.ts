@@ -140,6 +140,10 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
         `\n${colors.info("ℹ")} Note: These are Sablier chain slugs. Use ${colors.highlight("--graph")} flag for The Graph slugs.`
       );
     }
+
+    yield* Console.log(
+      `\n${colors.info("ℹ")} Note: Solana indexers are not included in this report. See https://github.com/sablier-labs/solana-indexers.`
+    );
   });
 
 export const printChainsCommand = Command.make("chains", { graph: graphOption }, printChainsLogic);

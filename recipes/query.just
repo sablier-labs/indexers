@@ -1,19 +1,26 @@
 # Query quarterly average MAU (Envio analytics)
 [group("cli")]
-@query-average-mau *args:
-    just cli query-average-mau {{ args }}
+[arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
+@query-average-mau quarter="latest" *args:
+    just cli query-average-mau --quarter={{ quarter }} {{ args }}
 
-# Query actions (Envio analytics)
+# Query actions (The Graph)
 [group("cli")]
-@query-actions *args:
-    just cli query-actions {{ args }}
+[arg("chain_id", long="chain-id", short="c", help="Chain ID to query")]
+[arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
+@query-actions chain_id quarter="latest" *args:
+    just cli query-actions --chain-id={{ chain_id }} \
+        --quarter={{ quarter }} \
+        {{ args }}
 
 # Query total USD fees (Envio analytics)
 [group("cli")]
-@query-total-usd-fees *args:
-    just cli query-total-usd-fees {{ args }}
+[arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
+@query-total-usd-fees quarter="latest" *args:
+    just cli query-total-usd-fees --quarter={{ quarter }} {{ args }}
 
 # Query unique transactions (Envio analytics)
 [group("cli")]
-@query-unique-txs *args:
-    just cli query-unique-txs {{ args }}
+[arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
+@query-unique-txs quarter="latest" *args:
+    just cli query-unique-txs --quarter={{ quarter }} {{ args }}

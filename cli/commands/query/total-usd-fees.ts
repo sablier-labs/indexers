@@ -7,21 +7,19 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { formatUnits } from "viem";
 import { colors, createTable, displayHeader } from "../../display.js";
+import { withSpinner } from "../../spinner.js";
 import { ENVIO_ANALYTICS_ENDPOINT, fetchTotalUsdFees } from "./clients/envio-client.js";
-import { formatTimestamp, getDateRange, toHasuraTimestamp } from "./utils/date-range.js";
+import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
+import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //
 // -------------------------------------------------------------------------- //
 
-const endOption = Options.text("end").pipe(
-  Options.withAlias("e"),
-  Options.withDescription("End date in YYYY-MM-DD or ISO 8601 format")
-);
-
-const startOption = Options.text("start").pipe(
-  Options.withAlias("s"),
-  Options.withDescription("Start date in YYYY-MM-DD or ISO 8601 format")
+const quarterOption = Options.text("quarter").pipe(
+  Options.withAlias("q"),
+  Options.withDefault(DEFAULT_QUARTER_NAME),
+  Options.withDescription("Quarter to query in YYYY-q1 format")
 );
 
 // -------------------------------------------------------------------------- //
@@ -43,9 +41,9 @@ function formatUsd(value: bigint): string {
 //                                   COMMAND                                  //
 // -------------------------------------------------------------------------- //
 
-const queryTotalUsdFeesLogic = (options: { readonly end: string; readonly start: string }) =>
+const queryTotalUsdFeesLogic = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
-    const range = yield* getDateRange({ end: options.end, start: options.start });
+    const quarterWindow = yield* getQuarterWindow(options.quarter);
 
     displayHeader("💵 TOTAL USD FEES", "cyan");
 
@@ -56,18 +54,22 @@ const queryTotalUsdFeesLogic = (options: { readonly end: string; readonly start:
     });
 
     infoTable.push(
-      [colors.value("Start (UTC)"), colors.dim(formatTimestamp(range.start))],
-      [colors.value("End (UTC)"), colors.dim(formatTimestamp(range.end))],
+      [colors.value("Quarter"), colors.value(quarterWindow.name.toUpperCase())],
+      [colors.value("Start (UTC)"), colors.dim(formatTimestamp(quarterWindow.start))],
+      [colors.value("End (UTC)"), colors.dim(formatTimestamp(quarterWindow.end))],
       [colors.value("Indexer"), colors.dim(ENVIO_ANALYTICS_ENDPOINT)]
     );
 
     yield* Console.log("");
     yield* Console.log(infoTable.toString());
 
-    const result = yield* fetchTotalUsdFees({
-      dateEnd: toHasuraTimestamp(range.end),
-      dateStart: toHasuraTimestamp(range.start),
-    });
+    const result = yield* withSpinner(
+      "Querying analytics...",
+      fetchTotalUsdFees({
+        dateEnd: toHasuraTimestamp(quarterWindow.end),
+        dateStart: toHasuraTimestamp(quarterWindow.start),
+      })
+    );
 
     const summaryTable = createTable({
       colWidths: [25, 25],
@@ -88,6 +90,6 @@ const queryTotalUsdFeesLogic = (options: { readonly end: string; readonly start:
 
 export const queryTotalUsdFeesCommand = Command.make(
   "query-total-usd-fees",
-  { end: endOption, start: startOption },
+  { quarter: quarterOption },
   queryTotalUsdFeesLogic
 );

@@ -16,11 +16,11 @@ import { Command, Options } from "@effect/cli";
 import { CommandExecutor, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Chunk, Console, Effect, Stream } from "effect";
-import ora from "ora";
 import { chains } from "sablier/evm";
 import paths, { ROOT_DIR } from "../../../lib/paths.js";
 import { GraphDeployError, ValidationError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
+import { finishSpinner, startSpinner } from "../../spinner.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -102,7 +102,7 @@ function executeDeployment(
   );
 
   return Effect.gen(function* () {
-    const spinner = ora(`Deploying to ${chainSlug}...`).start();
+    const spinner = startSpinner(`Deploying to ${chainSlug}...`);
 
     return yield* Effect.scoped(
       Effect.gen(function* () {
@@ -117,9 +117,8 @@ function executeDeployment(
         const stdout = Buffer.concat(Chunk.toReadonlyArray(stdoutChunks)).toString("utf-8");
         const stderr = Buffer.concat(Chunk.toReadonlyArray(stderrChunks)).toString("utf-8");
 
-        spinner.stop();
-
         if (exitCode !== 0) {
+          finishSpinner(spinner, "fail", `Failed to deploy to ${chainSlug}: exit code ${exitCode}`);
           yield* Console.log(chalk.red(`\n${stderr || stdout}`));
           return { error: `Command failed with exit code ${exitCode}`, success: false } as const;
         }
@@ -130,12 +129,12 @@ function executeDeployment(
           yield* Console.log(chalk.green(`\nDeployment ID: ${deploymentId}`));
         }
 
-        yield* Console.log(chalk.green(`Successfully deployed to ${chainSlug}`));
+        finishSpinner(spinner, "success", `Successfully deployed to ${chainSlug}`);
         return { deploymentId, success: true } as const;
       }).pipe(
         Effect.catchAll((error) => {
-          spinner.stop();
           const errorMessage = error instanceof Error ? error.message : String(error);
+          finishSpinner(spinner, "fail", `Failed to deploy to ${chainSlug}: ${errorMessage}`);
           return Effect.succeed({
             error: errorMessage,
             success: false,

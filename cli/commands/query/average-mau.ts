@@ -6,6 +6,7 @@ import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { colors, createTable, displayHeader } from "../../display.js";
+import { withSpinner } from "../../spinner.js";
 import { ENVIO_ANALYTICS_ENDPOINT, fetchQuarterlyAverageMau } from "./clients/envio-client.js";
 import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
 import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
@@ -54,10 +55,13 @@ const queryAverageMauLogic = (options: { readonly quarter: string }) =>
     yield* Console.log("");
     yield* Console.log(infoTable.toString());
 
-    const result = yield* fetchQuarterlyAverageMau({
-      quarterEnd: toHasuraTimestamp(quarterWindow.end),
-      quarterStart: toHasuraTimestamp(quarterWindow.start),
-    });
+    const result = yield* withSpinner(
+      "Querying analytics...",
+      fetchQuarterlyAverageMau({
+        quarterEnd: toHasuraTimestamp(quarterWindow.end),
+        quarterStart: toHasuraTimestamp(quarterWindow.start),
+      })
+    );
 
     const summaryTable = createTable({
       colWidths: [25, 25],

@@ -11,6 +11,8 @@ import { formatUnits } from "viem";
 import { graph } from "../../../src/indexers/graph.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { ValidationError } from "../../errors.js";
+import { wrapText } from "../../helpers.js";
+import { withSpinner } from "../../spinner.js";
 import { fetchQuarterActionStats } from "./clients/graph-client.js";
 import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
@@ -93,29 +95,35 @@ const queryActionsLogic = (options: { readonly chainId: number; readonly quarter
 
     displayHeader("📈 QUARTERLY ACTION FEES", "cyan");
 
+    const valueColumnWidth = 70;
     const infoTable = createTable({
-      colWidths: [20, 70],
+      colWidths: [20, valueColumnWidth],
       head: ["Property", "Value"],
       theme: "cyan",
     });
+
+    const indexerDisplay = wrapText(indexerUrl, valueColumnWidth - 2);
 
     infoTable.push(
       [colors.value("Chain"), colors.value(`${chain.name} (${chain.id})`)],
       [colors.value("Quarter"), colors.value(quarterWindow.name.toUpperCase())],
       [colors.value("Start (UTC)"), colors.dim(quarterWindow.start.format("YYYY-MM-DD HH:mm"))],
       [colors.value("End (UTC)"), colors.dim(quarterWindow.end.format("YYYY-MM-DD HH:mm"))],
-      [colors.value("Indexer"), colors.dim(indexerUrl)]
+      [colors.value("Indexer"), colors.dim(indexerDisplay)]
     );
 
     yield* Console.log("");
     yield* Console.log(infoTable.toString());
 
-    const stats = yield* fetchQuarterActionStats({
-      end: toUnixSeconds(quarterWindow.end),
-      headers,
-      indexerUrl,
-      start: toUnixSeconds(quarterWindow.start),
-    });
+    const stats = yield* withSpinner(
+      "Querying indexer...",
+      fetchQuarterActionStats({
+        end: toUnixSeconds(quarterWindow.end),
+        headers,
+        indexerUrl,
+        start: toUnixSeconds(quarterWindow.start),
+      })
+    );
 
     const formattedFees = formatUnits(stats.totalFees, chain.nativeCurrency.decimals);
     const feeDisplay = `${formattedFees} ${chain.nativeCurrency.symbol}`;

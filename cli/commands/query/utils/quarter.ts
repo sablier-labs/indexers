@@ -62,7 +62,11 @@ export function getQuarterFromDate(referenceDate: dayjs.Dayjs): QuarterNumber {
 export function getQuarterWindow(
   quarterName: string
 ): Effect.Effect<QuarterWindow, ValidationError> {
-  const match = QUARTER_PATTERN.exec(quarterName.trim());
+  const normalized = quarterName.trim();
+  const normalizedLower = normalized.toLowerCase();
+  const resolved =
+    normalizedLower === "" || normalizedLower === "latest" ? DEFAULT_QUARTER_NAME : normalized;
+  const match = QUARTER_PATTERN.exec(resolved);
   if (!match) {
     return Effect.fail(
       new ValidationError({
