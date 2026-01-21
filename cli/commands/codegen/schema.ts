@@ -20,7 +20,7 @@ import paths from "../../../lib/paths.js";
 import { getMergedSchema } from "../../../schema/index.js";
 import type { Indexer } from "../../../src/index.js";
 import { AUTOGEN_COMMENT, INDEXERS, VENDORS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
+import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
 

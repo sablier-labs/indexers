@@ -6,9 +6,9 @@ import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { formatUnits } from "viem";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
-import { formatTimestamp, getDateRange, toHasuraTimestamp } from "./date-range.js";
-import { ENVIO_ANALYTICS_ENDPOINT, fetchTotalUsdFees } from "./envio-client.js";
+import { colors, createTable, displayHeader } from "../../display.js";
+import { ENVIO_ANALYTICS_ENDPOINT, fetchTotalUsdFees } from "./clients/envio-client.js";
+import { formatTimestamp, getDateRange, toHasuraTimestamp } from "./utils/date-range.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //

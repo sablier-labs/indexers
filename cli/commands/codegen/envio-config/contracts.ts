@@ -11,9 +11,11 @@ import type { EnvioConfig } from "./config-types.js";
  * Comptroller is an upgradeable contract which is not a part of the normal versioned Sablier releases.
  * Only TransferFees event is tracked for the Comptroller contract.
  */
-export function createComptrollerContract(): EnvioConfig.Contract {
+export function createComptrollerContract(indexer: Indexer.Name): EnvioConfig.Contract {
+  const abiPath = paths.abi("SablierComptroller");
+  const envioConfigDir = paths.envio.config(indexer);
   return {
-    abi_file_path: "../../abi/SablierComptroller.json",
+    abi_file_path: getRelativePath(envioConfigDir, abiPath),
     events: [{ event: "TransferFees" }],
     handler: "mappings/comptroller/SablierComptroller.ts",
     name: "SablierComptroller",

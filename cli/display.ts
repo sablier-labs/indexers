@@ -40,31 +40,49 @@ type TableOptions = {
 export function createTable(options: TableOptions = {}): Table.Table {
   const { colWidths, head = [], theme = "cyan", wordWrap = true } = options;
 
-  const themeColor =
-    theme === "cyan"
-      ? "cyan"
-      : theme === "gray"
-        ? "gray"
-        : theme === "green"
-          ? "green"
-          : theme === "magenta"
-            ? "magenta"
-            : theme === "red"
-              ? "red"
-              : "yellow";
+  let themeColor: string;
+  switch (theme) {
+    case "cyan":
+      themeColor = "cyan";
+      break;
+    case "gray":
+      themeColor = "gray";
+      break;
+    case "green":
+      themeColor = "green";
+      break;
+    case "magenta":
+      themeColor = "magenta";
+      break;
+    case "red":
+      themeColor = "red";
+      break;
+    default:
+      themeColor = "yellow";
+      break;
+  }
 
-  const chalkFn =
-    theme === "cyan"
-      ? chalk.cyan
-      : theme === "gray"
-        ? chalk.gray
-        : theme === "green"
-          ? chalk.green
-          : theme === "magenta"
-            ? chalk.magenta
-            : theme === "red"
-              ? chalk.red
-              : chalk.yellow;
+  let chalkFn: typeof chalk.cyan;
+  switch (theme) {
+    case "cyan":
+      chalkFn = chalk.cyan;
+      break;
+    case "gray":
+      chalkFn = chalk.gray;
+      break;
+    case "green":
+      chalkFn = chalk.green;
+      break;
+    case "magenta":
+      chalkFn = chalk.magenta;
+      break;
+    case "red":
+      chalkFn = chalk.red;
+      break;
+    default:
+      chalkFn = chalk.yellow;
+      break;
+  }
 
   return new Table({
     colWidths,
@@ -102,18 +120,27 @@ export function createSummaryTable(
  */
 export function displayHeader(text: string, theme: TableTheme = "cyan"): void {
   const separator = "=".repeat(60);
-  const chalkFn =
-    theme === "cyan"
-      ? colors.info
-      : theme === "gray"
-        ? colors.dim
-        : theme === "green"
-          ? colors.success
-          : theme === "magenta"
-            ? chalk.magenta
-            : theme === "red"
-              ? colors.error
-              : colors.warning;
+  let chalkFn: typeof colors.info;
+  switch (theme) {
+    case "cyan":
+      chalkFn = colors.info;
+      break;
+    case "gray":
+      chalkFn = colors.dim;
+      break;
+    case "green":
+      chalkFn = colors.success;
+      break;
+    case "magenta":
+      chalkFn = chalk.magenta;
+      break;
+    case "red":
+      chalkFn = colors.error;
+      break;
+    default:
+      chalkFn = colors.warning;
+      break;
+  }
 
   console.log("");
   console.log(separator);

@@ -9,10 +9,10 @@ import { Console, Effect } from "effect";
 import { sablier } from "sablier";
 import { formatUnits } from "viem";
 import { graph } from "../../../src/indexers/graph.js";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
+import { colors, createTable, displayHeader } from "../../display.js";
 import { ValidationError } from "../../errors.js";
-import { fetchQuarterActionStats } from "./graph-client.js";
-import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./quarter-utils.js";
+import { fetchQuarterActionStats } from "./clients/graph-client.js";
+import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //

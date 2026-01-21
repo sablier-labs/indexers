@@ -263,7 +263,7 @@ contracts:
       - event: "CreateLockupTranchedStream"
       - event: "RenounceLockupStream"
       - event: "WithdrawFromLockupStream"
-  - abi_file_path: "../../abi/SablierComptroller.json"
+  - abi_file_path: "../../node_modules/sablier/abi/comptroller/SablierComptroller.json"
     events:
       - event: "TransferFees"
     handler: "mappings/comptroller/SablierComptroller.ts"

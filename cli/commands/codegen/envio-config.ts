@@ -16,10 +16,11 @@ import _ from "lodash";
 import paths from "../../../lib/paths.js";
 import type { Indexer } from "../../../src/index.js";
 import { INDEXERS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
+import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
 import { createEnvioConfig } from "./envio-config/index.js";
+import { dumpYAML } from "./helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   OPTIONS                                  */
@@ -47,7 +48,7 @@ function generateConfig(indexer: Indexer.Name): Effect.Effect<void, never, FileS
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const config = createEnvioConfig(indexer);
-    const yaml = helpers.dumpYAML(config);
+    const yaml = dumpYAML(config);
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
 
@@ -63,7 +64,7 @@ function generateConfigWithResult(
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const config = createEnvioConfig(indexer);
-    const yaml = helpers.dumpYAML(config);
+    const yaml = dumpYAML(config);
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
     return { configPath: helpers.getRelative(configPath), indexer, status: "generated" as const };

@@ -5,10 +5,10 @@
 import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
-import { formatTimestamp, toHasuraTimestamp } from "./date-range.js";
-import { ENVIO_ANALYTICS_ENDPOINT, fetchQuarterlyAverageMau } from "./envio-client.js";
-import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./quarter-utils.js";
+import { colors, createTable, displayHeader } from "../../display.js";
+import { ENVIO_ANALYTICS_ENDPOINT, fetchQuarterlyAverageMau } from "./clients/envio-client.js";
+import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
+import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //
@@ -32,7 +32,7 @@ function formatAverage(value: number): string {
 //                                   COMMAND                                  //
 // -------------------------------------------------------------------------- //
 
-const queryQuarterlyAverageMauLogic = (options: { readonly quarter: string }) =>
+const queryAverageMauLogic = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
@@ -76,8 +76,8 @@ const queryQuarterlyAverageMauLogic = (options: { readonly quarter: string }) =>
     yield* Console.log(summaryTable.toString());
   });
 
-export const queryQuarterlyAverageMauCommand = Command.make(
-  "query-quarterly-average-mau",
+export const queryAverageMauCommand = Command.make(
+  "query-average-mau",
   { quarter: quarterOption },
-  queryQuarterlyAverageMauLogic
+  queryAverageMauLogic
 );

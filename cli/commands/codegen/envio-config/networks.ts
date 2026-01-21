@@ -7,7 +7,7 @@ import { sanitizeContractName } from "../../../../lib/helpers.js";
 import { logger, messages } from "../../../../lib/logger/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
-import { CodegenError } from "../error.js";
+import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
 export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {

@@ -3,7 +3,7 @@ import { Command as CliCommand } from "@effect/cli";
 import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
+import { colors, createTable, displayHeader } from "../../display.js";
 import { ValidationError } from "../../errors.js";
 import type { PriceDataFile } from "../../price-data.js";
 import { getRequiredPriceDataFiles } from "../../price-data.js";

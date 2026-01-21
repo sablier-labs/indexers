@@ -5,9 +5,9 @@
 import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
-import { formatTimestamp, getDateRange, toHasuraTimestamp } from "./date-range.js";
-import { ENVIO_ANALYTICS_ENDPOINT, fetchUniqueTransactions } from "./envio-client.js";
+import { colors, createTable, displayHeader } from "../../display.js";
+import { ENVIO_ANALYTICS_ENDPOINT, fetchUniqueTransactions } from "./clients/envio-client.js";
+import { formatTimestamp, getDateRange, toHasuraTimestamp } from "./utils/date-range.js";
 
 // -------------------------------------------------------------------------- //
 //                                  CONSTANTS                                 //
@@ -41,7 +41,7 @@ function formatCount(value: bigint): string {
 //                                   COMMAND                                  //
 // -------------------------------------------------------------------------- //
 
-const queryUniqueTransactionsLogic = (options: { readonly end: string; readonly start: string }) =>
+const queryUniqueTxsLogic = (options: { readonly end: string; readonly start: string }) =>
   Effect.gen(function* () {
     const range = yield* getDateRange({ end: options.end, start: options.start });
 
@@ -82,8 +82,8 @@ const queryUniqueTransactionsLogic = (options: { readonly end: string; readonly 
     yield* Console.log(summaryTable.toString());
   });
 
-export const queryUniqueTransactionsCommand = Command.make(
-  "query-unique-transactions",
+export const queryUniqueTxsCommand = Command.make(
+  "query-unique-txs",
   { end: endOption, start: startOption },
-  queryUniqueTransactionsLogic
+  queryUniqueTxsLogic
 );

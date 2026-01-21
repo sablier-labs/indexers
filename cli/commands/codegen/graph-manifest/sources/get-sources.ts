@@ -9,7 +9,7 @@ import type { Types } from "../../../../../lib/types.js";
 import { getMergedSchema } from "../../../../../schema/merger.js";
 import type { Indexer } from "../../../../../src/index.js";
 import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph.js";
-import { CodegenError } from "../../error.js";
+import { CodegenError } from "../../errors.js";
 import { GRAPH_API_VERSION } from "../constants.js";
 import type { GraphManifest } from "../manifest-types.js";
 import { getABIEntries } from "./abi-entries.js";

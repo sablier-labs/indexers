@@ -4,7 +4,7 @@
 
 import { HttpBody, HttpClient } from "@effect/platform";
 import { Effect, Schedule } from "effect";
-import { VendorApiError } from "../../errors.js";
+import { VendorApiError } from "../../../errors.js";
 
 // -------------------------------------------------------------------------- //
 //                                    TYPES                                   //

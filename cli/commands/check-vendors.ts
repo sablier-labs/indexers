@@ -5,7 +5,7 @@ import { Console, Effect, Schedule } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
 import { envioChains } from "../../src/indexers/envio.js";
-import { colors, createTable, displayHeader } from "../display-utils.js";
+import { colors, createTable, displayHeader } from "../display.js";
 import { ValidationError, VendorApiError } from "../errors.js";
 
 type VendorCheckResult = {

@@ -17,6 +17,16 @@ type V = Indexer.Vendor;
 
 const paths = {
   abi: (contractName: string, indexer?: I, version?: Types.Version): string => {
+    if (contractName === "SablierComptroller") {
+      return join(
+        ROOT_DIR,
+        "node_modules",
+        "sablier",
+        "abi",
+        "comptroller",
+        `${contractName}.json`
+      );
+    }
     if (indexer && version) {
       // Use sablier package for Sablier contracts
       return join(

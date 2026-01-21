@@ -18,6 +18,7 @@ repomix
 .env.*
 !.env.example
 !.envio
+envio/pnpm-lock.yaml
 graph/**/*.graphql
 graph/**/manifests/**/*.yaml
 subgraph.yaml

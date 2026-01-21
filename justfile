@@ -6,6 +6,7 @@ import "./node_modules/@sablier/devkit/just/base.just"
 import "./recipes/envio.just"
 import "./recipes/graph.just"
 import "./recipes/print.just"
+import "./recipes/query.just"
 import "./recipes/utils.just"
 
 # Load env vars from .env file
@@ -59,13 +60,6 @@ default:
         "just codegen-graph"
 alias codegen-indexers := codegen
 
-# Export the schemas to the ./src directory
-# lint-staged will call this recipe and pass the globs to it
-[group("cli")]
-@export-schema +globs="src/schemas/*.graphql":
-    just cli export-schema
-    just --quiet biome-write "{{ globs }}"
-
 # Codegen the GraphQL schema
 [group("codegen"), group("envio"), group("graph")]
 @codegen-schema vendor="all" indexer="all":
@@ -73,6 +67,13 @@ alias codegen-indexers := codegen
         --vendor {{ vendor }} \
         --indexer {{ indexer }}
     just --quiet biome-write "envio/**/*.graphql"
+
+# Export the schemas to the ./src directory
+# lint-staged will call this recipe and pass the globs to it
+[group("cli")]
+@export-schema +globs="src/schemas/*.graphql":
+    just cli export-schema
+    just --quiet biome-write "{{ globs }}"
 
 # Run tests
 [group("test")]

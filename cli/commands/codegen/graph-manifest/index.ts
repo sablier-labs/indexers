@@ -1,6 +1,6 @@
 import _ from "lodash";
 import type { Indexer } from "../../../../src/types.js";
-import { CodegenError } from "../error.js";
+import { CodegenError } from "../errors.js";
 import type { GraphManifest } from "./manifest-types.js";
 import { createSources } from "./sources/index.js";
 import { topSections } from "./top-sections.js";

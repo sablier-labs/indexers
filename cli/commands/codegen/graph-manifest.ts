@@ -23,9 +23,10 @@ import paths from "../../../lib/paths.js";
 import type { Indexer } from "../../../src/index.js";
 import { graphChains } from "../../../src/indexers/graph.js";
 import { PROTOCOLS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display-utils.js";
+import { colors, createTable, displayHeader } from "../../display.js";
 import * as helpers from "../../helpers.js";
 import { createGraphManifest } from "./graph-manifest/index.js";
+import { dumpYAML } from "./helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   OPTIONS                                  */
@@ -63,7 +64,7 @@ type ManifestResult = {
  */
 function writeManifestToFile(indexer: Indexer.Name, chainId: number): string {
   const manifest = createGraphManifest(indexer as Indexer.Protocol, chainId);
-  const yaml = helpers.dumpYAML(manifest);
+  const yaml = dumpYAML(manifest);
   const manifestPath = paths.graph.manifest(indexer as Indexer.Protocol, chainId);
   writeFileSync(manifestPath, yaml);
 

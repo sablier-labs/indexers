@@ -5,7 +5,7 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import { Effect } from "effect";
-import { ValidationError } from "../../errors.js";
+import { ValidationError } from "../../../errors.js";
 
 // -------------------------------------------------------------------------- //
 //                                   SETUP                                    //
