@@ -116,7 +116,7 @@ const queryActionsLogic = (options: { readonly chainId: number; readonly quarter
     yield* Console.log(infoTable.toString());
 
     const stats = yield* withSpinner(
-      "Querying indexer...",
+      "Querying Envio...",
       fetchQuarterActionStats({
         end: toUnixSeconds(quarterWindow.end),
         headers,

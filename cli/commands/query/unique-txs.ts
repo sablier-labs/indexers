@@ -7,7 +7,7 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { withSpinner } from "../../spinner.js";
-import { ENVIO_ANALYTICS_ENDPOINT, fetchUniqueTransactions } from "./clients/envio-client.js";
+import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchUniqueTxs } from "./clients/envio-client.js";
 import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
 import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
@@ -55,7 +55,7 @@ const queryUniqueTxsLogic = (options: { readonly quarter: string }) =>
       [colors.value("Quarter"), colors.value(quarterWindow.name.toUpperCase())],
       [colors.value("Start (UTC)"), colors.dim(formatTimestamp(quarterWindow.start))],
       [colors.value("End (UTC)"), colors.dim(formatTimestamp(quarterWindow.end))],
-      [colors.value("Indexer"), colors.dim(ENVIO_ANALYTICS_ENDPOINT)]
+      [colors.value("Envio"), colors.dim(ENVIO_ANALYTICS_PLAYGROUND_URL)]
     );
 
     yield* Console.log("");
@@ -63,7 +63,7 @@ const queryUniqueTxsLogic = (options: { readonly quarter: string }) =>
 
     const result = yield* withSpinner(
       "Querying analytics...",
-      fetchUniqueTransactions({
+      fetchUniqueTxs({
         dateEnd: toHasuraTimestamp(quarterWindow.end),
         dateStart: toHasuraTimestamp(quarterWindow.start),
       })

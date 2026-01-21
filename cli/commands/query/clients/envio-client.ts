@@ -27,7 +27,7 @@ type TotalUsdFeesResult = {
   totalUsd: bigint | null;
 };
 
-type UniqueTransactionsResult = {
+type UniqueTxsResult = {
   count: bigint;
 };
 
@@ -36,6 +36,8 @@ type UniqueTransactionsResult = {
 // -------------------------------------------------------------------------- //
 
 export const ENVIO_ANALYTICS_ENDPOINT = "https://indexer.hyperindex.xyz/7672d32/v1/graphql";
+export const ENVIO_ANALYTICS_PLAYGROUND_URL =
+  "https://envio.dev/app/sablier-labs/analytics/48b96e0/playground";
 
 const QUARTERLY_AVERAGE_MAU_QUERY = /* GraphQL */ `
   query QuarterlyAverageMAU($quarterStart: timestamptz!, $quarterEnd: timestamptz!) {
@@ -63,8 +65,8 @@ const TOTAL_USD_FEES_QUERY = /* GraphQL */ `
   }
 `;
 
-const UNIQUE_TRANSACTIONS_QUERY = /* GraphQL */ `
-  query UniqueTransactions($dateStart: timestamptz!, $dateEnd: timestamptz!) {
+const UNIQUE_TXS_QUERY = /* GraphQL */ `
+  query UniqueTxs($dateStart: timestamptz!, $dateEnd: timestamptz!) {
     UserTransaction_aggregate(where: { timestamp: { _gte: $dateStart, _lt: $dateEnd } }) {
       aggregate {
         count(columns: [hash], distinct: true)
@@ -113,6 +115,9 @@ function parseBigIntValue(value: unknown): Effect.Effect<bigint, VendorApiError>
   if (typeof value === "number") {
     if (!Number.isInteger(value)) {
       return Effect.fail(new VendorApiError({ message: "Invalid bigint value", vendor: "envio" }));
+    }
+    if (!Number.isSafeInteger(value)) {
+      return Effect.fail(new VendorApiError({ message: "Unsafe bigint value", vendor: "envio" }));
     }
     return Effect.succeed(BigInt(value));
   }
@@ -307,10 +312,10 @@ export const fetchTotalUsdFees = (opts: { dateEnd: string; dateStart: string }) 
     return { totalUsd } satisfies TotalUsdFeesResult;
   });
 
-export const fetchUniqueTransactions = (opts: { dateEnd: string; dateStart: string }) =>
+export const fetchUniqueTxs = (opts: { dateEnd: string; dateStart: string }) =>
   Effect.gen(function* () {
     const response = yield* fetchEnvioQuery({
-      query: UNIQUE_TRANSACTIONS_QUERY,
+      query: UNIQUE_TXS_QUERY,
       variables: {
         dateEnd: opts.dateEnd,
         dateStart: opts.dateStart,
@@ -333,10 +338,10 @@ export const fetchUniqueTransactions = (opts: { dateEnd: string; dateStart: stri
 
     const countValue = aggregate.count;
     if (countValue === null || countValue === undefined) {
-      return { count: 0n } satisfies UniqueTransactionsResult;
+      return { count: 0n } satisfies UniqueTxsResult;
     }
 
     const count = yield* parseBigIntValue(countValue);
 
-    return { count } satisfies UniqueTransactionsResult;
+    return { count } satisfies UniqueTxsResult;
   });

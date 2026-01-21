@@ -7,7 +7,10 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { withSpinner } from "../../spinner.js";
-import { ENVIO_ANALYTICS_ENDPOINT, fetchQuarterlyAverageMau } from "./clients/envio-client.js";
+import {
+  ENVIO_ANALYTICS_PLAYGROUND_URL,
+  fetchQuarterlyAverageMau,
+} from "./clients/envio-client.js";
 import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
 import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
@@ -26,7 +29,8 @@ const quarterOption = Options.text("quarter").pipe(
 // -------------------------------------------------------------------------- //
 
 function formatAverage(value: number): string {
-  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(value);
+  const floored = Math.floor(value);
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(floored);
 }
 
 // -------------------------------------------------------------------------- //
@@ -49,7 +53,7 @@ const queryAverageMauLogic = (options: { readonly quarter: string }) =>
       [colors.value("Quarter"), colors.value(quarterWindow.name.toUpperCase())],
       [colors.value("Start (UTC)"), colors.dim(formatTimestamp(quarterWindow.start))],
       [colors.value("End (UTC)"), colors.dim(formatTimestamp(quarterWindow.end))],
-      [colors.value("Indexer"), colors.dim(ENVIO_ANALYTICS_ENDPOINT)]
+      [colors.value("Envio"), colors.dim(ENVIO_ANALYTICS_PLAYGROUND_URL)]
     );
 
     yield* Console.log("");
