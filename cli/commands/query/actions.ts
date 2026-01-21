@@ -13,7 +13,7 @@ import { colors, createTable, displayHeader } from "../../display.js";
 import { ValidationError } from "../../errors.js";
 import { wrapText } from "../../helpers.js";
 import { withSpinner } from "../../spinner.js";
-import { fetchQuarterActionStats } from "./clients/graph-client.js";
+import { fetchQuarterActionStats } from "./clients/graph.js";
 import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
 
 // -------------------------------------------------------------------------- //
