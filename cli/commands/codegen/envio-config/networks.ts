@@ -64,18 +64,17 @@ export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): Envio
 
 /**
  * Will return a string URL like this: https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
- * The API keys will be loaded from the .env file. Make sure to set them!
+ * The API key placeholder is always generated; the actual key is resolved at runtime by Envio.
  */
 function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
-  const alchemyApiKey = process.env.ENVIO_ALCHEMY_API_KEY;
 
   // If it's HyperSync, we use Alchemy as fallback RPC.
   if (rpcOnly) {
     throw new Error("RPC-only mode is temporary disabled");
   }
-  if (chain.rpc.alchemy && alchemyApiKey) {
+  if (chain.rpc.alchemy) {
     RPCs.push({
       for: "fallback",
       initial_block_interval: 2000,
