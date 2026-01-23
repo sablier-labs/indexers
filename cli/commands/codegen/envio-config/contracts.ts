@@ -2,7 +2,6 @@ import _ from "lodash";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { indexedEvents } from "../../../../events/index.js";
 import { sanitizeContractName } from "../../../../lib/helpers.js";
-import paths, { getRelativePath } from "../../../../lib/paths.js";
 import type { Types } from "../../../../lib/types.js";
 import type { Indexer } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
@@ -11,11 +10,10 @@ import type { EnvioConfig } from "./config-types.js";
  * Comptroller is an upgradeable contract which is not a part of the normal versioned Sablier releases.
  * Only TransferFees event is tracked for the Comptroller contract.
  */
-export function createComptrollerContract(indexer: Indexer.Name): EnvioConfig.Contract {
-  const abiPath = paths.abi("SablierComptroller");
-  const envioConfigDir = paths.envio.config(indexer);
+export function createComptrollerContract(): EnvioConfig.Contract {
   return {
-    abi_file_path: getRelativePath(envioConfigDir, abiPath),
+    // biome-ignore lint/style/noUnusedTemplateLiteral: intentional - outputs literal ${ENVIO_ABI_PATH} for Envio config
+    abi_file_path: `\${ENVIO_ABI_PATH}/comptroller/SablierComptroller.json`,
     events: [{ event: "TransferFees" }],
     handler: "mappings/comptroller/SablierComptroller.ts",
     name: "SablierComptroller",
@@ -50,9 +48,7 @@ function getRelativeAbiFilePath(
   contractName: string,
   version: Types.Version
 ): string {
-  const envioConfigDir = paths.envio.config(protocol);
-  const abiPath = paths.abi(contractName, protocol, version);
-  return getRelativePath(envioConfigDir, abiPath);
+  return `\${ENVIO_ABI_PATH}/${protocol}/${version}/${contractName}.json`;
 }
 
 function getEvents(indexer: Indexer.Name, indexedEvents: Types.Event[]): EnvioConfig.Event[] {

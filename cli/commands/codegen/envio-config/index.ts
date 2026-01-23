@@ -23,7 +23,7 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       ...createProtocolContracts(indexer, "airdrops", includeProtocolInPath),
       ...createProtocolContracts(indexer, "flow", includeProtocolInPath),
       ...createProtocolContracts(indexer, "lockup", includeProtocolInPath),
-      createComptrollerContract(indexer),
+      createComptrollerContract(),
     ];
     networks = mergeNetworks([
       ...createNetworksForProtocols("airdrops"),
