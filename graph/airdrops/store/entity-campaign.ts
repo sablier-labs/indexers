@@ -54,6 +54,20 @@ export function createCampaignLT(
   campaign.save();
 }
 
+export function createCampaignVCA(
+  event: ethereum.Event,
+  paramsBase: Params.CreateCampaignBase,
+  paramsVCA: Params.CreateCampaignVCA
+): void {
+  const campaign = createBaseCampaign(event, paramsBase);
+
+  campaign.vcaUnlockPercentage = paramsVCA.unlockPercentage;
+  campaign.vcaVestingStartTime = paramsVCA.vestingStartTime;
+  campaign.vcaVestingEndTime = paramsVCA.vestingEndTime;
+
+  campaign.save();
+}
+
 export function getCampaign(address: Address): Entity.Campaign | null {
   const id = Id.campaign(address);
   const campaign = Entity.Campaign.load(id);
@@ -79,6 +93,12 @@ export function updateCampaignClaimed(campaign: Entity.Campaign, amount: BigInt)
 
 export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigInt): void {
   campaign.fee = newFee;
+  campaign.save();
+}
+
+export function updateCampaignForgoneAmount(campaign: Entity.Campaign, amount: BigInt): void {
+  const current = campaign.vcaForgoneAmount;
+  campaign.vcaForgoneAmount = current ? current.plus(amount) : amount;
   campaign.save();
 }
 

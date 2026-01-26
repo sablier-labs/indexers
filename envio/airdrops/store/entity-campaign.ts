@@ -55,6 +55,23 @@ export function createLT(
   return campaign;
 }
 
+export function createVCA(
+  context: Context.Handler,
+  event: Envio.Event,
+  entities: Params.CreateEntities,
+  params: Params.CreateCampaignVCA
+): Entity.Campaign {
+  let campaign = createBaseCampaign(context, event, entities, params);
+  campaign = {
+    ...campaign,
+    vcaUnlockPercentage: params.unlockPercentage,
+    vcaVestingEndTime: params.vestingEndTime,
+    vcaVestingStartTime: params.vestingStartTime,
+  };
+  context.Campaign.set(campaign);
+  return campaign;
+}
+
 export async function updateAdmin(
   context: Context.Handler,
   campaign: Entity.Campaign,
@@ -112,6 +129,18 @@ export function updateFee(
   context.Campaign.set(updatedCampaign);
 }
 
+export function updateForgoneAmount(
+  context: Context.Handler,
+  campaign: Entity.Campaign,
+  amount: bigint
+): void {
+  const updatedCampaign: Entity.Campaign = {
+    ...campaign,
+    vcaForgoneAmount: (campaign.vcaForgoneAmount ?? 0n) + amount,
+  };
+  context.Campaign.set(updatedCampaign);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
@@ -164,6 +193,10 @@ function createBaseCampaign(
     subgraphId: entities.watcher.campaignCounter,
     timestamp: BigInt(event.block.timestamp),
     totalRecipients: params.recipientCount,
+    vcaForgoneAmount: undefined,
+    vcaUnlockPercentage: undefined,
+    vcaVestingEndTime: undefined,
+    vcaVestingStartTime: undefined,
     version: factoryVersion,
   };
 
