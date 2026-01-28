@@ -9,8 +9,7 @@ jobs:
   update-prices:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v5
 
       - name: Get app installation token
         id: app-token
@@ -20,8 +19,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Set up devkit
-        uses: sablier-labs/devkit/actions/setup@main
+      - uses: sablier-labs/devkit/actions/setup@v1
         with:
           package-manager: pnpm
 
@@ -33,7 +31,7 @@ jobs:
 
       - name: Check for changes
         id: changes
-        run: | #shell
+        run: | # shell
           if ! git diff --quiet pnpm-lock.yaml envio/analytics/.envio/cache/*.tsv; then
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "✅ Lockfile or cache files were updated"
@@ -51,7 +49,7 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: | #shell
+        run: | # shell
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git
@@ -60,7 +58,7 @@ jobs:
           git push
 
       - name: Add summary
-        run: | #shell
+        run: | # shell
           echo "## Update result" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.changes.outputs.changed }}" == "true" ]; then
             echo "✅ Updated @sablier/price-data dependency and synced cache files" >> $GITHUB_STEP_SUMMARY
