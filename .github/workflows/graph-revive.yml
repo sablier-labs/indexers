@@ -1,0 +1,27 @@
+name: Graph Revive
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # every Monday at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  revive:
+    env:
+      GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v5
+
+      - name: Set up devkit
+        uses: sablier-labs/devkit/actions/setup@main
+
+      - name: Ping Graph endpoints
+        id: revive
+        continue-on-error: true
+        run: just graph-revive
+
+      - name: Add summary
+        if: always()
+        run: echo "See job logs for detailed results" >> $GITHUB_STEP_SUMMARY
