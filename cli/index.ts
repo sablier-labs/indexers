@@ -18,7 +18,6 @@ import { schemaCommand } from "./commands/codegen/schema.js";
 import { exportSchemaCommand } from "./commands/export-schema.js";
 import { graphDeployAllCommand } from "./commands/graph-deploy/all.js";
 import { graphDeployCustomCommand } from "./commands/graph-deploy/custom.js";
-import { graphReviveCommand } from "./commands/graph-revive/index.js";
 import { pricesCheckCommand } from "./commands/prices/check.js";
 import { pricesSyncCommand } from "./commands/prices/sync.js";
 import { printChainsCommand } from "./commands/print-chains.js";
@@ -26,6 +25,7 @@ import { queryActionsCommand } from "./commands/query/actions.js";
 import { queryAverageMauCommand } from "./commands/query/average-mau.js";
 import { queryTotalUsdFeesCommand } from "./commands/query/total-usd-fees.js";
 import { queryUniqueTxsCommand } from "./commands/query/unique-txs.js";
+import { graphReviveCommand } from "./commands/revive-graphs.js";
 import { CliLive } from "./context.js";
 
 /* -------------------------------------------------------------------------- */

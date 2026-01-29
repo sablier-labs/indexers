@@ -2,9 +2,9 @@
  * @file Ping all The Graph endpoints to wake up dormant subgraphs
  *
  * @example
- * pnpm tsx cli graph-revive
- * pnpm tsx cli graph-revive --dry-run
- * pnpm tsx cli graph-revive --chain 1
+ * pnpm tsx cli revive-graphs
+ * pnpm tsx cli revive-graphs --dry-run
+ * pnpm tsx cli revive-graphs --chain 1
  */
 
 import { Command, Options } from "@effect/cli";
@@ -13,10 +13,10 @@ import { Console, Effect, Option } from "effect";
 import { GraphQLClient, gql } from "graphql-request";
 import { sablier } from "sablier";
 import { Protocol } from "sablier/evm";
-import { graphChains } from "../../../src/indexers/graph.js";
-import { getIndexerGraph } from "../../../src/indexers/index.js";
-import type { Indexer } from "../../../src/types.js";
-import { colors, createTable, displayHeader } from "../../display.js";
+import { graphChains } from "../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../src/indexers/index.js";
+import type { Indexer } from "../../src/types.js";
+import { colors, createTable, displayHeader } from "../display.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -332,7 +332,7 @@ const graphReviveLogic = (options: {
 /* -------------------------------------------------------------------------- */
 
 export const graphReviveCommand = Command.make(
-  "graph-revive",
+  "revive-graphs",
   {
     chain: chainOption,
     dryRun: dryRunOption,
