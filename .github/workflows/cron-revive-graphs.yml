@@ -1,0 +1,26 @@
+# The Graph deprecates subgraphs if no queries are made for 30 days.
+# This workflow pings the Graph endpoints to wake up dormant subgraphs.
+# We need it because Envio is the primary indexer in the UI.
+name: Graph Revive
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # every Monday at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  revive:
+    env:
+      GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: sablier-labs/devkit/actions/setup@v1
+
+      - name: Ping Graph endpoints
+        continue-on-error: true
+        run: just revive-graphs
+
+      - name: Add summary
+        if: always()
+        run: echo "See job logs for detailed results" >> $GITHUB_STEP_SUMMARY

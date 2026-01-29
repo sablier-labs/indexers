@@ -25,6 +25,7 @@ import { queryActionsCommand } from "./commands/query/actions.js";
 import { queryAverageMauCommand } from "./commands/query/average-mau.js";
 import { queryTotalUsdFeesCommand } from "./commands/query/total-usd-fees.js";
 import { queryUniqueTxsCommand } from "./commands/query/unique-txs.js";
+import { graphReviveCommand } from "./commands/revive-graphs.js";
 import { CliLive } from "./context.js";
 
 /* -------------------------------------------------------------------------- */
@@ -62,6 +63,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
     exportSchemaCommand,
     graphDeployAllCommand,
     graphDeployCustomCommand,
+    graphReviveCommand,
     pricesCheckCommand,
     pricesSyncCommand,
   ])

@@ -47,6 +47,11 @@ _codegen-graph-bindings indexer:
         --indexer {{ indexer }} \
         --chain {{ chain }}
 
+# Ping all Graph endpoints to wake up dormant subgraphs
+[group("graph")]
+@revive-graphs *args:
+    just cli revive-graphs {{ args }}
+
 # ---------------------------------------------------------------------------- #
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
