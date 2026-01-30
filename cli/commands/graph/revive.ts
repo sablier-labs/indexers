@@ -13,10 +13,10 @@ import { Console, Effect, Option } from "effect";
 import { GraphQLClient, gql } from "graphql-request";
 import { sablier } from "sablier";
 import { Protocol } from "sablier/evm";
-import { graphChains } from "../../src/indexers/graph.js";
-import { getIndexerGraph } from "../../src/indexers/index.js";
-import type { Indexer } from "../../src/types.js";
-import { colors, createTable, displayHeader } from "../display.js";
+import { graphChains } from "../../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../../src/indexers/index.js";
+import type { Indexer } from "../../../src/types.js";
+import { colors, createTable, displayHeader } from "../../display.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
