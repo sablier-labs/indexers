@@ -352,6 +352,8 @@ networks:
         start_block: 22568050
   - id: 1329
     start_block: 138911958
+    hypersync_config:
+      url: "https://sei.hypersync.xyz"
     rpc:
       - for: "fallback"
         initial_block_interval: 2000

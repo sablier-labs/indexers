@@ -614,6 +614,8 @@ networks:
         start_block: 22483294
   - id: 1329
     start_block: 138913911
+    hypersync_config:
+      url: "https://sei.hypersync.xyz"
     rpc:
       - for: "fallback"
         initial_block_interval: 2000

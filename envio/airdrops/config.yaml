@@ -703,6 +703,8 @@ networks:
       - name: "SablierMerkleLT_v2_0"
   - id: 1329
     start_block: 138904383
+    hypersync_config:
+      url: "https://sei.hypersync.xyz"
     rpc:
       - for: "fallback"
         initial_block_interval: 2000
