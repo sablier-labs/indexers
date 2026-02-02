@@ -11,6 +11,7 @@ import {
   mainnet,
   monad,
   polygon,
+  sei,
   sonic,
   sophon,
   xdc,
@@ -75,6 +76,10 @@ export const coinConfigs: Record<string, CoinConfig> = {
   [polygon.nativeCurrency.symbol]: {
     api_id: "matic-network",
     effect: createEffect(polygon.nativeCurrency.symbol),
+  },
+  [sei.nativeCurrency.symbol]: {
+    api_id: "sei-network",
+    effect: createEffect(sei.nativeCurrency.symbol),
   },
   [monad.nativeCurrency.symbol]: {
     api_id: "monad",
