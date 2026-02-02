@@ -53,6 +53,7 @@ const SUPPORTED_CHAINS = [
   get(chains.polygon.id),
   get(chains.sonic.id),
   get(chains.scroll.id),
+  get(chains.sei.id),
   get(chains.sophon.id),
   get(chains.superseed.id),
   get(chains.unichain.id),

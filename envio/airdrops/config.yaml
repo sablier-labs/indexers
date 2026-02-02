@@ -701,6 +701,32 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+  - id: 1329
+    start_block: 138904383
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sei-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+    contracts:
+      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 138904383
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+      - address: "0xaea21609d62d58c8775d59ed584338b24bbc6eb2"
+        name: "SablierFactoryMerkleInstant_v2_0"
+        start_block: 170944331
+      - address: "0x37720179ff6b3795607f113789cd78415beda80e"
+        name: "SablierFactoryMerkleLL_v2_0"
+        start_block: 170944332
+      - address: "0x020bc6160fcaf7ebc75844d4d8f7a3b6095aac0f"
+        name: "SablierFactoryMerkleLT_v2_0"
+        start_block: 170944333
+      - name: "SablierMerkleInstant_v2_0"
+      - name: "SablierMerkleLL_v2_0"
+      - name: "SablierMerkleLT_v2_0"
   - id: 50104
     start_block: 11290094
     contracts:
