@@ -49,6 +49,23 @@ export function handleCreateMerkleLT(
 }
 
 /* -------------------------------------------------------------------------- */
+/*                                 MERKLE VCA                                 */
+/* -------------------------------------------------------------------------- */
+export function handleCreateMerkleVCA(
+  templateCreator: (address: Address, context: DataSourceContext) => void,
+  event: ethereum.Event,
+  paramsBase: Params.CreateCampaignBase,
+  paramsVCA: Params.CreateCampaignVCA
+): void {
+  if (isDeprecatedFactory(event, "airdrops", paramsBase.asset)) {
+    return;
+  }
+
+  createTemplate(templateCreator, paramsBase.campaignAddress);
+  Store.Campaign.createVCA(event, paramsBase, paramsVCA);
+}
+
+/* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
 

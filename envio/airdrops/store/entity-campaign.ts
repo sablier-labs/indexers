@@ -55,6 +55,24 @@ export function createLT(
   return campaign;
 }
 
+export function createVCA(
+  context: Context.Handler,
+  event: Envio.Event,
+  entities: Params.CreateEntities,
+  params: Params.CreateCampaignVCA
+): Entity.Campaign {
+  let campaign = createBaseCampaign(context, event, entities, params);
+  campaign = {
+    ...campaign,
+    enableRedistribution: params.enableRedistribution,
+    unlockPercentage: params.unlockPercentage,
+    vestingEndTime: params.vestingEndTime,
+    vestingStartTime: params.vestingStartTime,
+  };
+  context.Campaign.set(campaign);
+  return campaign;
+}
+
 export async function updateAdmin(
   context: Context.Handler,
   campaign: Entity.Campaign,
@@ -112,6 +130,26 @@ export function updateFee(
   context.Campaign.set(updatedCampaign);
 }
 
+export function updateForgoneAmount(
+  context: Context.Handler,
+  campaign: Entity.Campaign,
+  amount: bigint
+): void {
+  const updatedCampaign: Entity.Campaign = {
+    ...campaign,
+    forgoneAmount: (campaign.forgoneAmount ?? 0n) + amount,
+  };
+  context.Campaign.set(updatedCampaign);
+}
+
+export function updateEnableRedistribution(context: Context.Handler, campaign: Entity.Campaign) {
+  const updatedCampaign: Entity.Campaign = {
+    ...campaign,
+    enableRedistribution: true,
+  };
+  context.Campaign.set(updatedCampaign);
+}
+
 /* -------------------------------------------------------------------------- */
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
@@ -138,10 +176,12 @@ function createBaseCampaign(
     claimedCount: 0n,
     clawbackAction_id: undefined,
     clawbackTime: undefined,
+    enableRedistribution: false,
     expiration: params.expiration,
     expires: params.expiration > 0n,
     factory_id: entities.factory.id,
     fee: params.minimumFee,
+    forgoneAmount: undefined,
     hash: event.transaction.hash,
     id: Id.campaign(params.campaignAddress, event.chainId),
     ipfsCID: params.ipfsCID,
@@ -164,7 +204,10 @@ function createBaseCampaign(
     subgraphId: entities.watcher.campaignCounter,
     timestamp: BigInt(event.block.timestamp),
     totalRecipients: params.recipientCount,
+    unlockPercentage: undefined,
     version: factoryVersion,
+    vestingEndTime: undefined,
+    vestingStartTime: undefined,
   };
 
   /* --------------------------------- FACTORY -------------------------------- */

@@ -5,7 +5,7 @@ import type { Params } from "../helpers/types";
 
 export function create(
   context: Context.Handler,
-  event: Envio.Event,
+  event: Envio.Event<unknown>,
   watcher: Entity.Watcher,
   params: Params.Action
 ): Entity.Action {
@@ -24,6 +24,7 @@ export function create(
     clawbackFrom: params.clawbackFrom,
     clawbackTo: params.clawbackTo,
     fee: params.fee,
+    forgoneAmount: params.forgoneAmount,
     from: event.transaction.from || "",
     hash: event.transaction.hash,
     id: Id.action(event),

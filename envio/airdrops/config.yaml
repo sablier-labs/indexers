@@ -115,6 +115,20 @@ contracts:
       - event: "ClaimLTWithTransfer"
       - event: "ClaimLTWithVesting"
       - event: "LowerMinFeeUSD"
+  - name: "SablierFactoryMerkleVCA_v3_0"
+    handler: "mappings/v3.0/SablierFactoryMerkleVCA.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierFactoryMerkleVCA.json"
+    events:
+      - event: "CreateMerkleVCA"
+  - name: "SablierMerkleVCA_v3_0"
+    handler: "mappings/v3.0/SablierMerkleVCA.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleVCA.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimVCA"
+      - event: "LowerMinFeeUSD"
+      - event: "RedistributionEnabled"
 networks:
   - id: 2741
     start_block: 73620
@@ -918,6 +932,18 @@ networks:
       - address: "0x4b1764ed795948273d3d7360d885ddeb9cf48fc6"
         name: "SablierFactoryMerkleLT_v2_0"
         start_block: 9311858
+      - name: "SablierMerkleInstant_v2_0"
+      - name: "SablierMerkleLL_v2_0"
+      - name: "SablierMerkleLT_v2_0"
+      - address: "0xe2a509db6441e03f049275a36b7d2fcac581ad9c"
+        name: "SablierFactoryMerkleInstant_v2_0"
+        start_block: 10182216
+      - address: "0x184f5143dcbee15f3968d9c4e38a9d6a0aab0114"
+        name: "SablierFactoryMerkleLL_v2_0"
+        start_block: 10182216
+      - address: "0x946197cb803635deb2194f7361ba2c4f8607d03e"
+        name: "SablierFactoryMerkleLT_v2_0"
+        start_block: 10182216
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"

@@ -54,6 +54,21 @@ export function createCampaignLT(
   campaign.save();
 }
 
+export function createCampaignVCA(
+  event: ethereum.Event,
+  paramsBase: Params.CreateCampaignBase,
+  paramsVCA: Params.CreateCampaignVCA
+): void {
+  const campaign = createBaseCampaign(event, paramsBase);
+
+  campaign.enableRedistribution = paramsVCA.enableRedistribution as boolean;
+  campaign.unlockPercentage = paramsVCA.unlockPercentage;
+  campaign.vestingStartTime = paramsVCA.vestingStartTime;
+  campaign.vestingEndTime = paramsVCA.vestingEndTime;
+
+  campaign.save();
+}
+
 export function getCampaign(address: Address): Entity.Campaign | null {
   const id = Id.campaign(address);
   const campaign = Entity.Campaign.load(id);
@@ -79,6 +94,17 @@ export function updateCampaignClaimed(campaign: Entity.Campaign, amount: BigInt)
 
 export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigInt): void {
   campaign.fee = newFee;
+  campaign.save();
+}
+
+export function updateCampaignForgoneAmount(campaign: Entity.Campaign, amount: BigInt): void {
+  const current = campaign.forgoneAmount;
+  campaign.forgoneAmount = current ? current.plus(amount) : amount;
+  campaign.save();
+}
+
+export function updateCampaignEnableRedistribution(campaign: Entity.Campaign): void {
+  campaign.enableRedistribution = true;
   campaign.save();
 }
 
@@ -182,10 +208,10 @@ function initLockupCampaign(
   params: Params.CreateCampaignLockup
 ): Entity.Campaign {
   campaign.lockup = params.lockup;
-  campaign.streamCancelable = params.cancelable;
+  campaign.streamCancelable = params.cancelable as boolean;
   campaign.streamShape = params.shape;
   campaign.streamTotalDuration = params.totalDuration;
-  campaign.streamTransferable = params.transferable;
+  campaign.streamTransferable = params.transferable as boolean;
 
   const startTime = params.startTime;
   if (startTime !== null) {

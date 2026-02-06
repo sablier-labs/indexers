@@ -5,10 +5,13 @@ import {
   createCampaignInstant,
   createCampaignLL,
   createCampaignLT,
+  createCampaignVCA,
   getCampaign,
   updateCampaignAdmin,
   updateCampaignClaimed,
   updateCampaignClawback,
+  updateCampaignEnableRedistribution,
+  updateCampaignForgoneAmount,
   updateCampaignMinFeeUsd,
 } from "./entity-campaign";
 import { getOrCreateWatcher } from "./entity-watcher";
@@ -29,11 +32,14 @@ export namespace Store {
     export const createInstant = createCampaignInstant;
     export const createLL = createCampaignLL;
     export const createLT = createCampaignLT;
+    export const createVCA = createCampaignVCA;
     export const get = getCampaign;
     export const updateAdmin = updateCampaignAdmin;
     export const updateClaimed = updateCampaignClaimed;
     export const updateClawback = updateCampaignClawback;
     export const updateFee = updateCampaignMinFeeUsd;
+    export const updateForgoneAmount = updateCampaignForgoneAmount;
+    export const updateRedistribution = updateCampaignEnableRedistribution;
   }
 
   export namespace Watcher {

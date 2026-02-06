@@ -6,7 +6,7 @@ import { contracts } from "sablier/evm";
 import type { Types } from "../lib/types.js";
 import type { Indexer } from "../src/types.js";
 
-type CampaignType = "instant" | "LL" | "LT";
+type CampaignType = "instant" | "LL" | "LT" | "VCA";
 
 // Centralized version-specific claim events configuration
 type ClaimEventsConfig = {
@@ -14,18 +14,33 @@ type ClaimEventsConfig = {
 };
 
 const CLAIM_EVENTS: ClaimEventsConfig = {
-  instant: { "v1.1": ["Claim"], "v1.2": ["Claim"], "v1.3": ["Claim"], "v2.0": ["ClaimInstant"] },
+  instant: {
+    "v1.1": ["Claim"],
+    "v1.2": ["Claim"],
+    "v1.3": ["Claim"],
+    "v2.0": ["ClaimInstant"],
+    "v3.0": [],
+  },
   LL: {
     "v1.1": ["Claim"],
     "v1.2": ["Claim"],
     "v1.3": ["Claim"],
     "v2.0": ["ClaimLLWithTransfer", "ClaimLLWithVesting"],
+    "v3.0": [],
   },
   LT: {
     "v1.1": ["Claim"],
     "v1.2": ["Claim"],
     "v1.3": ["Claim"],
     "v2.0": ["ClaimLTWithTransfer", "ClaimLTWithVesting"],
+    "v3.0": [],
+  },
+  VCA: {
+    "v1.1": [],
+    "v1.2": [],
+    "v1.3": [],
+    "v2.0": [],
+    "v3.0": ["ClaimVCA"],
   },
 };
 
@@ -38,6 +53,7 @@ const LOWER_MIN_FEE_EVENTS: Record<Sablier.Version.Airdrops, readonly string[]> 
   "v1.2": [],
   "v1.3": [],
   "v2.0": ["LowerMinFeeUSD"],
+  "v3.0": ["LowerMinFeeUSD"],
 };
 
 function get(
@@ -144,6 +160,13 @@ const airdropHandlers: Types.EventMap = {
   ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_INSTANT, ["CreateMerkleInstant"]),
   ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_LL, ["CreateMerkleLL"]),
   ...factory("v2.0", names.SABLIER_FACTORY_MERKLE_LT, ["CreateMerkleLT"]),
+  ...factory("v3.0", names.SABLIER_FACTORY_MERKLE_VCA, ["CreateMerkleVCA"]),
+  [names.SABLIER_MERKLE_VCA]: {
+    "v3.0": [
+      ...campaign("VCA", "v3.0", names.SABLIER_MERKLE_VCA),
+      get("v3.0", names.SABLIER_MERKLE_VCA, "RedistributionEnabled"),
+    ],
+  },
 } as const;
 
 export default airdropHandlers;

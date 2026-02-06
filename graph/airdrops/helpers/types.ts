@@ -14,6 +14,7 @@ export namespace Params {
     clawbackFrom: Address | null;
     clawbackTo: Address | null;
     fee: BigInt | null;
+    forgoneAmount: BigInt | null;
   }
 
   export class ClaimLockup {
@@ -26,6 +27,14 @@ export namespace Params {
 
   export class ClaimInstant {
     amount: BigInt;
+    index: BigInt;
+    recipient: Address;
+    to: Address;
+  }
+
+  export class ClaimVCA {
+    claimAmount: BigInt;
+    forgoneAmount: BigInt;
     index: BigInt;
     recipient: Address;
     to: Address;
@@ -68,6 +77,13 @@ export namespace Params {
 
   export class CreateCampaignLT extends CreateCampaignLockup {
     tranchesWithPercentages: TrancheWithPercentage[];
+  }
+
+  export class CreateCampaignVCA {
+    enableRedistribution: bool;
+    unlockPercentage: BigInt | null;
+    vestingEndTime: BigInt;
+    vestingStartTime: BigInt;
   }
 
   export class TransferAdmin {

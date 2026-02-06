@@ -10,6 +10,7 @@ export namespace Airdrops {
     Clawback = "Clawback",
     Create = "Create",
     LowerMinFeeUSD = "LowerMinFeeUSD",
+    RedistributionEnabled = "RedistributionEnabled",
     TransferAdmin = "TransferAdmin",
   }
 
@@ -17,6 +18,7 @@ export namespace Airdrops {
     Instant = "Instant",
     LockupLinear = "LockupLinear",
     LockupTranched = "LockupTranched",
+    VariableClaimAmount = "VariableClaimAmount",
   }
 }
 

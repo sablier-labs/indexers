@@ -192,4 +192,33 @@ type Campaign @entity(immutable: false) {
   Flag indicating whether the claimed streams will be transferable.
   """
   streamTransferable: Boolean
+
+  # --------------------------------- VCA Config -------------------------------- #
+  """
+  Flag indicating whether the forgone amount will be redistributed.
+  Only available for VCA campaigns.
+  """
+  enableRedistribution: Boolean
+
+  """
+  Total amount forgone by early claimers.
+  Only available for VCA campaigns.
+  """
+  forgoneAmount: BigInt
+
+  """
+  The percentage unlocked immediately at vesting start.
+  Only available for VCA campaigns.
+  """
+  unlockPercentage: BigInt
+  """
+  Unix timestamp when VCA vesting begins.
+  Only available for VCA campaigns.
+  """
+  vestingStartTime: BigInt
+  """
+  Unix timestamp when VCA vesting ends.
+  Only available for VCA campaigns.
+  """
+  vestingEndTime: BigInt
 }

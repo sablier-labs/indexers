@@ -1,12 +1,15 @@
 import { Id } from "../../../../common/id";
-import type { SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as Handler_v2_0 } from "../../../bindings/src/Types.gen";
+import type {
+  SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as Handler_v2_0,
+  SablierMerkleVCA_v3_0_LowerMinFeeUSD_handler as Handler_v3_0,
+} from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v2_0;
+type Handler = Handler_v2_0 & Handler_v3_0;
 
 /**
  * We do not check for equality of the previous and new minimum fee USD because it is not possible to emit
