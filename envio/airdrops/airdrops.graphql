@@ -4,6 +4,7 @@ enum ActionCategory {
   Clawback
   Create
   LowerMinFeeUSD
+  RedistributionEnabled
   TransferAdmin
 }
 
@@ -361,25 +362,30 @@ type Campaign @entity(immutable: false) {
   """
   streamTransferable: Boolean
   """
+  Flag indicating whether the forgone amount will be redistributed.
+  Only available for VCA campaigns.
+  """
+  enableRedistribution: Boolean
+  """
   Total amount forgone by early claimers.
   Only available for VCA campaigns.
   """
-  vcaForgoneAmount: BigInt
+  forgoneAmount: BigInt
   """
   The percentage unlocked immediately at vesting start.
   Only available for VCA campaigns.
   """
-  vcaUnlockPercentage: BigInt
+  unlockPercentage: BigInt
   """
   Unix timestamp when VCA vesting begins.
   Only available for VCA campaigns.
   """
-  vcaVestingStartTime: BigInt
+  vestingStartTime: BigInt
   """
   Unix timestamp when VCA vesting ends.
   Only available for VCA campaigns.
   """
-  vcaVestingEndTime: BigInt
+  vestingEndTime: BigInt
 }
 
 """

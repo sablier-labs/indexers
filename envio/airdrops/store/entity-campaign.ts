@@ -64,9 +64,10 @@ export function createVCA(
   let campaign = createBaseCampaign(context, event, entities, params);
   campaign = {
     ...campaign,
-    vcaUnlockPercentage: params.unlockPercentage,
-    vcaVestingEndTime: params.vestingEndTime,
-    vcaVestingStartTime: params.vestingStartTime,
+    enableRedistribution: params.enableRedistribution,
+    unlockPercentage: params.unlockPercentage,
+    vestingEndTime: params.vestingEndTime,
+    vestingStartTime: params.vestingStartTime,
   };
   context.Campaign.set(campaign);
   return campaign;
@@ -136,7 +137,15 @@ export function updateForgoneAmount(
 ): void {
   const updatedCampaign: Entity.Campaign = {
     ...campaign,
-    vcaForgoneAmount: (campaign.vcaForgoneAmount ?? 0n) + amount,
+    forgoneAmount: (campaign.forgoneAmount ?? 0n) + amount,
+  };
+  context.Campaign.set(updatedCampaign);
+}
+
+export function updateEnableRedistribution(context: Context.Handler, campaign: Entity.Campaign) {
+  const updatedCampaign: Entity.Campaign = {
+    ...campaign,
+    enableRedistribution: true,
   };
   context.Campaign.set(updatedCampaign);
 }
@@ -167,10 +176,12 @@ function createBaseCampaign(
     claimedCount: 0n,
     clawbackAction_id: undefined,
     clawbackTime: undefined,
+    enableRedistribution: false,
     expiration: params.expiration,
     expires: params.expiration > 0n,
     factory_id: entities.factory.id,
     fee: params.minimumFee,
+    forgoneAmount: undefined,
     hash: event.transaction.hash,
     id: Id.campaign(params.campaignAddress, event.chainId),
     ipfsCID: params.ipfsCID,
@@ -193,11 +204,10 @@ function createBaseCampaign(
     subgraphId: entities.watcher.campaignCounter,
     timestamp: BigInt(event.block.timestamp),
     totalRecipients: params.recipientCount,
-    vcaForgoneAmount: undefined,
-    vcaUnlockPercentage: undefined,
-    vcaVestingEndTime: undefined,
-    vcaVestingStartTime: undefined,
+    unlockPercentage: undefined,
     version: factoryVersion,
+    vestingEndTime: undefined,
+    vestingStartTime: undefined,
   };
 
   /* --------------------------------- FACTORY -------------------------------- */

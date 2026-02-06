@@ -1,5 +1,4 @@
 import { ethereum } from "@graphprotocol/graph-ts";
-import { isVersionWithFees } from "../../../helpers";
 import { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 

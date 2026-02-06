@@ -80,6 +80,7 @@ export namespace Params {
   }
 
   export class CreateCampaignVCA {
+    enableRedistribution: bool;
     unlockPercentage: BigInt | null;
     vestingEndTime: BigInt;
     vestingStartTime: BigInt;

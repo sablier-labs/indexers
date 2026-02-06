@@ -16,7 +16,7 @@ export namespace Envio {
 
   export type eventLog<params> = Internal_genericEvent<params, Block, Transaction>;
   export type EventLog<params> = eventLog<params>;
-  export type Event<Params extends object = Record<string, unknown>> = EventLog<Params>;
+  export type Event<Params = Record<string, unknown>> = EventLog<Params>;
 
   export type Logger = Logger_t;
 

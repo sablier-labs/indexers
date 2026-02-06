@@ -10,6 +10,7 @@ export namespace Airdrops {
     Clawback = "Clawback",
     Create = "Create",
     LowerMinFeeUSD = "LowerMinFeeUSD",
+    RedistributionEnabled = "RedistributionEnabled",
     TransferAdmin = "TransferAdmin",
   }
 

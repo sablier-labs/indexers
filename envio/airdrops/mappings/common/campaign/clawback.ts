@@ -9,6 +9,7 @@ import type {
   SablierV2MerkleLT_v1_2_Clawback_handler as HandlerLT_v1_2,
   SablierMerkleLT_v1_3_Clawback_handler as HandlerLT_v1_3,
   SablierMerkleLT_v2_0_Clawback_handler as HandlerLT_v2_0,
+  SablierMerkleVCA_v3_0_Clawback_handler as HandlerVCA_v3_0,
 } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
@@ -24,7 +25,8 @@ type Handler = HandlerLL_v1_1 &
   HandlerLT_v1_3 &
   HandlerLT_v2_0 &
   HandlerInstant_v1_3 &
-  HandlerInstant_v2_0;
+  HandlerInstant_v2_0 &
+  HandlerVCA_v3_0;
 
 const handler: Handler = async ({ context, event }) => {
   // Load entities for actual processing

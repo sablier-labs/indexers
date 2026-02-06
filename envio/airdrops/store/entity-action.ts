@@ -5,7 +5,7 @@ import type { Params } from "../helpers/types";
 
 export function create(
   context: Context.Handler,
-  event: Envio.Event,
+  event: Envio.Event<unknown>,
   watcher: Entity.Watcher,
   params: Params.Action
 ): Entity.Action {

@@ -1,26 +1,15 @@
-import { zeroAddress } from "viem";
 import { Id } from "../../../../common/id";
-import type {
-  SablierMerkleInstant_v2_0_TransferAdmin_handler as Handler_v2_0,
-  SablierMerkleVCA_v3_0_TransferAdmin_handler as Handler_v3_0,
-  SablierMerkleInstant_v1_3_TransferAdmin_handler as HandlerInstant_v1_3,
-  SablierV2MerkleStreamerLL_v1_1_TransferAdmin_handler as HandlerLL_v1_1,
-  SablierV2MerkleLL_v1_2_TransferAdmin_handler as HandlerLL_v1_2,
-} from "../../../bindings/src/Types.gen";
+import type { SablierMerkleVCA_v3_0_RedistributionEnabled_handler } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = HandlerLL_v1_1 & HandlerLL_v1_2 & HandlerInstant_v1_3 & Handler_v2_0 & Handler_v3_0;
+type Handler = SablierMerkleVCA_v3_0_RedistributionEnabled_handler;
 
 const handler: Handler = async ({ context, event }) => {
-  // Starting with v1.3, the constructor emits a TransferAdmin event.
-  if (event.params.oldAdmin === zeroAddress) {
-    return;
-  }
-
+  // Load entities for actual processing
   /* -------------------------------- ENTITIES -------------------------------- */
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const watcherId = event.chainId.toString();
@@ -35,12 +24,12 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  await Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
+  Store.Campaign.updateEnableRedistribution(context, campaign);
 
   /* --------------------------------- ACTION --------------------------------- */
   Store.Action.create(context, event, watcher, {
     campaignId: campaign.id,
-    category: "TransferAdmin",
+    category: "RedistributionEnabled",
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
@@ -51,4 +40,4 @@ const handler: Handler = async ({ context, event }) => {
 /*                                   EXPORT                                   */
 /* -------------------------------------------------------------------------- */
 
-export const transferAdmin = { handler };
+export const redistributionEnabled = { handler };

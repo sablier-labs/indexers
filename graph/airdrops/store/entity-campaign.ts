@@ -61,9 +61,10 @@ export function createCampaignVCA(
 ): void {
   const campaign = createBaseCampaign(event, paramsBase);
 
-  campaign.vcaUnlockPercentage = paramsVCA.unlockPercentage;
-  campaign.vcaVestingStartTime = paramsVCA.vestingStartTime;
-  campaign.vcaVestingEndTime = paramsVCA.vestingEndTime;
+  campaign.enableRedistribution = paramsVCA.enableRedistribution as boolean;
+  campaign.unlockPercentage = paramsVCA.unlockPercentage;
+  campaign.vestingStartTime = paramsVCA.vestingStartTime;
+  campaign.vestingEndTime = paramsVCA.vestingEndTime;
 
   campaign.save();
 }
@@ -97,8 +98,13 @@ export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigIn
 }
 
 export function updateCampaignForgoneAmount(campaign: Entity.Campaign, amount: BigInt): void {
-  const current = campaign.vcaForgoneAmount;
-  campaign.vcaForgoneAmount = current ? current.plus(amount) : amount;
+  const current = campaign.forgoneAmount;
+  campaign.forgoneAmount = current ? current.plus(amount) : amount;
+  campaign.save();
+}
+
+export function updateCampaignEnableRedistribution(campaign: Entity.Campaign): void {
+  campaign.enableRedistribution = true;
   campaign.save();
 }
 
@@ -202,10 +208,10 @@ function initLockupCampaign(
   params: Params.CreateCampaignLockup
 ): Entity.Campaign {
   campaign.lockup = params.lockup;
-  campaign.streamCancelable = params.cancelable;
+  campaign.streamCancelable = params.cancelable as boolean;
   campaign.streamShape = params.shape;
   campaign.streamTotalDuration = params.totalDuration;
-  campaign.streamTransferable = params.transferable;
+  campaign.streamTransferable = params.transferable as boolean;
 
   const startTime = params.startTime;
   if (startTime !== null) {

@@ -10,6 +10,7 @@ import {
   updateCampaignAdmin,
   updateCampaignClaimed,
   updateCampaignClawback,
+  updateCampaignEnableRedistribution,
   updateCampaignForgoneAmount,
   updateCampaignMinFeeUsd,
 } from "./entity-campaign";
@@ -38,6 +39,7 @@ export namespace Store {
     export const updateClawback = updateCampaignClawback;
     export const updateFee = updateCampaignMinFeeUsd;
     export const updateForgoneAmount = updateCampaignForgoneAmount;
+    export const updateRedistribution = updateCampaignEnableRedistribution;
   }
 
   export namespace Watcher {
