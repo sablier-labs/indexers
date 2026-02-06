@@ -1,61 +1,43 @@
 import { Id } from "../../../../common/id";
-import type {
-  SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as Handler_v2_0,
-  SablierMerkleVCA_v3_0_LowerMinFeeUSD_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
+import type { SablierMerkleVCA_v3_0_RedistributionEnabled_handler } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v2_0 & Handler_v3_0;
+type Handler = SablierMerkleVCA_v3_0_RedistributionEnabled_handler;
 
-/**
- * We do not check for equality of the previous and new minimum fee USD because it is not possible to emit
- * this event without a lower minimum fee.
- * @see https://github.com/sablier-labs/airdrops/blob/v2.0/src/abstracts/SablierMerkleBase.sol#L177-L180
- */
 const handler: Handler = async ({ context, event }) => {
+  // Load entities for actual processing
   /* -------------------------------- ENTITIES -------------------------------- */
   const campaignId = Id.campaign(event.srcAddress, event.chainId);
   const watcherId = event.chainId.toString();
 
   const [campaign, watcher] = await Promise.all([
-    context.Campaign.get(campaignId),
-    context.Watcher.get(watcherId),
+    context.Campaign.getOrThrow(campaignId),
+    context.Watcher.getOrThrow(watcherId),
   ]);
 
   if (context.isPreload) {
     return;
   }
 
-  if (!campaign) {
-    context.log.error("Campaign not saved before this lower min fee event", { campaignId, event });
-    return;
-  }
-
-  const ensuredWatcher = watcher ?? Store.Watcher.create(event.chainId);
-  if (!watcher) {
-    context.Watcher.set(ensuredWatcher);
-  }
-
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  Store.Campaign.updateFee(context, campaign, event.params.newMinFeeUSD);
+  Store.Campaign.updateEnableRedistribution(context, campaign);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, ensuredWatcher, {
+  Store.Action.create(context, event, watcher, {
     campaignId: campaign.id,
-    category: "LowerMinFeeUSD",
-    fee: event.params.newMinFeeUSD,
+    category: "RedistributionEnabled",
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementActionCounter(context, ensuredWatcher);
+  Store.Watcher.incrementActionCounter(context, watcher);
 };
 
 /* -------------------------------------------------------------------------- */
 /*                                   EXPORT                                   */
 /* -------------------------------------------------------------------------- */
 
-export const lowerMinFeeUSD = { handler };
+export const redistributionEnabled = { handler };

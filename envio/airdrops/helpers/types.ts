@@ -67,6 +67,7 @@ export namespace Params {
 
   export type CreateCampaignVCA = CreateCampaignBase & {
     category: "VariableClaimAmount";
+    enableRedistribution: boolean;
     unlockPercentage: bigint | undefined;
     vestingEndTime: bigint;
     vestingStartTime: bigint;

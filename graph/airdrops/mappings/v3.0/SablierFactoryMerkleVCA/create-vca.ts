@@ -1,17 +1,17 @@
-import { CreateMerkleVCA } from "../../../bindings/SablierFactoryMerkleVCA_v2_0/SablierFactoryMerkleVCA";
-import { SablierMerkleVCA_v2_0 as TemplateVCA_v2_0 } from "../../../bindings/templates";
+import { CreateMerkleVCA } from "../../../bindings/SablierFactoryMerkleVCA_v3_0/SablierFactoryMerkleVCA";
+import { SablierMerkleVCA_v3_0 as TemplateVCA_v3_0 } from "../../../bindings/templates";
 import { handleCreateMerkleVCA } from "../../common";
 
 export function handle_SablierFactoryMerkleVCA_v2_0_CreateMerkleVCA(event: CreateMerkleVCA): void {
   const params = event.params;
-  const baseParams = params.params;
+  const baseParams = params.campaignParams;
 
   handleCreateMerkleVCA(
-    TemplateVCA_v2_0.createWithContext,
+    TemplateVCA_v3_0.createWithContext,
     event,
     {
       admin: baseParams.initialAdmin,
-      aggregateAmount: params.aggregateAmount,
+      aggregateAmount: baseParams.aggregateAmount,
       asset: baseParams.token,
       campaignAddress: params.merkleVCA,
       campaignStartTime: baseParams.campaignStartTime,
@@ -24,6 +24,7 @@ export function handle_SablierFactoryMerkleVCA_v2_0_CreateMerkleVCA(event: Creat
       recipientCount: params.recipientCount,
     },
     {
+      enableRedistribution: baseParams.enableRedistribution,
       unlockPercentage: baseParams.unlockPercentage,
       vestingEndTime: baseParams.vestingEndTime,
       vestingStartTime: baseParams.vestingStartTime,

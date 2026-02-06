@@ -19,11 +19,11 @@ import {
   SablierMerkleInstant_v2_0,
   SablierMerkleLL_v2_0,
   SablierMerkleLT_v2_0,
-  SablierMerkleVCA_v2_0,
+  SablierMerkleVCA_v3_0,
   SablierFactoryMerkleInstant_v2_0,
   SablierFactoryMerkleLL_v2_0,
   SablierFactoryMerkleLT_v2_0,
-  SablierFactoryMerkleVCA_v2_0,
+  SablierFactoryMerkleVCA_v3_0,
 } from "./bindings/src/Handlers.gen";
 export namespace Contract {
   export namespace Factory {
@@ -33,7 +33,7 @@ export namespace Contract {
     export const FactoryMerkleInstant_v2_0 = SablierFactoryMerkleInstant_v2_0;
     export const FactoryMerkleLL_v2_0 = SablierFactoryMerkleLL_v2_0;
     export const FactoryMerkleLT_v2_0 = SablierFactoryMerkleLT_v2_0;
-    export const FactoryMerkleVCA_v2_0 = SablierFactoryMerkleVCA_v2_0;
+    export const FactoryMerkleVCA_v3_0 = SablierFactoryMerkleVCA_v3_0;
   }
 
   export namespace Campaign {
@@ -46,7 +46,7 @@ export namespace Contract {
     export const MerkleInstant_v2_0 = SablierMerkleInstant_v2_0;
     export const MerkleLL_v2_0 = SablierMerkleLL_v2_0;
     export const MerkleLT_v2_0 = SablierMerkleLT_v2_0;
-    export const MerkleVCA_v2_0 = SablierMerkleVCA_v2_0;
+    export const MerkleVCA_v3_0 = SablierMerkleVCA_v3_0;
   }
 }
 
