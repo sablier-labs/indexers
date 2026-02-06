@@ -45,24 +45,3 @@ feedback.
 ## License 📄
 
 This repo is licensed under GPL 3-0 or later.
-
-| Shape                   | Count   | Percentage |
-| ----------------------- | ------- | ---------- |
-| linear                  | 251,154 | 41.83%     |
-| dynamicTimelock         | 162,380 | 27.05%     |
-| cliff                   | 143,331 | 23.87%     |
-| linearUnlockLinear      | 12,358  | 2.06%      |
-| dynamicUnlockLinear     | 9,805   | 1.63%      |
-| tranchedTimelock        | 6,120   | 1.02%      |
-| tranchedMonthly         | 5,074   | 0.85%      |
-| tranchedStepper         | 4,335   | 0.72%      |
-| dynamicUnlockCliff      | 1,855   | 0.31%      |
-| dynamicMonthly          | 1,054   | 0.18%      |
-| linearUnlockCliff       | 998     | 0.17%      |
-| dynamicStepper          | 775     | 0.13%      |
-| unknown                 | 506     | 0.08%      |
-| dynamicExponential      | 281     | 0.05%      |
-| dynamicDoubleUnlock     | 125     | 0.02%      |
-| dynamicCliffExponential | 117     | 0.02%      |
-| tranchedBackweighted    | 3       | <0.01%     |
-| Total                   | 600,377 | 100%       |
