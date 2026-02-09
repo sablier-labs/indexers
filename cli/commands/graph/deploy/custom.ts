@@ -38,6 +38,11 @@ type CustomNodeConfig = {
 /*                                  CONSTANTS                                 */
 /* -------------------------------------------------------------------------- */
 
+/** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
+ * pnpm exec resolves binaries from the cwd's nearest node_modules, which fails when cwd is
+ * a subdirectory without its own node_modules (e.g. graph/airdrops). */
+const GRAPH_BIN = path.join(ROOT_DIR, "node_modules", ".bin", "graph");
+
 const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
   core: {
     authEnvVar: "COREDAO_AUTH_TOKEN",
@@ -97,7 +102,7 @@ function executeDeployment(
   workingDir: string,
   chainSlug: string
 ): Effect.Effect<DeploymentResult, never, CommandExecutor.CommandExecutor> {
-  const command = PlatformCommand.make("pnpm", ...args).pipe(
+  const command = PlatformCommand.make(GRAPH_BIN, ...args).pipe(
     PlatformCommand.workingDirectory(workingDir)
   );
 
@@ -183,8 +188,6 @@ const graphDeployCustomLogic = (
 
     // Build command args
     const args: string[] = [
-      "exec",
-      "graph",
       "deploy",
       "--version-label",
       options.versionLabel,
@@ -213,7 +216,7 @@ const graphDeployCustomLogic = (
     // Dry-run mode
     if (options.dryRun) {
       yield* Console.log(chalk.yellow("[DRY RUN] Would execute:"));
-      yield* Console.log(chalk.cyan(`  pnpm ${args.join(" ")}`));
+      yield* Console.log(chalk.cyan(`  ${GRAPH_BIN} ${args.join(" ")}`));
       yield* Console.log(chalk.cyan(`  Working directory: ${workingDir}`));
       return;
     }

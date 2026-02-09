@@ -33,6 +33,11 @@ import { GraphDeployError, UserAbortError, ValidationError } from "../../../erro
 import * as helpers from "../../../helpers.js";
 import { finishSpinner, startSpinner } from "../../../spinner.js";
 
+/** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
+ * pnpm exec resolves binaries from the cwd's nearest node_modules, which fails when cwd is
+ * a subdirectory without its own node_modules (e.g. graph/airdrops). */
+const GRAPH_BIN = join(ROOT_DIR, "node_modules", ".bin", "graph");
+
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
 /* -------------------------------------------------------------------------- */
@@ -268,9 +273,7 @@ function deployToChain(
   const manifestPath = paths.graph.manifest(indexer, deployment.chainId);
   const workingDir = join(ROOT_DIR, "graph", indexer);
   const command = PlatformCommand.make(
-    "pnpm",
-    "exec",
-    "graph",
+    GRAPH_BIN,
     "deploy",
     "--version-label",
     versionLabel,
@@ -286,7 +289,7 @@ function deployToChain(
       `🚀 Starting deployment to ${deployment.chainName} (${deployment.chainSlug})...`
     );
 
-    const commandStr = `pnpm exec graph deploy --version-label ${versionLabel} ${indexerName} ${manifestPath}`;
+    const commandStr = `${GRAPH_BIN} deploy --version-label ${versionLabel} ${indexerName} ${manifestPath}`;
     yield* logger.log(`COMMAND: ${commandStr}`);
 
     if (dryRun) {
