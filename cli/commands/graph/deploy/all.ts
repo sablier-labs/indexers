@@ -269,6 +269,7 @@ function deployToChain(
   const workingDir = join(ROOT_DIR, "graph", indexer);
   const command = PlatformCommand.make(
     "pnpm",
+    "exec",
     "graph",
     "deploy",
     "--version-label",
@@ -285,7 +286,7 @@ function deployToChain(
       `🚀 Starting deployment to ${deployment.chainName} (${deployment.chainSlug})...`
     );
 
-    const commandStr = `pnpm graph deploy --version-label ${versionLabel} ${indexerName} ${manifestPath}`;
+    const commandStr = `pnpm exec graph deploy --version-label ${versionLabel} ${indexerName} ${manifestPath}`;
     yield* logger.log(`COMMAND: ${commandStr}`);
 
     if (dryRun) {

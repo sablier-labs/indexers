@@ -183,6 +183,7 @@ const graphDeployCustomLogic = (
 
     // Build command args
     const args: string[] = [
+      "exec",
       "graph",
       "deploy",
       "--version-label",
