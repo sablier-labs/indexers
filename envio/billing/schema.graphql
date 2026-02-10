@@ -1,0 +1,43 @@
+type User @entity(immutable: false) {
+  "Unique identifier: `{chainId}_{address}`"
+  id: String!
+  "The address of the user (tx signer)."
+  address: String!
+  "The chain ID."
+  chainId: Int!
+  "Cumulative raw USDC amount (6 decimals)."
+  totalAmount: BigInt!
+  "Human-readable cumulative USDC amount."
+  totalAmountScaled: String!
+  "Number of transfer actions."
+  actionCount: Int!
+  "Transfer actions by this user."
+  actions: [Action!]! @derivedFrom(field: "user")
+}
+
+type Action @entity(immutable: true) {
+  "Unique identifier: `{chainId}_{txHash}_{logIndex}`"
+  id: String!
+  "The chain ID."
+  chainId: Int!
+  "Raw USDC amount (6 decimals)."
+  amount: BigInt!
+  "Human-readable USDC amount."
+  amountScaled: String!
+  "The transaction signer (user key)."
+  sender: String!
+  "The token source address (event.params.from, may differ for contract wallets)."
+  from: String!
+  "The treasury address (event.params.to)."
+  to: String!
+  "Transaction hash."
+  txHash: String!
+  "Log index within the block."
+  logIndex: Int!
+  "Block number."
+  block: Int!
+  "Block timestamp."
+  timestamp: Int!
+  "The user who initiated this transfer."
+  user: User!
+}
