@@ -4,6 +4,7 @@ import type { EnvioConfig } from "./config-types.js";
 export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
   airdrops: get("airdrops"),
   analytics: get("analytics"),
+  billing: get("billing"),
   flow: get("flow"),
   lockup: get("lockup"),
 };

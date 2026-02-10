@@ -31,6 +31,7 @@ const indexerOption = Options.choice("indexer", [
   "flow",
   "lockup",
   "analytics",
+  "billing",
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate config for"));
 
@@ -77,8 +78,9 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
   return Effect.gen(function* () {
     displayHeader("⚙️  GENERATING ENVIO CONFIGS", "cyan");
 
-    // Generate configs with Effect.forEach
-    const results = yield* Effect.forEach(INDEXERS, (indexer) => generateConfigWithResult(indexer));
+    // Generate configs with Effect.forEach (billing uses a manually maintained config)
+    const indexers = INDEXERS.filter((i) => i !== "billing");
+    const results = yield* Effect.forEach(indexers, (indexer) => generateConfigWithResult(indexer));
 
     // Display results table
     yield* Console.log("");
@@ -137,6 +139,12 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
 const envioConfigLogic = (options: { readonly indexer: Indexer.Name | "all" }) =>
   Effect.gen(function* () {
     const indexerArg = options.indexer;
+
+    // Billing has a manually maintained config, skip generation
+    if (indexerArg === "billing") {
+      yield* Console.log("⏭️  Skipping billing (uses manually maintained config)");
+      return;
+    }
 
     if (indexerArg === "all") {
       return yield* generateAllIndexersConfigs();

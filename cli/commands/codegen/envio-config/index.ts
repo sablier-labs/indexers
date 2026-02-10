@@ -11,6 +11,10 @@ import { topSections } from "./top-sections.js";
  * @see https://docs.envio.dev/docs/HyperIndex/configuration-file#interactive-schema-explorer
  */
 export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection {
+  if (indexer === "billing") {
+    throw new Error("Billing config is manually maintained");
+  }
+
   const topSection = topSections[indexer];
 
   let contracts: EnvioConfig.Contract[] = [];

@@ -83,16 +83,17 @@ alias dep := deploy-envio-protocols
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
 
-# Helper to run four commands in parallel (airdrops, analytics, flow, lockup)
+# Helper to run five commands in parallel (airdrops, analytics, billing, flow, lockup)
 [private]
-@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4:
+@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4 cmd5:
     pnpm concurrently --group \
-        -n "airdrops,analytics,flow,lockup" \
-        -c "blue,cyan,green,yellow" \
+        -n "airdrops,analytics,billing,flow,lockup" \
+        -c "blue,cyan,magenta,green,yellow" \
         "{{ cmd1 }}" \
         "{{ cmd2 }}" \
         "{{ cmd3 }}" \
-        "{{ cmd4 }}"
+        "{{ cmd4 }}" \
+        "{{ cmd5 }}"
 
 # Helper to run an envio recipe for all protocols or a specific one
 [private, script("bash")]
@@ -101,6 +102,7 @@ envio-for-each recipe indexer:
         just concurrent-envio-indexers \
             "just {{ recipe }} airdrops" \
             "just {{ recipe }} analytics" \
+            "just {{ recipe }} billing" \
             "just {{ recipe }} flow" \
             "just {{ recipe }} lockup"
     else

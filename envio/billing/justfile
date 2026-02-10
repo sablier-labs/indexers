@@ -1,7 +1,5 @@
 import "../envio.just"
 
-set allow-duplicate-recipes
-
 # Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
 export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
     arr=(
@@ -14,22 +12,6 @@ export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
 export ENVIO_INDEXER_NAME := "billing"
 export INDEXER_NAME := "billing"
 
-# The envio binary lives at the repo root's node_modules
-envio_bin := "../../node_modules/.bin/envio"
-billing_dir := justfile_dir()
-
 # Show available commands
 default:
     @just --list
-
-# Codegen the Envio bindings (override: billing has no config/schema codegen)
-codegen:
-    just root::codegen-envio-bindings billing
-
-# Start the Envio dev server
-dev:
-    {{ envio_bin }} dev --directory {{ billing_dir }} --config {{ billing_dir }}/config.yaml --output-directory {{ billing_dir }}/bindings
-
-# Stop the Envio dev server
-stop:
-    {{ envio_bin }} stop
