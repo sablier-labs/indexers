@@ -46,7 +46,7 @@ export namespace Indexer {
     chainId: number;
   };
 
-  export type Name = Protocol | "analytics" | "billing";
+  export type Name = Protocol | "analytics";
 
   export type Protocol = Exclude<Sablier.Protocol, "legacy">;
 

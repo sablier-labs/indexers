@@ -2,8 +2,6 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { PublicClient } from "viem";
 import { createPublicClient, fallback, http } from "viem";
-import { envioChains } from "../../src/indexers/envio";
-import { CriticalError } from "./errors";
 
 /**
  * Cache of pre-configured public clients by chain ID.
@@ -18,13 +16,7 @@ const clients: Record<number, PublicClient> = {};
  * @returns PublicClient configured with multiple RPC endpoints for the chain
  */
 function createClient(chainId: number): PublicClient {
-  // Verify chain is supported by checking if it exists in envioChains
-  const envioChain = _.find(envioChains, (c) => c.id === chainId);
-  if (!envioChain) {
-    throw new CriticalError.ClientNotFound(chainId);
-  }
-
-  // Get chain configuration from Sablier deployments
+  // Get chain configuration from Sablier deployments (throws if chain is unsupported)
   const chain = sablier.chains.getOrThrow(chainId);
 
   // Build priority-ordered list of RPC URLs
@@ -68,7 +60,7 @@ function createClient(chainId: number): PublicClient {
  *
  * @param chainId - The chain ID to get the client for
  * @returns PublicClient configured with multiple RPC endpoints for the chain
- * @throws CriticalError.ClientNotFound if no client exists for the chain
+ * @throws if no chain configuration exists for the given chain ID
  */
 export function getClient(chainId: number): PublicClient {
   // Check if client already exists in cache

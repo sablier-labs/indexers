@@ -1,9 +1,21 @@
+import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { convertToIndexed } from "../../contracts";
 import type { Types } from "../../lib/types";
 import type { Indexer } from "../../src/types";
 import type { Envio } from "./bindings";
 import { CriticalError } from "./errors";
+
+function convertToIndexed(contract: Sablier.Contract, version: Types.Version): Types.Contract {
+  return {
+    address: contract.address.toLowerCase() as Sablier.Address,
+    alias: contract.alias ?? "",
+    block: contract.block ?? 0,
+    chainId: contract.chainId,
+    name: contract.name,
+    protocol: contract.protocol as Indexer.Protocol,
+    version,
+  };
+}
 
 export function getContract(
   protocol: Indexer.Protocol,

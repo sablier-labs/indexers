@@ -33,13 +33,12 @@ const PROTOCOL_MAP: Record<
     generators: BASE.generators,
   },
   analytics: {},
-  billing: {},
   flow: {
     common: ["action", "batch", "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
   },
   lockup: {
-    bespoke: ["segment", "tranche"],
+    bespoke: ["segment", "sponsor", "sponsorship", "tranche"],
     common: ["action", "batch", "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
   },

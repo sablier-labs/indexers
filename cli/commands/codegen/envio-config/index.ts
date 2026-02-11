@@ -2,8 +2,16 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
-import { createComptrollerContract, createProtocolContracts } from "./contracts.js";
-import { addComptrollerToNetworks, createNetworksForProtocols } from "./networks.js";
+import {
+  createComptrollerContract,
+  createProtocolContracts,
+  createUsdcContract,
+} from "./contracts.js";
+import {
+  addComptrollerToNetworks,
+  addUsdcToNetworks,
+  createNetworksForProtocols,
+} from "./networks.js";
 import { topSections } from "./top-sections.js";
 
 /**
@@ -11,10 +19,6 @@ import { topSections } from "./top-sections.js";
  * @see https://docs.envio.dev/docs/HyperIndex/configuration-file#interactive-schema-explorer
  */
 export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection {
-  if (indexer === "billing") {
-    throw new Error("Billing config is manually maintained");
-  }
-
   const topSection = topSections[indexer];
 
   let contracts: EnvioConfig.Contract[] = [];
@@ -44,6 +48,11 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
     const protocol = indexer as Indexer.Protocol;
     contracts = createProtocolContracts(indexer, protocol);
     networks = createNetworksForProtocols(protocol);
+
+    if (indexer === "lockup") {
+      contracts.push(createUsdcContract());
+      networks = addUsdcToNetworks(networks);
+    }
   }
 
   networks = setMinimumStartBlock(networks);

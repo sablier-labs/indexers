@@ -113,17 +113,16 @@ _envio-run indexer command tui_mode="tui_on" *args:
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
 
-# Helper to run five commands in parallel (airdrops, analytics, billing, flow, lockup)
+# Helper to run four commands in parallel (airdrops, analytics, flow, lockup)
 [private]
-@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4 cmd5:
+@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4:
     pnpm concurrently --group \
-        -n "airdrops,analytics,billing,flow,lockup" \
-        -c "blue,cyan,magenta,green,yellow" \
+        -n "airdrops,analytics,flow,lockup" \
+        -c "blue,cyan,green,yellow" \
         "{{ cmd1 }}" \
         "{{ cmd2 }}" \
         "{{ cmd3 }}" \
-        "{{ cmd4 }}" \
-        "{{ cmd5 }}"
+        "{{ cmd4 }}"
 
 # Helper to run an envio recipe for all protocols or a specific one
 [private, script("bash")]
@@ -132,7 +131,6 @@ envio-for-each recipe indexer:
         just concurrent-envio-indexers \
             "just {{ recipe }} airdrops" \
             "just {{ recipe }} analytics" \
-            "just {{ recipe }} billing" \
             "just {{ recipe }} flow" \
             "just {{ recipe }} lockup"
     else

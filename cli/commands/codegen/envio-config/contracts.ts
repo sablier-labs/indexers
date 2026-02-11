@@ -22,6 +22,19 @@ export function createComptrollerContract(indexer: Indexer.Name): EnvioConfig.Co
   };
 }
 
+/**
+ * USDC is an external ERC-20 contract tracked for sponsorship purposes.
+ * Uses a local ABI file (not from the sablier package) and a dedicated handler.
+ */
+export function createUsdcContract(): EnvioConfig.Contract {
+  return {
+    abi_file_path: "../../abi/ERC20.json",
+    events: [{ event: "Transfer" }],
+    handler: "mappings/common/sponsorship.ts",
+    name: "USDC",
+  };
+}
+
 export function createProtocolContracts(
   indexer: Indexer.Name,
   protocol: Indexer.Protocol,

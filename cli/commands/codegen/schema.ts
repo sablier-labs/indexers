@@ -38,7 +38,6 @@ const indexerOption = Options.choice("indexer", [
   "flow",
   "lockup",
   "analytics",
-  "billing",
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
 
@@ -115,8 +114,8 @@ function generateAllIndexerSchemas(
   return Effect.gen(function* () {
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
-    // Analytics and billing use manually maintained schemas
-    const indexers = INDEXERS.filter((i) => i !== "analytics" && i !== "billing");
+    // Analytics uses a manually maintained schema
+    const indexers = INDEXERS.filter((i) => i !== "analytics");
     const results = yield* Effect.forEach(indexers, (indexer) =>
       generateSchemaWithResult(vendor, indexer)
     );
@@ -189,8 +188,8 @@ function generateAllVendorSchemas(
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Build list of vendor/indexer combinations to process
-    // Analytics and billing use manually maintained schemas
-    const indexers = INDEXERS.filter((i) => i !== "analytics" && i !== "billing");
+    // Analytics uses a manually maintained schema
+    const indexers = INDEXERS.filter((i) => i !== "analytics");
     const combinations: Array<{ vendor: Indexer.Vendor; indexer: Indexer.Name }> = [];
     for (const v of VENDORS) {
       if (indexerArg === "all") {
@@ -276,8 +275,8 @@ const schemaLogic = (options: {
     const vendorArg = options.vendor;
     const indexerArg = options.indexer;
 
-    // Analytics and billing have manually maintained schemas, skip generation
-    if (indexerArg === "analytics" || indexerArg === "billing") {
+    // Analytics has a manually maintained schema, skip generation
+    if (indexerArg === "analytics") {
       yield* Console.log("⏭️  Skipping (uses manually maintained schema)");
       return;
     }

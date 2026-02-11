@@ -7,6 +7,7 @@ import { sanitizeContractName } from "../../../../lib/helpers.js";
 import { logger, messages } from "../../../../lib/logger/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
+import { usdc } from "../../../../src/usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
@@ -31,6 +32,28 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
   }
 
   return networks;
+}
+
+/**
+ * Adds the USDC contract to networks that have a known USDC deployment.
+ */
+export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
+  return networks.map((network) => {
+    const usdcInfo = usdc[network.id];
+    if (!usdcInfo) {
+      return network;
+    }
+
+    const usdcNetworkContract: EnvioConfig.NetworkContract = {
+      address: usdcInfo.address,
+      name: "USDC",
+    };
+
+    return {
+      ...network,
+      contracts: [...network.contracts, usdcNetworkContract],
+    };
+  });
 }
 
 /* -------------------------------------------------------------------------- */
