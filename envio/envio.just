@@ -44,19 +44,18 @@ alias cc := codegen-config
     just root::codegen-schema envio $INDEXER_NAME
 alias cs := codegen-schema
 
-# Envio CLI: dev, start, stop
-[script("bash")]
-envio command tui_mode="tui_on" *args:
-    set -a
-    if [ "{{ tui_mode }}" = "tui_off" ]; then
-        TUI_OFF=true
-    else
-        TUI_OFF=false
-    fi
-    pnpm envio {{ command }} {{ args }} \
-        --directory {{ justfile_dir() }} \
-        --config {{ justfile_dir() }}/config.yaml \
-        --output-directory {{ justfile_dir() }}/bindings
+# Run envio dev
+@dev tui_mode="tui_on":
+    just root::_envio-run $INDEXER_NAME dev {{ tui_mode }}
+alias d := dev
+
+# Start envio indexer
+@start tui_mode="tui_on":
+    just root::_envio-run $INDEXER_NAME start {{ tui_mode }}
+
+# Stop envio indexer
+@stop:
+    just root::_envio-run $INDEXER_NAME stop
 
 # Run the Vitest tests
 test:

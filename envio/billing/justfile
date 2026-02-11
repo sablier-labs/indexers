@@ -15,3 +15,4 @@ export INDEXER_NAME := "billing"
 # Show available commands
 default:
     @just --list
+
