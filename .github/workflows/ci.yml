@@ -17,11 +17,8 @@ jobs:
       ENVIO_ROUTEMESH_API_KEY: ${{ secrets.ENVIO_ROUTEMESH_API_KEY }}
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v5
-
       - name: Set up devkit
-        uses: sablier-labs/devkit/actions/setup@main
+        uses: sablier-labs/devkit/actions/setup@v1
 
       - name: Codegen Envio indexers
         run: just codegen-envio

@@ -14,7 +14,6 @@ jobs:
       GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
       - uses: sablier-labs/devkit/actions/setup@v1
 
       - name: Ping Graph endpoints
