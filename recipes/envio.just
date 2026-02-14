@@ -79,6 +79,36 @@ alias dep := deploy-envio-protocols
 @open-envio:
     open "https://envio.dev/app/sablier-labs"
 
+# Run envio dev for an indexer
+[group("envio")]
+@envio-dev indexer tui_mode="tui_on":
+    just _envio-run {{ indexer }} dev {{ tui_mode }}
+
+# Start an envio indexer
+[group("envio")]
+@envio-start indexer tui_mode="tui_on":
+    just _envio-run {{ indexer }} start {{ tui_mode }}
+
+# Stop envio indexer(s)
+[group("envio")]
+@envio-stop indexer="all":
+    just envio-for-each _stop-envio {{ indexer }}
+
+[private]
+@_stop-envio indexer:
+    just _envio-run {{ indexer }} stop
+
+[private, script("bash")]
+_envio-run indexer command tui_mode="tui_on" *args:
+    set -a
+    if [ "{{ tui_mode }}" = "tui_off" ]; then
+        TUI_OFF=true
+    fi
+    pnpm envio {{ command }} {{ args }} \
+        --directory envio/{{ indexer }} \
+        --config config.yaml \
+        --output-directory bindings
+
 # ---------------------------------------------------------------------------- #
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #

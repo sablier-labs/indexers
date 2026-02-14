@@ -114,7 +114,9 @@ function generateAllIndexerSchemas(
   return Effect.gen(function* () {
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
-    const results = yield* Effect.forEach(INDEXERS, (indexer) =>
+    // Analytics uses a manually maintained schema
+    const indexers = INDEXERS.filter((i) => i !== "analytics");
+    const results = yield* Effect.forEach(indexers, (indexer) =>
       generateSchemaWithResult(vendor, indexer)
     );
 
@@ -186,10 +188,12 @@ function generateAllVendorSchemas(
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Build list of vendor/indexer combinations to process
+    // Analytics uses a manually maintained schema
+    const indexers = INDEXERS.filter((i) => i !== "analytics");
     const combinations: Array<{ vendor: Indexer.Vendor; indexer: Indexer.Name }> = [];
     for (const v of VENDORS) {
       if (indexerArg === "all") {
-        for (const i of INDEXERS) {
+        for (const i of indexers) {
           combinations.push({ indexer: i, vendor: v });
         }
       } else {
@@ -273,7 +277,7 @@ const schemaLogic = (options: {
 
     // Analytics has a manually maintained schema, skip generation
     if (indexerArg === "analytics") {
-      yield* Console.log("⏭️  Skipping analytics (uses manually maintained schema)");
+      yield* Console.log("⏭️  Skipping (uses manually maintained schema)");
       return;
     }
 

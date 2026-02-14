@@ -1,0 +1,39 @@
+"""
+An address that has sent USDC to the Sablier treasury for the billing process.
+"""
+type Sponsor @entity {
+  """
+  Unique identifier: `{chainId}_{address}`
+  """
+  id: String!
+
+  """
+  Address of the sponsor (the transaction signer).
+  """
+  address: String!
+
+  """
+  The chain ID where the sponsor paid (sponsorships can happen on multiple chains)
+  """
+  chainId: Int!
+
+  """
+  Cumulative raw USDC amount sent to the treasury.
+  """
+  totalAmount: BigInt!
+
+  """
+  Human-readable cumulative USDC amount (formatted with token decimals).
+  """
+  totalAmountScaled: String!
+
+  """
+  Number of sponsorship transfers made by this sponsor.
+  """
+  sponsorshipCount: Int!
+
+  """
+  List of individual sponsorship transfers made by this sponsor.
+  """
+  sponsorships: [Sponsorship!]! @derivedFrom(field: "sponsor")
+}

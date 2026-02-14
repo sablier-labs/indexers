@@ -77,8 +77,8 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
   return Effect.gen(function* () {
     displayHeader("⚙️  GENERATING ENVIO CONFIGS", "cyan");
 
-    // Generate configs with Effect.forEach
-    const results = yield* Effect.forEach(INDEXERS, (indexer) => generateConfigWithResult(indexer));
+    const indexers = INDEXERS;
+    const results = yield* Effect.forEach(indexers, (indexer) => generateConfigWithResult(indexer));
 
     // Display results table
     yield* Console.log("");

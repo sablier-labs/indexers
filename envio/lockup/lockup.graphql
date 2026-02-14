@@ -484,6 +484,94 @@ type Segment @entity(immutable: true) {
 }
 
 """
+An address that has sent USDC to the Sablier treasury for the billing process.
+"""
+type Sponsor @entity {
+  """
+  Unique identifier: `{chainId}_{address}`
+  """
+  id: String!
+  """
+  Address of the sponsor (the transaction signer).
+  """
+  address: String!
+  """
+  The chain ID where the sponsor paid (sponsorships can happen on multiple chains)
+  """
+  chainId: Int!
+  """
+  Cumulative raw USDC amount sent to the treasury.
+  """
+  totalAmount: BigInt!
+  """
+  Human-readable cumulative USDC amount (formatted with token decimals).
+  """
+  totalAmountScaled: String!
+  """
+  Number of sponsorship transfers made by this sponsor.
+  """
+  sponsorshipCount: Int!
+  """
+  List of individual sponsorship transfers made by this sponsor.
+  """
+  sponsorships: [Sponsorship!]! @derivedFrom(field: "sponsor")
+}
+
+"""
+A single USDC transfer to the Sablier treasury. Immutable — one per Transfer event.
+"""
+type Sponsorship @entity(immutable: true) {
+  """
+  Unique identifier: `{chainId}_{txHash}_{logIndex}`
+  """
+  id: String!
+  """
+  The chain ID where the transfer occurred (e.g., 1 for Ethereum).
+  """
+  chainId: Int!
+  """
+  Raw USDC amount transferred.
+  """
+  amount: BigInt!
+  """
+  Human-readable USDC amount (formatted with token decimals).
+  """
+  amountScaled: String!
+  """
+  Address of the transaction signer (may differ from `from` for contract wallets).
+  """
+  sender: String!
+  """
+  Address of the token source (the ERC-20 Transfer `from` parameter).
+  """
+  from: String!
+  """
+  Address of the token destination (the Sablier treasury).
+  """
+  to: String!
+  """
+  Hash of the transaction.
+  """
+  txHash: String!
+  """
+  Log index of the Transfer event within the transaction.
+  """
+  logIndex: Int!
+  """
+  Block number of the transaction.
+  """
+  block: Int!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: Int!
+  """
+  The sponsor who made this transfer.
+  """
+  sponsor: Sponsor!
+}
+
+"""
 See https://docs.sablier.com/concepts/lockup/tranches
 """
 type Tranche @entity(immutable: true) {
