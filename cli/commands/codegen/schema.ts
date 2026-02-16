@@ -7,7 +7,7 @@
  * pnpm tsx cli codegen schema --vendor graph --indexer flow
  *
  * @param --vendor - Required: 'graph', 'envio', or 'all'
- * @param --indexer - Required: 'airdrops', 'flow', 'lockup', 'analytics', or 'all'
+ * @param --indexer - Required: 'airdrops', 'flow', 'lockup', 'analytics', 'bob', or 'all'
  */
 
 import { Command, Options } from "@effect/cli";
@@ -35,6 +35,7 @@ const vendorOption = Options.choice("vendor", ["graph", "envio", "all"] as const
 
 const indexerOption = Options.choice("indexer", [
   "airdrops",
+  "bob",
   "flow",
   "lockup",
   "analytics",
@@ -45,31 +46,45 @@ const indexerOption = Options.choice("indexer", [
 /*                                   COMMAND                                  */
 /* -------------------------------------------------------------------------- */
 
+type SchemaIndexer = Indexer.Name | "bob";
+
 type SchemaResult = {
-  indexer: Indexer.Name;
+  indexer: SchemaIndexer;
   outputPath: string;
   status: "generated" | "error" | "skipped";
   vendor: Indexer.Vendor;
 };
+
+function getSchema(indexer: SchemaIndexer): string {
+  const mergedSchema = print(getMergedSchema(indexer));
+  return `${AUTOGEN_COMMENT}${mergedSchema}`;
+}
+
+function writeSchemaFile(
+  fs: FileSystem.FileSystem,
+  vendor: Indexer.Vendor,
+  indexer: SchemaIndexer
+) {
+  const outputPath = paths.schema(vendor, indexer);
+  return fs
+    .writeFileString(outputPath, getSchema(indexer))
+    .pipe(Effect.as(helpers.getRelative(outputPath)));
+}
 
 /**
  * Generates and writes a GraphQL schema for a specific indexer with result tracking
  */
 function generateSchemaWithResult(
   vendor: Indexer.Vendor,
-  indexer: Indexer.Name
+  indexer: SchemaIndexer
 ): Effect.Effect<SchemaResult, never, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(indexer));
-    const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
-    const outputPath = paths.schema(vendor, indexer);
-
-    yield* fs.writeFileString(outputPath, schema);
+    const outputPath = yield* writeSchemaFile(fs, vendor, indexer);
 
     return {
       indexer,
-      outputPath: helpers.getRelative(outputPath),
+      outputPath,
       status: "generated" as const,
       vendor,
     };
@@ -90,20 +105,16 @@ function generateSchemaWithResult(
  */
 function generateSchema(
   vendor: Indexer.Vendor,
-  indexer: Indexer.Name
+  indexer: SchemaIndexer
 ): Effect.Effect<void, never, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(indexer));
-    const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
-    const outputPath = paths.schema(vendor, indexer);
-
-    yield* fs.writeFileString(outputPath, schema);
+    const outputPath = yield* writeSchemaFile(fs, vendor, indexer);
 
     yield* Console.log(
       `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(indexer)} indexer`
     );
-    yield* Console.log(`📁 Output path: ${helpers.getRelative(outputPath)}`);
+    yield* Console.log(`📁 Output path: ${outputPath}`);
     yield* Console.log("");
   }).pipe(Effect.orDie);
 }
@@ -114,7 +125,9 @@ function generateAllIndexerSchemas(
   return Effect.gen(function* () {
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
-    const results = yield* Effect.forEach(INDEXERS, (indexer) =>
+    const indexers: SchemaIndexer[] = vendor === "graph" ? [...INDEXERS, "bob"] : [...INDEXERS];
+
+    const results = yield* Effect.forEach(indexers, (indexer) =>
       generateSchemaWithResult(vendor, indexer)
     );
 
@@ -180,19 +193,23 @@ function generateAllIndexerSchemas(
 }
 
 function generateAllVendorSchemas(
-  indexerArg: Indexer.Name | "all"
+  indexerArg: SchemaIndexer | "all"
 ): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Build list of vendor/indexer combinations to process
-    const combinations: Array<{ vendor: Indexer.Vendor; indexer: Indexer.Name }> = [];
+    const combinations: Array<{ vendor: Indexer.Vendor; indexer: SchemaIndexer }> = [];
     for (const v of VENDORS) {
       if (indexerArg === "all") {
-        for (const i of INDEXERS) {
+        const indexers: SchemaIndexer[] = v === "graph" ? [...INDEXERS, "bob"] : [...INDEXERS];
+        for (const i of indexers) {
           combinations.push({ indexer: i, vendor: v });
         }
       } else {
+        if (indexerArg === "bob" && v === "envio") {
+          continue;
+        }
         combinations.push({ indexer: indexerArg, vendor: v });
       }
     }
@@ -265,7 +282,7 @@ function generateAllVendorSchemas(
 
 const schemaLogic = (options: {
   readonly vendor: "graph" | "envio" | "all";
-  readonly indexer: Indexer.Name | "all";
+  readonly indexer: SchemaIndexer | "all";
 }) =>
   Effect.gen(function* () {
     const vendorArg = options.vendor;
@@ -274,6 +291,11 @@ const schemaLogic = (options: {
     // Analytics has a manually maintained schema, skip generation
     if (indexerArg === "analytics") {
       yield* Console.log("⏭️  Skipping analytics (uses manually maintained schema)");
+      return;
+    }
+
+    if (vendorArg === "envio" && indexerArg === "bob") {
+      yield* Console.log("⏭️  Skipping bob for envio (Graph-only indexer)");
       return;
     }
 

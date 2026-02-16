@@ -1,0 +1,79 @@
+"""
+Per-user position in a Bob vault.
+"""
+type Position @entity(immutable: false) {
+  """
+  Unique identifier: `position-{vaultId}-{user}`
+  """
+  id: String!
+
+  """
+  Chain id where this position exists.
+  """
+  chainId: BigInt!
+
+  """
+  Vault this position belongs to.
+  """
+  vault: Vault!
+
+  """
+  User address.
+  """
+  user: Bytes!
+
+  """
+  Current share token balance.
+  """
+  shareBalance: BigInt!
+
+  """
+  Sum of entered token amounts.
+  """
+  enteredAmount: BigInt!
+
+  """
+  Sum of exited token amounts.
+  """
+  exitedAmount: BigInt!
+
+  """
+  Sum of redeemed token amounts.
+  """
+  redeemedAmount: BigInt!
+
+  """
+  Sum of shares minted to this user via `Enter`.
+  """
+  sharesEntered: BigInt!
+
+  """
+  Sum of shares burned via `ExitWithinGracePeriod`.
+  """
+  sharesExited: BigInt!
+
+  """
+  Sum of shares burned via `Redeem`.
+  """
+  sharesRedeemed: BigInt!
+
+  """
+  Sum of shares received from transfers (excluding mint).
+  """
+  shareTransferredIn: BigInt!
+
+  """
+  Sum of shares sent in transfers (excluding burn).
+  """
+  shareTransferredOut: BigInt!
+
+  """
+  Timestamp when the user first entered this vault.
+  """
+  firstEnteredAt: BigInt
+
+  """
+  Last update timestamp.
+  """
+  lastUpdatedAt: BigInt!
+}

@@ -5,7 +5,11 @@
 
 [script("bash")]
 _build-graph-indexer indexer: (codegen-graph indexer)
-    manifest_path=graph/{{ indexer }}/manifests/mainnet.yaml
+    if [ "{{ indexer }}" = "bob" ]; then
+        manifest_path=graph/{{ indexer }}/manifests/sepolia.yaml
+    else
+        manifest_path=graph/{{ indexer }}/manifests/mainnet.yaml
+    fi
     pnpm graph build \
         $manifest_path \
         --output-dir graph/{{ indexer }}/build
@@ -62,6 +66,7 @@ graph-for-each recipe indexer:
     if [ "{{ indexer }}" = "all" ]; then
         just concurrent-protocol-indexers \
             "just {{ recipe }} airdrops" \
+            "just {{ recipe }} bob" \
             "just {{ recipe }} flow" \
             "just {{ recipe }} lockup"
     else

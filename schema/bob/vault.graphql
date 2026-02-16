@@ -1,0 +1,139 @@
+"""
+A Bob vault managed by the singleton SablierBob contract.
+"""
+type Vault @entity(immutable: false) {
+  """
+  Unique identifier: `vault-{chainId}-{vaultId}`
+  """
+  id: String!
+
+  """
+  Readable alias: `{contractAlias}-{chainId}-{vaultId}`
+  """
+  alias: String!
+
+  """
+  Chain id where this vault exists.
+  """
+  chainId: BigInt!
+
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+
+  """
+  Vault id in the SablierBob contract.
+  """
+  vaultId: BigInt!
+
+  """
+  Tx hash that created this vault.
+  """
+  hash: Bytes!
+
+  """
+  Timestamp when this vault was created.
+  """
+  timestamp: BigInt!
+
+  """
+  Actions linked to this vault.
+  """
+  actions: [Action!]! @derivedFrom(field: "vault")
+
+  """
+  ERC-20 token accepted for deposits.
+  """
+  asset: Asset!
+
+  """
+  Oracle address used by this vault.
+  """
+  oracle: Bytes!
+
+  """
+  Adapter configured for this vault (zero address means none).
+  """
+  adapter: Bytes!
+
+  """
+  ERC-20 share token deployed for this vault.
+  """
+  shareToken: Bytes!
+
+  """
+  Target price (8 decimals).
+  """
+  targetPrice: BigInt!
+
+  """
+  Latest synced oracle price (8 decimals).
+  """
+  lastSyncedPrice: BigInt!
+
+  """
+  Vault expiry timestamp.
+  """
+  expiry: BigInt!
+
+  """
+  Timestamp of last oracle sync.
+  """
+  lastSyncedAt: BigInt!
+
+  """
+  Current vault status.
+  """
+  status: VaultStatus!
+
+  """
+  Whether vault funds are currently staked via adapter.
+  """
+  isStakedWithAdapter: Boolean!
+
+  """
+  Total outstanding shares.
+  """
+  totalShares: BigInt!
+
+  """
+  Sum of entered token amounts.
+  """
+  enteredAmount: BigInt!
+
+  """
+  Sum of exit-within-grace-period amounts.
+  """
+  exitedAmount: BigInt!
+
+  """
+  Sum of redeemed token amounts.
+  """
+  redeemedAmount: BigInt!
+
+  """
+  Sum of redeemed fees.
+  """
+  redeemedFeeAmount: BigInt!
+
+  """
+  Last amount staked in adapter when unstaking was triggered.
+  """
+  unstakedAmountStaked: BigInt!
+
+  """
+  Last amount received from adapter unstake.
+  """
+  unstakedAmountReceived: BigInt!
+
+  """
+  Positions in this vault.
+  """
+  positions: [Position!]! @derivedFrom(field: "vault")
+
+  """
+  Contract version.
+  """
+  version: String!
+}

@@ -1,8 +1,15 @@
 import { gql } from "graphql-tag";
 import type { Indexer } from "../../src/types.js";
 
-export function getWatcherDefs(indexer: Indexer.Name) {
-  const counterField = indexer === "airdrops" ? "campaign" : "stream";
+type SchemaIndexer = Indexer.Name | "bob";
+
+export function getWatcherDefs(indexer: SchemaIndexer) {
+  let counterField = "stream";
+  if (indexer === "airdrops") {
+    counterField = "campaign";
+  } else if (indexer === "bob") {
+    counterField = "vault";
+  }
 
   return gql`
     type Watcher @entity(immutable: false) {

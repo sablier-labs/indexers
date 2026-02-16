@@ -1,0 +1,79 @@
+"""
+A protocol action emitted by the Sablier Bob contract or its vault share tokens.
+"""
+type Action @entity(immutable: true) {
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+
+  """
+  Block number of the Ethereum transaction.
+  """
+  block: BigInt!
+
+  """
+  Chain id where the action happened.
+  """
+  chainId: BigInt!
+
+  """
+  Transaction caller.
+  """
+  from: Bytes!
+
+  """
+  Transaction hash.
+  """
+  hash: Bytes!
+
+  """
+  Timestamp of the transaction.
+  """
+  timestamp: BigInt!
+
+  """
+  Contract through which the action was triggered.
+  """
+  contract: Bytes!
+
+  """
+  Action category.
+  """
+  category: ActionCategory!
+
+  """
+  Vault linked to this action, if applicable.
+  """
+  vault: Vault
+
+  """
+  Address parameter A (semantic depends on category).
+  """
+  addressA: Bytes
+
+  """
+  Address parameter B (semantic depends on category).
+  """
+  addressB: Bytes
+
+  """
+  Amount parameter A (semantic depends on category).
+  """
+  amountA: BigInt
+
+  """
+  Amount parameter B (semantic depends on category).
+  """
+  amountB: BigInt
+
+  """
+  Amount parameter C (semantic depends on category).
+  """
+  amountC: BigInt
+}

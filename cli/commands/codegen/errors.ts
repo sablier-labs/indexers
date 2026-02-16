@@ -3,6 +3,7 @@ import { sablier } from "sablier";
 import { formatRelease } from "../../../lib/logger/helpers.js";
 import type { Types } from "../../../lib/types.js";
 import type { Indexer } from "../../../src/index.js";
+import type { GraphManifestProtocol } from "./graph-manifest/protocol.js";
 
 export namespace CodegenError {
   export class BlockNotFound extends Error {
@@ -37,7 +38,7 @@ export namespace CodegenError {
   }
 
   export class ContractsNotFound extends Error {
-    constructor(protocol: Indexer.Protocol, chainId: number) {
+    constructor(protocol: GraphManifestProtocol, chainId: number) {
       const chainName = sablier.chains.get(chainId)?.name ?? "chain";
       const message = `No contracts found for ${protocol} on ${chainName}`;
       super(message);

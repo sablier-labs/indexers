@@ -1,6 +1,8 @@
 import { gql } from "graphql-tag";
 import type { Indexer } from "../../src/types.js";
 
+type SchemaIndexer = Indexer.Name | "bob";
+
 const streams = /* GraphQL */ `
 """
 Streams that rely on this token
@@ -15,8 +17,20 @@ Campaigns that rely on this asset.
 campaigns: [Campaign!]! @derivedFrom(field: "asset")
 `;
 
-export function getAssetDefs(indexer: Indexer.Name) {
-  const customField = indexer !== "airdrops" ? streams : campaigns;
+const vaults = /* GraphQL */ `
+"""
+Vaults that rely on this asset.
+"""
+vaults: [Vault!]! @derivedFrom(field: "asset")
+`;
+
+export function getAssetDefs(indexer: SchemaIndexer) {
+  let customField = streams;
+  if (indexer === "airdrops") {
+    customField = campaigns;
+  } else if (indexer === "bob") {
+    customField = vaults;
+  }
 
   return gql`
     """

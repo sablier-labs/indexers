@@ -9,7 +9,8 @@ import { getEnumDefs } from "./enums.js";
 import { flowStreamDefs } from "./flow/stream.graphql.js";
 import { lockupStreamDefs } from "./lockup/stream.graphql.js";
 
-type TsDefsGenerator = (indexer: Indexer.Name) => DocumentNode;
+type SchemaIndexer = Indexer.Name | "bob";
+type TsDefsGenerator = (indexer: SchemaIndexer) => DocumentNode;
 /**
  * Base GraphQL definition files shared across all protocols.
  */
@@ -21,7 +22,7 @@ const BASE = {
  * Mapping of protocols to their respective GraphQL definition files.
  */
 const PROTOCOL_MAP: Record<
-  Indexer.Name,
+  SchemaIndexer,
   {
     bespoke?: string[];
     common?: string[];
@@ -33,6 +34,10 @@ const PROTOCOL_MAP: Record<
     generators: BASE.generators,
   },
   analytics: {},
+  bob: {
+    bespoke: ["action", "default-adapter", "position", "state", "vault"],
+    generators: BASE.generators,
+  },
   flow: {
     common: ["action", "batch", "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
@@ -51,7 +56,7 @@ const PROTOCOL_MAP: Record<
  * @param protocol - The protocol to generate a schema for.
  * @returns A merged schema for the given protocol.
  */
-export function getMergedSchema(indexer: Indexer.Name): DocumentNode {
+export function getMergedSchema(indexer: SchemaIndexer): DocumentNode {
   // Generate TypeScript definitions
   const tsDefs = PROTOCOL_MAP[indexer].generators?.map((generator) => generator(indexer)) || [];
 
@@ -70,7 +75,7 @@ export function getMergedSchema(indexer: Indexer.Name): DocumentNode {
   return mergedSchema;
 }
 
-function getProtocolDefs(indexer: Indexer.Name, file: string): string {
+function getProtocolDefs(indexer: SchemaIndexer, file: string): string {
   return path.join(SCHEMA_DIR, indexer, `${file}.graphql`);
 }
 
@@ -78,7 +83,7 @@ function getCommonDefs(file: string): string {
   return path.join(SCHEMA_DIR, "common", `${file}.graphql`);
 }
 
-function getStreamDefs(indexer: Indexer.Name): DocumentNode {
+function getStreamDefs(indexer: SchemaIndexer): DocumentNode {
   switch (indexer) {
     case "lockup":
       return lockupStreamDefs;

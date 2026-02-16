@@ -1,0 +1,39 @@
+"""
+Current default adapter setting for a token.
+"""
+type DefaultAdapter @entity(immutable: false) {
+  """
+  Unique identifier: `default-adapter-{chainId}-{token}`
+  """
+  id: String!
+
+  """
+  Chain id where this setting exists.
+  """
+  chainId: BigInt!
+
+  """
+  Token address.
+  """
+  token: Bytes!
+
+  """
+  Adapter address.
+  """
+  adapter: Bytes!
+
+  """
+  Block of the latest update.
+  """
+  block: BigInt!
+
+  """
+  Timestamp of the latest update.
+  """
+  timestamp: BigInt!
+
+  """
+  Tx hash of latest update.
+  """
+  hash: Bytes!
+}

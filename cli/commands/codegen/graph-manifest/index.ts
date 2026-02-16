@@ -1,7 +1,7 @@
 import _ from "lodash";
-import type { Indexer } from "../../../../src/types.js";
 import { CodegenError } from "../errors.js";
 import type { GraphManifest } from "./manifest-types.js";
+import type { GraphManifestProtocol } from "./protocol.js";
 import { createSources } from "./sources/index.js";
 import { topSections } from "./top-sections.js";
 
@@ -10,7 +10,7 @@ import { topSections } from "./top-sections.js";
  * @see https://thegraph.com/docs/en/subgraphs/developing/creating/subgraph-manifest
  */
 export function createGraphManifest(
-  protocol: Indexer.Protocol,
+  protocol: GraphManifestProtocol,
   chainId: number
 ): GraphManifest.TopSection {
   const topSection = topSections[protocol];

@@ -1,0 +1,44 @@
+"""
+Singleton protocol-wide state for Bob on a chain.
+"""
+type State @entity(immutable: false) {
+  """
+  Unique identifier: `state-{chainId}`
+  """
+  id: String!
+
+  """
+  Chain id.
+  """
+  chainId: BigInt!
+
+  """
+  Current comptroller address.
+  """
+  comptroller: Bytes!
+
+  """
+  Cumulative native/token fees transferred to comptroller (as reported by event).
+  """
+  feesTransferredToComptroller: BigInt!
+
+  """
+  Last update timestamp.
+  """
+  lastUpdatedAt: BigInt!
+
+  """
+  Last update block number.
+  """
+  lastUpdatedBlock: BigInt!
+
+  """
+  Cached global action counter (mirrors Watcher).
+  """
+  actionCounter: BigInt!
+
+  """
+  Cached global vault counter (mirrors Watcher).
+  """
+  vaultCounter: BigInt!
+}

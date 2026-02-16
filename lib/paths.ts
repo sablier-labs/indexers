@@ -12,7 +12,7 @@ export const EXPORTS_DIR = join(ROOT_DIR, "src");
 export const GRAPH_DIR = join(ROOT_DIR, "graph");
 export const SCHEMA_DIR = join(ROOT_DIR, "schema");
 
-type I = Indexer.Name;
+type I = Indexer.Name | "bob";
 type V = Indexer.Vendor;
 
 const paths = {

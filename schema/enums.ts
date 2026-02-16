@@ -4,6 +4,8 @@ import _ from "lodash";
 import { Protocol } from "sablier/evm";
 import type { Indexer } from "../src/index.js";
 
+type SchemaIndexer = Indexer.Name | "bob";
+
 export namespace Airdrops {
   export enum ActionCategory {
     Claim = "Claim",
@@ -63,6 +65,26 @@ export namespace Lockup {
   }
 }
 
+export namespace Bob {
+  export enum ActionCategory {
+    CreateVault = "CreateVault",
+    Enter = "Enter",
+    ExitWithinGracePeriod = "ExitWithinGracePeriod",
+    Redeem = "Redeem",
+    SetComptroller = "SetComptroller",
+    SetDefaultAdapter = "SetDefaultAdapter",
+    ShareTransfer = "ShareTransfer",
+    SyncPriceFromOracle = "SyncPriceFromOracle",
+    TransferFeesToComptroller = "TransferFeesToComptroller",
+    UnstakeFromAdapter = "UnstakeFromAdapter",
+  }
+
+  export enum VaultStatus {
+    Active = "Active",
+    Settled = "Settled",
+  }
+}
+
 /**
  * Generates the GraphQL enum definitions for the given protocol.
  * @example
@@ -74,7 +96,7 @@ export namespace Lockup {
  * }
  * ```
  */
-export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
+export function getEnumDefs(indexer: SchemaIndexer): DocumentNode {
   const enumDefs: string[] = [];
 
   if (indexer === "analytics") {
@@ -99,6 +121,12 @@ export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
         getEnum(Lockup.ActionCategory, "ActionCategory"),
         getEnum(Lockup.StreamCategory, "StreamCategory"),
         getEnum(Lockup.ShapeSource, "ShapeSource")
+      );
+      break;
+    case "bob":
+      enumDefs.push(
+        getEnum(Bob.ActionCategory, "ActionCategory"),
+        getEnum(Bob.VaultStatus, "VaultStatus")
       );
       break;
   }

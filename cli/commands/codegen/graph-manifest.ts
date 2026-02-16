@@ -6,7 +6,7 @@
  * pnpm tsx cli codegen graph-manifest --indexer all --chain polygon
  * pnpm tsx cli codegen graph-manifest --indexer flow --chain polygon
  *
- * @param --indexer - Required: 'airdrops', 'flow', 'lockup', or 'all'
+ * @param --indexer - Required: 'airdrops', 'flow', 'lockup', 'bob', or 'all'
  * @param --chain - Required: The chain slug to generate manifests for.
  * Use 'all' to generate for all chains.
  */
@@ -19,13 +19,14 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
+import { chains } from "sablier/evm";
 import paths from "../../../lib/paths.js";
-import type { Indexer } from "../../../src/index.js";
 import { graphChains } from "../../../src/indexers/graph.js";
 import { PROTOCOLS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import * as helpers from "../../helpers.js";
 import { createGraphManifest } from "./graph-manifest/index.js";
+import type { GraphManifestProtocol } from "./graph-manifest/protocol.js";
 import { dumpYAML } from "./helpers.js";
 
 /* -------------------------------------------------------------------------- */
@@ -34,6 +35,7 @@ import { dumpYAML } from "./helpers.js";
 
 const indexerOption = Options.choice("indexer", [
   "airdrops",
+  "bob",
   "flow",
   "lockup",
   "all",
@@ -58,29 +60,48 @@ type ManifestResult = {
   status: "generated" | "error";
 };
 
+const BOB_CHAIN_IDS = [chains.sepolia.id] as const;
+const GRAPH_MANIFEST_PROTOCOLS: GraphManifestProtocol[] = [...PROTOCOLS, "bob"];
+
+function getChainIds(indexer: GraphManifestProtocol): readonly number[] {
+  if (indexer === "bob") {
+    return BOB_CHAIN_IDS;
+  }
+
+  return graphChains;
+}
+
+function isChainSupported(indexer: GraphManifestProtocol, chainId: number): boolean {
+  return getChainIds(indexer).includes(chainId);
+}
+
 /**
  * Writes the subgraph manifest to a file.
  * @returns The relative path to the manifest file.
  */
-function writeManifestToFile(indexer: Indexer.Name, chainId: number): string {
-  const manifest = createGraphManifest(indexer as Indexer.Protocol, chainId);
+function writeManifestToFile(indexer: GraphManifestProtocol, chainId: number): string {
+  const manifest = createGraphManifest(indexer, chainId);
   const yaml = dumpYAML(manifest);
-  const manifestPath = paths.graph.manifest(indexer as Indexer.Protocol, chainId);
+  const manifestPath = paths.graph.manifest(indexer, chainId);
   writeFileSync(manifestPath, yaml);
 
   return helpers.getRelative(manifestPath);
 }
 
 function generateManifest(
-  indexer: Indexer.Name,
+  indexer: GraphManifestProtocol,
   chainArg: string
 ): Effect.Effect<void, Error, never> {
   return Effect.gen(function* () {
     const chain = yield* helpers.getChain(chainArg);
-    const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
+    if (!isChainSupported(indexer, chain.id)) {
+      return yield* Effect.fail(new Error(`No contracts found for ${indexer} on ${chain.name}`));
+    }
+
+    const manifestsDir = paths.graph.manifests(indexer);
     fs.mkdirSync(manifestsDir, { recursive: true });
 
-    const manifestPath = writeManifestToFile(indexer as Indexer.Protocol, chain.id);
+    const manifestPath = writeManifestToFile(indexer, chain.id);
     yield* Console.log(`✅ Generated subgraph manifest for ${chainArg}`);
     yield* Console.log(`📁 Manifest path: ${manifestPath}`);
     yield* Console.log();
@@ -88,11 +109,11 @@ function generateManifest(
 }
 
 function generateAllChainManifests(
-  indexer: Indexer.Name,
+  indexer: GraphManifestProtocol,
   suppressFinalLog = false
 ): Effect.Effect<number, Error, never> {
   return Effect.gen(function* () {
-    const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
+    const manifestsDir = paths.graph.manifests(indexer);
 
     if (fs.existsSync(manifestsDir)) {
       fs.rmSync(manifestsDir, { force: true, recursive: true });
@@ -101,10 +122,11 @@ function generateAllChainManifests(
     fs.writeFileSync(path.join(manifestsDir, ".gitkeep"), "");
 
     const results: ManifestResult[] = [];
+    const chainIds = getChainIds(indexer);
 
-    for (const chainId of graphChains) {
+    for (const chainId of chainIds) {
       try {
-        const manifestPath = writeManifestToFile(indexer as Indexer.Protocol, chainId);
+        const manifestPath = writeManifestToFile(indexer, chainId);
         const chain = sablier.chains.get(chainId);
         results.push({
           chainId,
@@ -186,13 +208,21 @@ function generateAllChainManifests(
 function generateAllProtocolManifests(chainArg: string): Effect.Effect<void, Error, never> {
   return Effect.gen(function* () {
     let totalCount = 0;
+    const chain = chainArg === "all" ? null : yield* helpers.getChain(chainArg);
 
-    for (const p of PROTOCOLS) {
+    for (const p of GRAPH_MANIFEST_PROTOCOLS) {
       if (chainArg === "all") {
         const filesGenerated = yield* generateAllChainManifests(p, true);
         totalCount += filesGenerated;
         yield* Console.log(
           `✅ Generated ${filesGenerated} manifests for ${_.capitalize(p)} protocol`
+        );
+        continue;
+      }
+
+      if (chain && !isChainSupported(p, chain.id)) {
+        yield* Console.log(
+          `⏭️  Skipping ${_.capitalize(p)} protocol on ${chainArg} (unsupported chain)`
         );
         continue;
       }
@@ -208,7 +238,7 @@ function generateAllProtocolManifests(chainArg: string): Effect.Effect<void, Err
 }
 
 const graphManifestLogic = (options: {
-  readonly indexer: "airdrops" | "flow" | "lockup" | "all";
+  readonly indexer: "airdrops" | "bob" | "flow" | "lockup" | "all";
   readonly chain: string;
 }) =>
   Effect.gen(function* () {
