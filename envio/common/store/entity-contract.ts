@@ -1,4 +1,4 @@
-import type { Indexer } from "../../../dist/types/types";
+import type { Indexer } from "../../../src/types";
 import type { Envio } from "../bindings";
 import { getContract } from "../deployments";
 import type { CommonEntities } from "../entities";

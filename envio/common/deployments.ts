@@ -1,6 +1,6 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import type { Indexer, Model } from "../../dist/types/types";
+import type { Indexer, Model } from "../../src/types";
 import type { Envio } from "./bindings";
 import { CriticalError } from "./errors";
 

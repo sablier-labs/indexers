@@ -1,5 +1,5 @@
 import { ContractFunctionExecutionError } from "viem";
-import type { Indexer } from "../../dist/types/types";
+import type { Indexer } from "../../src/types";
 
 export namespace CriticalError {
   export class ClientNotFound extends Error {
