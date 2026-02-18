@@ -13,7 +13,7 @@ Data indexers for the [Sablier](https://sablier.com) protocol for onchain token 
 Sablier's smart contract events and transform them into structured, queryable data APIs via GraphQL. The data is used to
 power the [Sablier Interface](https://app.sablier.com).
 
-We support two indexing services: [The Graph](https://thegraph.com) and [Envio](https://envio.dev).
+There are two indexing providers: [The Graph](https://thegraph.com) and [Envio](https://envio.dev).
 
 ## Documentation 📚
 
