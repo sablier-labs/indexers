@@ -45,6 +45,16 @@ GLOBS_CLEAN_IGNORE := "!graph/common/bindings"
 default:
     just --list
 
+# Run all code checks
+[group("checks")]
+@full-check:
+    just _run-with-status biome-check
+    just _run-with-status prettier-check
+    just _run-with-status type-check
+    just _run-with-status depcruise-check
+    echo ""
+    echo '{{ GREEN }}All code checks passed!{{ NORMAL }}'
+
 # Clean build artifacts
 @clean globs=GLOBS_CLEAN:
     echo "🧹 Deleting files:"

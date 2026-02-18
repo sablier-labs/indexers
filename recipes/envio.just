@@ -79,6 +79,12 @@ alias dep := deploy-envio-protocols
 @open-envio:
     open "https://envio.dev/app/sablier-labs"
 
+# Check envio/ import boundaries with dependency-cruiser
+[group("checks"), group("envio")]
+@depcruise-check:
+    na depcruise envio/ --config .dependency-cruiser.mjs
+alias dc := depcruise-check
+
 # ---------------------------------------------------------------------------- #
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #

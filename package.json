@@ -59,6 +59,7 @@
     "cli-table3": "^0.6.5",
     "concurrently": "^9.2.1",
     "dayjs": "^1.11.19",
+    "dependency-cruiser": "^17.3.8",
     "dotenv": "^17.2.3",
     "effect": "^3.19.13",
     "envio": "2.32.3",
