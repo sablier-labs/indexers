@@ -3,14 +3,5 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./node_modules/@sablier/devkit/tsconfig/base.json",
   "exclude": ["**/node_modules", "envio/", "graph/"],
-  "include": [
-    "cli/",
-    "contracts/",
-    "events/",
-    "lib/",
-    "schema/",
-    "src/",
-    "tests/",
-    "vitest.config.ts"
-  ]
+  "include": ["cli/", "contracts/", "events/", "schema/", "src/", "tests/", "vitest.config.ts"]
 }

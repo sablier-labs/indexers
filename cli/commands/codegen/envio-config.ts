@@ -13,12 +13,12 @@ import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
-import paths from "../../../lib/paths.js";
 import type { Indexer } from "../../../src/index.js";
 import { INDEXERS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
+import paths from "../../paths.js";
 import { createEnvioConfig } from "./envio-config/index.js";
 import { dumpYAML } from "./helpers.js";
 

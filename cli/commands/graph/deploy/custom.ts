@@ -17,7 +17,7 @@ import { CommandExecutor, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Chunk, Console, Effect, Stream } from "effect";
 import { chains } from "sablier/evm";
-import paths, { ROOT_DIR } from "../../../../lib/paths.js";
+import paths, { ROOT_DIR } from "../../../../cli/paths.js";
 import { GraphDeployError, ValidationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import { finishSpinner, startSpinner } from "../../../spinner.js";

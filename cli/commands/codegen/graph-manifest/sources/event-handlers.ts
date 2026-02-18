@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { indexedEvents } from "../../../../../events/index.js";
-import type { Types } from "../../../../../lib/types.js";
 import type { Indexer } from "../../../../../src/index.js";
+import type { Model } from "../../../../../src/types.js";
 import { resolveEventHandler } from "../event-resolver.js";
 import type { EventHandlersMap, GraphManifest } from "../manifest-types.js";
 
@@ -15,7 +15,7 @@ function get(protocol: Indexer.Protocol): EventHandlersMap {
   );
 }
 
-const eventHandlersMap: Types.ProtocolMap<EventHandlersMap> = {
+const eventHandlersMap: Model.ProtocolMap<EventHandlersMap> = {
   airdrops: get("airdrops"),
   flow: get("flow"),
   lockup: get("lockup"),

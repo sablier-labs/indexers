@@ -56,7 +56,11 @@
       "linter": {
         "rules": {
           "complexity": { "useOptionalChain": "off" },
-          "style": { "useForOf": "off", "useImportType": "off" },
+          "style": {
+            "useFilenamingConvention": "off",
+            "useForOf": "off",
+            "useImportType": "off"
+          },
           "suspicious": {
             "noDoubleEquals": "off",
             "noShadowRestrictedNames": "off"

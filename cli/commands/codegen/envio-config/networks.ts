@@ -2,9 +2,9 @@
 
 import _ from "lodash";
 import { sablier } from "sablier";
+import { sanitizeContractName } from "../../../../cli/contract-name.js";
+import { logger, messages } from "../../../../cli/logger/index.js";
 import { indexedContracts } from "../../../../contracts/index.js";
-import { sanitizeContractName } from "../../../../lib/helpers.js";
-import { logger, messages } from "../../../../lib/logger/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
 import { CodegenError } from "../errors.js";

@@ -1,9 +1,8 @@
 import * as fs from "node:fs";
 import path, { join } from "node:path";
 import appRoot from "app-root-path";
-import type { Indexer } from "../src/index.js";
 import { getGraphChainSlug } from "../src/indexers/graph.js";
-import type { Types } from "./types.js";
+import type { Indexer, Model } from "../src/types.js";
 
 export const ROOT_DIR = appRoot.path;
 export const ABI_DIR = join(ROOT_DIR, "abi");
@@ -16,7 +15,7 @@ type I = Indexer.Name;
 type V = Indexer.Vendor;
 
 const paths = {
-  abi: (contractName: string, indexer?: I, version?: Types.Version): string => {
+  abi: (contractName: string, indexer?: I, version?: Model.Version): string => {
     if (contractName === "SablierComptroller") {
       return join(
         ROOT_DIR,

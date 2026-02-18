@@ -2,9 +2,12 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/evm/chains";
 import { describe, expect, it } from "vitest";
-// biome-ignore lint/style/noRestrictedImports: TODO inline envioChains to avoid CJS/ESM boundary
-import { envioChains } from "../../../../src/indexers/envio";
+// @ts-expect-error dist/cjs runtime path has no colocated declarations; types come from dist/types.
+import { envioChains as envioChainsValue } from "../../../../dist/cjs/indexers/envio.js";
+import type { envioChains as EnvioChains } from "../../../../dist/types/indexers/envio";
 import { coinConfigs } from "../../effects/coingecko";
+
+const envioChains: typeof EnvioChains = envioChainsValue;
 
 const EXCLUDED_CHAINS = [gnosis.id, tangle.id];
 const chains = envioChains

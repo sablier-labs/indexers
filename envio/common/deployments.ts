@@ -1,9 +1,6 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-// biome-ignore lint/style/noRestrictedImports: type-only (erased at compile time)
-import type { Types } from "../../lib/types";
-// biome-ignore lint/style/noRestrictedImports: type-only (erased at compile time)
-import type { Indexer } from "../../src/types";
+import type { Indexer, Model } from "../../dist/types/types";
 import type { Envio } from "./bindings";
 import { CriticalError } from "./errors";
 
@@ -12,7 +9,7 @@ import { CriticalError } from "./errors";
  * Envio's ts-node runtime transpiles to CJS, but `contracts/` lives under the
  * root `package.json` which declares `"type": "module"`.
  */
-function convertToIndexed(contract: Sablier.Contract, version: Types.Version): Types.Contract {
+function convertToIndexed(contract: Sablier.Contract, version: Model.Version): Model.Contract {
   return {
     address: contract.address.toLowerCase() as Sablier.Address,
     alias: contract.alias ?? "",
@@ -28,7 +25,7 @@ export function getContract(
   protocol: Indexer.Protocol,
   chainId: number,
   contractAddress: Envio.Address
-): Types.Contract {
+): Model.Contract {
   const contract = sablier.contracts.get({ chainId, contractAddress, protocol });
   if (!contract) {
     throw new CriticalError.ContractNotFound(protocol, chainId, contractAddress);

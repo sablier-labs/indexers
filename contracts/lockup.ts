@@ -1,10 +1,10 @@
 import type { Sablier } from "sablier";
 import { contracts, Version } from "sablier/evm";
-import type { Types } from "../lib/types.js";
+import type { Model } from "../src/types.js";
 
 const { names } = contracts;
 
-export const lockupContracts: Types.ContractSource<Sablier.Version.Lockup>[] = [
+export const lockupContracts: Model.ContractSource<Sablier.Version.Lockup>[] = [
   {
     isTemplate: false,
     name: names.SABLIER_V2_LOCKUP_DYNAMIC,

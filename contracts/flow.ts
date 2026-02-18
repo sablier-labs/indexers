@@ -1,8 +1,8 @@
 import type { Sablier } from "sablier";
 import { contracts, Version } from "sablier/evm";
-import type { Types } from "../lib/types.js";
+import type { Model } from "../src/types.js";
 
-export const flowContracts: Types.ContractSource<Sablier.Version.Flow>[] = [
+export const flowContracts: Model.ContractSource<Sablier.Version.Flow>[] = [
   {
     isTemplate: false,
     name: contracts.names.SABLIER_FLOW,

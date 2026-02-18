@@ -1,6 +1,5 @@
 import { ContractFunctionExecutionError } from "viem";
-// biome-ignore lint/style/noRestrictedImports: type-only (erased at compile time)
-import type { Indexer } from "../../src/types";
+import type { Indexer } from "../../dist/types/types";
 
 export namespace CriticalError {
   export class ClientNotFound extends Error {

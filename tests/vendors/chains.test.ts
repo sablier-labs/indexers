@@ -3,7 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import { Protocol } from "sablier/evm";
 import { describe, expect, it } from "vitest";
-import { logger } from "../../lib/logger/index.js";
+import { logger } from "../../cli/logger/index.js";
 import { envioChains } from "../../src/indexers/envio.js";
 import { getIndexerGraph } from "../../src/indexers/getters.js";
 import { graphChains } from "../../src/indexers/graph.js";

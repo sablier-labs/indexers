@@ -25,7 +25,7 @@ import Table from "cli-table3";
 import { Chunk, Console, DateTime, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import paths, { ROOT_DIR } from "../../../../lib/paths.js";
+import paths, { ROOT_DIR } from "../../../../cli/paths.js";
 import { getSablierChainSlug } from "../../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../../src/indexers/index.js";
 import type { Indexer } from "../../../../src/types.js";

@@ -1,5 +1,4 @@
-// biome-ignore lint/style/noRestrictedImports: type-only (erased at compile time)
-import type { Indexer } from "../../../src";
+import type { Indexer } from "../../../dist/types/types";
 import type { Envio } from "../bindings";
 import { getContract } from "../deployments";
 import type { CommonEntities } from "../entities";

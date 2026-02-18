@@ -1,7 +1,7 @@
 import type { Sablier } from "sablier";
-import type { Types } from "../../../../lib/types.js";
+import type { Model } from "../../../../src/types.js";
 
-export type EventHandlersMap = Types.ComponentMap<GraphManifest.EventHandler[]>;
+export type EventHandlersMap = Model.ComponentMap<GraphManifest.EventHandler[]>;
 
 /**
  * @see https://thegraph.com/docs/en/subgraphs/developing/creating/subgraph-manifest/

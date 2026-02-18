@@ -16,13 +16,13 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { print } from "graphql";
 import _ from "lodash";
-import paths from "../../../lib/paths.js";
 import { getMergedSchema } from "../../../schema/index.js";
 import type { Indexer } from "../../../src/index.js";
 import { AUTOGEN_COMMENT, INDEXERS, VENDORS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
+import paths from "../../paths.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   OPTIONS                                  */

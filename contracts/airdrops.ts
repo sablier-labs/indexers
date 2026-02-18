@@ -1,10 +1,10 @@
 import type { Sablier } from "sablier";
 import { contracts, Version } from "sablier/evm";
-import type { Types } from "../lib/types.js";
+import type { Model } from "../src/types.js";
 
 const { names } = contracts;
 
-export const airdropsContracts: Types.ContractSource<Sablier.Version.Airdrops>[] = [
+export const airdropsContracts: Model.ContractSource<Sablier.Version.Airdrops>[] = [
   /* -------------------------------------------------------------------------- */
   /*                                    V1.1                                    */
   /* -------------------------------------------------------------------------- */

@@ -3,8 +3,7 @@
  */
 import type { Sablier } from "sablier";
 import { contracts } from "sablier/evm";
-import type { Types } from "../lib/types.js";
-import type { Indexer } from "../src/types.js";
+import type { Indexer, Model } from "../src/types.js";
 import { erc721 } from "./common/erc721.js";
 
 const DEFAULT_INDEXERS: Indexer.Name[] = ["lockup", "analytics"];
@@ -14,7 +13,7 @@ function get(
   contractName: string,
   eventName: string,
   indexers: Indexer.Name[] = DEFAULT_INDEXERS
-): Types.Event {
+): Model.Event {
   return {
     contractName,
     eventName,
@@ -24,7 +23,7 @@ function get(
   };
 }
 
-function dynamic(version: Sablier.Version.Lockup): Types.Event[] {
+function dynamic(version: Sablier.Version.Lockup): Model.Event[] {
   const contractName = contracts.names.SABLIER_V2_LOCKUP_DYNAMIC;
   return [
     ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
@@ -35,7 +34,7 @@ function dynamic(version: Sablier.Version.Lockup): Types.Event[] {
   ];
 }
 
-function linear(version: Sablier.Version.Lockup): Types.Event[] {
+function linear(version: Sablier.Version.Lockup): Model.Event[] {
   const contractName = contracts.names.SABLIER_V2_LOCKUP_LINEAR;
   return [
     ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
@@ -46,7 +45,7 @@ function linear(version: Sablier.Version.Lockup): Types.Event[] {
   ];
 }
 
-function tranched(version: Sablier.Version.Lockup): Types.Event[] {
+function tranched(version: Sablier.Version.Lockup): Model.Event[] {
   const contractName = contracts.names.SABLIER_V2_LOCKUP_TRANCHED;
   return [
     ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
@@ -57,7 +56,7 @@ function tranched(version: Sablier.Version.Lockup): Types.Event[] {
   ];
 }
 
-function lockup(version: Sablier.Version.Lockup): Types.Event[] {
+function lockup(version: Sablier.Version.Lockup): Model.Event[] {
   const contractName = contracts.names.SABLIER_LOCKUP;
   return [
     ...erc721("lockup", DEFAULT_INDEXERS, version, contractName),
@@ -73,12 +72,12 @@ function lockup(version: Sablier.Version.Lockup): Types.Event[] {
 /**
  * Lockup v2.0 had a `CollectFees` event that is indexed only in the Analytics indexer.
  */
-function lockupV2_0(): Types.Event[] {
+function lockupV2_0(): Model.Event[] {
   const contractName = contracts.names.SABLIER_LOCKUP;
   return [...lockup("v2.0"), get("v2.0", contractName, "CollectFees", ["analytics"])];
 }
 
-const lockupEvents: Types.EventMap = {
+const lockupEvents: Model.EventMap = {
   [contracts.names.SABLIER_V2_LOCKUP_DYNAMIC]: {
     "v1.0": dynamic("v1.0"),
     "v1.1": dynamic("v1.1"),

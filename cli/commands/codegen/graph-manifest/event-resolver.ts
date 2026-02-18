@@ -2,22 +2,21 @@ import * as fs from "node:fs";
 import type { AbiEventParameter } from "abitype";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
-import { sanitizeContractName } from "../../../../lib/helpers.js";
-import { logger } from "../../../../lib/logger/index.js";
-import paths from "../../../../lib/paths.js";
-import type { Types } from "../../../../lib/types.js";
-import type { Indexer } from "../../../../src/types.js";
+import { sanitizeContractName } from "../../../../cli/contract-name.js";
+import { logger } from "../../../../cli/logger/index.js";
+import paths from "../../../../cli/paths.js";
+import type { Indexer, Model } from "../../../../src/types.js";
 import type { GraphManifest } from "./manifest-types.js";
 
 /**
  * Resolves an event handler for The Graph manifest.
  * @param indexer The indexer that should process the event; @see Indexer.Name
- * @param event The event object; @see Types.Event
+ * @param event The event object; @see Model.Event
  * @returns A {@link typeof GraphManifest.EventHandler} object
  */
 export function resolveEventHandler(
   indexer: Indexer.Name,
-  event: Types.Event
+  event: Model.Event
 ): GraphManifest.EventHandler | null {
   const { contractName, eventName, indexers, protocol, version } = event;
   if (!indexers.includes(indexer)) {

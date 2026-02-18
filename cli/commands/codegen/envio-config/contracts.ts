@@ -1,10 +1,9 @@
 import _ from "lodash";
+import { sanitizeContractName } from "../../../../cli/contract-name.js";
+import paths, { getRelativePath } from "../../../../cli/paths.js";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { indexedEvents } from "../../../../events/index.js";
-import { sanitizeContractName } from "../../../../lib/helpers.js";
-import paths, { getRelativePath } from "../../../../lib/paths.js";
-import type { Types } from "../../../../lib/types.js";
-import type { Indexer } from "../../../../src/types.js";
+import type { Indexer, Model } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
 
 /**
@@ -48,14 +47,14 @@ export function createProtocolContracts(
 function getRelativeAbiFilePath(
   protocol: Indexer.Protocol,
   contractName: string,
-  version: Types.Version
+  version: Model.Version
 ): string {
   const envioConfigDir = paths.envio.config(protocol);
   const abiPath = paths.abi(contractName, protocol, version);
   return getRelativePath(envioConfigDir, abiPath);
 }
 
-function getEvents(indexer: Indexer.Name, indexedEvents: Types.Event[]): EnvioConfig.Event[] {
+function getEvents(indexer: Indexer.Name, indexedEvents: Model.Event[]): EnvioConfig.Event[] {
   const events: EnvioConfig.Event[] = [];
   _.forEach(indexedEvents, (indexedEvent) => {
     if (indexedEvent.indexers.includes(indexer)) {

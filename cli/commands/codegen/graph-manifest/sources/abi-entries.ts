@@ -1,8 +1,8 @@
 import _ from "lodash";
 import { indexedContracts } from "../../../../../contracts/index.js";
-import paths, { getRelativePath } from "../../../../../lib/paths.js";
-import type { Types } from "../../../../../lib/types.js";
 import type { Indexer } from "../../../../../src/index.js";
+import type { Model } from "../../../../../src/types.js";
+import paths, { getRelativePath } from "../../../../paths.js";
 import type { GraphManifest } from "../manifest-types.js";
 
 function get(name: string): GraphManifest.ABI {
@@ -22,7 +22,7 @@ const prbProxyRegistry = get("PRBProxyRegistry");
 export function getABIEntries(
   protocol: Indexer.Protocol,
   contractName: string,
-  version: Types.Version
+  version: Model.Version
 ) {
   const contract = _.find(indexedContracts[protocol], (c) => {
     return c.name === contractName && c.versions.includes(version);
@@ -46,7 +46,7 @@ export function getABIEntries(
   return [...contractABIEntries, ...otherABIEntries];
 }
 
-function getFilePath(contractName: string, protocol?: Indexer.Protocol, version?: Types.Version) {
+function getFilePath(contractName: string, protocol?: Indexer.Protocol, version?: Model.Version) {
   // It doesn't matter what protocol we use here, we just need the path to the manifests.
   const manifestsPath = paths.graph.manifests(protocol ?? "lockup");
   const abiPath = paths.abi(contractName, protocol, version);

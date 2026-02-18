@@ -3,8 +3,7 @@
  */
 import type { Sablier } from "sablier";
 import { contracts } from "sablier/evm";
-import type { Types } from "../lib/types.js";
-import type { Indexer } from "../src/types.js";
+import type { Indexer, Model } from "../src/types.js";
 
 type CampaignType = "instant" | "LL" | "LT";
 
@@ -45,7 +44,7 @@ function get(
   contractName: string,
   eventName: string,
   indexers: Indexer.Name[] = DEFAULT_INDEXERS
-): Types.Event {
+): Model.Event {
   return {
     contractName,
     eventName,
@@ -60,7 +59,7 @@ function campaign(
   type: CampaignType,
   version: Sablier.Version.Airdrops,
   contractName: string
-): Types.Event[] {
+): Model.Event[] {
   return [
     get(version, contractName, "TransferAdmin"),
     get(version, contractName, "Clawback"),
@@ -77,7 +76,7 @@ function factory(
   contractName: string,
   events: string[],
   indexerOverrides?: Record<string, Indexer.Name[]>
-): Record<string, Record<string, Types.Event[]>> {
+): Record<string, Record<string, Model.Event[]>> {
   return {
     [contractName]: {
       [version]: events.map((e) => get(version, contractName, e, indexerOverrides?.[e])),
@@ -91,7 +90,7 @@ function versions<T>(builder: (v: Sablier.Version.Airdrops) => T) {
     Object.fromEntries(versions.map((v) => [v, builder(v)]));
 }
 
-const airdropHandlers: Types.EventMap = {
+const airdropHandlers: Model.EventMap = {
   /* -------------------------------------------------------------------------- */
   /*                                    V1.1                                    */
   /* -------------------------------------------------------------------------- */

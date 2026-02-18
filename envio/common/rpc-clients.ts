@@ -2,9 +2,12 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { PublicClient } from "viem";
 import { createPublicClient, fallback, http } from "viem";
-// biome-ignore lint/style/noRestrictedImports: TODO inline envioChains to avoid CJS/ESM boundary
-import { envioChains } from "../../src/indexers/envio";
+// @ts-expect-error dist/cjs runtime path has no colocated declarations; types come from dist/types.
+import { envioChains as envioChainsValue } from "../../dist/cjs/indexers/envio.js";
+import type { envioChains as EnvioChains } from "../../dist/types/indexers/envio";
 import { CriticalError } from "./errors";
+
+const envioChains: typeof EnvioChains = envioChainsValue;
 
 /**
  * Cache of pre-configured public clients by chain ID.

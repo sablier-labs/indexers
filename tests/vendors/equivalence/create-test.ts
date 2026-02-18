@@ -4,7 +4,7 @@ import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
-import { logger } from "../../../lib/logger/index.js";
+import { logger } from "../../../cli/logger/index.js";
 import type { Indexer } from "../../../src/index.js";
 import type { Order_By, OrderDirection } from "./types.js";
 

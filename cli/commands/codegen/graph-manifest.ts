@@ -19,12 +19,12 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import paths from "../../../lib/paths.js";
 import type { Indexer } from "../../../src/index.js";
 import { graphChains } from "../../../src/indexers/graph.js";
 import { PROTOCOLS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import * as helpers from "../../helpers.js";
+import paths from "../../paths.js";
 import { createGraphManifest } from "./graph-manifest/index.js";
 import { dumpYAML } from "./helpers.js";
 

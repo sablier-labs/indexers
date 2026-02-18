@@ -6,15 +6,14 @@
  * @see https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.3.0/contracts/token/ERC721/ERC721.sol
  */
 import type { Sablier } from "sablier";
-import type { Types } from "../../lib/types.js";
-import type { Indexer } from "../../src/types.js";
+import type { Indexer, Model } from "../../src/types.js";
 
 export function erc721(
   protocol: Indexer.Protocol,
   indexers: Indexer.Name[],
   version: Sablier.Version.Lockup,
   contractName: string
-): Types.Event[] {
+): Model.Event[] {
   return [
     {
       contractName,

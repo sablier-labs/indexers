@@ -3,12 +3,12 @@ import _ from "lodash";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { convertToIndexed, indexedContracts } from "../../../../../contracts/index.js";
-import { sanitizeContractName } from "../../../../../lib/helpers.js";
-import { logger, messages } from "../../../../../lib/logger/index.js";
-import type { Types } from "../../../../../lib/types.js";
 import { getMergedSchema } from "../../../../../schema/merger.js";
 import type { Indexer } from "../../../../../src/index.js";
 import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph.js";
+import type { Model } from "../../../../../src/types.js";
+import { sanitizeContractName } from "../../../../contract-name.js";
+import { logger, messages } from "../../../../logger/index.js";
 import { CodegenError } from "../../errors.js";
 import { GRAPH_API_VERSION } from "../constants.js";
 import type { GraphManifest } from "../manifest-types.js";
@@ -50,8 +50,8 @@ export function getSources(protocol: Indexer.Protocol, chainId: number): GraphMa
 type CreateSourcesParams = {
   protocol: Indexer.Protocol;
   chainId: number;
-  version: Types.Version;
-  contract: Types.Contract;
+  version: Model.Version;
+  contract: Model.Contract;
   isTemplate: boolean;
 };
 
@@ -130,7 +130,7 @@ function getEntities(protocol: Indexer.Protocol): string[] {
 function getMapping(params: {
   protocol: Indexer.Protocol;
   contractName: string;
-  version: Types.Version;
+  version: Model.Version;
 }) {
   const { protocol, version, contractName } = params;
 
@@ -156,7 +156,7 @@ function extractContract(params: {
   chainId: number;
   contractName: string;
   isTemplate: boolean;
-}): Types.Contract | undefined {
+}): Model.Contract | undefined {
   const { release, chainId, contractName, isTemplate } = params;
 
   if (isTemplate) {
@@ -167,7 +167,7 @@ function extractContract(params: {
       chainId,
       name: contractName,
       protocol: release.protocol as Indexer.Protocol,
-      version: release.version as Types.Version,
+      version: release.version as Model.Version,
     };
   }
 
@@ -191,5 +191,5 @@ function extractContract(params: {
     throw new CodegenError.ContractVersionNotFound(release, chainId, contractName);
   }
 
-  return convertToIndexed(contract, release.version as Types.Version);
+  return convertToIndexed(contract, release.version as Model.Version);
 }

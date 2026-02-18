@@ -4,12 +4,12 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { print } from "graphql";
 import _ from "lodash";
-import paths from "../../lib/paths.js";
 import { getMergedSchema } from "../../schema/index.js";
 import { PROTOCOLS } from "../constants.js";
 import { colors, createTable, displayHeader } from "../display.js";
 import { ProcessError } from "../errors.js";
 import { getRelative } from "../helpers.js";
+import paths from "../paths.js";
 
 type ExportResult = {
   outputPath: string;

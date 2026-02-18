@@ -1,13 +1,13 @@
 import type { Sablier } from "sablier";
-import type { Types } from "../lib/types.js";
 import type { Indexer } from "../src/index.js";
+import type { Model } from "../src/types.js";
 import { airdropsContracts } from "./airdrops.js";
 import { flowContracts } from "./flow.js";
 import { lockupContracts } from "./lockup.js";
 
-type CS = Types.ContractSource<Sablier.Version>;
+type CS = Model.ContractSource<Sablier.Version>;
 
-export const indexedContracts: Types.ProtocolMap<CS[]> = {
+export const indexedContracts: Model.ProtocolMap<CS[]> = {
   airdrops: airdropsContracts,
   flow: flowContracts,
   lockup: lockupContracts,
@@ -18,8 +18,8 @@ export const indexedContracts: Types.ProtocolMap<CS[]> = {
  */
 export function convertToIndexed(
   contract: Sablier.Contract,
-  version: Types.Version
-): Types.Contract {
+  version: Model.Version
+): Model.Contract {
   return {
     address: contract.address.toLowerCase() as Sablier.Address,
     alias: contract.alias ?? "",

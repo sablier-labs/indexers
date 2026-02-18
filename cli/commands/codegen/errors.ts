@@ -1,8 +1,8 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { formatRelease } from "../../../lib/logger/helpers.js";
-import type { Types } from "../../../lib/types.js";
 import type { Indexer } from "../../../src/index.js";
+import type { Model } from "../../../src/types.js";
+import { formatRelease } from "../../logger/helpers.js";
 
 export namespace CodegenError {
   export class BlockNotFound extends Error {
@@ -45,7 +45,7 @@ export namespace CodegenError {
   }
 
   export class ReleaseNotFound extends Error {
-    constructor(protocol: Indexer.Protocol, version: Types.Version) {
+    constructor(protocol: Indexer.Protocol, version: Model.Version) {
       const message = `Sablier release not found for ${protocol} ${version}`;
       super(message);
     }
