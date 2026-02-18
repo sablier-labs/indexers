@@ -1,9 +1,28 @@
+import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { convertToIndexed } from "../../contracts";
+// biome-ignore lint/style/noRestrictedImports: type-only (erased at compile time)
 import type { Types } from "../../lib/types";
+// biome-ignore lint/style/noRestrictedImports: type-only (erased at compile time)
 import type { Indexer } from "../../src/types";
 import type { Envio } from "./bindings";
 import { CriticalError } from "./errors";
+
+/**
+ * Inlined from `contracts/index.ts` to avoid a cross-boundary ESM/CJS import.
+ * Envio's ts-node runtime transpiles to CJS, but `contracts/` lives under the
+ * root `package.json` which declares `"type": "module"`.
+ */
+function convertToIndexed(contract: Sablier.Contract, version: Types.Version): Types.Contract {
+  return {
+    address: contract.address.toLowerCase() as Sablier.Address,
+    alias: contract.alias ?? "",
+    block: contract.block ?? 0,
+    chainId: contract.chainId,
+    name: contract.name,
+    protocol: contract.protocol as Indexer.Protocol,
+    version,
+  };
+}
 
 export function getContract(
   protocol: Indexer.Protocol,

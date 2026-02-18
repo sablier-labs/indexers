@@ -2,6 +2,7 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/evm/chains";
 import { describe, expect, it } from "vitest";
+// biome-ignore lint/style/noRestrictedImports: TODO inline envioChains to avoid CJS/ESM boundary
 import { envioChains } from "../../../../src/indexers/envio";
 import { coinConfigs } from "../../effects/coingecko";
 

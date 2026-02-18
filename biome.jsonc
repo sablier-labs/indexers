@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": ["ultracite/core", "@sablier/devkit/biome/base"],
+  "root": true,
   "files": {
     "includes": [
       "**/*.{graphql,js,json,jsonc,ts}",
@@ -59,19 +60,6 @@
           "suspicious": {
             "noDoubleEquals": "off",
             "noShadowRestrictedNames": "off"
-          }
-        }
-      }
-    },
-    /* -------------------------------------------------------------------------- */
-    /*                               ENVIO MAPPINGS                               */
-    /* -------------------------------------------------------------------------- */
-    {
-      "includes": ["**/mappings/**/*"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useFilenamingConvention": "off"
           }
         }
       }

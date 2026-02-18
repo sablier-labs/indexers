@@ -2,6 +2,7 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { PublicClient } from "viem";
 import { createPublicClient, fallback, http } from "viem";
+// biome-ignore lint/style/noRestrictedImports: TODO inline envioChains to avoid CJS/ESM boundary
 import { envioChains } from "../../src/indexers/envio";
 import { CriticalError } from "./errors";
 
