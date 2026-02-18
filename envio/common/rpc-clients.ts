@@ -2,12 +2,7 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { PublicClient } from "viem";
 import { createPublicClient, fallback, http } from "viem";
-// @ts-expect-error dist/cjs runtime path has no colocated declarations; types come from dist/types.
-import { envioChains as envioChainsValue } from "../../dist/cjs/indexers/envio.js";
-import type { envioChains as EnvioChains } from "../../dist/types/indexers/envio";
 import { CriticalError } from "./errors";
-
-const envioChains: typeof EnvioChains = envioChainsValue;
 
 /**
  * Cache of pre-configured public clients by chain ID.
@@ -22,14 +17,13 @@ const clients: Record<number, PublicClient> = {};
  * @returns PublicClient configured with multiple RPC endpoints for the chain
  */
 function createClient(chainId: number): PublicClient {
-  // Verify chain is supported by checking if it exists in envioChains
-  const envioChain = _.find(envioChains, (c) => c.id === chainId);
-  if (!envioChain) {
-    throw new CriticalError.ClientNotFound(chainId);
-  }
-
-  // Get chain configuration from Sablier deployments
-  const chain = sablier.chains.getOrThrow(chainId);
+  const chain = (() => {
+    try {
+      return sablier.chains.getOrThrow(chainId);
+    } catch {
+      throw new CriticalError.ClientNotFound(chainId);
+    }
+  })();
 
   // Build priority-ordered list of RPC URLs
   const rpcUrls: string[] = [];
@@ -45,6 +39,9 @@ function createClient(chainId: number): PublicClient {
 
   // Remove duplicates while preserving order
   const uniqueRpcUrls = _.uniq(rpcUrls);
+  if (uniqueRpcUrls.length === 0) {
+    throw new CriticalError.ClientNotFound(chainId);
+  }
 
   // Create HTTP transports with batching enabled for performance
   const transports = uniqueRpcUrls.map((url) =>
