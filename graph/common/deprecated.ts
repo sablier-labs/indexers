@@ -56,9 +56,10 @@ export function isDeprecatedContract(
  * Checks if the token address is exempted from deprecation rules.
  */
 function isExemptedAsset(asset: Address): boolean {
-  const EXEMPTED_ASSETS = new Array<string>(3);
-  EXEMPTED_ASSETS[0] = "0xbea586a167853adddef12818f264f1f9823fbc18"; // esEXA on Optimism (10)
-  EXEMPTED_ASSETS[1] = "0x111123ea4cee28cf010703593a8a2a3bbb91756c"; // ARA on Base (8453)
-  EXEMPTED_ASSETS[2] = "0x70c4430f9d98b4184a4ef3e44ce10c320a8b7383"; // GYFI on Ethereum (1)
+  const EXEMPTED_ASSETS = new Array<string>(4);
+  EXEMPTED_ASSETS[0] = "0x1e925de1c68ef83bd98ee3e130ef14a50309c01b"; // EXA on Optimism, chain ID: 10
+  EXEMPTED_ASSETS[1] = "0xbea586a167853adddef12818f264f1f9823fbc18"; // esEXA on Optimism, chain ID: 10
+  EXEMPTED_ASSETS[2] = "0x111123ea4cee28cf010703593a8a2a3bbb91756c"; // ARA on Base, chain ID: 8453
+  EXEMPTED_ASSETS[3] = "0x70c4430f9d98b4184a4ef3e44ce10c320a8b7383"; // GYFI on Ethereum, chain ID: 1
   return EXEMPTED_ASSETS.includes(asset.toHexString());
 }
