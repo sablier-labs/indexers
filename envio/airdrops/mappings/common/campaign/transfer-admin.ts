@@ -25,25 +25,35 @@ const handler: Handler = async ({ context, event }) => {
   const watcherId = event.chainId.toString();
 
   const [campaign, watcher] = await Promise.all([
-    context.Campaign.getOrThrow(campaignId),
-    context.Watcher.getOrThrow(watcherId),
+    context.Campaign.get(campaignId),
+    context.Watcher.get(watcherId),
   ]);
 
   if (context.isPreload) {
     return;
   }
 
+  if (!campaign) {
+    context.log.error("Campaign not saved before this transfer admin event", { campaignId, event });
+    return;
+  }
+
+  const ensuredWatcher = watcher ?? Store.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
+  }
+
   /* -------------------------------- CAMPAIGN -------------------------------- */
   await Store.Campaign.updateAdmin(context, campaign, event.params.newAdmin);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, ensuredWatcher, {
     campaignId: campaign.id,
     category: "TransferAdmin",
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 /* -------------------------------------------------------------------------- */

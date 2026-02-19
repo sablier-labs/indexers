@@ -33,19 +33,29 @@ const handler: Handler = async ({ context, event }) => {
   const watcherId = event.chainId.toString();
 
   const [campaign, watcher] = await Promise.all([
-    context.Campaign.getOrThrow(campaignId),
-    context.Watcher.getOrThrow(watcherId),
+    context.Campaign.get(campaignId),
+    context.Watcher.get(watcherId),
   ]);
 
   if (context.isPreload) {
     return;
   }
 
+  if (!campaign) {
+    context.log.error("Campaign not saved before this clawback event", { campaignId, event });
+    return;
+  }
+
+  const ensuredWatcher = watcher ?? Store.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
+  }
+
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateClawback(context, event, campaign);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, ensuredWatcher, {
     campaignId: campaign.id,
     category: "Clawback",
     clawbackAmount: event.params.amount,
@@ -54,7 +64,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 /* -------------------------------------------------------------------------- */

@@ -19,26 +19,36 @@ const handler: Handler = async ({ context, event }) => {
   const watcherId = event.chainId.toString();
 
   const [campaign, watcher] = await Promise.all([
-    context.Campaign.getOrThrow(campaignId),
-    context.Watcher.getOrThrow(watcherId),
+    context.Campaign.get(campaignId),
+    context.Watcher.get(watcherId),
   ]);
 
   if (context.isPreload) {
     return;
   }
 
+  if (!campaign) {
+    context.log.error("Campaign not saved before this lower min fee event", { campaignId, event });
+    return;
+  }
+
+  const ensuredWatcher = watcher ?? Store.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
+  }
+
   /* -------------------------------- CAMPAIGN -------------------------------- */
   Store.Campaign.updateFee(context, campaign, event.params.newMinFeeUSD);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, ensuredWatcher, {
     campaignId: campaign.id,
     category: "LowerMinFeeUSD",
     fee: event.params.newMinFeeUSD,
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 /* -------------------------------------------------------------------------- */

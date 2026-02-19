@@ -23,16 +23,26 @@ const handler: Handler = async ({ context, event }) => {
 
   const watcherId = event.chainId.toString();
   const [stream, watcher] = await Promise.all([
-    context.Stream.getOrThrow(streamId),
-    context.Watcher.getOrThrow(watcherId),
+    context.Stream.get(streamId),
+    context.Watcher.get(watcherId),
   ]);
 
   if (context.isPreload) {
     return;
   }
 
+  if (!stream) {
+    context.log.error("Stream not saved before this approval event", { event, streamId });
+    return;
+  }
+
+  const ensuredWatcher = watcher ?? CommonStore.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
+  }
+
   /* --------------------------------- ACTION --------------------------------- */
-  CommonStore.Action.create(context, event, watcher, {
+  CommonStore.Action.create(context, event, ensuredWatcher, {
     addressA: event.params.owner,
     addressB: event.params.approved,
     category: "Approval",
@@ -40,7 +50,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 export const approval = { handler };

@@ -14,14 +14,19 @@ type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
   const watcherId = event.chainId.toString();
-  const watcher = await context.Watcher.getOrThrow(watcherId);
+  const watcher = await context.Watcher.get(watcherId);
 
   if (context.isPreload) {
     return;
   }
 
+  const ensuredWatcher = watcher ?? CommonStore.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
+  }
+
   /* --------------------------------- ACTION --------------------------------- */
-  CommonStore.Action.create(context, event, watcher, {
+  CommonStore.Action.create(context, event, ensuredWatcher, {
     addressA: event.params.owner,
     addressB: event.params.operator,
     amountA: event.params.approved ? 1n : 0n,
@@ -29,7 +34,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 export const approvalForAll = { handler };
