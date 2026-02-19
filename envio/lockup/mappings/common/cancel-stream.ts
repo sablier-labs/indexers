@@ -23,12 +23,22 @@ const handler: Handler = async ({ context, event }) => {
   const watcherId = event.chainId.toString();
 
   const [stream, watcher] = await Promise.all([
-    context.Stream.getOrThrow(streamId),
-    context.Watcher.getOrThrow(watcherId),
+    context.Stream.get(streamId),
+    context.Watcher.get(watcherId),
   ]);
 
   if (context.isPreload) {
     return;
+  }
+
+  if (!stream) {
+    context.log.error("Stream not saved before this cancel event", { event, streamId });
+    return;
+  }
+
+  const ensuredWatcher = watcher ?? CommonStore.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
   }
 
   /* --------------------------------- STREAM --------------------------------- */
@@ -44,7 +54,7 @@ const handler: Handler = async ({ context, event }) => {
   context.Stream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  CommonStore.Action.create(context, event, watcher, {
+  CommonStore.Action.create(context, event, ensuredWatcher, {
     addressA: event.params.sender,
     addressB: event.params.recipient,
     amountA: event.params.senderAmount,
@@ -54,7 +64,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  CommonStore.Watcher.incrementActionCounter(context, watcher);
+  CommonStore.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 export const cancelStream = { handler };
