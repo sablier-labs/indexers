@@ -5,6 +5,7 @@ import type {
   SablierFlow_v1_0_DepositFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_DepositFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_DepositFlowStream_handler as Handler_v2_0,
+  SablierFlow_v2_1_DepositFlowStream_handler as Handler_v2_1,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 
@@ -12,7 +13,7 @@ import { scale } from "../../helpers";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v2_1;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */

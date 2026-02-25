@@ -59,6 +59,21 @@ contracts:
       - event: "RestartFlowStream"
       - event: "VoidFlowStream"
       - event: "WithdrawFromFlowStream"
+  - name: "SablierFlow_v2_1"
+    handler: "mappings/v2.1/SablierFlow.ts"
+    abi_file_path: "../../node_modules/sablier/abi/flow/v2.1/SablierFlow.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "AdjustFlowStream"
+      - event: "CreateFlowStream"
+      - event: "DepositFlowStream"
+      - event: "PauseFlowStream"
+      - event: "RefundFromFlowStream"
+      - event: "RestartFlowStream"
+      - event: "VoidFlowStream"
+      - event: "WithdrawFromFlowStream"
 networks:
   - id: 2741
     start_block: 73630
@@ -462,4 +477,7 @@ networks:
         start_block: 7583391
       - address: "0xde489096ec9c718358c52a8bbe4ffd74857356e9"
         name: "SablierFlow_v2_0"
+        start_block: 9343957
+      - address: "0xd32480233ac90f3c97903c4e5263611b7a7dfe66"
+        name: "SablierFlow_v2_1"
         start_block: 9343957

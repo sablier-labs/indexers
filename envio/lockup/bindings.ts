@@ -9,6 +9,7 @@ export namespace Context {
 import {
   SablierLockup_v2_0,
   SablierLockup_v3_0,
+  SablierLockup_v4_0,
   SablierV2LockupDynamic_v1_0,
   SablierV2LockupDynamic_v1_1,
   SablierV2LockupDynamic_v1_2,
@@ -20,6 +21,7 @@ import {
 export namespace Contract {
   export const Lockup_v2_0 = SablierLockup_v2_0;
   export const Lockup_v3_0 = SablierLockup_v3_0;
+  export const Lockup_v4_0 = SablierLockup_v4_0;
   export const LockupDynamic_v1_0 = SablierV2LockupDynamic_v1_0;
   export const LockupDynamic_v1_1 = SablierV2LockupDynamic_v1_1;
   export const LockupDynamic_v1_2 = SablierV2LockupDynamic_v1_2;

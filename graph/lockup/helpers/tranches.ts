@@ -1,6 +1,7 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { CreateLockupTranchedStreamTranchesStruct as StructTrancheV2_0 } from "../bindings/SablierLockup_v2_0/SablierLockup";
 import { CreateLockupTranchedStreamTranchesStruct as StructTrancheV3_0 } from "../bindings/SablierLockup_v3_0/SablierLockup";
+import { CreateLockupTranchedStreamTranchesStruct as StructTrancheV4_0 } from "../bindings/SablierLockup_v4_0/SablierLockup";
 import { CreateLockupTranchedStreamTranchesStruct as StructTrancheV1_2 } from "../bindings/SablierV2LockupTranched_v1_2/SablierV2LockupTranched";
 
 import { Tranche } from "./types";
@@ -23,6 +24,14 @@ export function convertTranchesV2_0(eventTranches: StructTrancheV2_0[]): Tranche
 
 export function convertTranchesV3_0(eventTranches: StructTrancheV3_0[]): Tranche[] {
   return convertTranches<StructTrancheV3_0>(
+    eventTranches,
+    (tranche) => tranche.amount,
+    (tranche) => tranche.timestamp
+  );
+}
+
+export function convertTranchesV4_0(eventTranches: StructTrancheV4_0[]): Tranche[] {
+  return convertTranches<StructTrancheV4_0>(
     eventTranches,
     (tranche) => tranche.amount,
     (tranche) => tranche.timestamp

@@ -32,6 +32,8 @@ import {
   SablierFlow_v1_1,
   // Flow v2.0
   SablierFlow_v2_0,
+  // Flow v2.1
+  SablierFlow_v2_1,
   // Lockup v1.0
   SablierV2LockupDynamic_v1_0,
   SablierV2LockupLinear_v1_0,
@@ -46,6 +48,8 @@ import {
   SablierLockup_v2_0,
   // Lockup v3.0
   SablierLockup_v3_0,
+  // Lockup v4.0
+  SablierLockup_v4_0,
 } from "./bindings/src/Handlers.gen";
 
 export namespace Contract {
@@ -78,6 +82,7 @@ export namespace Contract {
     export const Flow_v1_0 = SablierFlow_v1_0;
     export const Flow_v1_1 = SablierFlow_v1_1;
     export const Flow_v2_0 = SablierFlow_v2_0;
+    export const Flow_v2_1 = SablierFlow_v2_1;
   }
 
   export namespace Lockup {
@@ -90,6 +95,7 @@ export namespace Contract {
     export const LockupTranched_v1_2 = SablierV2LockupTranched_v1_2;
     export const Lockup_v2_0 = SablierLockup_v2_0;
     export const Lockup_v3_0 = SablierLockup_v3_0;
+    export const Lockup_v4_0 = SablierLockup_v4_0;
   }
 }
 

@@ -117,6 +117,19 @@ contracts:
       - event: "CreateLockupTranchedStream"
       - event: "RenounceLockupStream"
       - event: "WithdrawFromLockupStream"
+  - name: "SablierLockup_v4_0"
+    handler: "mappings/v4.0/SablierLockup.ts"
+    abi_file_path: "../../node_modules/sablier/abi/lockup/v4.0/SablierLockup.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "CancelLockupStream"
+      - event: "CreateLockupDynamicStream"
+      - event: "CreateLockupLinearStream"
+      - event: "CreateLockupTranchedStream"
+      - event: "RenounceLockupStream"
+      - event: "WithdrawFromLockupStream"
 networks:
   - id: 2741
     start_block: 72821
@@ -772,4 +785,7 @@ networks:
         start_block: 7583311
       - address: "0x6b0307b4338f2963a62106028e3b074c2c0510da"
         name: "SablierLockup_v3_0"
+        start_block: 9336998
+      - address: "0xacdc1b0686d38a4ade97e73e242b30a96761be64"
+        name: "SablierLockup_v4_0"
         start_block: 9336998
