@@ -47,7 +47,7 @@ importers:
         version: 1.11.0(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/91113b1c8103c8b4e32dc8fca44d8929f4c6f1aa
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/5ea718b4c3b9c2ff2c8f64b16d5cd94e1571fd4e
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1263,8 +1263,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/91113b1c8103c8b4e32dc8fca44d8929f4c6f1aa':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/91113b1c8103c8b4e32dc8fca44d8929f4c6f1aa}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5ea718b4c3b9c2ff2c8f64b16d5cd94e1571fd4e':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/5ea718b4c3b9c2ff2c8f64b16d5cd94e1571fd4e}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -1365,8 +1365,8 @@ packages:
   '@types/node@25.0.3':
     resolution: {integrity: sha512-W609buLVRVmeW693xKfzHeIV6nJGGz98uCPfeXI1ELMLXVeKYZ9m15fAMSaUPBHYLGFsVRcMmSCksQOrZV9BYA==}
 
-  '@types/node@25.3.0':
-    resolution: {integrity: sha512-4K3bqJpXpqfg2XKGK9bpDTc6xO/xoUP/RBWS7AtRMug6zZFaRekiLzjVtAoZMquxoAbzBvy5nxQ7veS5eYzf8A==}
+  '@types/node@25.3.2':
+    resolution: {integrity: sha512-RpV6r/ij22zRRdyBPcxDeKAzH43phWVKEjL2iksqo1Vz3CuBUrgmPpPhALKiRfU7OMCmeeO9vECBMsV0hMTG8Q==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -5069,7 +5069,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/91113b1c8103c8b4e32dc8fca44d8929f4c6f1aa': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5ea718b4c3b9c2ff2c8f64b16d5cd94e1571fd4e': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5190,7 +5190,7 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/node@25.3.0':
+  '@types/node@25.3.2':
     dependencies:
       undici-types: 7.18.2
 
@@ -5204,7 +5204,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.3.0
+      '@types/node': 25.3.2
 
   '@vitest/expect@3.2.4':
     dependencies:
