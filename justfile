@@ -7,6 +7,7 @@ import "./recipes/envio.just"
 import "./recipes/graph.just"
 import "./recipes/print.just"
 import "./recipes/query.just"
+import "./recipes/rindexer.just"
 import "./recipes/utils.just"
 
 # Load env vars from .env file
