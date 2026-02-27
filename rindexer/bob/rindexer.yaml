@@ -1,0 +1,289 @@
+name: SablierBobMainnet
+description: SablierBob mainnet indexer for pools and pool activity
+repository: https://github.com/sablier-labs/indexers
+project_type: no-code
+
+networks:
+  - name: ethereum
+    chain_id: 1
+    rpc: ${ETHEREUM_RPC_URL}
+
+storage:
+  postgres:
+    enabled: true
+    drop_each_run: false
+
+contracts:
+  - name: SablierBob
+    details:
+      - network: ethereum
+        address: "0x801bb9bc8Ad2ac5D8f2BC6d98b3Da29011219E0a"
+        start_block: 24493329
+    abi: ./abis/SablierBob.abi.json
+    include_events:
+      - CreateVault
+      - Enter
+      - Redeem
+      - SyncPriceFromOracle
+      - UnstakeFromAdapter
+    tables:
+      - name: pool_states
+        columns:
+          - name: pool_id
+            type: uint256
+          - name: token
+            type: address
+            nullable: true
+          - name: oracle
+            type: address
+            nullable: true
+          - name: adapter
+            type: address
+            nullable: true
+          - name: share_token
+            type: address
+            nullable: true
+          - name: target_price
+            type: uint128
+            nullable: true
+          - name: expiry
+            type: uint64
+            nullable: true
+          - name: created_block
+            type: uint64
+            nullable: true
+          - name: created_tx_hash
+            type: string
+            nullable: true
+          - name: enter_count
+            type: uint64
+            default: "0"
+          - name: exit_count
+            type: uint64
+            default: "0"
+          - name: redeem_count
+            type: uint64
+            default: "0"
+          - name: sync_count
+            type: uint64
+            default: "0"
+          - name: unstake_count
+            type: uint64
+            default: "0"
+          - name: deposited_amount_total
+            type: uint256
+            default: "0"
+          - name: shares_minted_total
+            type: uint256
+            default: "0"
+          - name: exited_amount_total
+            type: uint256
+            default: "0"
+          - name: shares_burned_exit_total
+            type: uint256
+            default: "0"
+          - name: redeemed_amount_total
+            type: uint256
+            default: "0"
+          - name: shares_burned_redeem_total
+            type: uint256
+            default: "0"
+          - name: redeemed_fee_total
+            type: uint256
+            default: "0"
+          - name: latest_oracle_price
+            type: uint128
+            default: "0"
+          - name: last_oracle_sync_at
+            type: uint64
+            default: "0"
+          - name: last_unstaked_amount_staked
+            type: uint128
+            default: "0"
+          - name: last_unstaked_amount_received
+            type: uint128
+            default: "0"
+          - name: last_activity_block
+            type: uint64
+            default: "0"
+        events:
+          - event: CreateVault
+            operations:
+              - type: upsert
+                where: &where_pool
+                  pool_id: $vaultId
+                set:
+                  - column: token
+                    action: set
+                    value: $token
+                  - column: oracle
+                    action: set
+                    value: $oracle
+                  - column: adapter
+                    action: set
+                    value: $adapter
+                  - column: share_token
+                    action: set
+                    value: $shareToken
+                  - column: target_price
+                    action: set
+                    value: $targetPrice
+                  - column: expiry
+                    action: set
+                    value: $expiry
+                  - column: created_block
+                    action: set
+                    value: $rindexer_block_number
+                  - column: created_tx_hash
+                    action: set
+                    value: $rindexer_tx_hash
+                  - &set_last_activity_block
+                    column: last_activity_block
+                    action: max
+                    value: $rindexer_block_number
+          - event: Enter
+            operations:
+              - type: upsert
+                where: *where_pool
+                set:
+                  - column: enter_count
+                    action: increment
+                  - column: deposited_amount_total
+                    action: add
+                    value: $amountReceived
+                  - column: shares_minted_total
+                    action: add
+                    value: $sharesMinted
+                  - *set_last_activity_block
+          - event: ExitWithinGracePeriod
+            operations:
+              - type: upsert
+                where: *where_pool
+                set: &set_exit_totals
+                  - column: exit_count
+                    action: increment
+                  - column: exited_amount_total
+                    action: add
+                    value: $amountReceived
+                  - column: shares_burned_exit_total
+                    action: add
+                    value: $sharesBurned
+                  - *set_last_activity_block
+          - event: Redeem
+            operations:
+              - type: upsert
+                where: *where_pool
+                set: &set_redeem_totals
+                  - column: redeem_count
+                    action: increment
+                  - column: redeemed_amount_total
+                    action: add
+                    value: $amountReceived
+                  - column: shares_burned_redeem_total
+                    action: add
+                    value: $sharesBurned
+                  - column: redeemed_fee_total
+                    action: add
+                    value: $fee
+                  - *set_last_activity_block
+          - event: SyncPriceFromOracle
+            operations:
+              - type: upsert
+                where: *where_pool
+                set:
+                  - column: sync_count
+                    action: increment
+                  - column: latest_oracle_price
+                    action: set
+                    value: $latestPrice
+                  - column: last_oracle_sync_at
+                    action: set
+                    value: $syncedAt
+                  - *set_last_activity_block
+          - event: UnstakeFromAdapter
+            operations:
+              - type: upsert
+                where: *where_pool
+                set:
+                  - column: unstake_count
+                    action: increment
+                  - column: last_unstaked_amount_staked
+                    action: set
+                    value: $amountStakedInAdapter
+                  - column: last_unstaked_amount_received
+                    action: set
+                    value: $amountReceivedFromAdapter
+                  - *set_last_activity_block
+
+      - name: pool_user_states
+        columns:
+          - name: pool_id
+            type: uint256
+          - name: user
+            type: address
+          - name: enter_count
+            type: uint64
+            default: "0"
+          - name: exit_count
+            type: uint64
+            default: "0"
+          - name: redeem_count
+            type: uint64
+            default: "0"
+          - name: entered_amount_total
+            type: uint256
+            default: "0"
+          - name: shares_minted_total
+            type: uint256
+            default: "0"
+          - name: exited_amount_total
+            type: uint256
+            default: "0"
+          - name: shares_burned_exit_total
+            type: uint256
+            default: "0"
+          - name: redeemed_amount_total
+            type: uint256
+            default: "0"
+          - name: shares_burned_redeem_total
+            type: uint256
+            default: "0"
+          - name: redeemed_fee_total
+            type: uint256
+            default: "0"
+          - name: first_enter_block
+            type: uint64
+            nullable: true
+          - name: last_activity_block
+            type: uint64
+            default: "0"
+        events:
+          - event: Enter
+            operations:
+              - type: upsert
+                where: &where_pool_user
+                  pool_id: $vaultId
+                  user: $user
+                set:
+                  - column: enter_count
+                    action: increment
+                  - column: entered_amount_total
+                    action: add
+                    value: $amountReceived
+                  - column: shares_minted_total
+                    action: add
+                    value: $sharesMinted
+                  - column: first_enter_block
+                    action: min
+                    value: $rindexer_block_number
+                  - *set_last_activity_block
+          - event: ExitWithinGracePeriod
+            operations:
+              - type: upsert
+                where: *where_pool_user
+                set: *set_exit_totals
+          - event: Redeem
+            operations:
+              - type: upsert
+                where: *where_pool_user
+                set: *set_redeem_totals

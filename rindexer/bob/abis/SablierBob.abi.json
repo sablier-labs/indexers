@@ -1,0 +1,1178 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "initialComptroller",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "name": "Comptrollerable_CallerNotComptroller",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "comptroller",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "caller",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "name": "Comptrollerable_UnsupportedInterfaceId",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "previousComptroller",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "newComptroller",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4",
+        "name": "minimalInterfaceId",
+        "type": "bytes4"
+      }
+    ]
+  },
+  {
+    "inputs": [],
+    "name": "ReentrancyGuardReentrantCall",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SablierBobState_Null",
+    "type": "error"
+  },
+  {
+    "name": "SablierBob_CallerNotDepositor",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "name": "SablierBob_CallerNotShareToken",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "caller",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "name": "SablierBob_DepositAmountZero",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "name": "SablierBob_ExpiryInPast",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint40",
+        "name": "expiry",
+        "type": "uint40"
+      },
+      {
+        "internalType": "uint40",
+        "name": "currentTime",
+        "type": "uint40"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "nativeToken",
+        "type": "address"
+      }
+    ],
+    "name": "SablierBob_ForbidNativeToken",
+    "type": "error"
+  },
+  {
+    "name": "SablierBob_GracePeriodExpired",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "internalType": "uint40",
+        "name": "depositedAt",
+        "type": "uint40"
+      },
+      {
+        "internalType": "uint40",
+        "name": "gracePeriodEnd",
+        "type": "uint40"
+      }
+    ]
+  },
+  {
+    "name": "SablierBob_InsufficientFeePayment",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "feePaid",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "feeRequired",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "inputs": [],
+    "name": "SablierBob_NativeFeeTransferFailed",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "nativeToken",
+        "type": "address"
+      }
+    ],
+    "name": "SablierBob_NativeTokenAlreadySet",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "SablierBob_NativeTokenZeroAddress",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "adapter",
+        "type": "address"
+      }
+    ],
+    "name": "SablierBob_NewAdapterMissesInterface",
+    "type": "error"
+  },
+  {
+    "name": "SablierBob_NoSharesToRedeem",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "name": "SablierBob_TargetPriceTooLow",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint128",
+        "name": "targetPrice",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "currentPrice",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "inputs": [],
+    "name": "SablierBob_TargetPriceZero",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "SablierBob_TokenAddressZero",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SablierBob_UnstakeAmountZero",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SablierBob_VaultAlreadyUnstaked",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SablierBob_VaultHasNoAdapter",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SablierBob_VaultNotActive",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "SablierBob_VaultStillActive",
+    "type": "error"
+  },
+  {
+    "name": "SafeCastOverflowedUintDowncast",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "bits",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "SafeERC20FailedOperation",
+    "type": "error"
+  },
+  {
+    "name": "SafeOracle_DecimalsNotEight",
+    "type": "error",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "oracle",
+        "type": "address"
+      },
+      {
+        "internalType": "uint8",
+        "name": "decimals",
+        "type": "uint8"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "oracle",
+        "type": "address"
+      }
+    ],
+    "name": "SafeOracle_MissesInterface",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "oracle",
+        "type": "address"
+      }
+    ],
+    "name": "SafeOracle_NotPositivePrice",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "name": "CreateVault",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "contract AggregatorV3Interface",
+        "name": "oracle",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ISablierBobAdapter",
+        "name": "adapter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract IBobVaultShare",
+        "name": "shareToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "targetPrice",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint40",
+        "name": "expiry",
+        "type": "uint40"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "Enter",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amountReceived",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "sharesMinted",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "ExitWithinGracePeriod",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amountReceived",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "sharesBurned",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "Redeem",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amountReceived",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "sharesBurned",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "fee",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "SetComptroller",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "contract ISablierComptroller",
+        "name": "oldComptroller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract ISablierComptroller",
+        "name": "newComptroller",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "SetDefaultAdapter",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "contract ISablierBobAdapter",
+        "name": "adapter",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "SetNativeToken",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "comptroller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "nativeToken",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "SyncPriceFromOracle",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "contract AggregatorV3Interface",
+        "name": "oracle",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "latestPrice",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint40",
+        "name": "syncedAt",
+        "type": "uint40"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "TransferFeesToComptroller",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "contract ISablierComptroller",
+        "name": "comptroller",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "feeAmount",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "anonymous": false,
+    "name": "UnstakeFromAdapter",
+    "type": "event",
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "contract ISablierBobAdapter",
+        "name": "adapter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amountStakedInAdapter",
+        "type": "uint128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint128",
+        "name": "amountReceivedFromAdapter",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "inputs": [],
+    "name": "GRACE_PERIOD",
+    "outputs": [
+      {
+        "internalType": "uint40",
+        "name": "",
+        "type": "uint40"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes[]",
+        "name": "calls",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "batch",
+    "outputs": [
+      {
+        "internalType": "bytes[]",
+        "name": "results",
+        "type": "bytes[]"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculateMinFeeWei",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "minFeeWei",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "comptroller",
+    "outputs": [
+      {
+        "internalType": "contract ISablierComptroller",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "name": "createVault",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "contract AggregatorV3Interface",
+        "name": "oracle",
+        "type": "address"
+      },
+      {
+        "internalType": "uint40",
+        "name": "expiry",
+        "type": "uint40"
+      },
+      {
+        "internalType": "uint128",
+        "name": "targetPrice",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "name": "enter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint128",
+        "name": "amount",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "exitWithinGracePeriod",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAdapter",
+    "outputs": [
+      {
+        "internalType": "contract ISablierBobAdapter",
+        "name": "adapter",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "getDefaultAdapterFor",
+    "outputs": [
+      {
+        "internalType": "contract ISablierBobAdapter",
+        "name": "adapter",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getExpiry",
+    "outputs": [
+      {
+        "internalType": "uint40",
+        "name": "expiry",
+        "type": "uint40"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "name": "getFirstDepositTime",
+    "outputs": [
+      {
+        "internalType": "uint40",
+        "name": "depositedAt",
+        "type": "uint40"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getLastSyncedAt",
+    "outputs": [
+      {
+        "internalType": "uint40",
+        "name": "lastSyncedAt",
+        "type": "uint40"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getLastSyncedPrice",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "lastSyncedPrice",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOracle",
+    "outputs": [
+      {
+        "internalType": "contract AggregatorV3Interface",
+        "name": "oracle",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getShareToken",
+    "outputs": [
+      {
+        "internalType": "contract IBobVaultShare",
+        "name": "shareToken",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getTargetPrice",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "targetPrice",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getUnderlyingToken",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nativeToken",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nextVaultId",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "name": "onShareTransfer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fromBalanceBefore",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "redeem",
+    "stateMutability": "payable",
+    "type": "function",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "amountToTransfer",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "feeAmount",
+        "type": "uint128"
+      }
+    ]
+  },
+  {
+    "name": "setComptroller",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "internalType": "contract ISablierComptroller",
+        "name": "newComptroller",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "name": "setDefaultAdapter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ISablierBobAdapter",
+        "name": "newAdapter",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newNativeToken",
+        "type": "address"
+      }
+    ],
+    "name": "setNativeToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "statusOf",
+    "outputs": [
+      {
+        "internalType": "enum Bob.Status",
+        "name": "status",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "syncPriceFromOracle",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "latestPrice",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "transferFeesToComptroller",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "vaultId",
+        "type": "uint256"
+      }
+    ],
+    "name": "unstakeTokensViaAdapter",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "amountReceivedFromAdapter",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
