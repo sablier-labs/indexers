@@ -70,6 +70,7 @@ export function handle_SablierV2LockupLinear_v1_2_CreateLockupLinearStream(
     },
     {
       cliffTime: params.timestamps.cliff,
+      granularity: null,
       unlockAmountCliff: null,
       unlockAmountStart: null,
     }

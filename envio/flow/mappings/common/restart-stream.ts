@@ -6,10 +6,11 @@ import type {
   SablierFlow_v1_0_RestartFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_RestartFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_RestartFlowStream_handler as Handler_v2_0,
+  SablierFlow_v2_1_RestartFlowStream_handler as Handler_v2_1,
 } from "../../bindings/src/Types.gen";
 import { scale } from "../../helpers";
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v2_1;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */

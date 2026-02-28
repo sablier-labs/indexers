@@ -13,18 +13,26 @@ type ClaimEventsConfig = {
 };
 
 const CLAIM_EVENTS: ClaimEventsConfig = {
-  instant: { "v1.1": ["Claim"], "v1.2": ["Claim"], "v1.3": ["Claim"], "v2.0": ["ClaimInstant"] },
+  instant: {
+    "v1.1": ["Claim"],
+    "v1.2": ["Claim"],
+    "v1.3": ["Claim"],
+    "v2.0": ["ClaimInstant"],
+    "v3.0": ["ClaimInstant"],
+  },
   LL: {
     "v1.1": ["Claim"],
     "v1.2": ["Claim"],
     "v1.3": ["Claim"],
     "v2.0": ["ClaimLLWithTransfer", "ClaimLLWithVesting"],
+    "v3.0": ["ClaimLLWithTransfer", "ClaimLLWithVesting"],
   },
   LT: {
     "v1.1": ["Claim"],
     "v1.2": ["Claim"],
     "v1.3": ["Claim"],
     "v2.0": ["ClaimLTWithTransfer", "ClaimLTWithVesting"],
+    "v3.0": ["ClaimLTWithTransfer", "ClaimLTWithVesting"],
   },
 };
 
@@ -37,6 +45,7 @@ const LOWER_MIN_FEE_EVENTS: Record<Sablier.Version.Airdrops, readonly string[]> 
   "v1.2": [],
   "v1.3": [],
   "v2.0": ["LowerMinFeeUSD"],
+  "v3.0": ["LowerMinFeeUSD"],
 };
 
 function get(

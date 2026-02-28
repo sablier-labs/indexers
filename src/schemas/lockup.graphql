@@ -249,6 +249,11 @@ type Stream @entity(immutable: false) {
   """
   initialAmount: BigInt
   """
+  The smallest step in time between two consecutive token unlocks. 
+  Applies only for LockupLinear and available since Lockup v4.0
+  """
+  granularity: BigInt
+  """
   Segments of a Dynamic stream.
   """
   segments: [Segment!]! @derivedFrom(field: "stream")

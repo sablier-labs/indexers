@@ -8,6 +8,7 @@ import type {
   SablierFlow_v1_0_CreateFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_CreateFlowStream_handler as Handler_v2_0,
+  SablierFlow_v2_1_CreateFlowStream_handler as Handler_v2_1,
 } from "../../bindings/src/Types.gen";
 import { Store } from "../../store";
 
@@ -15,7 +16,7 @@ import { Store } from "../../store";
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v2_1;
 
 const handler: Handler = async ({ context, event }) => {
   if (isDeprecatedFlowContract({ asset: event.params.token, event, protocol: "flow" })) {

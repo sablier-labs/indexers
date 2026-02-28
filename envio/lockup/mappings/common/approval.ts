@@ -7,13 +7,19 @@ import type {
   SablierV2LockupLinear_v1_2_Approval_handler as Handler_v1_2,
   SablierLockup_v2_0_Approval_handler as Handler_v2_0,
   SablierLockup_v3_0_Approval_handler as Handler_v3_0,
+  SablierLockup_v4_0_Approval_handler as Handler_v4_0,
 } from "../../bindings/src/Types.gen";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2 & Handler_v2_0 & Handler_v3_0;
+type Handler = Handler_v1_0 &
+  Handler_v1_1 &
+  Handler_v1_2 &
+  Handler_v2_0 &
+  Handler_v3_0 &
+  Handler_v4_0;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */

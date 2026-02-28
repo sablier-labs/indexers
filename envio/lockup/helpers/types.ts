@@ -38,6 +38,7 @@ export namespace Params {
     cliffTime: bigint;
     unlockAmountCliff?: bigint; // v2.0 and above
     unlockAmountStart?: bigint; // v2.0 and above
+    granularity?: bigint; // v4.0 and above
   };
 
   export type CreateStreamDynamic = CreateStreamCommon & {

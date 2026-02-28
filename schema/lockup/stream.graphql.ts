@@ -121,6 +121,12 @@ export const lockupStreamDefs = gql`
     """
     initialAmount: BigInt
 
+    """
+    The smallest step in time between two consecutive token unlocks. 
+    Applies only for LockupLinear and available since Lockup v4.0
+    """
+    granularity: BigInt
+
     # ----------------------------- LOCKUP DYNAMIC ----------------------------- #
     """
     Segments of a Dynamic stream.
