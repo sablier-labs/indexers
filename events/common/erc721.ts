@@ -11,7 +11,7 @@ import type { Indexer, Model } from "../../src/types.js";
 export function erc721(
   protocol: Indexer.Protocol,
   indexers: Indexer.Name[],
-  version: Sablier.Version.Lockup,
+  version: Sablier.Version.Lockup | Sablier.Version.Flow,
   contractName: string
 ): Model.Event[] {
   return [

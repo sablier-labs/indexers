@@ -2,7 +2,7 @@ import { CreateMerkleVCA } from "../../../bindings/SablierFactoryMerkleVCA_v3_0/
 import { SablierMerkleVCA_v3_0 as TemplateVCA_v3_0 } from "../../../bindings/templates";
 import { handleCreateMerkleVCA } from "../../common";
 
-export function handle_SablierFactoryMerkleVCA_v2_0_CreateMerkleVCA(event: CreateMerkleVCA): void {
+export function handle_SablierFactoryMerkleVCA_v3_0_CreateMerkleVCA(event: CreateMerkleVCA): void {
   const params = event.params;
   const baseParams = params.campaignParams;
 
