@@ -1,0 +1,64 @@
+"""
+A single USDC transfer to the Sablier treasury. Immutable — one per Transfer event.
+"""
+type Sponsorship @entity(immutable: true) {
+  """
+  Unique identifier: `{chainId}_{txHash}_{logIndex}`
+  """
+  id: String!
+
+  """
+  The chain ID where the transfer occurred (e.g., 1 for Ethereum).
+  """
+  chainId: Int!
+
+  """
+  Raw USDC amount transferred.
+  """
+  amount: BigInt!
+
+  """
+  Human-readable USDC amount (formatted with token decimals).
+  """
+  amountScaled: String!
+
+  """
+  Address of the transaction signer (may differ from `from` for contract wallets).
+  """
+  sender: String!
+
+  """
+  Address of the token source (the ERC-20 Transfer `from` parameter).
+  """
+  from: String!
+
+  """
+  Address of the token destination (the Sablier treasury).
+  """
+  to: String!
+
+  """
+  Hash of the transaction.
+  """
+  txHash: String!
+
+  """
+  Log index of the Transfer event within the transaction.
+  """
+  logIndex: Int!
+
+  """
+  Block number of the transaction.
+  """
+  block: Int!
+
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: Int!
+
+  """
+  The sponsor who made this transfer.
+  """
+  sponsor: Sponsor!
+}
