@@ -8,44 +8,14 @@ type Sponsorship @entity(immutable: true) {
   id: String!
 
   """
-  The chain ID where the transfer occurred (e.g., 1 for Ethereum).
-  """
-  chainId: Int!
-
-  """
-  Raw USDC amount transferred.
+  Raw USDC amount.
   """
   amount: BigInt!
 
   """
-  Human-readable USDC amount (formatted with token decimals).
+  Human-readable USDC amount (e.g., "1719.12").
   """
   amountScaled: String!
-
-  """
-  Address of the transaction signer (may differ from `from` for contract wallets).
-  """
-  sender: String!
-
-  """
-  Address of the token source (the ERC-20 Transfer `from` parameter).
-  """
-  from: String!
-
-  """
-  Address of the token destination (the Sablier treasury).
-  """
-  to: String!
-
-  """
-  Hash of the transaction.
-  """
-  txHash: String!
-
-  """
-  Log index of the Transfer event within the transaction.
-  """
-  logIndex: Int!
 
   """
   Block number of the transaction.
@@ -53,12 +23,32 @@ type Sponsorship @entity(immutable: true) {
   block: Int!
 
   """
-  Unix timestamp of the transaction.
+  The ID of the chain where the transfer occurred (e.g., 1 for Ethereum).
   """
-  timestamp: Int!
+  chainId: Int!
+
+  """
+  Log index of the Transfer event within the transaction.
+  """
+  logIndex: Int!
+
+  """
+  Address of the transaction signer (may differ from `from` for contract wallets).
+  """
+  sender: String!
 
   """
   The sponsor who made this transfer.
   """
   sponsor: Sponsor!
+
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: Int!
+
+  """
+  Hash of the transaction.
+  """
+  txHash: String!
 }

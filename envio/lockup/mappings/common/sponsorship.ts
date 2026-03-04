@@ -1,3 +1,4 @@
+import { bsc } from "sablier/evm/chains";
 import { formatUnits } from "viem";
 import { BILLING_ADDRESS } from "../../../common/constants";
 import { USDC } from "../../bindings/src/Handlers.gen";
@@ -6,7 +7,7 @@ import type {
   USDC_Transfer_handler as Handler,
 } from "../../bindings/src/Types.gen";
 
-const USDC_DECIMALS: Record<number, number> = { 56: 18 }; // BNB USDC
+const USDC_DECIMALS: Record<number, number> = { [bsc.chainId]: 18 }; // BNB USDC
 const DEFAULT_USDC_DECIMALS = 6;
 
 /* -------------------------------------------------------------------------- */
@@ -83,13 +84,11 @@ function createSponsorship(
     amountScaled: formatUnits(event.params.amount, decimals),
     block: event.block.number,
     chainId: event.chainId,
-    from: event.params.from,
     id,
     logIndex: event.logIndex,
     sender: event.transaction.from as string,
     sponsor_id: sponsorEntityId,
     timestamp: event.block.timestamp,
-    to: event.params.to,
     txHash: event.transaction.hash,
   });
 }

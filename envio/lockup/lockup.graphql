@@ -492,29 +492,29 @@ type Sponsor @entity {
   """
   id: String!
   """
-  Address of the sponsor (the transaction signer).
+  Address of the sponsor.
   """
   address: String!
   """
-  The chain ID where the sponsor paid (sponsorships can happen on multiple chains)
+  The chain ID where the sponsorship was made (sponsorships are chain-specific).
   """
   chainId: Int!
   """
-  Cumulative raw USDC amount sent to the treasury.
-  """
-  totalAmount: BigInt!
-  """
-  Human-readable cumulative USDC amount (formatted with token decimals).
-  """
-  totalAmountScaled: String!
-  """
-  Number of sponsorship transfers made by this sponsor.
+  Number of sponsorships made by this sponsor.
   """
   sponsorshipCount: Int!
   """
   List of individual sponsorship transfers made by this sponsor.
   """
   sponsorships: [Sponsorship!]! @derivedFrom(field: "sponsor")
+  """
+  Cumulative raw USDC amount paid by the sponsor.
+  """
+  totalAmount: BigInt!
+  """
+  Human-readable cumulative USDC amount paid by the sponsor (e.g., "1729.12").
+  """
+  totalAmountScaled: String!
 }
 
 """
@@ -526,49 +526,41 @@ type Sponsorship @entity(immutable: true) {
   """
   id: String!
   """
-  The chain ID where the transfer occurred (e.g., 1 for Ethereum).
-  """
-  chainId: Int!
-  """
-  Raw USDC amount transferred.
+  Raw USDC amount.
   """
   amount: BigInt!
   """
-  Human-readable USDC amount (formatted with token decimals).
+  Human-readable USDC amount (e.g., "1719.12").
   """
   amountScaled: String!
-  """
-  Address of the transaction signer (may differ from `from` for contract wallets).
-  """
-  sender: String!
-  """
-  Address of the token source (the ERC-20 Transfer `from` parameter).
-  """
-  from: String!
-  """
-  Address of the token destination (the Sablier treasury).
-  """
-  to: String!
-  """
-  Hash of the transaction.
-  """
-  txHash: String!
-  """
-  Log index of the Transfer event within the transaction.
-  """
-  logIndex: Int!
   """
   Block number of the transaction.
   """
   block: Int!
   """
-  Unix timestamp of the transaction.
+  The ID of the chain where the transfer occurred (e.g., 1 for Ethereum).
   """
-  timestamp: Int!
+  chainId: Int!
+  """
+  Log index of the Transfer event within the transaction.
+  """
+  logIndex: Int!
+  """
+  Address of the transaction signer (may differ from `from` for contract wallets).
+  """
+  sender: String!
   """
   The sponsor who made this transfer.
   """
   sponsor: Sponsor!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: Int!
+  """
+  Hash of the transaction.
+  """
+  txHash: String!
 }
 
 """
