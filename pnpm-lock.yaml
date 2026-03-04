@@ -3376,8 +3376,8 @@ packages:
   rxjs@7.8.2:
     resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
 
-  sablier@2.0.4:
-    resolution: {integrity: sha512-hRh76Ijw1Z0TtYIBFyMs4dYOF4OtL3onqQnDLr+ed2KW+SVYP2+9DB3tx9FfZm3ePoXIIM2KiJlgo7yvBjBjog==}
+  sablier@2.1.0-beta.0:
+    resolution: {integrity: sha512-iUiHuP6Z2mk0oAUDwQS6BzgoBSqBWeiAwlj349TtZn2eZmasJlnMGgnYHNa163ndbIP2Kv7J0Ek2Se/Y+i5qEA==}
     peerDependencies:
       '@coral-xyz/anchor': ^0.30
       '@solana/web3.js': ^1.98

@@ -13,13 +13,14 @@ export namespace Params {
     claimAmount?: bigint;
     claimIndex?: bigint;
     claimRecipient?: Envio.Address;
-    claimTo?: Envio.Address;
     claimStreamId?: string;
+    claimTo?: Envio.Address;
     claimTokenId?: bigint;
     clawbackAmount?: bigint;
     clawbackFrom?: Envio.Address;
     clawbackTo?: Envio.Address;
     fee?: bigint;
+    vcaForgoneAmount?: bigint;
   };
 
   export type CreateEntities = {
@@ -62,6 +63,14 @@ export namespace Params {
   export type CreateCampaignLT = CreateCampaignLockup & {
     category: "LockupTranched";
     tranchesWithPercentages: TrancheWithPercentage[];
+  };
+
+  export type CreateCampaignVCA = CreateCampaignBase & {
+    category: "VariableClaimAmount";
+    vcaRedistributionEnabled: boolean;
+    vcaUnlockPercentage: bigint | undefined;
+    vcaEndTime: bigint;
+    vcaStartTime: bigint;
   };
 }
 
