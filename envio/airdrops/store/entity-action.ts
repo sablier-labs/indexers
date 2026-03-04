@@ -24,12 +24,12 @@ export function create(
     clawbackFrom: params.clawbackFrom,
     clawbackTo: params.clawbackTo,
     fee: params.fee,
-    forgoneAmount: params.forgoneAmount,
     from: event.transaction.from || "",
     hash: event.transaction.hash,
     id: Id.action(event),
     subgraphId: watcher.actionCounter,
     timestamp: BigInt(event.block.timestamp),
+    vcaForgoneAmount: params.vcaForgoneAmount,
   };
   context.Action.set(action);
   return action;

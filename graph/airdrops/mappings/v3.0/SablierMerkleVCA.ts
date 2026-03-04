@@ -23,10 +23,10 @@ export function handle_SablierMerkleVCA_v3_0_TransferAdmin(event: TransferAdmin)
 export function handle_SablierMerkleVCA_v3_0_ClaimVCA(event: ClaimVCA): void {
   handleClaimVCA(event, {
     claimAmount: event.params.claimAmount,
-    forgoneAmount: event.params.forgoneAmount,
     index: event.params.index,
     recipient: event.params.recipient,
     to: event.params.to,
+    vcaForgoneAmount: event.params.forgoneAmount,
   });
 }
 

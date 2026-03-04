@@ -11,7 +11,7 @@ export function handleClaimVCA(event: ethereum.Event, params: Params.ClaimVCA): 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   const claimAmount = params.claimAmount;
   Store.Campaign.updateClaimed(campaign, claimAmount);
-  Store.Campaign.updateForgoneAmount(campaign, params.forgoneAmount);
+  Store.Campaign.updateForgoneAmount(campaign, params.vcaForgoneAmount);
 
   /* -------------------------------- ACTIVITY -------------------------------- */
   Store.Activity.createOrUpdate(event, campaign, claimAmount);
@@ -25,6 +25,6 @@ export function handleClaimVCA(event: ethereum.Event, params: Params.ClaimVCA): 
     claimRecipient: params.recipient,
     claimTo: params.to,
     fee: event.transaction.value,
-    forgoneAmount: params.forgoneAmount,
+    vcaForgoneAmount: params.vcaForgoneAmount,
   } as Params.Action);
 }

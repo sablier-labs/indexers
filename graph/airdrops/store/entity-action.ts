@@ -32,7 +32,7 @@ export function createAction(event: ethereum.Event, params: Params.Action): Enti
   action.clawbackFrom = params.clawbackFrom;
   action.clawbackTo = params.clawbackTo;
   action.fee = params.fee;
-  action.forgoneAmount = params.forgoneAmount;
+  action.vcaForgoneAmount = params.vcaForgoneAmount;
   action.save();
 
   /* --------------------------------- WATCHER -------------------------------- */

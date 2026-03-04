@@ -61,10 +61,10 @@ export function createCampaignVCA(
 ): void {
   const campaign = createBaseCampaign(event, paramsBase);
 
-  campaign.enableRedistribution = paramsVCA.enableRedistribution as boolean;
-  campaign.unlockPercentage = paramsVCA.unlockPercentage;
-  campaign.vestingStartTime = paramsVCA.vestingStartTime;
-  campaign.vestingEndTime = paramsVCA.vestingEndTime;
+  campaign.vcaRedistributionEnabled = paramsVCA.vcaRedistributionEnabled as boolean;
+  campaign.vcaUnlockPercentage = paramsVCA.vcaUnlockPercentage;
+  campaign.vcaStartTime = paramsVCA.vcaStartTime;
+  campaign.vcaEndTime = paramsVCA.vcaEndTime;
 
   campaign.save();
 }
@@ -98,13 +98,13 @@ export function updateCampaignMinFeeUsd(campaign: Entity.Campaign, newFee: BigIn
 }
 
 export function updateCampaignForgoneAmount(campaign: Entity.Campaign, amount: BigInt): void {
-  const current = campaign.forgoneAmount;
-  campaign.forgoneAmount = current ? current.plus(amount) : amount;
+  const current = campaign.vcaForgoneAmount;
+  campaign.vcaForgoneAmount = current ? current.plus(amount) : amount;
   campaign.save();
 }
 
 export function updateCampaignEnableRedistribution(campaign: Entity.Campaign): void {
-  campaign.enableRedistribution = true;
+  campaign.vcaRedistributionEnabled = true;
   campaign.save();
 }
 

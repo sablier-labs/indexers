@@ -24,10 +24,10 @@ export function handle_SablierFactoryMerkleVCA_v3_0_CreateMerkleVCA(event: Creat
       recipientCount: params.recipientCount,
     },
     {
-      enableRedistribution: baseParams.enableRedistribution,
-      unlockPercentage: baseParams.unlockPercentage,
-      vestingEndTime: baseParams.vestingEndTime,
-      vestingStartTime: baseParams.vestingStartTime,
+      vcaEndTime: baseParams.vestingEndTime,
+      vcaRedistributionEnabled: baseParams.enableRedistribution,
+      vcaStartTime: baseParams.vestingStartTime,
+      vcaUnlockPercentage: baseParams.unlockPercentage,
     }
   );
 }

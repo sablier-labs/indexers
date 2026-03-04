@@ -103,5 +103,5 @@ type Action @entity(immutable: true) {
   """
   Forgone amount for VCA campaigns only.
   """
-  forgoneAmount: BigInt
+  vcaForgoneAmount: BigInt
 }
