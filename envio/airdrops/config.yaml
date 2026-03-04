@@ -935,15 +935,7 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
-      - address: "0xe2a509db6441e03f049275a36b7d2fcac581ad9c"
-        name: "SablierFactoryMerkleInstant_v2_0"
+      - address: "0x40d850d661b5a0a2064e4731597ad69155d80ab7"
+        name: "SablierFactoryMerkleVCA_v3_0"
         start_block: 10182216
-      - address: "0x184f5143dcbee15f3968d9c4e38a9d6a0aab0114"
-        name: "SablierFactoryMerkleLL_v2_0"
-        start_block: 10182216
-      - address: "0x946197cb803635deb2194f7361ba2c4f8607d03e"
-        name: "SablierFactoryMerkleLT_v2_0"
-        start_block: 10182216
-      - name: "SablierMerkleInstant_v2_0"
-      - name: "SablierMerkleLL_v2_0"
-      - name: "SablierMerkleLT_v2_0"
+      - name: "SablierMerkleVCA_v3_0"
