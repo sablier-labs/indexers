@@ -15,7 +15,7 @@ type Sponsorship @entity(immutable: true) {
   """
   Human-readable USDC amount (e.g., "1719.12").
   """
-  amountScaled: String!
+  amountDisplay: String!
 
   """
   Block number of the transaction.

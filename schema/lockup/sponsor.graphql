@@ -35,5 +35,5 @@ type Sponsor @entity {
   """
   Human-readable cumulative USDC amount paid by the sponsor (e.g., "1729.12").
   """
-  totalAmountScaled: String!
+  totalAmountDisplay: String!
 }

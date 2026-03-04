@@ -514,7 +514,7 @@ type Sponsor @entity {
   """
   Human-readable cumulative USDC amount paid by the sponsor (e.g., "1729.12").
   """
-  totalAmountScaled: String!
+  totalAmountDisplay: String!
 }
 
 """
@@ -532,7 +532,7 @@ type Sponsorship @entity(immutable: true) {
   """
   Human-readable USDC amount (e.g., "1719.12").
   """
-  amountScaled: String!
+  amountDisplay: String!
   """
   Block number of the transaction.
   """

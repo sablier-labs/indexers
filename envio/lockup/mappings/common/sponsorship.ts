@@ -54,7 +54,7 @@ async function getOrCreateSponsor(
       ...sponsor,
       sponsorshipCount: sponsor.sponsorshipCount + 1,
       totalAmount,
-      totalAmountScaled: formatUnits(totalAmount, decimals),
+      totalAmountDisplay: formatUnits(totalAmount, decimals),
     };
     context.Sponsor.set(updated);
     return updated;
@@ -66,7 +66,7 @@ async function getOrCreateSponsor(
     id,
     sponsorshipCount: 1,
     totalAmount: event.params.amount,
-    totalAmountScaled: formatUnits(event.params.amount, decimals),
+    totalAmountDisplay: formatUnits(event.params.amount, decimals),
   };
   context.Sponsor.set(newSponsor);
   return newSponsor;
@@ -81,7 +81,7 @@ function createSponsorship(
   const id = `${event.chainId}_${event.transaction.hash}_${event.logIndex}`;
   context.Sponsorship.set({
     amount: event.params.amount,
-    amountScaled: formatUnits(event.params.amount, decimals),
+    amountDisplay: formatUnits(event.params.amount, decimals),
     block: event.block.number,
     chainId: event.chainId,
     id,
