@@ -60,6 +60,16 @@ function generateSchemaWithResult(
   indexer: Indexer.Name
 ): Effect.Effect<SchemaResult, never, FileSystem.FileSystem> {
   return Effect.gen(function* () {
+    // Analytics has a manually maintained schema, skip generation
+    if (indexer === "analytics") {
+      return {
+        indexer,
+        outputPath: "",
+        status: "skipped" as const,
+        vendor,
+      };
+    }
+
     const fs = yield* FileSystem.FileSystem;
     const mergedSchema = print(getMergedSchema(indexer));
     const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;

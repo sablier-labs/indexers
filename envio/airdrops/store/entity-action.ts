@@ -5,7 +5,7 @@ import type { Params } from "../helpers/types";
 
 export function create(
   context: Context.Handler,
-  event: Envio.Event,
+  event: Envio.Event<unknown>,
   watcher: Entity.Watcher,
   params: Params.Action
 ): Entity.Action {
@@ -29,6 +29,7 @@ export function create(
     id: Id.action(event),
     subgraphId: watcher.actionCounter,
     timestamp: BigInt(event.block.timestamp),
+    vcaForgoneAmount: params.vcaForgoneAmount,
   };
   context.Action.set(action);
   return action;
