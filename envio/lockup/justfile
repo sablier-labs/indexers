@@ -6,6 +6,7 @@ export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
         "Action"
         "Asset"
         "Batch"
+        "Sponsor"
         "Stream"
     )
     IFS='&' # Internal Field Separator

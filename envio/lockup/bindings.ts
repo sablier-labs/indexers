@@ -16,6 +16,7 @@ import {
   SablierV2LockupLinear_v1_1,
   SablierV2LockupLinear_v1_2,
   SablierV2LockupTranched_v1_2,
+  USDC as USDC_Contract,
 } from "./bindings/src/Handlers.gen";
 export namespace Contract {
   export const Lockup_v2_0 = SablierLockup_v2_0;
@@ -27,6 +28,7 @@ export namespace Contract {
   export const LockupLinear_v1_1 = SablierV2LockupLinear_v1_1;
   export const LockupLinear_v1_2 = SablierV2LockupLinear_v1_2;
   export const LockupTranched_v1_2 = SablierV2LockupTranched_v1_2;
+  export const USDC = USDC_Contract;
 }
 
 // Enums
@@ -48,6 +50,8 @@ import type {
   Batch as EntityBatch,
   Batcher as EntityBatcher,
   Segment as EntitySegment,
+  Sponsor as EntitySponsor,
+  Sponsorship as EntitySponsorship,
   Stream as EntityStream,
   Tranche as EntityTranche,
   Watcher as EntityWatcher,
@@ -59,6 +63,8 @@ export namespace Entity {
   export type Batch = EntityBatch;
   export type Batcher = EntityBatcher;
   export type Segment = EntitySegment;
+  export type Sponsor = EntitySponsor;
+  export type Sponsorship = EntitySponsorship;
   export type Stream = EntityStream;
   export type Tranche = EntityTranche;
   export type Watcher = EntityWatcher;

@@ -2,8 +2,16 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
-import { createComptrollerContract, createProtocolContracts } from "./contracts.js";
-import { addComptrollerToNetworks, createNetworksForProtocols } from "./networks.js";
+import {
+  createComptrollerContract,
+  createProtocolContracts,
+  createUsdcContract,
+} from "./contracts.js";
+import {
+  addComptrollerToNetworks,
+  addUsdcToNetworks,
+  createNetworksForProtocols,
+} from "./networks.js";
 import { topSections } from "./top-sections.js";
 
 /**
@@ -15,6 +23,8 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
 
   let contracts: EnvioConfig.Contract[] = [];
   let networks: EnvioConfig.Network[] = [];
+
+  /* -------------------------------- ANALYTICS ------------------------------- */
 
   // The Analytics indexers monitors all protocols and the Comptroller contract.
   if (indexer === "analytics") {
@@ -36,10 +46,20 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       return chain && !chain.isTestnet;
     });
     networks = addComptrollerToNetworks(networks);
-  } else {
+  }
+  // Each protocol indexer tracks its own contracts and networks.
+  else {
     const protocol = indexer as Indexer.Protocol;
     contracts = createProtocolContracts(indexer, protocol);
     networks = createNetworksForProtocols(protocol);
+
+    /* --------------------------------- LOCKUP --------------------------------- */
+
+    // Lockup indexer also tracks USDC sponsorship transfers.
+    if (indexer === "lockup") {
+      contracts.push(createUsdcContract(indexer));
+      networks = addUsdcToNetworks(networks);
+    }
   }
 
   networks = setMinimumStartBlock(networks);

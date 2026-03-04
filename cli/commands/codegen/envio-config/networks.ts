@@ -7,6 +7,7 @@ import { logger, messages } from "../../../../cli/logger/index.js";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
+import { usdc } from "../../../usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
@@ -33,10 +34,6 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
   return networks;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                               INTERNAL LOGIC                               */
-/* -------------------------------------------------------------------------- */
-
 /**
  * Adds the Comptroller contract to networks that have a Comptroller deployment.
  * @see https://etherscan.io/address/0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399#code
@@ -61,6 +58,32 @@ export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): Envio
     };
   });
 }
+
+/**
+ * Adds the USDC contract to networks that have a known USDC deployment.
+ */
+export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
+  return networks.map((network) => {
+    const usdcInfo = usdc[network.id];
+    if (!usdcInfo) {
+      return network;
+    }
+
+    const usdcNetworkContract: EnvioConfig.NetworkContract = {
+      address: usdcInfo.address,
+      name: "USDC",
+    };
+
+    return {
+      ...network,
+      contracts: [...network.contracts, usdcNetworkContract],
+    };
+  });
+}
+
+/* -------------------------------------------------------------------------- */
+/*                               INTERNAL LOGIC                               */
+/* -------------------------------------------------------------------------- */
 
 /**
  * Will return a string URL like this: https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
