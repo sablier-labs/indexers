@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     env:
+      CI_LOG_MODE: quiet
+      CI_LOG_TAIL_LINES: 200
       GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
     runs-on: ubuntu-latest
     steps:
@@ -15,17 +17,17 @@ jobs:
         uses: sablier-labs/devkit/actions/setup@v1
 
       - name: Generate the indexer bindings
-        run: just codegen
+        run: just ci-run codegen
 
       - name: Check the code
-        run: just full-check
+        run: just ci-run full-check
 
       - name: Run the tests
         id: tests
         continue-on-error: true
         env:
           TEST_VENDORS: true
-        run: just test
+        run: just ci-run test
 
       - name: Generate test summary
         if: always()

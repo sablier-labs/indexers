@@ -12,6 +12,8 @@ on:
 jobs:
   ci:
     env:
+      CI_LOG_MODE: quiet
+      CI_LOG_TAIL_LINES: 200
       ENVIO_ALCHEMY_API_KEY: ${{ secrets.ENVIO_ALCHEMY_API_KEY }}
       ENVIO_ENVIRONMENT: development
       ENVIO_ROUTEMESH_API_KEY: ${{ secrets.ENVIO_ROUTEMESH_API_KEY }}
@@ -21,37 +23,30 @@ jobs:
         uses: sablier-labs/devkit/actions/setup@v1
 
       - name: Codegen Envio indexers
-        run: just codegen-envio
-
-      - name: Codegen Graph indexers
-        run: just codegen-graph
+        run: just ci-run codegen-envio
 
       - name: Build all Graph indexers as a check
-        run: just build-graph-indexer
+        run: just ci-run build-graph-indexer
 
       - name: Export the schemas
-        run: just export-schema
+        run: just ci-run export-schema
 
       - name: Verify GraphQL schemas haven't changed
-        uses: tj-actions/verify-changed-files@v20
-        with:
-          fail-if-changed: true
-          fail-message: ❌ GraphQL schemas are out of sync. Run 'just export-schema' locally and commit the changes.
-          files: |
-            ./src/schemas/airdrops.graphql
-            ./src/schemas/flow.graphql
-            ./src/schemas/lockup.graphql
-
-      - name: Check import boundaries
-        run: just depcruise-check
+        run: | # shell
+          bash .github/scripts/verify-no-diff.sh \
+            "❌ GraphQL schemas are out of sync. Run 'just export-schema' locally and commit the changes." \
+            "GraphQL schema diff" \
+            src/schemas/airdrops.graphql \
+            src/schemas/flow.graphql \
+            src/schemas/lockup.graphql
 
       - name: Run the code checks
         run: |
-          just full-check
-          just prices-check
+          just ci-run full-check
+          just ci-run prices-check
 
       - name: Run the tests
-        run: just test
+        run: just ci-run test
 
       - name: Add summary
         run: | # shell
