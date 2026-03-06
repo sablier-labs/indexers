@@ -3,10 +3,12 @@ import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import { Console, Effect, Option } from "effect";
 import { sablier } from "sablier";
-import { createPublicClient, formatUnits, http, parseAbi } from "viem";
+import { createPublicClient, fallback, formatUnits, http, parseAbi } from "viem";
 import { colors, createTable, displayHeader } from "../display.js";
 import { FileOperationError, ProcessError, ValidationError } from "../errors.js";
 import { getRelative, wrapText } from "../helpers.js";
+import type { CliRpcConfig } from "../rpc.js";
+import { resolveCliRpcConfig } from "../rpc.js";
 import { withSpinner } from "../spinner.js";
 import type { RecoverTokensProtocol } from "./recover-tokens.helpers.js";
 import {
@@ -72,26 +74,17 @@ function formatTokenAmount(value: bigint, decimals: number): string {
   return `${sign}${integerPart}.${compactFraction}${suffix}`;
 }
 
-function resolveChain(chainId: number) {
-  if (chainId <= 0) {
-    return Effect.fail(
-      new ValidationError({ field: "chainId", message: "Chain ID must be a positive number" })
-    );
-  }
-
-  const chain = sablier.chains.get(chainId);
-  if (!chain) {
-    return Effect.fail(new ValidationError({ field: "chainId", message: "Unknown chain ID" }));
-  }
-
-  const rpcUrl = chain.rpcUrls.default.http[0];
-  if (!rpcUrl) {
-    return Effect.fail(
-      new ValidationError({ field: "chainId", message: "Chain does not expose a default RPC URL" })
-    );
-  }
-
-  return Effect.succeed({ chain, rpcUrl });
+function resolveRpcConfig(chainId: number) {
+  return Effect.try({
+    catch: (error) =>
+      error instanceof ValidationError
+        ? error
+        : new ValidationError({
+            field: "chainId",
+            message: error instanceof Error ? error.message : String(error),
+          }),
+    try: () => resolveCliRpcConfig(chainId),
+  });
 }
 
 function resolveSablierContract(indexer: RecoverTokensProtocol, chainId: number) {
@@ -217,26 +210,31 @@ function toRecoverTokensProcessError(error: Error): ProcessError {
  */
 function queryRecoverTokenDeltas(opts: {
   assetFile: ReturnType<typeof parseIndexedAssetFile>;
+  chain: CliRpcConfig["chain"];
   contractAddress: `0x${string}`;
-  rpcUrl: string;
+  rpcUrls: readonly string[];
 }) {
   return Effect.gen(function* () {
-    const chain = sablier.chains.get(opts.assetFile.chainId);
-    if (!chain) {
+    const transports = opts.rpcUrls.map((url) =>
+      http(url, {
+        retryCount: VIEM_RPC_RETRY_COUNT,
+        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
+      })
+    );
+    const primaryTransport = transports[0];
+
+    if (!primaryTransport) {
       return yield* Effect.fail(
         new ProcessError({
           command: "recover-tokens",
-          message: `Unknown chain ID ${opts.assetFile.chainId}`,
+          message: "No RPC transports configured",
         })
       );
     }
 
     const client = createPublicClient({
-      chain,
-      transport: http(opts.rpcUrl, {
-        retryCount: VIEM_RPC_RETRY_COUNT,
-        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
-      }),
+      chain: opts.chain,
+      transport: fallback([primaryTransport, ...transports.slice(1)], { rank: false }),
     });
 
     const batches = chunkArray(opts.assetFile.assets, MULTICALL_BATCH_SIZE);
@@ -308,7 +306,7 @@ const recoverTokensLogic = (options: {
 }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const { chain, rpcUrl } = yield* resolveChain(options.chainId);
+    const { chain, displayRpcUrls, rpcUrls } = yield* resolveRpcConfig(options.chainId);
     const contract = yield* resolveSablierContract(options.indexer, options.chainId);
     const sourcePath = resolveSourcePath(options.file, options.indexer, options.chainId);
     const assetFile = yield* readIndexedAssetFile(fs, sourcePath, {
@@ -330,7 +328,7 @@ const recoverTokensLogic = (options: {
       [colors.value("Contract"), colors.value(getRecoverTokensContractName(options.indexer))],
       [colors.value("Address"), colors.dim(contract.address)],
       [colors.value("Source"), colors.dim(wrapText(getRelative(sourcePath), 68))],
-      [colors.value("RPC"), colors.dim(wrapText(rpcUrl, 68))],
+      [colors.value("RPC"), colors.dim(displayRpcUrls.map((url) => wrapText(url, 68)).join("\n"))],
       [colors.value("Assets"), colors.value(assetFile.assets.length.toString())]
     );
 
@@ -341,8 +339,9 @@ const recoverTokensLogic = (options: {
       "Querying onchain balances...",
       queryRecoverTokenDeltas({
         assetFile,
+        chain,
         contractAddress: contract.address as `0x${string}`,
-        rpcUrl,
+        rpcUrls,
       })
     );
 
