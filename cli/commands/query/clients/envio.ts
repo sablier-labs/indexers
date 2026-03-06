@@ -4,6 +4,7 @@
 
 import { HttpBody, HttpClient } from "@effect/platform";
 import { Effect, Schedule } from "effect";
+import { isAddress } from "viem";
 import { VendorApiError } from "../../../errors.js";
 
 // -------------------------------------------------------------------------- //
@@ -14,9 +15,19 @@ type EnvioAggregateResponse = {
   data: Record<string, unknown>;
 };
 
+export type EnvioIndexerAsset = {
+  address: string;
+  chainId: number;
+  decimals: number;
+  id: string;
+  name: string;
+  symbol: string;
+};
+
 type EnvioRequestOptions = {
+  endpoint?: string;
   query: string;
-  variables: Record<string, string>;
+  variables: Record<string, unknown>;
 };
 
 type QuarterlyAverageMauResult = {
@@ -74,6 +85,21 @@ const UNIQUE_TXS_QUERY = /* GraphQL */ `
     }
   }
 `;
+
+const INDEXER_ASSETS_QUERY = /* GraphQL */ `
+  query IndexerAssets($afterId: String!, $limit: Int!) {
+    Asset(limit: $limit, order_by: [{ id: asc }], where: { id: { _gt: $afterId } }) {
+      address
+      chainId
+      decimals
+      id
+      name
+      symbol
+    }
+  }
+`;
+
+export const INDEXER_ASSETS_PAGE_SIZE = 1000;
 
 const RETRY_SCHEDULE = Schedule.exponential("100 millis").pipe(
   Schedule.intersect(Schedule.recurs(3)),
@@ -134,6 +160,35 @@ function parseBigIntValue(value: unknown): Effect.Effect<bigint, VendorApiError>
   return Effect.fail(new VendorApiError({ message: "Invalid bigint value", vendor: "envio" }));
 }
 
+function parseSafeInteger(
+  value: unknown,
+  options?: { minimum?: number }
+): Effect.Effect<number, VendorApiError> {
+  return Effect.gen(function* () {
+    const parsed = yield* parseNumber(value);
+
+    if (!Number.isInteger(parsed)) {
+      return yield* Effect.fail(
+        new VendorApiError({ message: "Invalid integer value", vendor: "envio" })
+      );
+    }
+
+    if (!Number.isSafeInteger(parsed)) {
+      return yield* Effect.fail(
+        new VendorApiError({ message: "Unsafe integer value", vendor: "envio" })
+      );
+    }
+
+    if (options?.minimum !== undefined && parsed < options.minimum) {
+      return yield* Effect.fail(
+        new VendorApiError({ message: "Out-of-range integer value", vendor: "envio" })
+      );
+    }
+
+    return parsed;
+  });
+}
+
 const parseEnvioPayload = (
   payload: unknown
 ): Effect.Effect<EnvioAggregateResponse, VendorApiError> =>
@@ -169,7 +224,7 @@ const parseEnvioPayload = (
 
 const fetchEnvioQuery = (opts: EnvioRequestOptions) =>
   Effect.gen(function* () {
-    const response = yield* HttpClient.post(ENVIO_ANALYTICS_ENDPOINT, {
+    const response = yield* HttpClient.post(opts.endpoint ?? ENVIO_ANALYTICS_ENDPOINT, {
       accept: "application/json",
       body: HttpBody.unsafeJson({
         query: opts.query,
@@ -202,9 +257,104 @@ const fetchEnvioQuery = (opts: EnvioRequestOptions) =>
     })
   );
 
+export function getNextAssetsCursor(
+  assets: readonly Pick<EnvioIndexerAsset, "id">[]
+): string | null {
+  return assets.length === 0 ? null : (assets.at(-1)?.id ?? null);
+}
+
+export const parseAssetsPage = (
+  payload: unknown
+): Effect.Effect<EnvioIndexerAsset[], VendorApiError> =>
+  Effect.gen(function* () {
+    const invalidPayload = () =>
+      Effect.fail(new VendorApiError({ message: "Invalid Envio asset payload", vendor: "envio" }));
+
+    if (!Array.isArray(payload)) {
+      return yield* Effect.fail(
+        new VendorApiError({ message: "Invalid Envio asset page payload", vendor: "envio" })
+      );
+    }
+
+    const assets: EnvioIndexerAsset[] = [];
+
+    for (const item of payload) {
+      if (!isRecord(item)) {
+        return yield* invalidPayload();
+      }
+
+      const address = item.address;
+      const chainId = item.chainId;
+      const decimals = item.decimals;
+      const id = item.id;
+      const name = item.name;
+      const symbol = item.symbol;
+
+      if (
+        typeof address !== "string" ||
+        !isAddress(address) ||
+        typeof id !== "string" ||
+        id.length === 0 ||
+        typeof name !== "string" ||
+        typeof symbol !== "string"
+      ) {
+        return yield* invalidPayload();
+      }
+
+      assets.push({
+        address,
+        chainId: yield* parseSafeInteger(chainId, { minimum: 1 }),
+        decimals: yield* parseSafeInteger(decimals, { minimum: 0 }),
+        id,
+        name,
+        symbol,
+      });
+    }
+
+    return assets;
+  });
+
+const fetchAssetsPage = (opts: { afterId: string; endpoint: string }) =>
+  Effect.gen(function* () {
+    const response = yield* fetchEnvioQuery({
+      endpoint: opts.endpoint,
+      query: INDEXER_ASSETS_QUERY,
+      variables: {
+        afterId: opts.afterId,
+        limit: INDEXER_ASSETS_PAGE_SIZE,
+      },
+    });
+
+    return yield* parseAssetsPage(response.data.Asset);
+  });
+
 // -------------------------------------------------------------------------- //
 //                                   EXPORTS                                  //
 // -------------------------------------------------------------------------- //
+
+export const fetchAssets = (opts: { endpoint: string }) =>
+  Effect.gen(function* () {
+    const assets: EnvioIndexerAsset[] = [];
+    let afterId = "";
+
+    while (true) {
+      const page = yield* fetchAssetsPage({
+        afterId,
+        endpoint: opts.endpoint,
+      });
+
+      assets.push(...page);
+
+      const nextCursor = getNextAssetsCursor(page);
+      if (!nextCursor || page.length < INDEXER_ASSETS_PAGE_SIZE) {
+        break;
+      }
+
+      afterId = nextCursor;
+    }
+
+    return assets;
+  });
 
 export const fetchQuarterlyAverageMau = (opts: { quarterEnd: string; quarterStart: string }) =>
   Effect.gen(function* () {

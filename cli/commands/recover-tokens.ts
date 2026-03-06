@@ -35,7 +35,7 @@ const chainIdOption = Options.integer("chain-id").pipe(
 
 const fileOption = Options.text("file").pipe(
   Options.withAlias("f"),
-  Options.withDescription("Path to a per-chain JSON token list produced by query-indexer-assets"),
+  Options.withDescription("Path to a per-chain JSON token list produced by query-assets"),
   Options.optional
 );
 

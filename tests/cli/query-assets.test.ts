@@ -1,14 +1,11 @@
 import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import {
-  getNextIndexerAssetsCursor,
-  parseIndexerAssetsPage,
-} from "../../cli/commands/query/clients/envio.js";
-import {
-  buildIndexerAssetFiles,
-  getQueryIndexerAssetsFilePath,
-  getStaleQueryIndexerAssetFilePaths,
-} from "../../cli/commands/query/indexer-assets.file.js";
+  buildAssetFiles,
+  getQueryAssetsFilePath,
+  getStaleQueryAssetFilePaths,
+} from "../../cli/commands/query/assets.file.js";
+import { getNextAssetsCursor, parseAssetsPage } from "../../cli/commands/query/clients/envio.js";
 
 const INVALID_ENVIO_ASSET_PAYLOAD_REGEX = /Invalid Envio asset payload|Out-of-range integer value/;
 const QUERY_ASSETS_DATE = new Date().toISOString().split("T")[0];
@@ -19,11 +16,11 @@ const STALE_LOCKUP_OPTIMISM_FILE_REGEX = new RegExp(
   `cli/generated/assets-${QUERY_ASSETS_DATE}/lockup/optimism\\.json$`
 );
 
-describe("query-indexer-assets helpers", () => {
-  describe("parseIndexerAssetsPage", () => {
+describe("query-assets helpers", () => {
+  describe("parseAssetsPage", () => {
     it("parses Envio asset pages and returns the next cursor", () => {
       const page = Effect.runSync(
-        parseIndexerAssetsPage([
+        parseAssetsPage([
           {
             address: "0x0000000000000000000000000000000000000001",
             chainId: "1",
@@ -61,15 +58,13 @@ describe("query-indexer-assets helpers", () => {
           symbol: "TKB",
         },
       ]);
-      expect(getNextIndexerAssetsCursor(page)).toBe(
-        "asset-10-0x0000000000000000000000000000000000000002"
-      );
+      expect(getNextAssetsCursor(page)).toBe("asset-10-0x0000000000000000000000000000000000000002");
     });
 
     it("rejects invalid asset payloads before they reach disk", () => {
       expect(() =>
         Effect.runSync(
-          parseIndexerAssetsPage([
+          parseAssetsPage([
             {
               address: "not-an-address",
               chainId: "1",
@@ -84,9 +79,9 @@ describe("query-indexer-assets helpers", () => {
     });
   });
 
-  describe("buildIndexerAssetFiles", () => {
+  describe("buildAssetFiles", () => {
     it("groups assets by chain and sorts addresses deterministically", () => {
-      const files = buildIndexerAssetFiles(
+      const files = buildAssetFiles(
         "lockup",
         [
           {
@@ -160,7 +155,7 @@ describe("query-indexer-assets helpers", () => {
     });
 
     it("supports airdrops exports with the shared protocol type", () => {
-      const files = buildIndexerAssetFiles(
+      const files = buildAssetFiles(
         "airdrops",
         [
           {
@@ -193,11 +188,11 @@ describe("query-indexer-assets helpers", () => {
           ],
         },
       ]);
-      expect(getQueryIndexerAssetsFilePath("airdrops", 1)).toMatch(AIRDROPS_MAINNET_FILE_REGEX);
+      expect(getQueryAssetsFilePath("airdrops", 1)).toMatch(AIRDROPS_MAINNET_FILE_REGEX);
     });
 
     it("detects stale generated chain files", () => {
-      const files = buildIndexerAssetFiles("lockup", [
+      const files = buildAssetFiles("lockup", [
         {
           address: "0x0000000000000000000000000000000000000001",
           chainId: 1,
@@ -208,7 +203,7 @@ describe("query-indexer-assets helpers", () => {
         },
       ]);
 
-      const staleFilePaths = getStaleQueryIndexerAssetFilePaths(
+      const staleFilePaths = getStaleQueryAssetFilePaths(
         "lockup",
         ["mainnet.json", "optimism.json", "notes.txt"],
         files

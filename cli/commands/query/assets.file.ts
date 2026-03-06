@@ -4,7 +4,11 @@ import { sablier } from "sablier";
 import type { Indexer } from "../../../src/types.js";
 import paths from "../../paths.js";
 
-export type QueryIndexerAssetsProtocol = Extract<Indexer.Protocol, "flow" | "lockup">;
+export const QUERY_ASSET_PROTOCOLS = [
+  "airdrops",
+  "flow",
+  "lockup",
+] as const satisfies readonly Indexer.Protocol[];
 
 export type IndexedAsset = {
   address: string;
@@ -28,7 +32,7 @@ export type IndexedAssetFile = {
   chainName: string;
   chainSlug: string;
   generatedAt: string;
-  indexer: QueryIndexerAssetsProtocol;
+  indexer: Indexer.Protocol;
   vendor: "envio";
 };
 
@@ -48,8 +52,8 @@ const INDEXED_ASSET_FILE_ASSET_ORDER = Order.mapInput(
  * Addresses are keyed case-insensitively so mixed-case duplicates collapse into a
  * single entry before the final file is sorted and written.
  */
-export function buildIndexerAssetFiles(
-  indexer: QueryIndexerAssetsProtocol,
+export function buildAssetFiles(
+  indexer: Indexer.Protocol,
   assets: readonly IndexedAsset[],
   generatedAt = new Date().toISOString()
 ): IndexedAssetFile[] {
@@ -85,10 +89,7 @@ export function buildIndexerAssetFiles(
   );
 }
 
-export function getQueryIndexerAssetsFilePath(
-  indexer: QueryIndexerAssetsProtocol,
-  chainId: number
-): string {
+export function getQueryAssetsFilePath(indexer: Indexer.Protocol, chainId: number): string {
   const chain = sablier.chains.getOrThrow(chainId);
   return paths.generated.queryAssets.file(indexer, chain.slug);
 }
@@ -96,16 +97,16 @@ export function getQueryIndexerAssetsFilePath(
 /**
  * Finds previously generated per-chain JSON files that are absent from the latest export.
  *
- * `query-indexer-assets` removes these files so downstream commands do not keep using
+ * `query-assets` removes these files so downstream commands do not keep using
  * stale snapshots for chains that Envio no longer returns.
  */
-export function getStaleQueryIndexerAssetFilePaths(
-  indexer: QueryIndexerAssetsProtocol,
+export function getStaleQueryAssetFilePaths(
+  indexer: Indexer.Protocol,
   existingEntries: readonly string[],
   files: readonly Pick<IndexedAssetFile, "chainId">[]
 ): string[] {
   const expectedOutputPaths = new Set(
-    Arr.map(files, (file) => getQueryIndexerAssetsFilePath(indexer, file.chainId))
+    Arr.map(files, (file) => getQueryAssetsFilePath(indexer, file.chainId))
   );
 
   return existingEntries

@@ -1,8 +1,8 @@
 import { Array as Arr, Order } from "effect";
 import { isAddress } from "viem";
 import type { Indexer } from "../../src/types.js";
-import type { IndexedAssetFile } from "./query/indexer-assets-file.js";
-import { getQueryIndexerAssetsFilePath } from "./query/indexer-assets-file.js";
+import type { IndexedAssetFile } from "./query/assets.file.js";
+import { getQueryAssetsFilePath, QUERY_ASSET_PROTOCOLS } from "./query/assets.file.js";
 
 export type RecoverTokensProtocol = Extract<Indexer.Protocol, "flow" | "lockup">;
 
@@ -68,11 +68,11 @@ export function getRecoverTokensDefaultFilePath(
   indexer: RecoverTokensProtocol,
   chainId: number
 ): string {
-  return getQueryIndexerAssetsFilePath(indexer, chainId);
+  return getQueryAssetsFilePath(indexer, chainId);
 }
 
 /**
- * Validates the JSON contract produced by `query-indexer-assets` before any RPC work starts.
+ * Validates the JSON contract produced by `query-assets` before any RPC work starts.
  *
  * Parsing failures stay localized to the input file instead of surfacing later as harder-to-debug
  * multicall errors.
@@ -89,7 +89,7 @@ export function parseIndexedAssetFile(content: string): IndexedAssetFile {
   }
 
   const indexer = parseString(parsed.indexer, "indexer");
-  if (indexer !== "flow" && indexer !== "lockup") {
+  if (!QUERY_ASSET_PROTOCOLS.includes(indexer as Indexer.Protocol)) {
     throw new Error("Invalid indexer");
   }
 
@@ -122,7 +122,7 @@ export function parseIndexedAssetFile(content: string): IndexedAssetFile {
     chainName: parseString(parsed.chainName, "chainName"),
     chainSlug: parseString(parsed.chainSlug, "chainSlug"),
     generatedAt: parseString(parsed.generatedAt, "generatedAt"),
-    indexer,
+    indexer: indexer as Indexer.Protocol,
     vendor,
   };
 }
