@@ -8,35 +8,35 @@ function getURL(id: string) {
 export const envioDeployments: Record<Indexer.Protocol, Indexer.EnvioDeployment> = {
   airdrops: {
     createdOn: 1_712_673_343, // April 8, 2024
+    explorerURL: "https://envio.dev/app/sablier-labs/merkle-envio",
+    protocol: Protocol.Airdrops,
     endpoint: {
       id: "508d217",
       get url() {
         return getURL(this.id);
       },
     },
-    explorerURL: "https://envio.dev/app/sablier-labs/merkle-envio",
-    protocol: Protocol.Airdrops,
   },
   flow: {
     createdOn: 1_731_318_958, // November 1, 2024
+    explorerURL: "https://envio.dev/app/sablier-labs/flow-envio",
+    protocol: Protocol.Flow,
     endpoint: {
       id: "3b4ea6b",
       get url() {
         return getURL(this.id);
       },
     },
-    explorerURL: "https://envio.dev/app/sablier-labs/flow-envio",
-    protocol: Protocol.Flow,
   },
   lockup: {
     createdOn: 1_712_673_343, // April 8, 2024
+    explorerURL: "https://envio.dev/app/sablier-labs/lockup-envio",
+    protocol: Protocol.Lockup,
     endpoint: {
       id: "53b7e25",
       get url() {
         return getURL(this.id);
       },
     },
-    explorerURL: "https://envio.dev/app/sablier-labs/lockup-envio",
-    protocol: Protocol.Lockup,
   },
 };

@@ -10,6 +10,8 @@ export default {
         // Only flag imports that resolve to a file (skips npm subpath exports
         // like "sablier/evm" that depcruise can't resolve without a tsconfig)
         couldNotResolve: false,
+        path: "^(?!envio/)",
+        pathNot: ["node_modules", "^abi/"],
         // Allow Node.js built-ins, npm packages, and type-only imports
         dependencyTypesNot: [
           "core",
@@ -20,8 +22,6 @@ export default {
           "npm-optional",
           "type-only",
         ],
-        path: "^(?!envio/)",
-        pathNot: ["node_modules", "^abi/"],
       },
     },
   ],

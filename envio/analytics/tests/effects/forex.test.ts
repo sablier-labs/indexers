@@ -6,12 +6,12 @@ import { fetchFromCurrencyFreaksAPI } from "../../effects/forex";
 
 // Mock axios
 vi.mock("axios", () => ({
+  get: vi.fn(),
+  isAxiosError: vi.fn(),
   default: {
     get: vi.fn(),
     isAxiosError: vi.fn(),
   },
-  get: vi.fn(),
-  isAxiosError: vi.fn(),
 }));
 
 const mockedAxios = axios as any;

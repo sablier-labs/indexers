@@ -28,11 +28,11 @@ const PROTOCOL_MAP: Record<
     generators?: TsDefsGenerator[];
   }
 > = {
+  analytics: {},
   airdrops: {
     bespoke: ["action", "activity", "campaign", "factory", "tranche"],
     generators: BASE.generators,
   },
-  analytics: {},
   flow: {
     common: ["action", "batch", "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],

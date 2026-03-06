@@ -82,12 +82,12 @@ function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL:
   const endpointUrl = templateURL.replace(NAME_TEMPLATING_VAR, subgraphName);
   return {
     chainId,
-    endpoint: {
-      url: endpointUrl,
-    },
     explorerURL: `${endpointUrl}/graphql`,
     kind: "custom",
     name: subgraphName,
+    endpoint: {
+      url: endpointUrl,
+    },
     protocol,
     vendor: Vendor.Graph,
   };
@@ -97,13 +97,13 @@ function resolveOfficial(protocol: Indexer.Protocol, chainId: number, subgraphId
   const subgraphName = getSubgraphName(chainId, protocol);
   return {
     chainId,
+    explorerURL: `https://thegraph.com/explorer/subgraphs/${subgraphId}`,
+    kind: "official",
+    name: subgraphName,
     endpoint: {
       id: subgraphId,
       url: `https://gateway.thegraph.com/api/subgraphs/id/${subgraphId}`,
     },
-    explorerURL: `https://thegraph.com/explorer/subgraphs/${subgraphId}`,
-    kind: "official",
-    name: subgraphName,
     protocol,
     testingURL: `https://api.studio.thegraph.com/query/${SUBGRAPH_STUDIO_USER_ID}/${subgraphName}/version/latest`,
     vendor: Vendor.Graph,

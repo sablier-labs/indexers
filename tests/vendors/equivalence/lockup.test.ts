@@ -9,11 +9,11 @@ import { LockupEnvio, LockupGraph } from "./queries.js";
 
 createEquivalenceTest({
   chainId: sepolia.id,
+  protocol: "lockup",
   endpoints: {
     envio: getIndexer({ chainId: sepolia.id, protocol: "lockup", vendor: "envio" })!.endpoint.url,
     graph: getIndexer({ chainId: sepolia.id, protocol: "lockup", vendor: "graph" })!.endpoint.url,
   },
-  protocol: "lockup",
   queries: {
     envio: [LockupEnvio.getStreams, LockupEnvio.getActions],
     graph: [LockupGraph.getStreams, LockupGraph.getActions],

@@ -395,11 +395,11 @@ function displaySummary(
       const deploymentsTable = new Table({
         colWidths: [35, 50],
         head: [chalk.green.bold("Indexer Name"), chalk.green.bold("Deployment ID")],
+        wordWrap: true,
         style: {
           border: ["green"],
           head: [],
         },
-        wordWrap: true,
       });
 
       for (const { indexerName, deploymentId } of deploymentIds) {
@@ -420,11 +420,11 @@ function displaySummary(
       const failedTable = new Table({
         colWidths: [20, 60],
         head: [chalk.red.bold("Chain Slug"), chalk.red.bold("Error Message")],
+        wordWrap: true,
         style: {
           border: ["red"],
           head: [],
         },
-        wordWrap: true,
       });
 
       for (const { chainSlug, error } of failedDeployments) {

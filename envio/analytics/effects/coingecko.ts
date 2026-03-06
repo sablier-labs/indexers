@@ -130,10 +130,10 @@ const createAxiosInstance = (apiKey: string) => {
   });
 
   axiosRetry(instance, {
+    retries: MAX_RETRIES,
     onRetry: (_retryCount, _error, _requestConfig) => {
       // This will be handled by the logger in fetch functions
     },
-    retries: MAX_RETRIES,
     retryCondition: (error) => {
       // Retry on network errors, timeouts, and 429 status codes
       return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response?.status === 429;

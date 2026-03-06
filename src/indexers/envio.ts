@@ -71,13 +71,13 @@ function getIndexers(protocol: Indexer.Protocol): Indexer[] {
     const deployment = envioDeployments[protocol];
     return {
       chainId: chain.id,
+      explorerURL: deployment.explorerURL,
+      kind: "official",
+      name: `sablier-${protocol}`,
       endpoint: {
         id: deployment.endpoint.id,
         url: deployment.endpoint.url,
       },
-      explorerURL: deployment.explorerURL,
-      kind: "official",
-      name: `sablier-${protocol}`,
       protocol,
       testingURL: `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(deployment.endpoint.url)}`,
       vendor: Vendor.Envio,
