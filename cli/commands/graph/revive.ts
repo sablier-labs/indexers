@@ -8,15 +8,17 @@
  */
 
 import { Command, Options } from "@effect/cli";
+import { HttpBody, HttpClient } from "@effect/platform";
 import chalk from "chalk";
-import { Console, Effect, Option } from "effect";
-import { GraphQLClient, gql } from "graphql-request";
+import { Clock, Console, Effect, Either, Option } from "effect";
 import { sablier } from "sablier";
 import { Protocol } from "sablier/evm";
 import { graphChains } from "../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../src/indexers/index.js";
 import type { Indexer } from "../../../src/types.js";
 import { colors, createTable, displayHeader } from "../../display.js";
+import { getOptionalGraphHeaders } from "../../graph-auth.js";
+import { CliEnv } from "../../services/env.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -49,7 +51,7 @@ const chainOption = Options.integer("chain").pipe(
 /*                                  QUERIES                                   */
 /* -------------------------------------------------------------------------- */
 
-const STREAMS_QUERY = gql`
+const STREAMS_QUERY = /* GraphQL */ `
   query GetLastStream {
     streams(first: 1, orderBy: subgraphId, orderDirection: desc) {
       id
@@ -59,7 +61,7 @@ const STREAMS_QUERY = gql`
   }
 `;
 
-const CAMPAIGNS_QUERY = gql`
+const CAMPAIGNS_QUERY = /* GraphQL */ `
   query GetLastCampaign {
     campaigns(first: 1, orderBy: subgraphId, orderDirection: desc) {
       id
@@ -73,51 +75,57 @@ const CAMPAIGNS_QUERY = gql`
 /*                                   HELPERS                                  */
 /* -------------------------------------------------------------------------- */
 
-const GRAPH_QUERY_KEY = process.env.GRAPH_QUERY_KEY;
 const TIMEOUT_MS = 10_000;
 
 function getQueryForProtocol(protocol: Indexer.Protocol): string {
   return protocol === Protocol.Airdrops ? CAMPAIGNS_QUERY : STREAMS_QUERY;
 }
 
-function isOfficialEndpoint(url: string): boolean {
-  return url.includes("gateway.thegraph.com");
-}
+function pingEndpoint(endpoint: string, protocol: Indexer.Protocol) {
+  return Effect.gen(function* () {
+    const headers = yield* getOptionalGraphHeaders(endpoint);
+    const startedAt = yield* Clock.currentTimeMillis;
 
-async function pingEndpoint(
-  endpoint: string,
-  protocol: Indexer.Protocol
-): Promise<{ success: boolean; error?: string; latencyMs: number }> {
-  const headers: Record<string, string> = {};
-  if (isOfficialEndpoint(endpoint) && GRAPH_QUERY_KEY) {
-    headers.Authorization = `Bearer ${GRAPH_QUERY_KEY}`;
-  }
+    const result = yield* Effect.either(
+      HttpClient.post(endpoint, {
+        accept: "application/json",
+        body: HttpBody.unsafeJson({
+          query: getQueryForProtocol(protocol),
+          variables: {},
+        }),
+        headers: {
+          "content-type": "application/json",
+          ...headers,
+        },
+      }).pipe(
+        Effect.flatMap((response) => {
+          if (response.status < 200 || response.status >= 300) {
+            return Effect.fail(new Error(`status ${response.status}`));
+          }
 
-  // Use AbortController for timeout
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+          return response.text;
+        }),
+        Effect.timeoutOption(`${TIMEOUT_MS} millis`)
+      )
+    );
 
-  const client = new GraphQLClient(endpoint, {
-    fetch: (url, options) => fetch(url, { ...options, signal: controller.signal }),
-    headers,
-  });
+    const finishedAt = yield* Clock.currentTimeMillis;
+    const latencyMs = finishedAt - startedAt;
 
-  const start = Date.now();
-  try {
-    await client.request(getQueryForProtocol(protocol));
-    return { latencyMs: Date.now() - start, success: true };
-  } catch (error) {
-    const latencyMs = Date.now() - start;
-    let errorMsg = error instanceof Error ? error.message : String(error);
-    if (controller.signal.aborted) {
-      errorMsg = `timeout after ${TIMEOUT_MS}ms`;
+    if (Either.isRight(result)) {
+      if (Option.isNone(result.right)) {
+        return { error: `timeout after ${TIMEOUT_MS}ms`, latencyMs, success: false };
+      }
+
+      return { latencyMs, success: true };
     }
-    // Truncate long error messages
+
+    const error = result.left;
+    const errorMsg = error instanceof Error ? error.message : String(error);
     const truncated = errorMsg.length > 80 ? `${errorMsg.slice(0, 77)}...` : errorMsg;
+
     return { error: truncated, latencyMs, success: false };
-  } finally {
-    clearTimeout(timeoutId);
-  }
+  });
 }
 
 function formatResult(result: QueryResult): string {
@@ -137,7 +145,10 @@ const graphReviveLogic = (options: {
   readonly chain: Option.Option<number>;
 }) =>
   Effect.gen(function* () {
-    displayHeader("🔄 GRAPH REVIVE - ENDPOINT PING-PONG", "cyan");
+    const env = yield* CliEnv;
+    const graphQueryKey = (yield* env.getString("GRAPH_QUERY_KEY"))?.trim();
+
+    yield* displayHeader("🔄 GRAPH REVIVE - ENDPOINT PING-PONG", "cyan");
 
     // Filter chains if --chain option provided
     let chainIds = graphChains;
@@ -154,7 +165,7 @@ const graphReviveLogic = (options: {
     yield* Console.log(colors.info(`Checking ${chainIds.length} chains × 3 protocols`));
     yield* Console.log(colors.info(`Timeout: ${TIMEOUT_MS / 1000}s per request`));
 
-    if (!GRAPH_QUERY_KEY) {
+    if (!graphQueryKey) {
       yield* Console.log(
         colors.warning("⚠️  GRAPH_QUERY_KEY not set - official endpoints may fail")
       );
@@ -185,10 +196,10 @@ const graphReviveLogic = (options: {
       const chainName = chain?.name ?? `Chain ${chainId}`;
 
       // Query all 3 protocols in parallel for this chain
-      const protocolResults = yield* Effect.tryPromise({
-        catch: () => new Error("Failed to query protocols"),
-        try: () => {
-          const promises = protocols.map(async (protocol): Promise<QueryResult> => {
+      const protocolResults = yield* Effect.forEach(
+        protocols,
+        (protocol) =>
+          Effect.gen(function* () {
             const indexer = getIndexerGraph({ chainId, protocol });
             if (!indexer) {
               return {
@@ -197,20 +208,18 @@ const graphReviveLogic = (options: {
                 latencyMs: 0,
                 protocol,
                 success: false,
-              };
+              } satisfies QueryResult;
             }
 
-            const result = await pingEndpoint(indexer.endpoint.url, protocol);
+            const result = yield* pingEndpoint(indexer.endpoint.url, protocol);
             return {
               chainId,
               protocol,
               ...result,
-            };
-          });
-
-          return Promise.all(promises);
-        },
-      });
+            } satisfies QueryResult;
+          }),
+        { concurrency: "unbounded" }
+      );
 
       allResults.push(...protocolResults);
 
@@ -221,7 +230,7 @@ const graphReviveLogic = (options: {
 
     // Display results table
     yield* Console.log("");
-    displayHeader("📋 RESULTS", "cyan");
+    yield* displayHeader("📋 RESULTS", "cyan");
 
     const resultsTable = createTable({
       colWidths: [16, 10, 14, 14, 14],
@@ -269,7 +278,7 @@ const graphReviveLogic = (options: {
 
     // Display summary
     yield* Console.log("");
-    displayHeader("📊 SUMMARY", "cyan");
+    yield* displayHeader("📊 SUMMARY", "cyan");
 
     const successCount = allResults.filter((r) => r.success).length;
     const failCount = allResults.filter((r) => !r.success).length;

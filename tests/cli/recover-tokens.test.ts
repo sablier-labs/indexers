@@ -6,7 +6,7 @@ import {
   parseIndexedAssetFile,
 } from "../../cli/commands/recover-tokens.helpers.js";
 
-const QUERY_ASSETS_DATE = new Date().toISOString().split("T")[0];
+const QUERY_ASSETS_DATE = "2026-03-06";
 const LOCKUP_DEFAULT_FILE_REGEX = new RegExp(
   `cli/generated/assets-${QUERY_ASSETS_DATE}/lockup/mainnet\\.json$`
 );
@@ -25,8 +25,12 @@ describe("recover-tokens helpers", () => {
 
   describe("getRecoverTokensDefaultFilePath", () => {
     it("builds the default export file path from indexer and chain ID", () => {
-      expect(getRecoverTokensDefaultFilePath("lockup", 1)).toMatch(LOCKUP_DEFAULT_FILE_REGEX);
-      expect(getRecoverTokensDefaultFilePath("flow", 10)).toMatch(FLOW_DEFAULT_FILE_REGEX);
+      expect(getRecoverTokensDefaultFilePath("lockup", 1, QUERY_ASSETS_DATE)).toMatch(
+        LOCKUP_DEFAULT_FILE_REGEX
+      );
+      expect(getRecoverTokensDefaultFilePath("flow", 10, QUERY_ASSETS_DATE)).toMatch(
+        FLOW_DEFAULT_FILE_REGEX
+      );
     });
   });
 

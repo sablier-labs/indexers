@@ -11,6 +11,7 @@ import { formatUnits } from "viem";
 import { graph } from "../../../src/indexers/graph.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { ValidationError } from "../../errors.js";
+import { resolveGraphHeaders } from "../../graph-auth.js";
 import { wrapText } from "../../helpers.js";
 import { withSpinner } from "../../spinner.js";
 import { fetchQuarterActionStats } from "./clients/graph.js";
@@ -49,25 +50,6 @@ function toUnixSeconds(value: Dayjs): string {
   return value.unix().toString();
 }
 
-function resolveGraphHeaders(
-  indexerUrl: string
-): Effect.Effect<Record<string, string>, ValidationError> {
-  const graphQueryKey = process.env.GRAPH_QUERY_KEY;
-  if (!graphQueryKey) {
-    if (indexerUrl.includes("gateway.thegraph.com")) {
-      return Effect.fail(
-        new ValidationError({
-          field: "graphQueryKey",
-          message: "GRAPH_QUERY_KEY is required for The Graph gateway endpoints",
-        })
-      );
-    }
-    return Effect.succeed({});
-  }
-
-  return Effect.succeed({ Authorization: `Bearer ${graphQueryKey}` });
-}
-
 // -------------------------------------------------------------------------- //
 //                                   COMMAND                                  //
 // -------------------------------------------------------------------------- //
@@ -93,7 +75,7 @@ const queryActionsLogic = (options: { readonly chainId: number; readonly quarter
     const indexerUrl = yield* resolveIndexerUrl(chainId);
     const headers = yield* resolveGraphHeaders(indexerUrl);
 
-    displayHeader("📈 QUARTERLY ACTION FEES", "cyan");
+    yield* displayHeader("📈 QUARTERLY ACTION FEES", "cyan");
 
     const valueColumnWidth = 70;
     const infoTable = createTable({
@@ -116,7 +98,7 @@ const queryActionsLogic = (options: { readonly chainId: number; readonly quarter
     yield* Console.log(infoTable.toString());
 
     const stats = yield* withSpinner(
-      "Querying Envio...",
+      "Querying Graph...",
       fetchQuarterActionStats({
         end: toUnixSeconds(quarterWindow.end),
         headers,

@@ -18,7 +18,10 @@ import { topSections } from "./top-sections.js";
  * Creates a Graph manifest for a given protocol and chain.
  * @see https://docs.envio.dev/docs/HyperIndex/configuration-file#interactive-schema-explorer
  */
-export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection {
+export function createEnvioConfig(
+  indexer: Indexer.Name,
+  options: { hasAlchemyApiKey: boolean }
+): EnvioConfig.TopSection {
   const topSection = topSections[indexer];
 
   let contracts: EnvioConfig.Contract[] = [];
@@ -36,9 +39,9 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       createComptrollerContract(indexer),
     ];
     networks = mergeNetworks([
-      ...createNetworksForProtocols("airdrops"),
-      ...createNetworksForProtocols("flow"),
-      ...createNetworksForProtocols("lockup"),
+      ...createNetworksForProtocols("airdrops", options),
+      ...createNetworksForProtocols("flow", options),
+      ...createNetworksForProtocols("lockup", options),
     ]);
     // Filter out testnets from analytics indexer.
     networks = networks.filter((network) => {
@@ -51,7 +54,7 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
   else {
     const protocol = indexer as Indexer.Protocol;
     contracts = createProtocolContracts(indexer, protocol);
-    networks = createNetworksForProtocols(protocol);
+    networks = createNetworksForProtocols(protocol, options);
 
     /* --------------------------------- LOCKUP --------------------------------- */
 

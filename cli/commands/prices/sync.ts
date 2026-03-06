@@ -7,15 +7,20 @@ import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import type { PriceDataFile } from "../../price-data.js";
 import { getRequiredPriceDataFiles } from "../../price-data.js";
-
-const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
-const PRICE_DATA_DIR = path.join(process.cwd(), "node_modules/@sablier/price-data");
+import { CliEnv } from "../../services/env.js";
 
 /**
  * Get list of required TSV files based on Sablier chain data and forex rates.
  */
 function getRequiredFiles(): PriceDataFile[] {
   return getRequiredPriceDataFiles();
+}
+
+function getPriceDataPaths(cwd: string) {
+  return {
+    cacheDir: path.join(cwd, "envio/analytics/.envio/cache"),
+    priceDataDir: path.join(cwd, "node_modules/@sablier/price-data"),
+  };
 }
 
 type SyncResult = {
@@ -27,15 +32,17 @@ type SyncResult = {
 
 const priceDataSyncLogic = () =>
   Effect.gen(function* () {
+    const env = yield* CliEnv;
     const fs = yield* FileSystem.FileSystem;
+    const { cacheDir, priceDataDir } = getPriceDataPaths(env.cwd);
 
-    displayHeader("🔄 SYNCING PRICE DATA", "cyan");
+    yield* displayHeader("🔄 SYNCING PRICE DATA", "cyan");
 
     // Ensure cache directory exists
-    yield* fs.makeDirectory(CACHE_DIR, { recursive: true });
+    yield* fs.makeDirectory(cacheDir, { recursive: true });
 
     // Remove existing TSV files
-    const entries = yield* fs.readDirectory(CACHE_DIR);
+    const entries = yield* fs.readDirectory(cacheDir);
     const existingTsvFiles = entries.filter((file) => file.endsWith(".tsv"));
 
     if (existingTsvFiles.length > 0) {
@@ -44,7 +51,7 @@ const priceDataSyncLogic = () =>
         colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing TSV files from cache...`)
       );
       for (const file of existingTsvFiles) {
-        yield* fs.remove(path.join(CACHE_DIR, file));
+        yield* fs.remove(path.join(cacheDir, file));
       }
     }
 
@@ -53,8 +60,8 @@ const priceDataSyncLogic = () =>
     const results: SyncResult[] = [];
 
     for (const { name, sourceDir } of requiredFiles) {
-      const sourcePath = path.join(PRICE_DATA_DIR, sourceDir, name);
-      const destPath = path.join(CACHE_DIR, name);
+      const sourcePath = path.join(priceDataDir, sourceDir, name);
+      const destPath = path.join(cacheDir, name);
 
       const sourceExists = yield* fs.exists(sourcePath);
       if (!sourceExists) {
@@ -96,7 +103,7 @@ const priceDataSyncLogic = () =>
         colors.value(result.name),
         colors.dim(result.sourceDir),
         statusText,
-        colors.dim(path.relative(process.cwd(), result.destPath)),
+        colors.dim(path.relative(env.cwd, result.destPath)),
       ]);
     }
 

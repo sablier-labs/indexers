@@ -12,17 +12,12 @@
  * @param --dry-run - Optional: Test deployment without actually running commands
  */
 
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { Command, Options } from "@effect/cli";
-import {
-  CommandExecutor,
-  FileSystem,
-  Command as PlatformCommand,
-  Terminal,
-} from "@effect/platform";
+import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import Table from "cli-table3";
-import { Chunk, Console, DateTime, Effect, Option, Stream } from "effect";
+import { Chunk, Clock, Console, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
 import paths, { ROOT_DIR } from "../../../../cli/paths.js";
@@ -31,6 +26,9 @@ import { getIndexerGraph } from "../../../../src/indexers/index.js";
 import type { Indexer } from "../../../../src/types.js";
 import { GraphDeployError, UserAbortError, ValidationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
+import type { CliFileLoggerInstance } from "../../../services/logging.js";
+import { CliFileLogger } from "../../../services/logging.js";
+import { PromptService } from "../../../services/prompt.js";
 import { finishSpinner, startSpinner } from "../../../spinner.js";
 
 /** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
@@ -149,51 +147,28 @@ function parseExcludedChainIds(
 }
 
 /* -------------------------------------------------------------------------- */
-/*                                  LOGGING                                   */
-/* -------------------------------------------------------------------------- */
-
-function createFileLogger(logFilePath: string) {
-  return {
-    log: (msg: string) =>
-      Effect.gen(function* () {
-        const fs = yield* FileSystem.FileSystem;
-        const timestamp = new Date().toISOString();
-        const logEntry = `${timestamp} ${msg}\n`;
-        // Read existing content, append, and write back
-        const exists = yield* fs.exists(logFilePath);
-        const existingContent = exists ? yield* fs.readFileString(logFilePath) : "";
-        yield* fs.writeFileString(logFilePath, existingContent + logEntry);
-      }),
-  };
-}
-
-/* -------------------------------------------------------------------------- */
 /*                              DEPLOYMENT LOGIC                              */
 /* -------------------------------------------------------------------------- */
 
-function promptUserConfirmation(): Effect.Effect<void, UserAbortError, Terminal.Terminal> {
+function promptUserConfirmation(): Effect.Effect<void, UserAbortError, PromptService> {
   return Effect.gen(function* () {
-    const terminal = yield* Terminal.Terminal;
+    const promptService = yield* PromptService;
 
     yield* Console.log(chalk.yellow("⚠️  Please review the version label carefully!"));
     yield* Console.log(chalk.cyan("📚 Check the README.md for version labeling instructions"));
     yield* Console.log(chalk.cyan("🔍 Verify against the latest version in Subgraph Studio"));
     yield* Console.log("");
 
-    yield* terminal.display("Does the version label look correct? (y/N): ");
-    const answer = yield* terminal.readLine;
-
-    if (answer.toLowerCase() !== "y" && answer.toLowerCase() !== "yes") {
+    const confirmed = yield* promptService.confirmOrCancel("Does the version label look correct?");
+    if (!confirmed) {
       return yield* Effect.fail(new UserAbortError({}));
     }
-  }).pipe(
-    // QuitException (Ctrl+C) and PlatformError should also abort
-    Effect.catchAll(() => Effect.fail(new UserAbortError({})))
-  );
+  });
 }
 
 function buildDeploymentList(indexer: Indexer.Protocol, excludedChainIds: Set<number>) {
   return Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
     const chains = _.sortBy(sablier.chains.getAll(), (c) => c.slug);
     const deployments: Deployment[] = [];
     const excludedChains: Array<{ chainId: number; chainName: string }> = [];
@@ -212,7 +187,6 @@ function buildDeploymentList(indexer: Indexer.Protocol, excludedChainIds: Set<nu
       }
 
       // Check if manifest file exists for this chain
-      const fs = yield* FileSystem.FileSystem;
       const manifestPath = paths.graph.manifest(indexer, c.id);
       const exists = yield* fs.exists(manifestPath);
 
@@ -266,7 +240,7 @@ function deployToChain(
   deployment: Deployment,
   indexer: Indexer.Protocol,
   versionLabel: string,
-  logger: ReturnType<typeof createFileLogger>,
+  logger: CliFileLoggerInstance,
   dryRun: boolean
 ) {
   const indexerName = `sablier-${indexer}-${deployment.chainSlug}`;
@@ -282,7 +256,7 @@ function deployToChain(
   ).pipe(PlatformCommand.workingDirectory(workingDir));
 
   return Effect.gen(function* () {
-    const spinner = startSpinner(
+    const spinner = yield* startSpinner(
       `Deploying to ${deployment.chainName} (${deployment.chainSlug})...`
     );
     yield* logger.log(
@@ -294,7 +268,7 @@ function deployToChain(
 
     if (dryRun) {
       yield* logger.log(`DRY RUN: Would execute command in ${workingDir}`);
-      finishSpinner(spinner, "stop");
+      yield* finishSpinner(spinner, "stop");
       yield* Console.log(chalk.yellow(`[DRY RUN] Would deploy to ${deployment.chainName}`));
       yield* logger.log(`[DRY RUN] Would deploy to ${deployment.chainName}`);
       return { deploymentId: undefined, indexerName, success: true } as const;
@@ -323,7 +297,11 @@ function deployToChain(
         }
 
         const deploymentId = helpers.extractDeploymentId(stdout);
-        finishSpinner(spinner, "success", `Successfully deployed to ${deployment.chainName}`);
+        yield* finishSpinner(
+          spinner,
+          "success",
+          `Successfully deployed to ${deployment.chainName}`
+        );
 
         yield* Effect.all([
           logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
@@ -333,14 +311,17 @@ function deployToChain(
       }).pipe(
         Effect.catchAll((error) => {
           const errorMessage = error instanceof Error ? error.message : String(error);
-          finishSpinner(
+          return finishSpinner(
             spinner,
             "fail",
             `Failed to deploy to ${deployment.chainName}: ${errorMessage}`
+          ).pipe(
+            Effect.zipRight(
+              Effect.all([
+                logger.log(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`),
+              ]).pipe(Effect.map(() => ({ error: errorMessage, success: false }) as const))
+            )
           );
-          return Effect.all([
-            logger.log(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`),
-          ]).pipe(Effect.map(() => ({ error: errorMessage, success: false }) as const));
         })
       )
     );
@@ -352,8 +333,8 @@ function displaySummary(
   successCount: number,
   deploymentIds: DeploymentResult[],
   failedDeployments: FailedDeployment[],
-  startTime: DateTime.Utc,
-  logger: ReturnType<typeof createFileLogger>
+  startTimeMs: number,
+  logger: CliFileLoggerInstance
 ) {
   return Effect.gen(function* () {
     const failureCount = failedDeployments.length;
@@ -435,8 +416,8 @@ function displaySummary(
     }
 
     // Log final statistics
-    const endTime = DateTime.unsafeNow();
-    const durationMs = DateTime.distance(startTime, endTime);
+    const endTimeMs = yield* Clock.currentTimeMillis;
+    const durationMs = endTimeMs - startTimeMs;
     const duration = (durationMs / 1000).toFixed(2);
     yield* Console.log("");
     yield* Console.log(chalk.cyan(`⏱️  Total execution time: ${duration} seconds`));
@@ -467,20 +448,20 @@ const graphDeployAllLogic = (options: {
 }) =>
   Effect.gen(function* () {
     // Setup file logging
+    const fileLoggerFactory = yield* CliFileLogger;
+    const timestampMs = yield* Clock.currentTimeMillis;
     const logFilePath = join(
       ROOT_DIR,
       ".logs",
       "graph-deploy-all",
-      `${Math.trunc(DateTime.toEpochMillis(DateTime.unsafeNow()) / 1000)}.log`
+      `${Math.trunc(timestampMs / 1000)}.log`
     );
-    const fs = yield* FileSystem.FileSystem;
-    yield* fs.makeDirectory(dirname(logFilePath), { recursive: true });
-
-    const logger = createFileLogger(logFilePath);
+    const logger = yield* fileLoggerFactory.make(logFilePath);
+    yield* logger.createLogFile();
     yield* logger.log("=== Graph Deploy All Session Started ===");
     yield* logger.log(`Log file: ${logFilePath}`);
 
-    const startTime = DateTime.unsafeNow();
+    const startTimeMs = yield* Clock.currentTimeMillis;
 
     // Log command arguments
     yield* logger.log("COMMAND ARGUMENTS:");
@@ -591,7 +572,7 @@ const graphDeployAllLogic = (options: {
       successCount,
       deploymentIds,
       failedDeployments,
-      startTime,
+      startTimeMs,
       logger
     );
   });

@@ -3,7 +3,6 @@
 import _ from "lodash";
 import { sablier } from "sablier";
 import { sanitizeContractName } from "../../../../cli/contract-name.js";
-import { logger, messages } from "../../../../cli/logger/index.js";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
@@ -11,7 +10,10 @@ import { usdc } from "../../../usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
-export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {
+export function createNetworksForProtocols(
+  protocol: Indexer.Protocol,
+  options: { hasAlchemyApiKey: boolean }
+): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];
 
   for (const chain of envioChains) {
@@ -19,7 +21,7 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
     const hypersync_config = chain.config?.hypersync
       ? { url: `https://${chain.config.hypersync}.hypersync.xyz` }
       : undefined;
-    const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
+    const rpc = getRPCs(chain.id, chain.config?.rpcOnly, options);
 
     // Order matters for readability in the YAML config file.
     networks.push({
@@ -89,16 +91,19 @@ export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.
  * Will return a string URL like this: https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
  * The API keys will be loaded from the .env file. Make sure to set them!
  */
-function getRPCs(chainId: number, rpcOnly?: boolean): EnvioConfig.NetworkRPC[] | undefined {
+function getRPCs(
+  chainId: number,
+  rpcOnly: boolean | undefined,
+  options: { hasAlchemyApiKey: boolean }
+): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
-  const alchemyApiKey = process.env.ENVIO_ALCHEMY_API_KEY;
 
   // If it's HyperSync, we use Alchemy as fallback RPC.
   if (rpcOnly) {
     throw new Error("RPC-only mode is temporary disabled");
   }
-  if (chain.rpc.alchemy && alchemyApiKey) {
+  if (chain.rpc.alchemy && options.hasAlchemyApiKey) {
     RPCs.push({
       for: "fallback",
       initial_block_interval: 2000,
@@ -137,8 +142,6 @@ function extractContracts(
 
     // Some contracts are not deployed on all chains, so we skip them.
     if (!deployment) {
-      const chainName = sablier.chains.get(chainId)?.name ?? "chain";
-      logger.debug(`No deployment found for ${protocol} ${release.version} on ${chainName}`);
       continue;
     }
 
@@ -160,7 +163,6 @@ function extractContracts(
 
       // If it's a deployment that exists, the contract from the contract map must exist.
       if (!contract) {
-        logger.debug(messages.contractNotFound(release, chainId, contractName));
         continue;
       }
       // If a contract is found, it must have an alias and a start block. These are required for indexing.

@@ -11,12 +11,10 @@
  * Use 'all' to generate for all chains.
  */
 
-import * as fs from "node:fs";
-import { writeFileSync } from "node:fs";
-import * as path from "node:path";
 import { Command, Options } from "@effect/cli";
+import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
-import { Console, Effect } from "effect";
+import { Console, Effect, Either } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../src/index.js";
@@ -62,58 +60,59 @@ type ManifestResult = {
  * Writes the subgraph manifest to a file.
  * @returns The relative path to the manifest file.
  */
-function writeManifestToFile(indexer: Indexer.Name, chainId: number): string {
-  const manifest = createGraphManifest(indexer as Indexer.Protocol, chainId);
-  const yaml = dumpYAML(manifest);
-  const manifestPath = paths.graph.manifest(indexer as Indexer.Protocol, chainId);
-  writeFileSync(manifestPath, yaml);
+function writeManifestToFile(indexer: Indexer.Name, chainId: number) {
+  return Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const manifest = yield* createGraphManifest(indexer as Indexer.Protocol, chainId);
+    const yaml = dumpYAML(manifest);
+    const manifestPath = paths.graph.manifest(indexer as Indexer.Protocol, chainId);
+    yield* fs.writeFileString(manifestPath, yaml);
 
-  return helpers.getRelative(manifestPath);
+    return yield* helpers.getRelative(manifestPath);
+  });
 }
 
-function generateManifest(
-  indexer: Indexer.Name,
-  chainArg: string
-): Effect.Effect<void, Error, never> {
+function generateManifest(indexer: Indexer.Name, chainArg: string) {
   return Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
     const chain = yield* helpers.getChain(chainArg);
     const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
-    fs.mkdirSync(manifestsDir, { recursive: true });
+    yield* fs.makeDirectory(manifestsDir, { recursive: true });
 
-    const manifestPath = writeManifestToFile(indexer as Indexer.Protocol, chain.id);
+    const manifestPath = yield* writeManifestToFile(indexer as Indexer.Protocol, chain.id);
     yield* Console.log(`✅ Generated subgraph manifest for ${chainArg}`);
     yield* Console.log(`📁 Manifest path: ${manifestPath}`);
     yield* Console.log();
   });
 }
 
-function generateAllChainManifests(
-  indexer: Indexer.Name,
-  suppressFinalLog = false
-): Effect.Effect<number, Error, never> {
+function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = false) {
   return Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
     const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
 
-    if (fs.existsSync(manifestsDir)) {
-      fs.rmSync(manifestsDir, { force: true, recursive: true });
+    if (yield* fs.exists(manifestsDir)) {
+      yield* fs.remove(manifestsDir, { recursive: true });
     }
-    fs.mkdirSync(manifestsDir, { recursive: true });
-    fs.writeFileSync(path.join(manifestsDir, ".gitkeep"), "");
+    yield* fs.makeDirectory(manifestsDir, { recursive: true });
+    yield* fs.writeFileString(`${manifestsDir}/.gitkeep`, "");
 
     const results: ManifestResult[] = [];
 
     for (const chainId of graphChains) {
-      try {
-        const manifestPath = writeManifestToFile(indexer as Indexer.Protocol, chainId);
-        const chain = sablier.chains.get(chainId);
+      const chain = sablier.chains.get(chainId);
+      const manifestPath = yield* Effect.either(
+        writeManifestToFile(indexer as Indexer.Protocol, chainId)
+      );
+
+      if (Either.isRight(manifestPath)) {
         results.push({
           chainId,
           chainName: chain?.name || "Unknown",
-          manifestPath,
+          manifestPath: manifestPath.right,
           status: "generated",
         });
-      } catch {
-        const chain = sablier.chains.get(chainId);
+      } else {
         results.push({
           chainId,
           chainName: chain?.name || "Unknown",
@@ -130,7 +129,7 @@ function generateAllChainManifests(
     }
 
     if (!suppressFinalLog) {
-      displayHeader(
+      yield* displayHeader(
         `📋 GENERATING GRAPH MANIFESTS: ${_.capitalize(indexer).toUpperCase()}`,
         "cyan"
       );
@@ -176,14 +175,16 @@ function generateAllChainManifests(
 
       yield* Console.log("");
       yield* Console.log(colors.success(`✅ Successfully generated ${generated} manifests`));
-      yield* Console.log(colors.dim(`📁 Output directory: ${helpers.getRelative(manifestsDir)}`));
+      yield* Console.log(
+        colors.dim(`📁 Output directory: ${yield* helpers.getRelative(manifestsDir)}`)
+      );
     }
 
     return results.filter((r) => r.status === "generated").length;
   });
 }
 
-function generateAllProtocolManifests(chainArg: string): Effect.Effect<void, Error, never> {
+function generateAllProtocolManifests(chainArg: string) {
   return Effect.gen(function* () {
     let totalCount = 0;
 

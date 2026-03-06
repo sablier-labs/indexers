@@ -1,10 +1,10 @@
-import * as path from "node:path";
 import { Effect } from "effect";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import stripAnsi from "strip-ansi";
 import { INDEXERS, VENDORS } from "./constants.js";
 import { ChainNotFoundError, ValidationError } from "./errors.js";
+import { CliEnv } from "./services/env.js";
 import type { IndexerArg, VendorArg } from "./types.js";
 
 export function parseIndexerOpt(
@@ -63,9 +63,15 @@ export function getChain(chainArg: string): Effect.Effect<Sablier.Chain, ChainNo
   return Effect.succeed(chain);
 }
 
-export function getRelative(absolutePath: string): string {
-  return `./${path.relative(process.cwd(), absolutePath)}`;
-}
+export const getRelative = Effect.fn("getRelative")(function* (absolutePath: string) {
+  const env = yield* CliEnv;
+  return env.relativeToCwd(absolutePath);
+});
+
+export const resolveFromCliCwd = Effect.fn("resolveFromCliCwd")(function* (target: string) {
+  const env = yield* CliEnv;
+  return env.resolveFromCwd(target);
+});
 
 export function extractDeploymentId(stdout: string): string | undefined {
   const lines = stripAnsi(stdout).split("\n");

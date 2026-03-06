@@ -45,7 +45,7 @@ const queryTotalUsdFeesLogic = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
-    displayHeader("💵 TOTAL USD FEES", "cyan");
+    yield* displayHeader("💵 TOTAL USD FEES", "cyan");
 
     const infoTable = createTable({
       colWidths: [20, 70],

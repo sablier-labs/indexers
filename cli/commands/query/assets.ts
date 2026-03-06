@@ -1,6 +1,6 @@
 import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
-import { Console, Effect } from "effect";
+import { Console, DateTime, Effect } from "effect";
 import { envioDeployments } from "../../../src/indexers/envio-deployments.js";
 import type { Indexer } from "../../../src/types.js";
 import { colors, createTable, displayHeader } from "../../display.js";
@@ -9,6 +9,7 @@ import paths from "../../paths.js";
 import { withSpinner } from "../../spinner.js";
 import {
   buildAssetFiles,
+  getQueryAssetsDateSegment,
   getQueryAssetsFilePath,
   getStaleQueryAssetFilePaths,
   QUERY_ASSET_PROTOCOLS,
@@ -30,8 +31,10 @@ const queryAssetsLogic = (options: { readonly indexer: Indexer.Protocol }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const endpoint = envioDeployments[options.indexer].endpoint.url;
+    const generatedAt = yield* DateTime.now.pipe(Effect.map(DateTime.formatIso));
+    const dateSegment = getQueryAssetsDateSegment(generatedAt);
 
-    displayHeader("📦 QUERY INDEXER ASSETS", "cyan");
+    yield* displayHeader("📦 QUERY INDEXER ASSETS", "cyan");
 
     const infoTable = createTable({
       colWidths: [20, 70],
@@ -53,18 +56,23 @@ const queryAssetsLogic = (options: { readonly indexer: Indexer.Protocol }) =>
       fetchAssets({ endpoint })
     );
 
-    const files = buildAssetFiles(options.indexer, assets);
-    const outputDir = paths.generated.queryAssets.indexerDir(options.indexer);
+    const files = buildAssetFiles(options.indexer, assets, generatedAt);
+    const outputDir = paths.generated.queryAssets.indexerDir(dateSegment, options.indexer);
     yield* fs.makeDirectory(outputDir, { recursive: true });
     const existingEntries = yield* fs.readDirectory(outputDir);
 
     yield* Effect.forEach(files, (file) => {
-      const outputPath = getQueryAssetsFilePath(options.indexer, file.chainId);
+      const outputPath = getQueryAssetsFilePath(options.indexer, file.chainId, dateSegment);
       const content = `${JSON.stringify(file, null, 2)}\n`;
       return fs.writeFileString(outputPath, content);
     });
 
-    const staleOutputPaths = getStaleQueryAssetFilePaths(options.indexer, existingEntries, files);
+    const staleOutputPaths = getStaleQueryAssetFilePaths(
+      options.indexer,
+      existingEntries,
+      files,
+      dateSegment
+    );
     yield* Effect.forEach(staleOutputPaths, (outputPath) => fs.remove(outputPath));
 
     yield* Console.log("");
@@ -75,11 +83,11 @@ const queryAssetsLogic = (options: { readonly indexer: Indexer.Protocol }) =>
     });
 
     for (const file of files) {
-      const outputPath = getQueryAssetsFilePath(options.indexer, file.chainId);
+      const outputPath = getQueryAssetsFilePath(options.indexer, file.chainId, dateSegment);
       resultsTable.push([
         colors.value(`${file.chainName} (${file.chainId})`),
         colors.value(file.assets.length.toString()),
-        colors.dim(getRelative(outputPath)),
+        colors.dim(yield* getRelative(outputPath)),
       ]);
     }
 

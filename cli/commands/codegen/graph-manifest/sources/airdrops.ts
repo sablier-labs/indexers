@@ -1,21 +1,25 @@
+import { Effect } from "effect";
 import _ from "lodash";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { contracts, Version } from "sablier/evm";
+import { CodegenError } from "../../errors.js";
 import type { GraphManifest } from "../manifest-types.js";
 import { getSources } from "./get-sources.js";
 
-export function getAirdropsSources(chainId: number): GraphManifest.Source[] {
-  const sources = getSources("airdrops", chainId);
+export function getAirdropsSources(chainId: number) {
+  return Effect.gen(function* () {
+    const sources = yield* getSources("airdrops", chainId);
 
-  for (const source of sources) {
-    if (source._type === "template" || !source.context) {
-      continue;
+    for (const source of sources) {
+      if (source._type === "template" || !source.context) {
+        continue;
+      }
+      source.context.lockups = yield* getLockups(source.context);
     }
-    source.context.lockups = getLockups(source.context);
-  }
 
-  return sources;
+    return sources;
+  });
 }
 
 /**
@@ -23,44 +27,46 @@ export function getAirdropsSources(chainId: number): GraphManifest.Source[] {
  * The Merkle contract creation functions take a Lockup contract address as a user-provided argument.
  * So users can provide any address when deploying an airdrop contract, but we only index official deployments.
  */
-function getLockups(context: GraphManifest.Context): GraphManifest.ContextItem.ListAddress {
-  const chainId = Number(context.chainId.data);
-  const contracts = sablier.contracts.getAll({ chainId, protocol: "lockup" });
-  if (_.isEmpty(contracts)) {
-    throw new Error(`No Lockup contracts found on chain with ID ${context.chainId.data}`);
-  }
-
-  const data: GraphManifest.ContextItem.Address[] = [];
-
-  for (const lockupRelease of sablier.releases.getAll({ protocol: "lockup" })) {
-    const airdropsVersion = context.version?.data as Sablier.Version.Airdrops;
-    const lockupVersion = lockupRelease.version as Sablier.Version.Lockup;
-    if (!areVersionsCompatible(airdropsVersion, lockupVersion)) {
-      continue;
+function getLockups(context: GraphManifest.Context) {
+  return Effect.gen(function* () {
+    const chainId = Number(context.chainId.data);
+    const lockupContracts = sablier.contracts.getAll({ chainId, protocol: "lockup" });
+    if (_.isEmpty(lockupContracts)) {
+      return yield* Effect.fail(new CodegenError.ContractsNotFound("lockup", chainId));
     }
 
-    for (const deployment of lockupRelease.deployments) {
-      if (deployment.chainId !== chainId) {
+    const data: GraphManifest.ContextItem.Address[] = [];
+
+    for (const lockupRelease of sablier.releases.getAll({ protocol: "lockup" })) {
+      const airdropsVersion = context.version?.data as Sablier.Version.Airdrops;
+      const lockupVersion = lockupRelease.version as Sablier.Version.Lockup;
+      if (!areVersionsCompatible(airdropsVersion, lockupVersion)) {
         continue;
       }
-      for (const contract of deployment.contracts) {
-        // Look only for Lockup contracts compatible with Merkle factories
-        if (!isLockupContractName(contract.name)) {
+
+      for (const deployment of lockupRelease.deployments) {
+        if (deployment.chainId !== chainId) {
           continue;
         }
+        for (const contract of deployment.contracts) {
+          // Look only for Lockup contracts compatible with Merkle factories
+          if (!isLockupContractName(contract.name)) {
+            continue;
+          }
 
-        data.push({
-          data: contract.address.toLowerCase() as Sablier.Address,
-          type: "String",
-        });
+          data.push({
+            data: contract.address.toLowerCase() as Sablier.Address,
+            type: "String",
+          });
+        }
       }
     }
-  }
 
-  return {
-    data,
-    type: "List",
-  };
+    return {
+      data,
+      type: "List",
+    } satisfies GraphManifest.ContextItem.ListAddress;
+  });
 }
 
 /**

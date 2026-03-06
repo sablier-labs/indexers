@@ -20,6 +20,7 @@ import { chains } from "sablier/evm";
 import paths, { ROOT_DIR } from "../../../../cli/paths.js";
 import { GraphDeployError, ValidationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
+import { CliEnv } from "../../../services/env.js";
 import { finishSpinner, startSpinner } from "../../../spinner.js";
 
 /* -------------------------------------------------------------------------- */
@@ -89,25 +90,13 @@ const dryRunOption = Options.boolean("dry-run").pipe(
   Options.withDefault(false)
 );
 
-/* -------------------------------------------------------------------------- */
-/*                              DEPLOYMENT LOGIC                              */
-/* -------------------------------------------------------------------------- */
-
-type DeploymentResult =
-  | { readonly success: true; readonly deploymentId?: string }
-  | { readonly success: false; readonly error: string };
-
-function executeDeployment(
-  args: readonly string[],
-  workingDir: string,
-  chainSlug: string
-): Effect.Effect<DeploymentResult, never, CommandExecutor.CommandExecutor> {
+function executeDeployment(args: readonly string[], workingDir: string, chainSlug: string) {
   const command = PlatformCommand.make(GRAPH_BIN, ...args).pipe(
     PlatformCommand.workingDirectory(workingDir)
   );
 
   return Effect.gen(function* () {
-    const spinner = startSpinner(`Deploying to ${chainSlug}...`);
+    const spinner = yield* startSpinner(`Deploying to ${chainSlug}...`);
 
     return yield* Effect.scoped(
       Effect.gen(function* () {
@@ -123,7 +112,11 @@ function executeDeployment(
         const stderr = Buffer.concat(Chunk.toReadonlyArray(stderrChunks)).toString("utf-8");
 
         if (exitCode !== 0) {
-          finishSpinner(spinner, "fail", `Failed to deploy to ${chainSlug}: exit code ${exitCode}`);
+          yield* finishSpinner(
+            spinner,
+            "fail",
+            `Failed to deploy to ${chainSlug}: exit code ${exitCode}`
+          );
           yield* Console.log(chalk.red(`\n${stderr || stdout}`));
           return { error: `Command failed with exit code ${exitCode}`, success: false } as const;
         }
@@ -134,20 +127,35 @@ function executeDeployment(
           yield* Console.log(chalk.green(`\nDeployment ID: ${deploymentId}`));
         }
 
-        finishSpinner(spinner, "success", `Successfully deployed to ${chainSlug}`);
+        yield* finishSpinner(spinner, "success", `Successfully deployed to ${chainSlug}`);
         return { deploymentId, success: true } as const;
       }).pipe(
         Effect.catchAll((error) => {
           const errorMessage = error instanceof Error ? error.message : String(error);
-          finishSpinner(spinner, "fail", `Failed to deploy to ${chainSlug}: ${errorMessage}`);
-          return Effect.succeed({
-            error: errorMessage,
-            success: false,
-          } as const);
+          return finishSpinner(
+            spinner,
+            "fail",
+            `Failed to deploy to ${chainSlug}: ${errorMessage}`
+          ).pipe(
+            Effect.zipRight(
+              Effect.succeed({
+                error: errorMessage,
+                success: false,
+              } as const)
+            )
+          );
         })
       )
     );
   });
+}
+
+function getDisplayArgs(args: readonly string[], authToken?: string): readonly string[] {
+  if (!authToken) {
+    return args;
+  }
+
+  return args.map((arg) => (arg === authToken ? "[redacted]" : arg));
 }
 
 /* -------------------------------------------------------------------------- */
@@ -161,16 +169,15 @@ type CommandOptions = {
   readonly dryRun: boolean;
 };
 
-const graphDeployCustomLogic = (
-  options: CommandOptions
-): Effect.Effect<void, ValidationError | GraphDeployError, CommandExecutor.CommandExecutor> =>
+const graphDeployCustomLogic = (options: CommandOptions) =>
   Effect.gen(function* () {
+    const env = yield* CliEnv;
     const config = CUSTOM_NODES[options.chain];
 
     // Validate auth token if required
     let authToken: string | undefined;
     if (config.authEnvVar) {
-      authToken = process.env[config.authEnvVar];
+      authToken = (yield* env.getString(config.authEnvVar))?.trim();
       if (!authToken) {
         return yield* Effect.fail(
           new ValidationError({
@@ -215,8 +222,9 @@ const graphDeployCustomLogic = (
 
     // Dry-run mode
     if (options.dryRun) {
+      const displayArgs = getDisplayArgs(args, authToken);
       yield* Console.log(chalk.yellow("[DRY RUN] Would execute:"));
-      yield* Console.log(chalk.cyan(`  ${GRAPH_BIN} ${args.join(" ")}`));
+      yield* Console.log(chalk.cyan(`  ${GRAPH_BIN} ${displayArgs.join(" ")}`));
       yield* Console.log(chalk.cyan(`  Working directory: ${workingDir}`));
       return;
     }

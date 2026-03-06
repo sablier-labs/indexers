@@ -9,7 +9,6 @@
 
 import { Command } from "@effect/cli";
 import { NodeRuntime } from "@effect/platform-node";
-import dotenv from "dotenv";
 import { Effect } from "effect";
 import { checkVendorsCommand } from "./commands/check-vendors.js";
 import { envioConfigCommand } from "./commands/codegen/envio-config.js";
@@ -29,6 +28,7 @@ import { queryTotalUsdFeesCommand } from "./commands/query/total-usd-fees.js";
 import { queryUniqueTxsCommand } from "./commands/query/unique-txs.js";
 import { recoverTokensCommand } from "./commands/recover-tokens.js";
 import { CliLive } from "./context.js";
+import { CliEnv } from "./services/env.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                PRINT GROUP                                 */
@@ -83,9 +83,12 @@ const cli = Command.run(rootCommand, {
 /* -------------------------------------------------------------------------- */
 
 export function main() {
-  dotenv.config({ quiet: true });
+  const program = CliEnv.pipe(
+    Effect.flatMap((env) => cli(env.argv)),
+    Effect.provide(CliLive)
+  );
 
-  cli(process.argv).pipe(Effect.provide(CliLive), NodeRuntime.runMain);
+  NodeRuntime.runMain(program);
 }
 
 main();

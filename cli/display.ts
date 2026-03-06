@@ -1,5 +1,8 @@
 import chalk from "chalk";
 import Table from "cli-table3";
+import { Effect } from "effect";
+import type { TableTheme } from "./services/ui.js";
+import { CliUi } from "./services/ui.js";
 
 /* -------------------------------------------------------------------------- */
 /*                               COLOR THEME                                  */
@@ -24,8 +27,6 @@ export const colors = {
 /* -------------------------------------------------------------------------- */
 /*                              TABLE HELPERS                                 */
 /* -------------------------------------------------------------------------- */
-
-type TableTheme = "cyan" | "gray" | "green" | "magenta" | "red" | "yellow";
 
 type TableOptions = {
   colWidths?: number[];
@@ -120,35 +121,13 @@ export function createSummaryTable(
 /**
  * Display a section header
  */
-export function displayHeader(text: string, theme: TableTheme = "cyan"): void {
-  const separator = "=".repeat(60);
-  let chalkFn: typeof colors.info;
-  switch (theme) {
-    case "cyan":
-      chalkFn = colors.info;
-      break;
-    case "gray":
-      chalkFn = colors.dim;
-      break;
-    case "green":
-      chalkFn = colors.success;
-      break;
-    case "magenta":
-      chalkFn = chalk.magenta;
-      break;
-    case "red":
-      chalkFn = colors.error;
-      break;
-    default:
-      chalkFn = colors.warning;
-      break;
-  }
-
-  console.log("");
-  console.log(separator);
-  console.log(chalkFn.bold(text));
-  console.log(separator);
-}
+export const displayHeader = Effect.fn("displayHeader")(function* (
+  text: string,
+  theme: TableTheme = "cyan"
+) {
+  const ui = yield* CliUi;
+  return yield* ui.displayHeader(text, theme);
+});
 
 /**
  * Format a checkmark status

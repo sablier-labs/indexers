@@ -1,15 +1,15 @@
-import path from "node:path";
 import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
-import { Console, Effect, Option } from "effect";
+import { Console, DateTime, Effect, Option } from "effect";
 import { sablier } from "sablier";
 import { createPublicClient, fallback, formatUnits, http, parseAbi } from "viem";
 import { colors, createTable, displayHeader } from "../display.js";
 import { FileOperationError, ProcessError, ValidationError } from "../errors.js";
-import { getRelative, wrapText } from "../helpers.js";
+import { getRelative, resolveFromCliCwd, wrapText } from "../helpers.js";
 import type { CliRpcConfig } from "../rpc.js";
 import { resolveCliRpcConfig } from "../rpc.js";
 import { withSpinner } from "../spinner.js";
+import { getQueryAssetsDateSegment } from "./query/assets.file.js";
 import type { RecoverTokensProtocol } from "./recover-tokens.helpers.js";
 import {
   computeRecoverTokenRows,
@@ -69,23 +69,12 @@ function formatTokenAmount(value: bigint, decimals: number): string {
     return `${sign}${integerPart}`;
   }
 
-  const compactFraction = trimmedFraction.slice(0, 8);
-  const suffix = trimmedFraction.length > 8 ? "…" : "";
+  const compactFraction = trimmedFraction.slice(0, 2);
+  const suffix = trimmedFraction.length > 2 ? "…" : "";
   return `${sign}${integerPart}.${compactFraction}${suffix}`;
 }
 
-function resolveRpcConfig(chainId: number) {
-  return Effect.try({
-    catch: (error) =>
-      error instanceof ValidationError
-        ? error
-        : new ValidationError({
-            field: "chainId",
-            message: error instanceof Error ? error.message : String(error),
-          }),
-    try: () => resolveCliRpcConfig(chainId),
-  });
-}
+const resolveRpcConfig = resolveCliRpcConfig;
 
 function resolveSablierContract(indexer: RecoverTokensProtocol, chainId: number) {
   const contractName = getRecoverTokensContractName(indexer);
@@ -111,13 +100,14 @@ function resolveSablierContract(indexer: RecoverTokensProtocol, chainId: number)
 function resolveSourcePath(
   file: Option.Option<string>,
   indexer: RecoverTokensProtocol,
-  chainId: number
-): string {
+  chainId: number,
+  dateSegment: string
+) {
   if (Option.isSome(file)) {
-    return path.resolve(process.cwd(), file.value);
+    return resolveFromCliCwd(file.value);
   }
 
-  return getRecoverTokensDefaultFilePath(indexer, chainId);
+  return Effect.succeed(getRecoverTokensDefaultFilePath(indexer, chainId, dateSegment));
 }
 
 function readIndexedAssetFile(
@@ -306,15 +296,24 @@ const recoverTokensLogic = (options: {
 }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
+    const dateSegment = yield* DateTime.now.pipe(
+      Effect.map(DateTime.formatIso),
+      Effect.map(getQueryAssetsDateSegment)
+    );
     const { chain, displayRpcUrls, rpcUrls } = yield* resolveRpcConfig(options.chainId);
     const contract = yield* resolveSablierContract(options.indexer, options.chainId);
-    const sourcePath = resolveSourcePath(options.file, options.indexer, options.chainId);
+    const sourcePath = yield* resolveSourcePath(
+      options.file,
+      options.indexer,
+      options.chainId,
+      dateSegment
+    );
     const assetFile = yield* readIndexedAssetFile(fs, sourcePath, {
       chainId: options.chainId,
       indexer: options.indexer,
     });
 
-    displayHeader("🪙 RECOVER TOKENS", "yellow");
+    yield* displayHeader("🪙 RECOVER TOKENS", "yellow");
 
     const infoTable = createTable({
       colWidths: [20, 70],
@@ -327,7 +326,7 @@ const recoverTokensLogic = (options: {
       [colors.value("Chain"), colors.value(`${chain.name} (${chain.id})`)],
       [colors.value("Contract"), colors.value(getRecoverTokensContractName(options.indexer))],
       [colors.value("Address"), colors.dim(contract.address)],
-      [colors.value("Source"), colors.dim(wrapText(getRelative(sourcePath), 68))],
+      [colors.value("Source"), colors.dim(wrapText(yield* getRelative(sourcePath), 68))],
       [colors.value("RPC"), colors.dim(displayRpcUrls.map((url) => wrapText(url, 68)).join("\n"))],
       [colors.value("Assets"), colors.value(assetFile.assets.length.toString())]
     );
@@ -368,7 +367,7 @@ const recoverTokensLogic = (options: {
 
     yield* Console.log("");
     const resultsTable = createTable({
-      colWidths: [12, 44, 22, 22, 22],
+      colWidths: [14, 44, 22, 22, 22],
       head: ["Symbol", "Address", "Balance", "Aggregate", "Delta"],
       theme: "yellow",
       wrapOnWordBoundary: false,
@@ -378,10 +377,10 @@ const recoverTokensLogic = (options: {
       const deltaColor = row.delta > 0n ? colors.warning : colors.error;
 
       resultsTable.push([
-        colors.value(row.symbol),
+        row.symbol,
         colors.dim(row.address),
-        colors.value(formatTokenAmount(row.balance, row.decimals)),
-        colors.value(formatTokenAmount(row.aggregateAmount, row.decimals)),
+        formatTokenAmount(row.balance, row.decimals),
+        formatTokenAmount(row.aggregateAmount, row.decimals),
         deltaColor(formatTokenAmount(row.delta, row.decimals)),
       ]);
     }

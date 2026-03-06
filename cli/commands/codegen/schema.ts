@@ -41,24 +41,10 @@ const indexerOption = Options.choice("indexer", [
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
 
-/* -------------------------------------------------------------------------- */
-/*                                   COMMAND                                  */
-/* -------------------------------------------------------------------------- */
-
-type SchemaResult = {
-  indexer: Indexer.Name;
-  outputPath: string;
-  status: "generated" | "error" | "skipped";
-  vendor: Indexer.Vendor;
-};
-
 /**
  * Generates and writes a GraphQL schema for a specific indexer with result tracking
  */
-function generateSchemaWithResult(
-  vendor: Indexer.Vendor,
-  indexer: Indexer.Name
-): Effect.Effect<SchemaResult, never, FileSystem.FileSystem> {
+function generateSchemaWithResult(vendor: Indexer.Vendor, indexer: Indexer.Name) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const mergedSchema = print(getMergedSchema(indexer));
@@ -69,7 +55,7 @@ function generateSchemaWithResult(
 
     return {
       indexer,
-      outputPath: helpers.getRelative(outputPath),
+      outputPath: yield* helpers.getRelative(outputPath),
       status: "generated" as const,
       vendor,
     };
@@ -88,10 +74,7 @@ function generateSchemaWithResult(
 /**
  * Generates and writes a GraphQL schema for a specific indexer
  */
-function generateSchema(
-  vendor: Indexer.Vendor,
-  indexer: Indexer.Name
-): Effect.Effect<void, never, FileSystem.FileSystem> {
+function generateSchema(vendor: Indexer.Vendor, indexer: Indexer.Name) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const mergedSchema = print(getMergedSchema(indexer));
@@ -103,16 +86,14 @@ function generateSchema(
     yield* Console.log(
       `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(indexer)} indexer`
     );
-    yield* Console.log(`📁 Output path: ${helpers.getRelative(outputPath)}`);
+    yield* Console.log(`📁 Output path: ${yield* helpers.getRelative(outputPath)}`);
     yield* Console.log("");
-  }).pipe(Effect.orDie);
+  });
 }
 
-function generateAllIndexerSchemas(
-  vendor: Indexer.Vendor
-): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
+function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
   return Effect.gen(function* () {
-    displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
+    yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Analytics uses a manually maintained schema
     const indexers = INDEXERS.filter((i) => i !== "analytics");
@@ -129,10 +110,6 @@ function generateAllIndexerSchemas(
     });
 
     for (const result of results) {
-      if (result.status === "skipped") {
-        continue;
-      }
-
       const statusText =
         result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
       table.push([
@@ -148,8 +125,6 @@ function generateAllIndexerSchemas(
     // Summary statistics
     const generated = results.filter((r) => r.status === "generated").length;
     const errors = results.filter((r) => r.status === "error").length;
-    const skipped = results.filter((r) => r.status === "skipped").length;
-
     yield* Console.log("");
     const summaryTable = createTable({
       colWidths: [20, 10],
@@ -160,8 +135,7 @@ function generateAllIndexerSchemas(
     summaryTable.push(
       [colors.success("Generated"), colors.value(generated.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
-      [colors.dim("Skipped"), colors.value(skipped.toString())],
-      [chalk.cyan.bold("Total Schemas"), chalk.white.bold((results.length - skipped).toString())]
+      [chalk.cyan.bold("Total Schemas"), chalk.white.bold(results.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());
@@ -181,11 +155,9 @@ function generateAllIndexerSchemas(
   });
 }
 
-function generateAllVendorSchemas(
-  indexerArg: Indexer.Name | "all"
-): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
+function generateAllVendorSchemas(indexerArg: Indexer.Name | "all") {
   return Effect.gen(function* () {
-    displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
+    yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Build list of vendor/indexer combinations to process
     // Analytics uses a manually maintained schema
@@ -215,10 +187,6 @@ function generateAllVendorSchemas(
     });
 
     for (const result of results) {
-      if (result.status === "skipped") {
-        continue;
-      }
-
       const statusText =
         result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
       table.push([
@@ -234,8 +202,6 @@ function generateAllVendorSchemas(
     // Summary statistics
     const generated = results.filter((r) => r.status === "generated").length;
     const errors = results.filter((r) => r.status === "error").length;
-    const skipped = results.filter((r) => r.status === "skipped").length;
-
     yield* Console.log("");
     const summaryTable = createTable({
       colWidths: [20, 10],
@@ -246,8 +212,7 @@ function generateAllVendorSchemas(
     summaryTable.push(
       [colors.success("Generated"), colors.value(generated.toString())],
       [colors.error("Errors"), colors.value(errors.toString())],
-      [colors.dim("Skipped"), colors.value(skipped.toString())],
-      [chalk.cyan.bold("Total Schemas"), chalk.white.bold((results.length - skipped).toString())]
+      [chalk.cyan.bold("Total Schemas"), chalk.white.bold(results.length.toString())]
     );
 
     yield* Console.log(summaryTable.toString());

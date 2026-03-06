@@ -7,15 +7,20 @@ import { colors, createTable, displayHeader } from "../../display.js";
 import { ValidationError } from "../../errors.js";
 import type { PriceDataFile } from "../../price-data.js";
 import { getRequiredPriceDataFiles } from "../../price-data.js";
-
-const CACHE_DIR = path.join(process.cwd(), "envio/analytics/.envio/cache");
-const PRICE_DATA_DIR = path.join(process.cwd(), "node_modules/@sablier/price-data");
+import { CliEnv } from "../../services/env.js";
 
 /**
  * Get list of required TSV files based on Sablier chain data and forex rates.
  */
 function getRequiredFiles(): PriceDataFile[] {
   return getRequiredPriceDataFiles();
+}
+
+function getPriceDataPaths(cwd: string) {
+  return {
+    cacheDir: path.join(cwd, "envio/analytics/.envio/cache"),
+    priceDataDir: path.join(cwd, "node_modules/@sablier/price-data"),
+  };
 }
 
 type FileStatus = {
@@ -27,18 +32,20 @@ type FileStatus = {
 
 const priceDataCheckLogic = () =>
   Effect.gen(function* () {
+    const env = yield* CliEnv;
     const fs = yield* FileSystem.FileSystem;
     const executor = yield* CommandExecutor.CommandExecutor;
+    const { cacheDir, priceDataDir } = getPriceDataPaths(env.cwd);
 
-    displayHeader("🔍 PRICE DATA SYNC CHECK", "cyan");
+    yield* displayHeader("🔍 PRICE DATA SYNC CHECK", "cyan");
 
     const requiredFiles = getRequiredFiles();
     const fileStatuses: FileStatus[] = [];
 
     for (const { name, sourceDir } of requiredFiles) {
-      const sourcePath = path.join(PRICE_DATA_DIR, sourceDir, name);
-      const destPath = path.join(CACHE_DIR, name);
-      const relativeDestPath = path.relative(process.cwd(), destPath);
+      const sourcePath = path.join(priceDataDir, sourceDir, name);
+      const destPath = path.join(cacheDir, name);
+      const relativeDestPath = path.relative(env.cwd, destPath);
 
       // Check if source file exists
       const sourceExists = yield* fs.exists(sourcePath);

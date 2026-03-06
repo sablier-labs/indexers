@@ -3,7 +3,6 @@ import axios from "axios";
 import _ from "lodash";
 import { Protocol } from "sablier/evm";
 import { describe, expect, it } from "vitest";
-import { logger } from "../../cli/logger/index.js";
 import { envioChains } from "../../src/indexers/envio.js";
 import { getIndexerGraph } from "../../src/indexers/getters.js";
 import { graphChains } from "../../src/indexers/graph.js";
@@ -24,10 +23,10 @@ describe("Vendors", () => {
       });
 
       if (unsupported.length > 0) {
-        logger.warn(
+        console.warn(
           `Chain IDs used by the Sablier Indexers but not supported by The Graph: ${unsupported}`
         );
-        logger.warn(
+        console.warn(
           `All chain IDs supported by The Graph: ${Array.from(supportedChainIds).sort((a, b) => a - b)}`
         );
       }
@@ -49,10 +48,10 @@ describe("Vendors", () => {
       });
 
       if (unsupported.length > 0) {
-        logger.warn(
+        console.warn(
           `Chain IDs used by the Sablier Indexers but not supported by Envio: ${unsupported}`
         );
-        logger.warn(
+        console.warn(
           `All chain IDs supported by Envio: ${Array.from(supportedChainIds).sort((a, b) => a - b)}`
         );
       }

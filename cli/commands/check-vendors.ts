@@ -101,7 +101,7 @@ const checkVendorsLogic = (options: { readonly chainId: number }) =>
     const chain = sablier.chains.get(chainId);
     const chainName = chain?.name || "Unknown";
 
-    displayHeader("🔍 VENDOR SUPPORT CHECK", "cyan");
+    yield* displayHeader("🔍 VENDOR SUPPORT CHECK", "cyan");
 
     // Display chain info
     yield* Console.log("");

@@ -1,9 +1,9 @@
-import * as fs from "node:fs";
+import { FileSystem } from "@effect/platform";
 import type { AbiEventParameter } from "abitype";
+import { Effect } from "effect";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
 import { sanitizeContractName } from "../../../../cli/contract-name.js";
-import { logger } from "../../../../cli/logger/index.js";
 import paths from "../../../../cli/paths.js";
 import type { Indexer, Model } from "../../../../src/types.js";
 import type { GraphManifest } from "./manifest-types.js";
@@ -17,20 +17,31 @@ import type { GraphManifest } from "./manifest-types.js";
 export function resolveEventHandler(
   indexer: Indexer.Name,
   event: Model.Event
-): GraphManifest.EventHandler | null {
-  const { contractName, eventName, indexers, protocol, version } = event;
-  if (!indexers.includes(indexer)) {
-    return null;
-  }
-  const abiPath = paths.abi(contractName, protocol, version);
+): Effect.Effect<GraphManifest.EventHandler | null, Error, FileSystem.FileSystem> {
+  return Effect.gen(function* () {
+    const { contractName, eventName, indexers, protocol, version } = event;
+    if (!indexers.includes(indexer)) {
+      return null;
+    }
 
-  try {
+    const fs = yield* FileSystem.FileSystem;
+    const abiPath = paths.abi(contractName, protocol, version);
     const sanitizedContractName = sanitizeContractName(contractName, version);
-    const abiContent: Abi = JSON.parse(fs.readFileSync(abiPath, "utf-8"));
-    const abiItem = getAbiItem({ abi: abiContent, name: eventName });
+    const abiContent = yield* fs
+      .readFileString(abiPath)
+      .pipe(
+        Effect.mapError((error) => (error instanceof Error ? error : new Error(String(error))))
+      );
+    const abi = yield* Effect.try({
+      catch: (error) => (error instanceof Error ? error : new Error(String(error))),
+      try: () => JSON.parse(abiContent) as Abi,
+    });
+    const abiItem = getAbiItem({ abi, name: eventName });
     const abiEvent = abiItem?.type === "event" ? (abiItem as AbiEvent) : undefined;
     if (!abiEvent) {
-      throw new Error(`Event ${eventName} not found in ABI of contract ${contractName}`);
+      return yield* Effect.fail(
+        new Error(`Event ${eventName} not found in ABI of contract ${contractName}`)
+      );
     }
 
     const eventSignature = buildEventSignature(abiEvent, eventName);
@@ -38,12 +49,7 @@ export function resolveEventHandler(
       event: eventSignature,
       handler: `handle_${sanitizedContractName}_${eventName}`,
     };
-  } catch (error) {
-    logger.error(
-      `Error processing ABI for contract ${contractName} and event ${eventName}: ${error}`
-    );
-    throw error;
-  }
+  });
 }
 
 /* -------------------------------------------------------------------------- */

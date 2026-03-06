@@ -36,6 +36,10 @@ export type IndexedAssetFile = {
   vendor: "envio";
 };
 
+export function getQueryAssetsDateSegment(timestamp: string): string {
+  return timestamp.split("T")[0] ?? timestamp;
+}
+
 const CHAIN_ENTRY_ORDER = Order.mapInput(
   Order.number,
   (entry: readonly [number, Map<string, IndexedAssetFileAsset>]) => entry[0]
@@ -55,7 +59,7 @@ const INDEXED_ASSET_FILE_ASSET_ORDER = Order.mapInput(
 export function buildAssetFiles(
   indexer: Indexer.Protocol,
   assets: readonly IndexedAsset[],
-  generatedAt = new Date().toISOString()
+  generatedAt: string
 ): IndexedAssetFile[] {
   const assetsByChain = new Map<number, Map<string, IndexedAssetFileAsset>>();
 
@@ -89,9 +93,13 @@ export function buildAssetFiles(
   );
 }
 
-export function getQueryAssetsFilePath(indexer: Indexer.Protocol, chainId: number): string {
+export function getQueryAssetsFilePath(
+  indexer: Indexer.Protocol,
+  chainId: number,
+  dateSegment: string
+): string {
   const chain = sablier.chains.getOrThrow(chainId);
-  return paths.generated.queryAssets.file(indexer, chain.slug);
+  return paths.generated.queryAssets.file(dateSegment, indexer, chain.slug);
 }
 
 /**
@@ -103,15 +111,16 @@ export function getQueryAssetsFilePath(indexer: Indexer.Protocol, chainId: numbe
 export function getStaleQueryAssetFilePaths(
   indexer: Indexer.Protocol,
   existingEntries: readonly string[],
-  files: readonly Pick<IndexedAssetFile, "chainId">[]
+  files: readonly Pick<IndexedAssetFile, "chainId">[],
+  dateSegment: string
 ): string[] {
   const expectedOutputPaths = new Set(
-    Arr.map(files, (file) => getQueryAssetsFilePath(indexer, file.chainId))
+    Arr.map(files, (file) => getQueryAssetsFilePath(indexer, file.chainId, dateSegment))
   );
 
   return existingEntries
     .filter((entry) => entry.endsWith(".json"))
-    .map((entry) => path.join(paths.generated.queryAssets.indexerDir(indexer), entry))
+    .map((entry) => path.join(paths.generated.queryAssets.indexerDir(dateSegment, indexer), entry))
     .filter((outputPath) => !expectedOutputPaths.has(outputPath))
     .sort((pathA, pathB) => pathA.localeCompare(pathB));
 }

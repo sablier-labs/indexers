@@ -1,6 +1,8 @@
+import { Effect } from "effect";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { ValidationError } from "./errors.js";
+import { CliEnv } from "./services/env.js";
 
 const ROUTEMESH_URL_REGEX = /^https:\/\/lb\.routeme\.sh\/rpc\/(\d+)\/.+$/;
 
@@ -37,41 +39,53 @@ function dedupeStrings(values: readonly string[]): string[] {
 
 export function resolveCliRpcConfig(
   chainId: number,
-  routeMeshApiKey = process.env.ENVIO_ROUTEMESH_API_KEY
-): CliRpcConfig {
-  if (chainId <= 0) {
-    throw new ValidationError({
-      field: "chainId",
-      message: "Chain ID must be a positive number",
-    });
-  }
+  routeMeshApiKey?: string
+): Effect.Effect<CliRpcConfig, ValidationError, CliEnv> {
+  return Effect.gen(function* () {
+    const env = yield* CliEnv;
 
-  const chain = sablier.chains.get(chainId);
-  if (!chain) {
-    throw new ValidationError({
-      field: "chainId",
-      message: "Unknown chain ID",
-    });
-  }
+    if (chainId <= 0) {
+      return yield* Effect.fail(
+        new ValidationError({
+          field: "chainId",
+          message: "Chain ID must be a positive number",
+        })
+      );
+    }
 
-  const sanitizedRouteMeshApiKey = routeMeshApiKey?.trim();
-  const routeMeshUrl =
-    sanitizedRouteMeshApiKey && chain.rpc.routemesh
-      ? chain.rpc.routemesh(sanitizedRouteMeshApiKey)
-      : undefined;
-  const rpcUrls = routeMeshUrl ? [routeMeshUrl, ...chain.rpc.defaults] : [...chain.rpc.defaults];
+    const chain = sablier.chains.get(chainId);
+    if (!chain) {
+      return yield* Effect.fail(
+        new ValidationError({
+          field: "chainId",
+          message: "Unknown chain ID",
+        })
+      );
+    }
 
-  const dedupedRpcUrls = dedupeStrings(rpcUrls);
-  if (dedupedRpcUrls.length === 0) {
-    throw new ValidationError({
-      field: "chainId",
-      message: "Chain does not expose any RPC URLs",
-    });
-  }
+    const resolvedRouteMeshApiKey =
+      routeMeshApiKey ?? (yield* env.getString("ENVIO_ROUTEMESH_API_KEY"));
+    const sanitizedRouteMeshApiKey = resolvedRouteMeshApiKey?.trim();
+    const routeMeshUrl =
+      sanitizedRouteMeshApiKey && chain.rpc.routemesh
+        ? chain.rpc.routemesh(sanitizedRouteMeshApiKey)
+        : undefined;
+    const rpcUrls = routeMeshUrl ? [routeMeshUrl, ...chain.rpc.defaults] : [...chain.rpc.defaults];
 
-  return {
-    chain,
-    displayRpcUrls: dedupedRpcUrls.map(maskRouteMeshUrl),
-    rpcUrls: dedupedRpcUrls,
-  };
+    const dedupedRpcUrls = dedupeStrings(rpcUrls);
+    if (dedupedRpcUrls.length === 0) {
+      return yield* Effect.fail(
+        new ValidationError({
+          field: "chainId",
+          message: "Chain does not expose any RPC URLs",
+        })
+      );
+    }
+
+    return {
+      chain,
+      displayRpcUrls: dedupedRpcUrls.map(maskRouteMeshUrl),
+      rpcUrls: dedupedRpcUrls,
+    };
+  });
 }

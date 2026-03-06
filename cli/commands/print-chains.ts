@@ -30,7 +30,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     const envioChainIds = new Set(indexers.envio.lockup.map((i) => i.chainId));
     const graphChainIds = new Set(indexers.graph.lockup.map((i) => i.chainId));
 
-    displayHeader("📋 AVAILABLE CHAINS", "cyan");
+    yield* displayHeader("📋 AVAILABLE CHAINS", "cyan");
 
     // Prepare chain data
     const chains: ChainData[] = _.sortBy(sablier.chains.getAll(), (c) => c.slug)
@@ -67,7 +67,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     const envioOnlyChains = chains.filter((c) => c.hasEnvio && !c.hasGraph);
     if (envioOnlyChains.length > 0) {
       yield* Console.log("");
-      displayHeader("🟦 ENVIO-ONLY CHAINS", "yellow");
+      yield* displayHeader("🟦 ENVIO-ONLY CHAINS", "yellow");
       const envioTable = createTable({
         colWidths: [20, 10, 10, 30],
         head: ["Chain Name", "Currency", "Chain ID", "Slug"],
@@ -90,7 +90,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     const graphOnlyChains = chains.filter((c) => !c.hasEnvio && c.hasGraph);
     if (graphOnlyChains.length > 0) {
       yield* Console.log("");
-      displayHeader("🟪 GRAPH-ONLY CHAINS", "magenta");
+      yield* displayHeader("🟪 GRAPH-ONLY CHAINS", "magenta");
       const graphTable = createTable({
         colWidths: [20, 10, 10, 30],
         head: ["Chain Name", "Currency", "Chain ID", "Slug"],
@@ -118,7 +118,7 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     };
 
     yield* Console.log("");
-    displayHeader("📊 CHAIN SUMMARY", "gray");
+    yield* displayHeader("📊 CHAIN SUMMARY", "gray");
     const summaryTable = createTable({
       colWidths: [25, 10],
       head: ["Category", "Count"],

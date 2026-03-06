@@ -35,10 +35,9 @@ const TokenMetadata = S.union([
 export const fetchTokenMetadata = experimental_createEffect(
   {
     cache: true,
-    // biome-ignore assist/source/useSortedKeys: order matters for the TSV file
     input: S.tuple((t) => ({
-      chainId: t.item(0, S.number),
       address: t.item(1, S.string),
+      chainId: t.item(0, S.number),
     })),
     name: "tokenMetadata",
     output: TokenMetadata,

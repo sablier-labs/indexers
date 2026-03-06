@@ -38,7 +38,7 @@ const queryAverageMauLogic = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
-    displayHeader("📊 QUARTERLY AVERAGE MAU", "cyan");
+    yield* displayHeader("📊 QUARTERLY AVERAGE MAU", "cyan");
 
     const infoTable = createTable({
       colWidths: [20, 70],

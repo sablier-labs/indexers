@@ -66,9 +66,10 @@ export function getRecoverTokensContractName(
 
 export function getRecoverTokensDefaultFilePath(
   indexer: RecoverTokensProtocol,
-  chainId: number
+  chainId: number,
+  dateSegment: string
 ): string {
-  return getQueryAssetsFilePath(indexer, chainId);
+  return getQueryAssetsFilePath(indexer, chainId, dateSegment);
 }
 
 /**

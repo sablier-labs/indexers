@@ -4,7 +4,6 @@ import { GraphQLClient } from "graphql-request";
 import _ from "lodash";
 import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
-import { logger } from "../../../cli/logger/index.js";
 import type { Indexer } from "../../../src/index.js";
 import type { Order_By, OrderDirection } from "./types.js";
 
@@ -82,9 +81,9 @@ async function fetchEntities(
   } catch (error) {
     try {
       const stringifiedError = JSON.stringify(error, null, 2);
-      logger.error(`Request failed: ${stringifiedError}`);
+      console.error(`Request failed: ${stringifiedError}`);
     } catch {
-      logger.error(`Request failed: ${error}`);
+      console.error(`Request failed: ${error}`);
     }
     return undefined;
   }
@@ -239,7 +238,7 @@ export function createEquivalenceTest(config: TestConfig) {
       }
 
       expect(totalCount).toBeGreaterThan(0);
-      logger.info(`Successfully compared ${totalCount} GraphQL entities.`);
+      console.info(`Successfully compared ${totalCount} GraphQL entities.`);
     },
     timeout
   );

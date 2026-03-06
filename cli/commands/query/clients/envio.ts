@@ -149,12 +149,14 @@ function parseBigIntValue(value: unknown): Effect.Effect<bigint, VendorApiError>
   }
 
   if (typeof value === "string") {
-    try {
-      return Effect.succeed(BigInt(value));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Invalid bigint value";
-      return Effect.fail(new VendorApiError({ message, vendor: "envio" }));
-    }
+    return Effect.try({
+      catch: (error) =>
+        new VendorApiError({
+          message: error instanceof Error ? error.message : "Invalid bigint value",
+          vendor: "envio",
+        }),
+      try: () => BigInt(value),
+    });
   }
 
   return Effect.fail(new VendorApiError({ message: "Invalid bigint value", vendor: "envio" }));

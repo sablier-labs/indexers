@@ -1,3 +1,4 @@
+import { Effect } from "effect";
 import _ from "lodash";
 import { indexedContracts } from "../../../../../contracts/index.js";
 import type { Indexer } from "../../../../../src/index.js";
@@ -24,26 +25,28 @@ export function getABIEntries(
   contractName: string,
   version: Model.Version
 ) {
-  const contract = _.find(indexedContracts[protocol], (c) => {
-    return c.name === contractName && c.versions.includes(version);
+  return Effect.gen(function* () {
+    const contract = _.find(indexedContracts[protocol], (c) => {
+      return c.name === contractName && c.versions.includes(version);
+    });
+    if (!contract) {
+      return yield* Effect.fail(new Error(`Contract ${contractName} not found for ABI entries`));
+    }
+
+    const contractABIEntries: GraphManifest.ABI[] = [
+      {
+        file: getFilePath(contractName, protocol, version),
+        name: contractName,
+      },
+    ];
+
+    const otherABIEntries: GraphManifest.ABI[] = [erc20, erc20Bytes];
+    if (protocol === "lockup") {
+      otherABIEntries.push(prbProxy, prbProxyRegistry);
+    }
+
+    return [...contractABIEntries, ...otherABIEntries];
   });
-  if (!contract) {
-    throw new Error(`Contract ${contractName} not found for ABI entries`);
-  }
-
-  const contractABIEntries: GraphManifest.ABI[] = [
-    {
-      file: getFilePath(contractName, protocol, version),
-      name: contractName,
-    },
-  ];
-
-  const otherABIEntries: GraphManifest.ABI[] = [erc20, erc20Bytes];
-  if (protocol === "lockup") {
-    otherABIEntries.push(prbProxy, prbProxyRegistry);
-  }
-
-  return [...contractABIEntries, ...otherABIEntries];
 }
 
 function getFilePath(contractName: string, protocol?: Indexer.Protocol, version?: Model.Version) {

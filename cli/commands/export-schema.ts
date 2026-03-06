@@ -21,7 +21,7 @@ const exportSchemaLogic = () =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
 
-    displayHeader("📦 EXPORTING GRAPHQL SCHEMAS", "cyan");
+    yield* displayHeader("📦 EXPORTING GRAPHQL SCHEMAS", "cyan");
 
     // Ensure the export directory exists
     const exportDir = paths.exports.schemas();
@@ -36,7 +36,11 @@ const exportSchemaLogic = () =>
         const schema = print(getMergedSchema(protocol));
         const outputPath = paths.exports.schema(protocol);
         yield* fs.writeFileString(outputPath, schema);
-        return { outputPath: getRelative(outputPath), protocol, status: "exported" as const };
+        return {
+          outputPath: yield* getRelative(outputPath),
+          protocol,
+          status: "exported" as const,
+        };
       }).pipe(
         Effect.catchAll(() =>
           Effect.succeed({ outputPath: "", protocol, status: "error" as const })

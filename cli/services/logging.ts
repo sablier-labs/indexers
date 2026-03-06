@@ -1,39 +1,59 @@
+import { dirname } from "node:path";
 import { FileSystem } from "@effect/platform";
-import { Context, Effect, Layer } from "effect";
+import { Context, DateTime, Effect, Layer } from "effect";
+import { FileOperationError } from "../errors.js";
+
+export type CliFileLoggerInstance = {
+  readonly log: (message: string) => Effect.Effect<void, FileOperationError>;
+  readonly createLogFile: () => Effect.Effect<void, FileOperationError>;
+};
 
 /**
- * FileLogger service for writing to log files
+ * File logger factory for writing CLI log files.
  *
  * Used by graph-deploy-all to track deployment progress and results.
  */
-export class FileLogger extends Context.Tag("FileLogger")<
-  FileLogger,
+export class CliFileLogger extends Context.Tag("CliFileLogger")<
+  CliFileLogger,
   {
-    readonly appendLog: (message: string) => Effect.Effect<void, Error>;
-    readonly createLogFile: (path: string) => Effect.Effect<void, Error>;
+    readonly make: (logFilePath: string) => Effect.Effect<CliFileLoggerInstance>;
   }
 >() {}
 
-/**
- * Create a FileLogger layer for a specific log file path
- */
-export const makeFileLogger = (logFilePath: string) =>
-  Layer.effect(
-    FileLogger,
-    Effect.gen(function* () {
-      const fs = yield* FileSystem.FileSystem;
+function toFileOperationError(path: string, operation: FileOperationError["operation"]) {
+  return (error: unknown) =>
+    new FileOperationError({
+      message: error instanceof Error ? error.message : String(error),
+      operation,
+      path,
+    });
+}
 
-      return {
-        appendLog: (message: string) =>
-          fs.readFileString(logFilePath).pipe(
-            Effect.flatMap((content) => fs.writeFileString(logFilePath, `${content}${message}\n`)),
-            Effect.catchAll(() => fs.writeFileString(logFilePath, `${message}\n`)),
-            Effect.catchAll((e) => Effect.fail(new Error(String(e))))
-          ),
-        createLogFile: (path: string) =>
-          fs
-            .writeFileString(path, "")
-            .pipe(Effect.catchAll((e) => Effect.fail(new Error(String(e))))),
-      };
-    })
-  );
+export const CliFileLoggerLive = Layer.effect(
+  CliFileLogger,
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+
+    return {
+      make: (logFilePath: string) =>
+        Effect.succeed({
+          createLogFile: () =>
+            fs
+              .makeDirectory(dirname(logFilePath), { recursive: true })
+              .pipe(
+                Effect.zipRight(fs.writeFileString(logFilePath, "")),
+                Effect.mapError(toFileOperationError(logFilePath, "write"))
+              ),
+          log: (message: string) =>
+            Effect.gen(function* () {
+              const timestamp = yield* DateTime.now.pipe(Effect.map(DateTime.formatIso));
+              const entry = `${timestamp} ${message}\n`;
+              const exists = yield* fs.exists(logFilePath);
+              const existingContent = exists ? yield* fs.readFileString(logFilePath) : "";
+
+              yield* fs.writeFileString(logFilePath, `${existingContent}${entry}`);
+            }).pipe(Effect.mapError(toFileOperationError(logFilePath, "write"))),
+        } satisfies CliFileLoggerInstance),
+    };
+  })
+);

@@ -1,46 +1,49 @@
+import { Effect } from "effect";
 import { Kind } from "graphql";
 import _ from "lodash";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { convertToIndexed, indexedContracts } from "../../../../../contracts/index.js";
+import { indexedEvents } from "../../../../../events/index.js";
 import { getMergedSchema } from "../../../../../schema/merger.js";
 import type { Indexer } from "../../../../../src/index.js";
 import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph.js";
 import type { Model } from "../../../../../src/types.js";
 import { sanitizeContractName } from "../../../../contract-name.js";
-import { logger, messages } from "../../../../logger/index.js";
 import { CodegenError } from "../../errors.js";
 import { GRAPH_API_VERSION } from "../constants.js";
+import { resolveEventHandler } from "../event-resolver.js";
 import type { GraphManifest } from "../manifest-types.js";
 import { getABIEntries } from "./abi-entries.js";
-import eventHandlers from "./event-handlers.js";
 
 /**
  * Creates an array of data sources/templates for a subgraph manifest.
  */
-export function getSources(protocol: Indexer.Protocol, chainId: number): GraphManifest.Source[] {
-  const sources: GraphManifest.Source[] = [];
-  for (const indexedContract of indexedContracts[protocol]) {
-    for (const version of indexedContract.versions) {
-      const release = sablier.releases.get({ protocol, version });
-      if (!release) {
-        throw new CodegenError.ReleaseNotFound(protocol, version);
-      }
+export function getSources(protocol: Indexer.Protocol, chainId: number) {
+  return Effect.gen(function* () {
+    const sources: GraphManifest.Source[] = [];
+    for (const indexedContract of indexedContracts[protocol]) {
+      for (const version of indexedContract.versions) {
+        const release = sablier.releases.get({ protocol, version });
+        if (!release) {
+          return yield* Effect.fail(new CodegenError.ReleaseNotFound(protocol, version));
+        }
 
-      const { name: contractName, isTemplate } = indexedContract;
-      const contract = extractContract({ chainId, contractName, isTemplate, release });
-      if (!contract) {
-        continue;
-      }
+        const { name: contractName, isTemplate } = indexedContract;
+        const contract = yield* extractContract({ chainId, contractName, isTemplate, release });
+        if (!contract) {
+          continue;
+        }
 
-      const common = getCommon({ chainId, contract, isTemplate, protocol, version });
-      const mapping = getMapping({ contractName: contract.name, protocol, version });
-      const source = _.merge({}, common, { mapping }) as GraphManifest.Source;
-      sources.push(source);
+        const common = getCommon({ chainId, contract, isTemplate, protocol, version });
+        const mapping = yield* getMapping({ contractName: contract.name, protocol, version });
+        const source = _.merge({}, common, { mapping }) as GraphManifest.Source;
+        sources.push(source);
+      }
     }
-  }
 
-  return sources;
+    return sources;
+  });
 }
 
 /* -------------------------------------------------------------------------- */
@@ -134,12 +137,27 @@ function getMapping(params: {
 }) {
   const { protocol, version, contractName } = params;
 
-  return {
-    abis: getABIEntries(protocol, contractName, version),
-    entities: getEntities(protocol),
-    eventHandlers: eventHandlers[protocol][contractName][version],
-    file: `../mappings/${version}/${contractName}.ts`,
-  };
+  return Effect.gen(function* () {
+    const events = indexedEvents[protocol][contractName]?.[version];
+    if (!events) {
+      return yield* Effect.fail(
+        new Error(`Events not found for contract ${contractName} (${protocol} ${version})`)
+      );
+    }
+
+    const handlers = yield* Effect.forEach(events, (event) =>
+      resolveEventHandler(protocol as Indexer.Name, event)
+    );
+
+    return {
+      abis: yield* getABIEntries(protocol, contractName, version),
+      entities: getEntities(protocol),
+      eventHandlers: handlers.filter(
+        (handler): handler is GraphManifest.EventHandler => handler !== null
+      ),
+      file: `../mappings/${version}/${contractName}.ts`,
+    };
+  });
 }
 
 /**
@@ -156,40 +174,45 @@ function extractContract(params: {
   chainId: number;
   contractName: string;
   isTemplate: boolean;
-}): Model.Contract | undefined {
+}) {
   const { release, chainId, contractName, isTemplate } = params;
 
-  if (isTemplate) {
-    return {
-      address: "0x",
-      alias: "",
-      block: 0,
-      chainId,
-      name: contractName,
-      protocol: release.protocol as Indexer.Protocol,
-      version: release.version as Model.Version,
-    };
-  }
+  return Effect.gen(function* () {
+    if (isTemplate) {
+      return {
+        address: "0x" as Sablier.Address,
+        alias: "",
+        block: 0,
+        chainId,
+        name: contractName,
+        protocol: release.protocol as Indexer.Protocol,
+        version: release.version as Model.Version,
+      };
+    }
 
-  // Query contract deployment for this release and chain, skipping if not deployed because not all
-  // chains are available for a particular release.
-  const contract = sablier.contracts.get({ chainId, contractName, release });
-  if (!contract) {
-    logger.debug(messages.contractNotFound(release, chainId, contractName));
-    return undefined;
-  }
+    // Query contract deployment for this release and chain, skipping if not deployed because not all
+    // chains are available for a particular release.
+    const contract = sablier.contracts.get({ chainId, contractName, release });
+    if (!contract) {
+      return undefined;
+    }
 
-  // Validate required indexing fields
-  // Both alias and block number are necessary for proper subgraph indexing
-  if (!contract.alias) {
-    throw new CodegenError.ContractAliasNotFound(release, chainId, contractName);
-  }
-  if (!contract.block) {
-    throw new CodegenError.BlockNotFound(release, chainId, contractName);
-  }
-  if (!contract.version) {
-    throw new CodegenError.ContractVersionNotFound(release, chainId, contractName);
-  }
+    // Validate required indexing fields
+    // Both alias and block number are necessary for proper subgraph indexing
+    if (!contract.alias) {
+      return yield* Effect.fail(
+        new CodegenError.ContractAliasNotFound(release, chainId, contractName)
+      );
+    }
+    if (!contract.block) {
+      return yield* Effect.fail(new CodegenError.BlockNotFound(release, chainId, contractName));
+    }
+    if (!contract.version) {
+      return yield* Effect.fail(
+        new CodegenError.ContractVersionNotFound(release, chainId, contractName)
+      );
+    }
 
-  return convertToIndexed(contract, release.version as Model.Version);
+    return convertToIndexed(contract, release.version as Model.Version);
+  });
 }

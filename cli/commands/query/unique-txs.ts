@@ -43,7 +43,7 @@ const queryUniqueTxsLogic = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
-    displayHeader("🧾 UNIQUE TRANSACTIONS", "cyan");
+    yield* displayHeader("🧾 UNIQUE TRANSACTIONS", "cyan");
 
     const infoTable = createTable({
       colWidths: [20, 70],

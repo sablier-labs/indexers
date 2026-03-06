@@ -1,37 +1,33 @@
 import { Effect } from "effect";
-import type { Ora } from "ora";
-import ora from "ora";
+import type { SpinnerHandle, SpinnerStatus } from "./services/spinner.js";
+import { CliSpinner } from "./services/spinner.js";
 
-export function startSpinner(message: string): Ora {
-  return ora(message).start();
-}
+export type { SpinnerHandle, SpinnerStatus } from "./services/spinner.js";
 
-export type SpinnerStatus = "success" | "fail" | "stop";
+export const startSpinner = Effect.fn("startSpinner")(function* (message: string) {
+  const spinner = yield* CliSpinner;
+  return yield* spinner.start(message);
+});
 
-export function finishSpinner(spinner: Ora, status: SpinnerStatus, message?: string): void {
+export function finishSpinner(
+  spinner: SpinnerHandle,
+  status: SpinnerStatus,
+  message?: string
+): Effect.Effect<void> {
   switch (status) {
     case "success":
-      spinner.succeed(message);
-      break;
+      return spinner.succeed(message);
     case "fail":
-      spinner.fail(message);
-      break;
+      return spinner.fail(message);
     default:
-      spinner.stop();
-      break;
+      return spinner.stop();
   }
 }
 
-export function withSpinner<A, E, R>(
-  message: string,
-  effect: Effect.Effect<A, E, R>
-): Effect.Effect<A, E, R> {
-  return Effect.gen(function* () {
-    const spinner = startSpinner(message);
-    try {
-      return yield* effect;
-    } finally {
-      spinner.stop();
-    }
-  });
-}
+export const withSpinner = Effect.fn("withSpinner")(
+  <A, E, R>(message: string, effect: Effect.Effect<A, E, R>) =>
+    Effect.gen(function* () {
+      const spinner = yield* CliSpinner;
+      return yield* spinner.withSpinner(message, effect);
+    })
+);

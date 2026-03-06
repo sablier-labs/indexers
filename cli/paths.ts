@@ -1,4 +1,3 @@
-import * as fs from "node:fs";
 import path, { join } from "node:path";
 import appRoot from "app-root-path";
 import { getGraphChainSlug } from "../src/indexers/graph.js";
@@ -10,7 +9,10 @@ export const ENVIO_DIR = join(ROOT_DIR, "envio");
 export const EXPORTS_DIR = join(ROOT_DIR, "src");
 export const GRAPH_DIR = join(ROOT_DIR, "graph");
 export const SCHEMA_DIR = join(ROOT_DIR, "schema");
-const QUERY_ASSETS_DIR = `assets-${new Date().toISOString().split("T")[0]}`;
+
+export function getQueryAssetsDirectoryName(dateSegment: string): string {
+  return `assets-${dateSegment}`;
+}
 
 type I = Indexer.Name;
 type V = Indexer.Vendor;
@@ -52,11 +54,19 @@ const paths = {
   },
   generated: {
     queryAssets: {
-      dir: (): string => join(ROOT_DIR, "cli", "generated", QUERY_ASSETS_DIR),
-      file: (indexer: Indexer.Protocol, chainSlug: string): string =>
-        join(ROOT_DIR, "cli", "generated", QUERY_ASSETS_DIR, indexer, `${chainSlug}.json`),
-      indexerDir: (indexer: Indexer.Protocol): string =>
-        join(ROOT_DIR, "cli", "generated", QUERY_ASSETS_DIR, indexer),
+      dir: (dateSegment: string): string =>
+        join(ROOT_DIR, "cli", "generated", getQueryAssetsDirectoryName(dateSegment)),
+      file: (dateSegment: string, indexer: Indexer.Protocol, chainSlug: string): string =>
+        join(
+          ROOT_DIR,
+          "cli",
+          "generated",
+          getQueryAssetsDirectoryName(dateSegment),
+          indexer,
+          `${chainSlug}.json`
+        ),
+      indexerDir: (dateSegment: string, indexer: Indexer.Protocol): string =>
+        join(ROOT_DIR, "cli", "generated", getQueryAssetsDirectoryName(dateSegment), indexer),
     },
   },
   graph: {
@@ -80,10 +90,6 @@ export default paths;
  * @returns The relative path from the start path to the end path
  */
 export function getRelativePath(from: string, to: string): string {
-  // Use the directory of the `from` path if it's a file.
-  let fromDir = from;
-  if (fs.lstatSync(from).isFile()) {
-    fromDir = path.dirname(from);
-  }
+  const fromDir = path.extname(from) === "" ? from : path.dirname(from);
   return path.relative(fromDir, to);
 }

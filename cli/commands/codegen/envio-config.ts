@@ -19,6 +19,7 @@ import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
 import paths from "../../paths.js";
+import { CliEnv } from "../../services/env.js";
 import { createEnvioConfig } from "./envio-config/index.js";
 import { dumpYAML } from "./helpers.js";
 
@@ -34,51 +35,45 @@ const indexerOption = Options.choice("indexer", [
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate config for"));
 
-/* -------------------------------------------------------------------------- */
-/*                                   COMMAND                                  */
-/* -------------------------------------------------------------------------- */
-
-type ConfigResult = {
-  configPath: string;
-  indexer: Indexer.Name;
-  status: "generated" | "error";
-};
-
-function generateConfig(indexer: Indexer.Name): Effect.Effect<void, never, FileSystem.FileSystem> {
+function generateConfig(indexer: Indexer.Name, options: { hasAlchemyApiKey: boolean }) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const config = createEnvioConfig(indexer);
+    const config = createEnvioConfig(indexer, options);
     const yaml = dumpYAML(config);
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
 
     yield* Console.log(`✅ Generated the Envio config for indexer ${_.capitalize(indexer)}`);
-    yield* Console.log(`📁 Config path: ${helpers.getRelative(configPath)}`);
+    yield* Console.log(`📁 Config path: ${yield* helpers.getRelative(configPath)}`);
     yield* Console.log();
-  }).pipe(Effect.orDie);
+  });
 }
 
-function generateConfigWithResult(
-  indexer: Indexer.Name
-): Effect.Effect<ConfigResult, never, FileSystem.FileSystem> {
+function generateConfigWithResult(indexer: Indexer.Name, options: { hasAlchemyApiKey: boolean }) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const config = createEnvioConfig(indexer);
+    const config = createEnvioConfig(indexer, options);
     const yaml = dumpYAML(config);
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
-    return { configPath: helpers.getRelative(configPath), indexer, status: "generated" as const };
+    return {
+      configPath: yield* helpers.getRelative(configPath),
+      indexer,
+      status: "generated" as const,
+    };
   }).pipe(
     Effect.catchAll(() => Effect.succeed({ configPath: "", indexer, status: "error" as const }))
   );
 }
 
-function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSystem.FileSystem> {
+function generateAllIndexersConfigs(options: { hasAlchemyApiKey: boolean }) {
   return Effect.gen(function* () {
-    displayHeader("⚙️  GENERATING ENVIO CONFIGS", "cyan");
+    yield* displayHeader("⚙️  GENERATING ENVIO CONFIGS", "cyan");
 
     const indexers = INDEXERS;
-    const results = yield* Effect.forEach(indexers, (indexer) => generateConfigWithResult(indexer));
+    const results = yield* Effect.forEach(indexers, (indexer) =>
+      generateConfigWithResult(indexer, options)
+    );
 
     // Display results table
     yield* Console.log("");
@@ -137,12 +132,14 @@ function generateAllIndexersConfigs(): Effect.Effect<void, ProcessError, FileSys
 const envioConfigLogic = (options: { readonly indexer: Indexer.Name | "all" }) =>
   Effect.gen(function* () {
     const indexerArg = options.indexer;
+    const env = yield* CliEnv;
+    const hasAlchemyApiKey = Boolean((yield* env.getString("ENVIO_ALCHEMY_API_KEY"))?.trim());
 
     if (indexerArg === "all") {
-      return yield* generateAllIndexersConfigs();
+      return yield* generateAllIndexersConfigs({ hasAlchemyApiKey });
     }
 
-    return yield* generateConfig(indexerArg);
+    return yield* generateConfig(indexerArg, { hasAlchemyApiKey });
   });
 
 export const envioConfigCommand = Command.make(
