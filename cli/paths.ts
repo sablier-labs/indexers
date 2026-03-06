@@ -12,6 +12,7 @@ export const GRAPH_DIR = join(ROOT_DIR, "graph");
 export const SCHEMA_DIR = join(ROOT_DIR, "schema");
 
 type I = Indexer.Name;
+type Q = Extract<Indexer.Protocol, "flow" | "lockup">;
 type V = Indexer.Vendor;
 
 const paths = {
@@ -48,6 +49,15 @@ const paths = {
   exports: {
     schema: (indexer: I): string => join(EXPORTS_DIR, "schemas", `${indexer}.graphql`),
     schemas: (): string => join(EXPORTS_DIR, "schemas"),
+  },
+  generated: {
+    queryAssets: {
+      dir: (): string => join(ROOT_DIR, "cli", "generated", "query-assets"),
+      file: (indexer: Q, chainSlug: string): string =>
+        join(ROOT_DIR, "cli", "generated", "query-assets", indexer, `${chainSlug}.json`),
+      indexerDir: (indexer: Q): string =>
+        join(ROOT_DIR, "cli", "generated", "query-assets", indexer),
+    },
   },
   graph: {
     manifest: (indexer: I, chainId: number): string => {
