@@ -92,6 +92,34 @@ describe("recover-tokens helpers", () => {
       expect(parsed.indexer).toBe("airdrops");
     });
 
+    it("accepts empty asset names emitted by query-assets snapshots", () => {
+      const parsed = parseIndexedAssetFile(`{
+  "generatedAt": "2026-03-06T00:00:00.000Z",
+  "vendor": "envio",
+  "indexer": "lockup",
+  "chainId": 8453,
+  "chainSlug": "base",
+  "chainName": "Base",
+  "assets": [
+    {
+      "address": "0x010a5603cfefb902653a4256cf7625237534b245",
+      "symbol": "CLAW",
+      "name": "",
+      "decimals": 18
+    }
+  ]
+}`);
+
+      expect(parsed.assets).toEqual([
+        {
+          address: "0x010a5603cfefb902653a4256cf7625237534b245",
+          decimals: 18,
+          name: "",
+          symbol: "CLAW",
+        },
+      ]);
+    });
+
     it("rejects invalid numeric fields from custom asset files", () => {
       expect(() =>
         parseIndexedAssetFile(`{

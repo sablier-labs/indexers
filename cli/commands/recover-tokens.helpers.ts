@@ -45,6 +45,14 @@ function parseString(value: unknown, field: string): string {
   return value;
 }
 
+function parseAssetMetadataString(value: unknown, field: string): string {
+  if (typeof value !== "string") {
+    throw new Error(`Invalid ${field}`);
+  }
+
+  return value;
+}
+
 function absBigInt(value: bigint): bigint {
   return value < 0n ? -value : value;
 }
@@ -112,8 +120,8 @@ export function parseIndexedAssetFile(content: string): IndexedAssetFile {
     return {
       address,
       decimals: parseInteger(value.decimals, "asset decimals", { minimum: 0 }),
-      name: parseString(value.name, "asset name"),
-      symbol: parseString(value.symbol, "asset symbol"),
+      name: parseAssetMetadataString(value.name, "asset name"),
+      symbol: parseAssetMetadataString(value.symbol, "asset symbol"),
     };
   });
 
