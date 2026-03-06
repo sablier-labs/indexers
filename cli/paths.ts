@@ -10,9 +10,9 @@ export const ENVIO_DIR = join(ROOT_DIR, "envio");
 export const EXPORTS_DIR = join(ROOT_DIR, "src");
 export const GRAPH_DIR = join(ROOT_DIR, "graph");
 export const SCHEMA_DIR = join(ROOT_DIR, "schema");
+const QUERY_ASSETS_DIR = `assets-${new Date().toISOString().split("T")[0]}`;
 
 type I = Indexer.Name;
-type Q = Extract<Indexer.Protocol, "flow" | "lockup">;
 type V = Indexer.Vendor;
 
 const paths = {
@@ -52,11 +52,11 @@ const paths = {
   },
   generated: {
     queryAssets: {
-      dir: (): string => join(ROOT_DIR, "cli", "generated", "query-assets"),
-      file: (indexer: Q, chainSlug: string): string =>
-        join(ROOT_DIR, "cli", "generated", "query-assets", indexer, `${chainSlug}.json`),
-      indexerDir: (indexer: Q): string =>
-        join(ROOT_DIR, "cli", "generated", "query-assets", indexer),
+      dir: (): string => join(ROOT_DIR, "cli", "generated", QUERY_ASSETS_DIR),
+      file: (indexer: Indexer.Protocol, chainSlug: string): string =>
+        join(ROOT_DIR, "cli", "generated", QUERY_ASSETS_DIR, indexer, `${chainSlug}.json`),
+      indexerDir: (indexer: Indexer.Protocol): string =>
+        join(ROOT_DIR, "cli", "generated", QUERY_ASSETS_DIR, indexer),
     },
   },
   graph: {
