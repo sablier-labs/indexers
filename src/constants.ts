@@ -2,4 +2,4 @@
 export const SUBGRAPH_STUDIO_USER_ID = 112_500;
 
 // EOA wallet used for pre-paying Sablier fees.
-export const BILLING_ADDRESS = "0xb1bef51ebca01eb12001a639bdbbff6eeca12b9f";
+export const BILLING_ADDRESS = "0xA6a4c1D99312978A3207fF1a28b958e5efAA0a42";
