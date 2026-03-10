@@ -5,6 +5,7 @@ import "./node_modules/@sablier/devkit/just/base.just"
 # See https://just.systems/man/en/imports.html
 import "./recipes/envio.just"
 import "./recipes/graph.just"
+import "./recipes/misc.just"
 import "./recipes/print.just"
 import "./recipes/query.just"
 import "./recipes/utils.just"

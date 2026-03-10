@@ -24,3 +24,9 @@
 [arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
 @query-unique-txs quarter="latest" *args:
     just cli query-unique-txs --quarter={{ quarter }} {{ args }}
+
+# Query indexer assets (Envio catalog export)
+[group("cli")]
+[arg("indexer", long, short="i", help="Indexer to export asset addresses for (airdrops, flow, lockup)")]
+@query-assets indexer *args:
+    just cli query-assets --indexer={{ indexer }} {{ args }}
