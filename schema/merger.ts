@@ -8,6 +8,9 @@ import { getAssetDefs, getWatcherDefs } from "./common/index.js";
 import { getEnumDefs } from "./enums.js";
 import { flowStreamDefs } from "./flow/stream.graphql.js";
 import { lockupStreamDefs } from "./lockup/stream.graphql.js";
+import { streamsActionDefs } from "./streams/action.graphql.js";
+import { streamsBatchDefs } from "./streams/batch.graphql.js";
+import { streamsStreamDefs } from "./streams/stream.graphql.js";
 
 type TsDefsGenerator = (indexer: Indexer.Name) => DocumentNode;
 type ProtocolSchemaConfig = {
@@ -41,6 +44,11 @@ const PROTOCOL_MAP: Record<Indexer.Name, ProtocolSchemaConfig> = {
     generators: [...BASE.generators, getStreamDefs],
     indexerSpecific: ["segment", "tranche"],
     vendorSpecific: { envio: ["sponsor", "sponsorship"], graph: [] },
+  },
+  streams: {
+    bespoke: ["segment", "sponsor", "sponsorship", "tranche"],
+    common: ["contract", "deprecated-stream"],
+    generators: [...BASE.generators, getStreamDefs],
   },
 };
 
@@ -110,6 +118,9 @@ function getStreamDefs(indexer: Indexer.Name): DocumentNode {
       return lockupStreamDefs;
     case "flow":
       return flowStreamDefs;
+    case "streams":
+      // Merge all streams-specific definitions (prefixed entities)
+      return mergeTypeDefs([streamsStreamDefs, streamsActionDefs, streamsBatchDefs]);
     default:
       throw new Error(`Unsupported indexer: ${indexer}`);
   }

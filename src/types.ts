@@ -46,7 +46,7 @@ export namespace Indexer {
     chainId: number;
   };
 
-  export type Name = Protocol | "analytics";
+  export type Name = Protocol | "analytics" | "streams";
 
   /**
    * Bob and Legacy are excluded because they are not part of the Envio/Graph indexers.
