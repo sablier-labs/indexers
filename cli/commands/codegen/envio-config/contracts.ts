@@ -51,10 +51,14 @@ export function createProtocolContracts(
 export function createUsdcContract(indexer: Indexer.Name): EnvioConfig.Contract {
   const abiPath = paths.abi("ERC20");
   const envioConfigDir = paths.envio.config(indexer);
+  const handler =
+    indexer === "streams"
+      ? "mappings/lockup/common/sponsorship.ts"
+      : "mappings/common/sponsorship.ts";
   return {
     abi_file_path: getRelativePath(envioConfigDir, abiPath),
     events: [{ event: "Transfer" }],
-    handler: "mappings/common/sponsorship.ts",
+    handler,
     name: "USDC",
   };
 }
@@ -76,7 +80,13 @@ function getRelativeAbiFilePath(
 function getEvents(indexer: Indexer.Name, indexedEvents: Model.Event[]): EnvioConfig.Event[] {
   const events: EnvioConfig.Event[] = [];
   _.forEach(indexedEvents, (indexedEvent) => {
-    if (indexedEvent.indexers.includes(indexer)) {
+    // The "streams" indexer includes events from both "flow" and "lockup" protocols.
+    const matches =
+      indexer === "streams"
+        ? indexedEvent.indexers.includes("flow") || indexedEvent.indexers.includes("lockup")
+        : indexedEvent.indexers.includes(indexer);
+
+    if (matches) {
       events.push({
         event: indexedEvent.eventName,
       });

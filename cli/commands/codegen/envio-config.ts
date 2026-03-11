@@ -32,6 +32,7 @@ const indexerOption = Options.choice("indexer", [
   "flow",
   "lockup",
   "analytics",
+  "streams",
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate config for"));
 

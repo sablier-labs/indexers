@@ -1,0 +1,31 @@
+import "../envio.just"
+
+# Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
+export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
+    arr=(
+        "Asset"
+        "Contract"
+        "DeprecatedStream"
+        "FlowAction"
+        "FlowBatch"
+        "FlowBatcher"
+        "FlowStream"
+        "LockupAction"
+        "LockupBatch"
+        "LockupBatcher"
+        "LockupStream"
+        "Segment"
+        "Sponsor"
+        "Sponsorship"
+        "Tranche"
+        "Watcher"
+    )
+    IFS='&' # Internal Field Separator
+    echo "${arr[*]}"
+```
+export ENVIO_INDEXER_NAME := "streams"
+export INDEXER_NAME := "streams"
+
+# Show available commands
+default:
+    @just --list

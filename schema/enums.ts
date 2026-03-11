@@ -101,6 +101,15 @@ export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
         getEnum(Lockup.ShapeSource, "ShapeSource")
       );
       break;
+    case "streams":
+      enumDefs.push(
+        getEnum(Flow.ActionCategory, "FlowActionCategory"),
+        getEnum(Flow.StreamCategory, "FlowStreamCategory"),
+        getEnum(Lockup.ActionCategory, "LockupActionCategory"),
+        getEnum(Lockup.StreamCategory, "LockupStreamCategory"),
+        getEnum(Lockup.ShapeSource, "ShapeSource")
+      );
+      break;
   }
 
   return gql`

@@ -50,6 +50,22 @@ export function createEnvioConfig(
     });
     networks = addComptrollerToNetworks(networks);
   }
+  /* --------------------------------- STREAMS -------------------------------- */
+
+  // The Streams indexer combines Flow and Lockup protocols.
+  else if (indexer === "streams") {
+    const includeProtocolInPath = true;
+    contracts = [
+      ...createProtocolContracts(indexer, "flow", includeProtocolInPath),
+      ...createProtocolContracts(indexer, "lockup", includeProtocolInPath),
+      createUsdcContract(indexer),
+    ];
+    networks = mergeNetworks([
+      ...createNetworksForProtocols("flow", options),
+      ...createNetworksForProtocols("lockup", options),
+    ]);
+    networks = addUsdcToNetworks(networks);
+  }
   // Each protocol indexer tracks its own contracts and networks.
   else {
     const protocol = indexer as Indexer.Protocol;
