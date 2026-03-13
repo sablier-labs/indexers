@@ -34,6 +34,7 @@ const indexerOption = Options.choice("indexer", [
   "airdrops",
   "flow",
   "lockup",
+  "streams",
   "all",
 ] as const).pipe(
   Options.withAlias("i"),
@@ -63,9 +64,9 @@ type ManifestResult = {
 function writeManifestToFile(indexer: Indexer.Name, chainId: number) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const manifest = yield* createGraphManifest(indexer as Indexer.Protocol, chainId);
+    const manifest = yield* createGraphManifest(indexer as Indexer.Protocol | "streams", chainId);
     const yaml = dumpYAML(manifest);
-    const manifestPath = paths.graph.manifest(indexer as Indexer.Protocol, chainId);
+    const manifestPath = paths.graph.manifest(indexer, chainId);
     yield* fs.writeFileString(manifestPath, yaml);
 
     return yield* helpers.getRelative(manifestPath);
@@ -76,10 +77,10 @@ function generateManifest(indexer: Indexer.Name, chainArg: string) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const chain = yield* helpers.getChain(chainArg);
-    const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
+    const manifestsDir = paths.graph.manifests(indexer);
     yield* fs.makeDirectory(manifestsDir, { recursive: true });
 
-    const manifestPath = yield* writeManifestToFile(indexer as Indexer.Protocol, chain.id);
+    const manifestPath = yield* writeManifestToFile(indexer, chain.id);
     yield* Console.log(`✅ Generated subgraph manifest for ${chainArg}`);
     yield* Console.log(`📁 Manifest path: ${manifestPath}`);
     yield* Console.log();
@@ -89,7 +90,7 @@ function generateManifest(indexer: Indexer.Name, chainArg: string) {
 function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = false) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
+    const manifestsDir = paths.graph.manifests(indexer);
 
     if (yield* fs.exists(manifestsDir)) {
       yield* fs.remove(manifestsDir, { recursive: true });
@@ -101,9 +102,7 @@ function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = fal
 
     for (const chainId of graphChains) {
       const chain = sablier.chains.get(chainId);
-      const manifestPath = yield* Effect.either(
-        writeManifestToFile(indexer as Indexer.Protocol, chainId)
-      );
+      const manifestPath = yield* Effect.either(writeManifestToFile(indexer, chainId));
 
       if (Either.isRight(manifestPath)) {
         results.push({
@@ -209,7 +208,7 @@ function generateAllProtocolManifests(chainArg: string) {
 }
 
 const graphManifestLogic = (options: {
-  readonly indexer: "airdrops" | "flow" | "lockup" | "all";
+  readonly indexer: "airdrops" | "flow" | "lockup" | "streams" | "all";
   readonly chain: string;
 }) =>
   Effect.gen(function* () {
