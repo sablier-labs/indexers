@@ -1,0 +1,33 @@
+import { ethereum } from "@graphprotocol/graph-ts";
+import { logError } from "../../../../common/logger";
+import { CommonParams } from "../../../../common/types";
+import { Params } from "../../../helpers/lockup/types";
+import { Store } from "../../../store/lockup";
+
+export function handleRenounceLockupStream(
+  event: ethereum.Event,
+  params: Params.RenounceStream
+): void {
+  const tokenId = params.streamId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
+  const stream = Store.Stream.get(tokenId);
+  if (stream === null) {
+    logError("Stream not saved before this Renounce event: {}", [tokenId.toHexString()]);
+    return;
+  }
+
+  /* --------------------------------- STREAM --------------------------------- */
+  stream.cancelable = false;
+  stream.renounceTime = event.block.timestamp;
+
+  /* --------------------------------- ACTION --------------------------------- */
+  const action = Store.Action.create(event, {
+    category: "Renounce",
+    streamId: stream.id,
+  } as CommonParams.Action);
+  stream.renounceAction = action.id;
+  stream.save();
+}

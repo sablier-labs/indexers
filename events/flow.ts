@@ -6,7 +6,7 @@ import { contracts } from "sablier/evm";
 import type { Indexer, Model } from "../src/types.js";
 import { erc721 } from "./common/erc721.js";
 
-const DEFAULT_INDEXERS: Indexer.Name[] = ["flow", "analytics"];
+const DEFAULT_INDEXERS: Indexer.Name[] = ["flow", "streams", "analytics"];
 
 function get(
   version: Sablier.Version.Flow,

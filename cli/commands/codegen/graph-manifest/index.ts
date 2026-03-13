@@ -10,7 +10,7 @@ import { topSections } from "./top-sections.js";
  * Creates a Graph manifest for a given protocol and chain.
  * @see https://thegraph.com/docs/en/subgraphs/developing/creating/subgraph-manifest
  */
-export function createGraphManifest(protocol: Indexer.Protocol, chainId: number) {
+export function createGraphManifest(protocol: Indexer.Protocol | "streams", chainId: number) {
   return Effect.gen(function* () {
     const topSection = topSections[protocol];
     const sources = yield* createSources(protocol, chainId);

@@ -1,0 +1,24 @@
+import { ethereum } from "@graphprotocol/graph-ts";
+import { logInfo } from "../../../../common/logger";
+import { CommonParams } from "../../../../common/types";
+import { FlowStore, Store } from "../../../store";
+
+export function handleApproval(event: ethereum.Event, params: CommonParams.Approval): void {
+  const tokenId = params.tokenId;
+  if (Store.DeprecatedStream.exists(event.address, tokenId)) {
+    return;
+  }
+
+  const stream = FlowStore.Stream.get(tokenId);
+  if (stream === null) {
+    logInfo("Stream not saved before this Approval event: {}", [tokenId.toHexString()]);
+    return;
+  }
+
+  FlowStore.Action.create(event, {
+    addressA: params.owner,
+    addressB: params.approved,
+    category: "Approval",
+    streamId: stream.id,
+  } as CommonParams.Action);
+}

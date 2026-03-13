@@ -1,0 +1,41 @@
+import { getOrCreateAsset } from "../entity-asset";
+import { loadOrCreateLockupContract } from "../entity-contract";
+import { createDeprecatedStream, existsDeprecatedStream } from "../entity-deprecated-stream";
+import { getOrCreateWatcher } from "../entity-watcher";
+import { createAction } from "./entity-action";
+import {
+  createStreamDynamic,
+  createStreamLinear,
+  createStreamTranched,
+  getStream,
+} from "./entity-stream";
+
+export namespace Store {
+  export namespace Action {
+    export const create = createAction;
+  }
+
+  export namespace Asset {
+    export const getOrCreate = getOrCreateAsset;
+  }
+
+  export namespace Contract {
+    export const loadOrCreate = loadOrCreateLockupContract;
+  }
+
+  export namespace DeprecatedStream {
+    export const create = createDeprecatedStream;
+    export const exists = existsDeprecatedStream;
+  }
+
+  export namespace Stream {
+    export const createDynamic = createStreamDynamic;
+    export const createLinear = createStreamLinear;
+    export const createTranched = createStreamTranched;
+    export const get = getStream;
+  }
+
+  export namespace Watcher {
+    export const getOrCreate = getOrCreateWatcher;
+  }
+}
