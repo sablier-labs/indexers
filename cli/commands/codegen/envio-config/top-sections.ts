@@ -6,6 +6,7 @@ export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
   analytics: get("analytics"),
   flow: get("flow"),
   lockup: get("lockup"),
+  streams: get("streams"),
 };
 
 function get(name: Indexer.Name): EnvioConfig.TopSection {

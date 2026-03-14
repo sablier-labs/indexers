@@ -56,7 +56,7 @@ envio command tui_mode="tui_on" *args:
     else
         TUI_OFF=false
     fi
-    pnpm envio {{ command }} {{ args }} \
+    na envio {{ command }} {{ args }} \
         --directory {{ justfile_dir() }} \
         --config {{ justfile_dir() }}/config.yaml \
         --output-directory {{ justfile_dir() }}/bindings
