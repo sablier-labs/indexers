@@ -19,7 +19,6 @@ import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
 import paths from "../../paths.js";
-import { CliEnv } from "../../services/env.js";
 import { createEnvioConfig } from "./envio-config/index.js";
 import { dumpYAML } from "./helpers.js";
 
@@ -35,10 +34,10 @@ const indexerOption = Options.choice("indexer", [
   "all",
 ] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate config for"));
 
-function generateConfig(indexer: Indexer.Name, options: { hasAlchemyApiKey: boolean }) {
+function generateConfig(indexer: Indexer.Name) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const config = createEnvioConfig(indexer, options);
+    const config = createEnvioConfig(indexer);
     const yaml = dumpYAML(config);
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
@@ -49,10 +48,10 @@ function generateConfig(indexer: Indexer.Name, options: { hasAlchemyApiKey: bool
   });
 }
 
-function generateConfigWithResult(indexer: Indexer.Name, options: { hasAlchemyApiKey: boolean }) {
+function generateConfigWithResult(indexer: Indexer.Name) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const config = createEnvioConfig(indexer, options);
+    const config = createEnvioConfig(indexer);
     const yaml = dumpYAML(config);
     const configPath = paths.envio.config(indexer);
     yield* fs.writeFileString(configPath, yaml);
@@ -66,14 +65,12 @@ function generateConfigWithResult(indexer: Indexer.Name, options: { hasAlchemyAp
   );
 }
 
-function generateAllIndexersConfigs(options: { hasAlchemyApiKey: boolean }) {
+function generateAllIndexersConfigs() {
   return Effect.gen(function* () {
     yield* displayHeader("⚙️  GENERATING ENVIO CONFIGS", "cyan");
 
     const indexers = INDEXERS;
-    const results = yield* Effect.forEach(indexers, (indexer) =>
-      generateConfigWithResult(indexer, options)
-    );
+    const results = yield* Effect.forEach(indexers, (indexer) => generateConfigWithResult(indexer));
 
     // Display results table
     yield* Console.log("");
@@ -132,14 +129,12 @@ function generateAllIndexersConfigs(options: { hasAlchemyApiKey: boolean }) {
 const envioConfigLogic = (options: { readonly indexer: Indexer.Name | "all" }) =>
   Effect.gen(function* () {
     const indexerArg = options.indexer;
-    const env = yield* CliEnv;
-    const hasAlchemyApiKey = Boolean((yield* env.getString("ENVIO_ALCHEMY_API_KEY"))?.trim());
 
     if (indexerArg === "all") {
-      return yield* generateAllIndexersConfigs({ hasAlchemyApiKey });
+      return yield* generateAllIndexersConfigs();
     }
 
-    return yield* generateConfig(indexerArg, { hasAlchemyApiKey });
+    return yield* generateConfig(indexerArg);
   });
 
 export const envioConfigCommand = Command.make(

@@ -25,16 +25,13 @@ function createClient(chainId: number): PublicClient {
     }
   })();
 
-  // Build priority-ordered list of RPC URLs
+  // Build priority-ordered list of RPC URLs: RouteMesh first, then public defaults.
   const rpcUrls: string[] = [];
 
-  // Add Alchemy endpoint if key is available
-  if (chain.rpc.alchemy && process.env.ENVIO_ALCHEMY_API_KEY) {
-    const alchemyURL = chain.rpc.alchemy(process.env.ENVIO_ALCHEMY_API_KEY);
-    rpcUrls.push(alchemyURL);
+  if (chain.rpc.routemesh && process.env.ENVIO_ROUTEMESH_API_KEY) {
+    rpcUrls.push(chain.rpc.routemesh(process.env.ENVIO_ROUTEMESH_API_KEY));
   }
 
-  // Add default chain RPC as provided by the Sablier deployments package, which sources it from Viem.
   rpcUrls.push(...chain.rpc.defaults);
 
   // Remove duplicates while preserving order

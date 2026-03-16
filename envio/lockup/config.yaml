@@ -129,7 +129,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://abstract-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://api.mainnet.abs.xyz"
     contracts:
       - address: "0xc69c06c030e825ede13f1486078aa9a2e2aaffaf"
         name: "SablierV2LockupDynamic_v1_2"
@@ -152,7 +152,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://arb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://arb1.arbitrum.io/rpc"
     contracts:
       - address: "0xa9efbef1a35ff80041f567391bdc9813b2d50197"
         name: "SablierV2LockupDynamic_v1_0"
@@ -189,7 +189,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://avax-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://api.avax.network/ext/bc/C/rpc"
     contracts:
       - address: "0x665d1c8337f1035cfbe13dd94bb669110b975f5f"
         name: "SablierV2LockupDynamic_v1_0"
@@ -226,7 +226,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://base-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://mainnet.base.org"
     contracts:
       - address: "0x645b00960dc352e699f89a81fc845c0c645231cf"
         name: "SablierV2LockupDynamic_v1_0"
@@ -263,7 +263,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://blast-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.blast.io"
     contracts:
       - address: "0xdf578c2c70a86945999c65961417057363530a1c"
         name: "SablierV2LockupDynamic_v1_1"
@@ -292,7 +292,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://berachain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.berachain.com"
     contracts:
       - address: "0xc19a2542156b5d7960e0ef46e9787e7d336cf428"
         name: "SablierLockup_v2_0"
@@ -306,7 +306,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://bnb-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://56.rpc.thirdweb.com"
     contracts:
       - address: "0xf2f3fef2454dca59eca929d2d8cd2a8669cc6214"
         name: "SablierV2LockupDynamic_v1_0"
@@ -341,6 +341,11 @@ networks:
     start_block: 19125587
     hypersync_config:
       url: "https://chiliz.hypersync.xyz"
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.chiliz.com"
     contracts:
       - address: "0xcff4a803b0bf55dd1be38fb96088478f3d2eecf2"
         name: "SablierV2LockupDynamic_v1_2"
@@ -363,7 +368,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://gnosis-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.gnosischain.com"
     contracts:
       - address: "0xeb148e4ec13aaa65328c0ba089a278138e9e53f9"
         name: "SablierV2LockupDynamic_v1_0"
@@ -396,6 +401,11 @@ networks:
         name: "USDC"
   - id: 999
     start_block: 8594061
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.hyperliquid.xyz/evm"
     contracts:
       - address: "0x856167ee3e09ba562d69a542ab6a939903ad738e"
         name: "SablierLockup_v2_0"
@@ -409,7 +419,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://linea-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.linea.build"
     contracts:
       - address: "0xf2e46b249cfe09c2b3a2022dc81e0bb4be3336f1"
         name: "SablierV2LockupDynamic_v1_2"
@@ -434,7 +444,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://eth.merkle.io"
     contracts:
       - address: "0x39efdc3dbb57b2388ccc4bb40ac4cb1226bc9e44"
         name: "SablierV2LockupDynamic_v1_0"
@@ -467,6 +477,11 @@ networks:
         name: "USDC"
   - id: 34443
     start_block: 11343389
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://mainnet.mode.network"
     contracts:
       - address: "0x704552099f5ad679294d337638b9a57fd4726f52"
         name: "SablierV2LockupDynamic_v1_2"
@@ -489,13 +504,22 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://monad-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.monad.xyz"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc1.monad.xyz"
     contracts:
       - address: "0x003f5393f4836f710d492ad98d89f5bfccf1c962"
         name: "SablierLockup_v3_0"
         start_block: 34585784
   - id: 2818
     start_block: 45825
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.morphl2.io"
     contracts:
       - address: "0x946654ab30dd6ed10236c89f2c8b2719df653691"
         name: "SablierV2LockupDynamic_v1_2"
@@ -518,7 +542,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://opt-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://mainnet.optimism.io"
     contracts:
       - address: "0x6f68516c21e248cddfaf4898e66b2b0adee0e0d6"
         name: "SablierV2LockupDynamic_v1_0"
@@ -555,7 +579,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://polygon-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://polygon-rpc.com"
     contracts:
       - address: "0x7313addb53f96a4f710d3b91645c62b434190725"
         name: "SablierV2LockupDynamic_v1_0"
@@ -592,7 +616,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://sonic-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.soniclabs.com"
     contracts:
       - address: "0xc37462ee6500d2c36c9131b921faadbd6cb7b60b"
         name: "SablierLockup_v2_0"
@@ -608,7 +632,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://scroll-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://rpc.scroll.io"
     contracts:
       - address: "0xde6a30d851efd0fc2a9c922f294801cfd5fcb3a1"
         name: "SablierV2LockupDynamic_v1_0"
@@ -647,7 +671,11 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://sei-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://evm-rpc.sei-apis.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sei.drpc.org"
     contracts:
       - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
         name: "SablierLockup_v2_0"
@@ -657,6 +685,11 @@ networks:
         start_block: 171487252
   - id: 50104
     start_block: 11275708
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.sophon.xyz"
     contracts:
       - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
         name: "SablierLockup_v2_0"
@@ -667,7 +700,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://superseed-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://mainnet.superseed.xyz"
     contracts:
       - address: "0x1fa500262b352d821b4e1c933a20f2242b45383d"
         name: "SablierV2LockupDynamic_v1_2"
@@ -690,7 +723,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://unichain-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://mainnet.unichain.org/"
     contracts:
       - address: "0x26c341c4d79ba8f6bfb450a49e9165c936316b14"
         name: "SablierLockup_v2_0"
@@ -700,6 +733,11 @@ networks:
         start_block: 28781988
   - id: 50
     start_block: 85225620
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.xdcrpc.com"
     contracts:
       - address: "0x489e0dc5e62a751a2b209f1cc03e189fd6257176"
         name: "SablierLockup_v2_0"
@@ -713,7 +751,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://zksync-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://mainnet.era.zksync.io"
     contracts:
       - address: "0xe6c7324bea8474209103e407779eec600c07cf3f"
         name: "SablierV2LockupDynamic_v1_1"
@@ -744,7 +782,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://base-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://sepolia.base.org"
     contracts:
       - address: "0xf46d5fa9bfc964e8d06846c8739aec69bc06344d"
         name: "SablierV2LockupDynamic_v1_1"
@@ -775,7 +813,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://eth-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://11155111.rpc.thirdweb.com"
     contracts:
       - address: "0x421e1e7a53ff360f70a2d02037ee394fa474e035"
         name: "SablierV2LockupDynamic_v1_0"

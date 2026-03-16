@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/suspicious/noTemplateCurlyInString: $ sign needed in string */
-
 import _ from "lodash";
 import { sablier } from "sablier";
 import { sanitizeContractName } from "../../../../cli/contract-name.js";
@@ -10,10 +8,7 @@ import { usdc } from "../../../usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
-export function createNetworksForProtocols(
-  protocol: Indexer.Protocol,
-  options: { hasAlchemyApiKey: boolean }
-): EnvioConfig.Network[] {
+export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {
   const networks: EnvioConfig.Network[] = [];
 
   for (const chain of envioChains) {
@@ -21,7 +16,7 @@ export function createNetworksForProtocols(
     const hypersync_config = chain.config?.hypersync
       ? { url: `https://${chain.config.hypersync}.hypersync.xyz` }
       : undefined;
-    const rpc = getRPCs(chain.id, chain.config?.rpcOnly, options);
+    const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
 
     // Order matters for readability in the YAML config file.
     networks.push({
@@ -87,28 +82,25 @@ export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.
 /*                               INTERNAL LOGIC                               */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Will return a string URL like this: https://eth-mainnet.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}
- * The API keys will be loaded from the .env file. Make sure to set them!
- */
+// WARNING: Do not use paid RPC providers (e.g. Infura, Alchemy) as fallback RPCs. Once Envio activates a fallback
+// RPC, it does not switch back to HyperSync, which can drain paid account resources.
 function getRPCs(
   chainId: number,
-  rpcOnly: boolean | undefined,
-  options: { hasAlchemyApiKey: boolean }
+  rpcOnly: boolean | undefined
 ): EnvioConfig.NetworkRPC[] | undefined {
   const RPCs: EnvioConfig.NetworkRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
 
-  // If it's HyperSync, we use Alchemy as fallback RPC.
   if (rpcOnly) {
     throw new Error("RPC-only mode is temporary disabled");
   }
-  if (chain.rpc.alchemy && options.hasAlchemyApiKey) {
+
+  for (const url of chain.rpc.defaults) {
     RPCs.push({
       for: "fallback",
       initial_block_interval: 2000,
       interval_ceiling: 2000,
-      url: chain.rpc.alchemy("${ENVIO_ALCHEMY_API_KEY}"),
+      url,
     });
   }
 
