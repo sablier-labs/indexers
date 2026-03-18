@@ -1,11 +1,10 @@
-import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import { indexers } from "../../src/indexers/data.js";
-import { getGraphChainSlug } from "../../src/indexers/graph.js";
-import { colors, createTable, displayHeader, formatStatus } from "../display.js";
+import { indexers } from "../../../src/indexers/data.js";
+import { getGraphChainSlug } from "../../../src/indexers/graph.js";
+import { colors, createTable, displayHeader, formatStatus } from "../../display.js";
 
 type ChainData = {
   chainId: number;
@@ -16,15 +15,9 @@ type ChainData = {
   slug: string;
 };
 
-const graphOption = Options.boolean("graph").pipe(
-  Options.withAlias("g"),
-  Options.withDescription("Use The Graph chain slugs instead of Sablier slugs"),
-  Options.withDefault(false)
-);
-
-const printChainsLogic = (options: { readonly graph: boolean }) =>
+export const handler = (graph: boolean) =>
   Effect.gen(function* () {
-    const useGraphSlugs = options.graph;
+    const useGraphSlugs = graph;
 
     // Get supported chain IDs from indexers
     const envioChainIds = new Set(indexers.envio.streams.map((i) => i.chainId));
@@ -145,5 +138,3 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
       `\n${colors.info("ℹ")} Note: Solana indexers are not included in this report. See https://github.com/sablier-labs/solana-indexers.`
     );
   });
-
-export const printChainsCommand = Command.make("chains", { graph: graphOption }, printChainsLogic);

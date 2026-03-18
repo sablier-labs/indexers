@@ -1,15 +1,14 @@
-import { Command } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { print } from "graphql";
 import _ from "lodash";
-import { getMergedSchema } from "../../schema/index.js";
-import { GRAPH_TARGETS } from "../constants.js";
-import { colors, createTable, displayHeader } from "../display.js";
-import { ProcessError } from "../errors.js";
-import { getRelative } from "../helpers.js";
-import paths from "../paths.js";
+import { getMergedSchema } from "../../../schema/index.js";
+import { GRAPH_TARGETS } from "../../constants.js";
+import { colors, createTable, displayHeader } from "../../display.js";
+import { ProcessError } from "../../errors.js";
+import { getRelative } from "../../helpers.js";
+import paths from "../../paths.js";
 
 type ExportResult = {
   outputPath: string;
@@ -17,7 +16,7 @@ type ExportResult = {
   status: "exported" | "error";
 };
 
-const exportSchemaLogic = () =>
+export const handler = () =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
 
@@ -100,5 +99,3 @@ const exportSchemaLogic = () =>
       );
     }
   });
-
-export const exportSchemaCommand = Command.make("export-schema", {}, exportSchemaLogic);

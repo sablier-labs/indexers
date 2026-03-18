@@ -1,23 +1,22 @@
-import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect, Option } from "effect";
 import { sablier } from "sablier";
 import { createPublicClient, fallback, formatUnits, http, parseAbi } from "viem";
-import { colors, createTable, displayHeader } from "../display.js";
-import { FileOperationError, ProcessError, ValidationError } from "../errors.js";
-import { getRelative, resolveFromCliCwd, wrapText } from "../helpers.js";
-import type { CliRpcConfig } from "../rpc.js";
-import { resolveCliRpcConfig } from "../rpc.js";
-import { withSpinner } from "../spinner.js";
-import { getQueryAssetsDateSegment } from "./query/assets.file.js";
-import type { RecoverTokensProtocol } from "./recover-tokens.helpers.js";
+import { colors, createTable, displayHeader } from "../../display.js";
+import { FileOperationError, ProcessError, ValidationError } from "../../errors.js";
+import { getRelative, resolveFromCliCwd, wrapText } from "../../helpers.js";
+import type { CliRpcConfig } from "../../rpc.js";
+import { resolveCliRpcConfig } from "../../rpc.js";
+import { withSpinner } from "../../spinner.js";
+import { getQueryAssetsDateSegment } from "../query/assets.file.js";
+import type { RecoverTokensProtocol } from "./helpers.js";
 import {
   computeRecoverTokenRows,
   getRecoverTokensAssetFileIndexer,
   getRecoverTokensContractName,
   getRecoverTokensDefaultFilePath,
   parseIndexedAssetFile,
-} from "./recover-tokens.helpers.js";
+} from "./helpers.js";
 
 const ERC20_ABI = parseAbi(["function balanceOf(address account) view returns (uint256)"]);
 const SABLIER_AGGREGATE_ABI = parseAbi([
@@ -27,23 +26,6 @@ const MULTICALL_BATCH_SIZE = 100;
 const TRAILING_ZEROES_REGEX = /0+$/;
 const VIEM_RPC_RETRY_COUNT = 3;
 const VIEM_RPC_RETRY_DELAY_MS = 100;
-
-const chainIdOption = Options.integer("chain-id").pipe(
-  Options.withAlias("c"),
-  Options.withDefault(1),
-  Options.withDescription("Chain ID to query")
-);
-
-const fileOption = Options.text("file").pipe(
-  Options.withAlias("f"),
-  Options.withDescription("Path to a per-chain JSON token list produced by query-assets"),
-  Options.optional
-);
-
-const protocolOption = Options.choice("protocol", ["flow", "lockup"] as const).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Protocol contract to query")
-);
 
 function absBigInt(value: bigint): bigint {
   return value < 0n ? -value : value;
@@ -291,7 +273,7 @@ function queryRecoverTokenDeltas(opts: {
   });
 }
 
-const recoverTokensLogic = (options: {
+export const handler = (options: {
   readonly chainId: number;
   readonly file: Option.Option<string>;
   readonly protocol: RecoverTokensProtocol;
@@ -389,9 +371,3 @@ const recoverTokensLogic = (options: {
 
     yield* Console.log(resultsTable.toString());
   });
-
-export const recoverTokensCommand = Command.make(
-  "recover-tokens",
-  { chainId: chainIdOption, file: fileOption, protocol: protocolOption },
-  recoverTokensLogic
-);

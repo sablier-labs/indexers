@@ -1,29 +1,15 @@
-/**
- * @file Deploy a subgraph to a single chain (official or custom Graph node)
- *
- * @example
- * pnpm tsx cli graph-deploy-single -c arbitrum -i streams -v v3.0.0
- * pnpm tsx cli graph-deploy-single -c denergychain -i airdrops -v v2.0.0 --dry-run
- *
- * @param --chain - Required: Sablier chain slug (e.g., 'arbitrum', 'denergychain')
- * @param --indexer - Required: 'airdrops' or 'streams'
- * @param --version-label - Required: Version label for the deployment
- * @param --dry-run - Optional: Show command without executing
- */
-
 import path from "node:path";
-import { Command, Options } from "@effect/cli";
 import { CommandExecutor, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Chunk, Console, Effect, Stream } from "effect";
-import paths, { ROOT_DIR } from "../../../../cli/paths.js";
-import { getSablierChainSlug } from "../../../../src/indexers/graph.js";
-import { getIndexerGraph } from "../../../../src/indexers/index.js";
-import { GraphDeployError, ValidationError } from "../../../errors.js";
-import * as helpers from "../../../helpers.js";
-import { CliEnv } from "../../../services/env.js";
-import { finishSpinner, startSpinner } from "../../../spinner.js";
-import { extractDeployFailureMessage } from "./helpers.js";
+import paths, { ROOT_DIR } from "../../../../../cli/paths.js";
+import { getSablierChainSlug } from "../../../../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../../../../src/indexers/index.js";
+import { GraphDeployError, ValidationError } from "../../../../errors.js";
+import * as helpers from "../../../../helpers.js";
+import { CliEnv } from "../../../../services/env.js";
+import { finishSpinner, startSpinner } from "../../../../spinner.js";
+import { extractDeployFailureMessage } from "../helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -57,34 +43,6 @@ const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
     nodeUrl: "https://graph.phoenix.lightlink.io/rpc",
   },
 };
-
-/* -------------------------------------------------------------------------- */
-/*                                   OPTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-const chainOption = Options.text("chain").pipe(
-  Options.withAlias("c"),
-  Options.withDescription("Sablier chain slug (e.g., 'arbitrum', 'denergychain')")
-);
-
-const indexerOption = Options.choice("indexer", ["airdrops", "streams"] as const).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to deploy")
-);
-
-const versionLabelOption = Options.text("version-label").pipe(
-  Options.withAlias("v"),
-  Options.withDescription("Version label for the deployment")
-);
-
-const dryRunOption = Options.boolean("dry-run").pipe(
-  Options.withDescription("Show command without executing"),
-  Options.withDefault(false)
-);
-
-/* -------------------------------------------------------------------------- */
-/*                              DEPLOYMENT LOGIC                              */
-/* -------------------------------------------------------------------------- */
 
 function executeDeployment(args: readonly string[], workingDir: string, chainName: string) {
   const command = PlatformCommand.make(GRAPH_BIN, ...args).pipe(
@@ -195,7 +153,7 @@ type CommandOptions = {
   readonly dryRun: boolean;
 };
 
-const graphDeploySingleLogic = (options: CommandOptions) =>
+export const handler = (options: CommandOptions) =>
   Effect.gen(function* () {
     const env = yield* CliEnv;
 
@@ -292,14 +250,3 @@ const graphDeploySingleLogic = (options: CommandOptions) =>
       );
     }
   });
-
-export const graphDeploySingleCommand = Command.make(
-  "graph-deploy-single",
-  {
-    chain: chainOption,
-    dryRun: dryRunOption,
-    indexer: indexerOption,
-    versionLabel: versionLabelOption,
-  },
-  graphDeploySingleLogic
-).pipe(Command.withDescription("Deploy a subgraph to a single chain (official or custom)"));

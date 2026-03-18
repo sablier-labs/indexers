@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   DEPLOY_RETRY_SCHEDULE,
   isTransientDeployFailure,
-} from "../../cli/commands/graph/deploy/all.js";
+} from "../../cli/commands/graph/deploy/all/run.js";
 import { extractDeployFailureMessage } from "../../cli/commands/graph/deploy/helpers.js";
 
 describe("graph deploy retry helpers", () => {

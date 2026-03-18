@@ -1,35 +1,15 @@
-/**
- * @file CLI for generating Envio config file
- *
- * @example
- * pnpm tsx cli codegen envio-config --indexer all
- * pnpm tsx cli codegen envio-config --indexer streams
- *
- * @param --indexer - Required: 'airdrops', 'streams', 'analytics', or 'all'
- */
-
-import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import _ from "lodash";
-import type { Indexer } from "../../../src/index.js";
-import { TARGET_OPTIONS, TARGETS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { ProcessError } from "../../errors.js";
-import * as helpers from "../../helpers.js";
-import paths from "../../paths.js";
-import { createEnvioConfig } from "./envio-config/index.js";
-import { dumpYAML } from "./helpers.js";
-
-/* -------------------------------------------------------------------------- */
-/*                                   OPTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-const indexerOption = Options.choice("indexer", TARGET_OPTIONS).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to generate config for")
-);
+import type { Indexer } from "../../../../src/index.js";
+import { TARGETS } from "../../../constants.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { ProcessError } from "../../../errors.js";
+import * as helpers from "../../../helpers.js";
+import paths from "../../../paths.js";
+import { dumpYAML } from "../helpers.js";
+import { createEnvioConfig } from "./index.js";
 
 function generateConfig(target: Indexer.Target) {
   return Effect.gen(function* () {
@@ -123,7 +103,7 @@ function generateAllIndexersConfigs() {
   });
 }
 
-const envioConfigLogic = (options: { readonly indexer: Indexer.Target | "all" }) =>
+export const handler = (options: { readonly indexer: Indexer.Target | "all" }) =>
   Effect.gen(function* () {
     const targetArg = options.indexer;
 
@@ -133,9 +113,3 @@ const envioConfigLogic = (options: { readonly indexer: Indexer.Target | "all" })
 
     return yield* generateConfig(targetArg);
   });
-
-export const envioConfigCommand = Command.make(
-  "envio-config",
-  { indexer: indexerOption },
-  envioConfigLogic
-);

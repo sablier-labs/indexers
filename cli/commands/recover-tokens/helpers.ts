@@ -1,8 +1,8 @@
 import { Array as Arr, Order } from "effect";
 import { isAddress } from "viem";
-import type { Indexer } from "../../src/types.js";
-import type { IndexedAssetFile } from "./query/assets.file.js";
-import { getQueryAssetsFilePath, QUERY_ASSET_INDEXERS } from "./query/assets.file.js";
+import type { Indexer } from "../../../src/types.js";
+import type { IndexedAssetFile } from "../query/assets.file.js";
+import { getQueryAssetsFilePath, QUERY_ASSET_INDEXERS } from "../query/assets.file.js";
 
 export type RecoverTokensProtocol = "flow" | "lockup";
 

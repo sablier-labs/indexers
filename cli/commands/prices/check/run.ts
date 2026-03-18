@@ -1,13 +1,12 @@
 import * as path from "node:path";
-import { Command as CliCommand } from "@effect/cli";
 import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { ValidationError } from "../../errors.js";
-import type { PriceDataFile } from "../../price-data.js";
-import { getRequiredPriceDataFiles } from "../../price-data.js";
-import { CliEnv } from "../../services/env.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { ValidationError } from "../../../errors.js";
+import type { PriceDataFile } from "../../../price-data.js";
+import { getRequiredPriceDataFiles } from "../../../price-data.js";
+import { CliEnv } from "../../../services/env.js";
 
 /**
  * Get list of required TSV files based on Sablier chain data and forex rates.
@@ -30,7 +29,7 @@ type FileStatus = {
   status: "in-sync" | "missing-cache" | "out-of-sync";
 };
 
-const priceDataCheckLogic = () =>
+export const handler = () =>
   Effect.gen(function* () {
     const env = yield* CliEnv;
     const fs = yield* FileSystem.FileSystem;
@@ -146,5 +145,3 @@ const priceDataCheckLogic = () =>
     yield* Console.log("");
     yield* Console.log(colors.success("✅ All price data files are in sync"));
   });
-
-export const pricesCheckCommand = CliCommand.make("prices-check", {}, priceDataCheckLogic);

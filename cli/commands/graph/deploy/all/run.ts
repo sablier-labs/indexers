@@ -1,19 +1,4 @@
-/**
- * @file Deploy all official indexers to The Graph
- *
- * @example
- * pnpm tsx cli graph-deploy-all --indexer streams --version-label v1.1.0
- * pnpm tsx cli graph-deploy-all -i airdrops -v v2.0.0 --dry-run
- * pnpm tsx cli graph-deploy-all -i streams -v v3.0.1 --exclude-chains 1,10
- *
- * @param --indexer - Required: 'airdrops' or 'streams'
- * @param --version-label - Required: Version label for the deployment
- * @param --exclude-chains - Optional: Comma-separated list of chain IDs to exclude
- * @param --dry-run - Optional: Test deployment without actually running commands
- */
-
 import { join } from "node:path";
-import { Command, Options } from "@effect/cli";
 import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import Table from "cli-table3";
@@ -21,23 +6,23 @@ import { Chunk, Clock, Console, Data, Duration, Effect, Option, Schedule, Stream
 import _ from "lodash";
 import { sablier } from "sablier";
 import { Version } from "sablier/evm";
-import paths, { ROOT_DIR } from "../../../../cli/paths.js";
-import { getSablierChainSlug } from "../../../../src/indexers/graph.js";
-import { getIndexerGraph } from "../../../../src/indexers/index.js";
-import type { Indexer } from "../../../../src/types.js";
-import type { FileOperationError } from "../../../errors.js";
+import paths, { ROOT_DIR } from "../../../../../cli/paths.js";
+import { getSablierChainSlug } from "../../../../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../../../../src/indexers/index.js";
+import type { Indexer } from "../../../../../src/types.js";
+import type { FileOperationError } from "../../../../errors.js";
 import {
   GraphDeployError,
   ProcessError,
   UserAbortError,
   ValidationError,
-} from "../../../errors.js";
-import * as helpers from "../../../helpers.js";
-import type { CliFileLoggerInstance } from "../../../services/logging.js";
-import { CliFileLogger } from "../../../services/logging.js";
-import { PromptService } from "../../../services/prompt.js";
-import { finishSpinner, startSpinner } from "../../../spinner.js";
-import { extractDeployFailureMessage, hasVersionLabelConflict } from "./helpers.js";
+} from "../../../../errors.js";
+import * as helpers from "../../../../helpers.js";
+import type { CliFileLoggerInstance } from "../../../../services/logging.js";
+import { CliFileLogger } from "../../../../services/logging.js";
+import { PromptService } from "../../../../services/prompt.js";
+import { finishSpinner, startSpinner } from "../../../../spinner.js";
+import { extractDeployFailureMessage, hasVersionLabelConflict } from "../helpers.js";
 
 /** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
  * pnpm exec resolves binaries from the cwd's nearest node_modules, which fails when cwd is
@@ -91,33 +76,6 @@ type FailedDeployment = {
 };
 
 type DeployAttemptError = FileOperationError | ProcessError | TransientDeployError;
-
-/* -------------------------------------------------------------------------- */
-/*                                   OPTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-const indexerOption = Options.choice("indexer", ["airdrops", "streams"] as const).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to deploy")
-);
-
-const versionLabelOption = Options.text("version-label").pipe(
-  Options.withAlias("v"),
-  Options.withDescription("Version label for the deployment")
-);
-
-const excludeChainsOption = Options.text("exclude-chains").pipe(
-  Options.withAlias("e"),
-  Options.withDescription(
-    "Comma-separated list of chain IDs to exclude from deployment (e.g., '1,10,137')"
-  ),
-  Options.optional
-);
-
-const dryRunOption = Options.boolean("dry-run").pipe(
-  Options.withDescription("Test deployment without actually running commands"),
-  Options.withDefault(false)
-);
 
 /* -------------------------------------------------------------------------- */
 /*                                 VALIDATION                                 */
@@ -565,7 +523,7 @@ function displaySummary(
 /*                                   COMMAND                                  */
 /* -------------------------------------------------------------------------- */
 
-const graphDeployAllLogic = (options: {
+export const handler = (options: {
   readonly indexer: "airdrops" | "streams";
   readonly versionLabel: string;
   readonly excludeChains: Option.Option<string>;
@@ -701,14 +659,3 @@ const graphDeployAllLogic = (options: {
       logger
     );
   });
-
-export const graphDeployAllCommand = Command.make(
-  "graph-deploy-all",
-  {
-    dryRun: dryRunOption,
-    excludeChains: excludeChainsOption,
-    indexer: indexerOption,
-    versionLabel: versionLabelOption,
-  },
-  graphDeployAllLogic
-);
