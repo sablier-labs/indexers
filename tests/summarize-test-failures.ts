@@ -96,7 +96,7 @@ function generateMarkdownTable(failures: FailureSummary[]): string {
 
   for (const failure of failures) {
     const testName = failure.fullName.replace(/\|/g, "\\|"); // Escape pipes
-    const error = failure.shortError.replace(/\|/g, "\\|").substring(0, 100); // Limit length
+    const error = failure.shortError.replace(/\|/g, "\\|").slice(0, 100); // Limit length
     const retries = `${failure.retryCount}/${failure.retryCount}`;
 
     markdown += `| ${testName} | ${error} | ${retries} |\n`;

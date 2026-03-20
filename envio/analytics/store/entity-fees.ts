@@ -54,16 +54,16 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     const currency = chain.nativeCurrency.symbol;
     let priceUSD = 0;
 
-    if (event.chainId !== gnosis.id) {
+    if (event.chainId === gnosis.id) {
+      // Gnosis uses xDAI as a native currency.
+      priceUSD = 1;
+    } else {
       if (!coinConfigs[currency]) {
         context.log.error("No fetchPrice effect found for currency", { currency, event });
         return;
       }
       // Fetch the USD price of the native currency and the GBP exchange rate.
       priceUSD = await context.effect(coinConfigs[currency].effect, date);
-    } else {
-      // Gnosis uses xDAI as a native currency.
-      priceUSD = 1;
     }
 
     // Fetch the GBP/USD exchange rate.

@@ -57,6 +57,8 @@
         "rules": {
           "complexity": { "useOptionalChain": "off" },
           "style": {
+            "noNegationElse": "off",
+            "noSubstr": "off",
             "useFilenamingConvention": "off",
             "useForOf": "off",
             "useImportType": "off"
