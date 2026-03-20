@@ -65,15 +65,6 @@ _deploy-envio indexer:
     git push --force origin HEAD:$deployment_branch
     echo "✅ Deployed to $deployment_branch"
 
-# Deploy protocol Envio indexers (airdrops, flow, lockup)
-[confirm("This will force-push to deployment branch(es). Continue? [y/N]"), group("envio")]
-@deploy-envio-protocols:
-    just concurrent-protocol-indexers \
-        "just _deploy-envio airdrops" \
-        "just _deploy-envio flow" \
-        "just _deploy-envio lockup"
-alias dep := deploy-envio-protocols
-
 # Open the Envio dashboard in the default browser
 [group("envio"), unix]
 @open-envio:
@@ -107,6 +98,11 @@ envio-for-each recipe indexer:
         just concurrent-envio-indexers \
             "just {{ recipe }} airdrops" \
             "just {{ recipe }} analytics" \
+            "just {{ recipe }} flow" \
+            "just {{ recipe }} lockup"
+    elif [ "{{ indexer }}" = "protocols" ]; then
+        just concurrent-protocol-indexers \
+            "just {{ recipe }} airdrops" \
             "just {{ recipe }} flow" \
             "just {{ recipe }} lockup"
     else
