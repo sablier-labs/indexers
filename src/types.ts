@@ -48,6 +48,9 @@ export namespace Indexer {
 
   export type Name = Protocol | "analytics";
 
+  /**
+   * Bob and Legacy are excluded because they are not part of the Envio/Graph indexers.
+   */
   export type Protocol = Exclude<Sablier.Protocol, "bob" | "legacy">;
 
   export type Vendor = `${enums.Vendor}` | enums.Vendor;
