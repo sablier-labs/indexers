@@ -26,6 +26,15 @@ import {
   SablierMerkleInstant_v2_0,
   SablierMerkleLL_v2_0,
   SablierMerkleLT_v2_0,
+  // Airdrops v3.0
+  SablierFactoryMerkleInstant_v3_0,
+  SablierFactoryMerkleLL_v3_0,
+  SablierFactoryMerkleLT_v3_0,
+  SablierFactoryMerkleVCA_v3_0,
+  SablierMerkleInstant_v3_0,
+  SablierMerkleLL_v3_0,
+  SablierMerkleLT_v3_0,
+  SablierMerkleVCA_v3_0,
   // Flow v1.0
   SablierFlow_v1_0,
   // Flow v1.1
@@ -63,6 +72,10 @@ export namespace Contract {
       export const FactoryMerkleInstant_v2_0 = SablierFactoryMerkleInstant_v2_0;
       export const FactoryMerkleLL_v2_0 = SablierFactoryMerkleLL_v2_0;
       export const FactoryMerkleLT_v2_0 = SablierFactoryMerkleLT_v2_0;
+      export const FactoryMerkleInstant_v3_0 = SablierFactoryMerkleInstant_v3_0;
+      export const FactoryMerkleLL_v3_0 = SablierFactoryMerkleLL_v3_0;
+      export const FactoryMerkleLT_v3_0 = SablierFactoryMerkleLT_v3_0;
+      export const FactoryMerkleVCA_v3_0 = SablierFactoryMerkleVCA_v3_0;
     }
 
     export namespace Campaign {
@@ -75,6 +88,10 @@ export namespace Contract {
       export const MerkleInstant_v2_0 = SablierMerkleInstant_v2_0;
       export const MerkleLL_v2_0 = SablierMerkleLL_v2_0;
       export const MerkleLT_v2_0 = SablierMerkleLT_v2_0;
+      export const MerkleInstant_v3_0 = SablierMerkleInstant_v3_0;
+      export const MerkleLL_v3_0 = SablierMerkleLL_v3_0;
+      export const MerkleLT_v3_0 = SablierMerkleLT_v3_0;
+      export const MerkleVCA_v3_0 = SablierMerkleVCA_v3_0;
     }
   }
 
