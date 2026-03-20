@@ -47,7 +47,7 @@ importers:
         version: 1.15.3(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/252856804d771f1b9f3ec01a4452abc5a26455d6
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/8ca70aacceb60430c47bbe24a818ee81a338a38c
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1263,8 +1263,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/252856804d771f1b9f3ec01a4452abc5a26455d6':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/252856804d771f1b9f3ec01a4452abc5a26455d6}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/8ca70aacceb60430c47bbe24a818ee81a338a38c':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/8ca70aacceb60430c47bbe24a818ee81a338a38c}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -3363,8 +3363,8 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  rpc-websockets@9.3.5:
-    resolution: {integrity: sha512-4mAmr+AEhPYJ9TmDtxF3r3ZcbWy7W8kvZ4PoZYw/Xgp2J7WixjwTgiQZsoTDvch5nimmg3Ay6/0Kuh9oIvVs9A==}
+  rpc-websockets@9.3.6:
+    resolution: {integrity: sha512-RzuOQDGd+EtR/cBYQAH/0jjaBzhyvXXGROhxigGJPf+q3XKyvtelZCucylzxiq5MaGlfBx1075djTsxFsFDgrA==}
 
   run-applescript@7.0.0:
     resolution: {integrity: sha512-9by4Ij99JUr/MCFBUkDKLWK3G9HVXmabKz9U5MlIAIuvuzkiOicRYs8XJLxX+xahD+mLiiCYDqF9dKAgtzKP1A==}
@@ -5041,7 +5041,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/252856804d771f1b9f3ec01a4452abc5a26455d6': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/8ca70aacceb60430c47bbe24a818ee81a338a38c': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5105,7 +5105,7 @@ snapshots:
       fast-stable-stringify: 1.0.0
       jayson: 4.3.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       node-fetch: 2.7.0(encoding@0.1.13)
-      rpc-websockets: 9.3.5
+      rpc-websockets: 9.3.6
       superstruct: 2.0.2
     transitivePeerDependencies:
       - bufferutil
@@ -7234,7 +7234,7 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.44.0
       fsevents: 2.3.3
 
-  rpc-websockets@9.3.5:
+  rpc-websockets@9.3.6:
     dependencies:
       '@swc/helpers': 0.5.19
       '@types/uuid': 10.0.0
