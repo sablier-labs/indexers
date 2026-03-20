@@ -19,13 +19,14 @@ type V = Indexer.Vendor;
 
 const paths = {
   abi: (contractName: string, indexer?: I, version?: Model.Version): string => {
-    if (contractName === "SablierComptroller") {
+    if (contractName === "SablierComptroller" && version) {
       return join(
         ROOT_DIR,
         "node_modules",
         "sablier",
         "abi",
         "comptroller",
+        version,
         `${contractName}.json`
       );
     }

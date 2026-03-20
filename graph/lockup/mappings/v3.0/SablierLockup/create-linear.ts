@@ -25,6 +25,7 @@ export function handle_SablierLockup_v3_0_CreateLockupLinearStream(
     },
     {
       cliffTime: params.cliffTime,
+      granularity: null,
       unlockAmountCliff: params.unlockAmounts.cliff,
       unlockAmountStart: params.unlockAmounts.start,
     }

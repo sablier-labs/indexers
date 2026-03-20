@@ -48,7 +48,7 @@ export namespace Indexer {
 
   export type Name = Protocol | "analytics";
 
-  export type Protocol = Exclude<Sablier.Protocol, "legacy">;
+  export type Protocol = Exclude<Sablier.Protocol, "bob" | "legacy">;
 
   export type Vendor = `${enums.Vendor}` | enums.Vendor;
 }

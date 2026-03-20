@@ -23,6 +23,6 @@ export const lockupContracts: Model.ContractSource<Sablier.Version.Lockup>[] = [
   {
     isTemplate: false,
     name: names.SABLIER_LOCKUP,
-    versions: [Version.Lockup.V2_0, Version.Lockup.V3_0],
+    versions: [Version.Lockup.V2_0, Version.Lockup.V3_0, Version.Lockup.V4_0],
   },
 ];

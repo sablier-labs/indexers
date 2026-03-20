@@ -1,5 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { CreateMerkleLTParamsTranchesWithPercentagesStruct as StructTrancheV2_0 } from "../bindings/SablierFactoryMerkleLT_v2_0/SablierFactoryMerkleLT";
+import { CreateMerkleLTCampaignParamsTranchesWithPercentagesStruct as StructTrancheV3_0 } from "../bindings/SablierFactoryMerkleLT_v3_0/SablierFactoryMerkleLT";
 import { CreateMerkleLTTranchesWithPercentagesStruct as StructTrancheV1_3 } from "../bindings/SablierMerkleFactory_v1_3/SablierMerkleFactory";
 import { CreateMerkleLTTranchesWithPercentagesStruct as StructTrancheV1_2 } from "../bindings/SablierV2MerkleLockupFactory_v1_2/SablierV2MerkleLockupFactory";
 
@@ -23,6 +24,14 @@ export function convertTranchesV1_3(tranches: StructTrancheV1_3[]): TrancheWithP
 
 export function convertTranchesV2_0(tranches: StructTrancheV2_0[]): TrancheWithPercentage[] {
   return convertTranches<StructTrancheV2_0>(
+    tranches,
+    (tranche) => tranche.unlockPercentage,
+    (tranche) => tranche.duration
+  );
+}
+
+export function convertTranchesV3_0(tranches: StructTrancheV3_0[]): TrancheWithPercentage[] {
+  return convertTranches<StructTrancheV3_0>(
     tranches,
     (tranche) => tranche.unlockPercentage,
     (tranche) => tranche.duration

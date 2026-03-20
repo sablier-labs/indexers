@@ -94,6 +94,7 @@ const lockupEvents: Model.EventMap = {
   [contracts.names.SABLIER_LOCKUP]: {
     "v2.0": lockupV2_0(),
     "v3.0": lockup("v3.0"),
+    "v4.0": lockup("v4.0"),
   },
 } as const;
 

@@ -1,12 +1,12 @@
 import { Id } from "../../../../common/id";
-import type { SablierMerkleVCA_v3_0_RedistributionEnabled_handler } from "../../../bindings/src/Types.gen";
+import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings/src/Types.gen";
 import { Store } from "../../../store";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = SablierMerkleVCA_v3_0_RedistributionEnabled_handler;
+type Handler = SablierMerkleVCA_v3_0_EnableRedistribution_handler;
 
 const handler: Handler = async ({ context, event }) => {
   // Load entities for actual processing

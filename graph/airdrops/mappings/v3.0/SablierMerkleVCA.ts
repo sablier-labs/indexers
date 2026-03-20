@@ -1,8 +1,8 @@
 import {
   ClaimVCA,
   Clawback,
+  EnableRedistribution,
   LowerMinFeeUSD,
-  RedistributionEnabled,
   TransferAdmin,
 } from "../../bindings/templates/SablierMerkleVCA_v3_0/SablierMerkleVCA";
 import {
@@ -12,13 +12,6 @@ import {
   handleRedistributionEnabled,
   handleTransferAdmin,
 } from "../common";
-
-export function handle_SablierMerkleVCA_v3_0_TransferAdmin(event: TransferAdmin): void {
-  handleTransferAdmin(event, {
-    newAdmin: event.params.newAdmin,
-    oldAdmin: event.params.oldAdmin,
-  });
-}
 
 export function handle_SablierMerkleVCA_v3_0_ClaimVCA(event: ClaimVCA): void {
   handleClaimVCA(event, {
@@ -38,6 +31,12 @@ export function handle_SablierMerkleVCA_v3_0_Clawback(event: Clawback): void {
   });
 }
 
+export function handle_SablierMerkleVCA_v3_0_EnableRedistribution(
+  event: EnableRedistribution
+): void {
+  handleRedistributionEnabled(event);
+}
+
 export function handle_SablierMerkleVCA_v3_0_LowerMinFeeUSD(event: LowerMinFeeUSD): void {
   handleLowerMinFeeUSD(event, {
     newMinFeeUSD: event.params.newMinFeeUSD,
@@ -45,8 +44,9 @@ export function handle_SablierMerkleVCA_v3_0_LowerMinFeeUSD(event: LowerMinFeeUS
   });
 }
 
-export function handle_SablierMerkleVCA_v3_0_RedistributionEnabled(
-  event: RedistributionEnabled
-): void {
-  handleRedistributionEnabled(event);
+export function handle_SablierMerkleVCA_v3_0_TransferAdmin(event: TransferAdmin): void {
+  handleTransferAdmin(event, {
+    newAdmin: event.params.newAdmin,
+    oldAdmin: event.params.oldAdmin,
+  });
 }

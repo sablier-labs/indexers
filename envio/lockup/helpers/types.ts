@@ -36,6 +36,7 @@ export namespace Params {
   export type CreateStreamLinear = CreateStreamCommon & {
     category: "LockupLinear";
     cliffTime: bigint;
+    granularity?: bigint; // v4.0 and above
     unlockAmountCliff?: bigint; // v2.0 and above
     unlockAmountStart?: bigint; // v2.0 and above
   };

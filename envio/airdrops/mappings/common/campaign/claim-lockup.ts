@@ -5,9 +5,11 @@ import type {
   SablierV2MerkleLL_v1_2_Claim_handler as HandlerLL_v1_2,
   SablierMerkleLL_v1_3_Claim_handler as HandlerLL_v1_3,
   SablierMerkleLL_v2_0_ClaimLLWithVesting_handler as HandlerLL_v2_0,
+  SablierMerkleLL_v3_0_ClaimLLWithVesting_handler as HandlerLL_v3_0,
   SablierV2MerkleLT_v1_2_Claim_handler as HandlerLT_v1_2,
   SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
   SablierMerkleLT_v2_0_ClaimLTWithVesting_handler as HandlerLT_v2_0,
+  SablierMerkleLT_v3_0_ClaimLTWithVesting_handler as HandlerLT_v3_0,
 } from "../../../bindings/src/Types.gen";
 import { isVersionWithFees } from "../../../helpers";
 import { Store } from "../../../store";
@@ -20,9 +22,11 @@ type Handler = HandlerLL_v1_1 &
   HandlerLL_v1_2 &
   HandlerLL_v1_3 &
   HandlerLL_v2_0 &
+  HandlerLL_v3_0 &
   HandlerLT_v1_2 &
   HandlerLT_v1_3 &
-  HandlerLT_v2_0;
+  HandlerLT_v2_0 &
+  HandlerLT_v3_0;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */

@@ -44,12 +44,14 @@ const v1_1: Model.Event[] = [
   get("v1.1", contracts.names.SABLIER_FLOW, "CollectFees", ["analytics"]),
 ];
 const v2_0: Model.Event[] = base("v2.0");
+const v3_0: Model.Event[] = base("v3.0");
 
 const flowEvents: Model.EventMap = {
   [contracts.names.SABLIER_FLOW]: {
     "v1.0": v1_0,
     "v1.1": v1_1,
     "v2.0": v2_0,
+    "v3.0": v3_0,
   },
 } as const;
 
