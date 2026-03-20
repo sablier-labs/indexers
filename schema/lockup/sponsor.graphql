@@ -1,7 +1,7 @@
 """
 An address that has sent USDC to the Sablier treasury for the billing process.
 """
-type Sponsor @entity {
+type Sponsor @entity(immutable: false) {
   """
   Unique identifier: `{chainId}_{address}`
   """

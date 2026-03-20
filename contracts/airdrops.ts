@@ -92,4 +92,47 @@ export const airdropsContracts: Model.ContractSource<Sablier.Version.Airdrops>[]
     name: names.SABLIER_MERKLE_LT,
     versions: [Version.Airdrops.V2_0],
   },
+  /* -------------------------------------------------------------------------- */
+  /*                                    V3.0                                    */
+  /* -------------------------------------------------------------------------- */
+  {
+    isTemplate: false,
+    name: names.SABLIER_FACTORY_MERKLE_INSTANT,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: false,
+    name: names.SABLIER_FACTORY_MERKLE_LL,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: false,
+    name: names.SABLIER_FACTORY_MERKLE_LT,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: false,
+    name: names.SABLIER_FACTORY_MERKLE_VCA,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: true,
+    name: names.SABLIER_MERKLE_INSTANT,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: true,
+    name: names.SABLIER_MERKLE_LL,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: true,
+    name: names.SABLIER_MERKLE_LT,
+    versions: [Version.Airdrops.V3_0],
+  },
+  {
+    isTemplate: true,
+    name: names.SABLIER_MERKLE_VCA,
+    versions: [Version.Airdrops.V3_0],
+  },
 ];

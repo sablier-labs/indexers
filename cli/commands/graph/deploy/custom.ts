@@ -2,10 +2,9 @@
  * @file Deploy subgraphs to custom Graph nodes
  *
  * @example
- * pnpm tsx cli graph-deploy-custom --chain core --indexer lockup --version-label v1.0.0
  * pnpm tsx cli graph-deploy-custom -c denergychain -i flow -v v2.0.0 --dry-run
  *
- * @param --chain - Required: 'core', 'denergychain', or 'lightlink'
+ * @param --chain - Required: 'denergychain', or 'lightlink'
  * @param --indexer - Required: 'airdrops', 'flow', or 'lockup'
  * @param --version-label - Required: Version label for the deployment
  * @param --dry-run - Optional: Show command without executing
@@ -45,13 +44,6 @@ type CustomNodeConfig = {
 const GRAPH_BIN = path.join(ROOT_DIR, "node_modules", ".bin", "graph");
 
 const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
-  core: {
-    authEnvVar: "COREDAO_AUTH_TOKEN",
-    authType: "deploy-key",
-    chainId: chains.coreDao.id,
-    ipfsUrl: "https://thegraph.coredao.org/ipfs/",
-    nodeUrl: "https://thegraph.coredao.org/deploy/",
-  },
   denergychain: {
     authEnvVar: "DENERGY_AUTH_TOKEN",
     authType: "access-token",
@@ -70,7 +62,7 @@ const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
 /*                                   OPTIONS                                  */
 /* -------------------------------------------------------------------------- */
 
-const chainOption = Options.choice("chain", ["core", "denergychain", "lightlink"] as const).pipe(
+const chainOption = Options.choice("chain", ["denergychain", "lightlink"] as const).pipe(
   Options.withAlias("c"),
   Options.withDescription("Target chain for custom node deployment")
 );
@@ -163,7 +155,7 @@ function getDisplayArgs(args: readonly string[], authToken?: string): readonly s
 /* -------------------------------------------------------------------------- */
 
 type CommandOptions = {
-  readonly chain: "core" | "denergychain" | "lightlink";
+  readonly chain: "denergychain" | "lightlink";
   readonly indexer: "airdrops" | "flow" | "lockup";
   readonly versionLabel: string;
   readonly dryRun: boolean;

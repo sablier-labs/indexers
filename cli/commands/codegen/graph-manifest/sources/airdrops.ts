@@ -2,7 +2,8 @@ import { Effect } from "effect";
 import _ from "lodash";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import { contracts, Version } from "sablier/evm";
+import type { Version } from "sablier/evm";
+import { contracts, isLockupCompatible } from "sablier/evm";
 import { CodegenError } from "../../errors.js";
 import type { GraphManifest } from "../manifest-types.js";
 import { getSources } from "./get-sources.js";
@@ -38,9 +39,9 @@ function getLockups(context: GraphManifest.Context) {
     const data: GraphManifest.ContextItem.Address[] = [];
 
     for (const lockupRelease of sablier.releases.getAll({ protocol: "lockup" })) {
-      const airdropsVersion = context.version?.data as Sablier.Version.Airdrops;
-      const lockupVersion = lockupRelease.version as Sablier.Version.Lockup;
-      if (!areVersionsCompatible(airdropsVersion, lockupVersion)) {
+      const airdropsVersion = context.version?.data as Version.Airdrops;
+      const lockupVersion = lockupRelease.version as Version.Lockup;
+      if (!isLockupCompatible(airdropsVersion, lockupVersion)) {
         continue;
       }
 
@@ -67,28 +68,6 @@ function getLockups(context: GraphManifest.Context) {
       type: "List",
     } satisfies GraphManifest.ContextItem.ListAddress;
   });
-}
-
-/**
- * Notes:
- *   - Lockup v1.0 is not supported for airdrops at all.
- *   - Lockup v1.1/v1.2 is only compatible with Airdrops v1.1/v1.2.
- *   - Lockup v2.0 is only compatible with Airdrops v1.3.
- *
- * @see https://diffchecker.com/KCMfHn3A/
- */
-function areVersionsCompatible(
-  airdrops: Sablier.Version.Airdrops,
-  lockup: Sablier.Version.Lockup
-): boolean {
-  const compatiblePairs: Record<Sablier.Version.Airdrops, Sablier.Version.Lockup[]> = {
-    [Version.Airdrops.V1_1]: [Version.Lockup.V1_1, Version.Lockup.V1_2],
-    [Version.Airdrops.V1_2]: [Version.Lockup.V1_1, Version.Lockup.V1_2],
-    [Version.Airdrops.V1_3]: [Version.Lockup.V2_0],
-    [Version.Airdrops.V2_0]: [Version.Lockup.V3_0],
-  };
-
-  return compatiblePairs[airdrops]?.includes(lockup) ?? false;
 }
 
 function isLockupContractName(name: string): boolean {

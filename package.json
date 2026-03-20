@@ -1,6 +1,6 @@
 {
   "name": "@sablier/indexers",
-  "version": "2.0.0",
+  "version": "3.0.0-beta.0",
   "description": "Data indexers for the Sablier Protocol",
   "homepage": "https://github.com/sablier-labs/indexers#readme",
   "license": "GPL-3.0-or-later",
@@ -15,7 +15,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "^2.0.4"
+    "sablier": "^3.0.0"
   },
   "exports": {
     ".": {
@@ -31,7 +31,7 @@
     "./package.json": "./package.json"
   },
   "peerDependencies": {
-    "sablier": "^2.x"
+    "sablier": "^3"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.6",
@@ -62,7 +62,7 @@
     "dependency-cruiser": "^17.3.8",
     "dotenv": "^17.2.3",
     "effect": "^3.19.13",
-    "envio": "2.32.3",
+    "envio": "2.32.10",
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
     "graphql-tag": "^2.12.6",

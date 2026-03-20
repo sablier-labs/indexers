@@ -54,7 +54,7 @@ export namespace Id {
    * @example
    * action-137-0xe43d1bc5e868da0bd1d80c404ca7f41e823bbea03488f8e3878327375b3aac35-3
    */
-  export function action(event: Envio.Event): string {
+  export function action(event: Envio.Event<unknown>): string {
     return `action-${event.chainId}-${event.transaction.hash}-${event.logIndex}`;
   }
 
@@ -65,7 +65,7 @@ export namespace Id {
    * @example
    * activity-137-0x5ce95bff1297dadbdcf9929a10bd02bdfab0dcc6-20300
    */
-  export function activity(event: Envio.Event): string {
+  export function activity(event: Envio.Event<unknown>): string {
     const campaignId = campaign(event.srcAddress, event.chainId);
     const timestamp = event.block.timestamp;
     const day = BigInt(timestamp) / (60n * 60n * 24n); // 60 seconds * 60 minutes * 24 hours
@@ -84,7 +84,7 @@ export namespace Id {
    * @example
    * batch-137-0x5ce95bff1297dadbdcf9929a10bd02bdfab0dcc6-0xe43d1bc5e868da0bd1d80c404ca7f41e823bbea03488f8e3878327375b3aac35
    */
-  export function batch(event: Envio.Event, sender: Envio.Address): string {
+  export function batch(event: Envio.Event<unknown>, sender: Envio.Address): string {
     return `batch-${event.chainId}-${sender.toLowerCase()}-${event.transaction.hash}`;
   }
 
