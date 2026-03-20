@@ -10,6 +10,12 @@ import { flowStreamDefs } from "./flow/stream.graphql.js";
 import { lockupStreamDefs } from "./lockup/stream.graphql.js";
 
 type TsDefsGenerator = (indexer: Indexer.Name) => DocumentNode;
+type ProtocolSchemaConfig = {
+  common?: string[];
+  generators?: TsDefsGenerator[];
+  indexerSpecific?: string[];
+  vendorSpecific?: Record<Indexer.Vendor, string[]>;
+};
 /**
  * Base GraphQL definition files shared across all protocols.
  */
@@ -20,62 +26,82 @@ const BASE = {
 /**
  * Mapping of protocols to their respective GraphQL definition files.
  */
-const PROTOCOL_MAP: Record<
-  Indexer.Name,
-  {
-    bespoke?: string[];
-    common?: string[];
-    generators?: TsDefsGenerator[];
-  }
-> = {
+const PROTOCOL_MAP: Record<Indexer.Name, ProtocolSchemaConfig> = {
   analytics: {},
   airdrops: {
-    bespoke: ["action", "activity", "campaign", "factory", "tranche"],
     generators: BASE.generators,
+    indexerSpecific: ["action", "activity", "campaign", "factory", "tranche"],
   },
   flow: {
     common: ["action", "batch", "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
   },
   lockup: {
-    bespoke: ["segment", "sponsor", "sponsorship", "tranche"],
     common: ["action", "batch", "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
+    indexerSpecific: ["segment", "tranche"],
+    vendorSpecific: { envio: ["sponsor", "sponsorship"], graph: [] },
   },
 };
 
 /**
- * Generates a merged schema for a given protocol.
+ * Generates a merged schema for a given indexer.
  *
- * @param vendor - The vendor to generate a schema for.
- * @param protocol - The protocol to generate a schema for.
- * @returns A merged schema for the given protocol.
+ * @param indexer - The indexer to generate a schema for.
+ * @param vendor - Optional vendor filter. When provided, only that vendor's vendor-specific files are included.
+ *                 When omitted, all vendor-specific files are included (complete schema).
+ * @returns A merged schema for the given indexer.
  */
-export function getMergedSchema(indexer: Indexer.Name): DocumentNode {
-  // Generate TypeScript definitions
-  const tsDefs = PROTOCOL_MAP[indexer].generators?.map((generator) => generator(indexer)) || [];
+export function getMergedSchema(indexer: Indexer.Name, vendor?: Indexer.Vendor): DocumentNode {
+  const config = PROTOCOL_MAP[indexer];
+  const tsDefs = config.generators?.map((generator) => generator(indexer)) ?? [];
+  const gqlPaths = [
+    ...getCommonDefsPaths(config.common),
+    ...getProtocolDefsPaths(indexer, config.indexerSpecific),
+    ...getVendorSpecificDefsPaths(indexer, config.vendorSpecific, vendor),
+  ];
+  const gqlDefs = loadFilesSync<DocumentNode>(gqlPaths);
 
-  // Build paths for all GraphQL files
-  const protocolGqlPaths = {
-    bespoke: PROTOCOL_MAP[indexer].bespoke?.map((file) => getProtocolDefs(indexer, file)) || [],
-    common: PROTOCOL_MAP[indexer].common?.map((file) => getCommonDefs(file)) || [],
-  };
+  return mergeTypeDefs([...tsDefs, ...gqlDefs], { throwOnConflict: true });
+}
 
-  // Load all GraphQL files
-  const allGqlPaths = [...protocolGqlPaths.common, ...protocolGqlPaths.bespoke];
-  const loadedGqlDefs = loadFilesSync<DocumentNode>(allGqlPaths);
-  const allDefs = [...tsDefs, ...loadedGqlDefs];
+function getCommonDefs(file: string): string {
+  return path.join(SCHEMA_DIR, "common", `${file}.graphql`);
+}
 
-  const mergedSchema = mergeTypeDefs(allDefs, { throwOnConflict: true });
-  return mergedSchema;
+function getCommonDefsPaths(files?: string[]): string[] {
+  return files?.map((file) => getCommonDefs(file)) ?? [];
 }
 
 function getProtocolDefs(indexer: Indexer.Name, file: string): string {
   return path.join(SCHEMA_DIR, indexer, `${file}.graphql`);
 }
 
-function getCommonDefs(file: string): string {
-  return path.join(SCHEMA_DIR, "common", `${file}.graphql`);
+function getProtocolDefsPaths(indexer: Indexer.Name, files?: string[]): string[] {
+  return files?.map((file) => getProtocolDefs(indexer, file)) ?? [];
+}
+
+function getVendorSpecificDefsPaths(
+  indexer: Indexer.Name,
+  vendorSpecific: ProtocolSchemaConfig["vendorSpecific"],
+  vendor?: Indexer.Vendor
+): string[] {
+  return getProtocolDefsPaths(indexer, getVendorSpecificFiles(vendorSpecific, vendor));
+}
+
+function getVendorSpecificFiles(
+  vendorSpecific: ProtocolSchemaConfig["vendorSpecific"],
+  vendor?: Indexer.Vendor
+): string[] {
+  if (!vendorSpecific) {
+    return [];
+  }
+
+  if (vendor) {
+    return vendorSpecific[vendor] ?? [];
+  }
+
+  return Object.values(vendorSpecific).flat();
 }
 
 function getStreamDefs(indexer: Indexer.Name): DocumentNode {
