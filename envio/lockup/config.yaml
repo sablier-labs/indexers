@@ -282,6 +282,35 @@ networks:
         start_block: 43478436
       - address: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
         name: "USDC"
+  - id: 81457
+    start_block: 243844
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.blast.io"
+    contracts:
+      - address: "0xdf578c2c70a86945999c65961417057363530a1c"
+        name: "SablierV2LockupDynamic_v1_1"
+        start_block: 243844
+      - address: "0xcb099efc90e88690e287259410b9ae63e1658cc6"
+        name: "SablierV2LockupLinear_v1_1"
+        start_block: 243845
+      - address: "0xa705de617673e2fe63a4ea0e58c26897601d32a5"
+        name: "SablierV2LockupDynamic_v1_2"
+        start_block: 5689100
+      - address: "0x9b1468d29b4a5869f00c92517c57f8656e928b93"
+        name: "SablierV2LockupLinear_v1_2"
+        start_block: 5689100
+      - address: "0x91fb72e5297e2728c10fde73bde74a4888a68570"
+        name: "SablierV2LockupTranched_v1_2"
+        start_block: 5689101
+      - address: "0xdbb6e9653d7e41766712db22eb08ed3f21009fdd"
+        name: "SablierLockup_v2_0"
+        start_block: 14593162
+      - address: "0xcd16d89cc79ab0b52717a46b8a3f73e61014c7dc"
+        name: "SablierLockup_v3_0"
+        start_block: 25347901
   - id: 80094
     start_block: 780094
     rpc:
@@ -701,6 +730,37 @@ networks:
         start_block: 32070866
       - address: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4"
         name: "USDC"
+  - id: 1329
+    start_block: 138913911
+    hypersync_config:
+      url: "https://sei.hypersync.xyz"
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://evm-rpc.sei-apis.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sei.drpc.org"
+    contracts:
+      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
+        name: "SablierLockup_v2_0"
+        start_block: 138913911
+      - address: "0x1d96e9d05f6910d22876177299261290537cfbbc"
+        name: "SablierLockup_v3_0"
+        start_block: 171487252
+  - id: 50104
+    start_block: 11275708
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.sophon.xyz"
+    contracts:
+      - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
+        name: "SablierLockup_v2_0"
+        start_block: 11275708
   - id: 5330
     start_block: 2896160
     rpc:

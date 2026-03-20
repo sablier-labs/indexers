@@ -1225,6 +1225,53 @@ networks:
       - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
         name: "SablierComptroller"
         start_block: 14716634
+  - id: 1329
+    start_block: 138904383
+    hypersync_config:
+      url: "https://sei.hypersync.xyz"
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://evm-rpc.sei-apis.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sei.drpc.org"
+    contracts:
+      - address: "0x0171a06878f7ff81c9955deb5641f64f520d45e5"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 138904383
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+      - address: "0xaea21609d62d58c8775d59ed584338b24bbc6eb2"
+        name: "SablierFactoryMerkleInstant_v2_0"
+        start_block: 170944331
+      - address: "0x37720179ff6b3795607f113789cd78415beda80e"
+        name: "SablierFactoryMerkleLL_v2_0"
+        start_block: 170944332
+      - address: "0x020bc6160fcaf7ebc75844d4d8f7a3b6095aac0f"
+        name: "SablierFactoryMerkleLT_v2_0"
+        start_block: 170944333
+      - name: "SablierMerkleInstant_v2_0"
+      - name: "SablierMerkleLL_v2_0"
+      - name: "SablierMerkleLT_v2_0"
+      - address: "0xdef70082ebda4944a55311624900e42a720b4ec9"
+        name: "SablierFlow_v1_1"
+        start_block: 138911958
+      - address: "0x9eaf5a3f23964148a1321078f9cce4c2325c603e"
+        name: "SablierFlow_v2_0"
+        start_block: 171667597
+      - address: "0x736a6e895790e089aec2bf76b2d7f368ce6efff5"
+        name: "SablierLockup_v2_0"
+        start_block: 138913911
+      - address: "0x1d96e9d05f6910d22876177299261290537cfbbc"
+        name: "SablierLockup_v3_0"
+        start_block: 171487252
+      - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
+        name: "SablierComptroller"
+        start_block: 169828207
   - id: 2741
     start_block: 72821
     rpc:
@@ -1833,6 +1880,26 @@ networks:
       - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
         name: "SablierComptroller"
         start_block: 69219791
+  - id: 50104
+    start_block: 11275708
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.sophon.xyz"
+    contracts:
+      - address: "0x9d4923e2ff0b9dadc447a89f528760928f84d0f7"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 11290094
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+      - address: "0x20c9a3e27322fc2b21ced430d1b2e12d90804db6"
+        name: "SablierFlow_v1_1"
+        start_block: 11341394
+      - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
+        name: "SablierLockup_v2_0"
+        start_block: 11275708
   - id: 59144
     start_block: 7728316
     rpc:
@@ -1976,6 +2043,74 @@ networks:
       - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
         name: "SablierComptroller"
         start_block: 10905957
+  - id: 81457
+    start_block: 243844
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.blast.io"
+    contracts:
+      - address: "0x92fc05e49c27884d554d98a5c01ff0894a9dc29a"
+        name: "SablierV2MerkleStreamerFactory_v1_1"
+        start_block: 244740
+      - name: "SablierV2MerkleStreamerLL_v1_1"
+      - address: "0x3abcdda756d069cf3c7a17410602343966eaff27"
+        name: "SablierV2MerkleLockupFactory_v1_2"
+        start_block: 5689067
+      - name: "SablierV2MerkleLL_v1_2"
+      - name: "SablierV2MerkleLT_v1_2"
+      - address: "0xdd40b4f5b216f524a55e2e8f75637e8b453e4bd2"
+        name: "SablierMerkleFactory_v1_3"
+        start_block: 14605120
+      - name: "SablierMerkleInstant_v1_3"
+      - name: "SablierMerkleLL_v1_3"
+      - name: "SablierMerkleLT_v1_3"
+      - address: "0xc880032820f62d3fbc48bc56890ee774c3741b69"
+        name: "SablierFactoryMerkleInstant_v2_0"
+        start_block: 25213122
+      - address: "0x51ab2f957e353b96ac631da75941cd18ce57900a"
+        name: "SablierFactoryMerkleLL_v2_0"
+        start_block: 25213122
+      - address: "0x8cd6cd223305ddb28432ce0f6bb129561a7e46af"
+        name: "SablierFactoryMerkleLT_v2_0"
+        start_block: 25213123
+      - name: "SablierMerkleInstant_v2_0"
+      - name: "SablierMerkleLL_v2_0"
+      - name: "SablierMerkleLT_v2_0"
+      - address: "0xfdac2799644141856e20e021ac06f231cafc731f"
+        name: "SablierFlow_v1_0"
+        start_block: 12259771
+      - address: "0x16b50eb5eaef0366f1a4da594e2a8c8943a297e0"
+        name: "SablierFlow_v1_1"
+        start_block: 14596787
+      - address: "0x13ce2ca4602d5d1dd323014cd5a4e8414d310a06"
+        name: "SablierFlow_v2_0"
+        start_block: 25403293
+      - address: "0xdf578c2c70a86945999c65961417057363530a1c"
+        name: "SablierV2LockupDynamic_v1_1"
+        start_block: 243844
+      - address: "0xcb099efc90e88690e287259410b9ae63e1658cc6"
+        name: "SablierV2LockupLinear_v1_1"
+        start_block: 243845
+      - address: "0xa705de617673e2fe63a4ea0e58c26897601d32a5"
+        name: "SablierV2LockupDynamic_v1_2"
+        start_block: 5689100
+      - address: "0x9b1468d29b4a5869f00c92517c57f8656e928b93"
+        name: "SablierV2LockupLinear_v1_2"
+        start_block: 5689100
+      - address: "0x91fb72e5297e2728c10fde73bde74a4888a68570"
+        name: "SablierV2LockupTranched_v1_2"
+        start_block: 5689101
+      - address: "0xdbb6e9653d7e41766712db22eb08ed3f21009fdd"
+        name: "SablierLockup_v2_0"
+        start_block: 14593162
+      - address: "0xcd16d89cc79ab0b52717a46b8a3f73e61014c7dc"
+        name: "SablierLockup_v3_0"
+        start_block: 25347901
+      - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
+        name: "SablierComptroller"
+        start_block: 24955461
   - id: 88888
     start_block: 19125587
     hypersync_config:

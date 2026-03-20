@@ -155,6 +155,23 @@ networks:
       - address: "0x0cbfe6ce6f05c47d6243bb3818837971c6ccb46b"
         name: "SablierFlow_v3_0"
         start_block: 43479933
+  - id: 81457
+    start_block: 12259771
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.blast.io"
+    contracts:
+      - address: "0xfdac2799644141856e20e021ac06f231cafc731f"
+        name: "SablierFlow_v1_0"
+        start_block: 12259771
+      - address: "0x16b50eb5eaef0366f1a4da594e2a8c8943a297e0"
+        name: "SablierFlow_v1_1"
+        start_block: 14596787
+      - address: "0x13ce2ca4602d5d1dd323014cd5a4e8414d310a06"
+        name: "SablierFlow_v2_0"
+        start_block: 25403293
   - id: 80094
     start_block: 780382
     rpc:
@@ -426,6 +443,37 @@ networks:
       - address: "0xd3dec781af1f5ccb828f97d3e5deb86f6efc5e5a"
         name: "SablierFlow_v3_0"
         start_block: 32068904
+  - id: 1329
+    start_block: 138911958
+    hypersync_config:
+      url: "https://sei.hypersync.xyz"
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://evm-rpc.sei-apis.com"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://sei.drpc.org"
+    contracts:
+      - address: "0xdef70082ebda4944a55311624900e42a720b4ec9"
+        name: "SablierFlow_v1_1"
+        start_block: 138911958
+      - address: "0x9eaf5a3f23964148a1321078f9cce4c2325c603e"
+        name: "SablierFlow_v2_0"
+        start_block: 171667597
+  - id: 50104
+    start_block: 11341394
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.sophon.xyz"
+    contracts:
+      - address: "0x20c9a3e27322fc2b21ced430d1b2e12d90804db6"
+        name: "SablierFlow_v1_1"
+        start_block: 11341394
   - id: 5330
     start_block: 3610744
     rpc:
