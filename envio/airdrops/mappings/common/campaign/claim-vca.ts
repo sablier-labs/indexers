@@ -15,12 +15,22 @@ const handler: Handler = async ({ context, event }) => {
 
   const [activity, campaign, watcher] = await Promise.all([
     context.Activity.get(activityId),
-    context.Campaign.getOrThrow(campaignId),
-    context.Watcher.getOrThrow(event.chainId.toString()),
+    context.Campaign.get(campaignId),
+    context.Watcher.get(event.chainId.toString()),
   ]);
 
   if (context.isPreload) {
     return;
+  }
+
+  if (!campaign) {
+    context.log.error("Campaign not saved before this claim VCA event", { campaignId, event });
+    return;
+  }
+
+  const ensuredWatcher = watcher ?? Store.Watcher.create(event.chainId);
+  if (!watcher) {
+    context.Watcher.set(ensuredWatcher);
   }
 
   const createdActivity = activity ?? Store.Activity.create(context, event, campaign.id);
@@ -33,7 +43,7 @@ const handler: Handler = async ({ context, event }) => {
   Store.Activity.update(context, createdActivity, event.params.claimAmount);
 
   /* --------------------------------- ACTION --------------------------------- */
-  Store.Action.create(context, event, watcher, {
+  Store.Action.create(context, event, ensuredWatcher, {
     campaignId: campaign.id,
     category: "Claim",
     claimAmount: event.params.claimAmount,
@@ -45,7 +55,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Store.Watcher.incrementActionCounter(context, watcher);
+  Store.Watcher.incrementActionCounter(context, ensuredWatcher);
 };
 
 /* -------------------------------------------------------------------------- */
