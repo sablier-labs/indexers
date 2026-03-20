@@ -57,7 +57,7 @@ function generateSchemaWithResult(vendor: Indexer.Vendor, indexer: Indexer.Name)
     }
 
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(indexer));
+    const mergedSchema = print(getMergedSchema(indexer, vendor));
     const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
     const outputPath = paths.schema(vendor, indexer);
 
@@ -87,7 +87,7 @@ function generateSchemaWithResult(vendor: Indexer.Vendor, indexer: Indexer.Name)
 function generateSchema(vendor: Indexer.Vendor, indexer: Indexer.Name) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(indexer));
+    const mergedSchema = print(getMergedSchema(indexer, vendor));
     const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
     const outputPath = paths.schema(vendor, indexer);
 

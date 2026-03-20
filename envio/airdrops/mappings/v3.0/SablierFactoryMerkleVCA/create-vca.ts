@@ -11,7 +11,8 @@ Contract.Factory.FactoryMerkleVCA_v3_0.CreateMerkleVCA.contractRegister(({ conte
 /*
 ──────────────────────────────────────────────────────────────
 Solidity Event Reference
-[ToDo] add solidity references
+https://github.com/sablier-labs/evm-monorepo/blob/airdrops@v3.0/airdrops/src/types/MerkleVCA.sol#L38-L52
+https://github.com/sablier-labs/evm-monorepo/blob/airdrops@v3.0/airdrops/src/interfaces/ISablierFactoryMerkleVCA.sol#L18-L23
 ──────────────────────────────────────────────────────────────
 
 event CreateMerkleVCA(

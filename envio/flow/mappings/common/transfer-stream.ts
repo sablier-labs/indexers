@@ -6,13 +6,14 @@ import type {
   SablierFlow_v1_0_Transfer_handler as Handler_v1_0,
   SablierFlow_v1_1_Transfer_handler as Handler_v1_1,
   SablierFlow_v2_0_Transfer_handler as Handler_v2_0,
+  SablierFlow_v3_0_Transfer_handler as Handler_v3_0,
 } from "../../bindings/src/Types.gen";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0;
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v3_0;
 
 const handler: Handler = async ({ context, event }) => {
   // Exclude `Transfer` events emitted by the initial mint transaction.

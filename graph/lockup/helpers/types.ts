@@ -9,6 +9,7 @@ export namespace Params {
     streamId: BigInt;
   }
 
+  // Common parameters between all Lockup models (Linear, Dynamic, Tranched)
   export class CreateStreamCommon {
     asset: Address;
     cancelable: boolean;
@@ -26,6 +27,7 @@ export namespace Params {
 
   export class CreateStreamLinear {
     cliffTime: BigInt;
+    granularity: BigInt | null; // v4.0 and above
     unlockAmountCliff: BigInt | null; // v2.0 and above
     unlockAmountStart: BigInt | null; // v2.0 and above
   }

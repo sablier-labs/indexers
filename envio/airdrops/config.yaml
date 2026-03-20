@@ -115,11 +115,52 @@ contracts:
       - event: "ClaimLTWithTransfer"
       - event: "ClaimLTWithVesting"
       - event: "LowerMinFeeUSD"
+  - name: "SablierFactoryMerkleInstant_v3_0"
+    handler: "mappings/v3.0/SablierFactoryMerkleInstant.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierFactoryMerkleInstant.json"
+    events:
+      - event: "CreateMerkleInstant"
+  - name: "SablierFactoryMerkleLL_v3_0"
+    handler: "mappings/v3.0/SablierFactoryMerkleLL.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierFactoryMerkleLL.json"
+    events:
+      - event: "CreateMerkleLL"
+  - name: "SablierFactoryMerkleLT_v3_0"
+    handler: "mappings/v3.0/SablierFactoryMerkleLT.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierFactoryMerkleLT.json"
+    events:
+      - event: "CreateMerkleLT"
   - name: "SablierFactoryMerkleVCA_v3_0"
     handler: "mappings/v3.0/SablierFactoryMerkleVCA.ts"
     abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierFactoryMerkleVCA.json"
     events:
       - event: "CreateMerkleVCA"
+  - name: "SablierMerkleInstant_v3_0"
+    handler: "mappings/v3.0/SablierMerkleInstant.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleInstant.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimInstant"
+      - event: "LowerMinFeeUSD"
+  - name: "SablierMerkleLL_v3_0"
+    handler: "mappings/v3.0/SablierMerkleLL.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleLL.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimLLWithTransfer"
+      - event: "ClaimLLWithVesting"
+      - event: "LowerMinFeeUSD"
+  - name: "SablierMerkleLT_v3_0"
+    handler: "mappings/v3.0/SablierMerkleLT.ts"
+    abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleLT.json"
+    events:
+      - event: "TransferAdmin"
+      - event: "Clawback"
+      - event: "ClaimLTWithTransfer"
+      - event: "ClaimLTWithVesting"
+      - event: "LowerMinFeeUSD"
   - name: "SablierMerkleVCA_v3_0"
     handler: "mappings/v3.0/SablierMerkleVCA.ts"
     abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleVCA.json"
@@ -128,7 +169,7 @@ contracts:
       - event: "Clawback"
       - event: "ClaimVCA"
       - event: "LowerMinFeeUSD"
-      - event: "RedistributionEnabled"
+      - event: "EnableRedistribution"
 networks:
   - id: 2741
     start_block: 73620
@@ -161,6 +202,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x3a310776abf7741719d2d61d0937004021575469"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 46445343
+      - address: "0xf0340224a37146f59901bd8c5e8632e3519a1e16"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 46450148
+      - address: "0x8b5bc2d3fe5eb515594acec7e30e5009dc699bff"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 46450333
+      - address: "0xebd2e17c86a6ea828b6fe6e6ce665ff118746aec"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 46450514
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 42161
     start_block: 161026555
     rpc:
@@ -196,6 +253,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xeda6c634c556897c1a04779e4c6331591801d266"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 442795454
+      - address: "0x5fc7d1693e050d63f80fdae3061206fca32c0825"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 442795477
+      - address: "0xff39df1aa44e1c0010ec6843746c1b2795a7bac5"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 442795501
+      - address: "0x77a8ac18d4429cd1ff19592ec4c9e4037ea16e98"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 442795521
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 43114
     start_block: 41023959
     rpc:
@@ -231,6 +304,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x97b3abe13960b05d527938c7d5b75806827a32dd"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 80591926
+      - address: "0x1bd887156ffbc602f891c3e3099b37a6dffb2f1d"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 80591927
+      - address: "0x56d3e0a59cfc9af1528779f563664eb5e436897e"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 80591927
+      - address: "0xc087410c9d0d1d73326534d551ab9a43497d336b"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 80591927
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 8453
     start_block: 8026894
     rpc:
@@ -266,6 +355,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xd5a361519f6c417cc4bcfcc15501191c816705a6"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 43488121
+      - address: "0x417b374a774d9ba2f32dc1d8c0b1bdd90e3538a6"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 43488121
+      - address: "0xe88dff96832454a0f075698d501889a59d4145da"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 43488121
+      - address: "0xe595d4df663a63b963eda8daee77f31d46b75d4b"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 43488121
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 81457
     start_block: 244740
     rpc:
@@ -327,6 +432,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xf2c3741c4e982ca4523709faa2dff725d3d8f144"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 18375422
+      - address: "0x8c1e55013da152dbc5401773fc1c488a22ee8c93"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 18375422
+      - address: "0x244f45342248f8ebe7dce39510be427895f6e1d4"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 18375422
+      - address: "0xa399a66d9172ae5d81e7e455cb774018e93eb002"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 18375422
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 56
     start_block: 34438438
     rpc:
@@ -362,6 +483,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x34187693b957c055da3ff0af9dce46e981d55225"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 87151099
+      - address: "0x17ac0d83ff9b9f8a271bd6f9c36a469089b45e1c"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 87151104
+      - address: "0xb295b2f76268cce9a9d48875158f0d6457deb39e"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 87151099
+      - address: "0x6f8df5b18d4fa0d54cb40d386d6f1a84bd350359"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 87151099
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 88888
     start_block: 19125620
     hypersync_config:
@@ -395,6 +532,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x9eb917d6709a0c974a6ddeb82724fef175c49165"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 32339574
+      - address: "0x5f2874d710a2441586c239e8bd8cf0bbb22b19ca"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 32339575
+      - address: "0xfb600862fda55a30239c3741762cc5a9f5bfda54"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 32340675
+      - address: "0xdaa4e52fa675e8dd6e04437ba9887462561047be"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 32340688
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 100
     start_block: 31491795
     rpc:
@@ -430,6 +583,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xaef7bfc6b9b8b7e0bfa6ee994f47ed6b03dfde60"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 45198670
+      - address: "0x703315dce1b017199dbb5ae38960c681f9f642da"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 45198670
+      - address: "0x803cbab11b9fd0e252a603523958a81f9b4a582b"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 45198671
+      - address: "0x697c180776ff9b9693363b9fc028b0275ce3d202"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 45198671
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 999
     start_block: 8665370
     rpc:
@@ -456,6 +625,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x45c11bbf49ef2c14ad0d5bdfca80de55c40523aa"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 30002989
+      - address: "0x89390675c2f197c2c41654dcdda8bd4ee5a8a1fd"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 30002989
+      - address: "0x360c237df86f9e6f1f265efa560d81fbed63ec4f"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 30002989
+      - address: "0x5a7b2aa82c658f03726df4029b7368932b7c1124"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 30002989
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 59144
     start_block: 8688454
     rpc:
@@ -487,6 +672,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xcd8c670c191ef5ce0bc1b5f11d7c0544cbb11ccb"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 29767713
+      - address: "0x5e28690ae0b74d9db25ab95594ef2e3bd9b3a677"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 29767714
+      - address: "0xbc94abe081bfede4c4fbd5c5abe50edca238e35f"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 29767714
+      - address: "0x36f2f0db9100d8a0d42f24ea1e5f572932f96d87"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 29767714
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 1
     start_block: 18811605
     rpc:
@@ -522,6 +723,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xb2855845067e126207de2155ad1c8ad5c495cb3f"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 24678552
+      - address: "0x3210e9b8ed75f9e2db00ef17167c775e658c2221"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 24678555
+      - address: "0x239bd5431ada12f09ca95d0a5d4388a5644268e9"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 24678639
+      - address: "0xe60df8e04ce1616a06db8ad11ce71c05ddcb5d88"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 24678640
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 34443
     start_block: 11343396
     rpc:
@@ -553,6 +770,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x9e70fa6d6ec8b63f31f3229a36c5f996a0674d7d"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 36799122
+      - address: "0xfa3dcb7ca02b5a5f0392fb7fd56f297969495657"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 36799123
+      - address: "0x56a3221660aa342411aaa2a1d292478021e8716c"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 36799123
+      - address: "0x3cc064358252353068a124013fa141414a4c0c17"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 36799123
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 143
     start_block: 34590049
     rpc:
@@ -577,6 +810,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xefac414cdab5a042d9443e7916de02d06d64ecc3"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 62054069
+      - address: "0xbe5ba6bbfb497433522622dc99a43346effdf53c"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 62054069
+      - address: "0x169579acb65698a56cf358b55a668ff880e83078"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 62054069
+      - address: "0x5238d6ce52e9c69fc89feb19f249fe515edd85b0"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 62054069
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 2818
     start_block: 45862
     rpc:
@@ -608,6 +857,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x752a62f7750ddca07fc7d7cb42d0652457c36fef"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 21507399
+      - address: "0xc3974b6dfa98ab07ecf004c42b2bdb4a9617bd39"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 21507398
+      - address: "0xe87ebffb866c71388f53bdc05c945a88d41fd628"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 21507399
+      - address: "0xfb180bb0c67554f858a5d0c47b7849103d0f456d"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 21507400
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 10
     start_block: 113621901
     rpc:
@@ -643,6 +908,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xfab60a7b98d3c2357e99d5b67bed8ce418ceac32"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 149083538
+      - address: "0x178ecb817585ef37fa13b91600800053029f1ddd"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 149083539
+      - address: "0x978ff13f638326e8ce8c1f49e22066d437798630"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 149083539
+      - address: "0x8a1b5a122cc01d2addffd1359a5b1ce82f5cad8b"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 149083539
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 137
     start_block: 51245836
     rpc:
@@ -678,6 +959,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x372a591b311d05dd51749f1c5f8074989a6d831c"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 84324133
+      - address: "0xe6843bb4ed3bdcab6415610bfa82f32e1dd48b31"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 84322908
+      - address: "0x00940e58a0ca942b5a100820b10758c655bcb78a"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 84324133
+      - address: "0x9577143ad5a95391d78eceb0c76d836be7075592"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 84324133
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 146
     start_block: 43945441
     rpc:
@@ -704,6 +1001,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x90967cbfbce9ec637bc17707aee1849869a79b8e"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 65573775
+      - address: "0x86b1f07ddf6d2acf332743e0b72248c898ecb904"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 65573776
+      - address: "0x3a43c37637c6594b724fa221c989be66a33ee2e8"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 65573776
+      - address: "0x529b08972710636c7b602c879f23638b8cadd152"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 65573776
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 534352
     start_block: 1675340
     rpc:
@@ -739,6 +1052,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x536c7e834e746f1365daf381776d70ec855d1bcd"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 32083538
+      - address: "0xf11ddebc9bfba0b803e2ab201edfbae9a8557c03"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 32083539
+      - address: "0x7216a9dc9462354fd8707c5fdf0d29f2fba86d97"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 32083539
+      - address: "0x4be09e22ec5fa9be267ea955b3a54406023c67dd"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 32083539
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 1329
     start_block: 138904383
     hypersync_config:
@@ -816,6 +1145,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x982d9a3c53e8c2162e42a2f8baa4e3171ed7b873"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 23793091
+      - address: "0x05deb48116442bb93c0e411aa095f45d6f29b92a"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 23793091
+      - address: "0x1e250b33b468a24003a4f32706125667bd953d7b"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 23793091
+      - address: "0x8ffd310773c8840f4c4698bfa6d9850b44c2a7fc"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 23793091
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 130
     start_block: 13885193
     rpc:
@@ -842,6 +1187,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0xb69510a4505f654412030a7d16ba164c72f653c5"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 43017515
+      - address: "0x2b76df77cd627603b108e4d017d0a22f379b5aed"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 43017515
+      - address: "0x5f264f649b51742201fe14164c088249dd10d208"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 43017515
+      - address: "0x3358471ee9a7c7ddd115ed7800ca8d6b1dd5a5f8"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 43017515
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 50
     start_block: 85226452
     rpc:
@@ -868,6 +1229,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x9cfa27760d3ae595e6829aaa11f31b16b04fdf1d"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 100419033
+      - address: "0x65bc0c39a6f33f7093555c24bb358dc0abd6eca2"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 100419033
+      - address: "0xd5286d2ca959bd75cff66cd1aedb76f2b61eec29"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 100419033
+      - address: "0x6f5e5f039fa2446c58ec514c0c18e0c2cbd7059e"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 100419033
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 324
     start_block: 33148970
     rpc:
@@ -903,6 +1280,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x5fdbd5a1b55c6a104e6a749d6805d1c05132694d"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 69122793
+      - address: "0x491f3aa4021abe8744ea94572fa7f5a7a2810999"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 69122798
+      - address: "0x565f1ec207328c585563b8db647b66cff275df62"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 69122801
+      - address: "0x0b877d6523056b1eaae38b89633e0ef6235aee11"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 69122806
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 84532
     start_block: 7545874
     rpc:
@@ -938,6 +1331,22 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
+      - address: "0x863b326ef7ce2b82d881931be577ba04dd4d58be"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 39001920
+      - address: "0x7ebf0f960415a477fbb46a280b5dcaa1a6b1d0f9"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 39001920
+      - address: "0xfc7c08dfe26d461b0de0c0bf1d787d019fcb8861"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 39001920
+      - address: "0x13cbf2ac8ee2321a2e0f4ddffdd0a2d7167967a7"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 39001920
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
   - id: 11155111
     start_block: 4904900
     rpc:
@@ -973,7 +1382,19 @@ networks:
       - name: "SablierMerkleInstant_v2_0"
       - name: "SablierMerkleLL_v2_0"
       - name: "SablierMerkleLT_v2_0"
-      - address: "0x40d850d661b5a0a2064e4731597ad69155d80ab7"
+      - address: "0x857a37be6536f5cb7470462e22d47d639f8f5aed"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 10465276
+      - address: "0x3279f698708a07e3de1bc89a5e64dc302f4fd90c"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 10465276
+      - address: "0x93891075d2efbba3a2dd359e348820cfc56a40d1"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 10465276
+      - address: "0x4331c17fd94369e9605971b914bd23614d6a5526"
         name: "SablierFactoryMerkleVCA_v3_0"
-        start_block: 10182216
+        start_block: 10465276
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
       - name: "SablierMerkleVCA_v3_0"

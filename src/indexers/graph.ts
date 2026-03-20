@@ -180,11 +180,6 @@ const OFFICIALS: IndexerGraphMap[] = [
     flow: "J87eaBLfTe7kKWgUGqe5TxntNCzA4pyWmqJowMddehuh",
     lockup: "C2r13APcUemQtVdPFm7p7T3aJkU2rH2EvdZzrQ53zi14",
   }),
-  official(chains.blast.id, {
-    airdrops: "657bogqYaDSSeqsoJcJ1kRqGnc3jC15UmcVLzsYxyxKK",
-    flow: "8joiC9LpUbSV6eGRr3RWXDArM8p9Q65FKiFekAakkyia",
-    lockup: "8MBBc6ET4izgJRrybgWzPjokhZKSjk43BNY1q3xcb8Es",
-  }),
   official(chains.bsc.id, {
     airdrops: "FXQT42kQPvpMJgsF5Bs6CqpxVvPP1LBqEhWThCCLMeGL",
     flow: "2vU8KF4yWh3vvFjtg7MrRXMnYF3hPX2T3cvVBdaiXhNb",

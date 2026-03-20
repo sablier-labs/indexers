@@ -8,7 +8,7 @@
 - **`common/`** - Shared definitions across indexers
 - **`*.graphql`** - Static schema files
 - **`*.graphql.ts`** - TypeScript generators (dynamic schemas)
-- **`merger.ts`** - Combines common + bespoke + generators
+- **`merger.ts`** - Combines common + indexer-specific + vendor-specific + generators
 - **`enums.ts`** - Shared enum generators
 
 ## Workflow
@@ -21,9 +21,9 @@
 
 ## Indexer Rules
 
-| Indexer   | Schema Source               | Pattern                                              |
-| --------- | --------------------------- | ---------------------------------------------------- |
-| airdrops  | `schema/airdrops/` + common | bespoke + BASE generators                            |
-| analytics | `envio/analytics/`          | No schema/ files, direct edit in `analytics.graphql` |
-| flow      | `schema/flow/` + common     | common + BASE + stream generator                     |
-| lockup    | `schema/lockup/` + common   | common + bespoke + BASE + stream                     |
+| Indexer   | Schema Source               | Pattern                                                     |
+| --------- | --------------------------- | ----------------------------------------------------------- |
+| airdrops  | `schema/airdrops/` + common | indexer-specific + BASE generators                          |
+| analytics | `envio/analytics/`          | No schema/ files, direct edit in `analytics.graphql`        |
+| flow      | `schema/flow/` + common     | common + BASE + stream generator                            |
+| lockup    | `schema/lockup/` + common   | common + indexer-specific + vendor-specific + BASE + stream |

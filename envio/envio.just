@@ -56,6 +56,8 @@ envio command tui_mode="tui_on" *args:
     else
         TUI_OFF=false
     fi
+    repo_root="$(git rev-parse --show-toplevel)"
+    cd "$repo_root"
     pnpm envio {{ command }} {{ args }} \
         --directory {{ justfile_dir() }} \
         --config {{ justfile_dir() }}/config.yaml \

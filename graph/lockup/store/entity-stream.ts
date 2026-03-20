@@ -65,6 +65,7 @@ export function createStreamLinear(
     stream.initial = false;
   }
 
+  stream.granularity = linearParams.granularity;
   stream = addCliff(stream, commonParams, linearParams);
   stream = addLinearShape(stream, stream.cliff, stream.cliffTime, stream.endTime);
   stream.save();

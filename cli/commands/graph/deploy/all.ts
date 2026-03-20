@@ -20,6 +20,7 @@ import Table from "cli-table3";
 import { Chunk, Clock, Console, Effect, Option, Stream } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
+import { Version } from "sablier/evm";
 import paths, { ROOT_DIR } from "../../../../cli/paths.js";
 import { getSablierChainSlug } from "../../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../../src/indexers/index.js";
@@ -92,9 +93,9 @@ function validateVersionLabel(
   versionLabel: string
 ): Effect.Effect<void, ValidationError, never> {
   const requirements: Record<Indexer.Protocol, string[]> = {
-    airdrops: ["v1.3", "v2.0"],
-    flow: ["v1.1", "v2.0"],
-    lockup: ["v2.0", "v3.0"],
+    airdrops: Object.values(Version.Airdrops),
+    flow: Object.values(Version.Flow),
+    lockup: Object.values(Version.Lockup),
   };
 
   const allowedPrefixes = requirements[indexer];
