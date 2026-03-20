@@ -864,7 +864,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://polygon-rpc.com"
+        url: "https://polygon.drpc.org"
     contracts:
       - address: "0xf4906225e783fb8977410bdbfb960cabed6c2ef4"
         name: "SablierV2MerkleStreamerFactory_v1_1"

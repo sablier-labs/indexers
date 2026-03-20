@@ -392,7 +392,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://polygon-rpc.com"
+        url: "https://polygon.drpc.org"
     contracts:
       - address: "0xcf2d812d5aad4e6fec3b05850ff056b21159d496"
         name: "SablierFlow_v1_0"

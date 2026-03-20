@@ -637,7 +637,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://polygon-rpc.com"
+        url: "https://polygon.drpc.org"
     contracts:
       - address: "0x7313addb53f96a4f710d3b91645c62b434190725"
         name: "SablierV2LockupDynamic_v1_0"
