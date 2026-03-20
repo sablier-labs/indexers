@@ -20,11 +20,8 @@ import type { Indexer } from "../types.js";
  */
 const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
-  [chains.blast.id]: "blast-mainnet",
-  [chains.coreDao.id]: "core",
   [chains.denergy.id]: "denergychain",
   [chains.polygon.id]: "matic",
-  [chains.sei.id]: "sei-mainnet",
   [chains.zksync.id]: "zksync-era",
 };
 
@@ -32,7 +29,6 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  * Custom chain slugs used by Sablier subgraphs.
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
-  [chains.coreDao.id]: "core",
   [chains.denergy.id]: "denergychain",
   [chains.mainnet.id]: "ethereum",
 };
@@ -139,7 +135,6 @@ const CUSTOMS: IndexerGraphMap[] = [
     chains.lightlink.id,
     "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"
   ),
-  custom(chains.coreDao.id, "https://thegraph.coredao.org/subgraphs/name/core/{SUBGRAPH_NAME}"),
   custom(
     chains.denergy.id,
     "https://thegraph.denergychain.com/subgraphs/name/denergychain/{SUBGRAPH_NAME}"
@@ -214,11 +209,6 @@ const OFFICIALS: IndexerGraphMap[] = [
     airdrops: "Ev4xS8VxuoUcpgqz5A2BkTgQxQeskm4Fg41XzVJ2DX9",
     flow: "HFpTrPzJyrHKWZ9ebb4VFRQSxRwpepyfz5wd138daFkF",
     lockup: "GycpYx8c9eRqxvEAfqnpNd1ZfXeuLzjRhnG7vvYaqEE1",
-  }),
-  official(chains.sei.id, {
-    airdrops: "HCxLCRqd5MorHXxmXFUBBcA71zTGXnn97Xk2uaBmStsy",
-    flow: "41ZGYcFgL2N7L5ng78S4sD6NHDNYEYcNFxnz4T8Zh3iU",
-    lockup: "AJU5rBfbuApuJpeZeaz6NYuYnnhAhEy4gFkqsSdAT6xb",
   }),
   official(chains.sonic.id, {
     airdrops: "5g8orwpm5Rf83G8eqDzDjodt3sG2D64cbiLC98Utmv4Q",
