@@ -9,8 +9,6 @@ jobs:
   update-prices:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
       - name: Get app installation token
         id: app-token
         uses: actions/create-github-app-token@v2
@@ -21,7 +19,8 @@ jobs:
 
       - uses: sablier-labs/devkit/actions/setup@v1
         with:
-          package-manager: pnpm
+          save-cache: true
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Update price-data dependency
         run: nup @sablier/price-data
