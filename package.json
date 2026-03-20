@@ -15,7 +15,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "^3.0.0"
+    "sablier": "^3.2.0"
   },
   "exports": {
     ".": {
@@ -79,7 +79,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "ultracite": "^7.3.1",
-    "viem": "^2.43.3",
+    "viem": "^2.47.5",
     "vite": "^7.3.0",
     "vitest": "^3.2.4"
   },

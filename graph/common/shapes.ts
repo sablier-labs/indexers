@@ -26,6 +26,7 @@ export namespace LockupShape {
 
   export const Cliff: string = "cliff";
   export const Linear: string = "linear";
+  export const LinearStepper: string = "linearStepper";
   export const LinearTimelock: string = "linearTimelock";
   export const LinearUnlockCliff: string = "linearUnlockCliff";
   export const LinearUnlockLinear: string = "linearUnlockLinear";
@@ -112,6 +113,9 @@ export function normalizeEventShape(shape: string): string | null {
   }
   if (key == "linear") {
     return LockupShape.Linear;
+  }
+  if (key == "linearstepper") {
+    return LockupShape.LinearStepper;
   }
   if (key == "lineartimelock") {
     return LockupShape.LinearTimelock;

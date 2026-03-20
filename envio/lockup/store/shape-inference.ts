@@ -33,6 +33,7 @@ const SHAPE_NORMALIZATION_MAP: Record<string, LockupShape> = {
   exponential: Shape.Lockup.DynamicExponential,
   exponentialdynamic: Shape.Lockup.DynamicExponential,
   linear: Shape.Lockup.Linear,
+  linearstepper: Shape.Lockup.LinearStepper,
   lineartimelock: Shape.Lockup.LinearTimelock,
   monthly: Shape.Lockup.TranchedMonthly,
   stepper: Shape.Lockup.TranchedStepper,
