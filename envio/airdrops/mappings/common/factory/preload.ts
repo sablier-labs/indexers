@@ -27,7 +27,7 @@ export async function preloadCreateEntities({
   params,
 }: PreloadInput): Promise<PreloadCreateResult | null> {
   const assetId = Id.asset(event.chainId, params.asset);
-  const factoryId = event.srcAddress;
+  const factoryId = Id.factory(event.chainId, event.srcAddress);
   const watcherId = event.chainId.toString();
 
   const [asset, factory, watcher] = await Promise.all([
