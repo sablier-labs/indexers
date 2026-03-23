@@ -214,12 +214,22 @@ const graphDeploySingleLogic = (options: CommandOptions) =>
     }
 
     const isCustom = indexerConfig.kind === "custom";
-    const customConfig = isCustom ? CUSTOM_NODES[options.chain] : undefined;
+    const sablierSlug = getSablierChainSlug(chain.id);
+    const customConfig = isCustom ? CUSTOM_NODES[sablierSlug] : undefined;
+
+    if (isCustom && !customConfig) {
+      const knownNodes = Object.keys(CUSTOM_NODES).join(", ");
+      return yield* Effect.fail(
+        new ValidationError({
+          field: "chain",
+          message: `No custom Graph node configured for '${sablierSlug}'. Known custom nodes: ${knownNodes}`,
+        })
+      );
+    }
 
     // Build subgraph name (different format for custom vs official)
-    const sablierSlug = getSablierChainSlug(chain.id);
     const subgraphName = isCustom
-      ? `${options.chain}/sablier-${options.indexer}-${options.chain}`
+      ? `${sablierSlug}/sablier-${options.indexer}-${sablierSlug}`
       : `sablier-${options.indexer}-${sablierSlug}`;
 
     // Resolve manifest path (uses getGraphChainSlug internally)
