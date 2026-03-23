@@ -4,6 +4,7 @@ import {
   DEPLOY_RETRY_SCHEDULE,
   isTransientDeployFailure,
 } from "../../cli/commands/graph/deploy/all.js";
+import { extractDeployFailureMessage } from "../../cli/commands/graph/deploy/helpers.js";
 
 describe("graph deploy retry helpers", () => {
   it("detects transient deploy failures from rate limits and network errors", () => {
@@ -16,6 +17,27 @@ describe("graph deploy retry helpers", () => {
     expect(isTransientDeployFailure("", "Unauthorized: invalid deploy key")).toBe(false);
     expect(isTransientDeployFailure("", "Manifest file not found")).toBe(false);
     expect(isTransientDeployFailure("", "invalid command line argument")).toBe(false);
+  });
+
+  it("does not mark version label conflicts as transient", () => {
+    expect(
+      isTransientDeployFailure(
+        "",
+        "✖ Failed to deploy to Graph node https://api.studio.thegraph.com/deploy/: Version label already exists."
+      )
+    ).toBe(false);
+  });
+
+  it("extracts a user-facing message for version label conflicts", () => {
+    expect(
+      extractDeployFailureMessage(
+        "",
+        "✖ Failed to deploy to Graph node https://api.studio.thegraph.com/deploy/: Version label already exists.",
+        1
+      )
+    ).toBe(
+      "Version label already exists. Choose a new --version-label or delete the existing version in Graph Studio before retrying."
+    );
   });
 
   it("retries three times with 2s, 4s, and 8s delays", async () => {

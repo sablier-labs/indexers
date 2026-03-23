@@ -23,6 +23,7 @@ import { GraphDeployError, ValidationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import { CliEnv } from "../../../services/env.js";
 import { finishSpinner, startSpinner } from "../../../spinner.js";
+import { extractDeployFailureMessage } from "./helpers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -107,13 +108,15 @@ function executeDeployment(args: readonly string[], workingDir: string, chainNam
         const stderr = Buffer.concat(Chunk.toReadonlyArray(stderrChunks)).toString("utf-8");
 
         if (exitCode !== 0) {
+          const errorMessage = extractDeployFailureMessage(stdout, stderr, exitCode);
+
           yield* finishSpinner(
             spinner,
             "fail",
-            `Failed to deploy to ${chainName}: exit code ${exitCode}`
+            `Failed to deploy to ${chainName}: ${errorMessage}`
           );
           yield* Console.log(chalk.red(`\n${stderr || stdout}`));
-          return { error: `Command failed with exit code ${exitCode}`, success: false } as const;
+          return { error: errorMessage, success: false } as const;
         }
 
         // Extract and display deployment ID if available

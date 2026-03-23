@@ -37,6 +37,7 @@ import type { CliFileLoggerInstance } from "../../../services/logging.js";
 import { CliFileLogger } from "../../../services/logging.js";
 import { PromptService } from "../../../services/prompt.js";
 import { finishSpinner, startSpinner } from "../../../spinner.js";
+import { extractDeployFailureMessage, hasVersionLabelConflict } from "./helpers.js";
 
 /** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
  * pnpm exec resolves binaries from the cwd's nearest node_modules, which fails when cwd is
@@ -308,6 +309,10 @@ function toDeployProcessError(command: string, message: string, exitCode?: numbe
 }
 
 export function isTransientDeployFailure(stdout: string, stderr: string): boolean {
+  if (hasVersionLabelConflict(stdout, stderr)) {
+    return false;
+  }
+
   const combinedOutput = `${stdout}\n${stderr}`;
   return TRANSIENT_DEPLOY_PATTERNS.some((pattern) => pattern.test(combinedOutput));
 }
@@ -380,18 +385,16 @@ function deployToChain(
           }
 
           if (exitCode !== 0) {
+            const errorMessage = extractDeployFailureMessage(stdout, stderr, exitCode);
+
             if (isTransientDeployFailure(stdout, stderr)) {
               return yield* new TransientDeployError({
                 chainSlug: deployment.chainSlug,
-                message: `Command failed with exit code ${exitCode}`,
+                message: errorMessage,
               });
             }
 
-            return yield* toDeployProcessError(
-              commandStr,
-              `Command failed with exit code ${exitCode}`,
-              exitCode
-            );
+            return yield* toDeployProcessError(commandStr, errorMessage, exitCode);
           }
 
           const deploymentId = helpers.extractDeploymentId(stdout);
