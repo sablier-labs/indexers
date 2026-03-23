@@ -51,4 +51,5 @@ Key limitations compared to TypeScript:
 When a new protocol version is added:
 
 1. **Define the version constant** in `graph/common/constants.ts` (e.g., `export const LOCKUP_V5_0 = "v5.0";`)
-2. **For Lockup versions**, add the new constant to the version comparison in `graph/lockup/store/entity-stream.ts` (the `addCliff` function, ~line 186), which checks versions to determine cliff-handling behavior
+2. **For Lockup versions**, add the new constant to the version comparison in `graph/lockup/store/entity-stream.ts` (the
+   `addCliff` function, ~line 186), which checks versions to determine cliff-handling behavior
