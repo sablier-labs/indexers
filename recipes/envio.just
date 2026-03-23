@@ -103,14 +103,14 @@ envio-for-each recipe indexer:
                 "just {{ recipe }} analytics" \
                 "just {{ recipe }} flow" \
                 "just {{ recipe }} lockup" \
-            "just {{ recipe }} streams"
+                "just {{ recipe }} streams"
             ;;
         protocols)
             just concurrent-protocol-indexers \
                 "just {{ recipe }} airdrops" \
                 "just {{ recipe }} flow" \
                 "just {{ recipe }} lockup" \
-            "just {{ recipe }} streams
+                "just {{ recipe }} streams"
             ;;
         *)
             just {{ recipe }} {{ indexer }}

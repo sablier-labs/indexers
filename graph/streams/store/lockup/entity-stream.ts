@@ -5,6 +5,7 @@ import {
   LOCKUP_V1_2,
   LOCKUP_V2_0,
   LOCKUP_V3_0,
+  LOCKUP_V4_0,
   ONE,
   ZERO,
 } from "../../../common/constants";
@@ -69,6 +70,7 @@ export function createStreamLinear(
     stream.initial = false;
   }
 
+  stream.granularity = linearParams.granularity;
   stream = addCliff(stream, commonParams, linearParams);
   stream = addLinearShape(stream, stream.cliff, stream.cliffTime, stream.endTime);
   stream.save();
@@ -189,7 +191,8 @@ function addCliff(
   // See https://github.com/sablier-labs/lockup/blob/v2.0.1/src/libraries/Helpers.sol#L204-L219
   if (
     areStringsEqual(stream.version, LOCKUP_V2_0) ||
-    areStringsEqual(stream.version, LOCKUP_V3_0)
+    areStringsEqual(stream.version, LOCKUP_V3_0) ||
+    areStringsEqual(stream.version, LOCKUP_V4_0)
   ) {
     if (linearParams.cliffTime.gt(ZERO)) {
       stream.cliff = true;

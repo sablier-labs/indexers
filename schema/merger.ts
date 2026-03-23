@@ -46,9 +46,9 @@ const PROTOCOL_MAP: Record<Indexer.Name, ProtocolSchemaConfig> = {
     vendorSpecific: { envio: ["sponsor", "sponsorship"], graph: [] },
   },
   streams: {
-    bespoke: ["segment", "sponsor", "sponsorship", "tranche"],
     common: ["contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
+    indexerSpecific: ["segment", "sponsor", "sponsorship", "tranche"],
   },
 };
 

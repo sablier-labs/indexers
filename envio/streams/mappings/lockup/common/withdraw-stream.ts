@@ -6,11 +6,17 @@ import type {
   SablierV2LockupLinear_v1_2_WithdrawFromLockupStream_handler as Handler_v1_2,
   SablierLockup_v2_0_WithdrawFromLockupStream_handler as Handler_v2_0,
   SablierLockup_v3_0_WithdrawFromLockupStream_handler as Handler_v3_0,
+  SablierLockup_v4_0_WithdrawFromLockupStream_handler as Handler_v4_0,
 } from "../../../bindings/src/Types.gen";
 import * as Watcher from "../../../store/entity-watcher";
 import * as LockupAction from "../../../store/lockup/entity-action";
 
-type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v1_2 & Handler_v2_0 & Handler_v3_0;
+type Handler = Handler_v1_0 &
+  Handler_v1_1 &
+  Handler_v1_2 &
+  Handler_v2_0 &
+  Handler_v3_0 &
+  Handler_v4_0;
 
 const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */

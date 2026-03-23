@@ -58,8 +58,8 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
       createUsdcContract(indexer),
     ];
     networks = mergeNetworks([
-      ...createNetworksForProtocols("flow", options),
-      ...createNetworksForProtocols("lockup", options),
+      ...createNetworksForProtocols("flow"),
+      ...createNetworksForProtocols("lockup"),
     ]);
     networks = addUsdcToNetworks(networks);
   }

@@ -223,6 +223,12 @@ export const streamsStreamDefs = gql`
     cliffTime: BigInt
 
     """
+    The smallest step in time between two consecutive token unlocks.
+    Applies only for LockupLinear and available since Lockup v4.0
+    """
+    granularity: BigInt
+
+    """
     Flag for Linear stream with an initial unlock.
     Available since Lockup v2.0.
     """

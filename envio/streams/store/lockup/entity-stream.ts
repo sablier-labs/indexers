@@ -48,6 +48,7 @@ export function createLinear(
     ...cliff,
     ...initial,
     ...shape,
+    granularity: params.granularity,
   };
   context.LockupStream.set(stream);
   return stream;
@@ -111,6 +112,7 @@ function createBase(
     duration: params.endTime - params.startTime,
     endTime: params.endTime,
     funder: params.funder,
+    granularity: undefined,
     hash: event.transaction.hash,
     id: streamId,
     initial: undefined,

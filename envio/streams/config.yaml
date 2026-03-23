@@ -59,6 +59,21 @@ contracts:
       - event: "RestartFlowStream"
       - event: "VoidFlowStream"
       - event: "WithdrawFromFlowStream"
+  - name: "SablierFlow_v3_0"
+    handler: "mappings/flow/v3.0/SablierFlow.ts"
+    abi_file_path: "../../node_modules/sablier/abi/flow/v3.0/SablierFlow.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "AdjustFlowStream"
+      - event: "CreateFlowStream"
+      - event: "DepositFlowStream"
+      - event: "PauseFlowStream"
+      - event: "RefundFromFlowStream"
+      - event: "RestartFlowStream"
+      - event: "VoidFlowStream"
+      - event: "WithdrawFromFlowStream"
   - name: "SablierV2LockupDynamic_v1_0"
     handler: "mappings/lockup/v1.0/SablierV2LockupDynamic.ts"
     abi_file_path: "../../node_modules/sablier/abi/lockup/v1.0/SablierV2LockupDynamic.json"
@@ -162,6 +177,19 @@ contracts:
       - event: "CreateLockupTranchedStream"
       - event: "RenounceLockupStream"
       - event: "WithdrawFromLockupStream"
+  - name: "SablierLockup_v4_0"
+    handler: "mappings/lockup/v4.0/SablierLockup.ts"
+    abi_file_path: "../../node_modules/sablier/abi/lockup/v4.0/SablierLockup.json"
+    events:
+      - event: "Approval"
+      - event: "ApprovalForAll"
+      - event: "Transfer"
+      - event: "CancelLockupStream"
+      - event: "CreateLockupDynamicStream"
+      - event: "CreateLockupLinearStream"
+      - event: "CreateLockupTranchedStream"
+      - event: "RenounceLockupStream"
+      - event: "WithdrawFromLockupStream"
   - abi_file_path: "../../abi/ERC20.json"
     events:
       - event: "Transfer"
@@ -174,7 +202,7 @@ networks:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://eth-sepolia.g.alchemy.com/v2/${ENVIO_ALCHEMY_API_KEY}"
+        url: "https://11155111.rpc.thirdweb.com"
     contracts:
       - address: "0x5ae8c13f6ae094887322012425b34b0919097d8a"
         name: "SablierFlow_v1_0"
@@ -185,6 +213,9 @@ networks:
       - address: "0xde489096ec9c718358c52a8bbe4ffd74857356e9"
         name: "SablierFlow_v2_0"
         start_block: 9343957
+      - address: "0xbd9326f6366c95e39bd8ef825c1b2f2ee0dceaa1"
+        name: "SablierFlow_v3_0"
+        start_block: 10463693
       - address: "0x421e1e7a53ff360f70a2d02037ee394fa474e035"
         name: "SablierV2LockupDynamic_v1_0"
         start_block: 4067889
@@ -212,5 +243,8 @@ networks:
       - address: "0x6b0307b4338f2963a62106028e3b074c2c0510da"
         name: "SablierLockup_v3_0"
         start_block: 9336998
+      - address: "0xe61cb9153356419bdad0a8767c059f92d221a3c4"
+        name: "SablierLockup_v4_0"
+        start_block: 10463080
       - address: "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
         name: "USDC"
