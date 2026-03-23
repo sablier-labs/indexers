@@ -17,7 +17,7 @@ import { Command, Options } from "@effect/cli";
 import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import Table from "cli-table3";
-import { Chunk, Clock, Console, Effect, Option, Stream } from "effect";
+import { Chunk, Clock, Console, Data, Duration, Effect, Option, Schedule, Stream } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
 import { Version } from "sablier/evm";
@@ -25,7 +25,13 @@ import paths, { ROOT_DIR } from "../../../../cli/paths.js";
 import { getSablierChainSlug } from "../../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../../src/indexers/index.js";
 import type { Indexer } from "../../../../src/types.js";
-import { GraphDeployError, UserAbortError, ValidationError } from "../../../errors.js";
+import type { FileOperationError } from "../../../errors.js";
+import {
+  GraphDeployError,
+  ProcessError,
+  UserAbortError,
+  ValidationError,
+} from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import type { CliFileLoggerInstance } from "../../../services/logging.js";
 import { CliFileLogger } from "../../../services/logging.js";
@@ -36,6 +42,32 @@ import { finishSpinner, startSpinner } from "../../../spinner.js";
  * pnpm exec resolves binaries from the cwd's nearest node_modules, which fails when cwd is
  * a subdirectory without its own node_modules (e.g. graph/airdrops). */
 const GRAPH_BIN = join(ROOT_DIR, "node_modules", ".bin", "graph");
+
+const MAX_DEPLOY_RETRIES = 3;
+const DEPLOY_INITIAL_BACKOFF = "2 seconds";
+const MAX_DEPLOY_ATTEMPTS = MAX_DEPLOY_RETRIES + 1;
+
+const TRANSIENT_DEPLOY_PATTERNS = [
+  /429/i,
+  /rate limit/i,
+  /too many requests/i,
+  /ECONNRESET/i,
+  /ETIMEDOUT/i,
+  /ENOTFOUND/i,
+  /ECONNREFUSED/i,
+  /socket hang up/i,
+  /network error/i,
+  /timeout/i,
+];
+
+class TransientDeployError extends Data.TaggedError("TransientDeployError")<{
+  chainSlug: string;
+  message: string;
+}> {}
+
+export const DEPLOY_RETRY_SCHEDULE = Schedule.exponential(DEPLOY_INITIAL_BACKOFF).pipe(
+  Schedule.intersect(Schedule.recurs(MAX_DEPLOY_RETRIES))
+);
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -56,6 +88,8 @@ type FailedDeployment = {
   chainSlug: string;
   error: string;
 };
+
+type DeployAttemptError = FileOperationError | ProcessError | TransientDeployError;
 
 /* -------------------------------------------------------------------------- */
 /*                                   OPTIONS                                  */
@@ -237,6 +271,47 @@ function displayDeploymentPlan(
   });
 }
 
+function chunksToString(chunks: Chunk.Chunk<Uint8Array>): string {
+  return Buffer.concat(Chunk.toReadonlyArray(chunks)).toString("utf-8");
+}
+
+function normalizeErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function formatDeployAttemptMessage(deployment: Deployment, attempt: number): string {
+  return `Deploying to ${deployment.chainName} (${deployment.chainSlug}) (attempt ${attempt}/${MAX_DEPLOY_ATTEMPTS})...`;
+}
+
+function formatRetryMessage(
+  deployment: Deployment,
+  retryIndex: number,
+  delay: Duration.DurationInput
+): string {
+  return `Transient error on ${deployment.chainName} (${deployment.chainSlug}), retry ${retryIndex + 1}/${MAX_DEPLOY_RETRIES} in ${Duration.format(delay)}...`;
+}
+
+function formatFinalDeployError(error: unknown, attempts: number): string {
+  if (error instanceof TransientDeployError) {
+    return `${error.message} after ${attempts} attempts`;
+  }
+
+  return normalizeErrorMessage(error);
+}
+
+function toDeployProcessError(command: string, message: string, exitCode?: number): ProcessError {
+  return new ProcessError({
+    command,
+    exitCode,
+    message,
+  });
+}
+
+export function isTransientDeployFailure(stdout: string, stderr: string): boolean {
+  const combinedOutput = `${stdout}\n${stderr}`;
+  return TRANSIENT_DEPLOY_PATTERNS.some((pattern) => pattern.test(combinedOutput));
+}
+
 function deployToChain(
   deployment: Deployment,
   indexer: Indexer.Protocol,
@@ -257,9 +332,7 @@ function deployToChain(
   ).pipe(PlatformCommand.workingDirectory(workingDir));
 
   return Effect.gen(function* () {
-    const spinner = yield* startSpinner(
-      `Deploying to ${deployment.chainName} (${deployment.chainSlug})...`
-    );
+    const spinner = yield* startSpinner(formatDeployAttemptMessage(deployment, 1));
     yield* logger.log(
       `🚀 Starting deployment to ${deployment.chainName} (${deployment.chainSlug})...`
     );
@@ -275,56 +348,98 @@ function deployToChain(
       return { deploymentId: undefined, indexerName, success: true } as const;
     }
 
-    return yield* Effect.scoped(
-      Effect.gen(function* () {
-        const executor = yield* CommandExecutor.CommandExecutor;
-        const process = yield* executor.start(command);
-        const [stdoutChunks, stderrChunks, exitCode] = yield* Effect.all([
-          Stream.runCollect(process.stdout),
-          Stream.runCollect(process.stderr),
-          process.exitCode,
-        ]);
+    let attempts = 0;
 
-        const stdout = Buffer.concat(Chunk.toReadonlyArray(stdoutChunks)).toString("utf-8");
-        const stderr = Buffer.concat(Chunk.toReadonlyArray(stderrChunks)).toString("utf-8");
-
-        yield* logger.log(`STDOUT:\n${stdout}`);
-        if (stderr.trim().length > 0) {
-          yield* logger.log(`STDERR:\n${stderr}`);
-        }
-
-        if (exitCode !== 0) {
-          return yield* Effect.fail(new Error(`Command failed with exit code ${exitCode}`));
-        }
-
-        const deploymentId = helpers.extractDeploymentId(stdout);
-        yield* finishSpinner(
-          spinner,
-          "success",
-          `Successfully deployed to ${deployment.chainName}`
-        );
-
-        yield* Effect.all([
-          logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`)),
-        ]);
-
-        return { deploymentId, indexerName, success: true } as const;
-      }).pipe(
-        Effect.catchAll((error) => {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          return finishSpinner(
-            spinner,
-            "fail",
-            `Failed to deploy to ${deployment.chainName}: ${errorMessage}`
-          ).pipe(
-            Effect.zipRight(
-              Effect.all([
-                logger.log(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`),
-              ]).pipe(Effect.map(() => ({ error: errorMessage, success: false }) as const))
+    const executeDeploymentAttempt = (attempt: number) =>
+      Effect.scoped(
+        Effect.gen(function* () {
+          const executor = yield* CommandExecutor.CommandExecutor;
+          const process = yield* executor
+            .start(command)
+            .pipe(
+              Effect.mapError((error) =>
+                toDeployProcessError(commandStr, normalizeErrorMessage(error))
+              )
+            );
+          const [stdoutChunks, stderrChunks, exitCode] = yield* Effect.all([
+            Stream.runCollect(process.stdout),
+            Stream.runCollect(process.stderr),
+            process.exitCode,
+          ]).pipe(
+            Effect.mapError((error) =>
+              toDeployProcessError(commandStr, normalizeErrorMessage(error))
             )
           );
+
+          const stdout = chunksToString(stdoutChunks);
+          const stderr = chunksToString(stderrChunks);
+
+          yield* logger.log(`[attempt ${attempt}] STDOUT:\n${stdout}`);
+          if (stderr.trim().length > 0) {
+            yield* logger.log(`[attempt ${attempt}] STDERR:\n${stderr}`);
+          }
+
+          if (exitCode !== 0) {
+            if (isTransientDeployFailure(stdout, stderr)) {
+              return yield* new TransientDeployError({
+                chainSlug: deployment.chainSlug,
+                message: `Command failed with exit code ${exitCode}`,
+              });
+            }
+
+            return yield* toDeployProcessError(
+              commandStr,
+              `Command failed with exit code ${exitCode}`,
+              exitCode
+            );
+          }
+
+          const deploymentId = helpers.extractDeploymentId(stdout);
+          return { deploymentId, indexerName, success: true } as const;
         })
-      )
+      );
+
+    const retryPolicy = DEPLOY_RETRY_SCHEDULE.pipe(
+      Schedule.whileInput((error: DeployAttemptError) => error instanceof TransientDeployError),
+      Schedule.tapOutput(([delay, retryIndex]) => {
+        const retryMessage = formatRetryMessage(deployment, retryIndex, delay);
+        return Effect.all([spinner.setText(retryMessage), logger.log(`⚠️  ${retryMessage}`)]).pipe(
+          Effect.orDie,
+          Effect.asVoid
+        );
+      })
+    );
+
+    return yield* Effect.gen(function* () {
+      const result = yield* Effect.gen(function* () {
+        const attempt = yield* Effect.sync(() => {
+          attempts += 1;
+          return attempts;
+        });
+
+        yield* spinner.setText(formatDeployAttemptMessage(deployment, attempt));
+        return yield* executeDeploymentAttempt(attempt);
+      }).pipe(Effect.retry(retryPolicy));
+
+      yield* finishSpinner(spinner, "success", `Successfully deployed to ${deployment.chainName}`);
+      yield* logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`));
+
+      return result;
+    }).pipe(
+      Effect.catchAll((error) => {
+        const errorMessage = formatFinalDeployError(error, attempts);
+        return finishSpinner(
+          spinner,
+          "fail",
+          `Failed to deploy to ${deployment.chainName}: ${errorMessage}`
+        ).pipe(
+          Effect.zipRight(
+            logger
+              .log(`❌ Failed to deploy to ${deployment.chainName}: ${errorMessage}`)
+              .pipe(Effect.as({ error: errorMessage, success: false } as const))
+          )
+        );
+      })
     );
   });
 }

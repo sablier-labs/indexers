@@ -6,6 +6,7 @@ export type SpinnerStatus = "success" | "fail" | "stop";
 
 export type SpinnerHandle = {
   readonly fail: (message?: string) => Effect.Effect<void>;
+  readonly setText: (message: string) => Effect.Effect<void>;
   readonly stop: () => Effect.Effect<void>;
   readonly succeed: (message?: string) => Effect.Effect<void>;
 };
@@ -13,6 +14,10 @@ export type SpinnerHandle = {
 function makeSpinnerHandle(spinner: Ora): SpinnerHandle {
   return {
     fail: (message?: string) => Effect.sync(() => void spinner.fail(message)),
+    setText: (message: string) =>
+      Effect.sync(() => {
+        spinner.text = message;
+      }),
     stop: () => Effect.sync(() => void spinner.stop()),
     succeed: (message?: string) => Effect.sync(() => void spinner.succeed(message)),
   };
