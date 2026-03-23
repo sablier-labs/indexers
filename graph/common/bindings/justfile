@@ -2,23 +2,22 @@ JUST_DIR := justfile_dir()
 
 # Show available commands
 default:
-  @just --list
+    @just --list
 
 # Generate all bindings
 codegen: codegen-erc20 codegen-prb-proxy
 
 # Generate the ERC-20 bindings
 codegen-erc20:
-    #!/usr/bin/env sh
-    rm -rf erc20
-    pnpm graph codegen \
-        --output-dir {{ JUST_DIR }}/erc20 \
-        {{ JUST_DIR }}/manifest-erc20.yaml
+    @just --quiet _codegen erc20 manifest-erc20.yaml
 
 # Generate the PRBProxy bindings
 codegen-prb-proxy:
-    #!/usr/bin/env sh
-    rm -rf prb-proxy
-    pnpm graph codegen \
-        --output-dir {{ JUST_DIR }}/prb-proxy \
-        {{ JUST_DIR }}/manifest-prb-proxy.yaml
+    @just --quiet _codegen prb-proxy manifest-prb-proxy.yaml
+
+[private, script("sh")]
+_codegen output_dir manifest:
+    rm -rf {{ output_dir }}
+    pnpm --dir "{{ JUST_DIR }}/../../.." exec graph codegen \
+        --output-dir {{ JUST_DIR }}/{{ output_dir }} \
+        {{ JUST_DIR }}/{{ manifest }}

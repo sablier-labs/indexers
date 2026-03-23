@@ -31,10 +31,8 @@
     cmd_display="just {{ recipe }} {{ args }}"
     start_seconds=$(date +%s)
 
-    if [[ "$mode" == "verbose" ]]; then
-        echo "▶ $cmd_display"
-        just {{ recipe }} {{ args }}
-        status=$?
+    print_status() {
+        status="$1"
         end_seconds=$(date +%s)
         duration=$((end_seconds - start_seconds))
 
@@ -43,7 +41,13 @@
         else
             echo "::error::{{ recipe }} failed in ${duration}s (exit code ${status})"
         fi
+    }
 
+    if [[ "$mode" == "verbose" ]]; then
+        echo "▶ $cmd_display"
+        just {{ recipe }} {{ args }}
+        status=$?
+        print_status "$status"
         exit "$status"
     fi
 
@@ -56,15 +60,12 @@
 
     just {{ recipe }} {{ args }} >"$log_file" 2>&1
     status=$?
-    end_seconds=$(date +%s)
-    duration=$((end_seconds - start_seconds))
+    print_status "$status"
 
     if [[ "$status" -eq 0 ]]; then
-        echo "✅ {{ recipe }} completed in ${duration}s"
         exit 0
     fi
 
-    echo "::error::{{ recipe }} failed in ${duration}s (exit code ${status})"
     echo "----- Last ${tail_lines} log lines from ${log_file} -----"
     tail -n "$tail_lines" "$log_file" || true
     echo "::group::Full log for $cmd_display (${log_file})"

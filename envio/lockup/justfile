@@ -1,18 +1,7 @@
 import "../envio.just"
 
 # Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
-export ENVIO_HASURA_PUBLIC_AGGREGATE := ```
-    arr=(
-        "Action"
-        "Asset"
-        "Batch"
-        "Sponsor"
-        "Sponsorship"
-        "Stream"
-    )
-    IFS='&' # Internal Field Separator
-    echo "${arr[*]}"
-```
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "Action&Asset&Batch&Sponsor&Sponsorship&Stream"
 export ENVIO_INDEXER_NAME := "lockup"
 export INDEXER_NAME := "lockup"
 

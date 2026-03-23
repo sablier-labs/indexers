@@ -31,7 +31,7 @@ INDEXER_NAME := env("INDEXER_NAME")
 # Authenticate with Graph hosted service
 [group("graph")]
 auth:
-    pnpm graph auth {{ GRAPH_DEPLOY_KEY }}
+    pnpm --dir "{{ source_dir() }}/.." exec graph auth {{ GRAPH_DEPLOY_KEY }}
 
 # Build the subgraph
 @build:
@@ -80,8 +80,9 @@ alias cs := codegen-schema
 [script("bash")]
 deploy chain_slug version_label: codegen-schema codegen-manifest
     subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
-    manifest_path={{ justfile_dir() }}/manifests/{{ chain_slug }}.yaml
-    pnpm graph deploy \
+    manifests_dir="{{ justfile_dir() }}/manifests"
+    manifest_path="$manifests_dir/{{ chain_slug }}.yaml"
+    pnpm --dir "{{ source_dir() }}/.." exec graph deploy \
         $subgraph_name \
         $manifest_path \
         --version-label {{ version_label }}
@@ -112,8 +113,9 @@ alias dc := deploy-custom
 [script("bash")]
 deploy-experimental version_label: codegen-schema (codegen-manifest "sepolia")
     subgraph_name=sablier-{{ INDEXER_NAME }}-experimental
-    manifest_path={{ justfile_dir() }}/manifests/sepolia.yaml
-    pnpm graph deploy \
+    manifests_dir="{{ justfile_dir() }}/manifests"
+    manifest_path="$manifests_dir/sepolia.yaml"
+    pnpm --dir "{{ source_dir() }}/.." exec graph deploy \
         $subgraph_name \
         $manifest_path \
         --version-label {{ version_label }}

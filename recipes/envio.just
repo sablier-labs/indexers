@@ -25,13 +25,14 @@
 [script]
 _codegen-envio-bindings indexer:
     indexer_dir="envio/{{ indexer }}"
+    generated_types_file="$indexer_dir/bindings/src/Types.gen.ts"
     pnpm envio codegen \
         --directory $indexer_dir \
         --config config.yaml \
         --output-directory bindings
 
     # Verify the critical files were generated
-    if [ ! -f "$indexer_dir/bindings/src/Types.gen.ts" ]; then
+    if [ ! -f "$generated_types_file" ]; then
         echo "❌ Failed to generate Envio bindings for {{ indexer }}"
         exit 1
     fi
@@ -94,17 +95,21 @@ alias dc := depcruise-check
 # Helper to run an envio recipe for all protocols or a specific one
 [private, script("bash")]
 envio-for-each recipe indexer:
-    if [ "{{ indexer }}" = "all" ]; then
-        just concurrent-envio-indexers \
-            "just {{ recipe }} airdrops" \
-            "just {{ recipe }} analytics" \
-            "just {{ recipe }} flow" \
-            "just {{ recipe }} lockup"
-    elif [ "{{ indexer }}" = "protocols" ]; then
-        just concurrent-protocol-indexers \
-            "just {{ recipe }} airdrops" \
-            "just {{ recipe }} flow" \
-            "just {{ recipe }} lockup"
-    else
-        just {{ recipe }} {{ indexer }}
-    fi
+    case "{{ indexer }}" in
+        all)
+            just concurrent-envio-indexers \
+                "just {{ recipe }} airdrops" \
+                "just {{ recipe }} analytics" \
+                "just {{ recipe }} flow" \
+                "just {{ recipe }} lockup"
+            ;;
+        protocols)
+            just concurrent-protocol-indexers \
+                "just {{ recipe }} airdrops" \
+                "just {{ recipe }} flow" \
+                "just {{ recipe }} lockup"
+            ;;
+        *)
+            just {{ recipe }} {{ indexer }}
+            ;;
+    esac

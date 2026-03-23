@@ -50,13 +50,12 @@ alias cs := codegen-schema
 envio command tui_mode="tui_on" *args:
     just _ensure-root-dist-fresh
     set -euo pipefail
-    set -a
+    repo_root="{{ source_dir() }}/.."
     if [ "{{ tui_mode }}" = "tui_off" ]; then
-        TUI_OFF=true
+        export TUI_OFF=true
     else
-        TUI_OFF=false
+        export TUI_OFF=false
     fi
-    repo_root="$(git rev-parse --show-toplevel)"
     cd "$repo_root"
     pnpm envio {{ command }} {{ args }} \
         --directory {{ justfile_dir() }} \
@@ -72,7 +71,7 @@ test:
 # Envio is CJS only, so it cannot import TypeScript sources directly.
 [private, script("bash")]
 _ensure-root-dist-fresh:
-    repo_root="$(git rev-parse --show-toplevel)"
+    repo_root="{{ source_dir() }}/.."
     dist_envio="$repo_root/dist/cjs/indexers/envio.js"
     dist_types="$repo_root/dist/types/types.d.ts"
     src_envio="$repo_root/src/indexers/envio.ts"

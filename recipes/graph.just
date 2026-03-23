@@ -5,10 +5,10 @@
 
 [script("bash")]
 _build-graph-indexer indexer: (codegen-graph indexer)
-    manifest_path=graph/{{ indexer }}/manifests/mainnet.yaml
-    pnpm graph build \
-        $manifest_path \
-        --output-dir graph/{{ indexer }}/build
+    indexer_dir="graph/{{ indexer }}"
+    pnpm --dir "{{ justfile_dir() }}" exec graph build \
+        "$indexer_dir/manifests/mainnet.yaml" \
+        --output-dir "$indexer_dir/build"
     echo "✅ Built Graph indexer"
 
 # Codegen everything for the Graph indexer (order matters):
@@ -32,12 +32,12 @@ _build-graph-indexer indexer: (codegen-graph indexer)
 
 [script("bash")]
 _codegen-graph-bindings indexer:
-    protocol_dir="graph/{{ indexer }}"
-    bindings_dir=$protocol_dir/bindings
+    indexer_dir="graph/{{ indexer }}"
+    bindings_dir="$indexer_dir/bindings"
     pnpm dlx del-cli $bindings_dir
-    pnpm graph codegen \
+    pnpm --dir "{{ justfile_dir() }}" exec graph codegen \
         --output-dir $bindings_dir \
-        $protocol_dir/manifests/sepolia.yaml
+        "$indexer_dir/manifests/sepolia.yaml"
     echo "✅ Generated Graph bindings"
 
 # Codegen the Graph subgraph manifest
@@ -59,11 +59,14 @@ _codegen-graph-bindings indexer:
 # Helper to run a graph recipe for all protocols or a specific one
 [private, script("bash")]
 graph-for-each recipe indexer:
-    if [ "{{ indexer }}" = "all" ]; then
-        just concurrent-protocol-indexers \
-            "just {{ recipe }} airdrops" \
-            "just {{ recipe }} flow" \
-            "just {{ recipe }} lockup"
-    else
-        just {{ recipe }} {{ indexer }}
-    fi
+    case "{{ indexer }}" in
+        all)
+            just concurrent-protocol-indexers \
+                "just {{ recipe }} airdrops" \
+                "just {{ recipe }} flow" \
+                "just {{ recipe }} lockup"
+            ;;
+        *)
+            just {{ recipe }} {{ indexer }}
+            ;;
+    esac
