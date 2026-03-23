@@ -74,17 +74,13 @@ alias cs := codegen-schema
 #                                RECIPES: DEPLOY                               #
 # ---------------------------------------------------------------------------- #
 
-# Deploy the subgraph (the chain_slug is The Graph's chain slug)
+# Deploy the subgraph to a single chain (the chain arg is the Sablier chain slug, e.g. "arbitrum")
 [confirm("Confirm you want to deploy? (y/N)")]
 [group("deploy")]
-[script("bash")]
-deploy chain_slug version_label: codegen-schema codegen-manifest
-    subgraph_name=sablier-{{ INDEXER_NAME }}-{{ chain_slug }}
-    manifests_dir="{{ justfile_dir() }}/manifests"
-    manifest_path="$manifests_dir/{{ chain_slug }}.yaml"
-    pnpm --dir "{{ source_dir() }}/.." exec graph deploy \
-        $subgraph_name \
-        $manifest_path \
+@deploy chain version_label: codegen
+    just root::cli graph-deploy-single \
+        --chain {{ chain }} \
+        --indexer {{ INDEXER_NAME }} \
         --version-label {{ version_label }}
 alias d := deploy
 
@@ -102,7 +98,7 @@ alias da := deploy-all
 [confirm("⚠️  Deploying to custom nodes overrides the production subgraph. Are you sure you want to do this? (y/N)")]
 [group("deploy")]
 @deploy-custom chain_slug version_label: codegen
-    just root::cli graph-deploy-custom \
+    just root::cli graph-deploy-single \
         --chain {{ chain_slug }} \
         --indexer {{ INDEXER_NAME }} \
         --version-label {{ version_label }}

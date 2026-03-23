@@ -1,10 +1,11 @@
 /**
- * @file Deploy subgraphs to custom Graph nodes
+ * @file Deploy a subgraph to a single chain (official or custom Graph node)
  *
  * @example
- * pnpm tsx cli graph-deploy-custom -c denergychain -i flow -v v2.0.0 --dry-run
+ * pnpm tsx cli graph-deploy-single -c arbitrum -i lockup -v v3.0.0
+ * pnpm tsx cli graph-deploy-single -c denergychain -i flow -v v2.0.0 --dry-run
  *
- * @param --chain - Required: 'denergychain', or 'lightlink'
+ * @param --chain - Required: Sablier chain slug (e.g., 'arbitrum', 'denergychain')
  * @param --indexer - Required: 'airdrops', 'flow', or 'lockup'
  * @param --version-label - Required: Version label for the deployment
  * @param --dry-run - Optional: Show command without executing
@@ -15,8 +16,9 @@ import { Command, Options } from "@effect/cli";
 import { CommandExecutor, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Chunk, Console, Effect, Stream } from "effect";
-import { chains } from "sablier/evm";
 import paths, { ROOT_DIR } from "../../../../cli/paths.js";
+import { getSablierChainSlug } from "../../../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../../../src/indexers/index.js";
 import { GraphDeployError, ValidationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import { CliEnv } from "../../../services/env.js";
@@ -27,7 +29,6 @@ import { finishSpinner, startSpinner } from "../../../spinner.js";
 /* -------------------------------------------------------------------------- */
 
 type CustomNodeConfig = {
-  chainId: number;
   nodeUrl: string;
   ipfsUrl: string;
   authType?: "deploy-key" | "access-token";
@@ -47,12 +48,10 @@ const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
   denergychain: {
     authEnvVar: "DENERGY_AUTH_TOKEN",
     authType: "access-token",
-    chainId: chains.denergy.id,
     ipfsUrl: "https://ipfs.denergychain.com",
     nodeUrl: "https://thegraph.denergychain.com/deploy",
   },
   lightlink: {
-    chainId: chains.lightlink.id,
     ipfsUrl: "https://api.thegraph.com/ipfs/",
     nodeUrl: "https://graph.phoenix.lightlink.io/rpc",
   },
@@ -62,9 +61,9 @@ const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
 /*                                   OPTIONS                                  */
 /* -------------------------------------------------------------------------- */
 
-const chainOption = Options.choice("chain", ["denergychain", "lightlink"] as const).pipe(
+const chainOption = Options.text("chain").pipe(
   Options.withAlias("c"),
-  Options.withDescription("Target chain for custom node deployment")
+  Options.withDescription("Sablier chain slug (e.g., 'arbitrum', 'denergychain')")
 );
 
 const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup"] as const).pipe(
@@ -82,13 +81,17 @@ const dryRunOption = Options.boolean("dry-run").pipe(
   Options.withDefault(false)
 );
 
-function executeDeployment(args: readonly string[], workingDir: string, chainSlug: string) {
+/* -------------------------------------------------------------------------- */
+/*                              DEPLOYMENT LOGIC                              */
+/* -------------------------------------------------------------------------- */
+
+function executeDeployment(args: readonly string[], workingDir: string, chainName: string) {
   const command = PlatformCommand.make(GRAPH_BIN, ...args).pipe(
     PlatformCommand.workingDirectory(workingDir)
   );
 
   return Effect.gen(function* () {
-    const spinner = yield* startSpinner(`Deploying to ${chainSlug}...`);
+    const spinner = yield* startSpinner(`Deploying to ${chainName}...`);
 
     return yield* Effect.scoped(
       Effect.gen(function* () {
@@ -107,7 +110,7 @@ function executeDeployment(args: readonly string[], workingDir: string, chainSlu
           yield* finishSpinner(
             spinner,
             "fail",
-            `Failed to deploy to ${chainSlug}: exit code ${exitCode}`
+            `Failed to deploy to ${chainName}: exit code ${exitCode}`
           );
           yield* Console.log(chalk.red(`\n${stderr || stdout}`));
           return { error: `Command failed with exit code ${exitCode}`, success: false } as const;
@@ -119,7 +122,7 @@ function executeDeployment(args: readonly string[], workingDir: string, chainSlu
           yield* Console.log(chalk.green(`\nDeployment ID: ${deploymentId}`));
         }
 
-        yield* finishSpinner(spinner, "success", `Successfully deployed to ${chainSlug}`);
+        yield* finishSpinner(spinner, "success", `Successfully deployed to ${chainName}`);
         return { deploymentId, success: true } as const;
       }).pipe(
         Effect.catchAll((error) => {
@@ -127,7 +130,7 @@ function executeDeployment(args: readonly string[], workingDir: string, chainSlu
           return finishSpinner(
             spinner,
             "fail",
-            `Failed to deploy to ${chainSlug}: ${errorMessage}`
+            `Failed to deploy to ${chainName}: ${errorMessage}`
           ).pipe(
             Effect.zipRight(
               Effect.succeed({
@@ -150,66 +153,110 @@ function getDisplayArgs(args: readonly string[], authToken?: string): readonly s
   return args.map((arg) => (arg === authToken ? "[redacted]" : arg));
 }
 
+function buildCustomArgs(
+  config: CustomNodeConfig,
+  versionLabel: string,
+  authToken: string | undefined
+): string[] {
+  const args: string[] = [
+    "deploy",
+    "--version-label",
+    versionLabel,
+    "--ipfs",
+    config.ipfsUrl,
+    "--node",
+    config.nodeUrl,
+  ];
+
+  if (config.authType === "deploy-key" && authToken) {
+    args.push("--deploy-key", authToken);
+  } else if (config.authType === "access-token" && authToken) {
+    args.push("--access-token", authToken);
+  }
+
+  return args;
+}
+
+function buildOfficialArgs(versionLabel: string): string[] {
+  return ["deploy", "--version-label", versionLabel];
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                   COMMAND                                  */
 /* -------------------------------------------------------------------------- */
 
 type CommandOptions = {
-  readonly chain: "denergychain" | "lightlink";
+  readonly chain: string;
   readonly indexer: "airdrops" | "flow" | "lockup";
   readonly versionLabel: string;
   readonly dryRun: boolean;
 };
 
-const graphDeployCustomLogic = (options: CommandOptions) =>
+const graphDeploySingleLogic = (options: CommandOptions) =>
   Effect.gen(function* () {
     const env = yield* CliEnv;
-    const config = CUSTOM_NODES[options.chain];
 
-    // Validate auth token if required
-    let authToken: string | undefined;
-    if (config.authEnvVar) {
-      authToken = (yield* env.getString(config.authEnvVar))?.trim();
-      if (!authToken) {
-        return yield* Effect.fail(
-          new ValidationError({
-            field: config.authEnvVar,
-            message: `Environment variable ${config.authEnvVar} is not set`,
-          })
-        );
-      }
+    // Resolve chain from Sablier slug
+    const chain = yield* helpers.getChain(options.chain);
+
+    // Detect if this chain uses a custom Graph node
+    const indexerConfig = getIndexerGraph({ chainId: chain.id, protocol: options.indexer });
+    if (!indexerConfig) {
+      return yield* Effect.fail(
+        new ValidationError({
+          field: "chain",
+          message: `No Graph subgraph configured for chain '${options.chain}' and indexer '${options.indexer}'`,
+        })
+      );
     }
 
-    // Build subgraph name and manifest path
-    const subgraphName = `${options.chain}/sablier-${options.indexer}-${options.chain}`;
-    const manifestPath = paths.graph.manifest(options.indexer, config.chainId);
+    const isCustom = indexerConfig.kind === "custom";
+    const customConfig = isCustom ? CUSTOM_NODES[options.chain] : undefined;
+
+    // Build subgraph name (different format for custom vs official)
+    const sablierSlug = getSablierChainSlug(chain.id);
+    const subgraphName = isCustom
+      ? `${options.chain}/sablier-${options.indexer}-${options.chain}`
+      : `sablier-${options.indexer}-${sablierSlug}`;
+
+    // Resolve manifest path (uses getGraphChainSlug internally)
+    const manifestPath = paths.graph.manifest(options.indexer, chain.id);
     const workingDir = path.join(ROOT_DIR, "graph", options.indexer);
 
     // Build command args
-    const args: string[] = [
-      "deploy",
-      "--version-label",
-      options.versionLabel,
-      "--ipfs",
-      config.ipfsUrl,
-      "--node",
-      config.nodeUrl,
-    ];
+    let authToken: string | undefined;
+    let args: string[];
 
-    // Add auth args based on type
-    if (config.authType === "deploy-key" && authToken) {
-      args.push("--deploy-key", authToken);
-    } else if (config.authType === "access-token" && authToken) {
-      args.push("--access-token", authToken);
+    if (isCustom && customConfig) {
+      // Validate auth token if required
+      if (customConfig.authEnvVar) {
+        authToken = (yield* env.getString(customConfig.authEnvVar))?.trim();
+        if (!authToken) {
+          return yield* Effect.fail(
+            new ValidationError({
+              field: customConfig.authEnvVar,
+              message: `Environment variable ${customConfig.authEnvVar} is not set`,
+            })
+          );
+        }
+      }
+      args = buildCustomArgs(customConfig, options.versionLabel, authToken);
+    } else {
+      args = buildOfficialArgs(options.versionLabel);
     }
 
     args.push(subgraphName, manifestPath);
 
     // Display deployment info
-    yield* Console.log(chalk.cyan(`Deploying ${options.indexer} indexer to ${options.chain}`));
+    yield* Console.log(
+      chalk.cyan(`Deploying ${options.indexer} indexer to ${chain.name} (${options.chain})`)
+    );
     yield* Console.log(chalk.dim(`  Subgraph: ${subgraphName}`));
+    yield* Console.log(chalk.dim(`  Manifest: ${manifestPath}`));
     yield* Console.log(chalk.dim(`  Version:  ${options.versionLabel}`));
-    yield* Console.log(chalk.dim(`  Node:     ${config.nodeUrl}`));
+    if (isCustom && customConfig) {
+      yield* Console.log(chalk.dim(`  Node:     ${customConfig.nodeUrl}`));
+    }
     yield* Console.log("");
 
     // Dry-run mode
@@ -221,8 +268,8 @@ const graphDeployCustomLogic = (options: CommandOptions) =>
       return;
     }
 
-    // Execute deployment (no confirmation - justfile [confirm] handles it)
-    const result = yield* executeDeployment(args, workingDir, options.chain);
+    // Execute deployment (no confirmation — justfile [confirm] handles it)
+    const result = yield* executeDeployment(args, workingDir, chain.name);
 
     if (!result.success) {
       return yield* Effect.fail(
@@ -234,13 +281,13 @@ const graphDeployCustomLogic = (options: CommandOptions) =>
     }
   });
 
-export const graphDeployCustomCommand = Command.make(
-  "graph-deploy-custom",
+export const graphDeploySingleCommand = Command.make(
+  "graph-deploy-single",
   {
     chain: chainOption,
     dryRun: dryRunOption,
     indexer: indexerOption,
     versionLabel: versionLabelOption,
   },
-  graphDeployCustomLogic
-).pipe(Command.withDescription("Deploy a subgraph to a custom Graph node"));
+  graphDeploySingleLogic
+).pipe(Command.withDescription("Deploy a subgraph to a single chain (official or custom)"));
