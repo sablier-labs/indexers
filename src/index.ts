@@ -3,6 +3,5 @@
  */
 export * as constants from "./constants.js";
 export * from "./enums.js";
-export * from "./experimental.js";
 export * from "./indexers/index.js";
 export * from "./types.js";

@@ -3,10 +3,6 @@ import { getIndexer } from "../../../src/indexers/getters.js";
 import { createEquivalenceTest } from "./create-test.js";
 import { LockupEnvio, LockupGraph } from "./queries.js";
 
-/**
- * Use "https://api.studio.thegraph.com/query/82/sablier-lockup-experimental-2/version/latest" for mainnet tests
- */
-
 createEquivalenceTest({
   chainId: sepolia.id,
   protocol: "lockup",

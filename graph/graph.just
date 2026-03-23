@@ -85,7 +85,6 @@ alias cs := codegen-schema
 alias d := deploy
 
 # Deploy all officials subgraphs to The Decentralized Network
-[confirm("Confirm you want to deploy all subgraphs? (y/N)")]
 [group("deploy")]
 @deploy-all version_label *args: codegen
     just root::cli graph-deploy-all \
@@ -103,16 +102,3 @@ alias da := deploy-all
         --indexer {{ INDEXER_NAME }} \
         --version-label {{ version_label }}
 alias dc := deploy-custom
-
-# Deploy to experimental subgraph on Ethereum Sepolia
-[group("deploy")]
-[script("bash")]
-deploy-experimental version_label: codegen-schema (codegen-manifest "sepolia")
-    subgraph_name=sablier-{{ INDEXER_NAME }}-experimental
-    manifests_dir="{{ justfile_dir() }}/manifests"
-    manifest_path="$manifests_dir/sepolia.yaml"
-    pnpm --dir "{{ source_dir() }}/.." exec graph deploy \
-        $subgraph_name \
-        $manifest_path \
-        --version-label {{ version_label }}
-alias de := deploy-experimental
