@@ -5,11 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[3.0.0]: https://github.com/sablier-labs/indexers/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/sablier-labs/indexers/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/sablier-labs/indexers/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/sablier-labs/indexers/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
+
+## [3.0.0] - 2026-03-23
+
+### Changed
+
+- **Breaking:** Bump `sablier` dependency to `^3.3.2` (peer dependency now `^3`)
+
+### Added
+
+- Add `Model` namespace with shared types for cross-indexer use (`Contract`, `ContractSource`, `Event`, `EventMap`,
+  `ProtocolMap`, `Version`)
+- Add `Sponsor` and `Sponsorship` entities to lockup GraphQL schema (Envio only)
+  ([#301](https://github.com/sablier-labs/indexers/pull/301))
+- Add Variable Claim Amount (VCA) campaign support to airdrops schema
+  ([#276](https://github.com/sablier-labs/indexers/pull/276))
+- Add `granularity` field to `Stream` entity in lockup schema
+  ([#308](https://github.com/sablier-labs/indexers/pull/308))
+- Add `BILLING_ADDRESS` constant
+
+### Removed
+
+- **Breaking:** Remove `getExperimentalURL()` function and `experimental` module
+- **Breaking:** Remove Blast, Core DAO, and Sei from The Graph subgraphs
 
 ## [2.0.0] - 2026-02-06
 
