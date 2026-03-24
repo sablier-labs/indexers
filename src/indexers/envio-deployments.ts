@@ -1,7 +1,7 @@
 import { Protocol } from "sablier/evm";
 import type { Indexer } from "../types.js";
 
-function getURL(id: string) {
+function getIndexerURL(id: string) {
   return `https://indexer.hyperindex.xyz/${id}/v1/graphql`;
 }
 
@@ -20,7 +20,7 @@ export const envioDeployments: Record<Indexer.Protocol, Indexer.EnvioDeployment>
     endpoint: {
       id: "508d217",
       get url() {
-        return getURL(this.id);
+        return getIndexerURL(this.id);
       },
     },
   },
@@ -34,7 +34,7 @@ export const envioDeployments: Record<Indexer.Protocol, Indexer.EnvioDeployment>
     endpoint: {
       id: "3b4ea6b",
       get url() {
-        return getURL(this.id);
+        return getIndexerURL(this.id);
       },
     },
   },
@@ -48,7 +48,7 @@ export const envioDeployments: Record<Indexer.Protocol, Indexer.EnvioDeployment>
     endpoint: {
       id: "53b7e25",
       get url() {
-        return getURL(this.id);
+        return getIndexerURL(this.id);
       },
     },
   },
