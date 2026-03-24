@@ -81,17 +81,15 @@ alias dc := depcruise-check
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
 
-# Helper to run five commands in parallel (airdrops, analytics, flow, lockup, streams)
+# Helper to run three commands in parallel (airdrops, analytics, streams)
 [private]
-@concurrent-envio-indexers cmd1 cmd2 cmd3 cmd4 cmd5:
+@concurrent-envio-indexers cmd1 cmd2 cmd3:
     pnpm concurrently --group \
-        -n "airdrops,analytics,flow,lockup,streams" \
-        -c "blue,cyan,green,yellow,magenta" \
+        -n "airdrops,analytics,streams" \
+        -c "blue,cyan,green" \
         "{{ cmd1 }}" \
         "{{ cmd2 }}" \
-        "{{ cmd3 }}" \
-        "{{ cmd4 }}" \
-        "{{ cmd5 }}"
+        "{{ cmd3 }}"
 
 # Helper to run an envio recipe for all protocols or a specific one
 [private, script("bash")]
@@ -101,15 +99,11 @@ envio-for-each recipe indexer:
             just concurrent-envio-indexers \
                 "just {{ recipe }} airdrops" \
                 "just {{ recipe }} analytics" \
-                "just {{ recipe }} flow" \
-                "just {{ recipe }} lockup" \
                 "just {{ recipe }} streams"
             ;;
         protocols)
             just concurrent-protocol-indexers \
                 "just {{ recipe }} airdrops" \
-                "just {{ recipe }} flow" \
-                "just {{ recipe }} lockup" \
                 "just {{ recipe }} streams"
             ;;
         *)

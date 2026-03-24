@@ -63,8 +63,6 @@ graph-for-each recipe indexer:
         all)
             just concurrent-protocol-indexers \
                 "just {{ recipe }} airdrops" \
-                "just {{ recipe }} flow" \
-                "just {{ recipe }} lockup" \
                 "just {{ recipe }} streams"
             ;;
         *)
