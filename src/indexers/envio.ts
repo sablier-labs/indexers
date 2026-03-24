@@ -45,7 +45,7 @@ const SUPPORTED_CHAINS = [
   // get(chains.gnosis.id),
   // get(chains.hyperevm.id),
   // get(chains.linea.id),
-  // get(chains.mainnet.id),
+  get(chains.mainnet.id),
   // get(chains.mode.id),
   // get(chains.monad.id),
   // get(chains.morph.id),
