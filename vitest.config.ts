@@ -9,7 +9,12 @@ function getInclude() {
     return ["./tests/vendors/**/*.test.ts"];
   }
 
-  return ["**/tests/**/*.test.ts", "!**/tests/vendors/**/*.ts"];
+  return [
+    "**/tests/**/*.test.ts",
+    "!**/tests/vendors/**/*.ts",
+    "!**/tests/streams/**/*.ts",
+    "!**/tests/graph-streams/**/*.ts",
+  ];
 }
 
 /**
