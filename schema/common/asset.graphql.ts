@@ -28,7 +28,7 @@ campaigns: [Campaign!]! @derivedFrom(field: "asset")
 
 export function getAssetDefs(indexer: Indexer.Name) {
   const customField =
-    indexer === "streams" ? prefixedStreams : indexer !== "airdrops" ? streams : campaigns;
+    indexer === "streams" ? prefixedStreams : indexer === "airdrops" ? campaigns : streams;
 
   return gql`
     """
