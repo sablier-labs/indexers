@@ -23,6 +23,8 @@ export namespace Indexer {
   };
 
   export type EnvioDeployment = {
+    /** Envio's Subgraph Converter endpoint URL, which provides a subgraph-compatible GraphQL API. */
+    converterURL: string;
     /** Unix timestamp in seconds for when the indexer ID was created. */
     createdOn?: number;
     endpoint: {
