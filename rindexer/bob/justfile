@@ -50,7 +50,7 @@ default:
 # Open the production GraphQL playground in browser
 [group("railway")]
 @open:
-    open "{{ GRAPHQL_ENDPOINT }}/graphql"
+    open "{{ GRAPHQL_ENDPOINT }}/playground"
 
 [private]
 @_railway +args:
