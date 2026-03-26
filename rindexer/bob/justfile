@@ -13,30 +13,30 @@ default:
 #                                  LOCAL                                        #
 # ---------------------------------------------------------------------------- #
 
-# Start local Postgres
+# Run indexer + GraphQL server together
 [group("local")]
-@up:
-    docker compose up -d
+@all:
+    rindexer start all
 
 # Stop local Postgres
 [group("local")]
 @down:
     docker compose down
 
-# Run the indexer (raw events + derived tables)
-[group("local")]
-@indexer:
-    rindexer start indexer
-
 # Run the GraphQL server only
 [group("local")]
 @graphql:
     rindexer start graphql
 
-# Run indexer + GraphQL server together
+# Run the indexer (raw events + derived tables)
 [group("local")]
-@all:
-    rindexer start all
+@indexer:
+    rindexer start indexer
+
+# Start local Postgres
+[group("local")]
+@up:
+    docker compose up -d
 
 # ---------------------------------------------------------------------------- #
 #                                 RAILWAY                                       #
