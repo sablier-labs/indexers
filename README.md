@@ -45,5 +45,3 @@ feedback.
 ## License 📄
 
 This repo is licensed under GPL 3-0 or later.
-
-v1
