@@ -5,7 +5,7 @@ function getURL(id: string) {
   return `https://indexer.hyperindex.xyz/${id}/v1/graphql`;
 }
 
-export const envioDeployments: Record<Indexer.Protocol, Indexer.EnvioDeployment> = {
+export const envioDeployments: Record<Indexer.DataProtocol, Indexer.EnvioDeployment> = {
   airdrops: {
     createdOn: 1_712_673_343, // April 8, 2024
     explorerURL: "https://envio.dev/app/sablier-labs/merkle-envio",
@@ -34,6 +34,16 @@ export const envioDeployments: Record<Indexer.Protocol, Indexer.EnvioDeployment>
     protocol: Protocol.Lockup,
     endpoint: {
       id: "53b7e25",
+      get url() {
+        return getURL(this.id);
+      },
+    },
+  },
+  streams: {
+    explorerURL: "https://envio.dev/app/sablier-labs/streams-envio",
+    protocol: "streams",
+    endpoint: {
+      id: "0dbf2ab",
       get url() {
         return getURL(this.id);
       },

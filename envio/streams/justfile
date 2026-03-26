@@ -1,9 +1,9 @@
 import "../envio.just"
 
 # Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "LockupAction&Asset&LockupBatch&Sponsor&Sponsorship&LockupStream"
-export ENVIO_INDEXER_NAME := "lockup"
-export INDEXER_NAME := "lockup"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "Asset&FlowAction&FlowBatch&FlowStream&LockupAction&LockupBatch&LockupStream&Sponsor&Sponsorship"
+export ENVIO_INDEXER_NAME := "streams"
+export INDEXER_NAME := "streams"
 
 # Show available commands
 default:

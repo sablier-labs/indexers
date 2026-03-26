@@ -10,7 +10,7 @@ export type Indexer = {
   };
   kind: "custom" | "official";
   name: string;
-  protocol: Indexer.Protocol;
+  protocol: Indexer.DataProtocol;
   /** GraphQL endpoint that doesn't require an API key. Opening it in the browser may lead to a GraphiQL playground.*/
   testingURL?: string;
   vendor: Indexer.Vendor;
@@ -34,7 +34,7 @@ export namespace Indexer {
     /** The URL on the Envio Hosted Service. */
     explorerURL: string;
     /** The protocol associated with this indexer. */
-    protocol: Indexer.Protocol;
+    protocol: Indexer.DataProtocol;
     /**
      * Unix timestamp in seconds for when the indexer ID was used last time in the Sablier Interface.
      * An undefined value means that the indexer ID is no longer used.
@@ -46,7 +46,10 @@ export namespace Indexer {
     chainId: number;
   };
 
-  export type Name = Protocol | "analytics" | "streams";
+  /** Protocol extended with merged indexers like "streams". */
+  export type DataProtocol = Protocol | "streams";
+
+  export type Name = DataProtocol | "analytics";
 
   /**
    * Bob and Legacy are excluded because they are not part of the Envio/Graph indexers.

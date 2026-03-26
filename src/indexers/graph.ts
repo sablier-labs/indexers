@@ -59,7 +59,7 @@ export function getSubgraphYamlChainSlug(chainId: number): string {
   return CHAIN_SLUG_SUBGRAPH_YAML[chainId] ?? getGraphChainSlug(chainId);
 }
 
-function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
+function getSubgraphName(chainId: number, protocol: Indexer.DataProtocol): string {
   const graphChainName = getSablierChainSlug(chainId);
   return `sablier-${protocol}-${graphChainName}`;
 }
@@ -67,7 +67,11 @@ function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
 /**
  * Sort indexers alphabetically by chain name.
  */
-function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL: string): Indexer {
+function resolveCustom(
+  protocol: Indexer.DataProtocol,
+  chainId: number,
+  templateURL: string
+): Indexer {
   if (!templateURL.includes(NAME_TEMPLATING_VAR)) {
     throw new Error(
       `Template URL for custom Graph indexer does not include ${NAME_TEMPLATING_VAR}`
@@ -89,7 +93,11 @@ function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL:
   };
 }
 
-function resolveOfficial(protocol: Indexer.Protocol, chainId: number, subgraphId: string): Indexer {
+function resolveOfficial(
+  protocol: Indexer.DataProtocol,
+  chainId: number,
+  subgraphId: string
+): Indexer {
   const subgraphName = getSubgraphName(chainId, protocol);
   return {
     chainId,
@@ -111,8 +119,9 @@ function resolveOfficial(protocol: Indexer.Protocol, chainId: number, subgraphId
 /* -------------------------------------------------------------------------- */
 
 type SubgraphId = string;
-type SubgraphIdMap = Record<Indexer.Protocol, SubgraphId>;
-type IndexerGraphMap = Record<Indexer.Protocol, Indexer>;
+type LegacyProtocol = Indexer.Protocol;
+type SubgraphIdMap = Record<LegacyProtocol, SubgraphId>;
+type IndexerGraphMap = Record<LegacyProtocol, Indexer>;
 
 function custom(chainId: number, baseURL: string): IndexerGraphMap {
   return {
@@ -242,7 +251,7 @@ const OFFICIALS: IndexerGraphMap[] = [
 
 const ALL: IndexerGraphMap[] = [...CUSTOMS, ...OFFICIALS];
 
-function toSortedArray(indexerMaps: IndexerGraphMap[], protocol: Indexer.Protocol): Indexer[] {
+function toSortedArray(indexerMaps: IndexerGraphMap[], protocol: LegacyProtocol): Indexer[] {
   return indexerMaps
     .map((indexerMap) => indexerMap[protocol])
     .sort((a, b) => {
@@ -252,10 +261,16 @@ function toSortedArray(indexerMaps: IndexerGraphMap[], protocol: Indexer.Protoco
     });
 }
 
-export const graph: Record<Indexer.Protocol, Indexer[]> = {
+/** Beta: streams subgraph deployed only on Sepolia. */
+const STREAMS: Indexer[] = [
+  resolveOfficial("streams", chains.sepolia.id, "gXjQjEXaeBpBsMLbVo9govzQMyBLUtJHciKbJdxQCjV"),
+];
+
+export const graph: Record<Indexer.DataProtocol, Indexer[]> = {
   airdrops: toSortedArray(ALL, Protocol.Airdrops),
   flow: toSortedArray(ALL, Protocol.Flow),
   lockup: toSortedArray(ALL, Protocol.Lockup),
+  streams: STREAMS,
 };
 
 // It doesn't matter what protocol we are using since each chain supports all protocols.

@@ -66,7 +66,7 @@ const SUPPORTED_CHAINS = [
   get(chains.sepolia.id),
 ] as const;
 
-function getIndexers(protocol: Indexer.Protocol): Indexer[] {
+function getIndexers(protocol: Indexer.DataProtocol): Indexer[] {
   return SUPPORTED_CHAINS.map((chain) => {
     const deployment = envioDeployments[protocol];
     return {
@@ -85,10 +85,14 @@ function getIndexers(protocol: Indexer.Protocol): Indexer[] {
   });
 }
 
-export const envio: Record<Indexer.Protocol, Indexer[]> = {
+/** Beta: only expose the streams indexer for Sepolia. */
+const STREAMS_CHAIN_IDS = new Set([chains.sepolia.id]);
+
+export const envio: Record<Indexer.DataProtocol, Indexer[]> = {
   airdrops: getIndexers(Protocol.Airdrops),
   flow: getIndexers(Protocol.Flow),
   lockup: getIndexers(Protocol.Lockup),
+  streams: getIndexers("streams").filter((i) => STREAMS_CHAIN_IDS.has(i.chainId)),
 } as const;
 
 export const envioChains = SUPPORTED_CHAINS;

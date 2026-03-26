@@ -2,14 +2,14 @@ import type { Indexer } from "../types.js";
 import { indexers } from "./data.js";
 
 type I = Indexer;
-type P = Indexer.Protocol;
+type P = Indexer.DataProtocol;
 type V = Indexer.Vendor;
 
 /**
  * Retrieves an indexer configuration by chain ID, protocol, and vendor.
  *
  * @param opts.chainId - The chain ID to look up
- * @param opts.protocol - The Sablier protocol (airdrops, flow, or lockup)
+ * @param opts.protocol - The Sablier protocol (airdrops, flow, lockup, or streams)
  * @param opts.vendor - The indexing vendor (envio or graph)
  * @returns The indexer configuration, or `undefined` if not found
  */
@@ -27,7 +27,7 @@ export function getIndexer(opts: { chainId: number; protocol: P; vendor: V }): I
  * endpoint URL specific to that chain.
  *
  * @param opts.chainId - The chain ID to look up
- * @param opts.protocol - The Sablier protocol (airdrops, flow, or lockup)
+ * @param opts.protocol - The Sablier protocol (airdrops, flow, lockup, or streams)
  * @returns The Graph indexer configuration, or `undefined` if not found
  */
 export function getIndexerGraph(opts: { chainId: number; protocol: P }): I | undefined {
@@ -41,7 +41,7 @@ export function getIndexerGraph(opts: { chainId: number; protocol: P }): I | und
  * Returns `undefined` for chains where Envio is unsupported.
  *
  * @param opts.chainId - The chain ID to look up
- * @param opts.protocol - The Sablier protocol (airdrops, flow, or lockup)
+ * @param opts.protocol - The Sablier protocol (airdrops, flow, lockup, or streams)
  * @returns The Envio indexer configuration, or `undefined` if the chain is unsupported
  */
 export function getIndexerEnvio(opts: { chainId: number; protocol: P }): I | undefined {

@@ -5,12 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[3.1.0-beta.0]: https://github.com/sablier-labs/indexers/compare/v3.0.0...v3.1.0-beta.0
 [3.0.0]: https://github.com/sablier-labs/indexers/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/sablier-labs/indexers/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/sablier-labs/indexers/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/sablier-labs/indexers/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
+
+## [3.1.0-beta.0] - 2026-03-26
+
+### Added
+
+- Add `streams` protocol — a merged flow+lockup indexer available on Sepolia (both Envio and The Graph)
+- Widen `Indexer.Protocol` type to include `"streams"`
 
 ## [3.0.0] - 2026-03-23
 
