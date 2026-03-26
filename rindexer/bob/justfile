@@ -1,0 +1,57 @@
+import "../../node_modules/@sablier/devkit/just/settings.just"
+
+set dotenv-load
+
+GRAPHQL_ENDPOINT := "https://sablier-bob-rindexer.up.railway.app"
+
+# See https://railway.com/project/0fc03b8a-9848-451e-8eac-ec9e05dc0d04
+RAILWAY_PROJECT := "0fc03b8a-9848-451e-8eac-ec9e05dc0d04"
+
+# Show available commands
+default:
+    @just --list
+
+# ---------------------------------------------------------------------------- #
+#                                  LOCAL                                        #
+# ---------------------------------------------------------------------------- #
+
+
+
+# Stop local Postgres
+[group("local")]
+@db-down:
+    docker compose down
+
+# Start local Postgres
+[group("local")]
+@db-up:
+    docker compose up -d
+
+# Run indexer + GraphQL server together
+[group("local")]
+@run-indexer:
+    rindexer start all
+# ---------------------------------------------------------------------------- #
+#                                 RAILWAY                                       #
+# ---------------------------------------------------------------------------- #
+
+
+# Deploy to Railway production
+[confirm("Deploy rindexer/bob to Railway production? (y/N)")]
+[group("railway")]
+@deploy:
+    just _railway up --project {{ RAILWAY_PROJECT }}
+
+# View deployment logs
+[group("railway")]
+@logs *args:
+    just _railway logs {{ args }}
+
+# Open the production GraphQL playground in browser
+[group("railway")]
+@open:
+    open "{{ GRAPHQL_ENDPOINT }}/playground"
+
+[private]
+@_railway +args:
+    railway {{ args }} --service rindexer --environment production
