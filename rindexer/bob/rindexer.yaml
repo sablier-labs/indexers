@@ -19,7 +19,7 @@ contracts:
       - network: ethereum
         address: "0x801bb9bc8Ad2ac5D8f2BC6d98b3Da29011219E0a"
         start_block: 24493329
-    abi: ./abis/SablierBob.abi.json
+    abi: ../../node_modules/sablier/abi/bob/v1.0/SablierBob.json
     include_events:
       - CreateVault
       - Enter
@@ -58,9 +58,6 @@ contracts:
           - name: enter_count
             type: uint64
             default: "0"
-          - name: exit_count
-            type: uint64
-            default: "0"
           - name: redeem_count
             type: uint64
             default: "0"
@@ -74,12 +71,6 @@ contracts:
             type: uint256
             default: "0"
           - name: shares_minted_total
-            type: uint256
-            default: "0"
-          - name: exited_amount_total
-            type: uint256
-            default: "0"
-          - name: shares_burned_exit_total
             type: uint256
             default: "0"
           - name: redeemed_amount_total
@@ -155,20 +146,6 @@ contracts:
                     action: add
                     value: $sharesMinted
                   - *set_last_activity_block
-          - event: ExitWithinGracePeriod
-            operations:
-              - type: upsert
-                where: *where_pool
-                set: &set_exit_totals
-                  - column: exit_count
-                    action: increment
-                  - column: exited_amount_total
-                    action: add
-                    value: $amountReceived
-                  - column: shares_burned_exit_total
-                    action: add
-                    value: $sharesBurned
-                  - *set_last_activity_block
           - event: Redeem
             operations:
               - type: upsert
@@ -209,7 +186,7 @@ contracts:
                     action: increment
                   - column: last_unstaked_amount_staked
                     action: set
-                    value: $amountStakedInAdapter
+                    value: $wrappedTokenUnstakedAmount
                   - column: last_unstaked_amount_received
                     action: set
                     value: $amountReceivedFromAdapter
@@ -224,9 +201,6 @@ contracts:
           - name: enter_count
             type: uint64
             default: "0"
-          - name: exit_count
-            type: uint64
-            default: "0"
           - name: redeem_count
             type: uint64
             default: "0"
@@ -234,12 +208,6 @@ contracts:
             type: uint256
             default: "0"
           - name: shares_minted_total
-            type: uint256
-            default: "0"
-          - name: exited_amount_total
-            type: uint256
-            default: "0"
-          - name: shares_burned_exit_total
             type: uint256
             default: "0"
           - name: redeemed_amount_total
@@ -277,11 +245,6 @@ contracts:
                     action: min
                     value: $rindexer_block_number
                   - *set_last_activity_block
-          - event: ExitWithinGracePeriod
-            operations:
-              - type: upsert
-                where: *where_pool_user
-                set: *set_exit_totals
           - event: Redeem
             operations:
               - type: upsert
