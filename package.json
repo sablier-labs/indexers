@@ -15,7 +15,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "^3.3.2"
+    "sablier": "^3.3.5"
   },
   "exports": {
     ".": {

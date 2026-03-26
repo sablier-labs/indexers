@@ -6,7 +6,7 @@ project_type: no-code
 networks:
   - name: ethereum
     chain_id: 1
-    rpc: ${ETHEREUM_RPC_URL}
+    rpc: https://lb.routeme.sh/rpc/1/${ROUTEMESH_API_KEY}
 
 storage:
   postgres:
@@ -19,7 +19,7 @@ contracts:
       - network: ethereum
         address: "0x801bb9bc8Ad2ac5D8f2BC6d98b3Da29011219E0a"
         start_block: 24493329
-    abi: ../../node_modules/sablier/abi/bob/v1.0/SablierBob.json
+    abi: ./abi/SablierBob.json
     include_events:
       - CreateVault
       - Enter

@@ -12,6 +12,6 @@
     "envio-hyperindex@envio-plugins": true
   },
   "permissions": {
-    "allow": ["Skill(assemblyscript)"]
+    "allow": ["mcp__railway", "Skill(assemblyscript)"]
   }
 }
