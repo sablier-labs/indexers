@@ -1,7 +1,7 @@
 name: SablierBobMainnet
 description: SablierBob mainnet indexer for pools and pool activity
-repository: https://github.com/sablier-labs/indexers
 project_type: no-code
+repository: https://github.com/sablier-labs/indexers
 
 networks:
   - name: ethereum
@@ -17,8 +17,8 @@ contracts:
   - name: SablierBob
     details:
       - network: ethereum
-        address: "0x801bb9bc8Ad2ac5D8f2BC6d98b3Da29011219E0a"
-        start_block: 24493329
+        address: "0xC8AB7E45E6DF99596b86870c26C25c721eB5C9af"
+        start_block: 24674959
     abi: ./abi/SablierBob.json
     include_events:
       - CreateVault

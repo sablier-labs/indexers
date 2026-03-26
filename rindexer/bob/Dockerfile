@@ -7,4 +7,6 @@ COPY abi/ ./abi/
 
 ENV PROJECT_PATH=/app/project
 
+EXPOSE 3001
+
 CMD ["start", "--path", "/app/project", "all"]

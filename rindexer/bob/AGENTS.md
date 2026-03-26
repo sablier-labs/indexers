@@ -2,6 +2,10 @@
 
 @README.md
 
+## Docs
+
+- **rindexer**: <https://rindexer.xyz/docs/introduction/installation>
+
 ## Stack
 
 - **rindexer** no-code indexer (`project_type: no-code`)
@@ -12,9 +16,9 @@
 
 ## Contract
 
-- **Address**: `0x801bb9bc8Ad2ac5D8f2BC6d98b3Da29011219E0a`
+- **Address**: `0xC8AB7E45E6DF99596b86870c26C25c721eB5C9af`
 - **Network**: Ethereum mainnet (chain 1)
-- **Start block**: `24493329`
+- **Start block**: `24674959`
 - **ABI source**: `~/sablier/new-ui/core/isomorphic/contracts/abis/sablier-bob.ts`
 
 ## Indexed Events
@@ -53,12 +57,6 @@ fi
 ```
 
 4. Run indexer:
-
-```bash
-rindexer start indexer
-```
-
-5. Or run indexer + GraphQL:
 
 ```bash
 rindexer start all

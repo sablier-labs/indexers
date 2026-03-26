@@ -3,6 +3,8 @@ import "../../node_modules/@sablier/devkit/just/settings.just"
 set dotenv-load
 
 GRAPHQL_ENDPOINT := "https://sablier-bob-rindexer.up.railway.app"
+
+# See https://railway.com/project/0fc03b8a-9848-451e-8eac-ec9e05dc0d04
 RAILWAY_PROJECT := "0fc03b8a-9848-451e-8eac-ec9e05dc0d04"
 
 # Show available commands
@@ -13,31 +15,22 @@ default:
 #                                  LOCAL                                        #
 # ---------------------------------------------------------------------------- #
 
-# Run indexer + GraphQL server together
-[group("local")]
-@all:
-    rindexer start all
+
 
 # Stop local Postgres
 [group("local")]
-@down:
+@db-down:
     docker compose down
-
-# Run the GraphQL server only
-[group("local")]
-@graphql:
-    rindexer start graphql
-
-# Run the indexer (raw events + derived tables)
-[group("local")]
-@indexer:
-    rindexer start indexer
 
 # Start local Postgres
 [group("local")]
-@up:
+@db-up:
     docker compose up -d
 
+# Run indexer + GraphQL server together
+[group("local")]
+@run-indexer:
+    rindexer start all
 # ---------------------------------------------------------------------------- #
 #                                 RAILWAY                                       #
 # ---------------------------------------------------------------------------- #
