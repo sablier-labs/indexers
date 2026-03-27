@@ -9,6 +9,7 @@ Only certain contract versions support `payable` (i.e. charge native currency fe
 
 | Protocol | Payable versions | Non-payable versions |
 | -------- | ---------------- | -------------------- |
+| Airdrops | v1.3, v2.0, v3.0 | v1.1, v1.2           |
 | Lockup   | v2.0, v3.0, v4.0 | v1.0, v1.1, v1.2     |
 | Flow     | v1.1, v2.0, v3.0 | v1.0                 |
 
