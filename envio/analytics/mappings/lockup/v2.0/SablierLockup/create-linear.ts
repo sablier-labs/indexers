@@ -43,4 +43,5 @@ Contract.Lockup.Lockup_v2_0.CreateLockupLinearStream.handler(async ({ context, e
     recipient,
     event.transaction.from,
   ]);
+  await Store.Fees.createOrUpdate(context, event);
 });
