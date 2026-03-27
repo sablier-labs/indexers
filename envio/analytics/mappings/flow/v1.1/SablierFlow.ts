@@ -25,6 +25,7 @@ Contract.Flow.Flow_v1_1.CreateFlowStream.handler(async ({ context, event }) => {
     event.params.recipient,
     event.transaction.from,
   ]);
+  await Store.Fees.createOrUpdate(context, event);
 });
 
 Contract.Flow.Flow_v1_1.DepositFlowStream.handler(async ({ context, event }) => {
