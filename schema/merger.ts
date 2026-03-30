@@ -31,6 +31,7 @@ const PROTOCOL_MAP: Record<Indexer.Name, ProtocolSchemaConfig> = {
   airdrops: {
     generators: BASE.generators,
     indexerSpecific: ["action", "activity", "campaign", "factory", "tranche"],
+    vendorSpecific: { envio: ["sponsor", "sponsorship"], graph: [] },
   },
   flow: {
     common: ["action", "batch", "contract", "deprecated-stream"],

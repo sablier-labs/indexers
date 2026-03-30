@@ -143,6 +143,7 @@ contracts:
       - event: "Clawback"
       - event: "ClaimInstant"
       - event: "LowerMinFeeUSD"
+      - event: "Sponsor"
   - name: "SablierMerkleLL_v3_0"
     handler: "mappings/v3.0/SablierMerkleLL.ts"
     abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleLL.json"
@@ -152,6 +153,7 @@ contracts:
       - event: "ClaimLLWithTransfer"
       - event: "ClaimLLWithVesting"
       - event: "LowerMinFeeUSD"
+      - event: "Sponsor"
   - name: "SablierMerkleLT_v3_0"
     handler: "mappings/v3.0/SablierMerkleLT.ts"
     abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleLT.json"
@@ -161,6 +163,7 @@ contracts:
       - event: "ClaimLTWithTransfer"
       - event: "ClaimLTWithVesting"
       - event: "LowerMinFeeUSD"
+      - event: "Sponsor"
   - name: "SablierMerkleVCA_v3_0"
     handler: "mappings/v3.0/SablierMerkleVCA.ts"
     abi_file_path: "../../node_modules/sablier/abi/airdrops/v3.0/SablierMerkleVCA.json"
@@ -169,6 +172,7 @@ contracts:
       - event: "Clawback"
       - event: "ClaimVCA"
       - event: "LowerMinFeeUSD"
+      - event: "Sponsor"
       - event: "EnableRedistribution"
 networks:
   - id: 2741
