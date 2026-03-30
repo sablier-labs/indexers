@@ -76,6 +76,8 @@ import type {
   Asset as EntityAsset,
   Campaign as EntityCampaign,
   Factory as EntityFactory,
+  Sponsor as EntitySponsor,
+  Sponsorship as EntitySponsorship,
   Tranche as EntityTranche,
   Watcher as EntityWatcher,
 } from "./bindings/src/Types.gen";
@@ -86,6 +88,8 @@ export namespace Entity {
   export type Asset = EntityAsset;
   export type Campaign = EntityCampaign;
   export type Factory = EntityFactory;
+  export type Sponsor = EntitySponsor;
+  export type Sponsorship = EntitySponsorship;
   export type Tranche = EntityTranche;
   export type Watcher = EntityWatcher;
 }

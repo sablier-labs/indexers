@@ -1,0 +1,39 @@
+"""
+An address that has sponsored a Sablier airdrop campaign via the Sponsor event.
+"""
+type Sponsor @entity(immutable: false) {
+  """
+  Unique identifier: `{chainId}_{address}`
+  """
+  id: String!
+
+  """
+  Address of the sponsor.
+  """
+  address: String!
+
+  """
+  The chain ID where the sponsorship was made (sponsorships are chain-specific).
+  """
+  chainId: Int!
+
+  """
+  Number of sponsorships made by this sponsor.
+  """
+  sponsorshipCount: Int!
+
+  """
+  List of individual sponsorship events by this sponsor.
+  """
+  sponsorships: [Sponsorship!]! @derivedFrom(field: "sponsor")
+
+  """
+  Cumulative raw USDC amount paid by the sponsor.
+  """
+  totalAmount: BigInt!
+
+  """
+  Human-readable cumulative USDC amount paid by the sponsor (e.g., "1729.12").
+  """
+  totalAmountDisplay: String!
+}
