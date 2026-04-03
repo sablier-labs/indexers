@@ -2,13 +2,10 @@ import path from "node:path";
 import { Array as Arr, Order } from "effect";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../src/types.js";
+import { INDEXER_KEYS } from "../../constants.js";
 import paths from "../../paths.js";
 
-export const QUERY_ASSET_PROTOCOLS = [
-  "airdrops",
-  "flow",
-  "lockup",
-] as const satisfies readonly Indexer.Protocol[];
+export const QUERY_ASSET_INDEXERS = INDEXER_KEYS;
 
 export type IndexedAsset = {
   address: string;
@@ -32,7 +29,7 @@ export type IndexedAssetFile = {
   chainName: string;
   chainSlug: string;
   generatedAt: string;
-  indexer: Indexer.Protocol;
+  indexer: Indexer.IndexerKey;
   vendor: "envio";
 };
 
@@ -57,7 +54,7 @@ const INDEXED_ASSET_FILE_ASSET_ORDER = Order.mapInput(
  * single entry before the final file is sorted and written.
  */
 export function buildAssetFiles(
-  indexer: Indexer.Protocol,
+  indexer: Indexer.IndexerKey,
   assets: readonly IndexedAsset[],
   generatedAt: string
 ): IndexedAssetFile[] {
@@ -94,7 +91,7 @@ export function buildAssetFiles(
 }
 
 export function getQueryAssetsFilePath(
-  indexer: Indexer.Protocol,
+  indexer: Indexer.IndexerKey,
   chainId: number,
   dateSegment: string
 ): string {
@@ -109,7 +106,7 @@ export function getQueryAssetsFilePath(
  * stale snapshots for chains that Envio no longer returns.
  */
 export function getStaleQueryAssetFilePaths(
-  indexer: Indexer.Protocol,
+  indexer: Indexer.IndexerKey,
   existingEntries: readonly string[],
   files: readonly Pick<IndexedAssetFile, "chainId">[],
   dateSegment: string

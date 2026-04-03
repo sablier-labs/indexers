@@ -66,7 +66,7 @@ export namespace Lockup {
 }
 
 /**
- * Generates the GraphQL enum definitions for the given protocol.
+ * Generates the GraphQL enum definitions for the given target.
  * @example
  * ```graphql
  * enum StreamCategory {
@@ -76,30 +76,26 @@ export namespace Lockup {
  * }
  * ```
  */
-export function getEnumDefs(indexer: Indexer.Name): DocumentNode {
+export function getEnumDefs(target: Indexer.Target): DocumentNode {
   const enumDefs: string[] = [];
 
-  if (indexer === "analytics") {
-    throw new Error(`Unsupported indexer for enum definitions: ${indexer}`);
+  if (target === "analytics") {
+    throw new Error(`Unsupported target for enum definitions: ${target}`);
   }
 
-  switch (indexer) {
+  switch (target) {
     case Protocol.Airdrops:
       enumDefs.push(
         getEnum(Airdrops.ActionCategory, "ActionCategory"),
         getEnum(Airdrops.CampaignCategory, "CampaignCategory")
       );
       break;
-    case Protocol.Flow:
+    case "streams":
       enumDefs.push(
-        getEnum(Flow.ActionCategory, "ActionCategory"),
-        getEnum(Flow.StreamCategory, "StreamCategory")
-      );
-      break;
-    case Protocol.Lockup:
-      enumDefs.push(
-        getEnum(Lockup.ActionCategory, "ActionCategory"),
-        getEnum(Lockup.StreamCategory, "StreamCategory"),
+        getEnum(Flow.ActionCategory, "FlowActionCategory"),
+        getEnum(Flow.StreamCategory, "FlowStreamCategory"),
+        getEnum(Lockup.ActionCategory, "LockupActionCategory"),
+        getEnum(Lockup.StreamCategory, "LockupStreamCategory"),
         getEnum(Lockup.ShapeSource, "ShapeSource")
       );
       break;

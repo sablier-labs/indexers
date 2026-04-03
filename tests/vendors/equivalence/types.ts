@@ -3,8 +3,7 @@
  * Note that the name of the type has to be the same as the one in the auto-generated types.
  * Also, the types cannot be nested under a namespace.
  * @see {@link file://./gql/airdrops/graph/graphql.ts}
- * @see {@link file://./gql/flow/graph/graphql.ts}
- * @see {@link file://./gql/lockup/graph/graphql.ts}
+ * @see {@link file://./gql/streams/graph/graphql.ts}
  */
 export enum OrderDirection {
   Asc = "asc",
@@ -13,8 +12,7 @@ export enum OrderDirection {
 
 /**
  * @see {@link file://./gql/airdrops/envio/graphql.ts}
- * @see {@link file://./gql/flow/envio/graphql.ts}
- * @see {@link file://./gql/lockup/envio/graphql.ts}
+ * @see {@link file://./gql/streams/envio/graphql.ts}
  */
 export enum Order_By {
   Asc = "asc",

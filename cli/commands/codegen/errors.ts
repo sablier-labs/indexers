@@ -37,9 +37,9 @@ export namespace CodegenError {
   }
 
   export class ContractsNotFound extends Error {
-    constructor(protocol: Indexer.Protocol, chainId: number) {
+    constructor(indexer: Indexer.Target | Indexer.Protocol, chainId: number) {
       const chainName = sablier.chains.get(chainId)?.name ?? "chain";
-      const message = `No contracts found for ${protocol} on ${chainName}`;
+      const message = `No contracts found for ${indexer} on ${chainName}`;
       super(message);
     }
   }

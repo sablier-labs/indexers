@@ -8,6 +8,17 @@ Streams that rely on this token
 streams: [Stream!]! @derivedFrom(field: "asset")
 `;
 
+const prefixedStreams = /* GraphQL */ `
+"""
+Flow streams that rely on this token
+"""
+flowStreams: [FlowStream!]! @derivedFrom(field: "asset")
+"""
+Lockup streams that rely on this token
+"""
+lockupStreams: [LockupStream!]! @derivedFrom(field: "asset")
+`;
+
 const campaigns = /* GraphQL */ `
 """
 Campaigns that rely on this asset.
@@ -15,8 +26,9 @@ Campaigns that rely on this asset.
 campaigns: [Campaign!]! @derivedFrom(field: "asset")
 `;
 
-export function getAssetDefs(indexer: Indexer.Name) {
-  const customField = indexer === "airdrops" ? campaigns : streams;
+export function getAssetDefs(target: Indexer.Target) {
+  const customField =
+    target === "streams" ? prefixedStreams : target === "airdrops" ? campaigns : streams;
 
   return gql`
     """

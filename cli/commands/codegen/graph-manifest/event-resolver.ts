@@ -10,17 +10,17 @@ import type { GraphManifest } from "./manifest-types.js";
 
 /**
  * Resolves an event handler for The Graph manifest.
- * @param indexer The indexer that should process the event; @see Indexer.Name
+ * @param target The target that should process the event; @see Indexer.Target
  * @param event The event object; @see Model.Event
  * @returns A {@link typeof GraphManifest.EventHandler} object
  */
 export function resolveEventHandler(
-  indexer: Indexer.Name,
+  target: Indexer.Target,
   event: Model.Event
 ): Effect.Effect<GraphManifest.EventHandler | null, Error, FileSystem.FileSystem> {
   return Effect.gen(function* () {
     const { contractName, eventName, indexers, protocol, version } = event;
-    if (!indexers.includes(indexer)) {
+    if (!indexers.includes(target)) {
       return null;
     }
 

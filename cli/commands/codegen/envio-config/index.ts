@@ -15,11 +15,11 @@ import {
 import { topSections } from "./top-sections.js";
 
 /**
- * Creates a Graph manifest for a given protocol and chain.
+ * Creates an Envio config for a given target.
  * @see https://docs.envio.dev/docs/HyperIndex/configuration-file#interactive-schema-explorer
  */
-export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection {
-  const topSection = topSections[indexer];
+export function createEnvioConfig(target: Indexer.Target): EnvioConfig.TopSection {
+  const topSection = topSections[target];
 
   let contracts: EnvioConfig.Contract[] = [];
   let networks: EnvioConfig.Network[] = [];
@@ -27,13 +27,13 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
   /* -------------------------------- ANALYTICS ------------------------------- */
 
   // The Analytics indexers monitors all protocols and the Comptroller contract.
-  if (indexer === "analytics") {
+  if (target === "analytics") {
     const includeProtocolInPath = true;
     contracts = [
-      ...createProtocolContracts(indexer, "airdrops", includeProtocolInPath),
-      ...createProtocolContracts(indexer, "flow", includeProtocolInPath),
-      ...createProtocolContracts(indexer, "lockup", includeProtocolInPath),
-      createComptrollerContract(indexer),
+      ...createProtocolContracts(target, "airdrops", includeProtocolInPath),
+      ...createProtocolContracts(target, "flow", includeProtocolInPath),
+      ...createProtocolContracts(target, "lockup", includeProtocolInPath),
+      createComptrollerContract(target),
     ];
     networks = mergeNetworks([
       ...createNetworksForProtocols("airdrops"),
@@ -47,19 +47,26 @@ export function createEnvioConfig(indexer: Indexer.Name): EnvioConfig.TopSection
     });
     networks = addComptrollerToNetworks(networks);
   }
+  /* --------------------------------- STREAMS -------------------------------- */
+
+  // The Streams indexer combines Flow and Lockup protocols.
+  else if (target === "streams") {
+    const includeProtocolInPath = true;
+    contracts = [
+      ...createProtocolContracts(target, "flow", includeProtocolInPath),
+      ...createProtocolContracts(target, "lockup", includeProtocolInPath),
+      createUsdcContract(target),
+    ];
+    networks = mergeNetworks([
+      ...createNetworksForProtocols("flow"),
+      ...createNetworksForProtocols("lockup"),
+    ]);
+    networks = addUsdcToNetworks(networks);
+  }
   // Each protocol indexer tracks its own contracts and networks.
   else {
-    const protocol = indexer as Indexer.Protocol;
-    contracts = createProtocolContracts(indexer, protocol);
-    networks = createNetworksForProtocols(protocol);
-
-    /* --------------------------------- LOCKUP --------------------------------- */
-
-    // Lockup indexer also tracks USDC sponsorship transfers.
-    if (indexer === "lockup") {
-      contracts.push(createUsdcContract(indexer));
-      networks = addUsdcToNetworks(networks);
-    }
+    contracts = createProtocolContracts(target, target);
+    networks = createNetworksForProtocols(target);
   }
 
   networks = setMinimumStartBlock(networks);

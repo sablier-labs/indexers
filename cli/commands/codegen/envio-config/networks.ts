@@ -69,6 +69,7 @@ export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.
     const usdcNetworkContract: EnvioConfig.NetworkContract = {
       address: usdcInfo.address,
       name: "USDC",
+      start_block: usdcInfo.startBlock,
     };
 
     return {

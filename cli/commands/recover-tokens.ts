@@ -13,6 +13,7 @@ import { getQueryAssetsDateSegment } from "./query/assets.file.js";
 import type { RecoverTokensProtocol } from "./recover-tokens.helpers.js";
 import {
   computeRecoverTokenRows,
+  getRecoverTokensAssetFileIndexer,
   getRecoverTokensContractName,
   getRecoverTokensDefaultFilePath,
   parseIndexedAssetFile,
@@ -39,7 +40,7 @@ const fileOption = Options.text("file").pipe(
   Options.optional
 );
 
-const indexerOption = Options.choice("indexer", ["flow", "lockup"] as const).pipe(
+const protocolOption = Options.choice("protocol", ["flow", "lockup"] as const).pipe(
   Options.withAlias("i"),
   Options.withDescription("Protocol contract to query")
 );
@@ -76,9 +77,9 @@ function formatTokenAmount(value: bigint, decimals: number): string {
 
 const resolveRpcConfig = resolveCliRpcConfig;
 
-function resolveSablierContract(indexer: RecoverTokensProtocol, chainId: number) {
-  const contractName = getRecoverTokensContractName(indexer);
-  const release = sablier.releases.getLatest({ protocol: indexer });
+function resolveSablierContract(protocol: RecoverTokensProtocol, chainId: number) {
+  const contractName = getRecoverTokensContractName(protocol);
+  const release = sablier.releases.getLatest({ protocol });
   const contract = sablier.contracts.get({
     chainId,
     contractName,
@@ -88,7 +89,7 @@ function resolveSablierContract(indexer: RecoverTokensProtocol, chainId: number)
   if (!contract) {
     return Effect.fail(
       new ValidationError({
-        field: "indexer",
+        field: "protocol",
         message: `No ${contractName} deployment found for chain ${chainId}`,
       })
     );
@@ -99,7 +100,7 @@ function resolveSablierContract(indexer: RecoverTokensProtocol, chainId: number)
 
 function resolveSourcePath(
   file: Option.Option<string>,
-  indexer: RecoverTokensProtocol,
+  protocol: RecoverTokensProtocol,
   chainId: number,
   dateSegment: string
 ) {
@@ -107,13 +108,13 @@ function resolveSourcePath(
     return resolveFromCliCwd(file.value);
   }
 
-  return Effect.succeed(getRecoverTokensDefaultFilePath(indexer, chainId, dateSegment));
+  return Effect.succeed(getRecoverTokensDefaultFilePath(protocol, chainId, dateSegment));
 }
 
 function readIndexedAssetFile(
   fs: FileSystem.FileSystem,
   filePath: string,
-  options: { chainId: number; indexer: RecoverTokensProtocol }
+  options: { chainId: number; protocol: RecoverTokensProtocol }
 ) {
   return Effect.gen(function* () {
     const exists = yield* fs.exists(filePath);
@@ -147,11 +148,12 @@ function readIndexedAssetFile(
       try: () => parseIndexedAssetFile(content),
     });
 
-    if (assetFile.indexer !== options.indexer) {
+    const expectedIndexer = getRecoverTokensAssetFileIndexer(options.protocol);
+    if (assetFile.indexer !== expectedIndexer) {
       return yield* Effect.fail(
         new ValidationError({
           field: "file",
-          message: `Asset file indexer ${assetFile.indexer} does not match --indexer ${options.indexer}`,
+          message: `Asset file indexer ${assetFile.indexer} does not match --protocol ${options.protocol}. Expected ${expectedIndexer}`,
         })
       );
     }
@@ -292,7 +294,7 @@ function queryRecoverTokenDeltas(opts: {
 const recoverTokensLogic = (options: {
   readonly chainId: number;
   readonly file: Option.Option<string>;
-  readonly indexer: RecoverTokensProtocol;
+  readonly protocol: RecoverTokensProtocol;
 }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
@@ -301,16 +303,16 @@ const recoverTokensLogic = (options: {
       Effect.map(getQueryAssetsDateSegment)
     );
     const { chain, displayRpcUrls, rpcUrls } = yield* resolveRpcConfig(options.chainId);
-    const contract = yield* resolveSablierContract(options.indexer, options.chainId);
+    const contract = yield* resolveSablierContract(options.protocol, options.chainId);
     const sourcePath = yield* resolveSourcePath(
       options.file,
-      options.indexer,
+      options.protocol,
       options.chainId,
       dateSegment
     );
     const assetFile = yield* readIndexedAssetFile(fs, sourcePath, {
       chainId: options.chainId,
-      indexer: options.indexer,
+      protocol: options.protocol,
     });
 
     yield* displayHeader("🪙 RECOVER TOKENS", "yellow");
@@ -322,9 +324,9 @@ const recoverTokensLogic = (options: {
     });
 
     infoTable.push(
-      [colors.value("Indexer"), colors.value(options.indexer)],
+      [colors.value("Protocol"), colors.value(options.protocol)],
       [colors.value("Chain"), colors.value(`${chain.name} (${chain.id})`)],
-      [colors.value("Contract"), colors.value(getRecoverTokensContractName(options.indexer))],
+      [colors.value("Contract"), colors.value(getRecoverTokensContractName(options.protocol))],
       [colors.value("Address"), colors.dim(contract.address)],
       [colors.value("Source"), colors.dim(wrapText(yield* getRelative(sourcePath), 68))],
       [colors.value("RPC"), colors.dim(displayRpcUrls.map((url) => wrapText(url, 68)).join("\n"))],
@@ -390,6 +392,6 @@ const recoverTokensLogic = (options: {
 
 export const recoverTokensCommand = Command.make(
   "recover-tokens",
-  { chainId: chainIdOption, file: fileOption, indexer: indexerOption },
+  { chainId: chainIdOption, file: fileOption, protocol: protocolOption },
   recoverTokensLogic
 );

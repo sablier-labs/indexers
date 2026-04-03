@@ -3,7 +3,7 @@
  *
  * @example
  * pnpm tsx cli open-studio
- * pnpm tsx cli open-studio --protocol flow
+ * pnpm tsx cli open-studio --indexer streams
  * pnpm tsx cli open-studio --chain 1
  * pnpm tsx cli open-studio --dry-run
  */
@@ -12,10 +12,10 @@ import { Command, Options } from "@effect/cli";
 import { CommandExecutor, Command as PlatformCommand } from "@effect/platform";
 import { Console, Effect, Option } from "effect";
 import { sablier } from "sablier";
-import { Protocol } from "sablier/evm";
 import { indexers } from "../../../src/indexers/data.js";
 import { graphChains } from "../../../src/indexers/graph.js";
 import type { Indexer } from "../../../src/types.js";
+import { INDEXER_KEYS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 
 /* -------------------------------------------------------------------------- */
@@ -39,15 +39,55 @@ const chainOption = Options.integer("chain").pipe(
   Options.optional
 );
 
-const protocolOption = Options.choice("protocol", [
-  Protocol.Airdrops,
-  Protocol.Flow,
-  Protocol.Lockup,
-]).pipe(
-  Options.withAlias("p"),
-  Options.withDescription("Filter to a single protocol"),
+const indexerOption = Options.choice("indexer", INDEXER_KEYS).pipe(
+  Options.withAlias("i"),
+  Options.withDescription("Filter to a single indexer"),
   Options.optional
 );
+
+export type StudioEntry = {
+  chainId: number;
+  chainName: string;
+  indexer: Indexer.IndexerKey;
+  name: string;
+  url: string;
+};
+
+const PUBLIC_INDEXER_KEYS = new Set<Indexer.IndexerKey>(INDEXER_KEYS);
+
+export function getSelectedIndexers(indexer?: Indexer.IndexerKey): Indexer.IndexerKey[] {
+  if (!indexer) {
+    return [...INDEXER_KEYS];
+  }
+
+  return PUBLIC_INDEXER_KEYS.has(indexer) ? [indexer] : [];
+}
+
+export function getStudioEntries(opts: {
+  chainId?: number;
+  indexer?: Indexer.IndexerKey;
+}): StudioEntry[] {
+  const selectedIndexers = getSelectedIndexers(opts.indexer);
+  let officialIndexers = selectedIndexers.flatMap((indexer) =>
+    (indexers.graph[indexer] ?? []).filter((entry) => entry.kind === "official")
+  );
+
+  if (opts.chainId !== undefined) {
+    officialIndexers = officialIndexers.filter((entry) => entry.chainId === opts.chainId);
+  }
+
+  const uniqueOfficialIndexers = Array.from(
+    new Map(officialIndexers.map((entry) => [entry.name, entry])).values()
+  );
+
+  return uniqueOfficialIndexers.map((entry) => ({
+    chainId: entry.chainId,
+    chainName: sablier.chains.getOrThrow(entry.chainId).name,
+    indexer: entry.indexer,
+    name: entry.name,
+    url: `${STUDIO_BASE_URL}/${entry.name}/`,
+  }));
+}
 
 /* -------------------------------------------------------------------------- */
 /*                                   LOGIC                                    */
@@ -56,7 +96,7 @@ const protocolOption = Options.choice("protocol", [
 const graphOpenStudioLogic = (options: {
   readonly chain: Option.Option<number>;
   readonly dryRun: boolean;
-  readonly protocol: Option.Option<Indexer.Protocol>;
+  readonly indexer: Option.Option<Indexer.IndexerKey>;
 }) =>
   Effect.gen(function* () {
     yield* displayHeader("🌐 GRAPH STUDIO - OPEN DASHBOARDS", "cyan");
@@ -67,40 +107,22 @@ const graphOpenStudioLogic = (options: {
       return;
     }
 
-    // Determine which protocols to process
-    const protocols: Indexer.Protocol[] = Option.isSome(options.protocol)
-      ? [options.protocol.value]
-      : [Protocol.Airdrops, Protocol.Flow, Protocol.Lockup];
-
-    // Collect official indexers across selected protocols, optionally filtered by chain
-    let officialIndexers = protocols.flatMap((protocol) =>
-      indexers.graph[protocol].filter((i) => i.kind === "official")
-    );
-
-    if (Option.isSome(options.chain)) {
-      const chainId = options.chain.value;
-      officialIndexers = officialIndexers.filter((i) => i.chainId === chainId);
-    }
-
-    // Build URLs
-    const entries = officialIndexers.map((indexer) => ({
-      chainName: sablier.chains.getOrThrow(indexer.chainId).name,
-      name: indexer.name,
-      protocol: indexer.protocol,
-      url: `${STUDIO_BASE_URL}/${indexer.name}/`,
-    }));
+    const entries = getStudioEntries({
+      chainId: Option.isSome(options.chain) ? options.chain.value : undefined,
+      indexer: Option.isSome(options.indexer) ? options.indexer.value : undefined,
+    });
 
     // Display table
     const table = createTable({
       colWidths: [18, 12, 65],
-      head: ["Chain", "Protocol", "URL"],
+      head: ["Chain", "Indexer", "URL"],
       theme: "cyan",
     });
 
     for (const entry of entries) {
       table.push([
         colors.value(entry.chainName),
-        colors.dim(entry.protocol),
+        colors.dim(entry.indexer),
         colors.info(entry.url),
       ]);
     }
@@ -138,7 +160,7 @@ export const graphOpenStudioCommand = Command.make(
   {
     chain: chainOption,
     dryRun: dryRunOption,
-    protocol: protocolOption,
+    indexer: indexerOption,
   },
   graphOpenStudioLogic
 ).pipe(Command.withDescription("Open Subgraph Studio dashboards in the browser"));

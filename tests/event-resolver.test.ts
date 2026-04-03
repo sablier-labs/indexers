@@ -10,10 +10,10 @@ function runResolveEventHandler(...args: Parameters<typeof resolve>) {
 describe("Event handlers", () => {
   describe("Resolver function", () => {
     it("should resolve simple event without indexed params", async () => {
-      const actual = await runResolveEventHandler("flow", {
+      const actual = await runResolveEventHandler("streams", {
         contractName: "SablierFlow",
         eventName: "MetadataUpdate",
-        indexers: ["flow"],
+        indexers: ["streams"],
         protocol: "flow",
         version: "v1.0",
       });
@@ -27,10 +27,10 @@ describe("Event handlers", () => {
     });
 
     it("should resolve simple event with indexed params", async () => {
-      const actual = await runResolveEventHandler("flow", {
+      const actual = await runResolveEventHandler("streams", {
         contractName: "SablierFlow",
         eventName: "Approval",
-        indexers: ["flow"],
+        indexers: ["streams"],
         protocol: "flow",
         version: "v1.0",
       });
@@ -44,10 +44,10 @@ describe("Event handlers", () => {
     });
 
     it("should resolve event handler for event with tuple", async () => {
-      const actual = await runResolveEventHandler("lockup", {
+      const actual = await runResolveEventHandler("streams", {
         contractName: "SablierV2LockupLinear",
         eventName: "CreateLockupLinearStream",
-        indexers: ["lockup"],
+        indexers: ["streams"],
         protocol: "lockup",
         version: "v1.0",
       });
@@ -62,10 +62,10 @@ describe("Event handlers", () => {
     });
 
     it("should resolve event handler for event with arrays of tuples", async () => {
-      const actual = await runResolveEventHandler("lockup", {
+      const actual = await runResolveEventHandler("streams", {
         contractName: "SablierV2LockupDynamic",
         eventName: "CreateLockupDynamicStream",
-        indexers: ["lockup"],
+        indexers: ["streams"],
         protocol: "lockup",
         version: "v1.0",
       });
@@ -80,10 +80,10 @@ describe("Event handlers", () => {
     });
 
     it("should resolve event handler for event with tuple nested within tuple", async () => {
-      const actual = await runResolveEventHandler("lockup", {
+      const actual = await runResolveEventHandler("streams", {
         contractName: "SablierLockup",
         eventName: "CreateLockupLinearStream",
-        indexers: ["lockup"],
+        indexers: ["streams"],
         protocol: "lockup",
         version: "v2.0",
       });

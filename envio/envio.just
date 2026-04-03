@@ -7,7 +7,7 @@ set dotenv-load
 set shell := ["bash", "-euo", "pipefail", "-c"]
 set unstable
 
-# Two levels up: from individual indexer dirs (e.g., envio/flow/) to repo root
+# Two levels up: from individual indexer dirs (e.g., envio/streams/) to repo root
 set dotenv-path := "../../.env"
 
 # ---------------------------------------------------------------------------- #

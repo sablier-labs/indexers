@@ -19,7 +19,11 @@ import { getABIEntries } from "./abi-entries.js";
 /**
  * Creates an array of data sources/templates for a subgraph manifest.
  */
-export function getSources(protocol: Indexer.Protocol, chainId: number) {
+export function getSources(
+  protocol: Indexer.Protocol,
+  chainId: number,
+  target: Indexer.GraphTarget
+) {
   return Effect.gen(function* () {
     const sources: GraphManifest.Source[] = [];
     for (const indexedContract of indexedContracts[protocol]) {
@@ -36,7 +40,12 @@ export function getSources(protocol: Indexer.Protocol, chainId: number) {
         }
 
         const common = getCommon({ chainId, contract, isTemplate, protocol, version });
-        const mapping = yield* getMapping({ contractName: contract.name, protocol, version });
+        const mapping = yield* getMapping({
+          contractName: contract.name,
+          target,
+          protocol,
+          version,
+        });
         const source = _.merge({}, common, { mapping }) as GraphManifest.Source;
         sources.push(source);
       }
@@ -107,13 +116,13 @@ function getContext(params: CreateSourcesParams): GraphManifest.Context | undefi
 }
 
 /**
- * Extracts all entity definitions from the merged schema for a given protocol.
+ * Extracts all entity definitions from the merged schema for a given target.
  *
- * @param protocol - The protocol to extract entities for.
+ * @param target - The target to extract entities for.
  * @returns An array of entity names available in the merged schema.
  */
-function getEntities(protocol: Indexer.Protocol): string[] {
-  const schema = getMergedSchema(protocol, "graph");
+export function getEntities(target: Indexer.GraphTarget): string[] {
+  const schema = getMergedSchema(target);
 
   const entityNames: string[] = [];
 
@@ -131,11 +140,12 @@ function getEntities(protocol: Indexer.Protocol): string[] {
  * Helper for accessing mapping configuration based on protocol and version.
  */
 function getMapping(params: {
+  target: Indexer.GraphTarget;
   protocol: Indexer.Protocol;
   contractName: string;
   version: Model.Version;
 }) {
-  const { protocol, version, contractName } = params;
+  const { target, protocol, version, contractName } = params;
 
   return Effect.gen(function* () {
     const events = indexedEvents[protocol][contractName]?.[version];
@@ -145,13 +155,11 @@ function getMapping(params: {
       );
     }
 
-    const handlers = yield* Effect.forEach(events, (event) =>
-      resolveEventHandler(protocol as Indexer.Name, event)
-    );
+    const handlers = yield* Effect.forEach(events, (event) => resolveEventHandler(target, event));
 
     return {
       abis: yield* getABIEntries(protocol, contractName, version),
-      entities: getEntities(protocol),
+      entities: getEntities(target),
       eventHandlers: handlers.filter(
         (handler): handler is GraphManifest.EventHandler => handler !== null
       ),

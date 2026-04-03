@@ -2,11 +2,11 @@
  * @file Deploy all official indexers to The Graph
  *
  * @example
- * pnpm tsx cli graph-deploy-all --indexer flow --version-label v1.1.0
- * pnpm tsx cli graph-deploy-all -i lockup -v v3.0.1 --exclude-chains 1,10
+ * pnpm tsx cli graph-deploy-all --indexer streams --version-label v1.1.0
  * pnpm tsx cli graph-deploy-all -i airdrops -v v2.0.0 --dry-run
+ * pnpm tsx cli graph-deploy-all -i streams -v v3.0.1 --exclude-chains 1,10
  *
- * @param --indexer - Required: 'airdrops', 'flow', or 'lockup'
+ * @param --indexer - Required: 'airdrops' or 'streams'
  * @param --version-label - Required: Version label for the deployment
  * @param --exclude-chains - Optional: Comma-separated list of chain IDs to exclude
  * @param --dry-run - Optional: Test deployment without actually running commands
@@ -96,7 +96,7 @@ type DeployAttemptError = FileOperationError | ProcessError | TransientDeployErr
 /*                                   OPTIONS                                  */
 /* -------------------------------------------------------------------------- */
 
-const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup"] as const).pipe(
+const indexerOption = Options.choice("indexer", ["airdrops", "streams"] as const).pipe(
   Options.withAlias("i"),
   Options.withDescription("Indexer to deploy")
 );
@@ -124,13 +124,12 @@ const dryRunOption = Options.boolean("dry-run").pipe(
 /* -------------------------------------------------------------------------- */
 
 function validateVersionLabel(
-  indexer: Indexer.Protocol,
+  indexer: Indexer.GraphTarget,
   versionLabel: string
 ): Effect.Effect<void, ValidationError, never> {
-  const requirements: Record<Indexer.Protocol, string[]> = {
+  const requirements: Record<string, string[]> = {
     airdrops: Object.values(Version.Airdrops),
-    flow: Object.values(Version.Flow),
-    lockup: Object.values(Version.Lockup),
+    streams: [...Object.values(Version.Flow), ...Object.values(Version.Lockup)],
   };
 
   const allowedPrefixes = requirements[indexer];
@@ -202,7 +201,7 @@ function promptUserConfirmation(): Effect.Effect<void, UserAbortError, PromptSer
   });
 }
 
-function buildDeploymentList(indexer: Indexer.Protocol, excludedChainIds: Set<number>) {
+function buildDeploymentList(indexer: Indexer.GraphTarget, excludedChainIds: Set<number>) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const chains = _.sortBy(sablier.chains.getAll(), (c) => c.slug);
@@ -217,7 +216,7 @@ function buildDeploymentList(indexer: Indexer.Protocol, excludedChainIds: Set<nu
       }
 
       // Filter out custom indexers
-      const indexerConfig = getIndexerGraph({ chainId: c.id, protocol: indexer });
+      const indexerConfig = getIndexerGraph({ chainId: c.id, indexer });
       if (indexerConfig?.kind === "custom") {
         continue;
       }
@@ -319,12 +318,19 @@ export function isTransientDeployFailure(stdout: string, stderr: string): boolea
 
 function deployToChain(
   deployment: Deployment,
-  indexer: Indexer.Protocol,
+  indexer: Indexer.GraphTarget,
   versionLabel: string,
   logger: CliFileLoggerInstance,
   dryRun: boolean
 ) {
-  const indexerName = `sablier-${indexer}-${deployment.chainSlug}`;
+  const indexerConfig = getIndexerGraph({ chainId: deployment.chainId, indexer });
+  if (!indexerConfig) {
+    throw new Error(
+      `No Graph indexer configured for chain ${deployment.chainId} and indexer ${indexer}`
+    );
+  }
+
+  const indexerName = indexerConfig.name;
   const manifestPath = paths.graph.manifest(indexer, deployment.chainId);
   const workingDir = join(ROOT_DIR, "graph", indexer);
   const command = PlatformCommand.make(
@@ -560,7 +566,7 @@ function displaySummary(
 /* -------------------------------------------------------------------------- */
 
 const graphDeployAllLogic = (options: {
-  readonly indexer: "airdrops" | "flow" | "lockup";
+  readonly indexer: "airdrops" | "streams";
   readonly versionLabel: string;
   readonly excludeChains: Option.Option<string>;
   readonly dryRun: boolean;

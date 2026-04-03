@@ -15,12 +15,11 @@ Modify source in `schema/` directory, then run `just codegen-schema`.
 | Indexer  | Schema Source               |
 | -------- | --------------------------- |
 | airdrops | `schema/airdrops/` + common |
-| flow     | `schema/flow/` + common     |
-| lockup   | `schema/lockup/` + common   |
+| streams  | `schema/streams/` + common  |
 
 ## Building Subgraphs
 
-When working inside an indexer directory (e.g., `graph/lockup/`), use justfile recipes:
+When working inside an indexer directory (e.g., `graph/streams/`), use justfile recipes:
 
 ```bash
 just codegen  # Regenerate bindings and schema
@@ -30,10 +29,10 @@ just build    # Build the subgraph
 From the repo root, use justfile recipes:
 
 ```bash
-just codegen-graph lockup        # Codegen for a specific indexer
-just codegen-graph               # Codegen for all indexers
-just build-graph-indexer lockup  # Build a specific indexer
-just build-graph-indexer         # Build all indexers
+just codegen-graph streams        # Codegen for a specific indexer
+just codegen-graph                # Codegen for all indexers
+just build-graph-indexer streams  # Build a specific indexer
+just build-graph-indexer          # Build all indexers
 ```
 
 ## AssemblyScript Constraints
@@ -51,5 +50,6 @@ Key limitations compared to TypeScript:
 When a new protocol version is added:
 
 1. **Define the version constant** in `graph/common/constants.ts` (e.g., `export const LOCKUP_V5_0 = "v5.0";`)
-2. **For Lockup versions**, add the new constant to the version comparison in `graph/lockup/store/entity-stream.ts` (the
-   `addCliff` function, ~line 186), which checks versions to determine cliff-handling behavior
+2. **For Lockup versions**, add the new constant to the version comparison in
+   `graph/streams/store/lockup/entity-stream.ts` (the `addCliff` function), which checks versions to determine
+   cliff-handling behavior

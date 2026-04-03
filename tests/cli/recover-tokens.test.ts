@@ -1,35 +1,43 @@
 import { describe, expect, it } from "vitest";
 import {
   computeRecoverTokenRows,
+  getRecoverTokensAssetFileIndexer,
   getRecoverTokensContractName,
   getRecoverTokensDefaultFilePath,
   parseIndexedAssetFile,
 } from "../../cli/commands/recover-tokens.helpers.js";
 
 const QUERY_ASSETS_DATE = "2026-03-06";
-const LOCKUP_DEFAULT_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/lockup/mainnet\\.json$`
+const STREAMS_MAINNET_FILE_REGEX = new RegExp(
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/mainnet\\.json$`
 );
-const FLOW_DEFAULT_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/flow/optimism\\.json$`
+const STREAMS_OPTIMISM_FILE_REGEX = new RegExp(
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/optimism\\.json$`
 );
 const INVALID_ASSET_FILE_NUMERIC_FIELDS_REGEX = /Invalid asset decimals|Invalid chainId/;
 
 describe("recover-tokens helpers", () => {
   describe("getRecoverTokensContractName", () => {
-    it("maps indexers to the expected contract names", () => {
+    it("maps protocols to the expected contract names", () => {
       expect(getRecoverTokensContractName("lockup")).toBe("SablierLockup");
       expect(getRecoverTokensContractName("flow")).toBe("SablierFlow");
     });
   });
 
+  describe("getRecoverTokensAssetFileIndexer", () => {
+    it("uses the shared streams asset snapshot for both protocols", () => {
+      expect(getRecoverTokensAssetFileIndexer("lockup")).toBe("streams");
+      expect(getRecoverTokensAssetFileIndexer("flow")).toBe("streams");
+    });
+  });
+
   describe("getRecoverTokensDefaultFilePath", () => {
-    it("builds the default export file path from indexer and chain ID", () => {
+    it("builds the default export file path from the shared streams snapshots", () => {
       expect(getRecoverTokensDefaultFilePath("lockup", 1, QUERY_ASSETS_DATE)).toMatch(
-        LOCKUP_DEFAULT_FILE_REGEX
+        STREAMS_MAINNET_FILE_REGEX
       );
       expect(getRecoverTokensDefaultFilePath("flow", 10, QUERY_ASSETS_DATE)).toMatch(
-        FLOW_DEFAULT_FILE_REGEX
+        STREAMS_OPTIMISM_FILE_REGEX
       );
     });
   });
@@ -39,7 +47,7 @@ describe("recover-tokens helpers", () => {
       const parsed = parseIndexedAssetFile(`{
   "generatedAt": "2026-03-06T00:00:00.000Z",
   "vendor": "envio",
-  "indexer": "flow",
+  "indexer": "streams",
   "chainId": 1,
   "chainSlug": "mainnet",
   "chainName": "Ethereum",
@@ -58,7 +66,7 @@ describe("recover-tokens helpers", () => {
         chainName: "Ethereum",
         chainSlug: "mainnet",
         generatedAt: "2026-03-06T00:00:00.000Z",
-        indexer: "flow",
+        indexer: "streams",
         vendor: "envio",
         assets: [
           {
@@ -96,7 +104,7 @@ describe("recover-tokens helpers", () => {
       const parsed = parseIndexedAssetFile(`{
   "generatedAt": "2026-03-06T00:00:00.000Z",
   "vendor": "envio",
-  "indexer": "lockup",
+  "indexer": "streams",
   "chainId": 8453,
   "chainSlug": "base",
   "chainName": "Base",
@@ -125,7 +133,7 @@ describe("recover-tokens helpers", () => {
         parseIndexedAssetFile(`{
   "generatedAt": "2026-03-06T00:00:00.000Z",
   "vendor": "envio",
-  "indexer": "flow",
+  "indexer": "streams",
   "chainId": 0,
   "chainSlug": "mainnet",
   "chainName": "Ethereum",

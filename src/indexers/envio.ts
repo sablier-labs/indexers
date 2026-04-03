@@ -6,7 +6,7 @@
 import { chains, Protocol } from "sablier/evm";
 import { Vendor } from "../enums.js";
 import type { Indexer } from "../types.js";
-import { envioDeployments } from "./envio-deployments.js";
+import { getEnvioDeployment } from "./envio-deployments.js";
 
 type EnvioChainConfig = {
   /**
@@ -66,29 +66,33 @@ const SUPPORTED_CHAINS = [
   get(chains.sepolia.id),
 ] as const;
 
-function getIndexers(protocol: Indexer.Protocol): Indexer[] {
+function getEnvioDeploymentTarget(indexer: Indexer.IndexerKey): Indexer.Protocol {
+  return indexer === "streams" ? Protocol.Lockup : indexer;
+}
+
+function getIndexers(indexer: Indexer.IndexerKey): Indexer[] {
+  const deploymentTarget = getEnvioDeploymentTarget(indexer);
   return SUPPORTED_CHAINS.map((chain) => {
-    const deployment = envioDeployments[protocol];
+    const deployment = getEnvioDeployment(indexer);
     return {
       chainId: chain.id,
       explorerURL: deployment.explorerURL,
+      indexer,
       kind: "official",
-      name: `sablier-${protocol}`,
+      name: `sablier-${deploymentTarget}`,
+      testingURL: `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(deployment.endpoint.url)}`,
+      vendor: Vendor.Envio,
       endpoint: {
         id: deployment.endpoint.id,
         url: deployment.endpoint.url,
       },
-      protocol,
-      testingURL: `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(deployment.endpoint.url)}`,
-      vendor: Vendor.Envio,
     };
   });
 }
 
-export const envio: Record<Indexer.Protocol, Indexer[]> = {
+export const envio: Record<Indexer.IndexerKey, Indexer[]> = {
   airdrops: getIndexers(Protocol.Airdrops),
-  flow: getIndexers(Protocol.Flow),
-  lockup: getIndexers(Protocol.Lockup),
+  streams: getIndexers("streams"),
 } as const;
 
 export const envioChains = SUPPORTED_CHAINS;

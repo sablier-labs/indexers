@@ -82,8 +82,8 @@ Regenerate bindings after:
 
 ```bash
 just codegen-envio-bindings              # All Envio indexers
-just codegen-envio-bindings flow         # Single indexer
+just codegen-envio-bindings streams      # Single indexer
 
 just codegen-graph-bindings              # All Graph subgraphs
-just codegen-graph-bindings lockup       # Single subgraph
+just codegen-graph-bindings streams      # Single subgraph
 ```

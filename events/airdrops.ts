@@ -46,7 +46,7 @@ const CLAIM_EVENTS: ClaimEventsConfig = {
 
 const names = contracts.names;
 
-const DEFAULT_INDEXERS: Indexer.Name[] = ["airdrops", "analytics"];
+const DEFAULT_INDEXERS: Indexer.Target[] = ["airdrops", "analytics"];
 
 const LOWER_MIN_FEE_EVENTS: Record<Sablier.Version.Airdrops, readonly string[]> = {
   "v1.1": [],
@@ -68,7 +68,7 @@ function get(
   version: Sablier.Version.Airdrops,
   contractName: string,
   eventName: string,
-  indexers: Indexer.Name[] = DEFAULT_INDEXERS
+  indexers: Indexer.Target[] = DEFAULT_INDEXERS
 ): Model.Event {
   return {
     contractName,
@@ -101,7 +101,7 @@ function factory(
   version: Sablier.Version.Airdrops,
   contractName: string,
   events: string[],
-  indexerOverrides?: Record<string, Indexer.Name[]>
+  indexerOverrides?: Record<string, Indexer.Target[]>
 ): Record<string, Record<string, Model.Event[]>> {
   return {
     [contractName]: {

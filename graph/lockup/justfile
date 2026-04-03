@@ -1,7 +1,0 @@
-import "../graph.just"
-
-export INDEXER_NAME := "lockup"
-
-# Show available commands
-default:
-    @just --list

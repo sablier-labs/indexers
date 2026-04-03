@@ -50,8 +50,8 @@ export function getABIEntries(
 }
 
 function getFilePath(contractName: string, protocol?: Indexer.Protocol, version?: Model.Version) {
-  // It doesn't matter what protocol we use here, we just need the path to the manifests.
-  const manifestsPath = paths.graph.manifests(protocol ?? "lockup");
+  // The specific indexer doesn't matter here — all are at the same directory depth.
+  const manifestsPath = paths.graph.manifests("streams");
   const abiPath = paths.abi(contractName, protocol, version);
   return getRelativePath(manifestsPath, abiPath);
 }

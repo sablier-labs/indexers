@@ -37,7 +37,7 @@ const quarterOption = Options.text("quarter").pipe(
 // -------------------------------------------------------------------------- //
 
 function resolveIndexerUrl(chainId: number): Effect.Effect<string, ValidationError> {
-  const indexer = graph.lockup.find((entry) => entry.chainId === chainId);
+  const indexer = graph.streams.find((entry) => entry.chainId === chainId);
   if (!indexer) {
     return Effect.fail(
       new ValidationError({ field: "chainId", message: "Chain ID is not supported by Graph" })

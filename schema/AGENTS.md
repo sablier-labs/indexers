@@ -4,7 +4,7 @@
 
 ## Structure
 
-- **`{indexer}/`** - Indexer-specific definitions (airdrops/, flow/, lockup/)
+- **`{indexer}/`** - Indexer-specific definitions (airdrops/, streams/)
 - **`common/`** - Shared definitions across indexers
 - **`*.graphql`** - Static schema files
 - **`*.graphql.ts`** - TypeScript generators (dynamic schemas)
@@ -21,9 +21,8 @@
 
 ## Indexer Rules
 
-| Indexer   | Schema Source               | Pattern                                                     |
-| --------- | --------------------------- | ----------------------------------------------------------- |
-| airdrops  | `schema/airdrops/` + common | indexer-specific + BASE generators                          |
-| analytics | `envio/analytics/`          | No schema/ files, direct edit in `analytics.graphql`        |
-| flow      | `schema/flow/` + common     | common + BASE + stream generator                            |
-| lockup    | `schema/lockup/` + common   | common + indexer-specific + vendor-specific + BASE + stream |
+| Indexer   | Schema Source               | Pattern                                              |
+| --------- | --------------------------- | ---------------------------------------------------- |
+| airdrops  | `schema/airdrops/` + common | indexer-specific + BASE generators                   |
+| analytics | `envio/analytics/`          | No schema/ files, direct edit in `analytics.graphql` |
+| streams   | `schema/streams/` + common  | common + indexer-specific + BASE + stream generator  |

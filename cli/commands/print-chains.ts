@@ -27,8 +27,8 @@ const printChainsLogic = (options: { readonly graph: boolean }) =>
     const useGraphSlugs = options.graph;
 
     // Get supported chain IDs from indexers
-    const envioChainIds = new Set(indexers.envio.lockup.map((i) => i.chainId));
-    const graphChainIds = new Set(indexers.graph.lockup.map((i) => i.chainId));
+    const envioChainIds = new Set(indexers.envio.streams.map((i) => i.chainId));
+    const graphChainIds = new Set(indexers.graph.streams.map((i) => i.chainId));
 
     yield* displayHeader("📋 AVAILABLE CHAINS", "cyan");
 

@@ -3,5 +3,5 @@
   "compilerOptions": {
     "noLib": true
   },
-  "include": ["airdrops/", "common/", "flow/", "lockup/", "globals.d.ts"]
+  "include": ["airdrops/", "common/", "streams/", "globals.d.ts"]
 }

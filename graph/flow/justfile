@@ -1,7 +1,0 @@
-import "../graph.just"
-
-export INDEXER_NAME := "flow"
-
-# Show available commands
-default:
-    @just --list

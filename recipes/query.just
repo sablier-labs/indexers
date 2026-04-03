@@ -25,8 +25,8 @@
 @query-unique-txs quarter="latest" *args:
     just cli query-unique-txs --quarter={{ quarter }} {{ args }}
 
-# Query indexer assets (Envio catalog export)
+# Query protocol assets (Envio catalog export)
 [group("cli")]
-[arg("indexer", long, short="i", help="Indexer to export asset addresses for (airdrops, flow, lockup)")]
+[arg("indexer", long, short="i", help="Public indexer to export asset addresses for (airdrops, streams)")]
 @query-assets indexer *args:
     just cli query-assets --indexer={{ indexer }} {{ args }}

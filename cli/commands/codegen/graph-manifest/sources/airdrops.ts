@@ -10,7 +10,7 @@ import { getSources } from "./get-sources.js";
 
 export function getAirdropsSources(chainId: number) {
   return Effect.gen(function* () {
-    const sources = yield* getSources("airdrops", chainId);
+    const sources = yield* getSources("airdrops", chainId, "airdrops");
 
     for (const source of sources) {
       if (source._type === "template" || !source.context) {

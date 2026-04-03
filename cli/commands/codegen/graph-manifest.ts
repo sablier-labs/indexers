@@ -4,9 +4,9 @@
  * @example
  * pnpm tsx cli codegen graph-manifest --indexer all --chain all
  * pnpm tsx cli codegen graph-manifest --indexer all --chain polygon
- * pnpm tsx cli codegen graph-manifest --indexer flow --chain polygon
+ * pnpm tsx cli codegen graph-manifest --indexer streams --chain polygon
  *
- * @param --indexer - Required: 'airdrops', 'flow', 'lockup', or 'all'
+ * @param --indexer - Required: 'airdrops', 'streams', or 'all'
  * @param --chain - Required: The chain slug to generate manifests for.
  * Use 'all' to generate for all chains.
  */
@@ -19,7 +19,7 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../src/index.js";
 import { graphChains } from "../../../src/indexers/graph.js";
-import { PROTOCOLS } from "../../constants.js";
+import { GRAPH_TARGET_OPTIONS, GRAPH_TARGETS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import * as helpers from "../../helpers.js";
 import paths from "../../paths.js";
@@ -30,12 +30,7 @@ import { dumpYAML } from "./helpers.js";
 /*                                   OPTIONS                                  */
 /* -------------------------------------------------------------------------- */
 
-const indexerOption = Options.choice("indexer", [
-  "airdrops",
-  "flow",
-  "lockup",
-  "all",
-] as const).pipe(
+const indexerOption = Options.choice("indexer", GRAPH_TARGET_OPTIONS).pipe(
   Options.withAlias("i"),
   Options.withDescription("Indexer to generate manifest for")
 );
@@ -60,36 +55,36 @@ type ManifestResult = {
  * Writes the subgraph manifest to a file.
  * @returns The relative path to the manifest file.
  */
-function writeManifestToFile(indexer: Indexer.Name, chainId: number) {
+function writeManifestToFile(target: Indexer.GraphTarget, chainId: number) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const manifest = yield* createGraphManifest(indexer as Indexer.Protocol, chainId);
+    const manifest = yield* createGraphManifest(target, chainId);
     const yaml = dumpYAML(manifest);
-    const manifestPath = paths.graph.manifest(indexer as Indexer.Protocol, chainId);
+    const manifestPath = paths.graph.manifest(target, chainId);
     yield* fs.writeFileString(manifestPath, yaml);
 
     return yield* helpers.getRelative(manifestPath);
   });
 }
 
-function generateManifest(indexer: Indexer.Name, chainArg: string) {
+function generateManifest(target: Indexer.GraphTarget, chainArg: string) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const chain = yield* helpers.getChain(chainArg);
-    const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
+    const manifestsDir = paths.graph.manifests(target);
     yield* fs.makeDirectory(manifestsDir, { recursive: true });
 
-    const manifestPath = yield* writeManifestToFile(indexer as Indexer.Protocol, chain.id);
+    const manifestPath = yield* writeManifestToFile(target, chain.id);
     yield* Console.log(`✅ Generated subgraph manifest for ${chainArg}`);
     yield* Console.log(`📁 Manifest path: ${manifestPath}`);
     yield* Console.log();
   });
 }
 
-function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = false) {
+function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog = false) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const manifestsDir = paths.graph.manifests(indexer as Indexer.Protocol);
+    const manifestsDir = paths.graph.manifests(target);
 
     if (yield* fs.exists(manifestsDir)) {
       yield* fs.remove(manifestsDir, { recursive: true });
@@ -101,9 +96,7 @@ function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = fal
 
     for (const chainId of graphChains) {
       const chain = sablier.chains.get(chainId);
-      const manifestPath = yield* Effect.either(
-        writeManifestToFile(indexer as Indexer.Protocol, chainId)
-      );
+      const manifestPath = yield* Effect.either(writeManifestToFile(target, chainId));
 
       if (Either.isRight(manifestPath)) {
         results.push({
@@ -124,13 +117,13 @@ function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = fal
 
     if (results.length === 0) {
       return yield* Effect.fail(
-        new Error(`No manifests generated for indexer ${_.capitalize(indexer)}. This is a bug.`)
+        new Error(`No manifests generated for target ${_.capitalize(target)}. This is a bug.`)
       );
     }
 
     if (!suppressFinalLog) {
       yield* displayHeader(
-        `📋 GENERATING GRAPH MANIFESTS: ${_.capitalize(indexer).toUpperCase()}`,
+        `📋 GENERATING GRAPH MANIFESTS: ${_.capitalize(target).toUpperCase()}`,
         "cyan"
       );
 
@@ -184,21 +177,22 @@ function generateAllChainManifests(indexer: Indexer.Name, suppressFinalLog = fal
   });
 }
 
-function generateAllProtocolManifests(chainArg: string) {
+function generateAllIndexerManifests(chainArg: string) {
   return Effect.gen(function* () {
     let totalCount = 0;
+    const targets = GRAPH_TARGETS;
 
-    for (const p of PROTOCOLS) {
+    for (const target of targets) {
       if (chainArg === "all") {
-        const filesGenerated = yield* generateAllChainManifests(p, true);
+        const filesGenerated = yield* generateAllChainManifests(target, true);
         totalCount += filesGenerated;
         yield* Console.log(
-          `✅ Generated ${filesGenerated} manifests for ${_.capitalize(p)} protocol`
+          `✅ Generated ${filesGenerated} manifests for ${_.capitalize(target)} target`
         );
         continue;
       }
 
-      yield* generateManifest(p, chainArg);
+      yield* generateManifest(target, chainArg);
     }
 
     if (chainArg === "all") {
@@ -209,23 +203,23 @@ function generateAllProtocolManifests(chainArg: string) {
 }
 
 const graphManifestLogic = (options: {
-  readonly indexer: "airdrops" | "flow" | "lockup" | "all";
+  readonly indexer: "airdrops" | "streams" | "all";
   readonly chain: string;
 }) =>
   Effect.gen(function* () {
-    const indexerArg = options.indexer;
+    const targetArg = options.indexer;
     const chainArg = options.chain;
 
-    if (indexerArg === "all") {
-      return yield* generateAllProtocolManifests(chainArg);
+    if (targetArg === "all") {
+      return yield* generateAllIndexerManifests(chainArg);
     }
 
     if (chainArg === "all") {
-      yield* generateAllChainManifests(indexerArg);
+      yield* generateAllChainManifests(targetArg);
       return;
     }
 
-    return yield* generateManifest(indexerArg, chainArg);
+    return yield* generateManifest(targetArg, chainArg);
   });
 
 export const graphManifestCommand = Command.make(

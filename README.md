@@ -17,8 +17,16 @@ There are two indexing providers: [The Graph](https://thegraph.com) and [Envio](
 
 ## Documentation 📚
 
-In-depth documentation is available at [docs.sablier.com](https://docs.sablier.com/api/overview). We provide a separate
-indexer for each protocol:
+In-depth documentation is available at [docs.sablier.com](https://docs.sablier.com/api/overview).
+
+The package now exposes two public indexer keys:
+
+- `airdrops` for campaign distribution data
+- `streams` for the merged Flow + Lockup stream surface
+
+`analytics` remains a separate target rather than a public indexer key.
+
+Protocol-specific docs remain available here:
 
 - [Sablier Airdrops](https://docs.sablier.com/api/airdrops/indexers) - Airdrop distribution data
 - [Sablier Flow](https://docs.sablier.com/api/flow/indexers) - Payment streams data
@@ -26,11 +34,10 @@ indexer for each protocol:
 
 ## Quickstart 🚀
 
-Query the Envio GraphQL endpoints directly to access Sablier protocol data:
+Query the public Envio GraphQL endpoints directly to access Sablier protocol data:
 
 - **Airdrops**: `https://indexer.hyperindex.xyz/508d217/v1/graphql`
-- **Flow**: `https://indexer.hyperindex.xyz/3b4ea6b/v1/graphql`
-- **Lockup**: `https://indexer.hyperindex.xyz/53b7e25/v1/graphql`
+- **Streams**: `https://indexer.hyperindex.xyz/53b7e25/v1/graphql`
 
 For detailed documentation, queries, and examples, visit our [API docs](https://docs.sablier.com/api/overview).
 
@@ -45,3 +52,5 @@ feedback.
 ## License 📄
 
 This repo is licensed under GPL 3-0 or later.
+
+v2

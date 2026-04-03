@@ -30,9 +30,7 @@ jobs:
           bash .github/scripts/verify-no-diff.sh \
             "❌ Envio build files are out of sync. Run 'just codegen-envio' locally and commit the changes." \
             "Envio build file diff" \
-            envio/flow/config.yaml \
-            envio/flow/flow.graphql \
-            envio/lockup/config.yaml \
-            envio/lockup/lockup.graphql \
             envio/airdrops/config.yaml \
-            envio/airdrops/airdrops.graphql
+            envio/airdrops/airdrops.graphql \
+            envio/streams/config.yaml \
+            envio/streams/streams.graphql

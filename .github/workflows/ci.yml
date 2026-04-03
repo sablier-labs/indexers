@@ -38,8 +38,7 @@ jobs:
             "❌ GraphQL schemas are out of sync. Run 'just export-schema' locally and commit the changes." \
             "GraphQL schema diff" \
             src/schemas/airdrops.graphql \
-            src/schemas/flow.graphql \
-            src/schemas/lockup.graphql
+            src/schemas/streams.graphql
 
       - name: Run the code checks
         run: |
