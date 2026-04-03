@@ -14,9 +14,10 @@ _build-graph-indexer indexer: (codegen-graph indexer)
 # Codegen everything for the Graph indexer (order matters):
 # 1. GraphQL schema
 # 2. YAML manifest
-# 3. AssemblyScript bindings
+
 [doc("Codegen everything for the Graph indexer")]
-[group("codegen"), group("graph")]
+[group("codegen")]
+[group("graph")]
 @codegen-graph indexer="all":
     just graph-for-each _codegen-graph {{ indexer }}
 
@@ -26,7 +27,8 @@ _build-graph-indexer indexer: (codegen-graph indexer)
     just codegen-graph-bindings {{ indexer }}
 
 # Codegen the Graph subgraph bindings
-[group("codegen"), group("graph")]
+[group("codegen")]
+[group("graph")]
 @codegen-graph-bindings indexer="all":
     just graph-for-each _codegen-graph-bindings {{ indexer }}
 
@@ -41,7 +43,8 @@ _codegen-graph-bindings indexer:
     echo "✅ Generated Graph bindings"
 
 # Codegen the Graph subgraph manifest
-[group("codegen"), group("graph")]
+[group("codegen")]
+[group("graph")]
 @codegen-graph-manifest indexer="all" chain="all":
     just cli codegen graph-manifest \
         --indexer {{ indexer }} \
@@ -57,14 +60,14 @@ _codegen-graph-bindings indexer:
 # ---------------------------------------------------------------------------- #
 
 # Helper to run a graph recipe for all protocols or a specific one
-[private, script("bash")]
+[private]
+[script("bash")]
 graph-for-each recipe indexer:
     case "{{ indexer }}" in
         all)
-            just concurrent-protocol-indexers \
+            just concurrent-indexers \
                 "just {{ recipe }} airdrops" \
-                "just {{ recipe }} flow" \
-                "just {{ recipe }} lockup"
+                "just {{ recipe }} streams"
             ;;
         *)
             just {{ recipe }} {{ indexer }}

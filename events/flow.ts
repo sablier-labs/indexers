@@ -6,13 +6,13 @@ import { contracts } from "sablier/evm";
 import type { Indexer, Model } from "../src/types.js";
 import { erc721 } from "./common/erc721.js";
 
-const DEFAULT_INDEXERS: Indexer.Name[] = ["flow", "analytics"];
+const DEFAULT_INDEXERS: Indexer.Target[] = ["streams", "analytics"];
 
 function get(
   version: Sablier.Version.Flow,
   contractName: string,
   eventName: string,
-  indexers: Indexer.Name[] = DEFAULT_INDEXERS
+  indexers: Indexer.Target[] = DEFAULT_INDEXERS
 ): Model.Event {
   return {
     contractName,

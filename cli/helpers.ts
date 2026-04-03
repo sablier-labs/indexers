@@ -2,14 +2,14 @@ import { Effect } from "effect";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import stripAnsi from "strip-ansi";
-import { INDEXERS, VENDORS } from "./constants.js";
+import { TARGETS, VENDORS } from "./constants.js";
 import { ChainNotFoundError, ValidationError } from "./errors.js";
 import { CliEnv } from "./services/env.js";
-import type { IndexerArg, VendorArg } from "./types.js";
+import type { TargetArg, VendorArg } from "./types.js";
 
-export function parseIndexerOpt(
+export function parseTargetOpt(
   indexerValue: string | undefined
-): Effect.Effect<IndexerArg, ValidationError> {
+): Effect.Effect<TargetArg, ValidationError> {
   if (!indexerValue) {
     return Effect.fail(
       new ValidationError({
@@ -19,16 +19,16 @@ export function parseIndexerOpt(
     );
   }
 
-  if (![...INDEXERS, "all"].includes(indexerValue)) {
+  if (![...TARGETS, "all"].includes(indexerValue)) {
     return Effect.fail(
       new ValidationError({
         field: "indexer",
-        message: `--indexer must be either ${INDEXERS.join(", ")}, or "all"`,
+        message: `--indexer must be either ${TARGETS.join(", ")}, or "all"`,
       })
     );
   }
 
-  return Effect.succeed(indexerValue as IndexerArg);
+  return Effect.succeed(indexerValue as TargetArg);
 }
 
 export function parseVendorOpt(

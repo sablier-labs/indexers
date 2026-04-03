@@ -9,11 +9,13 @@
 
 # Run a just recipe with CI-friendly logging.
 # - Default (`CI_LOG_MODE=quiet`): capture full logs, print concise status.
+
 # - `CI_LOG_MODE=verbose` (or `ACTIONS_STEP_DEBUG=true`): stream output.
 @ci-run recipe *args:
     just --quiet _ci-run {{ recipe }} {{ args }}
 
-[private, script("bash")]
+[private]
+[script("bash")]
 @_ci-run recipe *args:
     set -uo pipefail
 
@@ -74,15 +76,14 @@
 
     exit "$status"
 
-# Helper to run three commands in parallel (airdrops, flow, lockup)
+# Helper to run two commands in parallel (airdrops, streams)
 [private]
-@concurrent-protocol-indexers cmd1 cmd2 cmd3:
+@concurrent-indexers cmd1 cmd2:
     pnpm concurrently --group \
-        -n "airdrops,flow,lockup" \
-        -c "blue,green,yellow" \
+        -n "airdrops,streams" \
+        -c "blue,green" \
         "{{ cmd1 }}" \
-        "{{ cmd2 }}" \
-        "{{ cmd3 }}"
+        "{{ cmd2 }}"
 
 # Helper to run two commands in parallel (envio & graph)
 [private]

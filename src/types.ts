@@ -9,8 +9,8 @@ export type Indexer = {
     url: string;
   };
   kind: "custom" | "official";
+  indexer: Indexer.IndexerKey;
   name: string;
-  protocol: Indexer.Protocol;
   /** GraphQL endpoint that doesn't require an API key. Opening it in the browser may lead to a GraphiQL playground.*/
   testingURL?: string;
   vendor: Indexer.Vendor;
@@ -35,8 +35,8 @@ export namespace Indexer {
     };
     /** The URL on the Envio Hosted Service. */
     explorerURL: string;
-    /** The protocol associated with this indexer. */
-    protocol: Indexer.Protocol;
+    /** The indexer associated with this deployment. */
+    indexer: Indexer.IndexerKey;
     /**
      * Unix timestamp in seconds for when the indexer ID was used last time in the Sablier Interface.
      * An undefined value means that the indexer ID is no longer used.
@@ -48,7 +48,14 @@ export namespace Indexer {
     chainId: number;
   };
 
-  export type Name = Protocol | "analytics";
+  /** Indexer build targets for codegen, schema generation, and CLI commands. */
+  export type Target = "airdrops" | "streams" | "analytics";
+
+  /** Public indexer keys exposed by the registry helpers and package surface. */
+  export type IndexerKey = "airdrops" | "streams";
+
+  /** Graph-specific build targets. */
+  export type GraphTarget = Exclude<Target, "analytics">;
 
   /**
    * Bob and Legacy are excluded because they are not part of the Envio/Graph indexers.
@@ -97,8 +104,8 @@ export namespace Model {
     contractName: string;
     /** Event name, e.g., Approval. */
     eventName: string;
-    /** Indexers that should process the event, e.g., analytics. */
-    indexers: Indexer.Name[];
+    /** Indexers that should process the event, e.g., analytics, streams. */
+    indexers: Indexer.Target[];
     /** Protocol of contract, e.g., flow. */
     protocol: Indexer.Protocol;
     /** Version of contract, e.g., v1.0. */

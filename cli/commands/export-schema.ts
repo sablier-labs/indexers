@@ -5,7 +5,7 @@ import { Console, Effect } from "effect";
 import { print } from "graphql";
 import _ from "lodash";
 import { getMergedSchema } from "../../schema/index.js";
-import { PROTOCOLS } from "../constants.js";
+import { GRAPH_TARGETS } from "../constants.js";
 import { colors, createTable, displayHeader } from "../display.js";
 import { ProcessError } from "../errors.js";
 import { getRelative } from "../helpers.js";
@@ -13,7 +13,7 @@ import paths from "../paths.js";
 
 type ExportResult = {
   outputPath: string;
-  protocol: string;
+  target: string;
   status: "exported" | "error";
 };
 
@@ -29,22 +29,20 @@ const exportSchemaLogic = () =>
 
     const results: ExportResult[] = [];
 
-    // Process each protocol
-    for (const protocol of PROTOCOLS) {
+    // Process each indexer (skip analytics which has no schema)
+    for (const target of GRAPH_TARGETS) {
       const result = yield* Effect.gen(function* () {
         // Using Envio because they have the most complete schema. See the User and Revenue entities.
-        const schema = print(getMergedSchema(protocol));
-        const outputPath = paths.exports.schema(protocol);
+        const schema = print(getMergedSchema(target));
+        const outputPath = paths.exports.schema(target);
         yield* fs.writeFileString(outputPath, schema);
         return {
           outputPath: yield* getRelative(outputPath),
-          protocol,
+          target,
           status: "exported" as const,
         };
       }).pipe(
-        Effect.catchAll(() =>
-          Effect.succeed({ outputPath: "", protocol, status: "error" as const })
-        )
+        Effect.catchAll(() => Effect.succeed({ outputPath: "", status: "error" as const, target }))
       );
 
       results.push(result);
@@ -54,7 +52,7 @@ const exportSchemaLogic = () =>
     yield* Console.log("");
     const table = createTable({
       colWidths: [20, 50, 15],
-      head: ["Protocol", "Output Path", "Status"],
+      head: ["Target", "Output Path", "Status"],
       theme: "cyan",
     });
 
@@ -62,7 +60,7 @@ const exportSchemaLogic = () =>
       const statusText =
         result.status === "exported" ? colors.success("✅ Exported") : colors.error("❌ Error");
       table.push([
-        colors.value(_.capitalize(result.protocol)),
+        colors.value(_.capitalize(result.target)),
         colors.dim(result.outputPath),
         statusText,
       ]);

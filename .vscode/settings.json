@@ -8,8 +8,7 @@
   },
   "search.exclude": {
     "**/airdrops/bindings": true,
-    "**/flow/bindings": true,
-    "**/lockup/bindings": true,
+    "**/streams/bindings": true,
     "dist": true,
     "node_modules": true,
     "src/schemas/*.graphql": true

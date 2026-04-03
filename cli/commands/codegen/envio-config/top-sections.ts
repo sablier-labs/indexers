@@ -1,14 +1,12 @@
-import type { Indexer } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
 
-export const topSections: Record<Indexer.Name, EnvioConfig.TopSection> = {
+export const topSections: Record<string, EnvioConfig.TopSection> = {
   airdrops: get("airdrops"),
   analytics: get("analytics"),
-  flow: get("flow"),
-  lockup: get("lockup"),
+  streams: get("streams"),
 };
 
-function get(name: Indexer.Name): EnvioConfig.TopSection {
+function get(name: string): EnvioConfig.TopSection {
   return {
     name: `sablier-${name}`,
     address_format: "lowercase",

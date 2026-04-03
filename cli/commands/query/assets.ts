@@ -1,7 +1,7 @@
 import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect } from "effect";
-import { envioDeployments } from "../../../src/indexers/envio-deployments.js";
+import { getEnvioDeployment } from "../../../src/indexers/envio-deployments.js";
 import type { Indexer } from "../../../src/types.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { getRelative, wrapText } from "../../helpers.js";
@@ -12,25 +12,25 @@ import {
   getQueryAssetsDateSegment,
   getQueryAssetsFilePath,
   getStaleQueryAssetFilePaths,
-  QUERY_ASSET_PROTOCOLS,
+  QUERY_ASSET_INDEXERS,
 } from "./assets.file.js";
 import { fetchAssets } from "./clients/envio.js";
 
-const indexerOption = Options.choice("indexer", QUERY_ASSET_PROTOCOLS).pipe(
+const indexerOption = Options.choice("indexer", QUERY_ASSET_INDEXERS).pipe(
   Options.withAlias("i"),
-  Options.withDescription("Indexer to export asset addresses for")
+  Options.withDescription("Public indexer to export asset addresses for")
 );
 
 /**
- * Exports the latest Envio asset catalog as one file per chain for the chosen protocol.
+ * Exports the latest Envio asset catalog as one file per chain for the chosen public indexer.
  *
  * The command rewrites current chain snapshots and prunes obsolete ones so the generated
  * directory remains a faithful source of per-chain asset catalogs for CLI workflows.
  */
-const queryAssetsLogic = (options: { readonly indexer: Indexer.Protocol }) =>
+const queryAssetsLogic = (options: { readonly indexer: Indexer.IndexerKey }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const endpoint = envioDeployments[options.indexer].endpoint.url;
+    const endpoint = getEnvioDeployment(options.indexer).endpoint.url;
     const generatedAt = yield* DateTime.now.pipe(Effect.map(DateTime.formatIso));
     const dateSegment = getQueryAssetsDateSegment(generatedAt);
 

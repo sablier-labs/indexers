@@ -7,8 +7,8 @@ createEquivalenceTest({
   chainId: sepolia.id,
   protocol: "airdrops",
   endpoints: {
-    envio: getIndexer({ chainId: sepolia.id, protocol: "airdrops", vendor: "envio" })!.endpoint.url,
-    graph: getIndexer({ chainId: sepolia.id, protocol: "airdrops", vendor: "graph" })!.endpoint.url,
+    envio: getIndexer({ chainId: sepolia.id, indexer: "airdrops", vendor: "envio" })!.endpoint.url,
+    graph: getIndexer({ chainId: sepolia.id, indexer: "airdrops", vendor: "graph" })!.endpoint.url,
   },
   queries: {
     envio: [AirdropsEnvio.getCampaignsWithActivities, AirdropsEnvio.getActions],

@@ -59,6 +59,10 @@ export function getSubgraphYamlChainSlug(chainId: number): string {
   return CHAIN_SLUG_SUBGRAPH_YAML[chainId] ?? getGraphChainSlug(chainId);
 }
 
+type ProtocolGraphIndexer = Omit<Indexer, "indexer"> & {
+  indexer: Indexer.Protocol;
+};
+
 function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
   const graphChainName = getSablierChainSlug(chainId);
   return `sablier-${protocol}-${graphChainName}`;
@@ -67,7 +71,11 @@ function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
 /**
  * Sort indexers alphabetically by chain name.
  */
-function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL: string): Indexer {
+function resolveCustom(
+  protocol: Indexer.Protocol,
+  chainId: number,
+  templateURL: string
+): ProtocolGraphIndexer {
   if (!templateURL.includes(NAME_TEMPLATING_VAR)) {
     throw new Error(
       `Template URL for custom Graph indexer does not include ${NAME_TEMPLATING_VAR}`
@@ -79,30 +87,34 @@ function resolveCustom(protocol: Indexer.Protocol, chainId: number, templateURL:
   return {
     chainId,
     explorerURL: `${endpointUrl}/graphql`,
+    indexer: protocol,
     kind: "custom",
     name: subgraphName,
+    vendor: Vendor.Graph,
     endpoint: {
       url: endpointUrl,
     },
-    protocol,
-    vendor: Vendor.Graph,
   };
 }
 
-function resolveOfficial(protocol: Indexer.Protocol, chainId: number, subgraphId: string): Indexer {
+function resolveOfficial(
+  protocol: Indexer.Protocol,
+  chainId: number,
+  subgraphId: string
+): ProtocolGraphIndexer {
   const subgraphName = getSubgraphName(chainId, protocol);
   return {
     chainId,
     explorerURL: `https://thegraph.com/explorer/subgraphs/${subgraphId}`,
+    indexer: protocol,
     kind: "official",
     name: subgraphName,
+    testingURL: `https://api.studio.thegraph.com/query/${SUBGRAPH_STUDIO_USER_ID}/${subgraphName}/version/latest`,
+    vendor: Vendor.Graph,
     endpoint: {
       id: subgraphId,
       url: `https://gateway.thegraph.com/api/subgraphs/id/${subgraphId}`,
     },
-    protocol,
-    testingURL: `https://api.studio.thegraph.com/query/${SUBGRAPH_STUDIO_USER_ID}/${subgraphName}/version/latest`,
-    vendor: Vendor.Graph,
   };
 }
 
@@ -112,9 +124,9 @@ function resolveOfficial(protocol: Indexer.Protocol, chainId: number, subgraphId
 
 type SubgraphId = string;
 type SubgraphIdMap = Record<Indexer.Protocol, SubgraphId>;
-type IndexerGraphMap = Record<Indexer.Protocol, Indexer>;
+type ProtocolIndexerGraphMap = Record<Indexer.Protocol, ProtocolGraphIndexer>;
 
-function custom(chainId: number, baseURL: string): IndexerGraphMap {
+function custom(chainId: number, baseURL: string): ProtocolIndexerGraphMap {
   return {
     airdrops: resolveCustom(Protocol.Airdrops, chainId, baseURL),
     flow: resolveCustom(Protocol.Flow, chainId, baseURL),
@@ -122,7 +134,7 @@ function custom(chainId: number, baseURL: string): IndexerGraphMap {
   };
 }
 
-function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
+function official(chainId: number, idMap: SubgraphIdMap): ProtocolIndexerGraphMap {
   return {
     airdrops: resolveOfficial(Protocol.Airdrops, chainId, idMap.airdrops),
     flow: resolveOfficial(Protocol.Flow, chainId, idMap.flow),
@@ -130,7 +142,7 @@ function official(chainId: number, idMap: SubgraphIdMap): IndexerGraphMap {
   };
 }
 
-const CUSTOMS: IndexerGraphMap[] = [
+const CUSTOMS: ProtocolIndexerGraphMap[] = [
   custom(
     chains.lightlink.id,
     "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"
@@ -141,7 +153,7 @@ const CUSTOMS: IndexerGraphMap[] = [
   ),
 ];
 
-const OFFICIALS: IndexerGraphMap[] = [
+const OFFICIALS: ProtocolIndexerGraphMap[] = [
   /* -------------------------------------------------------------------------- */
   /*                                  MAINNETS                                  */
   /* -------------------------------------------------------------------------- */
@@ -240,9 +252,12 @@ const OFFICIALS: IndexerGraphMap[] = [
   }),
 ];
 
-const ALL: IndexerGraphMap[] = [...CUSTOMS, ...OFFICIALS];
+const ALL: ProtocolIndexerGraphMap[] = [...CUSTOMS, ...OFFICIALS];
 
-function toSortedArray(indexerMaps: IndexerGraphMap[], protocol: Indexer.Protocol): Indexer[] {
+function toSortedArray(
+  indexerMaps: ProtocolIndexerGraphMap[],
+  protocol: Indexer.Protocol
+): ProtocolGraphIndexer[] {
   return indexerMaps
     .map((indexerMap) => indexerMap[protocol])
     .sort((a, b) => {
@@ -252,11 +267,24 @@ function toSortedArray(indexerMaps: IndexerGraphMap[], protocol: Indexer.Protoco
     });
 }
 
-export const graph: Record<Indexer.Protocol, Indexer[]> = {
-  airdrops: toSortedArray(ALL, Protocol.Airdrops),
-  flow: toSortedArray(ALL, Protocol.Flow),
-  lockup: toSortedArray(ALL, Protocol.Lockup),
+function toPublicIndexers(
+  indexers: ProtocolGraphIndexer[],
+  indexer: Indexer.IndexerKey
+): Indexer[] {
+  return indexers.map((entry) => ({ ...entry, indexer }));
+}
+
+export function getProtocolGraphIndexer(opts: {
+  chainId: number;
+  protocol: Indexer.Protocol;
+}): ProtocolGraphIndexer | undefined {
+  return toSortedArray(ALL, opts.protocol).find((indexer) => indexer.chainId === opts.chainId);
+}
+
+export const graph: Record<Indexer.IndexerKey, Indexer[]> = {
+  airdrops: toPublicIndexers(toSortedArray(ALL, Protocol.Airdrops), Protocol.Airdrops),
+  streams: toPublicIndexers(toSortedArray(ALL, Protocol.Lockup), "streams"),
 };
 
 // It doesn't matter what protocol we are using since each chain supports all protocols.
-export const graphChains = graph.lockup.map((c) => c.chainId);
+export const graphChains = graph.streams.map((c) => c.chainId);

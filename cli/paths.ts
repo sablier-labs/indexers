@@ -14,11 +14,12 @@ export function getQueryAssetsDirectoryName(dateSegment: string): string {
   return `assets-${dateSegment}`;
 }
 
-type I = Indexer.Name;
+type Target = Indexer.Target;
+type GraphTarget = Indexer.GraphTarget;
 type V = Indexer.Vendor;
 
 const paths = {
-  abi: (contractName: string, indexer?: I, version?: Model.Version): string => {
+  abi: (contractName: string, protocol?: Indexer.Protocol, version?: Model.Version): string => {
     if (contractName === "SablierComptroller" && version) {
       return join(
         ROOT_DIR,
@@ -30,14 +31,14 @@ const paths = {
         `${contractName}.json`
       );
     }
-    if (indexer && version) {
+    if (protocol && version) {
       // Use sablier package for Sablier contracts
       return join(
         ROOT_DIR,
         "node_modules",
         "sablier",
         "abi",
-        indexer,
+        protocol,
         version,
         `${contractName}.json`
       );
@@ -46,18 +47,18 @@ const paths = {
     return join(ABI_DIR, `${contractName}.json`);
   },
   envio: {
-    config: (indexer: I): string => join(ENVIO_DIR, indexer, "config.yaml"),
-    schema: (indexer: I): string => join(ENVIO_DIR, indexer, `${indexer}.graphql`),
+    config: (target: Target): string => join(ENVIO_DIR, target, "config.yaml"),
+    schema: (target: Target): string => join(ENVIO_DIR, target, `${target}.graphql`),
   },
   exports: {
-    schema: (indexer: I): string => join(EXPORTS_DIR, "schemas", `${indexer}.graphql`),
+    schema: (target: GraphTarget): string => join(EXPORTS_DIR, "schemas", `${target}.graphql`),
     schemas: (): string => join(EXPORTS_DIR, "schemas"),
   },
   generated: {
     queryAssets: {
       dir: (dateSegment: string): string =>
         join(ROOT_DIR, "cli", "generated", getQueryAssetsDirectoryName(dateSegment)),
-      file: (dateSegment: string, indexer: Indexer.Protocol, chainSlug: string): string =>
+      file: (dateSegment: string, indexer: Indexer.IndexerKey, chainSlug: string): string =>
         join(
           ROOT_DIR,
           "cli",
@@ -66,19 +67,20 @@ const paths = {
           indexer,
           `${chainSlug}.json`
         ),
-      indexerDir: (dateSegment: string, indexer: Indexer.Protocol): string =>
+      indexerDir: (dateSegment: string, indexer: Indexer.IndexerKey): string =>
         join(ROOT_DIR, "cli", "generated", getQueryAssetsDirectoryName(dateSegment), indexer),
     },
   },
   graph: {
-    manifest: (indexer: I, chainId: number): string => {
+    manifest: (target: GraphTarget, chainId: number): string => {
       const chainSlug = getGraphChainSlug(chainId);
-      return join(GRAPH_DIR, indexer, "manifests", `${chainSlug}.yaml`);
+      return join(GRAPH_DIR, target, "manifests", `${chainSlug}.yaml`);
     },
-    manifests: (indexer: I): string => join(GRAPH_DIR, indexer, "manifests"),
-    schema: (indexer: I): string => join(GRAPH_DIR, indexer, `${indexer}.graphql`),
+    manifests: (target: GraphTarget): string => join(GRAPH_DIR, target, "manifests"),
+    schema: (target: GraphTarget): string => join(GRAPH_DIR, target, `${target}.graphql`),
   },
-  schema: (vendor: V, indexer: I): string => join(ROOT_DIR, vendor, indexer, `${indexer}.graphql`),
+  schema: (vendor: V, target: GraphTarget): string =>
+    join(ROOT_DIR, vendor, target, `${target}.graphql`),
 };
 
 export default paths;

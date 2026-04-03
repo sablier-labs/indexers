@@ -2,9 +2,9 @@ import { Array as Arr, Order } from "effect";
 import { isAddress } from "viem";
 import type { Indexer } from "../../src/types.js";
 import type { IndexedAssetFile } from "./query/assets.file.js";
-import { getQueryAssetsFilePath, QUERY_ASSET_PROTOCOLS } from "./query/assets.file.js";
+import { getQueryAssetsFilePath, QUERY_ASSET_INDEXERS } from "./query/assets.file.js";
 
-export type RecoverTokensProtocol = Extract<Indexer.Protocol, "flow" | "lockup">;
+export type RecoverTokensProtocol = "flow" | "lockup";
 
 export type RecoverTokensContractName = "SablierFlow" | "SablierLockup";
 
@@ -21,6 +21,10 @@ const RECOVER_TOKENS_CONTRACT_NAMES: Record<RecoverTokensProtocol, RecoverTokens
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
+}
+
+function isQueryAssetIndexer(value: string): value is Indexer.IndexerKey {
+  return QUERY_ASSET_INDEXERS.includes(value as Indexer.IndexerKey);
 }
 
 function parseInteger(value: unknown, field: string, options?: { minimum?: number }): number {
@@ -67,17 +71,23 @@ const RECOVER_TOKEN_ROW_ADDRESS_ORDER = Order.mapInput(
 );
 
 export function getRecoverTokensContractName(
-  indexer: RecoverTokensProtocol
+  protocol: RecoverTokensProtocol
 ): RecoverTokensContractName {
-  return RECOVER_TOKENS_CONTRACT_NAMES[indexer];
+  return RECOVER_TOKENS_CONTRACT_NAMES[protocol];
+}
+
+export function getRecoverTokensAssetFileIndexer(
+  _protocol: RecoverTokensProtocol
+): Extract<Indexer.IndexerKey, "streams"> {
+  return "streams";
 }
 
 export function getRecoverTokensDefaultFilePath(
-  indexer: RecoverTokensProtocol,
+  protocol: RecoverTokensProtocol,
   chainId: number,
   dateSegment: string
 ): string {
-  return getQueryAssetsFilePath(indexer, chainId, dateSegment);
+  return getQueryAssetsFilePath(getRecoverTokensAssetFileIndexer(protocol), chainId, dateSegment);
 }
 
 /**
@@ -98,7 +108,7 @@ export function parseIndexedAssetFile(content: string): IndexedAssetFile {
   }
 
   const indexer = parseString(parsed.indexer, "indexer");
-  if (!QUERY_ASSET_PROTOCOLS.includes(indexer as Indexer.Protocol)) {
+  if (!isQueryAssetIndexer(indexer)) {
     throw new Error("Invalid indexer");
   }
 
@@ -131,7 +141,7 @@ export function parseIndexedAssetFile(content: string): IndexedAssetFile {
     chainName: parseString(parsed.chainName, "chainName"),
     chainSlug: parseString(parsed.chainSlug, "chainSlug"),
     generatedAt: parseString(parsed.generatedAt, "generatedAt"),
-    indexer: indexer as Indexer.Protocol,
+    indexer,
     vendor,
   };
 }

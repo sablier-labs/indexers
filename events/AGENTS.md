@@ -26,7 +26,7 @@ Each protocol file exports `Types.EventMap`:
 - **`eventName`** - Event name
 - **`protocol`** - Protocol name (flow, lockup, airdrops)
 - **`version`** - Contract version
-- **`indexers`** - Which indexers handle this event (e.g., `["flow", "analytics"]`)
+- **`indexers`** - Which indexers handle this event (e.g., `["streams", "analytics"]`)
 
 ## Usage
 

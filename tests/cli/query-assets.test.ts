@@ -5,6 +5,7 @@ import {
   getQueryAssetsDateSegment,
   getQueryAssetsFilePath,
   getStaleQueryAssetFilePaths,
+  QUERY_ASSET_INDEXERS,
 } from "../../cli/commands/query/assets.file.js";
 import { getNextAssetsCursor, parseAssetsPage } from "../../cli/commands/query/clients/envio.js";
 
@@ -14,8 +15,8 @@ const GENERATED_AT = "2026-03-06T00:00:00.000Z";
 const AIRDROPS_MAINNET_FILE_REGEX = new RegExp(
   `cli/generated/assets-${QUERY_ASSETS_DATE}/airdrops/mainnet\\.json$`
 );
-const STALE_LOCKUP_OPTIMISM_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/lockup/optimism\\.json$`
+const STREAMS_OPTIMISM_FILE_REGEX = new RegExp(
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/optimism\\.json$`
 );
 
 describe("query-assets helpers", () => {
@@ -82,9 +83,13 @@ describe("query-assets helpers", () => {
   });
 
   describe("buildAssetFiles", () => {
+    it("accepts only the public query-assets indexers", () => {
+      expect(QUERY_ASSET_INDEXERS).toEqual(["airdrops", "streams"]);
+    });
+
     it("groups assets by chain and sorts addresses deterministically", () => {
       const files = buildAssetFiles(
-        "lockup",
+        "streams",
         [
           {
             address: "0x0000000000000000000000000000000000000002",
@@ -120,7 +125,7 @@ describe("query-assets helpers", () => {
           chainName: "Ethereum",
           chainSlug: "mainnet",
           generatedAt: GENERATED_AT,
-          indexer: "lockup",
+          indexer: "streams",
           vendor: "envio",
           assets: [
             {
@@ -142,7 +147,7 @@ describe("query-assets helpers", () => {
           chainName: "OP Mainnet",
           chainSlug: "optimism",
           generatedAt: GENERATED_AT,
-          indexer: "lockup",
+          indexer: "streams",
           vendor: "envio",
           assets: [
             {
@@ -198,7 +203,7 @@ describe("query-assets helpers", () => {
 
     it("detects stale generated chain files", () => {
       const files = buildAssetFiles(
-        "lockup",
+        "streams",
         [
           {
             address: "0x0000000000000000000000000000000000000001",
@@ -213,14 +218,14 @@ describe("query-assets helpers", () => {
       );
 
       const staleFilePaths = getStaleQueryAssetFilePaths(
-        "lockup",
+        "streams",
         ["mainnet.json", "optimism.json", "notes.txt"],
         files,
         QUERY_ASSETS_DATE
       );
 
       expect(staleFilePaths).toHaveLength(1);
-      expect(staleFilePaths[0]).toMatch(STALE_LOCKUP_OPTIMISM_FILE_REGEX);
+      expect(staleFilePaths[0]).toMatch(STREAMS_OPTIMISM_FILE_REGEX);
     });
   });
 });

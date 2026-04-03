@@ -8,7 +8,7 @@
 @print-log-levels:
     echo "Available log levels: error, warn, info, http, verbose, debug, silly"
 
-# Print available indexer arguments
+# Print available protocol arguments
 [group("cli")]
 @print-protocols:
-    echo "Available indexer arguments: all, flow, lockup, airdrops"
+    echo "Available protocol arguments: flow, lockup, airdrops"

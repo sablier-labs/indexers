@@ -20,8 +20,8 @@ const AssetFragment = /* GraphQL */ `
   }
 `;
 
-const BatchFragment = /* GraphQL */ `
-  fragment BatchFragment on Batch {
+const LockupBatchFragment = /* GraphQL */ `
+  fragment LockupBatchFragment on LockupBatch {
     id
     hash
     timestamp
@@ -33,11 +33,11 @@ const BatchFragment = /* GraphQL */ `
 `;
 
 /* -------------------------------------------------------------------------- */
-/*                         STREAM ACTION FRAGMENT                             */
+/*                         LOCKUP ACTION FRAGMENT                             */
 /* -------------------------------------------------------------------------- */
 
-const StreamActionFragment = /* GraphQL */ `
-  fragment ActionFragment on Action {
+const LockupActionFragment = /* GraphQL */ `
+  fragment LockupActionFragment on LockupAction {
     id
     addressA
     addressB
@@ -88,7 +88,7 @@ const LockupTrancheFragment = /* GraphQL */ `
 `;
 
 const LockupStreamFragmentBase = /* GraphQL */ `
-  fragment StreamFragmentBase on Stream {
+  fragment LockupStreamFragmentBase on LockupStream {
     id
     alias
     cancelable
@@ -126,60 +126,7 @@ const LockupStreamFragmentBase = /* GraphQL */ `
       ...AssetFragment
     }
     batch {
-      ...BatchFragment
-    }
-  }
-`;
-
-/* -------------------------------------------------------------------------- */
-/*                                FLOW FRAGMENTS                              */
-/* -------------------------------------------------------------------------- */
-
-const FlowStreamFragment = /* GraphQL */ `
-  fragment StreamFragment on Stream {
-    id
-    alias
-    availableAmount
-    category
-    chainId
-    creator
-    contract
-    depletionTime
-    depositedAmount
-    forgivenDebt
-    hash
-    lastAdjustmentTimestamp
-    paused
-    pausedTime
-    position
-    ratePerSecond
-    recipient
-    refundedAmount
-    sender
-    snapshotAmount
-    startTime
-    subgraphId
-    timestamp
-    tokenId
-    transferable
-    version
-    voided
-    voidedTime
-    withdrawnAmount
-    asset {
-      ...AssetFragment
-    }
-    batch {
-      ...BatchFragment
-    }
-    lastAdjustmentAction {
-      id
-    }
-    pausedAction {
-      id
-    }
-    voidedAction {
-      id
+      ...LockupBatchFragment
     }
   }
 `;
@@ -300,12 +247,12 @@ const AirdropsCampaignFragmentBase = /* GraphQL */ `
 export namespace LockupEnvio {
   export const getStreams = gql(/* GraphQL */ `
     ${AssetFragment}
-    ${BatchFragment}
+    ${LockupBatchFragment}
     ${LockupSegmentFragment}
     ${LockupTrancheFragment}
     ${LockupStreamFragmentBase}
-    fragment StreamFragment on Stream {
-      ...StreamFragmentBase
+    fragment LockupStreamFragment on LockupStream {
+      ...LockupStreamFragmentBase
       segments(limit: 1000, order_by: { position: asc }) {
         ...SegmentFragment
       }
@@ -313,29 +260,29 @@ export namespace LockupEnvio {
         ...TrancheFragment
       }
     }
-    query getStreams($first: Int!, $orderDirection: order_by!, $where: Stream_bool_exp) {
-      streams: Stream(
+    query getStreams($first: Int!, $orderDirection: order_by!, $where: LockupStream_bool_exp) {
+      streams: LockupStream(
         distinct_on: [subgraphId]
         limit: $first
         order_by: { subgraphId: $orderDirection }
         where: $where
       ) {
-        ...StreamFragment
+        ...LockupStreamFragment
       }
     }
   `);
 
   export const getActions = gql(/* GraphQL */ `
     ${AssetFragment}
-    ${StreamActionFragment}
-    query getActions($first: Int!, $orderDirection: order_by!, $where: Action_bool_exp) {
-      actions: Action(
+    ${LockupActionFragment}
+    query getActions($first: Int!, $orderDirection: order_by!, $where: LockupAction_bool_exp) {
+      actions: LockupAction(
         distinct_on: [subgraphId]
         limit: $first
         order_by: { subgraphId: $orderDirection }
         where: $where
       ) {
-        ...ActionFragment
+        ...LockupActionFragment
         stream {
           id
           alias
@@ -355,12 +302,12 @@ export namespace LockupEnvio {
 export namespace LockupGraph {
   export const getStreams = gql(/* GraphQL */ `
     ${AssetFragment}
-    ${BatchFragment}
+    ${LockupBatchFragment}
     ${LockupSegmentFragment}
     ${LockupTrancheFragment}
     ${LockupStreamFragmentBase}
-    fragment StreamFragment on Stream {
-      ...StreamFragmentBase
+    fragment LockupStreamFragment on LockupStream {
+      ...LockupStreamFragmentBase
       segments(first: 1000, orderBy: position, orderDirection: asc) {
         ...SegmentFragment
       }
@@ -368,117 +315,29 @@ export namespace LockupGraph {
         ...TrancheFragment
       }
     }
-    query getStreams($first: Int!, $orderDirection: OrderDirection!, $where: Stream_filter) {
-      streams(
+    query getStreams($first: Int!, $orderDirection: OrderDirection!, $where: LockupStream_filter) {
+      streams: lockupStreams(
         first: $first
         orderBy: subgraphId
         orderDirection: $orderDirection
         where: $where
       ) {
-        ...StreamFragment
+        ...LockupStreamFragment
       }
     }
   `);
 
   export const getActions = gql(/* GraphQL */ `
     ${AssetFragment}
-    ${StreamActionFragment}
-    query getActions($first: Int!, $orderDirection: OrderDirection!, $where: Action_filter) {
-      actions(
+    ${LockupActionFragment}
+    query getActions($first: Int!, $orderDirection: OrderDirection!, $where: LockupAction_filter) {
+      actions: lockupActions(
         first: $first
         orderBy: subgraphId
         orderDirection: $orderDirection
         where: $where
       ) {
-        ...ActionFragment
-        stream {
-          id
-          alias
-          asset {
-            ...AssetFragment
-          }
-        }
-      }
-    }
-  `);
-}
-
-/* -------------------------------------------------------------------------- */
-/*                            FLOW ENVIO QUERIES                              */
-/* -------------------------------------------------------------------------- */
-
-export namespace FlowEnvio {
-  export const getStreams = gql(/* GraphQL */ `
-    ${AssetFragment}
-    ${BatchFragment}
-    ${FlowStreamFragment}
-    query getStreams($first: Int!, $orderDirection: order_by!, $where: Stream_bool_exp) {
-      streams: Stream(
-        distinct_on: [subgraphId]
-        limit: $first
-        order_by: { subgraphId: $orderDirection }
-        where: $where
-      ) {
-        ...StreamFragment
-      }
-    }
-  `);
-
-  export const getActions = gql(/* GraphQL */ `
-    ${AssetFragment}
-    ${StreamActionFragment}
-    query getActions($first: Int!, $orderDirection: order_by!, $where: Action_bool_exp) {
-      actions: Action(
-        distinct_on: [subgraphId]
-        limit: $first
-        order_by: { subgraphId: $orderDirection }
-        where: $where
-      ) {
-        ...ActionFragment
-        stream {
-          id
-          alias
-          asset {
-            ...AssetFragment
-          }
-        }
-      }
-    }
-  `);
-}
-
-/* -------------------------------------------------------------------------- */
-/*                            FLOW GRAPH QUERIES                              */
-/* -------------------------------------------------------------------------- */
-
-export namespace FlowGraph {
-  export const getStreams = gql(/* GraphQL */ `
-    ${AssetFragment}
-    ${BatchFragment}
-    ${FlowStreamFragment}
-    query getStreams($first: Int!, $orderDirection: OrderDirection!, $where: Stream_filter) {
-      streams(
-        first: $first
-        orderBy: subgraphId
-        orderDirection: $orderDirection
-        where: $where
-      ) {
-        ...StreamFragment
-      }
-    }
-  `);
-
-  export const getActions = gql(/* GraphQL */ `
-    ${AssetFragment}
-    ${StreamActionFragment}
-    query getActions($first: Int!, $orderDirection: OrderDirection!, $where: Action_filter) {
-      actions(
-        first: $first
-        orderBy: subgraphId
-        orderDirection: $orderDirection
-        where: $where
-      ) {
-        ...ActionFragment
+        ...LockupActionFragment
         stream {
           id
           alias

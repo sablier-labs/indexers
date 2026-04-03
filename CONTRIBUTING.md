@@ -97,7 +97,7 @@ For a full list of protocol versions, see the [Sablier SDK](https://github.com/s
 Go to each protocol's directory and run the `deploy-all` recipe. For example:
 
 ```shell
-cd graph/lockup
+cd graph/streams
 just deploy-all v2.1--v1.0.0
 ```
 

@@ -13,8 +13,7 @@ import chalk from "chalk";
 import { Clock, Console, Effect, Either, Option } from "effect";
 import { sablier } from "sablier";
 import { Protocol } from "sablier/evm";
-import { graphChains } from "../../../src/indexers/graph.js";
-import { getIndexerGraph } from "../../../src/indexers/index.js";
+import { getProtocolGraphIndexer, graphChains } from "../../../src/indexers/graph.js";
 import type { Indexer } from "../../../src/types.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { getOptionalGraphHeaders } from "../../graph-auth.js";
@@ -200,7 +199,7 @@ const graphReviveLogic = (options: {
         protocols,
         (protocol) =>
           Effect.gen(function* () {
-            const indexer = getIndexerGraph({ chainId, protocol });
+            const indexer = getProtocolGraphIndexer({ chainId, protocol });
             if (!indexer) {
               return {
                 chainId,

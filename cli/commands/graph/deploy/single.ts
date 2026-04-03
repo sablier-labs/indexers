@@ -2,11 +2,11 @@
  * @file Deploy a subgraph to a single chain (official or custom Graph node)
  *
  * @example
- * pnpm tsx cli graph-deploy-single -c arbitrum -i lockup -v v3.0.0
- * pnpm tsx cli graph-deploy-single -c denergychain -i flow -v v2.0.0 --dry-run
+ * pnpm tsx cli graph-deploy-single -c arbitrum -i streams -v v3.0.0
+ * pnpm tsx cli graph-deploy-single -c denergychain -i airdrops -v v2.0.0 --dry-run
  *
  * @param --chain - Required: Sablier chain slug (e.g., 'arbitrum', 'denergychain')
- * @param --indexer - Required: 'airdrops', 'flow', or 'lockup'
+ * @param --indexer - Required: 'airdrops' or 'streams'
  * @param --version-label - Required: Version label for the deployment
  * @param --dry-run - Optional: Show command without executing
  */
@@ -67,7 +67,7 @@ const chainOption = Options.text("chain").pipe(
   Options.withDescription("Sablier chain slug (e.g., 'arbitrum', 'denergychain')")
 );
 
-const indexerOption = Options.choice("indexer", ["airdrops", "flow", "lockup"] as const).pipe(
+const indexerOption = Options.choice("indexer", ["airdrops", "streams"] as const).pipe(
   Options.withAlias("i"),
   Options.withDescription("Indexer to deploy")
 );
@@ -190,7 +190,7 @@ function buildOfficialArgs(versionLabel: string): string[] {
 
 type CommandOptions = {
   readonly chain: string;
-  readonly indexer: "airdrops" | "flow" | "lockup";
+  readonly indexer: "airdrops" | "streams";
   readonly versionLabel: string;
   readonly dryRun: boolean;
 };
@@ -203,7 +203,7 @@ const graphDeploySingleLogic = (options: CommandOptions) =>
     const chain = yield* helpers.getChain(options.chain);
 
     // Detect if this chain uses a custom Graph node
-    const indexerConfig = getIndexerGraph({ chainId: chain.id, protocol: options.indexer });
+    const indexerConfig = getIndexerGraph({ chainId: chain.id, indexer: options.indexer });
     if (!indexerConfig) {
       return yield* Effect.fail(
         new ValidationError({
@@ -227,10 +227,9 @@ const graphDeploySingleLogic = (options: CommandOptions) =>
       );
     }
 
-    // Build subgraph name (different format for custom vs official)
-    const subgraphName = isCustom
-      ? `${sablierSlug}/sablier-${options.indexer}-${sablierSlug}`
-      : `sablier-${options.indexer}-${sablierSlug}`;
+    // Use the resolved registry name so logical indexers like "streams" can
+    // continue deploying into the legacy Lockup subgraph slots.
+    const subgraphName = isCustom ? `${sablierSlug}/${indexerConfig.name}` : indexerConfig.name;
 
     // Resolve manifest path (uses getGraphChainSlug internally)
     const manifestPath = paths.graph.manifest(options.indexer, chain.id);

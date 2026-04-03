@@ -1,7 +1,6 @@
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import axios from "axios";
 import _ from "lodash";
-import { Protocol } from "sablier/evm";
 import { describe, expect, it } from "vitest";
 import { envioChains } from "../../src/indexers/envio.js";
 import { getIndexerGraph } from "../../src/indexers/getters.js";
@@ -18,7 +17,7 @@ describe("Vendors", () => {
 
       let unsupported = _.difference(graphChains, supportedChainIds);
       unsupported = _.filter(unsupported, (id) => {
-        const indexer = getIndexerGraph({ chainId: id, protocol: Protocol.Lockup });
+        const indexer = getIndexerGraph({ chainId: id, indexer: "streams" });
         return indexer?.kind === "official";
       });
 

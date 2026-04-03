@@ -3,11 +3,11 @@
  *
  * @example
  * pnpm tsx cli codegen schema --vendor all --indexer all
- * pnpm tsx cli codegen schema --vendor all --indexer flow
- * pnpm tsx cli codegen schema --vendor graph --indexer flow
+ * pnpm tsx cli codegen schema --vendor all --indexer streams
+ * pnpm tsx cli codegen schema --vendor graph --indexer streams
  *
  * @param --vendor - Required: 'graph', 'envio', or 'all'
- * @param --indexer - Required: 'airdrops', 'flow', 'lockup', 'analytics', or 'all'
+ * @param --indexer - Required: 'airdrops', 'streams', 'analytics', or 'all'
  */
 
 import { Command, Options } from "@effect/cli";
@@ -18,7 +18,7 @@ import { print } from "graphql";
 import _ from "lodash";
 import { getMergedSchema } from "../../../schema/index.js";
 import type { Indexer } from "../../../src/index.js";
-import { AUTOGEN_COMMENT, INDEXERS, VENDORS } from "../../constants.js";
+import { AUTOGEN_COMMENT, GRAPH_TARGETS, TARGET_OPTIONS, VENDORS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
 import { ProcessError } from "../../errors.js";
 import * as helpers from "../../helpers.js";
@@ -33,38 +33,25 @@ const vendorOption = Options.choice("vendor", ["graph", "envio", "all"] as const
   Options.withDescription("Vendor to generate schemas for")
 );
 
-const indexerOption = Options.choice("indexer", [
-  "airdrops",
-  "flow",
-  "lockup",
-  "analytics",
-  "all",
-] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
+const indexerOption = Options.choice("indexer", TARGET_OPTIONS).pipe(
+  Options.withAlias("i"),
+  Options.withDescription("Indexer to generate schema for")
+);
 
 /**
  * Generates and writes a GraphQL schema for a specific indexer with result tracking
  */
-function generateSchemaWithResult(vendor: Indexer.Vendor, indexer: Indexer.Name) {
+function generateSchemaWithResult(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
   return Effect.gen(function* () {
-    // Analytics has a manually maintained schema, skip generation
-    if (indexer === "analytics") {
-      return {
-        indexer,
-        outputPath: "",
-        status: "skipped" as const,
-        vendor,
-      };
-    }
-
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(indexer, vendor));
+    const mergedSchema = print(getMergedSchema(target, vendor));
     const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
-    const outputPath = paths.schema(vendor, indexer);
+    const outputPath = paths.schema(vendor, target);
 
     yield* fs.writeFileString(outputPath, schema);
 
     return {
-      indexer,
+      target,
       outputPath: yield* helpers.getRelative(outputPath),
       status: "generated" as const,
       vendor,
@@ -72,7 +59,7 @@ function generateSchemaWithResult(vendor: Indexer.Vendor, indexer: Indexer.Name)
   }).pipe(
     Effect.catchAll(() =>
       Effect.succeed({
-        indexer,
+        target,
         outputPath: "",
         status: "error" as const,
         vendor,
@@ -84,17 +71,17 @@ function generateSchemaWithResult(vendor: Indexer.Vendor, indexer: Indexer.Name)
 /**
  * Generates and writes a GraphQL schema for a specific indexer
  */
-function generateSchema(vendor: Indexer.Vendor, indexer: Indexer.Name) {
+function generateSchema(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(indexer, vendor));
+    const mergedSchema = print(getMergedSchema(target, vendor));
     const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
-    const outputPath = paths.schema(vendor, indexer);
+    const outputPath = paths.schema(vendor, target);
 
     yield* fs.writeFileString(outputPath, schema);
 
     yield* Console.log(
-      `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(indexer)} indexer`
+      `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(target)} target`
     );
     yield* Console.log(`📁 Output path: ${yield* helpers.getRelative(outputPath)}`);
     yield* Console.log("");
@@ -106,9 +93,9 @@ function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
     yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Analytics uses a manually maintained schema
-    const indexers = INDEXERS.filter((i) => i !== "analytics");
-    const results = yield* Effect.forEach(indexers, (indexer) =>
-      generateSchemaWithResult(vendor, indexer)
+    const targets = GRAPH_TARGETS;
+    const results = yield* Effect.forEach(targets, (target) =>
+      generateSchemaWithResult(vendor, target)
     );
 
     // Display results table
@@ -124,7 +111,7 @@ function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
         result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
       table.push([
         colors.value(_.capitalize(result.vendor)),
-        colors.value(_.capitalize(result.indexer)),
+        colors.value(_.capitalize(result.target)),
         colors.dim(result.outputPath),
         statusText,
       ]);
@@ -165,27 +152,27 @@ function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
   });
 }
 
-function generateAllVendorSchemas(indexerArg: Indexer.Name | "all") {
+function generateAllVendorSchemas(indexerArg: Indexer.GraphTarget | "all") {
   return Effect.gen(function* () {
     yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Build list of vendor/indexer combinations to process
     // Analytics uses a manually maintained schema
-    const indexers = INDEXERS.filter((i) => i !== "analytics");
-    const combinations: Array<{ vendor: Indexer.Vendor; indexer: Indexer.Name }> = [];
+    const graphTargets = GRAPH_TARGETS;
+    const combinations: Array<{ target: Indexer.GraphTarget; vendor: Indexer.Vendor }> = [];
     for (const v of VENDORS) {
       if (indexerArg === "all") {
-        for (const i of indexers) {
-          combinations.push({ indexer: i, vendor: v });
+        for (const target of graphTargets) {
+          combinations.push({ target, vendor: v });
         }
       } else {
-        combinations.push({ indexer: indexerArg, vendor: v });
+        combinations.push({ target: indexerArg, vendor: v });
       }
     }
 
     // Generate schemas with Effect.forEach
-    const results = yield* Effect.forEach(combinations, ({ vendor, indexer }) =>
-      generateSchemaWithResult(vendor, indexer)
+    const results = yield* Effect.forEach(combinations, ({ target, vendor }) =>
+      generateSchemaWithResult(vendor, target)
     );
 
     // Display results table
@@ -201,7 +188,7 @@ function generateAllVendorSchemas(indexerArg: Indexer.Name | "all") {
         result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
       table.push([
         colors.value(_.capitalize(result.vendor)),
-        colors.value(_.capitalize(result.indexer)),
+        colors.value(_.capitalize(result.target)),
         colors.dim(result.outputPath),
         statusText,
       ]);
@@ -244,27 +231,27 @@ function generateAllVendorSchemas(indexerArg: Indexer.Name | "all") {
 
 const schemaLogic = (options: {
   readonly vendor: "graph" | "envio" | "all";
-  readonly indexer: Indexer.Name | "all";
+  readonly indexer: Indexer.Target | "all";
 }) =>
   Effect.gen(function* () {
     const vendorArg = options.vendor;
-    const indexerArg = options.indexer;
+    const targetArg = options.indexer;
 
     // Analytics has a manually maintained schema, skip generation
-    if (indexerArg === "analytics") {
+    if (targetArg === "analytics") {
       yield* Console.log("⏭️  Skipping (uses manually maintained schema)");
       return;
     }
 
     if (vendorArg === "all") {
-      return yield* generateAllVendorSchemas(indexerArg);
+      return yield* generateAllVendorSchemas(targetArg);
     }
 
-    if (indexerArg === "all") {
+    if (targetArg === "all") {
       return yield* generateAllIndexerSchemas(vendorArg);
     }
 
-    return yield* generateSchema(vendorArg, indexerArg);
+    return yield* generateSchema(vendorArg, targetArg);
   });
 
 export const schemaCommand = Command.make(

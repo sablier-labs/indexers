@@ -1,0 +1,98 @@
+import _ from "lodash";
+import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../../common/deprecated";
+import { fetchTokenMetadata } from "../../../../common/effects";
+import { Id } from "../../../../common/id";
+import { CommonStore } from "../../../../common/store";
+import type { RPCData } from "../../../../common/types";
+import type {
+  SablierFlow_v1_0_CreateFlowStream_handler as Handler_v1_0,
+  SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,
+  SablierFlow_v2_0_CreateFlowStream_handler as Handler_v2_0,
+  SablierFlow_v3_0_CreateFlowStream_handler as Handler_v3_0,
+} from "../../../bindings/src/Types.gen";
+import * as StreamsWatcher from "../../../store/entity-watcher";
+import { Store } from "../../../store/flow";
+import * as FlowAction from "../../../store/flow/entity-action";
+
+/* -------------------------------------------------------------------------- */
+/*                                   HANDLER                                  */
+/* -------------------------------------------------------------------------- */
+
+type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v3_0;
+
+const handler: Handler = async ({ context, event }) => {
+  if (isDeprecatedFlowContract({ asset: event.params.token, event, protocol: "flow" })) {
+    CommonStore.DeprecatedStream.create(context, event, event.params.streamId);
+    return;
+  }
+
+  /* --------------------------------- ENTITIES ------------------------------- */
+  const assetId = Id.asset(event.chainId, event.params.token);
+  const batchId = Id.batch(event, event.params.sender);
+  const batcherId = Id.batcher(event.chainId, event.params.sender);
+  const contractId = Id.contract(event.chainId, event.srcAddress);
+  const watcherId = event.chainId.toString();
+
+  const [asset, batch, batcher, contract, watcher] = await Promise.all([
+    context.Asset.get(assetId),
+    context.FlowBatch.get(batchId),
+    context.FlowBatcher.get(batcherId),
+    context.Contract.get(contractId),
+    context.Watcher.get(watcherId),
+  ]);
+
+  let assetMetadata: RPCData.ERC20Metadata;
+  if (asset) {
+    assetMetadata = {
+      decimals: Number(asset.decimals),
+      name: asset.name,
+      symbol: asset.symbol,
+    };
+  } else {
+    assetMetadata = await context.effect(fetchTokenMetadata, {
+      address: event.params.token,
+      chainId: event.chainId,
+    });
+  }
+
+  if (context.isPreload) {
+    return;
+  }
+
+  /* -------------------------------- CONTRACT -------------------------------- */
+  if (!contract) {
+    CommonStore.Contract.create(context, event, "flow");
+  }
+
+  const entities = {
+    asset:
+      asset ?? CommonStore.Asset.create(context, event.chainId, event.params.token, assetMetadata),
+    batch: batch ?? Store.Batch.create(event, event.params.sender),
+    batcher: batcher ?? Store.Batcher.create(context, event, event.params.sender),
+    watcher: watcher ?? StreamsWatcher.create(event.chainId),
+  };
+
+  /* --------------------------------- STREAM --------------------------------- */
+  const stream = Store.Stream.create(context, event, entities, {
+    ratePerSecond: event.params.ratePerSecond,
+    recipient: event.params.recipient,
+    sender: event.params.sender,
+    startTime: _.get(event.params, "snapshotTime") ?? BigInt(event.block.timestamp),
+    tokenId: event.params.streamId,
+    transferable: event.params.transferable,
+  });
+
+  /* --------------------------------- ACTION --------------------------------- */
+  FlowAction.create(context, event, entities.watcher, {
+    addressA: event.params.sender,
+    addressB: event.params.recipient,
+    amountA: event.params.ratePerSecond,
+    category: "Create",
+    streamId: stream.id,
+  });
+
+  /* --------------------------------- WATCHER -------------------------------- */
+  StreamsWatcher.incrementFlowCounters(context, entities.watcher);
+};
+
+export const createStream = { handler };
