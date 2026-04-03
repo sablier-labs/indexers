@@ -47,7 +47,7 @@ importers:
         version: 1.15.3(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/60753f158b3ab0879f31f3e05b6fdfac5dcac13f
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/a41f1eba253c43faaed97ed1b48b715f76f26659
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1257,8 +1257,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/60753f158b3ab0879f31f3e05b6fdfac5dcac13f':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/60753f158b3ab0879f31f3e05b6fdfac5dcac13f}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a41f1eba253c43faaed97ed1b48b715f76f26659':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/a41f1eba253c43faaed97ed1b48b715f76f26659}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -1309,8 +1309,8 @@ packages:
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
 
-  '@swc/helpers@0.5.20':
-    resolution: {integrity: sha512-2egEBHUMasdypIzrprsu8g+OEVd7Vp2MM3a2eVlM/cyFYto0nGz5BX5BTgh/ShZZI9ed+ozEq+Ngt+rgmUs8tw==}
+  '@swc/helpers@0.5.21':
+    resolution: {integrity: sha512-jI/VAmtdjB/RnI8GTnokyX7Ug8c+g+ffD6QRLa6XQewtnGyukKkKSk3wLTM3b5cjt1jNh9x0jfVlagdN2gDKQg==}
 
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
@@ -5031,7 +5031,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.0.3)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/60753f158b3ab0879f31f3e05b6fdfac5dcac13f': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a41f1eba253c43faaed97ed1b48b715f76f26659': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5105,7 +5105,7 @@ snapshots:
 
   '@standard-schema/spec@1.0.0': {}
 
-  '@swc/helpers@0.5.20':
+  '@swc/helpers@0.5.21':
     dependencies:
       tslib: 2.8.1
 
@@ -7229,7 +7229,7 @@ snapshots:
 
   rpc-websockets@9.3.7:
     dependencies:
-      '@swc/helpers': 0.5.20
+      '@swc/helpers': 0.5.21
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       buffer: 6.0.3
