@@ -68,6 +68,7 @@ _codegen-envio-bindings indexer:
 
 alias de := deploy-envio
 
+# TODO: remove if once the deployment branch is switched to `deployment/streams`
 [private]
 [script("bash")]
 _deploy-envio indexer:
