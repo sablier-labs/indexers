@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-[3.1.0-beta.0]: https://github.com/sablier-labs/indexers/compare/v3.0.0...v3.1.0-beta.0
+[4.0.0]: https://github.com/sablier-labs/indexers/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/sablier-labs/indexers/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/sablier-labs/indexers/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/sablier-labs/indexers/compare/v1.1.1...v1.2.0
@@ -13,17 +13,26 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 
-## [3.1.0-beta.0] - 2026-03-26
-
-### Added
-
-- Add the public `streams` indexer key for the merged Flow + Lockup surface
+## [4.0.0] - 2026-04-06
 
 ### Changed
 
-- **Breaking:** Narrow `Indexer.IndexerKey` to `airdrops | streams`
-- **Breaking:** Remove exported public `flow` and `lockup` registry entries; both remain protocol-only internals
-- **Breaking:** Rename the generated merged schema artifact to `src/schemas/streams.graphql`
+- **Breaking:** Merge Flow and Lockup indexers into a unified `streams` surface
+  ([#312](https://github.com/sablier-labs/indexers/pull/312))
+- **Breaking:** Replace `Indexer.Protocol` with `Indexer.IndexerKey` (`airdrops | streams`) on public-facing types
+  (`Indexer.protocol` → `Indexer.indexer`)
+- **Breaking:** Remove exported `flow` and `lockup` registry entries from `envio` and `graph` maps; use `streams`
+  instead
+- **Breaking:** Rename generated schema artifact from `lockup.graphql` to `streams.graphql` and delete `flow.graphql`
+- Bump `sablier` dependency from `^3.3.2` to `^3.3.5`
+
+### Added
+
+- Add `Indexer.Target` and `Indexer.GraphTarget` type aliases for codegen build targets
+- Add `converterURL` field to `Indexer.EnvioDeployment` for subgraph-compatible GraphQL API
+  ([#318](https://github.com/sablier-labs/indexers/pull/318))
+- Add `getEnvioDeployment` helper function
+- Add `getProtocolGraphIndexer` helper for protocol-level Graph lookups
 
 ## [3.0.0] - 2026-03-23
 
