@@ -98,6 +98,6 @@
   },
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build",
-    "start": "cd ./envio/$ENVIO_INDEXER_NAME && ts-node ./bindings/src/Index.res.js"
+    "start": "cd ./envio/$ENVIO_INDEXER_NAME && pnpm envio start"
   }
 }
