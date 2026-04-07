@@ -1,7 +1,7 @@
 import { HttpClient } from "@effect/platform";
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import { Console, Effect, Schedule } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { envioChains } from "../../../src/indexers/envio.js";
 import { colors, createTable, displayHeader } from "../../display.js";

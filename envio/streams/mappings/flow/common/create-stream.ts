@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../../common/deprecated.js";
 import { fetchTokenMetadata } from "../../../../common/effects/index.js";
 import { Id } from "../../../../common/id.js";

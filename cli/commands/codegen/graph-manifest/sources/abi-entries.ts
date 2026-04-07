@@ -1,5 +1,5 @@
 import { Effect } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { indexedContracts } from "../../../../../contracts/index.js";
 import type { Indexer } from "../../../../../src/index.js";
 import type { Model } from "../../../../../src/types.js";

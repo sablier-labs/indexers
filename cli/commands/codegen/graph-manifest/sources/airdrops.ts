@@ -1,5 +1,5 @@
 import { Effect } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import type { Version } from "sablier/evm";

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sanitizeContractName } from "../../../../cli/contract-name.js";
 import paths, { getRelativePath } from "../../../../cli/paths.js";
 import { indexedContracts } from "../../../../contracts/index.js";

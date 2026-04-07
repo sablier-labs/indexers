@@ -1,7 +1,7 @@
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Indexer } from "../../../../src/index.js";
 import { TARGETS } from "../../../constants.js";
 import { colors, createTable, displayHeader } from "../../../display.js";

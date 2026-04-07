@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Address } from "viem";
 import type { Envio } from "../../../../common/bindings.js";
 import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated.js";

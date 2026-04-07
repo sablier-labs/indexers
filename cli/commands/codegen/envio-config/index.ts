@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v1_3_Claim_handler,

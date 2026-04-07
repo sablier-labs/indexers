@@ -1,7 +1,7 @@
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect, Either } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/index.js";
 import { graphChains } from "../../../../src/indexers/graph.js";

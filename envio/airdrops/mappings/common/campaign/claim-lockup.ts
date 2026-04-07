@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Address } from "viem";
 import { Id } from "../../../../common/id.js";
 import type {

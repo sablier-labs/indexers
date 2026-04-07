@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { Logger } from "envio";
 import { createEffect, S } from "envio";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { CURRENCY_FREAKS_BASE_URL } from "../../common/constants.js";
 import { isToday } from "../../common/time.js";
 

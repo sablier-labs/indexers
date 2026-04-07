@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/evm/chains";
 import { describe, expect, it } from "vitest";

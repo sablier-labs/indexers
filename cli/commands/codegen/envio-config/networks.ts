@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { sanitizeContractName } from "../../../../cli/contract-name.js";
 import { indexedContracts } from "../../../../contracts/index.js";

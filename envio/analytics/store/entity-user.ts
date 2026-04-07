@@ -1,7 +1,7 @@
 /**
  * @see {@link: file://./../analytics.graphql}
  */
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { formatEther, zeroAddress } from "viem";
 import type { Envio } from "../../common/bindings.js";
 import { getTimestamp } from "../../common/time.js";

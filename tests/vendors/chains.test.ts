@@ -1,6 +1,6 @@
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import axios from "axios";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { describe, expect, it } from "vitest";
 import { envioChains } from "../../src/indexers/envio.js";
 import { getIndexerGraph } from "../../src/indexers/getters.js";
