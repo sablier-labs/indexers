@@ -13,7 +13,7 @@ Data indexers for the [Sablier](https://sablier.com) protocol for onchain token 
 Sablier's smart contract events and transform them into structured, queryable data APIs via GraphQL. The data is used to
 power the [Sablier Interface](https://app.sablier.com).
 
-There are two indexing providers: [The Graph](https://thegraph.com) and [Envio](https://envio.dev).
+There are two indexing providers: [Envio](https://envio.dev) (preferred) and [The Graph](https://thegraph.com).
 
 ## Documentation 📚
 
@@ -22,9 +22,10 @@ In-depth documentation is available at [docs.sablier.com](https://docs.sablier.c
 The package now exposes two public indexer keys:
 
 - `airdrops` for campaign distribution data
-- `streams` for the merged Flow + Lockup stream surface
+- `streams` for the Flow + Lockup streams
 
-`analytics` remains a separate target rather than a public indexer key.
+`analytics` remains a separate target rather than a public indexer key because it's meant to be a private indexer for
+internal use only.
 
 Protocol-specific docs remain available here:
 
@@ -52,5 +53,3 @@ feedback.
 ## License 📄
 
 This repo is licensed under GPL 3-0 or later.
-
-v2
