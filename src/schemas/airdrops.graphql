@@ -150,10 +150,6 @@ type Sponsorship @entity(immutable: true) {
   """
   timestamp: Int!
   """
-  Address of the USDC token used for payment.
-  """
-  token: String!
-  """
   Hash of the transaction.
   """
   txHash: String!

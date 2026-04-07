@@ -12,16 +12,8 @@ const airdropsFields = /* GraphQL */ `
   campaignId: String!
 `;
 
-const airdropsTrailingFields = /* GraphQL */ `
-  """
-  Address of the USDC token used for payment.
-  """
-  token: String!
-`;
-
 export function getSponsorshipDefs(target: Indexer.Target) {
   const extraFields = target === "airdrops" ? airdropsFields : "";
-  const extraTrailingFields = target === "airdrops" ? airdropsTrailingFields : "";
 
   return gql`
     """
@@ -65,7 +57,6 @@ export function getSponsorshipDefs(target: Indexer.Target) {
       Unix timestamp of the transaction.
       """
       timestamp: Int!
-      ${extraTrailingFields}
       """
       Hash of the transaction.
       """
