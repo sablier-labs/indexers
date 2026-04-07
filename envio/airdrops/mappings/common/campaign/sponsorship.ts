@@ -97,7 +97,6 @@ function createSponsorship(
     sender: event.params.caller.toLowerCase(),
     sponsor_id: sponsorEntityId,
     timestamp: event.block.timestamp,
-    token: event.params.token.toLowerCase(),
     txHash: event.transaction.hash,
   });
 }
