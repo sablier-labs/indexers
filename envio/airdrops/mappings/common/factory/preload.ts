@@ -36,9 +36,6 @@ export async function preloadCreateEntities({
     context.Factory.get(factoryId),
     context.Watcher.get(watcherId),
   ]);
-  if (context.isPreload) {
-    return null;
-  }
 
   let assetMetadata: RPCData.ERC20Metadata;
   if (asset) {

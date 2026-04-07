@@ -26,10 +26,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Watcher.get(watcherId),
   ]);
 
-  if (context.isPreload) {
-    return;
-  }
-
   if (!campaign) {
     context.log.error("Campaign not saved before this lower min fee event", { campaignId, event });
     return;

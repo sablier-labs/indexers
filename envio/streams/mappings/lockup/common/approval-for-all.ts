@@ -25,10 +25,6 @@ const handler: Handler = async ({ context, event }) => {
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.get(watcherId);
 
-  if (context.isPreload) {
-    return;
-  }
-
   const ensuredWatcher = watcher ?? Watcher.create(event.chainId);
   if (!watcher) {
     context.Watcher.set(ensuredWatcher);

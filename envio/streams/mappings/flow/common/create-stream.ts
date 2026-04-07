@@ -55,10 +55,6 @@ const handler: Handler = async ({ context, event }) => {
     });
   }
 
-  if (context.isPreload) {
-    return;
-  }
-
   /* -------------------------------- CONTRACT -------------------------------- */
   if (!contract) {
     CommonStore.Contract.create(context, event, "flow");

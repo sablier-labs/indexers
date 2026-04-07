@@ -45,7 +45,7 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
   try {
     // Load and validate entities. If the fee transaction already exists, we stop here.
     const entities = await loadEntities(context, event);
-    if (context.isPreload || entities.feeTx) {
+    if (entities.feeTx) {
       return;
     }
 

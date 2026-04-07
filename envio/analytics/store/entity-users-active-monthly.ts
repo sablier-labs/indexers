@@ -11,11 +11,6 @@ export async function trackMonthlyActiveUser(
   event: Envio.Event,
   userAddress: string
 ): Promise<void> {
-  // Stop if it's the preload phase
-  if (context.isPreload) {
-    return;
-  }
-
   const month = getMonth(event.block.timestamp);
 
   // Check if this user+month combination has already been counted (persistent check)

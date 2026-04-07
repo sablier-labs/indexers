@@ -46,9 +46,6 @@ export async function preloadCreateEntities({
     context.LockupBatcher.get(batcherId),
     context.Watcher.get(watcherId),
   ]);
-  if (context.isPreload) {
-    return null;
-  }
 
   let assetMetadata: RPCData.ERC20Metadata;
   if (asset) {

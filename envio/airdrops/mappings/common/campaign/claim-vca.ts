@@ -19,10 +19,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Watcher.get(event.chainId.toString()),
   ]);
 
-  if (context.isPreload) {
-    return;
-  }
-
   if (!campaign) {
     context.log.error("Campaign not saved before this claim VCA event", { campaignId, event });
     return;

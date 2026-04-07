@@ -30,10 +30,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Watcher.get(watcherId),
   ]);
 
-  if (context.isPreload) {
-    return;
-  }
-
   if (!stream) {
     context.log.error("Stream not saved before this withdraw event", { event, streamId });
     return;

@@ -56,8 +56,8 @@ export async function create(
   // Load entities
   const entities = await loadEntities(context, event, currency);
 
-  // If preload or transaction already exists, return early
-  if (context.isPreload || entities.feeCollectionTransaction) {
+  // If transaction already exists, return early
+  if (entities.feeCollectionTransaction) {
     return;
   }
 

@@ -49,11 +49,6 @@ export async function createOrUpdate(
     )
   );
 
-  // Stop if it's the preload phase: https://docs.envio.dev/docs/HyperIndex/preload-optimization#migrating-from-loaders
-  if (context.isPreload) {
-    return;
-  }
-
   for (const [i, user] of uniqueUsers.entries()) {
     await upsert(context, event, { ...user, entity: userEntities[i], tx: userTxEntities[i] });
   }
