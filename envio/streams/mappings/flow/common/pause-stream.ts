@@ -1,15 +1,15 @@
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
-import type { Entity } from "../../../bindings";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierFlow_v1_0_PauseFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_PauseFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_PauseFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_PauseFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { computeSnapshotAmount } from "../../../helpers";
-import * as StreamsWatcher from "../../../store/entity-watcher";
-import * as FlowAction from "../../../store/flow/entity-action";
+} from "../../../bindings/src/Indexer.gen.js";
+import type { Entity } from "../../../bindings.js";
+import { computeSnapshotAmount } from "../../../helpers/index.js";
+import * as StreamsWatcher from "../../../store/entity-watcher.js";
+import * as FlowAction from "../../../store/flow/entity-action.js";
 
 type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v3_0;
 
@@ -28,10 +28,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Watcher.get(watcherId),
   ]);
 
-  if (context.isPreload) {
-    return;
-  }
-
   if (!stream) {
     context.log.error("Stream not saved before this pause event", { event, streamId });
     return;
@@ -48,7 +44,7 @@ const handler: Handler = async ({ context, event }) => {
   const now = BigInt(event.block.timestamp);
   const snapshotAmount = computeSnapshotAmount(stream, now);
 
-  const updatedStream: Entity.FlowStream = {
+  const updatedStream: Entity<"FlowStream"> = {
     ...stream,
     lastAdjustmentAction_id: Id.action(event),
     lastAdjustmentTimestamp: now,

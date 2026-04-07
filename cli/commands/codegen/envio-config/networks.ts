@@ -1,4 +1,4 @@
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { sanitizeContractName } from "../../../../cli/contract-name.js";
 import { indexedContracts } from "../../../../contracts/index.js";
@@ -8,8 +8,8 @@ import { usdc } from "../../../usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
-export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioConfig.Network[] {
-  const networks: EnvioConfig.Network[] = [];
+export function createChainsForProtocols(protocol: Indexer.Protocol): EnvioConfig.Chain[] {
+  const chains: EnvioConfig.Chain[] = [];
 
   for (const chain of envioChains) {
     const contracts = extractContracts(protocol, chain.id);
@@ -19,7 +19,7 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
     const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
 
     // Order matters for readability in the YAML config file.
-    networks.push({
+    chains.push({
       id: chain.id,
       start_block: 0,
       hypersync_config,
@@ -28,7 +28,7 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
     });
   }
 
-  return networks;
+  return chains;
 }
 
 /**
@@ -36,22 +36,22 @@ export function createNetworksForProtocols(protocol: Indexer.Protocol): EnvioCon
  * @see https://etherscan.io/address/0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399#code
  * @see https://docs.sablier.com/concepts/governance
  */
-export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
-  return networks.map((network) => {
-    const comptrollerDeployment = sablier.comptroller.get(network.id);
+export function addComptrollerToChains(chains: EnvioConfig.Chain[]): EnvioConfig.Chain[] {
+  return chains.map((chain) => {
+    const comptrollerDeployment = sablier.comptroller.get(chain.id);
     if (!comptrollerDeployment) {
-      return network;
+      return chain;
     }
 
-    const comptrollerNetworkContract: EnvioConfig.NetworkContract = {
+    const comptrollerContract: EnvioConfig.NetworkContract = {
       address: comptrollerDeployment.address,
       name: "SablierComptroller",
       start_block: comptrollerDeployment.block,
     };
 
     return {
-      ...network,
-      contracts: [...network.contracts, comptrollerNetworkContract],
+      ...chain,
+      contracts: [...chain.contracts, comptrollerContract],
     };
   });
 }
@@ -59,22 +59,22 @@ export function addComptrollerToNetworks(networks: EnvioConfig.Network[]): Envio
 /**
  * Adds the USDC contract to networks that have a known USDC deployment.
  */
-export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
-  return networks.map((network) => {
-    const usdcInfo = usdc[network.id];
+export function addUsdcToChains(chains: EnvioConfig.Chain[]): EnvioConfig.Chain[] {
+  return chains.map((chain) => {
+    const usdcInfo = usdc[chain.id];
     if (!usdcInfo) {
-      return network;
+      return chain;
     }
 
-    const usdcNetworkContract: EnvioConfig.NetworkContract = {
+    const usdcContract: EnvioConfig.NetworkContract = {
       address: usdcInfo.address,
       name: "USDC",
       start_block: usdcInfo.startBlock,
     };
 
     return {
-      ...network,
-      contracts: [...network.contracts, usdcNetworkContract],
+      ...chain,
+      contracts: [...chain.contracts, usdcContract],
     };
   });
 }
@@ -88,8 +88,8 @@ export function addUsdcToNetworks(networks: EnvioConfig.Network[]): EnvioConfig.
 function getRPCs(
   chainId: number,
   rpcOnly: boolean | undefined
-): EnvioConfig.NetworkRPC[] | undefined {
-  const RPCs: EnvioConfig.NetworkRPC[] = [];
+): EnvioConfig.ChainRPC[] | undefined {
+  const RPCs: EnvioConfig.ChainRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
 
   if (rpcOnly) {

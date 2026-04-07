@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { Kind } from "graphql";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { convertToIndexed, indexedContracts } from "../../../../../contracts/index.js";

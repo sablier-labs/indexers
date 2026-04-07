@@ -1,7 +1,7 @@
 import type { TypedDocumentNode } from "@graphql-typed-document-node/core";
 import type { DocumentNode } from "graphql";
 import { GraphQLClient } from "graphql-request";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { mainnet, sepolia } from "sablier/evm/chains";
 import { expect, it } from "vitest";
 import type { Indexer } from "../../../src/index.js";

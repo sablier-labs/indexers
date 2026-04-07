@@ -1,1 +1,1 @@
-export * from "./proxender";
+export * from "./proxender.js";

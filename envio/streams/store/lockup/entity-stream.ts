@@ -1,28 +1,28 @@
 import { isVersionAfter, isVersionBefore } from "sablier";
 import { Version } from "sablier/evm";
-import type { Envio } from "../../../common/bindings";
-import { NOT_AVAILABLE } from "../../../common/constants";
-import { getContract } from "../../../common/deployments";
-import { sanitizeString } from "../../../common/helpers";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import type { Params, Segment, Tranche } from "../../helpers/lockup-types";
-import { update as updateBatch } from "./entity-batch";
+import type { Envio } from "../../../common/bindings.js";
+
+import { getContract } from "../../../common/deployments.js";
+import { sanitizeString } from "../../../common/helpers.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import type { Params, Segment, Tranche } from "../../helpers/lockup-types.js";
+import { update as updateBatch } from "./entity-batch.js";
 import {
   inferDynamicShape,
   inferLinearShape,
   inferTranchedShape,
   normalizeEventShape,
-} from "./shape-inference";
+} from "./shape-inference.js";
 
-type ShapeResult = Pick<Entity.LockupStream, "shape" | "shapeSource">;
+type ShapeResult = Pick<Entity<"LockupStream">, "shape" | "shapeSource">;
 
 export function createDynamic(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamDynamic
-): Entity.LockupStream {
+): Entity<"LockupStream"> {
   const baseStream = createBase(context, event, entities, params);
   const shape = addDynamicShape(baseStream, params.segments);
   const stream = { ...baseStream, ...shape };
@@ -36,14 +36,14 @@ export function createLinear(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamLinear
-): Entity.LockupStream {
+): Entity<"LockupStream"> {
   const baseStream = createBase(context, event, entities, params);
 
   const cliff = addCliff(baseStream, params);
   const initial = addInitial(params);
   const shape = addLinearShape(baseStream, cliff.cliff ?? false, cliff.cliffTime, params.endTime);
 
-  const stream: Entity.LockupStream = {
+  const stream: Entity<"LockupStream"> = {
     ...baseStream,
     ...cliff,
     ...initial,
@@ -59,7 +59,7 @@ export function createTranched(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamTranched
-): Entity.LockupStream {
+): Entity<"LockupStream"> {
   const baseStream = createBase(context, event, entities, params);
   const shape = addTranchedShape(baseStream, params.tranches);
   const stream = { ...baseStream, ...shape };
@@ -77,7 +77,7 @@ function createBase(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateStreamCommon
-): Entity.LockupStream {
+): Entity<"LockupStream"> {
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.lockupStreamCounter;
@@ -87,12 +87,12 @@ function createBase(
   const lockup = getContract("lockup", event.chainId, event.srcAddress);
 
   /* --------------------------------- STREAM --------------------------------- */
-  const isProxied = Boolean(params.proxender && params.proxender !== NOT_AVAILABLE);
+  const isProxied = Boolean(params.proxender);
   const recipient = params.recipient;
   const sender = params.sender;
 
   // Some fields are set to 0/ undefined because they are set later depending on the stream category.
-  let stream: Entity.LockupStream = {
+  let stream: Entity<"LockupStream"> = {
     alias: Id.streamAlias(lockup.alias, event.chainId, tokenId),
     asset_id: asset.id,
     assetDecimalsValue: asset.decimals,
@@ -149,9 +149,9 @@ function createBase(
 }
 
 function addCliff(
-  stream: Entity.LockupStream,
+  stream: Entity<"LockupStream">,
   params: Params.CreateStreamLinear
-): Pick<Entity.LockupStream, "cliff" | "cliffAmount" | "cliffTime"> {
+): Pick<Entity<"LockupStream">, "cliff" | "cliffAmount" | "cliffTime"> {
   const defaultCliff = { cliff: false, cliffAmount: undefined, cliffTime: undefined };
 
   // In v2.0 and later, the cliff time is set to zero if there is no cliff.
@@ -202,7 +202,7 @@ function addCliff(
 
 function addInitial(
   params: Params.CreateStreamLinear
-): Pick<Entity.LockupStream, "initial" | "initialAmount"> {
+): Pick<Entity<"LockupStream">, "initial" | "initialAmount"> {
   if (params.unlockAmountStart && params.unlockAmountStart > 0n) {
     return {
       initial: true,
@@ -220,7 +220,7 @@ function addInitial(
  * @see https://github.com/sablier-labs/interfaces/blob/30fffc0/packages/constants/src/stream/shape.ts#L12
  */
 function addLinearShape(
-  stream: Entity.LockupStream,
+  stream: Entity<"LockupStream">,
   cliff: boolean,
   cliffTime: bigint | undefined,
   endTime: bigint
@@ -231,7 +231,7 @@ function addLinearShape(
   return { shape: inferLinearShape(cliff, cliffTime, endTime), shapeSource: "Inferred" };
 }
 
-function addDynamicShape(stream: Entity.LockupStream, segments: Segment[]): ShapeResult {
+function addDynamicShape(stream: Entity<"LockupStream">, segments: Segment[]): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
@@ -239,7 +239,7 @@ function addDynamicShape(stream: Entity.LockupStream, segments: Segment[]): Shap
   return { shape, shapeSource: shape ? "Inferred" : undefined };
 }
 
-function addTranchedShape(stream: Entity.LockupStream, tranches: Tranche[]): ShapeResult {
+function addTranchedShape(stream: Entity<"LockupStream">, tranches: Tranche[]): ShapeResult {
   if (stream.shape) {
     return { shape: stream.shape, shapeSource: "Event" };
   }
@@ -249,7 +249,7 @@ function addTranchedShape(stream: Entity.LockupStream, tranches: Tranche[]): Sha
 
 function addSegments(
   context: Context.Handler,
-  stream: Entity.LockupStream,
+  stream: Entity<"LockupStream">,
   segments: Segment[]
 ): void {
   let streamed = 0n;
@@ -260,7 +260,7 @@ function addSegments(
   for (let i = 0; i < segments.length; i++) {
     const current = segments[i];
 
-    const segment: Entity.Segment = {
+    const segment: Entity<"Segment"> = {
       amount: current.amount,
       endAmount: streamed + current.amount,
       endTime: current.milestone,
@@ -280,7 +280,7 @@ function addSegments(
 
 function addTranches(
   context: Context.Handler,
-  stream: Entity.LockupStream,
+  stream: Entity<"LockupStream">,
   tranches: Tranche[]
 ): void {
   let streamedAmount = 0n;
@@ -290,7 +290,7 @@ function addTranches(
 
   for (let i = 0; i < tranches.length; i++) {
     const current = tranches[i];
-    const tranche: Entity.Tranche = {
+    const tranche: Entity<"Tranche"> = {
       amount: current.amount,
       endAmount: streamedAmount + current.amount,
       endTime: current.timestamp,

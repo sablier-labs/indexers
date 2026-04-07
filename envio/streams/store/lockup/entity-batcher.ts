@@ -1,13 +1,14 @@
-import type { Envio } from "../../../common/bindings";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
+import type { Address } from "viem";
+import type { Envio } from "../../../common/bindings.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
 
 export function create(
   context: Context.Handler,
   event: Envio.Event,
-  sender: Envio.Address
-): Entity.LockupBatcher {
-  const batcher: Entity.LockupBatcher = {
+  sender: Address
+): Entity<"LockupBatcher"> {
+  const batcher: Entity<"LockupBatcher"> = {
     batchCounter: 0n,
     id: Id.batcher(event.chainId, sender),
   };
@@ -17,8 +18,8 @@ export function create(
 
 export function update(
   context: Context.Handler,
-  batcher: Entity.LockupBatcher
-): Entity.LockupBatcher {
+  batcher: Entity<"LockupBatcher">
+): Entity<"LockupBatcher"> {
   const updatedBatcher = {
     ...batcher,
     batchCounter: batcher.batchCounter + 1n,

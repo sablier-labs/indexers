@@ -1,27 +1,27 @@
-import type { Envio } from "../../../common/bindings";
-import { Id } from "../../../common/id";
-import type { Entity, Enum } from "../../bindings";
+import type { Envio } from "../../../common/bindings.js";
+import { Id } from "../../../common/id.js";
+import type { Entity, Enum } from "../../bindings.js";
 
 type ActionParams = {
   addressA?: string;
   addressB?: string;
   amountA?: bigint;
   amountB?: bigint;
-  category: Enum.FlowActionCategory;
+  category: Enum<"FlowActionCategory">;
   streamId?: string;
 };
 
 export function create(
   context: {
-    FlowAction: { set: (action: Entity.FlowAction) => void };
+    FlowAction: { set: (action: Entity<"FlowAction">) => void };
   },
   event: Envio.Event,
-  watcher: Entity.Watcher,
+  watcher: Entity<"Watcher">,
   params: ActionParams
-): Entity.FlowAction {
+): Entity<"FlowAction"> {
   const id = Id.action(event);
 
-  const action: Entity.FlowAction = {
+  const action: Entity<"FlowAction"> = {
     addressA: params.addressA,
     addressB: params.addressB,
     amountA: params.amountA,

@@ -7,7 +7,7 @@ import {
   getMonthTimestamp,
   getTimestamp,
   isToday,
-} from "../../common/time";
+} from "../../common/time.js";
 
 describe("time", () => {
   describe("getDate", () => {

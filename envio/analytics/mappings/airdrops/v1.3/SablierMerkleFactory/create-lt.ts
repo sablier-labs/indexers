@@ -1,6 +1,6 @@
-import { isOfficialLockup } from "../../../../../common/helpers";
-import { Contract } from "../../../../bindings";
-import { Store } from "../../../../store";
+import { isOfficialLockup } from "../../../../../common/helpers.js";
+import { Contract } from "../../../../bindings.js";
+import { Store } from "../../../../store/index.js";
 
 Contract.Airdrops.Factory.MerkleFactory_v1_3.CreateMerkleLT.contractRegister(
   ({ context, event }) => {

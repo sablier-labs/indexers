@@ -1,6 +1,5 @@
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
-import type { Entity } from "../../../bindings";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierV2LockupLinear_v1_0_RenounceLockupStream_handler as Handler_v1_0,
   SablierV2LockupLinear_v1_1_RenounceLockupStream_handler as Handler_v1_1,
@@ -8,9 +7,10 @@ import type {
   SablierLockup_v2_0_RenounceLockupStream_handler as Handler_v2_0,
   SablierLockup_v3_0_RenounceLockupStream_handler as Handler_v3_0,
   SablierLockup_v4_0_RenounceLockupStream_handler as Handler_v4_0,
-} from "../../../bindings/src/Types.gen";
-import * as Watcher from "../../../store/entity-watcher";
-import * as LockupAction from "../../../store/lockup/entity-action";
+} from "../../../bindings/src/Indexer.gen.js";
+import type { Entity } from "../../../bindings.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import * as LockupAction from "../../../store/lockup/entity-action.js";
 
 type Handler = Handler_v1_0 &
   Handler_v1_1 &
@@ -34,10 +34,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Watcher.get(watcherId),
   ]);
 
-  if (context.isPreload) {
-    return;
-  }
-
   if (!stream) {
     context.log.error("Stream not saved before this renounce event", { event, streamId });
     return;
@@ -49,7 +45,7 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* --------------------------------- STREAM --------------------------------- */
-  const updatedStream: Entity.LockupStream = {
+  const updatedStream: Entity<"LockupStream"> = {
     ...stream,
     cancelable: false,
     renounceAction_id: Id.action(event),

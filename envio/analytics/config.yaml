@@ -3,9 +3,7 @@ name: "sablier-analytics"
 address_format: "lowercase"
 ecosystem: "evm"
 output: "./bindings"
-preload_handlers: true
 schema: "analytics.graphql"
-unordered_multichain_mode: true
 field_selection:
   transaction_fields:
     - "from"
@@ -347,7 +345,7 @@ contracts:
       - event: "TransferFees"
     handler: "mappings/comptroller/SablierComptroller.ts"
     name: "SablierComptroller"
-networks:
+chains:
   - id: 1
     start_block: 17613133
     rpc:

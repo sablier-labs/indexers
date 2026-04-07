@@ -1,6 +1,6 @@
 import type { DocumentNode } from "graphql";
 import { gql } from "graphql-tag";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { Protocol } from "sablier/evm";
 import type { Indexer } from "../src/index.js";
 

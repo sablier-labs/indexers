@@ -1,10 +1,10 @@
-import { experimental_createEffect, S } from "envio";
+import { createEffect, S } from "envio";
+import type { Address } from "viem";
 import { erc20Abi, erc20Abi_bytes32, hexToString, trim } from "viem";
-import type { Envio } from "../bindings";
-import { DECIMALS_DEFAULT } from "../constants";
-import { sanitizeStringAndRemoveUrls as sanitize } from "../helpers";
-import { getClient } from "../rpc-clients";
-import type { RPCData } from "../types";
+import { DECIMALS_DEFAULT } from "../constants.js";
+import { sanitizeStringAndRemoveUrls as sanitize } from "../helpers.js";
+import { getClient } from "../rpc-clients.js";
+import type { RPCData } from "../types.js";
 
 const UNKNOWN = {
   decimals: DECIMALS_DEFAULT,
@@ -32,7 +32,7 @@ const TokenMetadata = S.union([
  *
  * @see https://docs.envio.dev/docs/HyperIndex/event-handlers#contexteffect-experimental
  */
-export const fetchTokenMetadata = experimental_createEffect(
+export const fetchTokenMetadata = createEffect(
   {
     cache: true,
     input: S.tuple((t) => ({
@@ -41,10 +41,11 @@ export const fetchTokenMetadata = experimental_createEffect(
     })),
     name: "tokenMetadata",
     output: TokenMetadata,
+    rateLimit: false,
   },
   async ({ context, input }) => {
     try {
-      const metadata = await fetch(input.chainId, input.address);
+      const metadata = await fetch(input.chainId, input.address as Address);
       return metadata;
     } catch (error) {
       context.log.error("Failed to fetch ERC-20 metadata", {
@@ -73,7 +74,7 @@ export const fetchTokenMetadata = experimental_createEffect(
  * @see https://github.com/sablier-labs/indexers/issues/150
  * @see https://ercs.ethereum.org/ERCS/erc-20
  */
-async function fetch(chainId: number, address: Envio.Address): Promise<RPCData.ERC20Metadata> {
+async function fetch(chainId: number, address: Address): Promise<RPCData.ERC20Metadata> {
   const client = getClient(chainId);
   const erc20 = { abi: erc20Abi, address: address as `0x${string}` };
 
@@ -109,10 +110,7 @@ async function fetch(chainId: number, address: Envio.Address): Promise<RPCData.E
   return metadata;
 }
 
-async function fetchBytes32(
-  chainId: number,
-  address: Envio.Address
-): Promise<RPCData.ERC20Metadata> {
+async function fetchBytes32(chainId: number, address: Address): Promise<RPCData.ERC20Metadata> {
   const client = getClient(chainId);
   const erc20Bytes32 = { abi: erc20Abi_bytes32, address: address as `0x${string}` };
 

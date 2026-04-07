@@ -1,7 +1,7 @@
 /**
  * @see https://github.com/sablier-labs/airdrops/blob/main/CHANGELOG.md
  */
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Sablier } from "sablier";
 import { contracts } from "sablier/evm";
 import type { Indexer, Model } from "../src/types.js";

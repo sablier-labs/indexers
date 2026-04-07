@@ -2,14 +2,14 @@
  * @file Processors are reusable logic that is used in multiple event handlers.
  */
 
-import type { Envio } from "../../../../common/bindings";
-import { isDeprecatedContract as isDeprecatedLockupContract } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
-import type { Context, Entity } from "../../../bindings";
-import type { Params } from "../../../helpers/lockup-types";
-import * as Watcher from "../../../store/entity-watcher";
-import * as LockupAction from "../../../store/lockup/entity-action";
+import type { Envio } from "../../../../common/bindings.js";
+import { isDeprecatedContract as isDeprecatedLockupContract } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
+import { CommonStore } from "../../../../common/store/index.js";
+import type { Context, Entity } from "../../../bindings.js";
+import type { Params } from "../../../helpers/lockup-types.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import * as LockupAction from "../../../store/lockup/entity-action.js";
 
 type Input<P extends Params.CreateStreamCommon> = {
   context: Context.Handler;
@@ -18,7 +18,7 @@ type Input<P extends Params.CreateStreamCommon> = {
     event: Envio.Event,
     entities: Params.CreateEntities,
     params: P
-  ) => Entity.LockupStream;
+  ) => Entity<"LockupStream">;
   event: Envio.Event;
   entities: Params.CreateEntities;
   params: P;
@@ -26,7 +26,7 @@ type Input<P extends Params.CreateStreamCommon> = {
 
 export async function createStream<P extends Params.CreateStreamCommon>(
   input: Input<P>
-): Promise<Entity.LockupStream | null> {
+): Promise<Entity<"LockupStream"> | null> {
   const { context, createInStore, event, entities, params } = input;
 
   /* -------------------------------- CONTRACT -------------------------------- */

@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { indexers } from "../../../src/indexers/data.js";
 import { getGraphChainSlug } from "../../../src/indexers/graph.js";

@@ -1,4 +1,4 @@
-import { Contract } from "../../../bindings";
+import { Contract } from "../../../bindings.js";
 import {
   approval,
   approvalForAll,
@@ -6,7 +6,7 @@ import {
   renounceStream,
   transfer,
   withdrawStream,
-} from "../common";
+} from "../common/index.js";
 
 Contract.Lockup_v4_0.ApprovalForAll.handler(approvalForAll.handler);
 Contract.Lockup_v4_0.Approval.handler(approval.handler);

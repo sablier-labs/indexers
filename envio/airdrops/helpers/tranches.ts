@@ -1,4 +1,4 @@
-import type { TrancheWithPercentage } from "./types";
+import type { TrancheWithPercentage } from "./types.js";
 
 export function convertTranches(eventTranches: [bigint, bigint][]) {
   const tranches: TrancheWithPercentage[] = [];

@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosRetry from "axios-retry";
 import type { Logger } from "envio";
-import { experimental_createEffect, S } from "envio";
+import { createEffect as envioCreateEffect, S } from "envio";
 import {
   avalanche,
   berachain,
@@ -16,8 +16,8 @@ import {
   sophon,
   xdc,
 } from "sablier/evm/chains";
-import { COINGECKO_BASE_URL } from "../../common/constants";
-import { isToday } from "../../common/time";
+import { COINGECKO_BASE_URL } from "../../common/constants.js";
+import { isToday } from "../../common/time.js";
 
 const MAX_RETRIES = 5;
 const NO_PRICE = 0;
@@ -28,12 +28,13 @@ type CoinConfig = {
 };
 
 function createEffect(currency: string) {
-  return experimental_createEffect(
+  return envioCreateEffect(
     {
       cache: true,
       input: S.string,
       name: `${currency}_USD`,
       output: S.number,
+      rateLimit: false,
     },
     async ({ context, input: date }) => {
       return await fetchCoinPrice(context.log, date, currency);

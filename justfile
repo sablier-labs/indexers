@@ -52,7 +52,6 @@ default:
     just _run-with-status biome-check
     just _run-with-status prettier-check
     just _run-with-status type-check
-    just _run-with-status depcruise-check
     echo ""
     echo '{{ GREEN }}All code checks passed!{{ NORMAL }}'
 

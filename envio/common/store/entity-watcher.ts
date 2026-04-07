@@ -1,5 +1,5 @@
 import type { Logger } from "envio";
-import type { CommonEntities } from "../entities";
+import type { CommonEntities } from "../entities.js";
 
 type WatcherContext = {
   log: Logger;

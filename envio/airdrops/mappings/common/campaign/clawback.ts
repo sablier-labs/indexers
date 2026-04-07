@@ -1,4 +1,4 @@
-import { Id } from "../../../../common/id";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v1_3_Clawback_handler as HandlerInstant_v1_3,
   SablierMerkleInstant_v2_0_Clawback_handler as HandlerInstant_v2_0,
@@ -12,8 +12,8 @@ import type {
   SablierMerkleLT_v2_0_Clawback_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_Clawback_handler as HandlerLT_v3_0,
   SablierMerkleVCA_v3_0_Clawback_handler as HandlerVCA_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -42,10 +42,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Campaign.get(campaignId),
     context.Watcher.get(watcherId),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!campaign) {
     context.log.error("Campaign not saved before this clawback event", { campaignId, event });

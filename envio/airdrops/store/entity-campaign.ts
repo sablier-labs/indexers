@@ -1,17 +1,18 @@
-import type { Envio } from "../../common/bindings";
-import { getContractVersion } from "../../common/deployments";
-import { sanitizeString } from "../../common/helpers";
-import { Id } from "../../common/id";
-import type { Context, Entity } from "../bindings";
-import { getNickname } from "../helpers/campaign";
-import type { Params, TrancheWithPercentage } from "../helpers/types";
+import type { Address } from "viem";
+import type { Envio } from "../../common/bindings.js";
+import { getContractVersion } from "../../common/deployments.js";
+import { sanitizeString } from "../../common/helpers.js";
+import { Id } from "../../common/id.js";
+import type { Context, Entity } from "../bindings.js";
+import { getNickname } from "../helpers/campaign.js";
+import type { Params, TrancheWithPercentage } from "../helpers/types.js";
 
 export function createInstant(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignBase
-): Entity.Campaign {
+): Entity<"Campaign"> {
   const campaign = createBaseCampaign(context, event, entities, params);
   context.Campaign.set(campaign);
   return campaign;
@@ -22,7 +23,7 @@ export function createLL(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignLL
-): Entity.Campaign {
+): Entity<"Campaign"> {
   let campaign = createBaseCampaign(context, event, entities, params);
   const lockupCampaign = createLockupCampaign(params);
   campaign = {
@@ -43,7 +44,7 @@ export function createLT(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignLT
-): Entity.Campaign {
+): Entity<"Campaign"> {
   let campaign = createBaseCampaign(context, event, entities, params);
   const lockupCampaign = createLockupCampaign(params);
   campaign = {
@@ -60,7 +61,7 @@ export function createVCA(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignVCA
-): Entity.Campaign {
+): Entity<"Campaign"> {
   let campaign = createBaseCampaign(context, event, entities, params);
   campaign = {
     ...campaign,
@@ -75,8 +76,8 @@ export function createVCA(
 
 export async function updateAdmin(
   context: Context.Handler,
-  campaign: Entity.Campaign,
-  newAdmin: Envio.Address
+  campaign: Entity<"Campaign">,
+  newAdmin: Address
 ): Promise<void> {
   const asset = await context.Asset.get(campaign.asset_id);
   if (!asset) {
@@ -84,7 +85,7 @@ export async function updateAdmin(
     return;
   }
 
-  const updatedCampaign: Entity.Campaign = {
+  const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     admin: newAdmin,
     nickname: getNickname(newAdmin, campaign.name, asset),
@@ -94,10 +95,10 @@ export async function updateAdmin(
 
 export function updateClaimed(
   context: Context.Handler,
-  campaign: Entity.Campaign,
+  campaign: Entity<"Campaign">,
   amount: bigint
 ): void {
-  const updatedCampaign: Entity.Campaign = {
+  const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     claimedAmount: campaign.claimedAmount + amount,
     claimedCount: campaign.claimedCount + 1n,
@@ -108,9 +109,9 @@ export function updateClaimed(
 export function updateClawback(
   context: Context.Handler,
   event: Envio.Event,
-  campaign: Entity.Campaign
+  campaign: Entity<"Campaign">
 ): void {
-  const updatedCampaign: Entity.Campaign = {
+  const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     clawbackAction_id: Id.action(event),
     clawbackTime: BigInt(event.block.timestamp),
@@ -120,10 +121,10 @@ export function updateClawback(
 
 export function updateFee(
   context: Context.Handler,
-  campaign: Entity.Campaign,
+  campaign: Entity<"Campaign">,
   newFee: bigint
 ): void {
-  const updatedCampaign: Entity.Campaign = {
+  const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     fee: newFee,
   };
@@ -132,18 +133,18 @@ export function updateFee(
 
 export function updateForgoneAmount(
   context: Context.Handler,
-  campaign: Entity.Campaign,
+  campaign: Entity<"Campaign">,
   amount: bigint
 ): void {
-  const updatedCampaign: Entity.Campaign = {
+  const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     vcaForgoneAmount: (campaign.vcaForgoneAmount ?? 0n) + amount,
   };
   context.Campaign.set(updatedCampaign);
 }
 
-export function updateEnableRedistribution(context: Context.Handler, campaign: Entity.Campaign) {
-  const updatedCampaign: Entity.Campaign = {
+export function updateEnableRedistribution(context: Context.Handler, campaign: Entity<"Campaign">) {
+  const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     vcaRedistributionEnabled: true,
   };
@@ -159,12 +160,16 @@ function createBaseCampaign(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.CreateCampaignBase
-): Entity.Campaign {
-  const factoryVersion = getContractVersion("airdrops", event.chainId, entities.factory.address);
+): Entity<"Campaign"> {
+  const factoryVersion = getContractVersion(
+    "airdrops",
+    event.chainId,
+    entities.factory.address as Address
+  );
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   // Some fields are set to 0/ undefined because they are set later depending on the campaign category.
-  const campaign: Entity.Campaign = {
+  const campaign: Entity<"Campaign"> = {
     address: params.campaignAddress,
     admin: params.admin,
     aggregateAmount: params.aggregateAmount,
@@ -226,7 +231,7 @@ function createBaseCampaign(
 
 function addTranchesWithPercentages(
   context: Context.Handler,
-  campaign: Entity.Campaign,
+  campaign: Entity<"Campaign">,
   tranches: TrancheWithPercentage[]
 ): void {
   // The start time of the stream is the first tranche's start time, so we use zero for the initial duration.
@@ -235,7 +240,7 @@ function addTranchesWithPercentages(
   for (let i = 0; i < tranches.length; i++) {
     const current = tranches[i];
 
-    const tranche: Entity.Tranche = {
+    const tranche: Entity<"Tranche"> = {
       campaign_id: campaign.id,
       duration: current.duration,
       endDuration: previous.duration + current.duration,
@@ -252,7 +257,7 @@ function addTranchesWithPercentages(
   }
 }
 
-function createLockupCampaign(params: Params.CreateCampaignLockup): Partial<Entity.Campaign> {
+function createLockupCampaign(params: Params.CreateCampaignLockup): Partial<Entity<"Campaign">> {
   return {
     lockup: params.lockup,
     streamCancelable: params.cancelable,

@@ -3,8 +3,8 @@
  * @see https://docs.envio.dev/docs/HyperIndex/block-handlers#preset-handler
  */
 
-import { onBlock } from "../bindings/src/Handlers.gen";
-import { initializeLightLinkData } from "./lightlink/lightlink";
+import { onBlock } from "../bindings/src/Indexer.gen.js";
+import { initializeLightLinkData } from "./lightlink/lightlink.js";
 
 // Using Mainnet id but it doesn't really matter what chain we use here
 onBlock(

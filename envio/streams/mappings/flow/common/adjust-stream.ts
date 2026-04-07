@@ -1,14 +1,14 @@
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierFlow_v1_0_AdjustFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_AdjustFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_AdjustFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_AdjustFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { scale } from "../../../helpers";
-import * as StreamsWatcher from "../../../store/entity-watcher";
-import * as FlowAction from "../../../store/flow/entity-action";
+} from "../../../bindings/src/Indexer.gen.js";
+import { scale } from "../../../helpers/index.js";
+import * as StreamsWatcher from "../../../store/entity-watcher.js";
+import * as FlowAction from "../../../store/flow/entity-action.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -30,10 +30,6 @@ const handler: Handler = async ({ context, event }) => {
     context.FlowStream.get(streamId),
     context.Watcher.get(watcherId),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!stream) {
     context.log.error("Stream not saved before this adjust event", { event, streamId });

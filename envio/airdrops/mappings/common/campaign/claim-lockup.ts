@@ -1,5 +1,6 @@
-import _ from "lodash";
-import { Id } from "../../../../common/id";
+import * as _ from "lodash-es";
+import type { Address } from "viem";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
   SablierV2MerkleLL_v1_2_Claim_handler as HandlerLL_v1_2,
@@ -10,9 +11,9 @@ import type {
   SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
   SablierMerkleLT_v2_0_ClaimLTWithVesting_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_ClaimLTWithVesting_handler as HandlerLT_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { isVersionWithFees } from "../../../helpers";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Indexer.gen.js";
+import { isVersionWithFees } from "../../../helpers/index.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -39,10 +40,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Campaign.get(campaignId),
     context.Watcher.get(watcherId),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!campaign) {
     context.log.error("Campaign not saved before this claim lockup event", { campaignId, event });
@@ -84,7 +81,7 @@ const handler: Handler = async ({ context, event }) => {
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
     claimStreamId: campaign.lockup
-      ? Id.stream(campaign.lockup, event.chainId, event.params.streamId)
+      ? Id.stream(campaign.lockup as Address, event.chainId, event.params.streamId)
       : undefined,
     claimTo: _.get(event.params, "to") ?? event.params.recipient,
     claimTokenId: BigInt(event.params.streamId),

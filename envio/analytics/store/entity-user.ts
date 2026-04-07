@@ -1,19 +1,19 @@
 /**
  * @see {@link: file://./../analytics.graphql}
  */
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { formatEther, zeroAddress } from "viem";
-import type { Envio } from "../../common/bindings";
-import { getTimestamp } from "../../common/time";
-import type { Entity, HandlerContext } from "../bindings";
-import { Id } from "../helpers";
-import { trackMonthlyActiveUser } from "./entity-users-active-monthly";
+import type { Envio } from "../../common/bindings.js";
+import { getTimestamp } from "../../common/time.js";
+import type { Entity, HandlerContext } from "../bindings.js";
+import { Id } from "../helpers/index.js";
+import { trackMonthlyActiveUser } from "./entity-users-active-monthly.js";
 
 type Params = {
   address: string;
-  entity?: Entity.User;
+  entity?: Entity<"User">;
   isAirdropClaim: boolean;
-  tx?: Entity.UserTransaction;
+  tx?: Entity<"UserTransaction">;
 };
 
 export async function createOrUpdate(
@@ -48,11 +48,6 @@ export async function createOrUpdate(
       )
     )
   );
-
-  // Stop if it's the preload phase: https://docs.envio.dev/docs/HyperIndex/preload-optimization#migrating-from-loaders
-  if (context.isPreload) {
-    return;
-  }
 
   for (const [i, user] of uniqueUsers.entries()) {
     await upsert(context, event, { ...user, entity: userEntities[i], tx: userTxEntities[i] });
@@ -102,7 +97,7 @@ async function upsert(context: HandlerContext, event: Envio.Event, params: Param
     fee = formatEther(event.transaction.value);
     feeNumeric = event.transaction.value;
   }
-  const userTransaction: Entity.UserTransaction = {
+  const userTransaction: Entity<"UserTransaction"> = {
     block: BigInt(event.block.number),
     contractAddress: event.srcAddress,
     fee: feeNumeric,

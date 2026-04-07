@@ -1,30 +1,13 @@
-import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import type { Indexer, Model } from "../../src/types";
-import type { Envio } from "./bindings";
-import { CriticalError } from "./errors";
-
-/**
- * Inlined from `contracts/index.ts` to avoid a cross-boundary ESM/CJS import.
- * Envio's ts-node runtime transpiles to CJS, but `contracts/` lives under the
- * root `package.json` which declares `"type": "module"`.
- */
-function convertToIndexed(contract: Sablier.Contract, version: Model.Version): Model.Contract {
-  return {
-    address: contract.address.toLowerCase() as Sablier.Address,
-    alias: contract.alias ?? "",
-    block: contract.block ?? 0,
-    chainId: contract.chainId,
-    name: contract.name,
-    protocol: contract.protocol as Indexer.Protocol,
-    version,
-  };
-}
+import type { Address } from "viem";
+import { convertToIndexed } from "../../contracts/index.js";
+import type { Indexer, Model } from "../../src/types.js";
+import { CriticalError } from "./errors.js";
 
 export function getContract(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address
+  contractAddress: Address
 ): Model.Contract {
   const contract = sablier.contracts.get({ chainId, contractAddress, protocol });
   if (!contract) {
@@ -42,7 +25,7 @@ export function getContract(
 export function getContractAlias(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address
+  contractAddress: Address
 ) {
   const contract = getContract(protocol, chainId, contractAddress);
   if (!contract.alias) {
@@ -54,7 +37,7 @@ export function getContractAlias(
 export function getContractVersion(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address
+  contractAddress: Address
 ) {
   const contract = getContract(protocol, chainId, contractAddress);
   if (!contract.version) {

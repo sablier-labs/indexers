@@ -2,7 +2,7 @@ import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { print } from "graphql";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { getMergedSchema } from "../../../schema/index.js";
 import { GRAPH_TARGETS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";

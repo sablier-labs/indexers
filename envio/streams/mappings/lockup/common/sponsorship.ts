@@ -1,13 +1,13 @@
 import { bsc } from "sablier/evm/chains";
 import { formatUnits } from "viem";
-import { BILLING_ADDRESS } from "../../../../common/constants";
-import { USDC } from "../../../bindings/src/Handlers.gen";
+import { BILLING_ADDRESS } from "../../../../common/constants.js";
 import type {
   USDC_Transfer_event as Event,
   USDC_Transfer_handler as Handler,
-} from "../../../bindings/src/Types.gen";
+} from "../../../bindings/src/Indexer.gen.js";
+import { USDC } from "../../../bindings/src/Indexer.gen.js";
 
-const USDC_DECIMALS: Record<number, number> = { [bsc.chainId]: 18 }; // BNB USDC
+const USDC_DECIMALS: Record<number, number> = { [bsc.id]: 18 }; // BNB USDC
 const DEFAULT_USDC_DECIMALS = 6;
 
 /* -------------------------------------------------------------------------- */

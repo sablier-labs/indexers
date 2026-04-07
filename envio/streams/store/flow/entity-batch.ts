@@ -1,11 +1,12 @@
-import type { Envio } from "../../../common/bindings";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import { update as updateBatcher } from "./entity-batcher";
+import type { Address } from "viem";
+import type { Envio } from "../../../common/bindings.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import { update as updateBatcher } from "./entity-batcher.js";
 
-export function create(event: Envio.Event, sender: Envio.Address): Entity.FlowBatch {
+export function create(event: Envio.Event, sender: Address): Entity<"FlowBatch"> {
   const id = Id.batch(event, sender);
-  const batch: Entity.FlowBatch = {
+  const batch: Entity<"FlowBatch"> = {
     batcher_id: undefined,
     hash: undefined,
     id,
@@ -28,14 +29,14 @@ export function create(event: Envio.Event, sender: Envio.Address): Entity.FlowBa
 export function update(
   context: Context.Handler,
   event: Envio.Event,
-  batch: Entity.FlowBatch,
-  batcher: Entity.FlowBatcher
+  batch: Entity<"FlowBatch">,
+  batcher: Entity<"FlowBatcher">
 ): void {
   const newBatchSize = batch.size + 1n;
 
   if (newBatchSize === 2n) {
     const updatedBatcher = updateBatcher(context, batcher);
-    const updatedBatch: Entity.FlowBatch = {
+    const updatedBatch: Entity<"FlowBatch"> = {
       ...batch,
       batcher_id: batcher.id,
       hash: event.transaction.hash,
@@ -45,7 +46,7 @@ export function update(
     };
     context.FlowBatch.set(updatedBatch);
   } else {
-    const updatedBatch: Entity.FlowBatch = {
+    const updatedBatch: Entity<"FlowBatch"> = {
       ...batch,
       size: newBatchSize,
     };

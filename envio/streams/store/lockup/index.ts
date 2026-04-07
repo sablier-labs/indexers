@@ -1,8 +1,8 @@
-import * as EntityAction from "./entity-action";
-import * as EntityBatch from "./entity-batch";
-import * as EntityBatcher from "./entity-batcher";
-import * as EntityStream from "./entity-stream";
-import * as ShapeInference from "./shape-inference";
+import * as EntityAction from "./entity-action.js";
+import * as EntityBatch from "./entity-batch.js";
+import * as EntityBatcher from "./entity-batcher.js";
+import * as EntityStream from "./entity-stream.js";
+import * as ShapeInference from "./shape-inference.js";
 
 export const Store = {
   Action: EntityAction,

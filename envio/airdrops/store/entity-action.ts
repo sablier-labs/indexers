@@ -1,18 +1,18 @@
-import type { Envio } from "../../common/bindings";
-import { Id } from "../../common/id";
-import type { Context, Entity, Enum } from "../bindings";
-import type { Params } from "../helpers/types";
+import type { Envio } from "../../common/bindings.js";
+import { Id } from "../../common/id.js";
+import type { Context, Entity, Enum } from "../bindings.js";
+import type { Params } from "../helpers/types.js";
 
 export function create(
   context: Context.Handler,
   event: Envio.Event<unknown>,
-  watcher: Entity.Watcher,
+  watcher: Entity<"Watcher">,
   params: Params.Action
-): Entity.Action {
-  const action: Entity.Action = {
+): Entity<"Action"> {
+  const action: Entity<"Action"> = {
     block: BigInt(event.block.number),
     campaign_id: params.campaignId,
-    category: params.category as Enum.ActionCategory,
+    category: params.category as Enum<"ActionCategory">,
     chainId: BigInt(event.chainId),
     claimAmount: params.claimAmount,
     claimIndex: params.claimIndex,

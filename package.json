@@ -47,11 +47,10 @@
     "@sablier/devkit": "^1.15.3",
     "@sablier/price-data": "github:sablier-labs/price-data#main",
     "@types/js-yaml": "^4.0.9",
-    "@types/lodash": "^4.17.21",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.0.3",
     "@vitest/ui": "^3.2.4",
     "abitype": "^1.2.3",
-    "app-root-path": "^3.1.0",
     "assemblyscript": "^0.28.9",
     "axios": "^1.13.2",
     "axios-retry": "^4.5.0",
@@ -59,10 +58,9 @@
     "cli-table3": "^0.6.5",
     "concurrently": "^9.2.1",
     "dayjs": "^1.11.19",
-    "dependency-cruiser": "^17.3.8",
     "dotenv": "^17.2.3",
     "effect": "^3.21.0",
-    "envio": "2.32.10",
+    "envio": "3.0.0-alpha.21",
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
     "graphql-tag": "^2.12.6",
@@ -71,7 +69,7 @@
     "knip": "^5.78.0",
     "linkifyjs": "^4.3.2",
     "lint-staged": "^16.2.7",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.18.1",
     "ora": "^8.2.0",
     "prettier": "^3.7.4",
     "strip-ansi": "^7.1.2",
@@ -99,6 +97,6 @@
   },
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build",
-    "start": "cd ./envio/$ENVIO_INDEXER_NAME && ts-node ./bindings/src/Index.res.js"
+    "start": "cd ./envio/$ENVIO_INDEXER_NAME && ts-node ./bindings/src/Index.res.mjs"
   }
 }

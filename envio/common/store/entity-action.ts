@@ -1,7 +1,7 @@
-import type { Envio } from "../bindings";
-import type { CommonEntities } from "../entities";
-import { Id } from "../id";
-import type { CommonParams } from "../types";
+import type { Envio } from "../bindings.js";
+import type { CommonEntities } from "../entities.js";
+import { Id } from "../id.js";
+import type { CommonParams } from "../types.js";
 
 export function create<TAction extends CommonEntities.StreamAction>(
   context: {

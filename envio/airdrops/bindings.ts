@@ -1,6 +1,6 @@
 // biome-ignore-all assist/source/organizeImports: grouped exports
 // Context
-import type { HandlerContext } from "./bindings/src/Types";
+import type { HandlerContext } from "./bindings/src/Types.js";
 export namespace Context {
   export type Handler = HandlerContext;
 }
@@ -30,7 +30,7 @@ import {
   SablierFactoryMerkleLL_v3_0,
   SablierFactoryMerkleLT_v3_0,
   SablierFactoryMerkleVCA_v3_0,
-} from "./bindings/src/Handlers.gen";
+} from "./bindings/src/Indexer.gen.js";
 export namespace Contract {
   export namespace Factory {
     export const MerkleStreamerFactory_v1_1 = SablierV2MerkleStreamerFactory_v1_1;
@@ -62,34 +62,5 @@ export namespace Contract {
   }
 }
 
-// Enum
-import type { ActionCategory_t, CampaignCategory_t } from "./bindings/src/db/Enums.gen";
-export namespace Enum {
-  export type ActionCategory = ActionCategory_t;
-  export type CampaignCategory = CampaignCategory_t;
-}
-
-// Entities
-import type {
-  Action as EntityAction,
-  Activity as EntityActivity,
-  Asset as EntityAsset,
-  Campaign as EntityCampaign,
-  Factory as EntityFactory,
-  Sponsor as EntitySponsor,
-  Sponsorship as EntitySponsorship,
-  Tranche as EntityTranche,
-  Watcher as EntityWatcher,
-} from "./bindings/src/Types.gen";
-
-export namespace Entity {
-  export type Action = EntityAction;
-  export type Activity = EntityActivity;
-  export type Asset = EntityAsset;
-  export type Campaign = EntityCampaign;
-  export type Factory = EntityFactory;
-  export type Sponsor = EntitySponsor;
-  export type Sponsorship = EntitySponsorship;
-  export type Tranche = EntityTranche;
-  export type Watcher = EntityWatcher;
-}
+// Entities & Enums
+export type { Entity, Enum } from "./bindings/src/Types.js";

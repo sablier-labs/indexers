@@ -1,16 +1,16 @@
-import type { Envio } from "../../../common/bindings";
-import { getContract } from "../../../common/deployments";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import type { Params } from "../../helpers/flow-types";
-import { update as updateBatch } from "./entity-batch";
+import type { Envio } from "../../../common/bindings.js";
+import { getContract } from "../../../common/deployments.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import type { Params } from "../../helpers/flow-types.js";
+import { update as updateBatch } from "./entity-batch.js";
 
 export function create(
   context: Context.Handler,
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.Create
-): Entity.FlowStream {
+): Entity<"FlowStream"> {
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.flowStreamCounter;
@@ -19,7 +19,7 @@ export function create(
   const flow = getContract("flow", event.chainId, event.srcAddress);
 
   /* --------------------------------- STREAM --------------------------------- */
-  const stream: Entity.FlowStream = {
+  const stream: Entity<"FlowStream"> = {
     alias: Id.streamAlias(flow.alias, event.chainId, tokenId),
     asset_id: asset.id,
     assetDecimalsValue: asset.decimals,

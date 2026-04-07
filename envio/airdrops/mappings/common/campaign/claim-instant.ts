@@ -1,5 +1,5 @@
-import _ from "lodash";
-import { Id } from "../../../../common/id";
+import * as _ from "lodash-es";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v1_3_Claim_handler,
   SablierMerkleInstant_v2_0_ClaimInstant_handler,
@@ -7,8 +7,8 @@ import type {
   SablierMerkleLL_v3_0_ClaimLLWithTransfer_handler,
   SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler,
   SablierMerkleLT_v3_0_ClaimLTWithTransfer_handler,
-} from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -31,10 +31,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Campaign.get(campaignId),
     context.Watcher.get(event.chainId.toString()),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!campaign) {
     context.log.error("Campaign not saved before this claim instant event", { campaignId, event });

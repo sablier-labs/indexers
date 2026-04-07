@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: any is used to mock axios */
 import axios from "axios";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CURRENCY_FREAKS_BASE_URL } from "../../../common/constants";
-import { fetchFromCurrencyFreaksAPI } from "../../effects/forex";
+import { CURRENCY_FREAKS_BASE_URL } from "../../../common/constants.js";
+import { fetchFromCurrencyFreaksAPI } from "../../effects/forex.js";
 
 // Mock axios
 vi.mock("axios", () => ({

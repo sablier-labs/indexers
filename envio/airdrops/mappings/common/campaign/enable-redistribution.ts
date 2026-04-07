@@ -1,6 +1,6 @@
-import { Id } from "../../../../common/id";
-import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+import { Id } from "../../../../common/id.js";
+import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -17,10 +17,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Campaign.get(campaignId),
     context.Watcher.get(watcherId),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!campaign) {
     context.log.error("Campaign not saved before this enable redistribution event", {

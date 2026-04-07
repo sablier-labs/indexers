@@ -1,11 +1,12 @@
-import type { Envio } from "../../../../common/bindings";
-import { fetchTokenMetadata } from "../../../../common/effects";
-import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
-import type { RPCData } from "../../../../common/types";
-import type { Context, Entity } from "../../../bindings";
-import type { Params } from "../../../helpers/types";
-import { Store } from "../../../store";
+import type { Address } from "viem";
+import type { Envio } from "../../../../common/bindings.js";
+import { fetchTokenMetadata } from "../../../../common/effects/index.js";
+import { Id } from "../../../../common/id.js";
+import { CommonStore } from "../../../../common/store/index.js";
+import type { RPCData } from "../../../../common/types.js";
+import type { Context, Entity } from "../../../bindings.js";
+import type { Params } from "../../../helpers/types.js";
+import { Store } from "../../../store/index.js";
 
 export type PreloadCreateResult = {
   entities: Params.CreateEntities;
@@ -16,8 +17,8 @@ type PreloadInput = {
   context: Context.Handler;
   event: Envio.Event;
   params: {
-    admin: Envio.Address;
-    asset: Envio.Address;
+    admin: Address;
+    asset: Address;
   };
 };
 
@@ -35,9 +36,6 @@ export async function preloadCreateEntities({
     context.Factory.get(factoryId),
     context.Watcher.get(watcherId),
   ]);
-  if (context.isPreload) {
-    return null;
-  }
 
   let assetMetadata: RPCData.ERC20Metadata;
   if (asset) {
@@ -61,9 +59,9 @@ export async function preloadCreateEntities({
         event.chainId,
         params.asset,
         assetMetadata
-      ) as Entity.Asset),
+      ) as Entity<"Asset">),
     factory: factory ?? Store.Factory.create(context, event.chainId, event.srcAddress),
-    watcher: watcher ?? (Store.Watcher.create(event.chainId) as Entity.Watcher),
+    watcher: watcher ?? (Store.Watcher.create(event.chainId) as Entity<"Watcher">),
   };
 
   return {

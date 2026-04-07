@@ -1,32 +1,32 @@
-import type { Envio } from "../../common/bindings";
-import type { Entity, Enum } from "../bindings";
+import type { Address } from "viem";
+import type { Entity, Enum } from "../bindings.js";
 
 export namespace Params {
   export type Cancel = {
-    recipient: Envio.Address;
+    recipient: Address;
     recipientAmount: bigint;
-    sender: Envio.Address;
+    sender: Address;
     senderAmount: bigint;
     streamId: bigint;
   };
 
   export type CreateEntities = {
-    asset: Entity.Asset;
-    batch: Entity.LockupBatch;
-    batcher: Entity.LockupBatcher;
-    watcher: Entity.Watcher;
+    asset: Entity<"Asset">;
+    batch: Entity<"LockupBatch">;
+    batcher: Entity<"LockupBatcher">;
+    watcher: Entity<"Watcher">;
   };
 
   export type CreateStreamCommon = {
-    asset: Envio.Address;
+    asset: Address;
     cancelable: boolean;
-    category: Enum.LockupStreamCategory;
+    category: Enum<"LockupStreamCategory">;
     depositAmount: bigint;
     endTime: bigint;
-    funder: Envio.Address;
-    proxender?: Envio.Address;
-    recipient: Envio.Address;
-    sender: Envio.Address;
+    funder: Address;
+    proxender?: Address;
+    recipient: Address;
+    sender: Address;
     shape?: string;
     startTime: bigint;
     tokenId: bigint;
@@ -54,7 +54,7 @@ export namespace Params {
   export type Withdraw = {
     amount: bigint;
     streamId: bigint;
-    to: Envio.Address;
+    to: Address;
   };
 }
 

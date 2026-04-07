@@ -1,5 +1,5 @@
 import { Effect } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import type { Indexer } from "../../../../src/types.js";
 import { CodegenError } from "../errors.js";
 import type { GraphManifest } from "./manifest-types.js";

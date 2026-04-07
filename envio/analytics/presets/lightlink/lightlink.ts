@@ -3,8 +3,8 @@
  */
 
 import { lightlink } from "sablier/evm/chains";
-import type { HandlerContext } from "../../bindings";
-import * as Helpers from "../helpers";
+import type { HandlerContext } from "../../bindings.js";
+import * as Helpers from "../helpers.js";
 import feeCollections from "./lightlink-fee-collections.json";
 
 /**

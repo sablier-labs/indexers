@@ -1,9 +1,9 @@
-import { Id } from "../../../../common/id";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as Handler_v2_0,
   SablierMerkleVCA_v3_0_LowerMinFeeUSD_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -25,10 +25,6 @@ const handler: Handler = async ({ context, event }) => {
     context.Campaign.get(campaignId),
     context.Watcher.get(watcherId),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!campaign) {
     context.log.error("Campaign not saved before this lower min fee event", { campaignId, event });

@@ -1,6 +1,6 @@
-import type { Envio } from "../bindings";
-import type { CommonEntities } from "../entities";
-import { Id } from "../id";
+import type { Envio } from "../bindings.js";
+import type { CommonEntities } from "../entities.js";
+import { Id } from "../id.js";
 
 export type DeprecatedStreamContext = {
   DeprecatedStream: {

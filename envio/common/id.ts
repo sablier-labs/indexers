@@ -1,4 +1,5 @@
-import type { Envio } from "./bindings";
+import type { Address } from "viem";
+import type { Envio } from "./bindings.js";
 
 export namespace Id {
   /* -------------------------------------------------------------------------- */
@@ -12,7 +13,7 @@ export namespace Id {
    * @example
    * 0xf50760d8ead9ff322631a1f3ebf26cc7891b3708-137
    */
-  export function campaign(campaignAddress: Envio.Address, chainId: number): string {
+  export function campaign(campaignAddress: Address, chainId: number): string {
     return `${campaignAddress.toLowerCase()}-${chainId}`;
   }
 
@@ -24,7 +25,7 @@ export namespace Id {
    * 0xe0bfe071da104e571298f8b6e0fce44c512c1ff4-137-42
    */
   export function stream(
-    contractAddress: Envio.Address,
+    contractAddress: Address,
     chainId: number,
     tokenId: bigint | string
   ): string {
@@ -35,11 +36,7 @@ export namespace Id {
    * @example
    * LK-137-42
    */
-  export function streamAlias(
-    contractAlias: Envio.Address,
-    chainId: number,
-    tokenId: bigint
-  ): string {
+  export function streamAlias(contractAlias: string, chainId: number, tokenId: bigint): string {
     return `${contractAlias}-${chainId}-${tokenId}`;
   }
 
@@ -84,7 +81,7 @@ export namespace Id {
    * @example
    * batch-137-0x5ce95bff1297dadbdcf9929a10bd02bdfab0dcc6-0xe43d1bc5e868da0bd1d80c404ca7f41e823bbea03488f8e3878327375b3aac35
    */
-  export function batch(event: Envio.Event<unknown>, sender: Envio.Address): string {
+  export function batch(event: Envio.Event<unknown>, sender: Address): string {
     return `batch-${event.chainId}-${sender.toLowerCase()}-${event.transaction.hash}`;
   }
 
@@ -92,7 +89,7 @@ export namespace Id {
    * @example
    * batcher-137-0x5ce95bff1297dadbdcf9929a10bd02bdfab0dcc6
    */
-  export function batcher(chainId: number, sender: Envio.Address): string {
+  export function batcher(chainId: number, sender: Address): string {
     return `batcher-${chainId}-${sender.toLowerCase()}`;
   }
 

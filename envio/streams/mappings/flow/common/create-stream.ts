@@ -1,18 +1,18 @@
-import _ from "lodash";
-import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../../common/deprecated";
-import { fetchTokenMetadata } from "../../../../common/effects";
-import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
-import type { RPCData } from "../../../../common/types";
+import * as _ from "lodash-es";
+import { isDeprecatedContract as isDeprecatedFlowContract } from "../../../../common/deprecated.js";
+import { fetchTokenMetadata } from "../../../../common/effects/index.js";
+import { Id } from "../../../../common/id.js";
+import { CommonStore } from "../../../../common/store/index.js";
+import type { RPCData } from "../../../../common/types.js";
 import type {
   SablierFlow_v1_0_CreateFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_CreateFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_CreateFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import * as StreamsWatcher from "../../../store/entity-watcher";
-import { Store } from "../../../store/flow";
-import * as FlowAction from "../../../store/flow/entity-action";
+} from "../../../bindings/src/Indexer.gen.js";
+import * as StreamsWatcher from "../../../store/entity-watcher.js";
+import * as FlowAction from "../../../store/flow/entity-action.js";
+import { Store } from "../../../store/flow/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -53,10 +53,6 @@ const handler: Handler = async ({ context, event }) => {
       address: event.params.token,
       chainId: event.chainId,
     });
-  }
-
-  if (context.isPreload) {
-    return;
   }
 
   /* -------------------------------- CONTRACT -------------------------------- */

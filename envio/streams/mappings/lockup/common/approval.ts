@@ -1,5 +1,5 @@
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierV2LockupLinear_v1_0_Approval_handler as Handler_v1_0,
   SablierV2LockupLinear_v1_1_Approval_handler as Handler_v1_1,
@@ -7,9 +7,9 @@ import type {
   SablierLockup_v2_0_Approval_handler as Handler_v2_0,
   SablierLockup_v3_0_Approval_handler as Handler_v3_0,
   SablierLockup_v4_0_Approval_handler as Handler_v4_0,
-} from "../../../bindings/src/Types.gen";
-import * as Watcher from "../../../store/entity-watcher";
-import * as LockupAction from "../../../store/lockup/entity-action";
+} from "../../../bindings/src/Indexer.gen.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import * as LockupAction from "../../../store/lockup/entity-action.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -36,10 +36,6 @@ const handler: Handler = async ({ context, event }) => {
     context.LockupStream.get(streamId),
     context.Watcher.get(watcherId),
   ]);
-
-  if (context.isPreload) {
-    return;
-  }
 
   if (!stream) {
     context.log.error("Stream not saved before this approval event", { event, streamId });

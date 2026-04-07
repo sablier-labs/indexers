@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Id } from "../helpers/id";
+import { Id } from "../helpers/id.js";
 
 describe("Id", () => {
   /* -------------------------------------------------------------------------- */

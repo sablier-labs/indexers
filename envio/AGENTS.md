@@ -1,14 +1,11 @@
-## CJS-Only Directory
+## Type Checking
 
-This directory is **CommonJS-only** (`"type": "commonjs"` in `package.json`). The Envio runtime requires CJS — it does
-not support ESM.
+The root `tsconfig.json` excludes `envio/`. Running `just tsc-check` or `na tsc --noEmit` will **not** catch type errors
+here. Use the Envio-specific tsconfig:
 
-Every other directory in this monorepo is ESM (`"type": "module"` at the root). Because CJS cannot import ESM, **code in
-`envio/` must never import from any other directory** (e.g. `../src`, `../cli`, `../schema`). All shared logic must be
-duplicated or vendored locally under `envio/common/`.
-
-Exception: TypeScript type-only imports are allowed from ESM modules (e.g. `import type { Foo } from "../src/types"`),
-because they are erased at compile time and produce no runtime CJS `require`.
+```bash
+na tsc --noEmit -p envio/tsconfig.json
+```
 
 ## Type Errors in Bindings
 

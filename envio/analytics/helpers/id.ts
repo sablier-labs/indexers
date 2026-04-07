@@ -1,5 +1,5 @@
 import { sablier } from "sablier";
-import { getDate, getMonth } from "../../common/time";
+import { getDate, getMonth } from "../../common/time.js";
 
 export namespace Id {
   export function dailyFiatFees(blockTimestamp: number): string {

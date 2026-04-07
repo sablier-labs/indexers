@@ -3,7 +3,7 @@ import { CommandExecutor, FileSystem, Command as PlatformCommand } from "@effect
 import chalk from "chalk";
 import Table from "cli-table3";
 import { Chunk, Clock, Console, Data, Duration, Effect, Option, Schedule, Stream } from "effect";
-import _ from "lodash";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { Version } from "sablier/evm";
 import paths, { ROOT_DIR } from "../../../../../cli/paths.js";

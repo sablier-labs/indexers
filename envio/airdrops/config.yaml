@@ -3,9 +3,7 @@ name: "sablier-airdrops"
 address_format: "lowercase"
 ecosystem: "evm"
 output: "./bindings"
-preload_handlers: true
 schema: "airdrops.graphql"
-unordered_multichain_mode: true
 field_selection:
   transaction_fields:
     - "from"
@@ -174,7 +172,7 @@ contracts:
       - event: "LowerMinFeeUSD"
       - event: "Sponsor"
       - event: "EnableRedistribution"
-networks:
+chains:
   - id: 2741
     start_block: 73620
     rpc:

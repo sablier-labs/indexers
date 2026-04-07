@@ -1,14 +1,14 @@
-import type { Indexer } from "../../../src/types";
-import type { Envio } from "../bindings";
-import { getContract } from "../deployments";
-import type { CommonEntities } from "../entities";
-import { Id } from "../id";
+import type { Address } from "viem";
+import type { Indexer } from "../../../src/types.js";
+import { getContract } from "../deployments.js";
+import type { CommonEntities } from "../entities.js";
+import { Id } from "../id.js";
 
 type ContractContext = { Contract: { set: (contract: CommonEntities.Contract) => void } };
 
 export function create(
   context: ContractContext,
-  event: { chainId: number; srcAddress: Envio.Address },
+  event: { chainId: number; srcAddress: Address },
   protocol: Indexer.Protocol
 ): CommonEntities.Contract {
   const contractMetadata = getContract(protocol, event.chainId, event.srcAddress);

@@ -5,9 +5,9 @@ import type {
   SablierLockup_v2_0_ApprovalForAll_handler as Handler_v2_0,
   SablierLockup_v3_0_ApprovalForAll_handler as Handler_v3_0,
   SablierLockup_v4_0_ApprovalForAll_handler as Handler_v4_0,
-} from "../../../bindings/src/Types.gen";
-import * as Watcher from "../../../store/entity-watcher";
-import * as LockupAction from "../../../store/lockup/entity-action";
+} from "../../../bindings/src/Indexer.gen.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import * as LockupAction from "../../../store/lockup/entity-action.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
@@ -24,10 +24,6 @@ const handler: Handler = async ({ context, event }) => {
   /* -------------------------------- ENTITIES -------------------------------- */
   const watcherId = event.chainId.toString();
   const watcher = await context.Watcher.get(watcherId);
-
-  if (context.isPreload) {
-    return;
-  }
 
   const ensuredWatcher = watcher ?? Watcher.create(event.chainId);
   if (!watcher) {

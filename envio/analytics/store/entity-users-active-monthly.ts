@@ -1,21 +1,16 @@
 /**
  * @see {@link: file://./../analytics.graphql}
  */
-import type { Envio } from "../../common/bindings";
-import { getMonth, getMonthTimestamp, getTimestamp } from "../../common/time";
-import type { Entity, HandlerContext } from "../bindings";
-import { Id } from "../helpers";
+import type { Envio } from "../../common/bindings.js";
+import { getMonth, getMonthTimestamp, getTimestamp } from "../../common/time.js";
+import type { Entity, HandlerContext } from "../bindings.js";
+import { Id } from "../helpers/index.js";
 
 export async function trackMonthlyActiveUser(
   context: HandlerContext,
   event: Envio.Event,
   userAddress: string
 ): Promise<void> {
-  // Stop if it's the preload phase
-  if (context.isPreload) {
-    return;
-  }
-
   const month = getMonth(event.block.timestamp);
 
   // Check if this user+month combination has already been counted (persistent check)
@@ -40,7 +35,7 @@ export async function trackMonthlyActiveUser(
     context.UsersActiveMonthly.set(monthly);
   } else {
     // Create new monthly entity
-    const monthlyEntity: Entity.UsersActiveMonthly = {
+    const monthlyEntity: Entity<"UsersActiveMonthly"> = {
       count: 1n,
       id: monthlyId,
       month,
@@ -50,7 +45,7 @@ export async function trackMonthlyActiveUser(
   }
 
   // Create the activity record to prevent double-counting
-  const activityEntity: Entity.UserActivityMonth = {
+  const activityEntity: Entity<"UserActivityMonth"> = {
     firstActivityTimestamp: getTimestamp(event.block.timestamp),
     id: activityId,
     month,

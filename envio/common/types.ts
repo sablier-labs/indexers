@@ -1,6 +1,5 @@
-import type { Enum as FlowEnum } from "../flow/bindings";
-import type { Enum as LockupEnum } from "../lockup/bindings";
-import type { Envio } from "./bindings";
+import type { Address } from "viem";
+import type { Enum } from "../streams/bindings.js";
 
 export namespace RPCData {
   export enum Category {
@@ -15,7 +14,7 @@ export namespace RPCData {
   };
 
   export type ProxenderInfo = {
-    owner: Envio.Address;
+    owner: Address;
   };
 }
 
@@ -25,7 +24,7 @@ export namespace CommonParams {
     addressB?: string;
     amountA?: bigint;
     amountB?: bigint;
-    category: FlowEnum.ActionCategory | LockupEnum.ActionCategory;
+    category: Enum<"FlowActionCategory"> | Enum<"LockupActionCategory">;
     streamId?: string;
   };
 }

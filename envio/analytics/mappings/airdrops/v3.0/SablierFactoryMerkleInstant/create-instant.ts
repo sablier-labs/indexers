@@ -1,5 +1,5 @@
-import { Contract } from "../../../../bindings";
-import { Store } from "../../../../store";
+import { Contract } from "../../../../bindings.js";
+import { Store } from "../../../../store/index.js";
 
 Contract.Airdrops.Factory.FactoryMerkleInstant_v3_0.CreateMerkleInstant.contractRegister(
   ({ context, event }) => {
