@@ -17,7 +17,7 @@ import { streamsStreamDefs } from "./streams/stream.graphql.js";
 
 type TsDefsGenerator = (target: Indexer.Target) => DocumentNode;
 type ProtocolSchemaConfig = {
-  /** Filenames (without extension) from `schema/common/` shared across protocols (e.g. `"contract"`). */
+  /** Filenames (without extension) from `schema/common/` shared across indexers (e.g. `"contract"`). */
   common?: string[];
   /** TypeScript functions that programmatically produce GraphQL `DocumentNode` defs at merge time. */
   generators?: TsDefsGenerator[];
@@ -29,14 +29,14 @@ type ProtocolSchemaConfig = {
   vendorSpecific?: Record<Indexer.Vendor, string[]>;
 };
 /**
- * Base GraphQL definition files shared across all protocols.
+ * Base GraphQL definition files shared across all indexers.
  */
 const BASE = {
   generators: [getEnumDefs, getAssetDefs, getWatcherDefs],
 };
 
 /**
- * Mapping of protocols to their respective GraphQL definition files.
+ * Mapping of indexers to their respective GraphQL definition files.
  */
 const PROTOCOL_MAP: Record<string, ProtocolSchemaConfig> = {
   analytics: {},
@@ -47,8 +47,9 @@ const PROTOCOL_MAP: Record<string, ProtocolSchemaConfig> = {
   },
   streams: {
     common: ["contract", "deprecated-stream"],
-    generators: [...BASE.generators, getSponsorDefs, getSponsorshipDefs, getStreamDefs],
+    generators: [...BASE.generators, getStreamDefs],
     indexerSpecific: ["segment", "tranche"],
+    vendorGenerators: { envio: [getSponsorDefs, getSponsorshipDefs], graph: [] },
   },
 };
 
