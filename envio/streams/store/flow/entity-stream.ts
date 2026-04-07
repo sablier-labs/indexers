@@ -10,7 +10,7 @@ export function create(
   event: Envio.Event,
   entities: Params.CreateEntities,
   params: Params.Create
-): Entity.FlowStream {
+): Entity<"FlowStream"> {
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.flowStreamCounter;
@@ -19,7 +19,7 @@ export function create(
   const flow = getContract("flow", event.chainId, event.srcAddress);
 
   /* --------------------------------- STREAM --------------------------------- */
-  const stream: Entity.FlowStream = {
+  const stream: Entity<"FlowStream"> = {
     alias: Id.streamAlias(flow.alias, event.chainId, tokenId),
     asset_id: asset.id,
     assetDecimalsValue: asset.decimals,

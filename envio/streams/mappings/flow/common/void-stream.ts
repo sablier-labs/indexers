@@ -5,9 +5,9 @@ import type {
   SablierFlow_v1_1_VoidFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_VoidFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_VoidFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.js";
+} from "../../../bindings/src/Indexer.gen.js";
 import type { Entity } from "../../../bindings.js";
-import { computeSnapshotAmount, scale } from "../../../helpers.js";
+import { computeSnapshotAmount, scale } from "../../../helpers/index.js";
 import * as StreamsWatcher from "../../../store/entity-watcher.js";
 import * as FlowAction from "../../../store/flow/entity-action.js";
 
@@ -52,7 +52,7 @@ const handler: Handler = async ({ context, event }) => {
   const availableAmount = scale(stream.availableAmount, stream.assetDecimalsValue);
   const maxAvailable = withdrawnAmount + availableAmount;
 
-  const updatedStream: Entity.FlowStream = {
+  const updatedStream: Entity<"FlowStream"> = {
     ...stream,
     depletionTime: 0n,
     forgivenDebt: event.params.writtenOffDebt,

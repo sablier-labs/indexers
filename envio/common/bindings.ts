@@ -15,7 +15,8 @@ export namespace Envio {
 
   export type eventLog<params> = Internal_genericEvent<params, Block, Transaction>;
   export type EventLog<params> = eventLog<params>;
-  export type Event<Params = Record<string, unknown>> = EventLog<Params>;
+  // biome-ignore lint/suspicious/noConfusingVoidType: Envio generates `params: void` for no-param events
+  export type Event<Params = Record<string, unknown> | void> = EventLog<Params>;
 
   export type Logger = Logger_t;
 

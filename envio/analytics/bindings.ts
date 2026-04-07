@@ -117,26 +117,4 @@ export namespace Contract {
 }
 
 // Entities
-import type {
-  CryptoFeesDaily as EntityCryptoFeesDaily,
-  FiatFeesDaily as EntityFiatFeesDaily,
-  FeeCollectionDaily as EntityFeeCollectionDaily,
-  FeeCollection as EntityFeeCollection,
-  FeeTransaction as EntityFeeTransaction,
-  User as EntityUser,
-  UserActivityMonth as EntityUserActivityMonth,
-  UsersActiveMonthly as EntityUsersActiveMonthly,
-  UserTransaction as EntityUserTransaction,
-} from "./bindings/src/Types.js";
-
-export namespace Entity {
-  export type CryptoFeesDaily = EntityCryptoFeesDaily;
-  export type FiatFeesDaily = EntityFiatFeesDaily;
-  export type FeeCollectionDaily = EntityFeeCollectionDaily;
-  export type FeeCollection = EntityFeeCollection;
-  export type FeeTransaction = EntityFeeTransaction;
-  export type User = EntityUser;
-  export type UserActivityMonth = EntityUserActivityMonth;
-  export type UsersActiveMonthly = EntityUsersActiveMonthly;
-  export type UserTransaction = EntityUserTransaction;
-}
+export type { Entity } from "./bindings/src/Types.js";

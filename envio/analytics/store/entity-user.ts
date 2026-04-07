@@ -6,14 +6,14 @@ import { formatEther, zeroAddress } from "viem";
 import type { Envio } from "../../common/bindings.js";
 import { getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
-import { Id } from "../helpers.js";
+import { Id } from "../helpers/index.js";
 import { trackMonthlyActiveUser } from "./entity-users-active-monthly.js";
 
 type Params = {
   address: string;
-  entity?: Entity.User;
+  entity?: Entity<"User">;
   isAirdropClaim: boolean;
-  tx?: Entity.UserTransaction;
+  tx?: Entity<"UserTransaction">;
 };
 
 export async function createOrUpdate(
@@ -102,7 +102,7 @@ async function upsert(context: HandlerContext, event: Envio.Event, params: Param
     fee = formatEther(event.transaction.value);
     feeNumeric = event.transaction.value;
   }
-  const userTransaction: Entity.UserTransaction = {
+  const userTransaction: Entity<"UserTransaction"> = {
     block: BigInt(event.block.number),
     contractAddress: event.srcAddress,
     fee: feeNumeric,

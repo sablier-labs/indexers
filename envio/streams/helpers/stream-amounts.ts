@@ -5,7 +5,7 @@ import { scale } from "./amounts.js";
  * Compute the current snapshot amount for a stream.
  * Guards against computing elapsed time before stream starts.
  */
-export function computeSnapshotAmount(stream: Entity.FlowStream, now: bigint): bigint {
+export function computeSnapshotAmount(stream: Entity<"FlowStream">, now: bigint): bigint {
   if (now <= stream.startTime) {
     return stream.snapshotAmount;
   }
@@ -25,7 +25,7 @@ export function computeSnapshotAmount(stream: Entity.FlowStream, now: bigint): b
  * Guard against zero to handle all versions.
  */
 export function computeDepletionTime(
-  stream: Entity.FlowStream,
+  stream: Entity<"FlowStream">,
   now: bigint,
   snapshotAmount: bigint,
   ratePerSecond: bigint

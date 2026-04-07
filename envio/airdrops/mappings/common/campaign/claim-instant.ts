@@ -7,8 +7,8 @@ import type {
   SablierMerkleLL_v3_0_ClaimLLWithTransfer_handler,
   SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler,
   SablierMerkleLT_v3_0_ClaimLTWithTransfer_handler,
-} from "../../../bindings/src/Types.js";
-import { Store } from "../../../store.js";
+} from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

@@ -4,15 +4,15 @@
 import type { Address } from "viem";
 import type { Envio } from "../../../../common/bindings.js";
 import { NOT_AVAILABLE } from "../../../../common/constants.js";
-import { fetchTokenMetadata } from "../../../../common/effects.js";
+import { fetchTokenMetadata } from "../../../../common/effects/index.js";
 import { Id } from "../../../../common/id.js";
-import { CommonStore } from "../../../../common/store.js";
+import { CommonStore } from "../../../../common/store/index.js";
 import type { RPCData } from "../../../../common/types.js";
 import type { Context, Entity } from "../../../bindings.js";
 import { fetchProxender } from "../../../effects/proxender.js";
 import type { Params } from "../../../helpers/lockup-types.js";
 import * as Watcher from "../../../store/entity-watcher.js";
-import { Store } from "../../../store/lockup.js";
+import { Store } from "../../../store/lockup/index.js";
 
 export type PreloadCreateResult = {
   entities: Params.CreateEntities;
@@ -79,7 +79,7 @@ export async function preloadCreateEntities({
         event.chainId,
         params.asset,
         assetMetadata
-      ) as Entity.Asset),
+      ) as Entity<"Asset">),
     batch: batch ?? Store.Batch.create(event, params.sender),
     batcher: batcher ?? Store.Batcher.create(context, event, params.sender),
     watcher: watcher ?? Watcher.create(event.chainId),

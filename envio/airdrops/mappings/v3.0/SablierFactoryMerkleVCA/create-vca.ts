@@ -1,8 +1,8 @@
 import { Contract } from "../../../bindings.js";
-import type { Params } from "../../../helpers.js";
-import { Store } from "../../../store.js";
+import type { Params } from "../../../helpers/index.js";
+import { Store } from "../../../store/index.js";
 import { createMerkle } from "../../common/factory/create-merkle.js";
-import { preloadCreateEntities } from "../../common/factory.js";
+import { preloadCreateEntities } from "../../common/factory/index.js";
 
 Contract.Factory.FactoryMerkleVCA_v3_0.CreateMerkleVCA.contractRegister(({ context, event }) => {
   context.addSablierMerkleVCA_v3_0(event.params.merkleVCA);

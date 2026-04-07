@@ -3,11 +3,11 @@ import type { Entity } from "../bindings.js";
 
 type WatcherContext = {
   log: Logger;
-  Watcher: { set: (watcher: Entity.Watcher) => void };
+  Watcher: { set: (watcher: Entity<"Watcher">) => void };
 };
 
-export function create(chainId: number): Entity.Watcher {
-  const watcher: Entity.Watcher = {
+export function create(chainId: number): Entity<"Watcher"> {
+  const watcher: Entity<"Watcher"> = {
     chainId: BigInt(chainId),
     flowActionCounter: 1n,
     flowStreamCounter: 1n,
@@ -22,7 +22,10 @@ export function create(chainId: number): Entity.Watcher {
 /*                                    FLOW                                    */
 /* -------------------------------------------------------------------------- */
 
-export function incrementFlowActionCounter(context: WatcherContext, watcher: Entity.Watcher): void {
+export function incrementFlowActionCounter(
+  context: WatcherContext,
+  watcher: Entity<"Watcher">
+): void {
   const updatedWatcher = {
     ...watcher,
     flowActionCounter: watcher.flowActionCounter + 1n,
@@ -30,7 +33,7 @@ export function incrementFlowActionCounter(context: WatcherContext, watcher: Ent
   context.Watcher.set(updatedWatcher);
 }
 
-export function incrementFlowCounters(context: WatcherContext, watcher: Entity.Watcher): void {
+export function incrementFlowCounters(context: WatcherContext, watcher: Entity<"Watcher">): void {
   const updatedWatcher = {
     ...watcher,
     flowActionCounter: watcher.flowActionCounter + 1n,
@@ -45,7 +48,7 @@ export function incrementFlowCounters(context: WatcherContext, watcher: Entity.W
 
 export function incrementLockupActionCounter(
   context: WatcherContext,
-  watcher: Entity.Watcher
+  watcher: Entity<"Watcher">
 ): void {
   const updatedWatcher = {
     ...watcher,
@@ -54,7 +57,7 @@ export function incrementLockupActionCounter(
   context.Watcher.set(updatedWatcher);
 }
 
-export function incrementLockupCounters(context: WatcherContext, watcher: Entity.Watcher): void {
+export function incrementLockupCounters(context: WatcherContext, watcher: Entity<"Watcher">): void {
   const updatedWatcher = {
     ...watcher,
     lockupActionCounter: watcher.lockupActionCounter + 1n,

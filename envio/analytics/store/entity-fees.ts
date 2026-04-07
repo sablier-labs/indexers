@@ -10,7 +10,7 @@ import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
 import { coinConfigs } from "../effects/coingecko.js";
 import { fetchGBPExchangeRate } from "../effects/forex.js";
-import { Id } from "../helpers.js";
+import { Id } from "../helpers/index.js";
 
 // Testnet ETH doesn't have value, and TNT is not transferable.
 const TESTNETS = sablier.chains.getTestnets();
@@ -18,11 +18,11 @@ const EXCLUDED_CHAINS = [...TESTNETS.map((c) => c.id), tangle.id];
 
 type LoadedEntities = {
   dailyFiatFeesId: string;
-  dailyFiatFees: Entity.FiatFeesDaily | undefined;
+  dailyFiatFees: Entity<"FiatFeesDaily"> | undefined;
   dailyCryptoFeesId: string;
-  dailyCryptoFees: Entity.CryptoFeesDaily | undefined;
+  dailyCryptoFees: Entity<"CryptoFeesDaily"> | undefined;
   feeTxId: string;
-  feeTx: Entity.FeeTransaction | undefined;
+  feeTx: Entity<"FeeTransaction"> | undefined;
 };
 
 export async function createOrUpdate(context: HandlerContext, event: Envio.Event): Promise<void> {
@@ -94,7 +94,7 @@ function createFeeTx(
   const { feeTxId, dailyFiatFeesId, dailyCryptoFeesId } = entities;
   const { currency, gbpValue, msgValue, usdValue } = params;
 
-  const feeTx: Entity.FeeTransaction = {
+  const feeTx: Entity<"FeeTransaction"> = {
     amount: event.transaction.value,
     amountDisplay: msgValue,
     amountDisplayGBP: gbpValue,

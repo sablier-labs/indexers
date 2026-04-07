@@ -1,6 +1,6 @@
 import { Contract } from "../../../../bindings.js";
 import type { Params } from "../../../../helpers/lockup-types.js";
-import { Store } from "../../../../store/lockup.js";
+import { Store } from "../../../../store/lockup/index.js";
 import { createStream } from "../../common/create-stream.js";
 import { preloadCreateEntities } from "../../common/preload.js";
 

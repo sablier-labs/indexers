@@ -12,8 +12,8 @@ import type {
   SablierMerkleLT_v2_0_Clawback_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_Clawback_handler as HandlerLT_v3_0,
   SablierMerkleVCA_v3_0_Clawback_handler as HandlerVCA_v3_0,
-} from "../../../bindings/src/Types.js";
-import { Store } from "../../../store.js";
+} from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

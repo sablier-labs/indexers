@@ -6,13 +6,13 @@ import type { Params } from "../helpers/types.js";
 export function create(
   context: Context.Handler,
   event: Envio.Event<unknown>,
-  watcher: Entity.Watcher,
+  watcher: Entity<"Watcher">,
   params: Params.Action
-): Entity.Action {
-  const action: Entity.Action = {
+): Entity<"Action"> {
+  const action: Entity<"Action"> = {
     block: BigInt(event.block.number),
     campaign_id: params.campaignId,
-    category: params.category as Enum.ActionCategory,
+    category: params.category as Enum<"ActionCategory">,
     chainId: BigInt(event.chainId),
     claimAmount: params.claimAmount,
     claimIndex: params.claimIndex,

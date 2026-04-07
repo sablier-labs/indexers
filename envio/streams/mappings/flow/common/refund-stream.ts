@@ -5,8 +5,8 @@ import type {
   SablierFlow_v1_1_RefundFromFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_RefundFromFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_RefundFromFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.js";
-import { computeDepletionTime, computeSnapshotAmount } from "../../../helpers.js";
+} from "../../../bindings/src/Indexer.gen.js";
+import { computeDepletionTime, computeSnapshotAmount } from "../../../helpers/index.js";
 import * as StreamsWatcher from "../../../store/entity-watcher.js";
 import * as FlowAction from "../../../store/flow/entity-action.js";
 

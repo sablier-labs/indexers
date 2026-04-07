@@ -11,7 +11,7 @@ import {
   transfer,
   voidStream,
   withdrawStream,
-} from "../common.js";
+} from "../common/index.js";
 
 Contract.Flow_v1_1.AdjustFlowStream.handler(adjustStream.handler);
 Contract.Flow_v1_1.Approval.handler(approval.handler);

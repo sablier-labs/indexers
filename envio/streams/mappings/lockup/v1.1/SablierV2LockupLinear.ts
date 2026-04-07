@@ -1,8 +1,7 @@
 import { Contract } from "../../../bindings.js";
 import type { Params } from "../../../helpers/lockup-types.js";
-import { Store } from "../../../store/lockup.js";
+import { Store } from "../../../store/lockup/index.js";
 import { createStream } from "../common/create-stream.js";
-import { preloadCreateEntities } from "../common/preload.js";
 import {
   approval,
   approvalForAll,
@@ -10,7 +9,8 @@ import {
   renounceStream,
   transfer,
   withdrawStream,
-} from "../common.js";
+} from "../common/index.js";
+import { preloadCreateEntities } from "../common/preload.js";
 
 Contract.LockupLinear_v1_1.ApprovalForAll.handler(approvalForAll.handler);
 Contract.LockupLinear_v1_1.Approval.handler(approval.handler);

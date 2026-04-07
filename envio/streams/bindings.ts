@@ -45,53 +45,5 @@ export namespace Contract {
   export const USDC = USDC_Contract;
 }
 
-// Enums
-import type { Enum as EnumLookup } from "./bindings/src/Types.js";
-export namespace Enum {
-  export type FlowActionCategory = EnumLookup<"FlowActionCategory">;
-  export type LockupActionCategory = EnumLookup<"LockupActionCategory">;
-  export type LockupStreamCategory = EnumLookup<"LockupStreamCategory">;
-  export type ShapeSource = EnumLookup<"ShapeSource">;
-}
-
-// Entities
-import type {
-  Asset as EntityAsset,
-  Contract as EntityContract,
-  DeprecatedStream as EntityDeprecatedStream,
-  FlowAction as EntityFlowAction,
-  FlowBatch as EntityFlowBatch,
-  FlowBatcher as EntityFlowBatcher,
-  FlowStream as EntityFlowStream,
-  LockupAction as EntityLockupAction,
-  LockupBatch as EntityLockupBatch,
-  LockupBatcher as EntityLockupBatcher,
-  LockupStream as EntityLockupStream,
-  Segment as EntitySegment,
-  Sponsor as EntitySponsor,
-  Sponsorship as EntitySponsorship,
-  Tranche as EntityTranche,
-  Watcher as EntityWatcher,
-} from "./bindings/src/Types.js";
-
-export namespace Entity {
-  // Shared
-  export type Asset = EntityAsset;
-  export type Contract = EntityContract;
-  export type DeprecatedStream = EntityDeprecatedStream;
-  export type Watcher = EntityWatcher;
-  // Flow
-  export type FlowAction = EntityFlowAction;
-  export type FlowBatch = EntityFlowBatch;
-  export type FlowBatcher = EntityFlowBatcher;
-  export type FlowStream = EntityFlowStream;
-  // Lockup
-  export type LockupAction = EntityLockupAction;
-  export type LockupBatch = EntityLockupBatch;
-  export type LockupBatcher = EntityLockupBatcher;
-  export type LockupStream = EntityLockupStream;
-  export type Segment = EntitySegment;
-  export type Sponsor = EntitySponsor;
-  export type Sponsorship = EntitySponsorship;
-  export type Tranche = EntityTranche;
-}
+// Entities & Enums
+export type { Entity, Enum } from "./bindings/src/Types.js";

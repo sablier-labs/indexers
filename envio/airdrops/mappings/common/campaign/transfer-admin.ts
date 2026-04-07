@@ -6,8 +6,8 @@ import type {
   SablierMerkleInstant_v1_3_TransferAdmin_handler as HandlerInstant_v1_3,
   SablierV2MerkleStreamerLL_v1_1_TransferAdmin_handler as HandlerLL_v1_1,
   SablierV2MerkleLL_v1_2_TransferAdmin_handler as HandlerLL_v1_2,
-} from "../../../bindings/src/Types.js";
-import { Store } from "../../../store.js";
+} from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

@@ -5,7 +5,7 @@
 import type { Envio } from "../../../../common/bindings.js";
 import { isDeprecatedContract as isDeprecatedLockupContract } from "../../../../common/deprecated.js";
 import { Id } from "../../../../common/id.js";
-import { CommonStore } from "../../../../common/store.js";
+import { CommonStore } from "../../../../common/store/index.js";
 import type { Context, Entity } from "../../../bindings.js";
 import type { Params } from "../../../helpers/lockup-types.js";
 import * as Watcher from "../../../store/entity-watcher.js";
@@ -18,7 +18,7 @@ type Input<P extends Params.CreateStreamCommon> = {
     event: Envio.Event,
     entities: Params.CreateEntities,
     params: P
-  ) => Entity.LockupStream;
+  ) => Entity<"LockupStream">;
   event: Envio.Event;
   entities: Params.CreateEntities;
   params: P;
@@ -26,7 +26,7 @@ type Input<P extends Params.CreateStreamCommon> = {
 
 export async function createStream<P extends Params.CreateStreamCommon>(
   input: Input<P>
-): Promise<Entity.LockupStream | null> {
+): Promise<Entity<"LockupStream"> | null> {
   const { context, createInStore, event, entities, params } = input;
 
   /* -------------------------------- CONTRACT -------------------------------- */

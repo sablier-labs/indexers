@@ -1,9 +1,9 @@
 import { isOfficialLockup } from "../../../../common/helpers.js";
 import { Contract } from "../../../bindings.js";
-import type { Params } from "../../../helpers.js";
-import { Store } from "../../../store.js";
+import type { Params } from "../../../helpers/index.js";
+import { Store } from "../../../store/index.js";
 import { createMerkle } from "../../common/factory/create-merkle.js";
-import { preloadCreateEntities } from "../../common/factory.js";
+import { preloadCreateEntities } from "../../common/factory/index.js";
 
 Contract.Factory.FactoryMerkleLL_v3_0.CreateMerkleLL.contractRegister(({ context, event }) => {
   const lockupAddress = event.params.campaignParams[10];

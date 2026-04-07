@@ -9,7 +9,7 @@ import type { Envio } from "../../common/bindings.js";
 import type { COMPTROLLER } from "../../common/constants.js";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
-import { Id } from "../helpers.js";
+import { Id } from "../helpers/index.js";
 
 type Params = {
   admin: string;
@@ -19,9 +19,9 @@ type Params = {
 };
 
 type LoadedEntities = {
-  feeCollection: Entity.FeeCollectionDaily | undefined;
+  feeCollection: Entity<"FeeCollectionDaily"> | undefined;
   feeCollectionId: string;
-  feeCollectionTransaction: Entity.FeeCollection | undefined;
+  feeCollectionTransaction: Entity<"FeeCollection"> | undefined;
   feeCollectionTransactionId: string;
 };
 
@@ -67,7 +67,7 @@ export async function create(
   upsertFeeCollection(context, entities, event, { amount, currency });
 
   // Create transaction entity
-  const transaction: Entity.FeeCollection = {
+  const transaction: Entity<"FeeCollection"> = {
     admin,
     airdropCampaign,
     amount,

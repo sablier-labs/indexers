@@ -7,8 +7,8 @@ export function create(
   context: Context.Handler,
   chainId: number,
   factoryAddress: Address
-): Entity.Factory {
-  const factory: Entity.Factory = {
+): Entity<"Factory"> {
+  const factory: Entity<"Factory"> = {
     address: factoryAddress,
     alias: getContractAlias("airdrops", chainId, factoryAddress),
     campaignCounter: 0n,

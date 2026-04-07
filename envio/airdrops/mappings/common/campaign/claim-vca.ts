@@ -1,6 +1,6 @@
 import { Id } from "../../../../common/id.js";
-import type { SablierMerkleVCA_v3_0_ClaimVCA_handler } from "../../../bindings/src/Types.js";
-import { Store } from "../../../store.js";
+import type { SablierMerkleVCA_v3_0_ClaimVCA_handler } from "../../../bindings/src/Indexer.gen.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

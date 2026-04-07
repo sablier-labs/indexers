@@ -5,7 +5,7 @@ import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/
 import { isOfficialLockup } from "../../../../common/helpers.js";
 import type { Context, Entity } from "../../../bindings.js";
 import type { Params } from "../../../helpers/types.js";
-import { Store } from "../../../store.js";
+import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   MAPPING                                  */
@@ -18,7 +18,7 @@ type Input<P extends Params.CreateCampaignBase> = {
     event: Envio.Event,
     entities: Params.CreateEntities,
     params: P
-  ) => Entity.Campaign;
+  ) => Entity<"Campaign">;
   event: Envio.Event;
   entities: Params.CreateEntities;
   params: P;

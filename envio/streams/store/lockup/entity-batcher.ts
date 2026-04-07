@@ -7,8 +7,8 @@ export function create(
   context: Context.Handler,
   event: Envio.Event,
   sender: Address
-): Entity.LockupBatcher {
-  const batcher: Entity.LockupBatcher = {
+): Entity<"LockupBatcher"> {
+  const batcher: Entity<"LockupBatcher"> = {
     batchCounter: 0n,
     id: Id.batcher(event.chainId, sender),
   };
@@ -18,8 +18,8 @@ export function create(
 
 export function update(
   context: Context.Handler,
-  batcher: Entity.LockupBatcher
-): Entity.LockupBatcher {
+  batcher: Entity<"LockupBatcher">
+): Entity<"LockupBatcher"> {
   const updatedBatcher = {
     ...batcher,
     batchCounter: batcher.batchCounter + 1n,

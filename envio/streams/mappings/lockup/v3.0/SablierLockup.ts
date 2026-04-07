@@ -6,7 +6,7 @@ import {
   renounceStream,
   transfer,
   withdrawStream,
-} from "../common.js";
+} from "../common/index.js";
 
 Contract.Lockup_v3_0.ApprovalForAll.handler(approvalForAll.handler);
 Contract.Lockup_v3_0.Approval.handler(approval.handler);

@@ -8,7 +8,7 @@ import type {
   SablierLockup_v2_0_Transfer_handler as Handler_v2_0,
   SablierLockup_v3_0_Transfer_handler as Handler_v3_0,
   SablierLockup_v4_0_Transfer_handler as Handler_v4_0,
-} from "../../../bindings/src/Types.js";
+} from "../../../bindings/src/Indexer.gen.js";
 import * as Watcher from "../../../store/entity-watcher.js";
 import * as LockupAction from "../../../store/lockup/entity-action.js";
 

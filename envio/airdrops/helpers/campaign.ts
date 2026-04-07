@@ -9,7 +9,7 @@ import type { Entity } from "../bindings.js";
 export function getNickname(
   campaignAdmin: Address,
   campaignName: string | undefined,
-  asset: Entity.Asset | undefined
+  asset: Entity<"Asset"> | undefined
 ): string {
   const symbol = asset?.symbol ?? "Unknown";
   if (!campaignName) {

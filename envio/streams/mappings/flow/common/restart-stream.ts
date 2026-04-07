@@ -5,9 +5,9 @@ import type {
   SablierFlow_v1_1_RestartFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_RestartFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_RestartFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.js";
+} from "../../../bindings/src/Indexer.gen.js";
 import type { Entity } from "../../../bindings.js";
-import { scale } from "../../../helpers.js";
+import { scale } from "../../../helpers/index.js";
 import * as StreamsWatcher from "../../../store/entity-watcher.js";
 import * as FlowAction from "../../../store/flow/entity-action.js";
 
@@ -57,7 +57,7 @@ const handler: Handler = async ({ context, event }) => {
     depletionTime = now + extraAmountScaled / event.params.ratePerSecond;
   }
 
-  const updatedStream: Entity.FlowStream = {
+  const updatedStream: Entity<"FlowStream"> = {
     ...stream,
     depletionTime,
     lastAdjustmentAction_id: Id.action(event),

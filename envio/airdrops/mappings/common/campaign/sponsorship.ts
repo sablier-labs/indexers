@@ -6,7 +6,7 @@ import type {
   SablierMerkleLL_v3_0_Sponsor_handler,
   SablierMerkleLT_v3_0_Sponsor_handler,
   SablierMerkleVCA_v3_0_Sponsor_handler,
-} from "../../../bindings/src/Types.js";
+} from "../../../bindings/src/Indexer.gen.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

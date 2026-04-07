@@ -62,34 +62,5 @@ export namespace Contract {
   }
 }
 
-// Enum
-import type { Enum as EnumLookup } from "./bindings/src/Types.js";
-export namespace Enum {
-  export type ActionCategory = EnumLookup<"ActionCategory">;
-  export type CampaignCategory = EnumLookup<"CampaignCategory">;
-}
-
-// Entities
-import type {
-  Action as EntityAction,
-  Activity as EntityActivity,
-  Asset as EntityAsset,
-  Campaign as EntityCampaign,
-  Factory as EntityFactory,
-  Sponsor as EntitySponsor,
-  Sponsorship as EntitySponsorship,
-  Tranche as EntityTranche,
-  Watcher as EntityWatcher,
-} from "./bindings/src/Types.js";
-
-export namespace Entity {
-  export type Action = EntityAction;
-  export type Activity = EntityActivity;
-  export type Asset = EntityAsset;
-  export type Campaign = EntityCampaign;
-  export type Factory = EntityFactory;
-  export type Sponsor = EntitySponsor;
-  export type Sponsorship = EntitySponsorship;
-  export type Tranche = EntityTranche;
-  export type Watcher = EntityWatcher;
-}
+// Entities & Enums
+export type { Entity, Enum } from "./bindings/src/Types.js";

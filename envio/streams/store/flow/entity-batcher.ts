@@ -7,9 +7,9 @@ export function create(
   context: Context.Handler,
   event: Envio.Event,
   sender: Address
-): Entity.FlowBatcher {
+): Entity<"FlowBatcher"> {
   const id = Id.batcher(event.chainId, sender);
-  const batcher: Entity.FlowBatcher = {
+  const batcher: Entity<"FlowBatcher"> = {
     batchCounter: 0n,
     id,
   };
@@ -17,7 +17,10 @@ export function create(
   return batcher;
 }
 
-export function update(context: Context.Handler, batcher: Entity.FlowBatcher): Entity.FlowBatcher {
+export function update(
+  context: Context.Handler,
+  batcher: Entity<"FlowBatcher">
+): Entity<"FlowBatcher"> {
   const updatedBatcher = {
     ...batcher,
     batchCounter: batcher.batchCounter + 1n,

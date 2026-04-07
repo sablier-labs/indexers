@@ -1,6 +1,6 @@
 import { COMPTROLLER } from "../../../common/constants.js";
 import { Contract } from "../../bindings.js";
-import { Store } from "../../store.js";
+import { Store } from "../../store/index.js";
 
 Contract.Comptroller.TransferFees.handler(async ({ context, event }) => {
   await Store.FeeCollection.create(context, event, {

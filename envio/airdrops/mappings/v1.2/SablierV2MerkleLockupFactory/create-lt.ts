@@ -1,10 +1,10 @@
 import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated.js";
 import { isOfficialLockup } from "../../../../common/helpers.js";
 import { Contract } from "../../../bindings.js";
-import type { Params } from "../../../helpers.js";
-import { convertTranches } from "../../../helpers.js";
-import { Store } from "../../../store.js";
-import { createMerkle, preloadCreateEntities } from "../../common/factory.js";
+import type { Params } from "../../../helpers/index.js";
+import { convertTranches } from "../../../helpers/index.js";
+import { Store } from "../../../store/index.js";
+import { createMerkle, preloadCreateEntities } from "../../common/factory/index.js";
 
 /*
 ──────────────────────────────────────────────────────────────

@@ -3,13 +3,13 @@ import type { Entity, Enum } from "../bindings.js";
 
 export namespace Params {
   export type ActionEntities = {
-    campaign: Entity.Campaign;
-    watcher: Entity.Watcher;
+    campaign: Entity<"Campaign">;
+    watcher: Entity<"Watcher">;
   };
 
   export type Action = {
     campaignId: string;
-    category: Enum.ActionCategory;
+    category: Enum<"ActionCategory">;
     claimAmount?: bigint;
     claimIndex?: bigint;
     claimRecipient?: Address;
@@ -24,9 +24,9 @@ export namespace Params {
   };
 
   export type CreateEntities = {
-    asset: Entity.Asset;
-    factory: Entity.Factory;
-    watcher: Entity.Watcher;
+    asset: Entity<"Asset">;
+    factory: Entity<"Factory">;
+    watcher: Entity<"Watcher">;
   };
 
   export type CreateCampaignBase = {
@@ -35,7 +35,7 @@ export namespace Params {
     aggregateAmount: bigint;
     campaignAddress: Address;
     campaignStartTime: bigint;
-    category: Enum.CampaignCategory;
+    category: Enum<"CampaignCategory">;
     expiration: bigint;
     merkleRoot: string;
     minimumFee: bigint | undefined;

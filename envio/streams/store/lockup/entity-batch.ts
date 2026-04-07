@@ -7,9 +7,9 @@ import { update as updateBatcher } from "./entity-batcher.js";
 /**
  * The entity is not here because it will be set in the `update` function below.
  */
-export function create(event: Envio.Event, sender: Address): Entity.LockupBatch {
+export function create(event: Envio.Event, sender: Address): Entity<"LockupBatch"> {
   const id = Id.batch(event, sender);
-  const batch: Entity.LockupBatch = {
+  const batch: Entity<"LockupBatch"> = {
     batcher_id: undefined,
     hash: undefined,
     id,
@@ -32,14 +32,14 @@ export function create(event: Envio.Event, sender: Address): Entity.LockupBatch 
 export function update(
   context: Context.Handler,
   event: Envio.Event,
-  batch: Entity.LockupBatch,
-  batcher: Entity.LockupBatcher
+  batch: Entity<"LockupBatch">,
+  batcher: Entity<"LockupBatcher">
 ): void {
   const newBatchSize = batch.size + 1n;
 
   if (newBatchSize === 2n) {
     const updatedBatcher = updateBatcher(context, batcher);
-    const updatedBatch: Entity.LockupBatch = {
+    const updatedBatch: Entity<"LockupBatch"> = {
       ...batch,
       batcher_id: batcher.id,
       hash: event.transaction.hash,
@@ -49,7 +49,7 @@ export function update(
     };
     context.LockupBatch.set(updatedBatch);
   } else {
-    const updatedBatch: Entity.LockupBatch = {
+    const updatedBatch: Entity<"LockupBatch"> = {
       ...batch,
       size: newBatchSize,
     };

@@ -1,6 +1,6 @@
 import type { Envio } from "../../../common/bindings.js";
 import type { HandlerContext } from "../../bindings.js";
-import { Store } from "../../store.js";
+import { Store } from "../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   ERC-721                                  */

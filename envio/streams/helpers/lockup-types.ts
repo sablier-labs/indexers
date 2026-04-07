@@ -11,16 +11,16 @@ export namespace Params {
   };
 
   export type CreateEntities = {
-    asset: Entity.Asset;
-    batch: Entity.LockupBatch;
-    batcher: Entity.LockupBatcher;
-    watcher: Entity.Watcher;
+    asset: Entity<"Asset">;
+    batch: Entity<"LockupBatch">;
+    batcher: Entity<"LockupBatcher">;
+    watcher: Entity<"Watcher">;
   };
 
   export type CreateStreamCommon = {
     asset: Address;
     cancelable: boolean;
-    category: Enum.LockupStreamCategory;
+    category: Enum<"LockupStreamCategory">;
     depositAmount: bigint;
     endTime: bigint;
     funder: Address;
