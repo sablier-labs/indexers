@@ -103,6 +103,86 @@ type Watcher @entity(immutable: false) {
   lockupStreamCounter: BigInt!
 }
 
+"""
+An address that has sent USDC to the Sablier treasury for the billing process.
+"""
+type Sponsor @entity(immutable: false) {
+  """
+  Unique identifier: `{chainId}_{address}`
+  """
+  id: String!
+  """
+  Address of the sponsor.
+  """
+  address: String!
+  """
+  The chain ID where the sponsorship was made (sponsorships are chain-specific).
+  """
+  chainId: Int!
+  """
+  Number of sponsorships made by this sponsor.
+  """
+  sponsorshipCount: Int!
+  """
+  List of individual sponsorship transfers made by this sponsor.
+  """
+  sponsorships: [Sponsorship!]! @derivedFrom(field: "sponsor")
+  """
+  Cumulative raw USDC amount paid by the sponsor.
+  """
+  totalAmount: BigInt!
+  """
+  Human-readable cumulative USDC amount paid by the sponsor (e.g., "1729.12").
+  """
+  totalAmountDisplay: String!
+}
+
+"""
+A single USDC transfer to the Sablier treasury. Immutable — one per Transfer event.
+"""
+type Sponsorship @entity(immutable: true) {
+  """
+  Unique identifier: `{chainId}_{txHash}_{logIndex}`
+  """
+  id: String!
+  """
+  Raw USDC amount.
+  """
+  amount: BigInt!
+  """
+  Human-readable USDC amount (e.g., "1719.12").
+  """
+  amountDisplay: String!
+  """
+  Block number of the transaction.
+  """
+  block: Int!
+  """
+  The ID of the chain where the transfer occurred (e.g., 1 for Ethereum).
+  """
+  chainId: Int!
+  """
+  Log index of the Transfer event within the transaction.
+  """
+  logIndex: Int!
+  """
+  Address of the transaction signer (may differ from `from` for contract wallets).
+  """
+  sender: String!
+  """
+  The sponsor who made this transfer.
+  """
+  sponsor: Sponsor!
+  """
+  Unix timestamp of the transaction.
+  """
+  timestamp: Int!
+  """
+  Hash of the transaction.
+  """
+  txHash: String!
+}
+
 type FlowStream @entity(immutable: false) {
   """
   Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
@@ -783,86 +863,6 @@ type Segment @entity(immutable: true) {
   The stream in which this segment was created.
   """
   stream: LockupStream!
-}
-
-"""
-An address that has sent USDC to the Sablier treasury for the billing process.
-"""
-type Sponsor @entity(immutable: false) {
-  """
-  Unique identifier: `{chainId}_{address}`
-  """
-  id: String!
-  """
-  Address of the sponsor.
-  """
-  address: String!
-  """
-  The chain ID where the sponsorship was made (sponsorships are chain-specific).
-  """
-  chainId: Int!
-  """
-  Number of sponsorships made by this sponsor.
-  """
-  sponsorshipCount: Int!
-  """
-  List of individual sponsorship transfers made by this sponsor.
-  """
-  sponsorships: [Sponsorship!]! @derivedFrom(field: "sponsor")
-  """
-  Cumulative raw USDC amount paid by the sponsor.
-  """
-  totalAmount: BigInt!
-  """
-  Human-readable cumulative USDC amount paid by the sponsor (e.g., "1729.12").
-  """
-  totalAmountDisplay: String!
-}
-
-"""
-A single USDC transfer to the Sablier treasury. Immutable — one per Transfer event.
-"""
-type Sponsorship @entity(immutable: true) {
-  """
-  Unique identifier: `{chainId}_{txHash}_{logIndex}`
-  """
-  id: String!
-  """
-  Raw USDC amount.
-  """
-  amount: BigInt!
-  """
-  Human-readable USDC amount (e.g., "1719.12").
-  """
-  amountDisplay: String!
-  """
-  Block number of the transaction.
-  """
-  block: Int!
-  """
-  The ID of the chain where the transfer occurred (e.g., 1 for Ethereum).
-  """
-  chainId: Int!
-  """
-  Log index of the Transfer event within the transaction.
-  """
-  logIndex: Int!
-  """
-  Address of the transaction signer (may differ from `from` for contract wallets).
-  """
-  sender: String!
-  """
-  The sponsor who made this transfer.
-  """
-  sponsor: Sponsor!
-  """
-  Unix timestamp of the transaction.
-  """
-  timestamp: Int!
-  """
-  Hash of the transaction.
-  """
-  txHash: String!
 }
 
 """

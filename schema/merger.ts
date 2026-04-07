@@ -4,7 +4,12 @@ import { mergeTypeDefs } from "@graphql-tools/merge";
 import type { DocumentNode } from "graphql";
 import { SCHEMA_DIR } from "../cli/paths.js";
 import type { Indexer } from "../src/index.js";
-import { getAssetDefs, getWatcherDefs } from "./common/index.js";
+import {
+  getAssetDefs,
+  getSponsorDefs,
+  getSponsorshipDefs,
+  getWatcherDefs,
+} from "./common/index.js";
 import { getEnumDefs } from "./enums.js";
 import { streamsActionDefs } from "./streams/action.graphql.js";
 import { streamsBatchDefs } from "./streams/batch.graphql.js";
@@ -12,9 +17,15 @@ import { streamsStreamDefs } from "./streams/stream.graphql.js";
 
 type TsDefsGenerator = (target: Indexer.Target) => DocumentNode;
 type ProtocolSchemaConfig = {
+  /** Filenames (without extension) from `schema/common/` shared across protocols (e.g. `"contract"`). */
   common?: string[];
+  /** TypeScript functions that programmatically produce GraphQL `DocumentNode` defs at merge time. */
   generators?: TsDefsGenerator[];
+  /** Filenames (without extension) from the protocol's own `schema/{target}/` directory, included for every vendor. */
   indexerSpecific?: string[];
+  /** Per-vendor TypeScript generators included only when building that vendor's schema. */
+  vendorGenerators?: Record<Indexer.Vendor, TsDefsGenerator[]>;
+  /** Per-vendor filenames from `schema/{target}/` included only when building that vendor's schema. */
   vendorSpecific?: Record<Indexer.Vendor, string[]>;
 };
 /**
@@ -32,12 +43,12 @@ const PROTOCOL_MAP: Record<string, ProtocolSchemaConfig> = {
   airdrops: {
     generators: BASE.generators,
     indexerSpecific: ["action", "activity", "campaign", "factory", "tranche"],
-    vendorSpecific: { envio: ["sponsor", "sponsorship"], graph: [] },
+    vendorGenerators: { envio: [getSponsorDefs, getSponsorshipDefs], graph: [] },
   },
   streams: {
     common: ["contract", "deprecated-stream"],
-    generators: [...BASE.generators, getStreamDefs],
-    indexerSpecific: ["segment", "sponsor", "sponsorship", "tranche"],
+    generators: [...BASE.generators, getSponsorDefs, getSponsorshipDefs, getStreamDefs],
+    indexerSpecific: ["segment", "tranche"],
   },
 };
 
@@ -54,7 +65,10 @@ export function getMergedSchema(target: Indexer.Target, vendor?: Indexer.Vendor)
   if (!config) {
     throw new Error(`No schema config for target: ${target}`);
   }
-  const tsDefs = config.generators?.map((generator) => generator(target)) ?? [];
+  const tsDefs = [
+    ...(config.generators?.map((generator) => generator(target)) ?? []),
+    ...getVendorGeneratorDefs(target, config.vendorGenerators, vendor),
+  ];
   const gqlPaths = [
     ...getCommonDefsPaths(config.common),
     ...getProtocolDefsPaths(target, config.indexerSpecific),
@@ -79,6 +93,22 @@ function getProtocolDefs(target: Indexer.Target, file: string): string {
 
 function getProtocolDefsPaths(target: Indexer.Target, files?: string[]): string[] {
   return files?.map((file) => getProtocolDefs(target, file)) ?? [];
+}
+
+function getVendorGeneratorDefs(
+  target: Indexer.Target,
+  vendorGenerators: ProtocolSchemaConfig["vendorGenerators"],
+  vendor?: Indexer.Vendor
+): DocumentNode[] {
+  if (!vendorGenerators) {
+    return [];
+  }
+
+  const generators = vendor
+    ? (vendorGenerators[vendor] ?? [])
+    : Object.values(vendorGenerators).flat();
+
+  return generators.map((generator) => generator(target));
 }
 
 function getVendorSpecificDefsPaths(
