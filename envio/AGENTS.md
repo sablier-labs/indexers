@@ -1,8 +1,3 @@
-## ESM Directory
-
-This directory is ESM (`"type": "module"` in `package.json`), matching the rest of the monorepo. Envio v3 requires ESM —
-Node.js 22+ is the minimum runtime.
-
 ## Type Checking
 
 The root `tsconfig.json` excludes `envio/`. Running `just tsc-check` or `na tsc --noEmit` will **not** catch type errors
