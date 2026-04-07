@@ -1,9 +1,9 @@
-import path, { join } from "node:path";
-import appRoot from "app-root-path";
+import path, { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { getGraphChainSlug } from "../src/indexers/graph.js";
 import type { Indexer, Model } from "../src/types.js";
 
-export const ROOT_DIR = appRoot.path;
+export const ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const ABI_DIR = join(ROOT_DIR, "abi");
 export const ENVIO_DIR = join(ROOT_DIR, "envio");
 export const EXPORTS_DIR = join(ROOT_DIR, "src");

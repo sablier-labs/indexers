@@ -63,9 +63,6 @@ importers:
       abitype:
         specifier: ^1.2.3
         version: 1.2.3(typescript@5.9.3)(zod@3.25.51)
-      app-root-path:
-        specifier: ^3.1.0
-        version: 3.1.0
       assemblyscript:
         specifier: ^0.28.9
         version: 0.28.9
@@ -1565,10 +1562,6 @@ packages:
 
   app-module-path@2.2.0:
     resolution: {integrity: sha512-gkco+qxENJV+8vFcDiiFhuoSvRXb2a/QPqpSoWhVz829VNJfOTnELbBmPmNKFxf3xdNnw4DWCkzkDaavcX/1YQ==}
-
-  app-root-path@3.1.0:
-    resolution: {integrity: sha512-biN3PwB2gUtjaYy/isrU3aNWI5w+fAfvHkSvCKeQGxhmYpwKFUxudR3Yya+KqVRHBmEDYh+/lTozYCFbmzX4nA==}
-    engines: {node: '>= 6.0.0'}
 
   arg@4.1.3:
     resolution: {integrity: sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==}
@@ -5641,8 +5634,6 @@ snapshots:
       - debug
 
   app-module-path@2.2.0: {}
-
-  app-root-path@3.1.0: {}
 
   arg@4.1.3: {}
 
