@@ -1,25 +1,18 @@
-import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect } from "effect";
-import { getEnvioDeployment } from "../../../src/indexers/envio-deployments.js";
-import type { Indexer } from "../../../src/types.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { getRelative, wrapText } from "../../helpers.js";
-import paths from "../../paths.js";
-import { withSpinner } from "../../spinner.js";
+import { getEnvioDeployment } from "../../../../src/indexers/envio-deployments.js";
+import type { Indexer } from "../../../../src/types.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { getRelative, wrapText } from "../../../helpers.js";
+import paths from "../../../paths.js";
+import { withSpinner } from "../../../spinner.js";
 import {
   buildAssetFiles,
   getQueryAssetsDateSegment,
   getQueryAssetsFilePath,
   getStaleQueryAssetFilePaths,
-  QUERY_ASSET_INDEXERS,
-} from "./assets.file.js";
-import { fetchAssets } from "./clients/envio.js";
-
-const indexerOption = Options.choice("indexer", QUERY_ASSET_INDEXERS).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Public indexer to export asset addresses for")
-);
+} from "../assets.file.js";
+import { fetchAssets } from "../clients/envio.js";
 
 /**
  * Exports the latest Envio asset catalog as one file per chain for the chosen public indexer.
@@ -27,7 +20,7 @@ const indexerOption = Options.choice("indexer", QUERY_ASSET_INDEXERS).pipe(
  * The command rewrites current chain snapshots and prunes obsolete ones so the generated
  * directory remains a faithful source of per-chain asset catalogs for CLI workflows.
  */
-const queryAssetsLogic = (options: { readonly indexer: Indexer.IndexerKey }) =>
+export const handler = (options: { readonly indexer: Indexer.IndexerKey }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const endpoint = getEnvioDeployment(options.indexer).endpoint.url;
@@ -108,9 +101,3 @@ const queryAssetsLogic = (options: { readonly indexer: Indexer.IndexerKey }) =>
 
     yield* Console.log(summaryTable.toString());
   });
-
-export const queryAssetsCommand = Command.make(
-  "query-assets",
-  { indexer: indexerOption },
-  queryAssetsLogic
-);

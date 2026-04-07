@@ -1,40 +1,16 @@
-// -------------------------------------------------------------------------- //
-//                                   IMPORTS                                  //
-// -------------------------------------------------------------------------- //
-
-import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import type { Dayjs } from "dayjs";
 import { Console, Effect } from "effect";
 import { sablier } from "sablier";
 import { formatUnits } from "viem";
-import { graph } from "../../../src/indexers/graph.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { ValidationError } from "../../errors.js";
-import { resolveGraphHeaders } from "../../graph-auth.js";
-import { wrapText } from "../../helpers.js";
-import { withSpinner } from "../../spinner.js";
-import { fetchQuarterActionStats } from "./clients/graph.js";
-import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
-
-// -------------------------------------------------------------------------- //
-//                                  CONSTANTS                                 //
-// -------------------------------------------------------------------------- //
-
-const chainIdOption = Options.integer("chain-id").pipe(
-  Options.withAlias("c"),
-  Options.withDescription("Chain ID to query")
-);
-
-const quarterOption = Options.text("quarter").pipe(
-  Options.withAlias("q"),
-  Options.withDefault(DEFAULT_QUARTER_NAME),
-  Options.withDescription("Quarter to query in YYYY-q1 format")
-);
-
-// -------------------------------------------------------------------------- //
-//                                  HELPERS                                   //
-// -------------------------------------------------------------------------- //
+import { graph } from "../../../../src/indexers/graph.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { ValidationError } from "../../../errors.js";
+import { resolveGraphHeaders } from "../../../graph-auth.js";
+import { wrapText } from "../../../helpers.js";
+import { withSpinner } from "../../../spinner.js";
+import { fetchQuarterActionStats } from "../clients/graph.js";
+import { getQuarterWindow } from "../utils/quarter.js";
 
 function resolveIndexerUrl(chainId: number): Effect.Effect<string, ValidationError> {
   const indexer = graph.streams.find((entry) => entry.chainId === chainId);
@@ -50,11 +26,7 @@ function toUnixSeconds(value: Dayjs): string {
   return value.unix().toString();
 }
 
-// -------------------------------------------------------------------------- //
-//                                   COMMAND                                  //
-// -------------------------------------------------------------------------- //
-
-const queryActionsLogic = (options: { readonly chainId: number; readonly quarter: string }) =>
+export const handler = (options: { readonly chainId: number; readonly quarter: string }) =>
   Effect.gen(function* () {
     const chainId = options.chainId;
     const quarterWindow = yield* getQuarterWindow(options.quarter);
@@ -124,9 +96,3 @@ const queryActionsLogic = (options: { readonly chainId: number; readonly quarter
     yield* Console.log("");
     yield* Console.log(summaryTable.toString());
   });
-
-export const queryActionsCommand = Command.make(
-  "query-actions",
-  { chainId: chainIdOption, quarter: quarterOption },
-  queryActionsLogic
-);

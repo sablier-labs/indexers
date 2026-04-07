@@ -1,23 +1,13 @@
-/**
- * @file Ping all The Graph endpoints to wake up dormant subgraphs
- *
- * @example
- * pnpm tsx cli revive-graphs
- * pnpm tsx cli revive-graphs --dry-run
- * pnpm tsx cli revive-graphs --chain 1
- */
-
-import { Command, Options } from "@effect/cli";
 import { HttpBody, HttpClient } from "@effect/platform";
 import chalk from "chalk";
 import { Clock, Console, Effect, Either, Option } from "effect";
 import { sablier } from "sablier";
 import { Protocol } from "sablier/evm";
-import { getProtocolGraphIndexer, graphChains } from "../../../src/indexers/graph.js";
-import type { Indexer } from "../../../src/types.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { getOptionalGraphHeaders } from "../../graph-auth.js";
-import { CliEnv } from "../../services/env.js";
+import { getProtocolGraphIndexer, graphChains } from "../../../../src/indexers/graph.js";
+import type { Indexer } from "../../../../src/types.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { getOptionalGraphHeaders } from "../../../graph-auth.js";
+import { CliEnv } from "../../../services/env.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -30,21 +20,6 @@ type QueryResult = {
   error?: string;
   latencyMs: number;
 };
-
-/* -------------------------------------------------------------------------- */
-/*                                   OPTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-const dryRunOption = Options.boolean("dry-run").pipe(
-  Options.withDescription("Skip actual queries, just show plan"),
-  Options.withDefault(false)
-);
-
-const chainOption = Options.integer("chain").pipe(
-  Options.withAlias("c"),
-  Options.withDescription("Filter to a single chain ID"),
-  Options.optional
-);
 
 /* -------------------------------------------------------------------------- */
 /*                                  QUERIES                                   */
@@ -139,7 +114,7 @@ function formatResult(result: QueryResult): string {
 /*                                   LOGIC                                    */
 /* -------------------------------------------------------------------------- */
 
-const graphReviveLogic = (options: {
+export const handler = (options: {
   readonly dryRun: boolean;
   readonly chain: Option.Option<number>;
 }) =>
@@ -334,16 +309,3 @@ const graphReviveLogic = (options: {
       yield* Console.log(colors.warning(`⚠️  ${failCount} endpoint(s) failed - see table above`));
     }
   });
-
-/* -------------------------------------------------------------------------- */
-/*                                   COMMAND                                  */
-/* -------------------------------------------------------------------------- */
-
-export const graphReviveCommand = Command.make(
-  "revive-graphs",
-  {
-    chain: chainOption,
-    dryRun: dryRunOption,
-  },
-  graphReviveLogic
-).pipe(Command.withDescription("Ping all Graph endpoints to wake up dormant subgraphs"));

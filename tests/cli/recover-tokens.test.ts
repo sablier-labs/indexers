@@ -5,7 +5,7 @@ import {
   getRecoverTokensContractName,
   getRecoverTokensDefaultFilePath,
   parseIndexedAssetFile,
-} from "../../cli/commands/recover-tokens.helpers.js";
+} from "../../cli/commands/recover-tokens/helpers.js";
 
 const QUERY_ASSETS_DATE = "2026-03-06";
 const STREAMS_MAINNET_FILE_REGEX = new RegExp(

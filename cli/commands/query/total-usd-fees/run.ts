@@ -1,30 +1,11 @@
-// -------------------------------------------------------------------------- //
-//                                   IMPORTS                                  //
-// -------------------------------------------------------------------------- //
-
-import { Command, Options } from "@effect/cli";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { formatUnits } from "viem";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { withSpinner } from "../../spinner.js";
-import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchTotalUsdFees } from "./clients/envio.js";
-import { formatTimestamp, toHasuraTimestamp } from "./utils/date-range.js";
-import { DEFAULT_QUARTER_NAME, getQuarterWindow } from "./utils/quarter.js";
-
-// -------------------------------------------------------------------------- //
-//                                  CONSTANTS                                 //
-// -------------------------------------------------------------------------- //
-
-const quarterOption = Options.text("quarter").pipe(
-  Options.withAlias("q"),
-  Options.withDefault(DEFAULT_QUARTER_NAME),
-  Options.withDescription("Quarter to query in YYYY-q1 format")
-);
-
-// -------------------------------------------------------------------------- //
-//                                  HELPERS                                   //
-// -------------------------------------------------------------------------- //
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { withSpinner } from "../../../spinner.js";
+import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchTotalUsdFees } from "../clients/envio.js";
+import { formatTimestamp, toHasuraTimestamp } from "../utils/date-range.js";
+import { getQuarterWindow } from "../utils/quarter.js";
 
 function formatUsd(value: bigint): string {
   const normalized = formatUnits(value, 2);
@@ -37,11 +18,7 @@ function formatUsd(value: bigint): string {
   return `${prefix}$${formattedInteger}.${paddedFractional}`;
 }
 
-// -------------------------------------------------------------------------- //
-//                                   COMMAND                                  //
-// -------------------------------------------------------------------------- //
-
-const queryTotalUsdFeesLogic = (options: { readonly quarter: string }) =>
+export const handler = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
@@ -87,9 +64,3 @@ const queryTotalUsdFeesLogic = (options: { readonly quarter: string }) =>
     yield* Console.log("");
     yield* Console.log(summaryTable.toString());
   });
-
-export const queryTotalUsdFeesCommand = Command.make(
-  "query-total-usd-fees",
-  { quarter: quarterOption },
-  queryTotalUsdFeesLogic
-);

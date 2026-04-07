@@ -1,42 +1,15 @@
-/**
- * @file CLI for generating GraphQL schema files
- *
- * @example
- * pnpm tsx cli codegen schema --vendor all --indexer all
- * pnpm tsx cli codegen schema --vendor all --indexer streams
- * pnpm tsx cli codegen schema --vendor graph --indexer streams
- *
- * @param --vendor - Required: 'graph', 'envio', or 'all'
- * @param --indexer - Required: 'airdrops', 'streams', 'analytics', or 'all'
- */
-
-import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { print } from "graphql";
 import _ from "lodash";
-import { getMergedSchema } from "../../../schema/index.js";
-import type { Indexer } from "../../../src/index.js";
-import { AUTOGEN_COMMENT, GRAPH_TARGETS, TARGET_OPTIONS, VENDORS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { ProcessError } from "../../errors.js";
-import * as helpers from "../../helpers.js";
-import paths from "../../paths.js";
-
-/* -------------------------------------------------------------------------- */
-/*                                   OPTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-const vendorOption = Options.choice("vendor", ["graph", "envio", "all"] as const).pipe(
-  Options.withAlias("v"),
-  Options.withDescription("Vendor to generate schemas for")
-);
-
-const indexerOption = Options.choice("indexer", TARGET_OPTIONS).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to generate schema for")
-);
+import { getMergedSchema } from "../../../../schema/index.js";
+import type { Indexer } from "../../../../src/index.js";
+import { AUTOGEN_COMMENT, GRAPH_TARGETS, VENDORS } from "../../../constants.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import { ProcessError } from "../../../errors.js";
+import * as helpers from "../../../helpers.js";
+import paths from "../../../paths.js";
 
 /**
  * Generates and writes a GraphQL schema for a specific indexer with result tracking
@@ -229,7 +202,7 @@ function generateAllVendorSchemas(indexerArg: Indexer.GraphTarget | "all") {
   });
 }
 
-const schemaLogic = (options: {
+export const handler = (options: {
   readonly vendor: "graph" | "envio" | "all";
   readonly indexer: Indexer.Target | "all";
 }) =>
@@ -253,9 +226,3 @@ const schemaLogic = (options: {
 
     return yield* generateSchema(vendorArg, targetArg);
   });
-
-export const schemaCommand = Command.make(
-  "schema",
-  { indexer: indexerOption, vendor: vendorOption },
-  schemaLogic
-);

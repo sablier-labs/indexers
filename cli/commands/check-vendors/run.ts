@@ -1,22 +1,16 @@
-import { Command, Options } from "@effect/cli";
 import { HttpClient } from "@effect/platform";
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
 import { Console, Effect, Schedule } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import { envioChains } from "../../src/indexers/envio.js";
-import { colors, createTable, displayHeader } from "../display.js";
-import { ValidationError, VendorApiError } from "../errors.js";
+import { envioChains } from "../../../src/indexers/envio.js";
+import { colors, createTable, displayHeader } from "../../display.js";
+import { ValidationError, VendorApiError } from "../../errors.js";
 
 type VendorCheckResult = {
   note?: string;
   supported: boolean;
 };
-
-const chainIdOption = Options.integer("chain-id").pipe(
-  Options.withDescription("Chain ID to check"),
-  Options.withAlias("c")
-);
 
 const checkEnvioSupport = (chainId: number) =>
   Effect.gen(function* () {
@@ -86,7 +80,7 @@ const checkGraphSupport = (chainId: number): Effect.Effect<VendorCheckResult> =>
     )
   );
 
-const checkVendorsLogic = (options: { readonly chainId: number }) =>
+export const handler = (options: { readonly chainId: number }) =>
   Effect.gen(function* () {
     const chainId = options.chainId;
 
@@ -156,9 +150,3 @@ const checkVendorsLogic = (options: { readonly chainId: number }) =>
       yield* Console.log(colors.error("❌ Chain is not supported by any vendor"));
     }
   });
-
-export const checkVendorsCommand = Command.make(
-  "check-vendors",
-  { chainId: chainIdOption },
-  checkVendorsLogic
-);

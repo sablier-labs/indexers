@@ -1,48 +1,16 @@
-/**
- * @file CLI for generating subgraph manifests
- *
- * @example
- * pnpm tsx cli codegen graph-manifest --indexer all --chain all
- * pnpm tsx cli codegen graph-manifest --indexer all --chain polygon
- * pnpm tsx cli codegen graph-manifest --indexer streams --chain polygon
- *
- * @param --indexer - Required: 'airdrops', 'streams', or 'all'
- * @param --chain - Required: The chain slug to generate manifests for.
- * Use 'all' to generate for all chains.
- */
-
-import { Command, Options } from "@effect/cli";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect, Either } from "effect";
 import _ from "lodash";
 import { sablier } from "sablier";
-import type { Indexer } from "../../../src/index.js";
-import { graphChains } from "../../../src/indexers/graph.js";
-import { GRAPH_TARGET_OPTIONS, GRAPH_TARGETS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import * as helpers from "../../helpers.js";
-import paths from "../../paths.js";
-import { createGraphManifest } from "./graph-manifest/index.js";
-import { dumpYAML } from "./helpers.js";
-
-/* -------------------------------------------------------------------------- */
-/*                                   OPTIONS                                  */
-/* -------------------------------------------------------------------------- */
-
-const indexerOption = Options.choice("indexer", GRAPH_TARGET_OPTIONS).pipe(
-  Options.withAlias("i"),
-  Options.withDescription("Indexer to generate manifest for")
-);
-
-const chainOption = Options.text("chain").pipe(
-  Options.withAlias("c"),
-  Options.withDescription('Chain slug (use "all" for all chains)')
-);
-
-/* -------------------------------------------------------------------------- */
-/*                                   COMMAND                                  */
-/* -------------------------------------------------------------------------- */
+import type { Indexer } from "../../../../src/index.js";
+import { graphChains } from "../../../../src/indexers/graph.js";
+import { GRAPH_TARGETS } from "../../../constants.js";
+import { colors, createTable, displayHeader } from "../../../display.js";
+import * as helpers from "../../../helpers.js";
+import paths from "../../../paths.js";
+import { dumpYAML } from "../helpers.js";
+import { createGraphManifest } from "./index.js";
 
 type ManifestResult = {
   chainId: number;
@@ -202,7 +170,7 @@ function generateAllIndexerManifests(chainArg: string) {
   });
 }
 
-const graphManifestLogic = (options: {
+export const handler = (options: {
   readonly indexer: "airdrops" | "streams" | "all";
   readonly chain: string;
 }) =>
@@ -221,9 +189,3 @@ const graphManifestLogic = (options: {
 
     return yield* generateManifest(targetArg, chainArg);
   });
-
-export const graphManifestCommand = Command.make(
-  "graph-manifest",
-  { chain: chainOption, indexer: indexerOption },
-  graphManifestLogic
-);
