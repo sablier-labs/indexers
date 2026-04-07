@@ -7,11 +7,7 @@ import {
   createProtocolContracts,
   createUsdcContract,
 } from "./contracts.js";
-import {
-  addComptrollerToNetworks,
-  addUsdcToNetworks,
-  createNetworksForProtocols,
-} from "./networks.js";
+import { addComptrollerToChains, addUsdcToChains, createChainsForProtocols } from "./networks.js";
 import { topSections } from "./top-sections.js";
 
 /**
@@ -22,7 +18,7 @@ export function createEnvioConfig(target: Indexer.Target): EnvioConfig.TopSectio
   const topSection = topSections[target];
 
   let contracts: EnvioConfig.Contract[] = [];
-  let networks: EnvioConfig.Network[] = [];
+  let chains: EnvioConfig.Chain[] = [];
 
   /* -------------------------------- ANALYTICS ------------------------------- */
 
@@ -35,17 +31,17 @@ export function createEnvioConfig(target: Indexer.Target): EnvioConfig.TopSectio
       ...createProtocolContracts(target, "lockup", includeProtocolInPath),
       createComptrollerContract(target),
     ];
-    networks = mergeNetworks([
-      ...createNetworksForProtocols("airdrops"),
-      ...createNetworksForProtocols("flow"),
-      ...createNetworksForProtocols("lockup"),
+    chains = mergeChains([
+      ...createChainsForProtocols("airdrops"),
+      ...createChainsForProtocols("flow"),
+      ...createChainsForProtocols("lockup"),
     ]);
     // Filter out testnets from analytics indexer.
-    networks = networks.filter((network) => {
-      const chain = sablier.chains.get(network.id);
-      return chain && !chain.isTestnet;
+    chains = chains.filter((chain) => {
+      const c = sablier.chains.get(chain.id);
+      return c && !c.isTestnet;
     });
-    networks = addComptrollerToNetworks(networks);
+    chains = addComptrollerToChains(chains);
   }
   /* --------------------------------- STREAMS -------------------------------- */
 
@@ -57,60 +53,57 @@ export function createEnvioConfig(target: Indexer.Target): EnvioConfig.TopSectio
       ...createProtocolContracts(target, "lockup", includeProtocolInPath),
       createUsdcContract(target),
     ];
-    networks = mergeNetworks([
-      ...createNetworksForProtocols("flow"),
-      ...createNetworksForProtocols("lockup"),
+    chains = mergeChains([
+      ...createChainsForProtocols("flow"),
+      ...createChainsForProtocols("lockup"),
     ]);
-    networks = addUsdcToNetworks(networks);
+    chains = addUsdcToChains(chains);
   }
-  // Each protocol indexer tracks its own contracts and networks.
+  // Each protocol indexer tracks its own contracts and chains.
   else {
     contracts = createProtocolContracts(target, target);
-    networks = createNetworksForProtocols(target);
+    chains = createChainsForProtocols(target);
   }
 
-  networks = setMinimumStartBlock(networks);
+  chains = setMinimumStartBlock(chains);
 
   const config = {
     ...topSection,
     contracts,
-    networks,
+    chains,
   } as EnvioConfig.TopSection;
 
   return config;
 }
 
 /**
- * Sets the start_block of each network to the minimum start_block among its contracts.
- * @param networks Array of EnvioConfig.Network objects to process
- * @returns The same array with updated start_block values
+ * Sets the start_block of each chain to the minimum start_block among its contracts.
  */
-function setMinimumStartBlock(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
-  return networks.map((network) => {
-    const contractStartBlocks = network.contracts
+function setMinimumStartBlock(chains: EnvioConfig.Chain[]): EnvioConfig.Chain[] {
+  return chains.map((chain) => {
+    const contractStartBlocks = chain.contracts
       .map((contract) => contract.start_block)
       .filter((startBlock): startBlock is number => startBlock !== undefined);
 
     if (contractStartBlocks.length === 0) {
-      // If no contracts have start_block defined, keep the network's current start_block
-      return network;
+      return chain;
     }
 
     const minimumStartBlock = Math.min(...contractStartBlocks);
 
     return {
-      ...network,
+      ...chain,
       start_block: minimumStartBlock,
     };
   });
 }
 
 /**
- * Merge networks that share the same `id` by deep-merging objects and
+ * Merge chains that share the same `id` by deep-merging objects and
  * concatenating + de-duplicating arrays (e.g., `contracts`, `rpc`).
  */
-function mergeNetworks(networks: EnvioConfig.Network[]): EnvioConfig.Network[] {
-  return _.chain(networks)
+function mergeChains(chains: EnvioConfig.Chain[]): EnvioConfig.Chain[] {
+  return _.chain(chains)
     .groupBy("id")
     .map((group) =>
       _.mergeWith({}, ...group, (objValue: unknown, srcValue: unknown): unknown => {

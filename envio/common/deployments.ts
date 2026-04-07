@@ -1,8 +1,8 @@
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import type { Indexer, Model } from "../../src/types";
-import type { Envio } from "./bindings";
-import { CriticalError } from "./errors";
+import type { Address } from "viem";
+import type { Indexer, Model } from "../../src/types.js";
+import { CriticalError } from "./errors.js";
 
 /**
  * Inlined from `contracts/index.ts` to avoid a cross-boundary ESM/CJS import.
@@ -24,7 +24,7 @@ function convertToIndexed(contract: Sablier.Contract, version: Model.Version): M
 export function getContract(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address
+  contractAddress: Address
 ): Model.Contract {
   const contract = sablier.contracts.get({ chainId, contractAddress, protocol });
   if (!contract) {
@@ -42,7 +42,7 @@ export function getContract(
 export function getContractAlias(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address
+  contractAddress: Address
 ) {
   const contract = getContract(protocol, chainId, contractAddress);
   if (!contract.alias) {
@@ -54,7 +54,7 @@ export function getContractAlias(
 export function getContractVersion(
   protocol: Indexer.Protocol,
   chainId: number,
-  contractAddress: Envio.Address
+  contractAddress: Address
 ) {
   const contract = getContract(protocol, chainId, contractAddress);
   if (!contract.version) {

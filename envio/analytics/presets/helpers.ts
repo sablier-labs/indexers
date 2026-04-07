@@ -4,10 +4,11 @@
 
 import { GraphQLClient } from "graphql-request";
 import type { Sablier } from "sablier";
+import type { Address } from "viem";
 import { parseEther } from "viem";
-import type { Envio } from "../../common/bindings";
-import type { HandlerContext } from "../bindings";
-import { Store } from "../store";
+import type { Envio } from "../../common/bindings.js";
+import type { HandlerContext } from "../bindings.js";
+import { Store } from "../store.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -181,13 +182,15 @@ export async function processActions(
           timestamp: Number(action.timestamp),
         },
         chainId,
+        contractName: "",
+        eventName: "",
         logIndex: 0,
         params: {},
-        srcAddress: action.contract,
+        srcAddress: action.contract as Address,
         transaction: {
-          from: action.from,
+          from: action.from as Address,
           hash: action.hash,
-          to: "N/A",
+          to: undefined,
           transactionIndex: 0,
           value: BigInt(action.fee),
         },
@@ -248,13 +251,15 @@ export async function processFeeCollections(
           timestamp: fc.timestamp,
         },
         chainId,
+        contractName: "",
+        eventName: "",
         logIndex: fc.logIndex,
         params: {},
-        srcAddress: fc.contractAddress,
+        srcAddress: fc.contractAddress as Address,
         transaction: {
-          from: fc.caller,
+          from: fc.caller as Address,
           hash: fc.hash,
-          to: fc.contractAddress,
+          to: fc.contractAddress as Address,
           transactionIndex: 0,
           value: 0n,
         },

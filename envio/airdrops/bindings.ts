@@ -1,6 +1,6 @@
 // biome-ignore-all assist/source/organizeImports: grouped exports
 // Context
-import type { HandlerContext } from "./bindings/src/Types";
+import type { HandlerContext } from "./bindings/src/Types.js";
 export namespace Context {
   export type Handler = HandlerContext;
 }
@@ -30,7 +30,7 @@ import {
   SablierFactoryMerkleLL_v3_0,
   SablierFactoryMerkleLT_v3_0,
   SablierFactoryMerkleVCA_v3_0,
-} from "./bindings/src/Handlers.gen";
+} from "./bindings/src/Indexer.gen.js";
 export namespace Contract {
   export namespace Factory {
     export const MerkleStreamerFactory_v1_1 = SablierV2MerkleStreamerFactory_v1_1;
@@ -63,10 +63,10 @@ export namespace Contract {
 }
 
 // Enum
-import type { ActionCategory_t, CampaignCategory_t } from "./bindings/src/db/Enums.gen";
+import type { Enum as EnumLookup } from "./bindings/src/Types.js";
 export namespace Enum {
-  export type ActionCategory = ActionCategory_t;
-  export type CampaignCategory = CampaignCategory_t;
+  export type ActionCategory = EnumLookup<"ActionCategory">;
+  export type CampaignCategory = EnumLookup<"CampaignCategory">;
 }
 
 // Entities
@@ -80,7 +80,7 @@ import type {
   Sponsorship as EntitySponsorship,
   Tranche as EntityTranche,
   Watcher as EntityWatcher,
-} from "./bindings/src/Types.gen";
+} from "./bindings/src/Types.js";
 
 export namespace Entity {
   export type Action = EntityAction;

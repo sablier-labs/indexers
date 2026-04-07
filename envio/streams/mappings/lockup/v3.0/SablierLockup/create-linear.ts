@@ -1,8 +1,8 @@
-import { Contract } from "../../../../bindings";
-import type { Params } from "../../../../helpers/lockup-types";
-import { Store } from "../../../../store/lockup";
-import { createStream } from "../../common/create-stream";
-import { preloadCreateEntities } from "../../common/preload";
+import { Contract } from "../../../../bindings.js";
+import type { Params } from "../../../../helpers/lockup-types.js";
+import { Store } from "../../../../store/lockup.js";
+import { createStream } from "../../common/create-stream.js";
+import { preloadCreateEntities } from "../../common/preload.js";
 
 /*
 ──────────────────────────────────────────────────────────────

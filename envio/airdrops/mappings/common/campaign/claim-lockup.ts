@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Id } from "../../../../common/id";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
   SablierV2MerkleLL_v1_2_Claim_handler as HandlerLL_v1_2,
@@ -10,9 +10,9 @@ import type {
   SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
   SablierMerkleLT_v2_0_ClaimLTWithVesting_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_ClaimLTWithVesting_handler as HandlerLT_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { isVersionWithFees } from "../../../helpers";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Types.js";
+import { isVersionWithFees } from "../../../helpers.js";
+import { Store } from "../../../store.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

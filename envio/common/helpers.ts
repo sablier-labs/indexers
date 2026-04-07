@@ -1,7 +1,7 @@
 import * as linkify from "linkifyjs";
 import type { Sablier } from "sablier";
 import { sablier } from "sablier";
-import type { Envio } from "./bindings";
+import type { Envio } from "./bindings.js";
 
 /**
  * Checks if the given address is an official Lockup contract. This check is needed because the Lockup contract

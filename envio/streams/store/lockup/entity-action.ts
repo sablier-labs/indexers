@@ -1,6 +1,6 @@
-import type { Envio } from "../../../common/bindings";
-import { Id } from "../../../common/id";
-import type { Entity, Enum } from "../../bindings";
+import type { Envio } from "../../../common/bindings.js";
+import { Id } from "../../../common/id.js";
+import type { Entity, Enum } from "../../bindings.js";
 
 type ActionParams = {
   addressA?: string;

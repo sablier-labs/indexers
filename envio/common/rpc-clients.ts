@@ -2,7 +2,7 @@ import _ from "lodash";
 import { sablier } from "sablier";
 import type { PublicClient } from "viem";
 import { createPublicClient, fallback, http } from "viem";
-import { CriticalError } from "./errors";
+import { CriticalError } from "./errors.js";
 
 /**
  * Cache of pre-configured public clients by chain ID.

@@ -1,5 +1,5 @@
-import { Contract } from "../../../bindings";
-import { Store } from "../../../store";
+import { Contract } from "../../../bindings.js";
+import { Store } from "../../../store.js";
 
 Contract.Airdrops.Campaign.MerkleLT_v1_3.Claim.handler(async ({ context, event }) => {
   const isAirdropClaim = true;

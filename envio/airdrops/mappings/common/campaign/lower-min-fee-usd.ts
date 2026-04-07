@@ -1,9 +1,9 @@
-import { Id } from "../../../../common/id";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as Handler_v2_0,
   SablierMerkleVCA_v3_0_LowerMinFeeUSD_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Types.js";
+import { Store } from "../../../store.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

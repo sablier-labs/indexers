@@ -1,10 +1,10 @@
 /**
  * @see {@link: file://./../analytics.graphql}
  */
-import type { Envio } from "../../common/bindings";
-import { getMonth, getMonthTimestamp, getTimestamp } from "../../common/time";
-import type { Entity, HandlerContext } from "../bindings";
-import { Id } from "../helpers";
+import type { Envio } from "../../common/bindings.js";
+import { getMonth, getMonthTimestamp, getTimestamp } from "../../common/time.js";
+import type { Entity, HandlerContext } from "../bindings.js";
+import { Id } from "../helpers.js";
 
 export async function trackMonthlyActiveUser(
   context: HandlerContext,

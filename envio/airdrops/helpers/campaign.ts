@@ -1,5 +1,5 @@
-import type { Envio } from "../../common/bindings";
-import type { Entity } from "../bindings";
+import type { Address } from "viem";
+import type { Entity } from "../bindings.js";
 
 /**
  * Generates a nickname by using the asset symbol and the admin address.
@@ -7,7 +7,7 @@ import type { Entity } from "../bindings";
  * @example "USDC by 0xcafe..beef"
  */
 export function getNickname(
-  campaignAdmin: Envio.Address,
+  campaignAdmin: Address,
   campaignName: string | undefined,
   asset: Entity.Asset | undefined
 ): string {

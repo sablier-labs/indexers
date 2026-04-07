@@ -1,7 +1,7 @@
 // biome-ignore-all assist/source/organizeImports: grouped exports
 
 // Context
-export type { HandlerContext } from "./bindings/src/Types";
+export type { HandlerContext } from "./bindings/src/Types.js";
 
 // Contracts
 import {
@@ -59,7 +59,7 @@ import {
   SablierLockup_v3_0,
   // Lockup v4.0
   SablierLockup_v4_0,
-} from "./bindings/src/Handlers.gen";
+} from "./bindings/src/Indexer.gen.js";
 
 export namespace Contract {
   export const Comptroller = SablierComptroller;
@@ -127,7 +127,7 @@ import type {
   UserActivityMonth as EntityUserActivityMonth,
   UsersActiveMonthly as EntityUsersActiveMonthly,
   UserTransaction as EntityUserTransaction,
-} from "./bindings/src/Types.gen";
+} from "./bindings/src/Types.js";
 
 export namespace Entity {
   export type CryptoFeesDaily = EntityCryptoFeesDaily;

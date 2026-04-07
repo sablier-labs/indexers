@@ -1,8 +1,8 @@
-import { Contract } from "../../../bindings";
-import type { Params } from "../../../helpers/types";
-import { Store } from "../../../store";
-import { preloadCreateEntities } from "../../common/factory";
-import { createMerkle } from "../../common/factory/create-merkle";
+import { Contract } from "../../../bindings.js";
+import type { Params } from "../../../helpers/types.js";
+import { Store } from "../../../store.js";
+import { createMerkle } from "../../common/factory/create-merkle.js";
+import { preloadCreateEntities } from "../../common/factory.js";
 
 Contract.Factory.FactoryMerkleInstant_v3_0.CreateMerkleInstant.contractRegister(
   ({ event, context }) => {

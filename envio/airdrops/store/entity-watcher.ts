@@ -1,4 +1,4 @@
-import type { Context, Entity } from "../bindings";
+import type { Context, Entity } from "../bindings.js";
 
 /**
  * The entity is not set here because it will be set later in the `update` function.

@@ -1,7 +1,7 @@
-import type { Envio } from "../../common/bindings";
-import { Id } from "../../common/id";
-import type { Context, Entity, Enum } from "../bindings";
-import type { Params } from "../helpers/types";
+import type { Envio } from "../../common/bindings.js";
+import { Id } from "../../common/id.js";
+import type { Context, Entity, Enum } from "../bindings.js";
+import type { Params } from "../helpers/types.js";
 
 export function create(
   context: Context.Handler,

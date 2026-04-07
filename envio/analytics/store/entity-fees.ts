@@ -4,13 +4,13 @@
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/evm/chains";
 import { formatEther, parseEther, parseUnits } from "viem";
-import type { Envio } from "../../common/bindings";
-import { FEB_03_2025 } from "../../common/constants";
-import { getDate, getDateTimestamp, getTimestamp } from "../../common/time";
-import type { Entity, HandlerContext } from "../bindings";
-import { coinConfigs } from "../effects/coingecko";
-import { fetchGBPExchangeRate } from "../effects/forex";
-import { Id } from "../helpers";
+import type { Envio } from "../../common/bindings.js";
+import { FEB_03_2025 } from "../../common/constants.js";
+import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
+import type { Entity, HandlerContext } from "../bindings.js";
+import { coinConfigs } from "../effects/coingecko.js";
+import { fetchGBPExchangeRate } from "../effects/forex.js";
+import { Id } from "../helpers.js";
 
 // Testnet ETH doesn't have value, and TNT is not transferable.
 const TESTNETS = sablier.chains.getTestnets();

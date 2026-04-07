@@ -1,8 +1,8 @@
-import * as EntityAction from "./entity-action";
-import * as EntityAsset from "./entity-asset";
-import * as EntityContract from "./entity-contract";
-import * as EntityDeprecatedStream from "./entity-deprecated-stream";
-import * as EntityWatcher from "./entity-watcher";
+import * as EntityAction from "./entity-action.js";
+import * as EntityAsset from "./entity-asset.js";
+import * as EntityContract from "./entity-contract.js";
+import * as EntityDeprecatedStream from "./entity-deprecated-stream.js";
+import * as EntityWatcher from "./entity-watcher.js";
 
 export const CommonStore = {
   Action: EntityAction,
@@ -12,4 +12,4 @@ export const CommonStore = {
   Watcher: EntityWatcher,
 };
 
-export * as Contract from "./entity-contract";
+export * as Contract from "./entity-contract.js";

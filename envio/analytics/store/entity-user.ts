@@ -3,11 +3,11 @@
  */
 import _ from "lodash";
 import { formatEther, zeroAddress } from "viem";
-import type { Envio } from "../../common/bindings";
-import { getTimestamp } from "../../common/time";
-import type { Entity, HandlerContext } from "../bindings";
-import { Id } from "../helpers";
-import { trackMonthlyActiveUser } from "./entity-users-active-monthly";
+import type { Envio } from "../../common/bindings.js";
+import { getTimestamp } from "../../common/time.js";
+import type { Entity, HandlerContext } from "../bindings.js";
+import { Id } from "../helpers.js";
+import { trackMonthlyActiveUser } from "./entity-users-active-monthly.js";
 
 type Params = {
   address: string;

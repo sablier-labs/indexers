@@ -1,7 +1,9 @@
-import { Contract } from "../../../bindings";
-import { convertSegments } from "../../../helpers";
-import type { Params } from "../../../helpers/lockup-types";
-import { Store } from "../../../store/lockup";
+import { Contract } from "../../../bindings.js";
+import type { Params } from "../../../helpers/lockup-types.js";
+import { convertSegments } from "../../../helpers.js";
+import { Store } from "../../../store/lockup.js";
+import { createStream } from "../common/create-stream.js";
+import { preloadCreateEntities } from "../common/preload.js";
 import {
   approval,
   approvalForAll,
@@ -9,9 +11,7 @@ import {
   renounceStream,
   transfer,
   withdrawStream,
-} from "../common";
-import { createStream } from "../common/create-stream";
-import { preloadCreateEntities } from "../common/preload";
+} from "../common.js";
 
 Contract.LockupDynamic_v1_1.ApprovalForAll.handler(approvalForAll.handler);
 Contract.LockupDynamic_v1_1.Approval.handler(approval.handler);

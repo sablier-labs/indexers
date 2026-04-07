@@ -1,6 +1,6 @@
 import { Shape } from "sablier";
-import { UD2X18_ONE } from "../../../common/constants";
-import type { Segment, Tranche } from "../../helpers/lockup-types";
+import { UD2X18_ONE } from "../../../common/constants.js";
+import type { Segment, Tranche } from "../../helpers/lockup-types.js";
 
 /** Maximum duration (in seconds) for an unlock segment to be considered a timelock. */
 const TIMELOCK_MAX_DURATION = 1n;

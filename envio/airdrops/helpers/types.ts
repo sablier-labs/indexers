@@ -1,5 +1,5 @@
-import type { Envio } from "../../common/bindings";
-import type { Entity, Enum } from "../bindings";
+import type { Address } from "viem";
+import type { Entity, Enum } from "../bindings.js";
 
 export namespace Params {
   export type ActionEntities = {
@@ -12,13 +12,13 @@ export namespace Params {
     category: Enum.ActionCategory;
     claimAmount?: bigint;
     claimIndex?: bigint;
-    claimRecipient?: Envio.Address;
+    claimRecipient?: Address;
     claimStreamId?: string;
-    claimTo?: Envio.Address;
+    claimTo?: Address;
     claimTokenId?: bigint;
     clawbackAmount?: bigint;
-    clawbackFrom?: Envio.Address;
-    clawbackTo?: Envio.Address;
+    clawbackFrom?: Address;
+    clawbackTo?: Address;
     fee?: bigint;
     vcaForgoneAmount?: bigint;
   };
@@ -30,10 +30,10 @@ export namespace Params {
   };
 
   export type CreateCampaignBase = {
-    admin: Envio.Address;
-    asset: Envio.Address;
+    admin: Address;
+    asset: Address;
     aggregateAmount: bigint;
-    campaignAddress: Envio.Address;
+    campaignAddress: Address;
     campaignStartTime: bigint;
     category: Enum.CampaignCategory;
     expiration: bigint;
@@ -46,7 +46,7 @@ export namespace Params {
 
   export type CreateCampaignLockup = CreateCampaignBase & {
     cancelable: boolean;
-    lockup: Envio.Address;
+    lockup: Address;
     shape: string | undefined;
     startTime: bigint | undefined;
     transferable: boolean;

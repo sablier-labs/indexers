@@ -1,12 +1,12 @@
 import { formatUnits } from "viem";
-import { Id } from "../../../../common/id";
-import { usdc } from "../../../../common/usdc";
+import { Id } from "../../../../common/id.js";
+import { usdc } from "../../../../common/usdc.js";
 import type {
   SablierMerkleInstant_v3_0_Sponsor_handler,
   SablierMerkleLL_v3_0_Sponsor_handler,
   SablierMerkleLT_v3_0_Sponsor_handler,
   SablierMerkleVCA_v3_0_Sponsor_handler,
-} from "../../../bindings/src/Types.gen";
+} from "../../../bindings/src/Types.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

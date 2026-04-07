@@ -1,1 +1,1 @@
-export * from "./token-metadata";
+export * from "./token-metadata.js";

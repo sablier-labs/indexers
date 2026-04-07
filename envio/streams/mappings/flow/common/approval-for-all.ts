@@ -3,9 +3,9 @@ import type {
   SablierFlow_v1_1_ApprovalForAll_handler as Handler_v1_1,
   SablierFlow_v2_0_ApprovalForAll_handler as Handler_v2_0,
   SablierFlow_v3_0_ApprovalForAll_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import * as StreamsWatcher from "../../../store/entity-watcher";
-import * as FlowAction from "../../../store/flow/entity-action";
+} from "../../../bindings/src/Types.js";
+import * as StreamsWatcher from "../../../store/entity-watcher.js";
+import * as FlowAction from "../../../store/flow/entity-action.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

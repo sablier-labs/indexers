@@ -1,6 +1,6 @@
-import type { Envio } from "../../common/bindings";
-import { getDay } from "../../common/time";
-import type { Context, Entity } from "../bindings";
+import type { Envio } from "../../common/bindings.js";
+import { getDay } from "../../common/time.js";
+import type { Context, Entity } from "../bindings.js";
 
 export function create(
   context: Context.Handler,

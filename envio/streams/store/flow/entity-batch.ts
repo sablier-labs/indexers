@@ -1,9 +1,10 @@
-import type { Envio } from "../../../common/bindings";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import { update as updateBatcher } from "./entity-batcher";
+import type { Address } from "viem";
+import type { Envio } from "../../../common/bindings.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import { update as updateBatcher } from "./entity-batcher.js";
 
-export function create(event: Envio.Event, sender: Envio.Address): Entity.FlowBatch {
+export function create(event: Envio.Event, sender: Address): Entity.FlowBatch {
   const id = Id.batch(event, sender);
   const batch: Entity.FlowBatch = {
     batcher_id: undefined,

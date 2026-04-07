@@ -28,19 +28,19 @@ export namespace EnvioConfig {
   /**
    * @see https://docs.envio.dev/docs/HyperIndex/rpc-sync#advanced-rpc-configuration
    */
-  export type NetworkRPC = {
+  export type ChainRPC = {
     url: string;
-    for: "fallback" | "sync";
+    for: "fallback" | "live" | "sync";
     initial_block_interval?: number;
     interval_ceiling?: number;
   };
 
-  export type Network = {
+  export type Chain = {
     id: number;
     // Remove this once Envio implements this: https://github.com/enviodev/hyperindex/issues/710
     start_block: number;
     hypersync_config?: HypersyncConfig;
-    rpc?: NetworkRPC[];
+    rpc?: ChainRPC[];
     contracts: NetworkContract[];
   };
 
@@ -56,11 +56,9 @@ export namespace EnvioConfig {
     ecosystem: "evm";
     address_format: "checksum" | "lowercase";
     output: string;
-    preload_handlers: boolean;
     schema: string;
-    unordered_multichain_mode: boolean;
     field_selection: FieldSelection;
     contracts: Contract[];
-    networks: Network[];
+    chains: Chain[];
   };
 }

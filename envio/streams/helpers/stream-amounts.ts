@@ -1,5 +1,5 @@
-import type { Entity } from "../bindings";
-import { scale } from "./amounts";
+import type { Entity } from "../bindings.js";
+import { scale } from "./amounts.js";
 
 /**
  * Compute the current snapshot amount for a stream.

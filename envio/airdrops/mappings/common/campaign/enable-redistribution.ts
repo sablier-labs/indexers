@@ -1,6 +1,6 @@
-import { Id } from "../../../../common/id";
-import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+import { Id } from "../../../../common/id.js";
+import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings/src/Types.js";
+import { Store } from "../../../store.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

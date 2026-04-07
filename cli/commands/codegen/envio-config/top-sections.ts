@@ -12,13 +12,11 @@ function get(name: string): EnvioConfig.TopSection {
     address_format: "lowercase",
     ecosystem: "evm",
     output: "./bindings",
-    preload_handlers: true,
     schema: `${name}.graphql`,
-    unordered_multichain_mode: true,
     field_selection: {
       transaction_fields: ["from", "hash", "to", "transactionIndex", "value"],
     },
     contracts: [],
-    networks: [],
+    chains: [],
   };
 }

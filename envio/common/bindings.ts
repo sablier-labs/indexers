@@ -1,13 +1,12 @@
-import type { t as Address_t } from "envio/src/Address.gen";
-import type { logger as Logger_t } from "envio/src/Envio.gen";
-import type { genericEvent as Internal_genericEvent } from "envio/src/Internal.gen";
+import type { logger as Logger_t } from "envio/src/Envio.gen.js";
+import type { genericEvent as Internal_genericEvent } from "envio/src/Internal.gen.js";
+import type { Address } from "viem";
 
 /**
  * Generic bindings hard-coded here because Envio doesn't export them.
  * @see https://github.com/enviodev/hyperindex/issues/532
  */
 export namespace Envio {
-  export type Address = Address_t;
   export type Block = {
     readonly number: number;
     readonly timestamp: number;
@@ -21,9 +20,9 @@ export namespace Envio {
   export type Logger = Logger_t;
 
   export type Transaction = {
-    readonly from: undefined | Address_t;
+    readonly from: undefined | Address;
     readonly hash: string;
-    readonly to: undefined | Address_t;
+    readonly to: undefined | Address;
     readonly transactionIndex: number;
     readonly value: bigint;
   };

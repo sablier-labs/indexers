@@ -1,30 +1,32 @@
 /**
  * @file Shared preload utilities for create stream handlers
  */
-import type { Envio } from "../../../../common/bindings";
-import { fetchTokenMetadata } from "../../../../common/effects";
-import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
-import type { RPCData } from "../../../../common/types";
-import type { Context, Entity } from "../../../bindings";
-import { fetchProxender } from "../../../effects/proxender";
-import type { Params } from "../../../helpers/lockup-types";
-import * as Watcher from "../../../store/entity-watcher";
-import { Store } from "../../../store/lockup";
+import type { Address } from "viem";
+import type { Envio } from "../../../../common/bindings.js";
+import { NOT_AVAILABLE } from "../../../../common/constants.js";
+import { fetchTokenMetadata } from "../../../../common/effects.js";
+import { Id } from "../../../../common/id.js";
+import { CommonStore } from "../../../../common/store.js";
+import type { RPCData } from "../../../../common/types.js";
+import type { Context, Entity } from "../../../bindings.js";
+import { fetchProxender } from "../../../effects/proxender.js";
+import type { Params } from "../../../helpers/lockup-types.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import { Store } from "../../../store/lockup.js";
 
 export type PreloadCreateResult = {
   entities: Params.CreateEntities;
   assetMetadata: RPCData.ERC20Metadata;
-  proxender?: Envio.Address;
+  proxender?: Address;
 };
 
 type PreloadInput = {
   context: Context.Handler;
   event: Envio.Event;
   params: {
-    asset: Envio.Address;
-    recipient: Envio.Address;
-    sender: Envio.Address;
+    asset: Address;
+    recipient: Address;
+    sender: Address;
   };
 };
 
@@ -62,11 +64,12 @@ export async function preloadCreateEntities({
     });
   }
 
-  const proxender = await context.effect(fetchProxender, {
+  const proxenderResult = await context.effect(fetchProxender, {
     chainId: event.chainId,
     lockupAddress: event.srcAddress,
     streamSender: params.sender,
   });
+  const proxender = proxenderResult === NOT_AVAILABLE ? undefined : (proxenderResult as Address);
 
   const entities: Params.CreateEntities = {
     asset:

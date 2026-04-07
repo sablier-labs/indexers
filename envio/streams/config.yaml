@@ -3,9 +3,7 @@ name: "sablier-streams"
 address_format: "lowercase"
 ecosystem: "evm"
 output: "./bindings"
-preload_handlers: true
 schema: "streams.graphql"
-unordered_multichain_mode: true
 field_selection:
   transaction_fields:
     - "from"
@@ -195,7 +193,7 @@ contracts:
       - event: "Transfer"
     handler: "mappings/lockup/common/sponsorship.ts"
     name: "USDC"
-networks:
+chains:
   - id: 1
     start_block: 17613133
     rpc:

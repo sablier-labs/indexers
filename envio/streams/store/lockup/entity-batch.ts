@@ -1,12 +1,13 @@
-import type { Envio } from "../../../common/bindings";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import { update as updateBatcher } from "./entity-batcher";
+import type { Address } from "viem";
+import type { Envio } from "../../../common/bindings.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import { update as updateBatcher } from "./entity-batcher.js";
 
 /**
  * The entity is not here because it will be set in the `update` function below.
  */
-export function create(event: Envio.Event, sender: Envio.Address): Entity.LockupBatch {
+export function create(event: Envio.Event, sender: Address): Entity.LockupBatch {
   const id = Id.batch(event, sender);
   const batch: Entity.LockupBatch = {
     batcher_id: undefined,

@@ -1,6 +1,6 @@
 import { zeroAddress } from "viem";
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierV2LockupLinear_v1_0_Transfer_handler as Handler_v1_0,
   SablierV2LockupLinear_v1_1_Transfer_handler as Handler_v1_1,
@@ -8,9 +8,9 @@ import type {
   SablierLockup_v2_0_Transfer_handler as Handler_v2_0,
   SablierLockup_v3_0_Transfer_handler as Handler_v3_0,
   SablierLockup_v4_0_Transfer_handler as Handler_v4_0,
-} from "../../../bindings/src/Types.gen";
-import * as Watcher from "../../../store/entity-watcher";
-import * as LockupAction from "../../../store/lockup/entity-action";
+} from "../../../bindings/src/Types.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import * as LockupAction from "../../../store/lockup/entity-action.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

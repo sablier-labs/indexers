@@ -1,15 +1,15 @@
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
-import type { Entity } from "../../../bindings";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierFlow_v1_0_RestartFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_RestartFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_RestartFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_RestartFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { scale } from "../../../helpers";
-import * as StreamsWatcher from "../../../store/entity-watcher";
-import * as FlowAction from "../../../store/flow/entity-action";
+} from "../../../bindings/src/Types.js";
+import type { Entity } from "../../../bindings.js";
+import { scale } from "../../../helpers.js";
+import * as StreamsWatcher from "../../../store/entity-watcher.js";
+import * as FlowAction from "../../../store/flow/entity-action.js";
 
 type Handler = Handler_v1_0 & Handler_v1_1 & Handler_v2_0 & Handler_v3_0;
 

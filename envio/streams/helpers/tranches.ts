@@ -1,4 +1,4 @@
-import type { Tranche } from "./lockup-types";
+import type { Tranche } from "./lockup-types.js";
 
 export function convertTranches(eventTranches: [bigint, bigint][]) {
   const tranches: Tranche[] = [];

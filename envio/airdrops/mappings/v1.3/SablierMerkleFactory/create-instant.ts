@@ -1,7 +1,7 @@
-import { Contract } from "../../../bindings";
-import type { Params } from "../../../helpers/types";
-import { Store } from "../../../store";
-import { createMerkle, preloadCreateEntities } from "../../common/factory";
+import { Contract } from "../../../bindings.js";
+import type { Params } from "../../../helpers/types.js";
+import { Store } from "../../../store.js";
+import { createMerkle, preloadCreateEntities } from "../../common/factory.js";
 
 /*
 ──────────────────────────────────────────────────────────────

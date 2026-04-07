@@ -1,8 +1,9 @@
 import type { Sablier } from "sablier";
 import { isReleasePayable, sablier } from "sablier";
-import type { Envio } from "./bindings";
-import { SEP_19_2025 } from "./constants";
-import type { DeprecatedStreamContext } from "./store/entity-deprecated-stream";
+import type { Address } from "viem";
+import type { Envio } from "./bindings.js";
+import { SEP_19_2025 } from "./constants.js";
+import type { DeprecatedStreamContext } from "./store/entity-deprecated-stream.js";
 
 /**
  * Checks if the event is an unmonetizable contract that was deprecated on Sep 19, 2025.
@@ -17,7 +18,7 @@ export function isDeprecatedContract({
 }: {
   event: Envio.Event;
   protocol: Sablier.Protocol;
-  asset: Envio.Address;
+  asset: Address;
 }): boolean {
   // All actions before Sep 19, 2025 are indexed.
   if (event.block.timestamp < SEP_19_2025) {
@@ -61,7 +62,7 @@ export async function isDeprecatedStream(
 /**
  * Checks if the token address is exempted from deprecation rules.
  */
-function isExemptedAsset(asset: Envio.Address): boolean {
+function isExemptedAsset(asset: Address): boolean {
   const EXEMPTED_ASSETS = [
     "0x1e925de1c68ef83bd98ee3e130ef14a50309c01b", // EXA on Optimism, chain ID: 10
     "0xbea586a167853adddef12818f264f1f9823fbc18", // esEXA on Optimism, chain ID: 10

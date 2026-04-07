@@ -2,14 +2,14 @@
  * @file Processors are reusable logic that is used in multiple event handlers.
  */
 
-import type { Envio } from "../../../../common/bindings";
-import { isDeprecatedContract as isDeprecatedLockupContract } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
-import type { Context, Entity } from "../../../bindings";
-import type { Params } from "../../../helpers/lockup-types";
-import * as Watcher from "../../../store/entity-watcher";
-import * as LockupAction from "../../../store/lockup/entity-action";
+import type { Envio } from "../../../../common/bindings.js";
+import { isDeprecatedContract as isDeprecatedLockupContract } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
+import { CommonStore } from "../../../../common/store.js";
+import type { Context, Entity } from "../../../bindings.js";
+import type { Params } from "../../../helpers/lockup-types.js";
+import * as Watcher from "../../../store/entity-watcher.js";
+import * as LockupAction from "../../../store/lockup/entity-action.js";
 
 type Input<P extends Params.CreateStreamCommon> = {
   context: Context.Handler;

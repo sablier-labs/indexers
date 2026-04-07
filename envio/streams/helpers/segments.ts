@@ -1,4 +1,4 @@
-import type { Segment } from "./lockup-types";
+import type { Segment } from "./lockup-types.js";
 
 export function convertSegments(eventSegments: [bigint, bigint, bigint][]) {
   const segments: Segment[] = [];

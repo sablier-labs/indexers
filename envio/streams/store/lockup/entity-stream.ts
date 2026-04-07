@@ -1,19 +1,19 @@
 import { isVersionAfter, isVersionBefore } from "sablier";
 import { Version } from "sablier/evm";
-import type { Envio } from "../../../common/bindings";
-import { NOT_AVAILABLE } from "../../../common/constants";
-import { getContract } from "../../../common/deployments";
-import { sanitizeString } from "../../../common/helpers";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import type { Params, Segment, Tranche } from "../../helpers/lockup-types";
-import { update as updateBatch } from "./entity-batch";
+import type { Envio } from "../../../common/bindings.js";
+
+import { getContract } from "../../../common/deployments.js";
+import { sanitizeString } from "../../../common/helpers.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import type { Params, Segment, Tranche } from "../../helpers/lockup-types.js";
+import { update as updateBatch } from "./entity-batch.js";
 import {
   inferDynamicShape,
   inferLinearShape,
   inferTranchedShape,
   normalizeEventShape,
-} from "./shape-inference";
+} from "./shape-inference.js";
 
 type ShapeResult = Pick<Entity.LockupStream, "shape" | "shapeSource">;
 
@@ -87,7 +87,7 @@ function createBase(
   const lockup = getContract("lockup", event.chainId, event.srcAddress);
 
   /* --------------------------------- STREAM --------------------------------- */
-  const isProxied = Boolean(params.proxender && params.proxender !== NOT_AVAILABLE);
+  const isProxied = Boolean(params.proxender);
   const recipient = params.recipient;
   const sender = params.sender;
 

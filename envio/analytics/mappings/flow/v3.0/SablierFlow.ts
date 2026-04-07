@@ -1,6 +1,10 @@
-import { Contract } from "../../../bindings";
-import { Store } from "../../../store";
-import { handleApproval, handleApprovalForAll, handleTransfer } from "../../common/event-handlers";
+import { Contract } from "../../../bindings.js";
+import { Store } from "../../../store.js";
+import {
+  handleApproval,
+  handleApprovalForAll,
+  handleTransfer,
+} from "../../common/event-handlers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                FLOW-SPECIFIC                               */

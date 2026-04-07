@@ -1,4 +1,4 @@
-import { DECIMALS_18 } from "../../common/constants";
+import { DECIMALS_18 } from "../../common/constants.js";
 
 /**
  * Scale an amount from the ERC20 token's decimals to 18 decimals.

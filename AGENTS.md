@@ -25,7 +25,12 @@ After generating code, run these commands **in order**.
 
 2. **`na biome lint <files>`** — lint JS/TS/JSON/CSS/GraphQL (skip if none changed)
 
-3. **`na tsc --noEmit`** — verify TypeScript types (always run on entire project)
+3. **Type-check with tsc** — the root `tsconfig.json` excludes `envio/` and `graph/`, so you must run separate checks
+   depending on which files changed:
+   - Changed files in `cli/`, `contracts/`, `events/`, `schema/`, `src/`, `tests/` → `na tsc --noEmit`
+   - Changed files in `envio/` → `na tsc --noEmit -p envio/tsconfig.json`
+   - Changed files in both → run both commands
+   - Changed files in `graph/` → use `just build-graph-indexer` (AssemblyScript, not tsc)
 
 **Examples:**
 
@@ -36,8 +41,11 @@ na biome lint app/page.tsx lib/**/*
 # 10+ files: run default command
 na biome lint
 
-# TypeScript check runs on entire project
+# TypeScript: root project (excludes envio/ and graph/)
 na tsc --noEmit
+
+# TypeScript: Envio indexers
+na tsc --noEmit -p envio/tsconfig.json
 ```
 
 If any command fails, analyze the errors and fix it before continuing.
@@ -60,7 +68,7 @@ nlx package-name    # Execute package
 just dev             # Start dev server
 just full-check      # Run all code checks
 just biome-check     # Biome validation only
-just tsc-check       # TypeScript validation only
+just tsc-check       # TypeScript validation (root tsconfig only, excludes envio/ and graph/)
 just full-write      # Run all code fixes
 just test            # Run tests
 just test id.test.ts # Run tests for a specific file

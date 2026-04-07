@@ -1,14 +1,14 @@
-import { isDeprecatedStream } from "../../../../common/deprecated";
-import { Id } from "../../../../common/id";
+import { isDeprecatedStream } from "../../../../common/deprecated.js";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierFlow_v1_0_DepositFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_DepositFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_DepositFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_DepositFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Types.gen";
-import { scale } from "../../../helpers";
-import * as StreamsWatcher from "../../../store/entity-watcher";
-import * as FlowAction from "../../../store/flow/entity-action";
+} from "../../../bindings/src/Types.js";
+import { scale } from "../../../helpers.js";
+import * as StreamsWatcher from "../../../store/entity-watcher.js";
+import * as FlowAction from "../../../store/flow/entity-action.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

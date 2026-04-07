@@ -1,4 +1,4 @@
-import { Contract } from "../../../bindings";
+import { Contract } from "../../../bindings.js";
 import {
   adjustStream,
   approval,
@@ -11,7 +11,7 @@ import {
   transfer,
   voidStream,
   withdrawStream,
-} from "../common";
+} from "../common.js";
 
 Contract.Flow_v3_0.AdjustFlowStream.handler(adjustStream.handler);
 Contract.Flow_v3_0.Approval.handler(approval.handler);

@@ -1,18 +1,18 @@
 import type { Logger } from "envio";
-import { experimental_createEffect, S } from "envio";
+import { createEffect, S } from "envio";
 import { isVersionAfter } from "sablier";
 import { Version } from "sablier/evm";
+import type { Address } from "viem";
 import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
 import PRBProxyRegistryABI from "../../../abi/PRBProxyRegistry.json";
-import type { Envio } from "../../common/bindings";
 import {
   NOT_AVAILABLE,
   PRB_PROXY_REGISTRY_v4_0_0,
   PRB_PROXY_REGISTRY_v4_0_1,
-} from "../../common/constants";
-import { getContractVersion } from "../../common/deployments";
-import { getClient } from "../../common/rpc-clients";
+} from "../../common/constants.js";
+import { getContractVersion } from "../../common/deployments.js";
+import { getClient } from "../../common/rpc-clients.js";
 
 /**
  * Reads the proxy owner from the cache or, if not found, fetches it from the RPC.
@@ -20,7 +20,7 @@ import { getClient } from "../../common/rpc-clients";
  * @see https://github.com/PaulRBerg/prb-proxy
  * @see https://docs.envio.dev/docs/HyperIndex/event-handlers#contexteffect-experimental
  */
-export const fetchProxender = experimental_createEffect(
+export const fetchProxender = createEffect(
   {
     cache: true,
     input: S.tuple((t) => ({
@@ -30,23 +30,16 @@ export const fetchProxender = experimental_createEffect(
     })),
     name: "proxender",
     output: S.union([S.shape(S.schema(0), (_) => NOT_AVAILABLE), S.string]),
+    rateLimit: false,
   },
   async ({ context, input }) => {
     // PRBProxy was only used in Lockup v1.0
-    const version = getContractVersion(
-      "lockup",
-      input.chainId,
-      input.lockupAddress as Envio.Address
-    );
+    const version = getContractVersion("lockup", input.chainId, input.lockupAddress as Address);
     if (isVersionAfter(version, Version.Lockup.V1_0)) {
       return NOT_AVAILABLE;
     }
 
-    const owner = await fetchProxyOwner(
-      context.log,
-      input.chainId,
-      input.streamSender as Envio.Address
-    );
+    const owner = await fetchProxyOwner(context.log, input.chainId, input.streamSender as Address);
     if (!owner) {
       return NOT_AVAILABLE;
     }
@@ -62,8 +55,8 @@ export const fetchProxender = experimental_createEffect(
 async function fetchProxyOwner(
   logger: Logger,
   chainId: number,
-  streamSender: Envio.Address
-): Promise<Envio.Address | undefined> {
+  streamSender: Address
+): Promise<Address | undefined> {
   const client = getClient(chainId);
 
   const proxy = streamSender as `0x${string}`;
@@ -73,7 +66,7 @@ async function fetchProxyOwner(
       address: proxy,
       functionName: "owner",
     });
-    const owner = (ownerResult as Envio.Address).toLowerCase();
+    const owner = (ownerResult as Address).toLowerCase() as Address;
 
     // See https://github.com/sablier-labs/indexers/issues/148
     let reverse = await fetchReverse(chainId, PRB_PROXY_REGISTRY_v4_0_1, owner);
@@ -102,9 +95,9 @@ async function fetchProxyOwner(
 
 async function fetchReverse(
   chainId: number,
-  registry: Envio.Address,
-  owner: Envio.Address
-): Promise<Envio.Address | undefined> {
+  registry: Address,
+  owner: Address
+): Promise<Address | undefined> {
   const client = getClient(chainId);
 
   const reverse = await client.readContract({
@@ -118,5 +111,5 @@ async function fetchReverse(
     return undefined;
   }
 
-  return (reverse as Envio.Address).toLowerCase();
+  return (reverse as Address).toLowerCase() as Address;
 }

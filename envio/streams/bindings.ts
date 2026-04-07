@@ -1,7 +1,7 @@
 // biome-ignore-all assist/source/organizeImports: grouped exports
 
 // Context
-import type { HandlerContext } from "./bindings/src/Types";
+import type { HandlerContext } from "./bindings/src/Types.js";
 export namespace Context {
   export type Handler = HandlerContext;
 }
@@ -23,7 +23,7 @@ import {
   SablierV2LockupLinear_v1_2,
   SablierV2LockupTranched_v1_2,
   USDC as USDC_Contract,
-} from "./bindings/src/Handlers.gen";
+} from "./bindings/src/Indexer.gen.js";
 export namespace Contract {
   // Flow
   export const Flow_v1_0 = SablierFlow_v1_0;
@@ -46,17 +46,12 @@ export namespace Contract {
 }
 
 // Enums
-import type {
-  FlowActionCategory_t,
-  LockupActionCategory_t,
-  LockupStreamCategory_t,
-  ShapeSource_t,
-} from "./bindings/src/db/Enums.gen";
+import type { Enum as EnumLookup } from "./bindings/src/Types.js";
 export namespace Enum {
-  export type FlowActionCategory = FlowActionCategory_t;
-  export type LockupActionCategory = LockupActionCategory_t;
-  export type LockupStreamCategory = LockupStreamCategory_t;
-  export type ShapeSource = ShapeSource_t;
+  export type FlowActionCategory = EnumLookup<"FlowActionCategory">;
+  export type LockupActionCategory = EnumLookup<"LockupActionCategory">;
+  export type LockupStreamCategory = EnumLookup<"LockupStreamCategory">;
+  export type ShapeSource = EnumLookup<"ShapeSource">;
 }
 
 // Entities
@@ -77,7 +72,7 @@ import type {
   Sponsorship as EntitySponsorship,
   Tranche as EntityTranche,
   Watcher as EntityWatcher,
-} from "./bindings/src/Types.gen";
+} from "./bindings/src/Types.js";
 
 export namespace Entity {
   // Shared

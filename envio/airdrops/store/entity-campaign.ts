@@ -1,10 +1,11 @@
-import type { Envio } from "../../common/bindings";
-import { getContractVersion } from "../../common/deployments";
-import { sanitizeString } from "../../common/helpers";
-import { Id } from "../../common/id";
-import type { Context, Entity } from "../bindings";
-import { getNickname } from "../helpers/campaign";
-import type { Params, TrancheWithPercentage } from "../helpers/types";
+import type { Address } from "viem";
+import type { Envio } from "../../common/bindings.js";
+import { getContractVersion } from "../../common/deployments.js";
+import { sanitizeString } from "../../common/helpers.js";
+import { Id } from "../../common/id.js";
+import type { Context, Entity } from "../bindings.js";
+import { getNickname } from "../helpers/campaign.js";
+import type { Params, TrancheWithPercentage } from "../helpers/types.js";
 
 export function createInstant(
   context: Context.Handler,
@@ -76,7 +77,7 @@ export function createVCA(
 export async function updateAdmin(
   context: Context.Handler,
   campaign: Entity.Campaign,
-  newAdmin: Envio.Address
+  newAdmin: Address
 ): Promise<void> {
   const asset = await context.Asset.get(campaign.asset_id);
   if (!asset) {
@@ -160,7 +161,11 @@ function createBaseCampaign(
   entities: Params.CreateEntities,
   params: Params.CreateCampaignBase
 ): Entity.Campaign {
-  const factoryVersion = getContractVersion("airdrops", event.chainId, entities.factory.address);
+  const factoryVersion = getContractVersion(
+    "airdrops",
+    event.chainId,
+    entities.factory.address as Address
+  );
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
   // Some fields are set to 0/ undefined because they are set later depending on the campaign category.

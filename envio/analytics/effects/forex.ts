@@ -1,9 +1,9 @@
 import axios from "axios";
 import type { Logger } from "envio";
-import { experimental_createEffect, S } from "envio";
+import { createEffect, S } from "envio";
 import _ from "lodash";
-import { CURRENCY_FREAKS_BASE_URL } from "../../common/constants";
-import { isToday } from "../../common/time";
+import { CURRENCY_FREAKS_BASE_URL } from "../../common/constants.js";
+import { isToday } from "../../common/time.js";
 
 type CurrencyFreaksResponse = {
   rate: number;
@@ -18,12 +18,13 @@ type CurrencyFreaksLatestResponse = {
 const NO_PRICE = 0;
 const dateType = S.string;
 
-export const fetchGBPExchangeRate = experimental_createEffect(
+export const fetchGBPExchangeRate = createEffect(
   {
     cache: true,
     input: dateType,
     name: "GBP_USD",
     output: S.number,
+    rateLimit: false,
   },
   async ({ context, input: date }) => {
     const CURRENCY_FREAKS_API_KEY = process.env.ENVIO_CURRENCY_FREAKS_API_KEY;

@@ -1,10 +1,10 @@
-import { isOfficialLockup } from "../../../../common/helpers";
-import { Contract } from "../../../bindings";
-import { convertTranches } from "../../../helpers";
-import type { Params } from "../../../helpers/types";
-import { Store } from "../../../store";
-import { preloadCreateEntities } from "../../common/factory";
-import { createMerkle } from "../../common/factory/create-merkle";
+import { isOfficialLockup } from "../../../../common/helpers.js";
+import { Contract } from "../../../bindings.js";
+import type { Params } from "../../../helpers/types.js";
+import { convertTranches } from "../../../helpers.js";
+import { Store } from "../../../store.js";
+import { createMerkle } from "../../common/factory/create-merkle.js";
+import { preloadCreateEntities } from "../../common/factory.js";
 
 Contract.Factory.FactoryMerkleLT_v2_0.CreateMerkleLT.contractRegister(({ context, event }) => {
   const lockupAddress = event.params.params[6];

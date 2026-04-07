@@ -1,9 +1,9 @@
-import type { Envio } from "../../../common/bindings";
-import { getContract } from "../../../common/deployments";
-import { Id } from "../../../common/id";
-import type { Context, Entity } from "../../bindings";
-import type { Params } from "../../helpers/flow-types";
-import { update as updateBatch } from "./entity-batch";
+import type { Envio } from "../../../common/bindings.js";
+import { getContract } from "../../../common/deployments.js";
+import { Id } from "../../../common/id.js";
+import type { Context, Entity } from "../../bindings.js";
+import type { Params } from "../../helpers/flow-types.js";
+import { update as updateBatch } from "./entity-batch.js";
 
 export function create(
   context: Context.Handler,

@@ -28,7 +28,7 @@
 [script]
 _codegen-envio-bindings indexer:
     indexer_dir="envio/{{ indexer }}"
-    generated_types_file="$indexer_dir/bindings/src/Types.gen.ts"
+    generated_types_file="$indexer_dir/bindings/src/Types.ts"
     pnpm envio codegen \
         --directory $indexer_dir \
         --config config.yaml \

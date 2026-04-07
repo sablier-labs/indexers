@@ -1,5 +1,5 @@
-import { Contract } from "../../bindings";
-import * as common from "../common";
+import { Contract } from "../../bindings.js";
+import * as common from "../common.js";
 
 Contract.Campaign.MerkleLL_v3_0.Clawback.handler(common.clawback.handler);
 Contract.Campaign.MerkleLL_v3_0.ClaimLLWithTransfer.handler(common.claimInstant.handler);

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Id } from "../../../../common/id";
+import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v1_3_Claim_handler,
   SablierMerkleInstant_v2_0_ClaimInstant_handler,
@@ -7,8 +7,8 @@ import type {
   SablierMerkleLL_v3_0_ClaimLLWithTransfer_handler,
   SablierMerkleLT_v2_0_ClaimLTWithTransfer_handler,
   SablierMerkleLT_v3_0_ClaimLTWithTransfer_handler,
-} from "../../../bindings/src/Types.gen";
-import { Store } from "../../../store";
+} from "../../../bindings/src/Types.js";
+import { Store } from "../../../store.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */

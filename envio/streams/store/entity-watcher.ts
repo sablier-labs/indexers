@@ -1,5 +1,5 @@
 import type { Logger } from "envio";
-import type { Entity } from "../bindings";
+import type { Entity } from "../bindings.js";
 
 type WatcherContext = {
   log: Logger;

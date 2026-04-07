@@ -1,11 +1,12 @@
-import type { Envio } from "../../../../common/bindings";
-import { fetchTokenMetadata } from "../../../../common/effects";
-import { Id } from "../../../../common/id";
-import { CommonStore } from "../../../../common/store";
-import type { RPCData } from "../../../../common/types";
-import type { Context, Entity } from "../../../bindings";
-import type { Params } from "../../../helpers/types";
-import { Store } from "../../../store";
+import type { Address } from "viem";
+import type { Envio } from "../../../../common/bindings.js";
+import { fetchTokenMetadata } from "../../../../common/effects.js";
+import { Id } from "../../../../common/id.js";
+import { CommonStore } from "../../../../common/store.js";
+import type { RPCData } from "../../../../common/types.js";
+import type { Context, Entity } from "../../../bindings.js";
+import type { Params } from "../../../helpers/types.js";
+import { Store } from "../../../store.js";
 
 export type PreloadCreateResult = {
   entities: Params.CreateEntities;
@@ -16,8 +17,8 @@ type PreloadInput = {
   context: Context.Handler;
   event: Envio.Event;
   params: {
-    admin: Envio.Address;
-    asset: Envio.Address;
+    admin: Address;
+    asset: Address;
   };
 };
 

@@ -1,5 +1,5 @@
-import type { Envio } from "../../common/bindings";
-import type { Entity } from "../bindings";
+import type { Address } from "viem";
+import type { Entity } from "../bindings.js";
 
 export namespace Params {
   export type CreateEntities = {
@@ -10,9 +10,9 @@ export namespace Params {
   };
 
   export type Create = {
-    recipient: Envio.Address;
+    recipient: Address;
     ratePerSecond: bigint;
-    sender: Envio.Address;
+    sender: Address;
     startTime: bigint;
     tokenId: bigint;
     transferable: boolean;

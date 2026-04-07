@@ -1,5 +1,5 @@
-import { Contract } from "../../../../bindings";
-import { Store } from "../../../../store";
+import { Contract } from "../../../../bindings.js";
+import { Store } from "../../../../store.js";
 
 Contract.Airdrops.Factory.FactoryMerkleVCA_v3_0.CreateMerkleVCA.contractRegister(
   ({ context, event }) => {

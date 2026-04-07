@@ -1,10 +1,11 @@
 import _ from "lodash";
-import type { Envio } from "../../../../common/bindings";
-import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated";
-import { isOfficialLockup } from "../../../../common/helpers";
-import type { Context, Entity } from "../../../bindings";
-import type { Params } from "../../../helpers/types";
-import { Store } from "../../../store";
+import type { Address } from "viem";
+import type { Envio } from "../../../../common/bindings.js";
+import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated.js";
+import { isOfficialLockup } from "../../../../common/helpers.js";
+import type { Context, Entity } from "../../../bindings.js";
+import type { Params } from "../../../helpers/types.js";
+import { Store } from "../../../store.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   MAPPING                                  */
@@ -35,7 +36,7 @@ export async function createMerkle<P extends Params.CreateCampaignBase>(
   }
   // For Lockup campaigns, check if it's an official lockup before proceeding.
   if (_.has(params, "lockup")) {
-    const lockupAddress = _.get(params, "lockup") as Envio.Address;
+    const lockupAddress = _.get(params, "lockup") as Address;
     if (!isOfficialLockup(context.log, event, lockupAddress)) {
       return;
     }
