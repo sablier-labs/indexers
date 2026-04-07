@@ -16,6 +16,7 @@ import { streamsBatchDefs } from "./streams/batch.graphql.js";
 import { streamsStreamDefs } from "./streams/stream.graphql.js";
 
 type TsDefsGenerator = (target: Indexer.Target) => DocumentNode;
+type VendorConfig<T> = Record<Indexer.Vendor, T[]>;
 type ProtocolSchemaConfig = {
   /** Filenames (without extension) from `schema/common/` shared across indexers (e.g. `"contract"`). */
   common?: string[];
@@ -66,34 +67,46 @@ export function getMergedSchema(target: Indexer.Target, vendor?: Indexer.Vendor)
   if (!config) {
     throw new Error(`No schema config for target: ${target}`);
   }
-  const tsDefs = [
+
+  const generatedDefs = getGeneratedDefs(target, config, vendor);
+  const schemaPaths = getSchemaPaths(target, config, vendor);
+  const fileDefs = loadFilesSync<DocumentNode>(schemaPaths);
+
+  return mergeTypeDefs([...generatedDefs, ...fileDefs], { throwOnConflict: true });
+}
+
+function getGeneratedDefs(
+  target: Indexer.Target,
+  config: ProtocolSchemaConfig,
+  vendor?: Indexer.Vendor
+): DocumentNode[] {
+  return [
     ...(config.generators?.map((generator) => generator(target)) ?? []),
     ...getVendorGeneratorDefs(target, config.vendorGenerators, vendor),
   ];
-  const gqlPaths = [
-    ...getCommonDefsPaths(config.common),
-    ...getProtocolDefsPaths(target, config.indexerSpecific),
-    ...getVendorSpecificDefsPaths(target, config.vendorSpecific, vendor),
+}
+
+function getSchemaPaths(
+  target: Indexer.Target,
+  config: ProtocolSchemaConfig,
+  vendor?: Indexer.Vendor
+): string[] {
+  const getCommonSchemaPath = (file: string) => getSchemaPath("common", file);
+  const getTargetSchemaPath = (file: string) => getSchemaPath(target, file);
+
+  return [
+    ...mapSchemaPaths(config.common, getCommonSchemaPath),
+    ...mapSchemaPaths(config.indexerSpecific, getTargetSchemaPath),
+    ...mapSchemaPaths(getVendorEntries(config.vendorSpecific, vendor), getTargetSchemaPath),
   ];
-  const gqlDefs = loadFilesSync<DocumentNode>(gqlPaths);
-
-  return mergeTypeDefs([...tsDefs, ...gqlDefs], { throwOnConflict: true });
 }
 
-function getCommonDefs(file: string): string {
-  return path.join(SCHEMA_DIR, "common", `${file}.graphql`);
+function getSchemaPath(directory: string, file: string): string {
+  return path.join(SCHEMA_DIR, directory, `${file}.graphql`);
 }
 
-function getCommonDefsPaths(files?: string[]): string[] {
-  return files?.map((file) => getCommonDefs(file)) ?? [];
-}
-
-function getProtocolDefs(target: Indexer.Target, file: string): string {
-  return path.join(SCHEMA_DIR, target, `${file}.graphql`);
-}
-
-function getProtocolDefsPaths(target: Indexer.Target, files?: string[]): string[] {
-  return files?.map((file) => getProtocolDefs(target, file)) ?? [];
+function mapSchemaPaths(files: string[] | undefined, getPath: (file: string) => string): string[] {
+  return files?.map(getPath) ?? [];
 }
 
 function getVendorGeneratorDefs(
@@ -101,38 +114,19 @@ function getVendorGeneratorDefs(
   vendorGenerators: ProtocolSchemaConfig["vendorGenerators"],
   vendor?: Indexer.Vendor
 ): DocumentNode[] {
-  if (!vendorGenerators) {
-    return [];
-  }
-
-  const generators = vendor
-    ? (vendorGenerators[vendor] ?? [])
-    : Object.values(vendorGenerators).flat();
-
-  return generators.map((generator) => generator(target));
+  return getVendorEntries(vendorGenerators, vendor).map((generator) => generator(target));
 }
 
-function getVendorSpecificDefsPaths(
-  target: Indexer.Target,
-  vendorSpecific: ProtocolSchemaConfig["vendorSpecific"],
-  vendor?: Indexer.Vendor
-): string[] {
-  return getProtocolDefsPaths(target, getVendorSpecificFiles(vendorSpecific, vendor));
-}
-
-function getVendorSpecificFiles(
-  vendorSpecific: ProtocolSchemaConfig["vendorSpecific"],
-  vendor?: Indexer.Vendor
-): string[] {
-  if (!vendorSpecific) {
+function getVendorEntries<T>(config: VendorConfig<T> | undefined, vendor?: Indexer.Vendor): T[] {
+  if (!config) {
     return [];
   }
 
   if (vendor) {
-    return vendorSpecific[vendor] ?? [];
+    return config[vendor] ?? [];
   }
 
-  return Object.values(vendorSpecific).flat();
+  return Object.values(config).flat();
 }
 
 function getStreamDefs(target: Indexer.Target): DocumentNode {
