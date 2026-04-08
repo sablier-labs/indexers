@@ -35,10 +35,21 @@ Protocol-specific docs remain available here:
 
 ## Quickstart 🚀
 
-Query the public Envio GraphQL endpoints directly to access Sablier protocol data:
+You can query the public Envio GraphQL endpoints directly to access Sablier protocol data:
 
 - **Airdrops**: `https://indexer.hyperindex.xyz/508d217/v1/graphql`
 - **Streams**: `https://indexer.hyperindex.xyz/53b7e25/v1/graphql`
+
+The standard Envio endpoints require [Hasura](https://docs.envio.dev/docs/HyperIndex/navigating-hasura) GraphQL query
+syntax.
+
+> [!TIP]
+>
+> If you're migrating from The Graph, Envio also exposes `/converter` endpoints that accept subgraph-compatible queries,
+> convert them to HyperIndex (standard GraphQL), and return responses in the same format as a standard subgraph:
+>
+> - **Airdrops**: `https://indexer.hyperindex.xyz/508d217/converter`
+> - **Streams**: `https://indexer.hyperindex.xyz/53b7e25/converter`
 
 For detailed documentation, queries, and examples, visit our [API docs](https://docs.sablier.com/api/overview).
 
