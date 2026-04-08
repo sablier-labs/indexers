@@ -5,7 +5,7 @@ function getIndexerURL(id: string) {
 }
 
 function getConverterURL(id: string) {
-  return `${getIndexerURL(id)}/converter`;
+  return `https://indexer.hyperindex.xyz/${id}/converter`;
 }
 
 function createDeployment(args: {
