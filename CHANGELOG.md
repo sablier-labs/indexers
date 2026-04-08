@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[4.0.1]: https://github.com/sablier-labs/indexers/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/sablier-labs/indexers/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/sablier-labs/indexers/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/sablier-labs/indexers/compare/v1.2.0...v2.0.0
@@ -12,6 +13,18 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.1]: https://github.com/sablier-labs/indexers/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
+
+## [4.0.1] - 2026-04-08
+
+### Changed
+
+- De-duplicate `Sponsor` and `Sponsorship` entity definitions across airdrops and streams schemas
+  ([#330](https://github.com/sablier-labs/indexers/pull/330))
+
+### Fixed
+
+- Fix converter URL by removing erroneous `/v1/graphql` path segment
+  ([`7fbd5a7`](https://github.com/sablier-labs/indexers/commit/7fbd5a7a))
 
 ## [4.0.0] - 2026-04-06
 
