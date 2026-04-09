@@ -1,5 +1,5 @@
 import type { Sablier } from "sablier";
-import { isReleasePayable, sablier } from "sablier";
+import { isEvmReleasePayable, sablier } from "sablier";
 import type { Address } from "viem";
 import type { Envio } from "./bindings.js";
 import { SEP_19_2025 } from "./constants.js";
@@ -38,15 +38,18 @@ export function isDeprecatedContract({
   if (!foundContract) {
     return false;
   }
+  if (!foundContract.version) {
+    return false;
+  }
 
   /**
    * @see https://x.com/Sablier/status/1974130818139525131
    */
-  switch (protocol) {
-    case "airdrops":
-    case "flow":
-    case "lockup":
-      return !isReleasePayable(protocol, foundContract.version as Sablier.EVM.Version);
+  if (protocol === "airdrops" || protocol === "flow" || protocol === "lockup") {
+    const release = sablier.releases.get({ protocol, version: foundContract.version });
+    if (release) {
+      return !isEvmReleasePayable(release);
+    }
   }
 
   return true;

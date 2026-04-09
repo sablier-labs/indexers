@@ -1,7 +1,7 @@
 import type { Logger } from "envio";
 import { createEffect, S } from "envio";
-import { isVersionAfter } from "sablier";
-import { Version } from "sablier/evm";
+import type { Sablier } from "sablier";
+import { supportsLockupPrbProxy } from "sablier";
 import type { Address } from "viem";
 import { zeroAddress } from "viem";
 import PRBProxyABI from "../../../abi/PRBProxy.json";
@@ -34,8 +34,12 @@ export const fetchProxender = createEffect(
   },
   async ({ context, input }) => {
     // PRBProxy was only used in Lockup v1.0
-    const version = getContractVersion("lockup", input.chainId, input.lockupAddress as Address);
-    if (isVersionAfter(version, Version.Lockup.V1_0)) {
+    const version = getContractVersion(
+      "lockup",
+      input.chainId,
+      input.lockupAddress as Address
+    ) as Sablier.EVM.Version.Lockup;
+    if (!supportsLockupPrbProxy(version)) {
       return NOT_AVAILABLE;
     }
 
