@@ -62,7 +62,7 @@ async function getOrCreateSponsor(
 
   const newSponsor = {
     address,
-    chainId: event.chainId,
+    chainId: BigInt(event.chainId),
     id,
     sponsorshipCount: 1,
     totalAmount: event.params.amount,
@@ -82,13 +82,13 @@ function createSponsorship(
   context.Sponsorship.set({
     amount: event.params.amount,
     amountDisplay: formatUnits(event.params.amount, decimals),
-    block: event.block.number,
-    chainId: event.chainId,
+    block: BigInt(event.block.number),
+    chainId: BigInt(event.chainId),
     id,
     logIndex: event.logIndex,
-    sender: event.transaction.from as string,
+    sender: (event.transaction.from as string).toLowerCase(),
     sponsor_id: sponsorEntityId,
-    timestamp: event.block.timestamp,
+    timestamp: BigInt(event.block.timestamp),
     txHash: event.transaction.hash,
   });
 }

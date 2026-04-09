@@ -14,11 +14,11 @@ export function getSponsorDefs(_target: Indexer.Target) {
       """
       Address of the sponsor.
       """
-      address: String!
+      address: Bytes!
       """
       The chain ID where the sponsorship was made (sponsorships are chain-specific).
       """
-      chainId: Int!
+      chainId: BigInt!
       """
       Number of sponsorships made by this sponsor.
       """

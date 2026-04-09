@@ -5,7 +5,7 @@ const airdropsFields = /* GraphQL */ `
   """
   Address of the campaign contract that emitted the Sponsor event.
   """
-  campaignAddress: String!
+  campaignAddress: Bytes!
   """
   ID of the campaign entity (format: \`{address}-{chainId}\`).
   """
@@ -35,12 +35,12 @@ export function getSponsorshipDefs(target: Indexer.Target) {
       """
       Block number of the transaction.
       """
-      block: Int!
+      block: BigInt!
       ${extraFields}
       """
       The ID of the chain where the transfer occurred (e.g., 1 for Ethereum).
       """
-      chainId: Int!
+      chainId: BigInt!
       """
       Log index of the Transfer event within the transaction.
       """
@@ -48,7 +48,7 @@ export function getSponsorshipDefs(target: Indexer.Target) {
       """
       Address of the transaction signer (may differ from \`from\` for contract wallets).
       """
-      sender: String!
+      sender: Bytes!
       """
       The sponsor who made this transfer.
       """
@@ -56,11 +56,11 @@ export function getSponsorshipDefs(target: Indexer.Target) {
       """
       Unix timestamp of the transaction.
       """
-      timestamp: Int!
+      timestamp: BigInt!
       """
       Hash of the transaction.
       """
-      txHash: String!
+      txHash: Bytes!
     }
   `;
 }

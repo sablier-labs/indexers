@@ -694,11 +694,11 @@ type Sponsor @entity(immutable: false) {
   """
   Address of the sponsor.
   """
-  address: String!
+  address: Bytes!
   """
   The chain ID where the sponsorship was made (sponsorships are chain-specific).
   """
-  chainId: Int!
+  chainId: BigInt!
   """
   Number of sponsorships made by this sponsor.
   """
@@ -736,11 +736,11 @@ type Sponsorship @entity(immutable: true) {
   """
   Block number of the transaction.
   """
-  block: Int!
+  block: BigInt!
   """
   The ID of the chain where the transfer occurred (e.g., 1 for Ethereum).
   """
-  chainId: Int!
+  chainId: BigInt!
   """
   Log index of the Transfer event within the transaction.
   """
@@ -748,7 +748,7 @@ type Sponsorship @entity(immutable: true) {
   """
   Address of the transaction signer (may differ from `from` for contract wallets).
   """
-  sender: String!
+  sender: Bytes!
   """
   The sponsor who made this transfer.
   """
@@ -756,11 +756,11 @@ type Sponsorship @entity(immutable: true) {
   """
   Unix timestamp of the transaction.
   """
-  timestamp: Int!
+  timestamp: BigInt!
   """
   Hash of the transaction.
   """
-  txHash: String!
+  txHash: Bytes!
 }
 
 """
