@@ -1,0 +1,38 @@
+description: "The Graph indexer for Sablier Bob"
+repository: "https://github.com/sablier-labs/indexers"
+specVersion: "1.3.0"
+schema:
+  file: "../bob.graphql"
+dataSources:
+  - kind: "ethereum/contract"
+    mapping:
+      apiVersion: "0.0.9"
+      kind: "ethereum/events"
+      language: "wasm/assemblyscript"
+      abis:
+        - file: "../../../node_modules/sablier/abi/bob/v1.0/SablierBob.json"
+          name: "SablierBob"
+      entities:
+        - "Enter"
+        - "PoolState"
+        - "PoolUserState"
+        - "Redeem"
+        - "SyncPriceFromOracle"
+      eventHandlers:
+        - event: "CreateVault(indexed uint256,indexed address,indexed address,address,address,uint128,uint40)"
+          handler: "handleCreateVault"
+        - event: "Enter(indexed uint256,indexed address,uint128,uint128)"
+          handler: "handleEnter"
+        - event: "Redeem(indexed uint256,indexed address,uint128,uint128,uint256)"
+          handler: "handleRedeem"
+        - event: "SyncPriceFromOracle(indexed uint256,indexed address,uint128,uint40)"
+          handler: "handleSyncPriceFromOracle"
+        - event: "UnstakeFromAdapter(indexed uint256,indexed address,uint128,uint128)"
+          handler: "handleUnstakeFromAdapter"
+      file: "../mappings/SablierBob.ts"
+    name: "SablierBob"
+    network: "mainnet"
+    source:
+      abi: "SablierBob"
+      address: "0xC8AB7E45E6DF99596b86870c26C25c721eB5C9af"
+      startBlock: 24674959
