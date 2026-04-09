@@ -17,7 +17,7 @@ jobs:
         uses: sablier-labs/devkit/actions/setup@v1
 
       - name: Generate the indexer bindings
-        run: just ci-run codegen
+        run: just ci-run codegen::all
 
       - name: Check the code
         run: just ci-run full-check

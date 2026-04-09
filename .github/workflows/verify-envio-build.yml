@@ -22,13 +22,13 @@ jobs:
         uses: sablier-labs/devkit/actions/setup@v1
 
       - name: Codegen Envio indexers
-        run: just ci-run codegen-envio
+        run: just ci-run codegen::envio
 
       # We need this until this gets implemented in Envio: https://github.com/enviodev/hyperindex/issues/575
       - name: Verify Envio build files haven't changed
         run: | # shell
           bash .github/scripts/verify-no-diff.sh \
-            "❌ Envio build files are out of sync. Run 'just codegen-envio' locally and commit the changes." \
+            "❌ Envio build files are out of sync. Run 'just codegen::envio' locally and commit the changes." \
             "Envio build file diff" \
             envio/airdrops/config.yaml \
             envio/airdrops/airdrops.graphql \

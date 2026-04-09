@@ -18,7 +18,7 @@ jobs:
 
       - name: Ping Graph endpoints
         continue-on-error: true
-        run: just revive-graphs
+        run: just graph::revive
 
       - name: Add summary
         if: always()
