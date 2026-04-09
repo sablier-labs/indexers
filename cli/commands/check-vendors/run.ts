@@ -37,7 +37,6 @@ const checkEnvioSupport = (chainId: number) =>
           supported: supportedChainIds.includes(chainId),
         } satisfies VendorCheckResult);
       }),
-      // Retry with exponential backoff matching axios-retry behavior
       Effect.retry(
         Schedule.exponential("100 millis").pipe(
           Schedule.intersect(Schedule.recurs(3)),

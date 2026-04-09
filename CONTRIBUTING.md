@@ -67,8 +67,12 @@ just full-write             # Auto-fix formatting and linting
 
 ### Envio
 
-Sync the changes to the `deployment/main` branch, and the Envio Hosted Service will automatically build and deploy the
-new indexers.
+Sync the changes to one of the `deployment/*` branches, and the Envio Hosted Service will automatically build and deploy
+the new indexers. For example:
+
+```shell
+git push origin HEAD:deployment/airdrops
+```
 
 ### The Graph
 

@@ -68,14 +68,10 @@ _codegen-envio-bindings indexer:
 
 alias de := deploy-envio
 
-# TODO: remove if once the deployment branch is switched to `deployment/streams`
 [private]
 [script("bash")]
 _deploy-envio indexer:
     deployment_indexer="{{ indexer }}"
-    if [ "$deployment_indexer" = "streams" ]; then
-        deployment_indexer="lockup"
-    fi
     deployment_branch="deployment/$deployment_indexer"
     echo "Deploying to $deployment_branch..."
     git push --force origin HEAD:$deployment_branch
