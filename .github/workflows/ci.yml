@@ -29,6 +29,9 @@ jobs:
       - name: Build all Graph indexers as a check
         run: just ci-run graph::build-all
 
+      - name: Check Envio prices are in sync
+        run: just ci-run envio::prices-check
+
       - name: Export the schemas
         run: just ci-run export-schema
 
@@ -41,9 +44,7 @@ jobs:
             src/schemas/streams.graphql
 
       - name: Run the code checks
-        run: |
-          just ci-run full-check
-          just ci-run prices-check
+        run: just ci-run full-check
 
       - name: Run the tests
         run: just ci-run test
