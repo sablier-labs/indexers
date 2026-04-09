@@ -7,9 +7,9 @@ import "../node_modules/@sablier/devkit/just/settings.just"
     just cli query-average-mau --quarter={{ quarter }} {{ args }}
 
 # Query actions (The Graph)
-[no-cd]
 [arg("chain_id", long="chain-id", short="c", help="Chain ID to query")]
 [arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
+[no-cd]
 @actions chain_id quarter="latest" *args:
     just cli query-actions --chain-id={{ chain_id }} \
         --quarter={{ quarter }} \
