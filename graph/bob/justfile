@@ -1,0 +1,35 @@
+# NOTE: bob stays isolated instead of importing ../indexer.just because the
+# shared Graph recipes only support the airdrops/streams indexers and assume
+# manifests/CLI flows that bob doesn't have (for example, shared bindings
+# codegen targets sepolia.yaml, while bob only ships mainnet.yaml).
+set dotenv-path := "../../.env"
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+root := justfile_dir() + "/../.."
+bob := justfile_dir()
+
+GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
+
+# Generate AssemblyScript bindings from the manifest
+@codegen:
+    pnpm dlx del-cli "{{ bob }}/bindings"
+    pnpm --dir "{{ root }}" exec graph codegen \
+        --output-dir "{{ bob }}/bindings" \
+        "{{ bob }}/manifests/mainnet.yaml"
+alias c := codegen
+
+# Build the subgraph
+@build: codegen
+    pnpm --dir "{{ root }}" exec graph build \
+        "{{ bob }}/manifests/mainnet.yaml" \
+        --output-dir "{{ bob }}/build"
+alias b := build
+
+# Deploy the subgraph to Subgraph Studio
+[confirm("Confirm you want to deploy? (y/N)")]
+@deploy version_label: build
+    pnpm --dir "{{ root }}" exec graph deploy \
+        --version-label {{ version_label }} \
+        sablier-bob \
+        "{{ bob }}/manifests/mainnet.yaml"
+alias d := deploy

@@ -1,0 +1,157 @@
+type PoolState @entity(immutable: false) {
+  "Unique identifier: vaultId as string"
+  id: String!
+
+  # --- Set on CreateVault ---
+
+  "Underlying token address"
+  token: Bytes
+  "Chainlink oracle address"
+  oracle: Bytes
+  "Staking adapter address"
+  adapter: Bytes
+  "Pool share token address"
+  shareToken: Bytes
+  "Target oracle price"
+  targetPrice: BigInt
+  "Vault expiry timestamp"
+  expiry: BigInt
+  "Block number when the vault was created"
+  createdBlock: BigInt
+  "Transaction hash when the vault was created"
+  createdTxHash: String
+
+  # --- Counters ---
+
+  "Number of Enter events"
+  enterCount: BigInt!
+  "Number of Redeem events"
+  redeemCount: BigInt!
+  "Number of SyncPriceFromOracle events"
+  syncCount: BigInt!
+  "Number of UnstakeFromAdapter events"
+  unstakeCount: BigInt!
+
+  # --- Totals (sums from Enter/Redeem) ---
+
+  "Total deposited amount (sum of Enter.amountReceived)"
+  depositedAmountTotal: BigInt!
+  "Total shares minted (sum of Enter.sharesMinted)"
+  sharesMintedTotal: BigInt!
+  "Total redeemed amount (sum of Redeem.amountReceived)"
+  redeemedAmountTotal: BigInt!
+  "Total shares burned on redeem (sum of Redeem.sharesBurned)"
+  sharesBurnedRedeemTotal: BigInt!
+  "Total fees on redeem (sum of Redeem.fee)"
+  redeemedFeeTotal: BigInt!
+
+  # --- Latest state ---
+
+  "Latest oracle price from SyncPriceFromOracle"
+  latestOraclePrice: BigInt!
+  "Timestamp of last oracle sync"
+  lastOracleSyncAt: BigInt!
+  "Last unstaked wrapped token amount"
+  lastUnstakedAmountStaked: BigInt!
+  "Last amount received from adapter on unstake"
+  lastUnstakedAmountReceived: BigInt!
+  "Block number of most recent activity"
+  lastActivityBlock: BigInt!
+}
+
+type PoolUserState @entity(immutable: false) {
+  "Unique identifier: vaultId-userAddress"
+  id: String!
+  "Vault/pool ID"
+  poolId: BigInt!
+  "User address"
+  user: Bytes!
+
+  # --- Counters ---
+
+  "Number of Enter events for this user"
+  enterCount: BigInt!
+  "Number of Redeem events for this user"
+  redeemCount: BigInt!
+
+  # --- Totals ---
+
+  "Total entered amount for this user"
+  enteredAmountTotal: BigInt!
+  "Total shares minted for this user"
+  sharesMintedTotal: BigInt!
+  "Total redeemed amount for this user"
+  redeemedAmountTotal: BigInt!
+  "Total shares burned on redeem for this user"
+  sharesBurnedRedeemTotal: BigInt!
+  "Total fees on redeem for this user"
+  redeemedFeeTotal: BigInt!
+
+  # --- Tracking ---
+
+  "Block number of first enter (min across Enter events)"
+  firstEnterBlock: BigInt
+  "Block number of most recent activity"
+  lastActivityBlock: BigInt!
+}
+
+type Enter @entity(immutable: true) {
+  "Unique identifier: txHash-logIndex"
+  id: String!
+  "Vault/pool ID"
+  poolId: BigInt!
+  "User address that entered"
+  user: Bytes!
+  "Amount deposited"
+  amountReceived: BigInt!
+  "Shares minted to the user"
+  sharesMinted: BigInt!
+  "Block number"
+  blockNumber: BigInt!
+  "Block timestamp"
+  blockTimestamp: BigInt!
+  "Transaction hash"
+  transactionHash: Bytes!
+  "Log index within the transaction"
+  logIndex: BigInt!
+}
+
+type Redeem @entity(immutable: true) {
+  "Unique identifier: txHash-logIndex"
+  id: String!
+  "Vault/pool ID"
+  poolId: BigInt!
+  "User address that redeemed"
+  user: Bytes!
+  "Amount received by the user"
+  amountReceived: BigInt!
+  "Shares burned"
+  sharesBurned: BigInt!
+  "Fee charged on redeem"
+  fee: BigInt!
+  "Block number"
+  blockNumber: BigInt!
+  "Block timestamp"
+  blockTimestamp: BigInt!
+  "Transaction hash"
+  transactionHash: Bytes!
+  "Log index within the transaction"
+  logIndex: BigInt!
+}
+
+type SyncPriceFromOracle @entity(immutable: true) {
+  "Unique identifier: txHash-logIndex"
+  id: String!
+  "Vault/pool ID"
+  poolId: BigInt!
+  "Latest oracle price"
+  latestPrice: BigInt!
+  "Block number"
+  blockNumber: BigInt!
+  "Block timestamp"
+  blockTimestamp: BigInt!
+  "Transaction hash"
+  transactionHash: Bytes!
+  "Log index within the transaction"
+  logIndex: BigInt!
+}
