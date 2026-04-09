@@ -4,7 +4,10 @@
 
 ## Structure
 
-- **`tests/*.test.ts`** - Core tests (codegen, event resolution)
+- **`tests/*.test.ts`** - Core tests (event resolution)
+- **`tests/cli/`** - CLI command tests (graph deploy, query, RPC, etc.)
+- **`tests/envio/`** - Envio-specific tests (coingecko)
+- **`tests/indexers/`** - Indexer tests (streams targets)
 - **`tests/vendors/`** - Vendor tests (chains, equivalence)
 - **`tests/setup.ts`** - Global setup (log paths)
 

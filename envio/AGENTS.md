@@ -15,7 +15,8 @@ Run `just codegen::envio` from the repo root to regenerate bindings, or `just co
 
 **1. Update `bindings.ts`** — Add/remove imports to match new schema types
 
-**2. Update `ENVIO_HASURA_PUBLIC_AGGREGATE`** (root `justfile`) — Add new aggregate entities
+**2. Update `ENVIO_HASURA_PUBLIC_AGGREGATE`** (each indexer's `justfile`, e.g. `envio/streams/justfile`) — Add new
+aggregate entities
 
 ```bash
 # Example: Adding a new aggregate entity "Baz"
@@ -27,4 +28,4 @@ export ENVIO_HASURA_PUBLIC_AGGREGATE := "Foo&Bar&Baz"
 For tasks involving GraphQL queries, use these endpoints:
 
 - **Airdrops**: https://indexer.hyperindex.xyz/508d217/v1/graphql
-- **Streams**: https://indexer.hyperindex.xyz/0dbf2ab/v1/graphql
+- **Streams**: https://indexer.hyperindex.xyz/53b7e25/v1/graphql

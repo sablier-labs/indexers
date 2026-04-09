@@ -19,7 +19,7 @@ There are two indexing providers: [Envio](https://envio.dev) (preferred) and [Th
 
 In-depth documentation is available at [docs.sablier.com](https://docs.sablier.com/api/overview).
 
-The package now exposes two public indexer keys:
+The package exposes two public indexer keys:
 
 - `airdrops` for campaign distribution data
 - `streams` for the Flow + Lockup streams

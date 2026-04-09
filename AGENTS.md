@@ -65,10 +65,9 @@ nlx package-name    # Execute package
 ### Development Workflow
 
 ```bash
-just dev             # Start dev server
-just full-check      # Run all code checks
+just full-check      # Run all code checks (biome + prettier + type-check)
 just biome-check     # Biome validation only
-just tsc-check       # TypeScript validation (root tsconfig only, excludes envio/ and graph/)
+just type-check      # TypeScript validation (tsgo default, root tsconfig only, excludes envio/ and graph/)
 just full-write      # Run all code fixes
 just test            # Run tests
 just test id.test.ts # Run tests for a specific file
