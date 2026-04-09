@@ -19,7 +19,7 @@ pnpm install
 
 ```bash
 just --list                 # Show all available commands
-just codegen                # Codegen all indexers
+just codegen::all           # Codegen all indexers
 just full-check             # Run all code quality checks
 just full-write             # Auto-fix formatting and linting
 ```
@@ -37,7 +37,7 @@ just full-write             # Auto-fix formatting and linting
 ### Updating the GraphQL Schema
 
 - Make changes in the `schema` directory.
-- Run `just codegen` to update the auto-generated bindings.
+- Run `just codegen::all` to update the auto-generated bindings.
 - Run `just export-schema` to update the auto-generated GraphQL schemas.
 
 ### Indexing New Chains
@@ -48,7 +48,7 @@ just full-write             # Auto-fix formatting and linting
 1. If the chain is supported by The Graph, add it to the [`src/indexers/graph.ts`](./src/indexers/graph.ts) file.
    - Override the chain slug in `CHAIN_SLUG_GRAPH_OVERRIDES`, if necessary.
    - Override the chain slug in `CHAIN_SLUG_SUBGRAPH_YAML`, if necessary.
-1. Run `just codegen` to update the auto-generated bindings.
+1. Run `just codegen::all` to update the auto-generated bindings.
 
 > [!NOTE]
 >
@@ -93,8 +93,7 @@ Here's an example for how to set the next version label if the current version l
 | Staging new protocol release | `v2.1--v1.0.0-beta.0` |
 | New protocol release         | `v2.1--v1.0.0`        |
 
-For a full list of protocol versions, see the [Sablier SDK](https://github.com/sablier-labs/sdk) (run the
-`print-versions` command).
+For a full list of protocol versions, see the [Sablier SDK](https://github.com/sablier-labs/sdk).
 
 #### Scripts
 

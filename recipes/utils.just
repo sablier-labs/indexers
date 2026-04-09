@@ -14,9 +14,8 @@
 @ci-run recipe *args:
     just --quiet _ci-run {{ recipe }} {{ args }}
 
-[private]
 [script("bash")]
-@_ci-run recipe *args:
+_ci-run recipe *args:
     set -uo pipefail
 
     mode="${CI_LOG_MODE:-quiet}"
@@ -77,8 +76,7 @@
     exit "$status"
 
 # Helper to run two commands in parallel (airdrops, streams)
-[private]
-@concurrent-indexers cmd1 cmd2:
+@_concurrent-indexers cmd1 cmd2:
     pnpm concurrently --group \
         -n "airdrops,streams" \
         -c "blue,green" \
@@ -86,8 +84,7 @@
         "{{ cmd2 }}"
 
 # Helper to run two commands in parallel (envio & graph)
-[private]
-@concurrent-vendors cmd1 cmd2:
+@_concurrent-vendors cmd1 cmd2:
     pnpm concurrently --group \
         -n "envio,graph" \
         -c "cyan,magenta" \

@@ -1,4 +1,4 @@
-import "../envio.just"
+import "../indexer.just"
 
 # Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
 export ENVIO_HASURA_PUBLIC_AGGREGATE := "Asset&FlowAction&FlowBatch&FlowStream&LockupAction&LockupBatch&LockupStream&Sponsor&Sponsorship"

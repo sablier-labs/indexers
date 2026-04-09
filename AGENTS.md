@@ -23,14 +23,14 @@ After generating code, run these commands **in order**.
 
 1. **Identify which file types changed**
 
-2. **`na biome lint <files>`** — lint JS/TS/JSON/CSS/GraphQL (skip if none changed)
+1. **`na biome lint <files>`** — lint JS/TS/JSON/CSS/GraphQL (skip if none changed)
 
-3. **Type-check with tsc** — the root `tsconfig.json` excludes `envio/` and `graph/`, so you must run separate checks
+1. **Type-check with tsc** — the root `tsconfig.json` excludes `envio/` and `graph/`, so you must run separate checks
    depending on which files changed:
    - Changed files in `cli/`, `contracts/`, `events/`, `schema/`, `src/`, `tests/` → `na tsc --noEmit`
    - Changed files in `envio/` → `na tsc --noEmit -p envio/tsconfig.json`
    - Changed files in both → run both commands
-   - Changed files in `graph/` → use `just build-graph-indexer` (AssemblyScript, not tsc)
+   - Changed files in `graph/` → use `just graph::build` (AssemblyScript, not tsc)
 
 **Examples:**
 
@@ -89,9 +89,9 @@ Regenerate bindings after:
 ### Regenerate Commands
 
 ```bash
-just codegen-envio-bindings              # All Envio indexers
-just codegen-envio-bindings streams      # Single indexer
+just codegen::envio-bindings             # All Envio indexers
+just codegen::envio-bindings streams     # Single indexer
 
-just codegen-graph-bindings              # All Graph subgraphs
-just codegen-graph-bindings streams      # Single subgraph
+just codegen::graph-bindings             # All Graph subgraphs
+just codegen::graph-bindings streams     # Single subgraph
 ```

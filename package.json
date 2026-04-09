@@ -96,7 +96,7 @@
     "url": "git+https://github.com/sablier-labs/indexers.git"
   },
   "scripts": {
-    "prepack": "pnpm install --frozen-lockfile && just build",
+    "prepack": "pnpm install --frozen-lockfile && just build::all",
     "start": "cd ./envio/$ENVIO_INDEXER_NAME && ts-node ./bindings/src/Index.res.mjs"
   }
 }

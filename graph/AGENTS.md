@@ -29,10 +29,10 @@ just build    # Build the subgraph
 From the repo root, use justfile recipes:
 
 ```bash
-just codegen-graph streams        # Codegen for a specific indexer
-just codegen-graph                # Codegen for all indexers
-just build-graph-indexer streams  # Build a specific indexer
-just build-graph-indexer          # Build all indexers
+just codegen::graph streams  # Codegen for a specific indexer
+just codegen::graph          # Codegen for all indexers
+just graph::build streams    # Build a specific indexer
+just graph::build            # Build all indexers
 ```
 
 ## AssemblyScript Constraints
@@ -50,6 +50,6 @@ Key limitations compared to TypeScript:
 When a new protocol version is added:
 
 1. **Define the version constant** in `graph/common/constants.ts` (e.g., `export const LOCKUP_V5_0 = "v5.0";`)
-2. **For Lockup versions**, add the new constant to the version comparison in
+1. **For Lockup versions**, add the new constant to the version comparison in
    `graph/streams/store/lockup/entity-stream.ts` (the `addCliff` function), which checks versions to determine
    cliff-handling behavior

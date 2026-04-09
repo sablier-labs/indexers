@@ -1,2 +1,3 @@
-import "../graph.just"
+import "../indexer.just"
+
 export INDEXER_NAME := "streams"

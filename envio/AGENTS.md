@@ -9,7 +9,7 @@ na tsc --noEmit -p envio/tsconfig.json
 
 ## Type Errors in Bindings
 
-Run `just codegen-envio` to regenerate bindings.
+Run `just codegen::envio` from the repo root to regenerate bindings, or `just codegen` from an Envio indexer directory.
 
 ## After GraphQL Schema Changes
 

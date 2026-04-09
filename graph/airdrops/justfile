@@ -1,7 +1,4 @@
-import "../graph.just"
+import "../indexer.just"
 
 export INDEXER_NAME := "airdrops"
 
-# Show available commands
-default:
-    @just --list
