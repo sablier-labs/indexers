@@ -15,6 +15,13 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 @prices-sync:
     just cli prices-sync
 
+# Run TypeScript type-checking for the Envio project
+[no-cd]
+@type-check:
+    na tsc --noEmit -p envio/tsconfig.json
+
+alias tc := type-check
+
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
 [confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
 [no-cd]
