@@ -111,7 +111,7 @@ type Enter @entity(immutable: true) {
   "Block timestamp"
   blockTimestamp: BigInt!
   "Transaction hash"
-  transactionHash: Bytes!
+  txHash: Bytes!
   "Log index within the transaction"
   logIndex: BigInt!
 }
@@ -134,7 +134,7 @@ type Redeem @entity(immutable: true) {
   "Block timestamp"
   blockTimestamp: BigInt!
   "Transaction hash"
-  transactionHash: Bytes!
+  txHash: Bytes!
   "Log index within the transaction"
   logIndex: BigInt!
 }
@@ -151,7 +151,7 @@ type SyncPriceFromOracle @entity(immutable: true) {
   "Block timestamp"
   blockTimestamp: BigInt!
   "Transaction hash"
-  transactionHash: Bytes!
+  txHash: Bytes!
   "Log index within the transaction"
   logIndex: BigInt!
 }

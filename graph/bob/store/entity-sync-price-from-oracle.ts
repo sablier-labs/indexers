@@ -9,7 +9,7 @@ export function createSyncPriceFromOracle(event: SyncEvent): void {
   entity.latestPrice = event.params.latestPrice;
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+  entity.txHash = event.transaction.hash;
   entity.logIndex = event.logIndex;
 
   entity.save();

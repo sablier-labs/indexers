@@ -12,7 +12,7 @@ export function createRedeem(event: RedeemEvent): void {
   entity.fee = event.params.fee;
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+  entity.txHash = event.transaction.hash;
   entity.logIndex = event.logIndex;
 
   entity.save();

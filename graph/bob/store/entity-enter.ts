@@ -11,7 +11,7 @@ export function createEnter(event: EnterEvent): void {
   entity.sharesMinted = event.params.sharesMinted;
   entity.blockNumber = event.block.number;
   entity.blockTimestamp = event.block.timestamp;
-  entity.transactionHash = event.transaction.hash;
+  entity.txHash = event.transaction.hash;
   entity.logIndex = event.logIndex;
 
   entity.save();

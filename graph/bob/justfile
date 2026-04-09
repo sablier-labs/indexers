@@ -2,13 +2,14 @@
 # shared Graph recipes only support the airdrops/streams indexers and assume
 # manifests/CLI flows that bob doesn't have (for example, shared bindings
 # codegen targets sepolia.yaml, while bob only ships mainnet.yaml).
+import "../../node_modules/@sablier/devkit/just/settings.just"
 set dotenv-path := "../../.env"
-set shell := ["bash", "-euo", "pipefail", "-c"]
 
 root := justfile_dir() + "/../.."
 bob := justfile_dir()
 
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
+SUBGRAPH_NAME := "sablier-bob-ethereum"
 
 # Generate AssemblyScript bindings from the manifest
 @codegen:
@@ -30,6 +31,6 @@ alias b := build
 @deploy version_label: build
     pnpm --dir "{{ root }}" exec graph deploy \
         --version-label {{ version_label }} \
-        sablier-bob \
+        {{ SUBGRAPH_NAME }} \
         "{{ bob }}/manifests/mainnet.yaml"
 alias d := deploy
