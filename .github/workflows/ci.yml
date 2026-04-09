@@ -27,7 +27,7 @@ jobs:
         run: just ci-run codegen::envio
 
       - name: Build all Graph indexers as a check
-        run: just ci-run graph::build
+        run: just ci-run graph::build-all
 
       - name: Export the schemas
         run: just ci-run export-schema

@@ -32,7 +32,7 @@ From the repo root, use justfile recipes:
 just codegen::graph streams  # Codegen for a specific indexer
 just codegen::graph          # Codegen for all indexers
 just graph::build streams    # Build a specific indexer
-just graph::build            # Build all indexers
+just graph::build-all        # Build all indexers
 ```
 
 ## AssemblyScript Constraints
