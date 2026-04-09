@@ -1,4 +1,5 @@
 import { Command, Options } from "@effect/cli";
+import { Console, Effect } from "effect";
 import { lazyHandler } from "../../utils/lazy-command.js";
 
 const chainIdOption = Options.integer("chain-id").pipe(
@@ -25,5 +26,11 @@ export const recoverTokensCommand = Command.make(
     lazyHandler(
       () => import("./run.js"),
       (m) => m.handler(args)
+    ).pipe(
+      Effect.catchAll((error) =>
+        Console.error(error instanceof Error ? error.message : String(error)).pipe(
+          Effect.zipRight(Effect.sync(() => process.exit(1)))
+        )
+      )
     )
 );

@@ -1,3 +1,4 @@
+import { dirname } from "node:path";
 import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect, Option } from "effect";
 import { sablier } from "sablier";
@@ -80,7 +81,10 @@ function resolveSablierContract(protocol: RecoverTokensProtocol, chainId: number
   return Effect.succeed(contract);
 }
 
+const ASSETS_DIR_PREFIX = "assets-";
+
 function resolveSourcePath(
+  fs: FileSystem.FileSystem,
   file: Option.Option<string>,
   protocol: RecoverTokensProtocol,
   chainId: number,
@@ -90,7 +94,44 @@ function resolveSourcePath(
     return resolveFromCliCwd(file.value);
   }
 
-  return Effect.succeed(getRecoverTokensDefaultFilePath(protocol, chainId, dateSegment));
+  return Effect.gen(function* () {
+    const todayPath = getRecoverTokensDefaultFilePath(protocol, chainId, dateSegment);
+    if (yield* fs.exists(todayPath)) {
+      return todayPath;
+    }
+
+    // Fall back to the most recent generated asset file
+    const generatedDir = dirname(dirname(dirname(todayPath)));
+    if (!(yield* fs.exists(generatedDir))) {
+      return yield* failMissingAssetFile(chainId, todayPath);
+    }
+
+    const entries = yield* fs.readDirectory(generatedDir);
+    const dateDirs = entries
+      .filter((entry) => entry.startsWith(ASSETS_DIR_PREFIX))
+      .sort()
+      .reverse();
+
+    for (const dir of dateDirs) {
+      const candidateDate = dir.slice(ASSETS_DIR_PREFIX.length);
+      const candidatePath = getRecoverTokensDefaultFilePath(protocol, chainId, candidateDate);
+      if (yield* fs.exists(candidatePath)) {
+        return candidatePath;
+      }
+    }
+
+    return yield* failMissingAssetFile(chainId, todayPath);
+  });
+}
+
+function failMissingAssetFile(chainId: number, searchedPath: string) {
+  return Effect.fail(
+    new FileOperationError({
+      message: `No asset file found for chain ${chainId}. Run 'just query::assets --indexer streams' to generate it`,
+      operation: "read",
+      path: searchedPath,
+    })
+  );
 }
 
 function readIndexedAssetFile(
@@ -103,7 +144,7 @@ function readIndexedAssetFile(
     if (!exists) {
       return yield* Effect.fail(
         new FileOperationError({
-          message: "Asset file does not exist",
+          message: `Asset file does not exist: ${filePath}`,
           operation: "read",
           path: filePath,
         })
@@ -287,6 +328,7 @@ export const handler = (options: {
     const { chain, displayRpcUrls, rpcUrls } = yield* resolveRpcConfig(options.chainId);
     const contract = yield* resolveSablierContract(options.protocol, options.chainId);
     const sourcePath = yield* resolveSourcePath(
+      fs,
       options.file,
       options.protocol,
       options.chainId,
