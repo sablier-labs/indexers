@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
   computeRecoverTokenRows,
-  getRecoverTokensAssetFileIndexer,
   getRecoverTokensContractName,
   getRecoverTokensDefaultFilePath,
   parseIndexedAssetFile,
@@ -24,19 +23,12 @@ describe("recover-tokens helpers", () => {
     });
   });
 
-  describe("getRecoverTokensAssetFileIndexer", () => {
-    it("uses the shared streams asset snapshot for both protocols", () => {
-      expect(getRecoverTokensAssetFileIndexer("lockup")).toBe("streams");
-      expect(getRecoverTokensAssetFileIndexer("flow")).toBe("streams");
-    });
-  });
-
   describe("getRecoverTokensDefaultFilePath", () => {
     it("builds the default export file path from the shared streams snapshots", () => {
-      expect(getRecoverTokensDefaultFilePath("lockup", 1, QUERY_ASSETS_DATE)).toMatch(
+      expect(getRecoverTokensDefaultFilePath(1, QUERY_ASSETS_DATE)).toMatch(
         STREAMS_MAINNET_FILE_REGEX
       );
-      expect(getRecoverTokensDefaultFilePath("flow", 10, QUERY_ASSETS_DATE)).toMatch(
+      expect(getRecoverTokensDefaultFilePath(10, QUERY_ASSETS_DATE)).toMatch(
         STREAMS_OPTIMISM_FILE_REGEX
       );
     });
@@ -155,6 +147,7 @@ describe("recover-tokens helpers", () => {
       const result = computeRecoverTokenRows({
         aggregateAmountResults: [10n, 18n, null, 8n],
         balanceResults: [30n, 18n, 5n, 1n],
+        contractLabel: "Lockup v4.0",
         assets: [
           {
             address: "0x0000000000000000000000000000000000000001",

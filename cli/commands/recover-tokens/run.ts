@@ -10,32 +10,42 @@ import type { CliRpcConfig } from "../../rpc.js";
 import { resolveCliRpcConfig } from "../../rpc.js";
 import { withSpinner } from "../../spinner.js";
 import { getQueryAssetsDateSegment } from "../query/assets.file.js";
-import type { RecoverTokensProtocol } from "./helpers.js";
+import type { AggregateFunctionName, RecoverContract, RecoverTokensProtocol } from "./helpers.js";
 import {
+  absBigInt,
   computeRecoverTokenRows,
-  getRecoverTokensAssetFileIndexer,
+  getAggregateFunctionName,
   getRecoverTokensContractName,
   getRecoverTokensDefaultFilePath,
+  isRecoverVersion,
+  mergeRecoverTokenResults,
   parseIndexedAssetFile,
 } from "./helpers.js";
 
 const ERC20_ABI = parseAbi(["function balanceOf(address account) view returns (uint256)"]);
-const SABLIER_AGGREGATE_ABI = parseAbi([
+// Lockup v3.0+, Flow v2.0+
+const SABLIER_AGGREGATE_AMOUNT_ABI = parseAbi([
   "function aggregateAmount(address token) view returns (uint256)",
+]);
+// Flow v1.0–v1.1 (legacy name, same semantics)
+const SABLIER_AGGREGATE_BALANCE_ABI = parseAbi([
+  "function aggregateBalance(address token) view returns (uint256)",
 ]);
 const MULTICALL_BATCH_SIZE = 100;
 const TRAILING_ZEROES_REGEX = /0+$/;
 const VIEM_RPC_RETRY_COUNT = 3;
 const VIEM_RPC_RETRY_DELAY_MS = 100;
 
-function absBigInt(value: bigint): bigint {
-  return value < 0n ? -value : value;
+function getAggregateAbi(functionName: AggregateFunctionName) {
+  return functionName === "aggregateBalance"
+    ? SABLIER_AGGREGATE_BALANCE_ABI
+    : SABLIER_AGGREGATE_AMOUNT_ABI;
 }
 
 /**
  * Compacts token amounts for terminal tables without losing sign information.
  *
- * The value is truncated to eight fractional digits after trimming trailing zeroes so
+ * The value is truncated to two fractional digits after trimming trailing zeroes so
  * high-decimal assets stay readable in a fixed-width layout.
  */
 function formatTokenAmount(value: bigint, decimals: number): string {
@@ -58,27 +68,38 @@ function formatTokenAmount(value: bigint, decimals: number): string {
   return `${sign}${integerPart}.${compactFraction}${suffix}`;
 }
 
-const resolveRpcConfig = resolveCliRpcConfig;
-
-function resolveSablierContract(protocol: RecoverTokensProtocol, chainId: number) {
+function resolveSablierContracts(protocol: RecoverTokensProtocol, chainId: number) {
   const contractName = getRecoverTokensContractName(protocol);
-  const release = sablier.releases.getLatest({ protocol });
-  const contract = sablier.contracts.get({
-    chainId,
-    contractName,
-    release,
-  });
+  const contracts: RecoverContract[] = [];
 
-  if (!contract) {
+  for (const release of sablier.releases.getAll({ protocol })) {
+    if (!isRecoverVersion(protocol, release.version)) {
+      continue;
+    }
+
+    const contract = sablier.contracts.get({ chainId, contractName, release });
+    if (!contract) {
+      continue;
+    }
+
+    contracts.push({
+      address: contract.address as `0x${string}`,
+      aggregateFunctionName: getAggregateFunctionName(protocol, release.version),
+      contractName,
+      version: release.version,
+    });
+  }
+
+  if (contracts.length === 0) {
     return Effect.fail(
       new ValidationError({
         field: "protocol",
-        message: `No ${contractName} deployment found for chain ${chainId}`,
+        message: `No ${contractName} deployments with recover support found for chain ${chainId}`,
       })
     );
   }
 
-  return Effect.succeed(contract);
+  return Effect.succeed(contracts);
 }
 
 const ASSETS_DIR_PREFIX = "assets-";
@@ -86,7 +107,6 @@ const ASSETS_DIR_PREFIX = "assets-";
 function resolveSourcePath(
   fs: FileSystem.FileSystem,
   file: Option.Option<string>,
-  protocol: RecoverTokensProtocol,
   chainId: number,
   dateSegment: string
 ) {
@@ -95,7 +115,7 @@ function resolveSourcePath(
   }
 
   return Effect.gen(function* () {
-    const todayPath = getRecoverTokensDefaultFilePath(protocol, chainId, dateSegment);
+    const todayPath = getRecoverTokensDefaultFilePath(chainId, dateSegment);
     if (yield* fs.exists(todayPath)) {
       return todayPath;
     }
@@ -114,7 +134,7 @@ function resolveSourcePath(
 
     for (const dir of dateDirs) {
       const candidateDate = dir.slice(ASSETS_DIR_PREFIX.length);
-      const candidatePath = getRecoverTokensDefaultFilePath(protocol, chainId, candidateDate);
+      const candidatePath = getRecoverTokensDefaultFilePath(chainId, candidateDate);
       if (yield* fs.exists(candidatePath)) {
         return candidatePath;
       }
@@ -171,7 +191,7 @@ function readIndexedAssetFile(
       try: () => parseIndexedAssetFile(content),
     });
 
-    const expectedIndexer = getRecoverTokensAssetFileIndexer(options.protocol);
+    const expectedIndexer = "streams";
     if (assetFile.indexer !== expectedIndexer) {
       return yield* Effect.fail(
         new ValidationError({
@@ -216,43 +236,23 @@ function toRecoverTokensProcessError(error: Error): ProcessError {
 }
 
 /**
- * Queries ERC-20 balances and Sablier aggregate amounts in lockstep batches.
+ * Queries ERC-20 balances and Sablier aggregate amounts for a single contract in lockstep batches.
  *
  * Running both multicalls over the same chunk preserves positional alignment between results while
  * keeping each request under typical provider limits for large asset lists. Batches stay sequential
  * so we don't stampede the RPC, but each pair of multicalls executes concurrently while viem owns
  * the explicit transport retry policy.
  */
-function queryRecoverTokenDeltas(opts: {
-  assetFile: ReturnType<typeof parseIndexedAssetFile>;
-  chain: CliRpcConfig["chain"];
-  contractAddress: `0x${string}`;
-  rpcUrls: readonly string[];
-}) {
+function queryOneContract(
+  client: ReturnType<typeof createPublicClient>,
+  assetFile: ReturnType<typeof parseIndexedAssetFile>,
+  contract: RecoverContract
+) {
   return Effect.gen(function* () {
-    const transports = opts.rpcUrls.map((url) =>
-      http(url, {
-        retryCount: VIEM_RPC_RETRY_COUNT,
-        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
-      })
-    );
-    const primaryTransport = transports[0];
+    const aggregateAbi = getAggregateAbi(contract.aggregateFunctionName);
+    const contractLabel = `${contract.contractName.replace("Sablier", "")} ${contract.version}`;
 
-    if (!primaryTransport) {
-      return yield* Effect.fail(
-        new ProcessError({
-          command: "recover-tokens",
-          message: "No RPC transports configured",
-        })
-      );
-    }
-
-    const client = createPublicClient({
-      chain: opts.chain,
-      transport: fallback([primaryTransport, ...transports.slice(1)], { rank: false }),
-    });
-
-    const batches = chunkArray(opts.assetFile.assets, MULTICALL_BATCH_SIZE);
+    const batches = chunkArray(assetFile.assets, MULTICALL_BATCH_SIZE);
     const batchResults = yield* Effect.forEach(batches, (batch) =>
       Effect.all(
         [
@@ -264,8 +264,8 @@ function queryRecoverTokenDeltas(opts: {
                 contracts: batch.map((asset) => ({
                   abi: ERC20_ABI,
                   address: asset.address as `0x${string}`,
-                  args: [opts.contractAddress],
-                  functionName: "balanceOf",
+                  args: [contract.address],
+                  functionName: "balanceOf" as const,
                 })),
               }),
           }),
@@ -275,10 +275,10 @@ function queryRecoverTokenDeltas(opts: {
               client.multicall({
                 allowFailure: true,
                 contracts: batch.map((asset) => ({
-                  abi: SABLIER_AGGREGATE_ABI,
-                  address: opts.contractAddress,
+                  abi: aggregateAbi,
+                  address: contract.address,
                   args: [asset.address as `0x${string}`],
-                  functionName: "aggregateAmount",
+                  functionName: contract.aggregateFunctionName,
                 })),
               }),
           }),
@@ -307,10 +307,48 @@ function queryRecoverTokenDeltas(opts: {
       try: () =>
         computeRecoverTokenRows({
           aggregateAmountResults,
-          assets: opts.assetFile.assets,
+          assets: assetFile.assets,
           balanceResults,
+          contractLabel,
         }),
     });
+  });
+}
+
+function queryRecoverTokenDeltas(opts: {
+  assetFile: ReturnType<typeof parseIndexedAssetFile>;
+  chain: CliRpcConfig["chain"];
+  contracts: RecoverContract[];
+  rpcUrls: readonly string[];
+}) {
+  return Effect.gen(function* () {
+    const transports = opts.rpcUrls.map((url) =>
+      http(url, {
+        retryCount: VIEM_RPC_RETRY_COUNT,
+        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
+      })
+    );
+    const primaryTransport = transports[0];
+
+    if (!primaryTransport) {
+      return yield* Effect.fail(
+        new ProcessError({
+          command: "recover-tokens",
+          message: "No RPC transports configured",
+        })
+      );
+    }
+
+    const client = createPublicClient({
+      chain: opts.chain,
+      transport: fallback([primaryTransport, ...transports.slice(1)], { rank: false }),
+    });
+
+    const perContractResults = yield* Effect.forEach(opts.contracts, (contract) =>
+      queryOneContract(client, opts.assetFile, contract)
+    );
+
+    return mergeRecoverTokenResults(perContractResults);
   });
 }
 
@@ -325,15 +363,9 @@ export const handler = (options: {
       Effect.map(DateTime.formatIso),
       Effect.map(getQueryAssetsDateSegment)
     );
-    const { chain, displayRpcUrls, rpcUrls } = yield* resolveRpcConfig(options.chainId);
-    const contract = yield* resolveSablierContract(options.protocol, options.chainId);
-    const sourcePath = yield* resolveSourcePath(
-      fs,
-      options.file,
-      options.protocol,
-      options.chainId,
-      dateSegment
-    );
+    const { chain, displayRpcUrls, rpcUrls } = yield* resolveCliRpcConfig(options.chainId);
+    const contracts = yield* resolveSablierContracts(options.protocol, options.chainId);
+    const sourcePath = yield* resolveSourcePath(fs, options.file, options.chainId, dateSegment);
     const assetFile = yield* readIndexedAssetFile(fs, sourcePath, {
       chainId: options.chainId,
       protocol: options.protocol,
@@ -350,8 +382,12 @@ export const handler = (options: {
     infoTable.push(
       [colors.value("Protocol"), colors.value(options.protocol)],
       [colors.value("Chain"), colors.value(`${chain.name} (${chain.id})`)],
-      [colors.value("Contract"), colors.value(getRecoverTokensContractName(options.protocol))],
-      [colors.value("Address"), colors.dim(contract.address)],
+      [
+        colors.value("Contracts"),
+        colors.dim(
+          contracts.map((c) => `${c.contractName} ${c.version} (${c.address})`).join("\n")
+        ),
+      ],
       [colors.value("Source"), colors.dim(wrapText(yield* getRelative(sourcePath), 68))],
       [colors.value("RPC"), colors.dim(displayRpcUrls.map((url) => wrapText(url, 68)).join("\n"))],
       [colors.value("Assets"), colors.value(assetFile.assets.length.toString())]
@@ -361,11 +397,11 @@ export const handler = (options: {
     yield* Console.log(infoTable.toString());
 
     const result = yield* withSpinner(
-      "Querying onchain balances...",
+      `Querying onchain balances across ${contracts.length} contract${contracts.length > 1 ? "s" : ""}...`,
       queryRecoverTokenDeltas({
         assetFile,
         chain,
-        contractAddress: contract.address as `0x${string}`,
+        contracts,
         rpcUrls,
       })
     );
@@ -378,6 +414,7 @@ export const handler = (options: {
     });
 
     summaryTable.push(
+      [colors.value("Contracts"), colors.value(contracts.length.toString())],
       [colors.value("Scanned"), colors.value(result.scannedCount.toString())],
       [colors.value("Skipped"), colors.value(result.skippedCount.toString())],
       [colors.value("Non-zero"), colors.value(result.nonZeroCount.toString())]
@@ -393,8 +430,8 @@ export const handler = (options: {
 
     yield* Console.log("");
     const resultsTable = createTable({
-      colWidths: [14, 44, 22, 22, 22],
-      head: ["Symbol", "Address", "Balance", "Aggregate", "Delta"],
+      colWidths: [14, 14, 42, 20, 20, 20],
+      head: ["Contract", "Symbol", "Address", "Balance", "Aggregate", "Delta"],
       theme: "yellow",
       wrapOnWordBoundary: false,
     });
@@ -403,6 +440,7 @@ export const handler = (options: {
       const deltaColor = row.delta > 0n ? colors.warning : colors.error;
 
       resultsTable.push([
+        colors.dim(row.contractLabel),
         row.symbol,
         colors.dim(row.address),
         formatTokenAmount(row.balance, row.decimals),

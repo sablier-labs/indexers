@@ -8,15 +8,35 @@ export type RecoverTokensProtocol = "flow" | "lockup";
 
 export type RecoverTokensContractName = "SablierFlow" | "SablierLockup";
 
+export type AggregateFunctionName = "aggregateAmount" | "aggregateBalance";
+
+export type RecoverContract = {
+  address: `0x${string}`;
+  aggregateFunctionName: AggregateFunctionName;
+  contractName: RecoverTokensContractName;
+  version: string;
+};
+
 export type RecoverTokenDeltaRow = IndexedAssetFile["assets"][number] & {
   aggregateAmount: bigint;
   balance: bigint;
+  contractLabel: string;
   delta: bigint;
 };
 
 const RECOVER_TOKENS_CONTRACT_NAMES: Record<RecoverTokensProtocol, RecoverTokensContractName> = {
   flow: "SablierFlow",
   lockup: "SablierLockup",
+};
+
+const RECOVER_VERSIONS: Record<RecoverTokensProtocol, ReadonlySet<string>> = {
+  flow: new Set(["v1.0", "v1.1", "v2.0", "v3.0"]),
+  lockup: new Set(["v3.0", "v4.0"]),
+};
+
+const LEGACY_AGGREGATE_VERSIONS: Record<RecoverTokensProtocol, ReadonlySet<string>> = {
+  flow: new Set(["v1.0", "v1.1"]),
+  lockup: new Set(),
 };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -57,7 +77,7 @@ function parseAssetMetadataString(value: unknown, field: string): string {
   return value;
 }
 
-function absBigInt(value: bigint): bigint {
+export function absBigInt(value: bigint): bigint {
   return value < 0n ? -value : value;
 }
 
@@ -70,24 +90,36 @@ const RECOVER_TOKEN_ROW_ADDRESS_ORDER = Order.mapInput(
   (row: RecoverTokenDeltaRow) => row.address
 );
 
+const RECOVER_TOKEN_ROW_CONTRACT_ORDER = Order.mapInput(
+  Order.string,
+  (row: RecoverTokenDeltaRow) => row.contractLabel
+);
+
+const RECOVER_TOKEN_ROW_ORDER = Arr.sortBy(
+  RECOVER_TOKEN_ROW_DELTA_ORDER,
+  RECOVER_TOKEN_ROW_ADDRESS_ORDER,
+  RECOVER_TOKEN_ROW_CONTRACT_ORDER
+);
+
 export function getRecoverTokensContractName(
   protocol: RecoverTokensProtocol
 ): RecoverTokensContractName {
   return RECOVER_TOKENS_CONTRACT_NAMES[protocol];
 }
 
-export function getRecoverTokensAssetFileIndexer(
-  _protocol: RecoverTokensProtocol
-): Extract<Indexer.IndexerKey, "streams"> {
-  return "streams";
+export function isRecoverVersion(protocol: RecoverTokensProtocol, version: string): boolean {
+  return RECOVER_VERSIONS[protocol].has(version);
 }
 
-export function getRecoverTokensDefaultFilePath(
+export function getAggregateFunctionName(
   protocol: RecoverTokensProtocol,
-  chainId: number,
-  dateSegment: string
-): string {
-  return getQueryAssetsFilePath(getRecoverTokensAssetFileIndexer(protocol), chainId, dateSegment);
+  version: string
+): AggregateFunctionName {
+  return LEGACY_AGGREGATE_VERSIONS[protocol].has(version) ? "aggregateBalance" : "aggregateAmount";
+}
+
+export function getRecoverTokensDefaultFilePath(chainId: number, dateSegment: string): string {
+  return getQueryAssetsFilePath("streams", chainId, dateSegment);
 }
 
 /**
@@ -156,6 +188,7 @@ export function computeRecoverTokenRows(opts: {
   aggregateAmountResults: readonly (bigint | null)[];
   assets: IndexedAssetFile["assets"];
   balanceResults: readonly (bigint | null)[];
+  contractLabel: string;
 }): {
   nonZeroCount: number;
   rows: RecoverTokenDeltaRow[];
@@ -190,14 +223,43 @@ export function computeRecoverTokenRows(opts: {
       ...asset,
       aggregateAmount,
       balance,
+      contractLabel: opts.contractLabel,
       delta,
     });
   }
 
   return {
     nonZeroCount: rows.length,
-    rows: Arr.sortBy(RECOVER_TOKEN_ROW_DELTA_ORDER, RECOVER_TOKEN_ROW_ADDRESS_ORDER)(rows),
+    rows: RECOVER_TOKEN_ROW_ORDER(rows),
     scannedCount: assets.length,
+    skippedCount,
+  };
+}
+
+type RecoverTokenResult = {
+  nonZeroCount: number;
+  rows: RecoverTokenDeltaRow[];
+  scannedCount: number;
+  skippedCount: number;
+};
+
+export function mergeRecoverTokenResults(
+  results: readonly RecoverTokenResult[]
+): RecoverTokenResult {
+  let scannedCount = 0;
+  let skippedCount = 0;
+  const allRows: RecoverTokenDeltaRow[] = [];
+
+  for (const result of results) {
+    scannedCount += result.scannedCount;
+    skippedCount += result.skippedCount;
+    allRows.push(...result.rows);
+  }
+
+  return {
+    nonZeroCount: allRows.length,
+    rows: RECOVER_TOKEN_ROW_ORDER(allRows),
+    scannedCount,
     skippedCount,
   };
 }
