@@ -1,6 +1,7 @@
 import { dirname } from "node:path";
 import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect, Option } from "effect";
+import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { createPublicClient, fallback, formatUnits, http, parseAbi } from "viem";
 import { colors, createTable, displayHeader } from "../../display.js";
@@ -476,4 +477,228 @@ export const handler = (options: {
 
     yield* Console.log("");
     yield* Console.log(colors.dim(`Saved → ${yield* getRelative(outputPath)}`));
+  });
+
+// ---------------------------------------------------------------------------
+// All-chains mode
+// ---------------------------------------------------------------------------
+
+type ChainOutcomeBase = { chainSlug: string; chainName: string; chainId: number };
+type ChainOutcome =
+  | (ChainOutcomeBase & { status: "success"; nonZeroCount: number; scannedCount: number })
+  | (ChainOutcomeBase & { status: "skipped"; reason: string })
+  | (ChainOutcomeBase & { status: "failed"; error: string });
+
+class ChainSkipped {
+  readonly _tag = "ChainSkipped";
+  readonly reason: string;
+  constructor(reason: string) {
+    this.reason = reason;
+  }
+}
+
+function processOneChain(options: {
+  chainId: number;
+  dateSegment: string;
+  epochMs: number;
+  generatedAt: string;
+  protocol: RecoverTokensProtocol;
+}) {
+  const { chainId, dateSegment, epochMs, generatedAt, protocol } = options;
+
+  const chain = sablier.chains.get(chainId);
+  if (!chain) {
+    return Effect.succeed<ChainOutcome>({
+      chainName: String(chainId),
+      chainSlug: String(chainId),
+      status: "skipped",
+      chainId,
+      reason: "Unknown chain",
+    });
+  }
+
+  const base: ChainOutcomeBase = { chainName: chain.name, chainSlug: chain.slug, chainId };
+
+  const execute = Effect.gen(function* () {
+    const contracts = yield* Effect.catchAll(resolveSablierContracts(protocol, chainId), () =>
+      Effect.fail(new ChainSkipped("No protocol deployments"))
+    );
+    const { chain: rpcChain, rpcUrls } = yield* Effect.catchAll(resolveCliRpcConfig(chainId), () =>
+      Effect.fail(new ChainSkipped("No RPC config"))
+    );
+
+    const fs = yield* FileSystem.FileSystem;
+    const sourcePath = yield* Effect.catchAll(
+      resolveSourcePath(fs, Option.none(), chainId, dateSegment),
+      () => Effect.fail(new ChainSkipped("No asset file"))
+    );
+
+    const assetFile = yield* readIndexedAssetFile(fs, sourcePath, { chainId });
+    const result = yield* queryRecoverTokenDeltas({
+      assetFile,
+      chain: rpcChain,
+      contracts,
+      rpcUrls,
+    });
+
+    const outputFile = buildRecoverTokenOutputFile({
+      chainId,
+      chainName: chain.name,
+      chainSlug: chain.slug,
+      contracts,
+      generatedAt,
+      protocol,
+      result,
+    });
+
+    const outputDir = paths.generated.recoverTokens.dir(dateSegment);
+    const outputPath = paths.generated.recoverTokens.file(
+      dateSegment,
+      epochMs,
+      protocol,
+      chain.slug
+    );
+
+    yield* fs
+      .makeDirectory(outputDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(outputDir, "write")));
+    yield* fs
+      .writeFileString(outputPath, `${JSON.stringify(outputFile, null, 2)}\n`)
+      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
+
+    return {
+      ...base,
+      nonZeroCount: result.nonZeroCount,
+      scannedCount: result.scannedCount,
+      status: "success" as const,
+    };
+  });
+
+  return Effect.catchAll(execute, (error): Effect.Effect<ChainOutcome> => {
+    if (error instanceof ChainSkipped) {
+      return Effect.succeed({ ...base, reason: error.reason, status: "skipped" });
+    }
+    return Effect.succeed({
+      ...base,
+      error: "message" in error ? error.message : String(error),
+      status: "failed",
+    });
+  });
+}
+
+export const handlerAll = (options: {
+  readonly chainId: number;
+  readonly file: Option.Option<string>;
+  readonly protocol: RecoverTokensProtocol;
+}) =>
+  Effect.gen(function* () {
+    if (Option.isSome(options.file)) {
+      return yield* Effect.fail(
+        new ValidationError({
+          field: "file",
+          message: "--file cannot be used with --all (asset files are resolved per chain)",
+        })
+      );
+    }
+
+    const now = yield* DateTime.now;
+    const generatedAt = DateTime.formatIso(now);
+    const dateSegment = getQueryAssetsDateSegment(generatedAt);
+    const epochMs = DateTime.toEpochMillis(now);
+    const chains = _.sortBy(sablier.chains.getAll(), (c) => c.slug);
+
+    yield* displayHeader("RECOVER TOKENS (ALL CHAINS)", "yellow");
+
+    const infoTable = createTable({
+      colWidths: [20, 70],
+      head: ["Property", "Value"],
+      theme: "yellow",
+    });
+
+    infoTable.push(
+      [colors.value("Protocol"), colors.value(options.protocol)],
+      [colors.value("Total Chains"), colors.value(chains.length.toString())]
+    );
+
+    yield* Console.log("");
+    yield* Console.log(infoTable.toString());
+    yield* Console.log("");
+
+    const outcomes: ChainOutcome[] = [];
+
+    for (const [index, chain] of chains.entries()) {
+      yield* Console.log(
+        colors.dim(`[${index + 1}/${chains.length}] ${chain.name} (${chain.id})...`)
+      );
+
+      const outcome = yield* processOneChain({
+        chainId: chain.id,
+        dateSegment,
+        epochMs,
+        generatedAt,
+        protocol: options.protocol,
+      });
+
+      outcomes.push(outcome);
+
+      switch (outcome.status) {
+        case "skipped":
+          yield* Console.log(colors.dim(`  → Skipped: ${outcome.reason}`));
+          break;
+        case "failed":
+          yield* Console.log(colors.error(`  → Failed: ${outcome.error}`));
+          break;
+        case "success":
+          yield* Console.log(
+            colors.success(
+              `  → Done: ${outcome.nonZeroCount} non-zero delta${outcome.nonZeroCount === 1 ? "" : "s"} from ${outcome.scannedCount} assets`
+            )
+          );
+          break;
+      }
+    }
+
+    // Aggregate summary
+    const successOutcomes = outcomes.filter(
+      (o): o is Extract<ChainOutcome, { status: "success" }> => o.status === "success"
+    );
+    const skippedCount = outcomes.filter((o) => o.status === "skipped").length;
+    const failedOutcomes = outcomes.filter(
+      (o): o is Extract<ChainOutcome, { status: "failed" }> => o.status === "failed"
+    );
+    const totalNonZero = successOutcomes.reduce((sum, o) => sum + o.nonZeroCount, 0);
+
+    yield* Console.log("");
+    const summaryTable = createTable({
+      colWidths: [20, 12],
+      head: ["Metric", "Value"],
+      theme: failedOutcomes.length > 0 ? "yellow" : "green",
+    });
+
+    summaryTable.push(
+      [colors.value("Processed"), colors.value(successOutcomes.length.toString())],
+      [colors.value("Skipped"), colors.value(skippedCount.toString())],
+      [colors.value("Failed"), colors.value(failedOutcomes.length.toString())],
+      [colors.value("Non-zero"), colors.value(totalNonZero.toString())]
+    );
+
+    yield* Console.log(summaryTable.toString());
+
+    if (failedOutcomes.length > 0) {
+      yield* Console.log("");
+      const failedTable = createTable({
+        colWidths: [30, 60],
+        head: ["Chain", "Error"],
+        theme: "yellow",
+      });
+
+      for (const outcome of failedOutcomes) {
+        failedTable.push([
+          colors.value(`${outcome.chainName} (${outcome.chainId})`),
+          colors.error(outcome.error),
+        ]);
+      }
+
+      yield* Console.log(failedTable.toString());
+    }
   });
