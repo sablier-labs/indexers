@@ -63,9 +63,7 @@ function formatTokenAmount(value: bigint, decimals: number): string {
     return `${sign}${integerPart}`;
   }
 
-  const compactFraction = trimmedFraction.slice(0, 2);
-  const suffix = trimmedFraction.length > 2 ? "…" : "";
-  return `${sign}${integerPart}.${compactFraction}${suffix}`;
+  return `${sign}${integerPart}.${trimmedFraction}`;
 }
 
 function resolveSablierContracts(protocol: RecoverTokensProtocol, chainId: number) {
@@ -430,10 +428,10 @@ export const handler = (options: {
 
     yield* Console.log("");
     const resultsTable = createTable({
-      colWidths: [14, 14, 42, 20, 20, 20],
-      head: ["Contract", "Symbol", "Address", "Balance", "Aggregate", "Delta"],
+      colWidths: [18, 10, 46, 22],
+      head: ["Contract", "Symbol", "Token Address", "Delta"],
       theme: "yellow",
-      wrapOnWordBoundary: false,
+      wordWrap: false,
     });
 
     for (const row of result.rows) {
@@ -443,8 +441,6 @@ export const handler = (options: {
         colors.dim(row.contractLabel),
         row.symbol,
         colors.dim(row.address),
-        formatTokenAmount(row.balance, row.decimals),
-        formatTokenAmount(row.aggregateAmount, row.decimals),
         deltaColor(formatTokenAmount(row.delta, row.decimals)),
       ]);
     }
