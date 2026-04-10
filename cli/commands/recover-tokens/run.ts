@@ -299,7 +299,7 @@ export const handlerAll = (options: {
     const generatedAt = DateTime.formatIso(now);
     const dateSegment = getQueryAssetsDateSegment(generatedAt);
     const epochMs = DateTime.toEpochMillis(now);
-    const chains = sablier.chains.getAll().toSorted((a, b) => a.slug.localeCompare(b.slug));
+    const chains = sablier.chains.getMainnets().toSorted((a, b) => a.slug.localeCompare(b.slug));
 
     yield* displayHeader("RECOVER TOKENS (ALL CHAINS)", "yellow");
 
