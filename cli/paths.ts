@@ -70,6 +70,15 @@ const paths = {
       indexerDir: (dateSegment: string, indexer: Indexer.IndexerKey): string =>
         join(ROOT_DIR, "cli", "generated", getQueryAssetsDirectoryName(dateSegment), indexer),
     },
+    recoverTokens: {
+      dir: (dateSegment: string): string =>
+        join(ROOT_DIR, "cli", "generated", "recover", `recover-${dateSegment}`),
+      file: (dateSegment: string, epochMs: number, protocol: string, chainSlug: string): string =>
+        join(
+          paths.generated.recoverTokens.dir(dateSegment),
+          `${protocol}-${chainSlug}-${epochMs}.json`
+        ),
+    },
   },
   graph: {
     manifest: (target: GraphTarget, chainId: number): string => {

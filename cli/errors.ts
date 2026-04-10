@@ -32,3 +32,12 @@ export class ValidationError extends Data.TaggedError("ValidationError")<{
   field: string;
   message: string;
 }> {}
+
+export function toFileOperationError(path: string, operation: FileOperationError["operation"]) {
+  return (error: unknown) =>
+    new FileOperationError({
+      message: error instanceof Error ? error.message : String(error),
+      operation,
+      path,
+    });
+}

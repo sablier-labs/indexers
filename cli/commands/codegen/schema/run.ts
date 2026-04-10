@@ -7,7 +7,7 @@ import { getMergedSchema } from "../../../../schema/index.js";
 import type { Indexer } from "../../../../src/index.js";
 import { AUTOGEN_COMMENT, GRAPH_TARGETS, VENDORS } from "../../../constants.js";
 import { colors, createTable, displayHeader } from "../../../display.js";
-import { ProcessError } from "../../../errors.js";
+import { ProcessError, toFileOperationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import paths from "../../../paths.js";
 
@@ -51,7 +51,9 @@ function generateSchema(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
     const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
     const outputPath = paths.schema(vendor, target);
 
-    yield* fs.writeFileString(outputPath, schema);
+    yield* fs
+      .writeFileString(outputPath, schema)
+      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
 
     yield* Console.log(
       `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(target)} target`
@@ -61,17 +63,15 @@ function generateSchema(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
   });
 }
 
-function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
+type SchemaResult = {
+  outputPath: string;
+  status: "generated" | "error";
+  target: string;
+  vendor: string;
+};
+
+function displaySchemaResults(results: SchemaResult[]) {
   return Effect.gen(function* () {
-    yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
-
-    // Analytics uses a manually maintained schema
-    const targets = GRAPH_TARGETS;
-    const results = yield* Effect.forEach(targets, (target) =>
-      generateSchemaWithResult(vendor, target)
-    );
-
-    // Display results table
     yield* Console.log("");
     const table = createTable({
       colWidths: [15, 15, 50, 15],
@@ -92,7 +92,6 @@ function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
 
     yield* Console.log(table.toString());
 
-    // Summary statistics
     const generated = results.filter((r) => r.status === "generated").length;
     const errors = results.filter((r) => r.status === "error").length;
     yield* Console.log("");
@@ -125,80 +124,33 @@ function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
   });
 }
 
+function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
+  return Effect.gen(function* () {
+    yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
+
+    // Analytics uses a manually maintained schema
+    const results = yield* Effect.forEach(GRAPH_TARGETS, (target) =>
+      generateSchemaWithResult(vendor, target)
+    );
+
+    yield* displaySchemaResults(results);
+  });
+}
+
 function generateAllVendorSchemas(indexerArg: Indexer.GraphTarget | "all") {
   return Effect.gen(function* () {
     yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
     // Build list of vendor/indexer combinations to process
     // Analytics uses a manually maintained schema
-    const graphTargets = GRAPH_TARGETS;
-    const combinations: Array<{ target: Indexer.GraphTarget; vendor: Indexer.Vendor }> = [];
-    for (const v of VENDORS) {
-      if (indexerArg === "all") {
-        for (const target of graphTargets) {
-          combinations.push({ target, vendor: v });
-        }
-      } else {
-        combinations.push({ target: indexerArg, vendor: v });
-      }
-    }
+    const targets = indexerArg === "all" ? GRAPH_TARGETS : [indexerArg];
+    const combinations = VENDORS.flatMap((vendor) => targets.map((target) => ({ target, vendor })));
 
-    // Generate schemas with Effect.forEach
     const results = yield* Effect.forEach(combinations, ({ target, vendor }) =>
       generateSchemaWithResult(vendor, target)
     );
 
-    // Display results table
-    yield* Console.log("");
-    const table = createTable({
-      colWidths: [15, 15, 50, 15],
-      head: ["Vendor", "Indexer", "Output Path", "Status"],
-      theme: "cyan",
-    });
-
-    for (const result of results) {
-      const statusText =
-        result.status === "generated" ? colors.success("✅ Generated") : colors.error("❌ Error");
-      table.push([
-        colors.value(_.capitalize(result.vendor)),
-        colors.value(_.capitalize(result.target)),
-        colors.dim(result.outputPath),
-        statusText,
-      ]);
-    }
-
-    yield* Console.log(table.toString());
-
-    // Summary statistics
-    const generated = results.filter((r) => r.status === "generated").length;
-    const errors = results.filter((r) => r.status === "error").length;
-    yield* Console.log("");
-    const summaryTable = createTable({
-      colWidths: [20, 10],
-      head: ["Status", "Count"],
-      theme: "cyan",
-    });
-
-    summaryTable.push(
-      [colors.success("Generated"), colors.value(generated.toString())],
-      [colors.error("Errors"), colors.value(errors.toString())],
-      [chalk.cyan.bold("Total Schemas"), chalk.white.bold(results.length.toString())]
-    );
-
-    yield* Console.log(summaryTable.toString());
-
-    yield* Console.log("");
-    if (errors === 0) {
-      yield* Console.log(colors.success(`✅ Successfully generated ${generated} GraphQL schemas`));
-    } else {
-      yield* Console.log(colors.error(`❌ Generation completed with ${errors} errors`));
-      return yield* Effect.fail(
-        new ProcessError({
-          command: "codegen schema",
-          message: `Schema generation completed with ${errors} errors`,
-        })
-      );
-    }
+    yield* displaySchemaResults(results);
   });
 }
 

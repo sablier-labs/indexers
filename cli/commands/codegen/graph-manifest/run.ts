@@ -7,6 +7,7 @@ import type { Indexer } from "../../../../src/index.js";
 import { graphChains } from "../../../../src/indexers/graph.js";
 import { GRAPH_TARGETS } from "../../../constants.js";
 import { colors, createTable, displayHeader } from "../../../display.js";
+import { toFileOperationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import paths from "../../../paths.js";
 import { dumpYAML } from "../helpers.js";
@@ -29,7 +30,9 @@ function writeManifestToFile(target: Indexer.GraphTarget, chainId: number) {
     const manifest = yield* createGraphManifest(target, chainId);
     const yaml = dumpYAML(manifest);
     const manifestPath = paths.graph.manifest(target, chainId);
-    yield* fs.writeFileString(manifestPath, yaml);
+    yield* fs
+      .writeFileString(manifestPath, yaml)
+      .pipe(Effect.mapError(toFileOperationError(manifestPath, "write")));
 
     return yield* helpers.getRelative(manifestPath);
   });
@@ -40,7 +43,9 @@ function generateManifest(target: Indexer.GraphTarget, chainArg: string) {
     const fs = yield* FileSystem.FileSystem;
     const chain = yield* helpers.getChain(chainArg);
     const manifestsDir = paths.graph.manifests(target);
-    yield* fs.makeDirectory(manifestsDir, { recursive: true });
+    yield* fs
+      .makeDirectory(manifestsDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(manifestsDir, "write")));
 
     const manifestPath = yield* writeManifestToFile(target, chain.id);
     yield* Console.log(`✅ Generated subgraph manifest for ${chainArg}`);
@@ -55,10 +60,16 @@ function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog
     const manifestsDir = paths.graph.manifests(target);
 
     if (yield* fs.exists(manifestsDir)) {
-      yield* fs.remove(manifestsDir, { recursive: true });
+      yield* fs
+        .remove(manifestsDir, { recursive: true })
+        .pipe(Effect.mapError(toFileOperationError(manifestsDir, "delete")));
     }
-    yield* fs.makeDirectory(manifestsDir, { recursive: true });
-    yield* fs.writeFileString(`${manifestsDir}/.gitkeep`, "");
+    yield* fs
+      .makeDirectory(manifestsDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(manifestsDir, "write")));
+    yield* fs
+      .writeFileString(`${manifestsDir}/.gitkeep`, "")
+      .pipe(Effect.mapError(toFileOperationError(`${manifestsDir}/.gitkeep`, "write")));
 
     const results: ManifestResult[] = [];
 

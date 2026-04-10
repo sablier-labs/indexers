@@ -1,7 +1,8 @@
 import { dirname } from "node:path";
 import { FileSystem } from "@effect/platform";
 import { Context, DateTime, Effect, Layer } from "effect";
-import { FileOperationError } from "../errors.js";
+import type { FileOperationError } from "../errors.js";
+import { toFileOperationError } from "../errors.js";
 
 export type CliFileLoggerInstance = {
   readonly log: (message: string) => Effect.Effect<void, FileOperationError>;
@@ -19,15 +20,6 @@ export class CliFileLogger extends Context.Tag("CliFileLogger")<
     readonly make: (logFilePath: string) => Effect.Effect<CliFileLoggerInstance>;
   }
 >() {}
-
-function toFileOperationError(path: string, operation: FileOperationError["operation"]) {
-  return (error: unknown) =>
-    new FileOperationError({
-      message: error instanceof Error ? error.message : String(error),
-      operation,
-      path,
-    });
-}
 
 export const CliFileLoggerLive = Layer.effect(
   CliFileLogger,

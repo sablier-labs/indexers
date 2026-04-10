@@ -4,8 +4,14 @@ import { Console, DateTime, Effect, Option } from "effect";
 import { sablier } from "sablier";
 import { createPublicClient, fallback, formatUnits, http, parseAbi } from "viem";
 import { colors, createTable, displayHeader } from "../../display.js";
-import { FileOperationError, ProcessError, ValidationError } from "../../errors.js";
+import {
+  FileOperationError,
+  ProcessError,
+  toFileOperationError,
+  ValidationError,
+} from "../../errors.js";
 import { getRelative, resolveFromCliCwd, wrapText } from "../../helpers.js";
+import paths, { getQueryAssetsDirectoryName } from "../../paths.js";
 import type { CliRpcConfig } from "../../rpc.js";
 import { resolveCliRpcConfig } from "../../rpc.js";
 import { withSpinner } from "../../spinner.js";
@@ -13,6 +19,7 @@ import { getQueryAssetsDateSegment } from "../query/assets.file.js";
 import type { AggregateFunctionName, RecoverContract, RecoverTokensProtocol } from "./helpers.js";
 import {
   absBigInt,
+  buildRecoverTokenOutputFile,
   computeRecoverTokenRows,
   getAggregateFunctionName,
   getRecoverTokensContractName,
@@ -100,8 +107,6 @@ function resolveSablierContracts(protocol: RecoverTokensProtocol, chainId: numbe
   return Effect.succeed(contracts);
 }
 
-const ASSETS_DIR_PREFIX = "assets-";
-
 function resolveSourcePath(
   fs: FileSystem.FileSystem,
   file: Option.Option<string>,
@@ -119,19 +124,20 @@ function resolveSourcePath(
     }
 
     // Fall back to the most recent generated asset file
-    const generatedDir = dirname(dirname(dirname(todayPath)));
+    const generatedDir = dirname(paths.generated.queryAssets.dir(dateSegment));
     if (!(yield* fs.exists(generatedDir))) {
       return yield* failMissingAssetFile(chainId, todayPath);
     }
 
     const entries = yield* fs.readDirectory(generatedDir);
+    const assetDirPrefix = getQueryAssetsDirectoryName("");
     const dateDirs = entries
-      .filter((entry) => entry.startsWith(ASSETS_DIR_PREFIX))
+      .filter((entry) => entry.startsWith(assetDirPrefix))
       .sort()
       .reverse();
 
     for (const dir of dateDirs) {
-      const candidateDate = dir.slice(ASSETS_DIR_PREFIX.length);
+      const candidateDate = dir.slice(assetDirPrefix.length);
       const candidatePath = getRecoverTokensDefaultFilePath(chainId, candidateDate);
       if (yield* fs.exists(candidatePath)) {
         return candidatePath;
@@ -155,7 +161,7 @@ function failMissingAssetFile(chainId: number, searchedPath: string) {
 function readIndexedAssetFile(
   fs: FileSystem.FileSystem,
   filePath: string,
-  options: { chainId: number; protocol: RecoverTokensProtocol }
+  options: { chainId: number }
 ) {
   return Effect.gen(function* () {
     const exists = yield* fs.exists(filePath);
@@ -189,12 +195,11 @@ function readIndexedAssetFile(
       try: () => parseIndexedAssetFile(content),
     });
 
-    const expectedIndexer = "streams";
-    if (assetFile.indexer !== expectedIndexer) {
+    if (assetFile.indexer !== "streams") {
       return yield* Effect.fail(
         new ValidationError({
           field: "file",
-          message: `Asset file indexer ${assetFile.indexer} does not match --protocol ${options.protocol}. Expected ${expectedIndexer}`,
+          message: `Asset file indexer "${assetFile.indexer}" does not match expected indexer "streams"`,
         })
       );
     }
@@ -320,15 +325,7 @@ function queryRecoverTokenDeltas(opts: {
   rpcUrls: readonly string[];
 }) {
   return Effect.gen(function* () {
-    const transports = opts.rpcUrls.map((url) =>
-      http(url, {
-        retryCount: VIEM_RPC_RETRY_COUNT,
-        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
-      })
-    );
-    const primaryTransport = transports[0];
-
-    if (!primaryTransport) {
+    if (opts.rpcUrls.length === 0) {
       return yield* Effect.fail(
         new ProcessError({
           command: "recover-tokens",
@@ -337,9 +334,16 @@ function queryRecoverTokenDeltas(opts: {
       );
     }
 
+    const transports = opts.rpcUrls.map((url) =>
+      http(url, {
+        retryCount: VIEM_RPC_RETRY_COUNT,
+        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
+      })
+    );
+
     const client = createPublicClient({
       chain: opts.chain,
-      transport: fallback([primaryTransport, ...transports.slice(1)], { rank: false }),
+      transport: fallback(transports, { rank: false }),
     });
 
     const perContractResults = yield* Effect.forEach(opts.contracts, (contract) =>
@@ -357,16 +361,15 @@ export const handler = (options: {
 }) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const dateSegment = yield* DateTime.now.pipe(
-      Effect.map(DateTime.formatIso),
-      Effect.map(getQueryAssetsDateSegment)
-    );
+    const now = yield* DateTime.now;
+    const generatedAt = DateTime.formatIso(now);
+    const dateSegment = getQueryAssetsDateSegment(generatedAt);
+    const epochMs = DateTime.toEpochMillis(now);
     const { chain, displayRpcUrls, rpcUrls } = yield* resolveCliRpcConfig(options.chainId);
     const contracts = yield* resolveSablierContracts(options.protocol, options.chainId);
     const sourcePath = yield* resolveSourcePath(fs, options.file, options.chainId, dateSegment);
     const assetFile = yield* readIndexedAssetFile(fs, sourcePath, {
       chainId: options.chainId,
-      protocol: options.protocol,
     });
 
     yield* displayHeader("🪙 RECOVER TOKENS", "yellow");
@@ -423,27 +426,54 @@ export const handler = (options: {
     if (result.rows.length === 0) {
       yield* Console.log("");
       yield* Console.log(colors.success("No recoverable token deltas found."));
-      return;
+    } else {
+      yield* Console.log("");
+      const resultsTable = createTable({
+        colWidths: [18, 10, 46, 22],
+        head: ["Contract", "Symbol", "Token Address", "Delta"],
+        theme: "yellow",
+        wordWrap: false,
+      });
+
+      for (const row of result.rows) {
+        const deltaColor = row.delta > 0n ? colors.warning : colors.error;
+
+        resultsTable.push([
+          colors.dim(row.contractLabel),
+          row.symbol,
+          colors.dim(row.address),
+          deltaColor(formatTokenAmount(row.delta, row.decimals)),
+        ]);
+      }
+
+      yield* Console.log(resultsTable.toString());
     }
 
-    yield* Console.log("");
-    const resultsTable = createTable({
-      colWidths: [18, 10, 46, 22],
-      head: ["Contract", "Symbol", "Token Address", "Delta"],
-      theme: "yellow",
-      wordWrap: false,
+    const outputFile = buildRecoverTokenOutputFile({
+      chainId: options.chainId,
+      chainName: chain.name,
+      chainSlug: chain.slug,
+      contracts,
+      generatedAt,
+      protocol: options.protocol,
+      result,
     });
 
-    for (const row of result.rows) {
-      const deltaColor = row.delta > 0n ? colors.warning : colors.error;
+    const outputDir = paths.generated.recoverTokens.dir(dateSegment);
+    const outputPath = paths.generated.recoverTokens.file(
+      dateSegment,
+      epochMs,
+      options.protocol,
+      chain.slug
+    );
 
-      resultsTable.push([
-        colors.dim(row.contractLabel),
-        row.symbol,
-        colors.dim(row.address),
-        deltaColor(formatTokenAmount(row.delta, row.decimals)),
-      ]);
-    }
+    yield* fs
+      .makeDirectory(outputDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(outputDir, "write")));
+    yield* fs
+      .writeFileString(outputPath, `${JSON.stringify(outputFile, null, 2)}\n`)
+      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
 
-    yield* Console.log(resultsTable.toString());
+    yield* Console.log("");
+    yield* Console.log(colors.dim(`Saved → ${yield* getRelative(outputPath)}`));
   });

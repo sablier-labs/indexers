@@ -3,6 +3,7 @@ import { Console, DateTime, Effect } from "effect";
 import { getEnvioDeployment } from "../../../../src/indexers/envio-deployments.js";
 import type { Indexer } from "../../../../src/types.js";
 import { colors, createTable, displayHeader } from "../../../display.js";
+import { toFileOperationError } from "../../../errors.js";
 import { getRelative, wrapText } from "../../../helpers.js";
 import paths from "../../../paths.js";
 import { withSpinner } from "../../../spinner.js";
@@ -51,13 +52,17 @@ export const handler = (options: { readonly indexer: Indexer.IndexerKey }) =>
 
     const files = buildAssetFiles(options.indexer, assets, generatedAt);
     const outputDir = paths.generated.queryAssets.indexerDir(dateSegment, options.indexer);
-    yield* fs.makeDirectory(outputDir, { recursive: true });
+    yield* fs
+      .makeDirectory(outputDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(outputDir, "write")));
     const existingEntries = yield* fs.readDirectory(outputDir);
 
     yield* Effect.forEach(files, (file) => {
       const outputPath = getQueryAssetsFilePath(options.indexer, file.chainId, dateSegment);
       const content = `${JSON.stringify(file, null, 2)}\n`;
-      return fs.writeFileString(outputPath, content);
+      return fs
+        .writeFileString(outputPath, content)
+        .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
     });
 
     const staleOutputPaths = getStaleQueryAssetFilePaths(
@@ -66,7 +71,9 @@ export const handler = (options: { readonly indexer: Indexer.IndexerKey }) =>
       files,
       dateSegment
     );
-    yield* Effect.forEach(staleOutputPaths, (outputPath) => fs.remove(outputPath));
+    yield* Effect.forEach(staleOutputPaths, (outputPath) =>
+      fs.remove(outputPath).pipe(Effect.mapError(toFileOperationError(outputPath, "delete")))
+    );
 
     yield* Console.log("");
     const resultsTable = createTable({

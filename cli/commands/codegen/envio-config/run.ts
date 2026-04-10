@@ -5,7 +5,7 @@ import * as _ from "lodash-es";
 import type { Indexer } from "../../../../src/index.js";
 import { TARGETS } from "../../../constants.js";
 import { colors, createTable, displayHeader } from "../../../display.js";
-import { ProcessError } from "../../../errors.js";
+import { ProcessError, toFileOperationError } from "../../../errors.js";
 import * as helpers from "../../../helpers.js";
 import paths from "../../../paths.js";
 import { dumpYAML } from "../helpers.js";
@@ -17,7 +17,9 @@ function generateConfig(target: Indexer.Target) {
     const config = createEnvioConfig(target);
     const yaml = dumpYAML(config);
     const configPath = paths.envio.config(target);
-    yield* fs.writeFileString(configPath, yaml);
+    yield* fs
+      .writeFileString(configPath, yaml)
+      .pipe(Effect.mapError(toFileOperationError(configPath, "write")));
 
     yield* Console.log(`✅ Generated the Envio config for target ${_.capitalize(target)}`);
     yield* Console.log(`📁 Config path: ${yield* helpers.getRelative(configPath)}`);

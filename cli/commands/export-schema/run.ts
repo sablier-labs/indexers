@@ -6,7 +6,7 @@ import * as _ from "lodash-es";
 import { getMergedSchema } from "../../../schema/index.js";
 import { GRAPH_TARGETS } from "../../constants.js";
 import { colors, createTable, displayHeader } from "../../display.js";
-import { ProcessError } from "../../errors.js";
+import { ProcessError, toFileOperationError } from "../../errors.js";
 import { getRelative } from "../../helpers.js";
 import paths from "../../paths.js";
 
@@ -24,7 +24,9 @@ export const handler = () =>
 
     // Ensure the export directory exists
     const exportDir = paths.exports.schemas();
-    yield* fs.makeDirectory(exportDir, { recursive: true });
+    yield* fs
+      .makeDirectory(exportDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(exportDir, "write")));
 
     const results: ExportResult[] = [];
 

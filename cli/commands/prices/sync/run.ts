@@ -3,17 +3,10 @@ import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { colors, createTable, displayHeader } from "../../../display.js";
-import { ProcessError } from "../../../errors.js";
+import { ProcessError, toFileOperationError } from "../../../errors.js";
 import type { PriceDataFile } from "../../../price-data.js";
 import { getRequiredPriceDataFiles } from "../../../price-data.js";
 import { CliEnv } from "../../../services/env.js";
-
-/**
- * Get list of required TSV files based on Sablier chain data and forex rates.
- */
-function getRequiredFiles(): PriceDataFile[] {
-  return getRequiredPriceDataFiles();
-}
 
 function getPriceDataPaths(cwd: string) {
   return {
@@ -38,7 +31,9 @@ export const handler = () =>
     yield* displayHeader("🔄 SYNCING PRICE DATA", "cyan");
 
     // Ensure cache directory exists
-    yield* fs.makeDirectory(cacheDir, { recursive: true });
+    yield* fs
+      .makeDirectory(cacheDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(cacheDir, "write")));
 
     // Remove existing TSV files
     const entries = yield* fs.readDirectory(cacheDir);
@@ -50,12 +45,13 @@ export const handler = () =>
         colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing TSV files from cache...`)
       );
       for (const file of existingTsvFiles) {
-        yield* fs.remove(path.join(cacheDir, file));
+        const filePath = path.join(cacheDir, file);
+        yield* fs.remove(filePath).pipe(Effect.mapError(toFileOperationError(filePath, "delete")));
       }
     }
 
     // Copy required files
-    const requiredFiles = getRequiredFiles();
+    const requiredFiles = getRequiredPriceDataFiles();
     const results: SyncResult[] = [];
 
     for (const { name, sourceDir } of requiredFiles) {

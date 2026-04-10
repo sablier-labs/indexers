@@ -236,12 +236,70 @@ export function computeRecoverTokenRows(opts: {
   };
 }
 
-type RecoverTokenResult = {
+export type RecoverTokenResult = {
   nonZeroCount: number;
   rows: RecoverTokenDeltaRow[];
   scannedCount: number;
   skippedCount: number;
 };
+
+export type RecoverTokenOutputFile = {
+  chainId: number;
+  chainName: string;
+  chainSlug: string;
+  contracts: Array<{ address: string; contractName: string; version: string }>;
+  generatedAt: string;
+  nonZeroCount: number;
+  protocol: RecoverTokensProtocol;
+  rows: Array<{
+    address: string;
+    aggregateAmount: string;
+    balance: string;
+    contractLabel: string;
+    decimals: number;
+    delta: string;
+    name: string;
+    symbol: string;
+  }>;
+  scannedCount: number;
+  skippedCount: number;
+};
+
+export function buildRecoverTokenOutputFile(opts: {
+  chainId: number;
+  chainName: string;
+  chainSlug: string;
+  contracts: RecoverContract[];
+  generatedAt: string;
+  protocol: RecoverTokensProtocol;
+  result: RecoverTokenResult;
+}): RecoverTokenOutputFile {
+  return {
+    chainId: opts.chainId,
+    chainName: opts.chainName,
+    chainSlug: opts.chainSlug,
+    contracts: opts.contracts.map((c) => ({
+      address: c.address,
+      contractName: c.contractName,
+      version: c.version,
+    })),
+    generatedAt: opts.generatedAt,
+    nonZeroCount: opts.result.nonZeroCount,
+    protocol: opts.protocol,
+    rows: opts.result.rows.map((row) => ({
+      address: row.address,
+      aggregateAmount: row.aggregateAmount.toString(),
+      balance: row.balance.toString(),
+      contractLabel: row.contractLabel,
+      decimals: row.decimals,
+      delta: row.delta.toString(),
+      name: row.name,
+      symbol: row.symbol,
+    })),
+    scannedCount: opts.result.scannedCount,
+    skippedCount: opts.result.skippedCount,
+  };
+}
 
 export function mergeRecoverTokenResults(
   results: readonly RecoverTokenResult[]
