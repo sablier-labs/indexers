@@ -290,7 +290,7 @@ export const handlerAll = (options: {
       return yield* Effect.fail(
         new ValidationError({
           field: "file",
-          message: "--file cannot be used with --all (asset files are resolved per chain)",
+          message: "--file cannot be used with --all-chains (asset files are resolved per chain)",
         })
       );
     }
@@ -342,13 +342,19 @@ export const handlerAll = (options: {
         case "failed":
           yield* Console.log(colors.error(`  → Failed: ${outcome.error}`));
           break;
-        case "success":
+        case "success": {
+          const doneColor = outcome.nonZeroCount === 0 ? colors.warning : colors.success;
           yield* Console.log(
-            colors.success(
+            doneColor(
               `  → Done: ${outcome.nonZeroCount} non-zero delta${outcome.nonZeroCount === 1 ? "" : "s"} from ${outcome.scannedCount} assets`
             )
           );
           break;
+        }
+      }
+
+      if (index < chains.length - 1) {
+        yield* Console.log("");
       }
     }
 

@@ -2,7 +2,7 @@ import { Command, Options } from "@effect/cli";
 import { Console, Effect } from "effect";
 import { lazyHandler } from "../../utils/lazy-command.js";
 
-const allOption = Options.boolean("all").pipe(
+const allChainsOption = Options.boolean("all-chains").pipe(
   Options.withAlias("a"),
   Options.withDefault(false),
   Options.withDescription("Run for all deployed chains sequentially (ignores --chain-id)")
@@ -27,11 +27,16 @@ const protocolOption = Options.choice("protocol", ["flow", "lockup"] as const).p
 
 export const recoverTokensCommand = Command.make(
   "recover-tokens",
-  { all: allOption, chainId: chainIdOption, file: fileOption, protocol: protocolOption },
+  {
+    allChains: allChainsOption,
+    chainId: chainIdOption,
+    file: fileOption,
+    protocol: protocolOption,
+  },
   (args) =>
     lazyHandler(
       () => import("./run.js"),
-      (m) => (args.all ? m.handlerAll(args) : m.handler(args))
+      (m) => (args.allChains ? m.handlerAll(args) : m.handler(args))
     ).pipe(
       Effect.catchAll((error) =>
         Console.error(error instanceof Error ? error.message : String(error)).pipe(
