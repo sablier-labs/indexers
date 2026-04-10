@@ -1,60 +1,61 @@
-import { dirname } from "node:path";
 import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect, Option } from "effect";
-import * as _ from "lodash-es";
 import { sablier } from "sablier";
-import { createPublicClient, fallback, formatUnits, http, parseAbi } from "viem";
+import { formatUnits } from "viem";
 import { colors, createTable, displayHeader } from "../../display.js";
-import {
-  FileOperationError,
-  ProcessError,
-  toFileOperationError,
-  ValidationError,
-} from "../../errors.js";
-import { getRelative, resolveFromCliCwd, wrapText } from "../../helpers.js";
-import paths, { getQueryAssetsDirectoryName } from "../../paths.js";
-import type { CliRpcConfig } from "../../rpc.js";
+import { toFileOperationError, ValidationError } from "../../errors.js";
+import { getRelative, wrapText } from "../../helpers.js";
+import paths from "../../paths.js";
 import { resolveCliRpcConfig } from "../../rpc.js";
 import { withSpinner } from "../../spinner.js";
 import { getQueryAssetsDateSegment } from "../query/assets.file.js";
-import type { AggregateFunctionName, RecoverContract, RecoverTokensProtocol } from "./helpers.js";
-import {
-  absBigInt,
-  buildRecoverTokenOutputFile,
-  computeRecoverTokenRows,
-  getAggregateFunctionName,
-  getRecoverTokensContractName,
-  getRecoverTokensDefaultFilePath,
-  isRecoverVersion,
-  mergeRecoverTokenResults,
-  parseIndexedAssetFile,
-} from "./helpers.js";
+import type { RecoverTokensProtocol } from "./helpers.js";
+import { absBigInt, buildRecoverTokenOutputFile } from "./helpers.js";
+import { queryRecoverTokenDeltas } from "./queries.js";
+import { readIndexedAssetFile, resolveSablierContracts, resolveSourcePath } from "./resolve.js";
 
-const ERC20_ABI = parseAbi(["function balanceOf(address account) view returns (uint256)"]);
-// Lockup v3.0+, Flow v2.0+
-const SABLIER_AGGREGATE_AMOUNT_ABI = parseAbi([
-  "function aggregateAmount(address token) view returns (uint256)",
-]);
-// Flow v1.0–v1.1 (legacy name, same semantics)
-const SABLIER_AGGREGATE_BALANCE_ABI = parseAbi([
-  "function aggregateBalance(address token) view returns (uint256)",
-]);
-const MULTICALL_BATCH_SIZE = 100;
 const TRAILING_ZEROES_REGEX = /0+$/;
-const VIEM_RPC_RETRY_COUNT = 3;
-const VIEM_RPC_RETRY_DELAY_MS = 100;
 
-function getAggregateAbi(functionName: AggregateFunctionName) {
-  return functionName === "aggregateBalance"
-    ? SABLIER_AGGREGATE_BALANCE_ABI
-    : SABLIER_AGGREGATE_AMOUNT_ABI;
+function writeOutputFile(
+  fs: FileSystem.FileSystem,
+  opts: {
+    chainId: number;
+    chainName: string;
+    chainSlug: string;
+    contracts: Parameters<typeof buildRecoverTokenOutputFile>[0]["contracts"];
+    dateSegment: string;
+    epochMs: number;
+    generatedAt: string;
+    protocol: RecoverTokensProtocol;
+    result: Parameters<typeof buildRecoverTokenOutputFile>[0]["result"];
+  }
+) {
+  return Effect.gen(function* () {
+    const outputFile = buildRecoverTokenOutputFile(opts);
+    const outputDir = paths.generated.recoverTokens.dir(opts.dateSegment);
+    const outputPath = paths.generated.recoverTokens.file(
+      opts.dateSegment,
+      opts.epochMs,
+      opts.protocol,
+      opts.chainSlug
+    );
+
+    yield* fs
+      .makeDirectory(outputDir, { recursive: true })
+      .pipe(Effect.mapError(toFileOperationError(outputDir, "write")));
+    yield* fs
+      .writeFileString(outputPath, `${JSON.stringify(outputFile, null, 2)}\n`)
+      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
+
+    return outputPath;
+  });
 }
 
 /**
  * Compacts token amounts for terminal tables without losing sign information.
  *
- * The value is truncated to two fractional digits after trimming trailing zeroes so
- * high-decimal assets stay readable in a fixed-width layout.
+ * Trailing zeroes are stripped from the fractional part so high-decimal assets
+ * stay readable in a fixed-width layout.
  */
 function formatTokenAmount(value: bigint, decimals: number): string {
   const sign = value < 0n ? "-" : "";
@@ -72,287 +73,6 @@ function formatTokenAmount(value: bigint, decimals: number): string {
   }
 
   return `${sign}${integerPart}.${trimmedFraction}`;
-}
-
-function resolveSablierContracts(protocol: RecoverTokensProtocol, chainId: number) {
-  const contractName = getRecoverTokensContractName(protocol);
-  const contracts: RecoverContract[] = [];
-
-  for (const release of sablier.releases.getAll({ protocol })) {
-    if (!isRecoverVersion(protocol, release.version)) {
-      continue;
-    }
-
-    const contract = sablier.contracts.get({ chainId, contractName, release });
-    if (!contract) {
-      continue;
-    }
-
-    contracts.push({
-      address: contract.address as `0x${string}`,
-      aggregateFunctionName: getAggregateFunctionName(protocol, release.version),
-      contractName,
-      version: release.version,
-    });
-  }
-
-  if (contracts.length === 0) {
-    return Effect.fail(
-      new ValidationError({
-        field: "protocol",
-        message: `No ${contractName} deployments with recover support found for chain ${chainId}`,
-      })
-    );
-  }
-
-  return Effect.succeed(contracts);
-}
-
-function resolveSourcePath(
-  fs: FileSystem.FileSystem,
-  file: Option.Option<string>,
-  chainId: number,
-  dateSegment: string
-) {
-  if (Option.isSome(file)) {
-    return resolveFromCliCwd(file.value);
-  }
-
-  return Effect.gen(function* () {
-    const todayPath = getRecoverTokensDefaultFilePath(chainId, dateSegment);
-    if (yield* fs.exists(todayPath)) {
-      return todayPath;
-    }
-
-    // Fall back to the most recent generated asset file
-    const generatedDir = dirname(paths.generated.queryAssets.dir(dateSegment));
-    if (!(yield* fs.exists(generatedDir))) {
-      return yield* failMissingAssetFile(chainId, todayPath);
-    }
-
-    const entries = yield* fs.readDirectory(generatedDir);
-    const assetDirPrefix = getQueryAssetsDirectoryName("");
-    const dateDirs = entries
-      .filter((entry) => entry.startsWith(assetDirPrefix))
-      .sort()
-      .reverse();
-
-    for (const dir of dateDirs) {
-      const candidateDate = dir.slice(assetDirPrefix.length);
-      const candidatePath = getRecoverTokensDefaultFilePath(chainId, candidateDate);
-      if (yield* fs.exists(candidatePath)) {
-        return candidatePath;
-      }
-    }
-
-    return yield* failMissingAssetFile(chainId, todayPath);
-  });
-}
-
-function failMissingAssetFile(chainId: number, searchedPath: string) {
-  return Effect.fail(
-    new FileOperationError({
-      message: `No asset file found for chain ${chainId}. Run 'just query::assets --indexer streams' to generate it`,
-      operation: "read",
-      path: searchedPath,
-    })
-  );
-}
-
-function readIndexedAssetFile(
-  fs: FileSystem.FileSystem,
-  filePath: string,
-  options: { chainId: number }
-) {
-  return Effect.gen(function* () {
-    const exists = yield* fs.exists(filePath);
-    if (!exists) {
-      return yield* Effect.fail(
-        new FileOperationError({
-          message: `Asset file does not exist: ${filePath}`,
-          operation: "read",
-          path: filePath,
-        })
-      );
-    }
-
-    const content = yield* fs.readFileString(filePath).pipe(
-      Effect.mapError(
-        (error) =>
-          new FileOperationError({
-            message: error instanceof Error ? error.message : String(error),
-            operation: "read",
-            path: filePath,
-          })
-      )
-    );
-
-    const assetFile = yield* Effect.try({
-      catch: (error) =>
-        new ValidationError({
-          field: "file",
-          message: error instanceof Error ? error.message : "Invalid asset file",
-        }),
-      try: () => parseIndexedAssetFile(content),
-    });
-
-    if (assetFile.indexer !== "streams") {
-      return yield* Effect.fail(
-        new ValidationError({
-          field: "file",
-          message: `Asset file indexer "${assetFile.indexer}" does not match expected indexer "streams"`,
-        })
-      );
-    }
-
-    if (assetFile.chainId !== options.chainId) {
-      return yield* Effect.fail(
-        new ValidationError({
-          field: "file",
-          message: `Asset file chain ID ${assetFile.chainId} does not match --chain-id ${options.chainId}`,
-        })
-      );
-    }
-
-    return assetFile;
-  });
-}
-
-function chunkArray<T>(values: readonly T[], chunkSize: number): T[][] {
-  const chunks: T[][] = [];
-
-  for (let index = 0; index < values.length; index += chunkSize) {
-    chunks.push(values.slice(index, index + chunkSize));
-  }
-
-  return chunks;
-}
-
-function normalizeError(error: unknown): Error {
-  return error instanceof Error ? error : new Error(String(error));
-}
-
-function toRecoverTokensProcessError(error: Error): ProcessError {
-  return new ProcessError({
-    command: "recover-tokens",
-    message: error.message,
-  });
-}
-
-/**
- * Queries ERC-20 balances and Sablier aggregate amounts for a single contract in lockstep batches.
- *
- * Running both multicalls over the same chunk preserves positional alignment between results while
- * keeping each request under typical provider limits for large asset lists. Batches stay sequential
- * so we don't stampede the RPC, but each pair of multicalls executes concurrently while viem owns
- * the explicit transport retry policy.
- */
-function queryOneContract(
-  client: ReturnType<typeof createPublicClient>,
-  assetFile: ReturnType<typeof parseIndexedAssetFile>,
-  contract: RecoverContract
-) {
-  return Effect.gen(function* () {
-    const aggregateAbi = getAggregateAbi(contract.aggregateFunctionName);
-    const contractLabel = `${contract.contractName.replace("Sablier", "")} ${contract.version}`;
-
-    const batches = chunkArray(assetFile.assets, MULTICALL_BATCH_SIZE);
-    const batchResults = yield* Effect.forEach(batches, (batch) =>
-      Effect.all(
-        [
-          Effect.tryPromise({
-            catch: normalizeError,
-            try: () =>
-              client.multicall({
-                allowFailure: true,
-                contracts: batch.map((asset) => ({
-                  abi: ERC20_ABI,
-                  address: asset.address as `0x${string}`,
-                  args: [contract.address],
-                  functionName: "balanceOf" as const,
-                })),
-              }),
-          }),
-          Effect.tryPromise({
-            catch: normalizeError,
-            try: () =>
-              client.multicall({
-                allowFailure: true,
-                contracts: batch.map((asset) => ({
-                  abi: aggregateAbi,
-                  address: contract.address,
-                  args: [asset.address as `0x${string}`],
-                  functionName: contract.aggregateFunctionName,
-                })),
-              }),
-          }),
-        ],
-        { concurrency: "unbounded" }
-      ).pipe(Effect.mapError(toRecoverTokensProcessError))
-    );
-
-    const balanceResults: Array<bigint | null> = [];
-    const aggregateAmountResults: Array<bigint | null> = [];
-
-    for (const [balances, aggregateAmounts] of batchResults) {
-      for (const balance of balances) {
-        balanceResults.push(balance.status === "success" ? balance.result : null);
-      }
-
-      for (const aggregateAmount of aggregateAmounts) {
-        aggregateAmountResults.push(
-          aggregateAmount.status === "success" ? aggregateAmount.result : null
-        );
-      }
-    }
-
-    return yield* Effect.try({
-      catch: (error) => toRecoverTokensProcessError(normalizeError(error)),
-      try: () =>
-        computeRecoverTokenRows({
-          aggregateAmountResults,
-          assets: assetFile.assets,
-          balanceResults,
-          contractLabel,
-        }),
-    });
-  });
-}
-
-function queryRecoverTokenDeltas(opts: {
-  assetFile: ReturnType<typeof parseIndexedAssetFile>;
-  chain: CliRpcConfig["chain"];
-  contracts: RecoverContract[];
-  rpcUrls: readonly string[];
-}) {
-  return Effect.gen(function* () {
-    if (opts.rpcUrls.length === 0) {
-      return yield* Effect.fail(
-        new ProcessError({
-          command: "recover-tokens",
-          message: "No RPC transports configured",
-        })
-      );
-    }
-
-    const transports = opts.rpcUrls.map((url) =>
-      http(url, {
-        retryCount: VIEM_RPC_RETRY_COUNT,
-        retryDelay: VIEM_RPC_RETRY_DELAY_MS,
-      })
-    );
-
-    const client = createPublicClient({
-      chain: opts.chain,
-      transport: fallback(transports, { rank: false }),
-    });
-
-    const perContractResults = yield* Effect.forEach(opts.contracts, (contract) =>
-      queryOneContract(client, opts.assetFile, contract)
-    );
-
-    return mergeRecoverTokenResults(perContractResults);
-  });
 }
 
 export const handler = (options: {
@@ -450,30 +170,17 @@ export const handler = (options: {
       yield* Console.log(resultsTable.toString());
     }
 
-    const outputFile = buildRecoverTokenOutputFile({
+    const outputPath = yield* writeOutputFile(fs, {
       chainId: options.chainId,
       chainName: chain.name,
       chainSlug: chain.slug,
       contracts,
+      dateSegment,
+      epochMs,
       generatedAt,
       protocol: options.protocol,
       result,
     });
-
-    const outputDir = paths.generated.recoverTokens.dir(dateSegment);
-    const outputPath = paths.generated.recoverTokens.file(
-      dateSegment,
-      epochMs,
-      options.protocol,
-      chain.slug
-    );
-
-    yield* fs
-      .makeDirectory(outputDir, { recursive: true })
-      .pipe(Effect.mapError(toFileOperationError(outputDir, "write")));
-    yield* fs
-      .writeFileString(outputPath, `${JSON.stringify(outputFile, null, 2)}\n`)
-      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
 
     yield* Console.log("");
     yield* Console.log(colors.dim(`Saved → ${yield* getRelative(outputPath)}`));
@@ -541,30 +248,17 @@ function processOneChain(options: {
       rpcUrls,
     });
 
-    const outputFile = buildRecoverTokenOutputFile({
+    yield* writeOutputFile(fs, {
       chainId,
       chainName: chain.name,
       chainSlug: chain.slug,
       contracts,
+      dateSegment,
+      epochMs,
       generatedAt,
       protocol,
       result,
     });
-
-    const outputDir = paths.generated.recoverTokens.dir(dateSegment);
-    const outputPath = paths.generated.recoverTokens.file(
-      dateSegment,
-      epochMs,
-      protocol,
-      chain.slug
-    );
-
-    yield* fs
-      .makeDirectory(outputDir, { recursive: true })
-      .pipe(Effect.mapError(toFileOperationError(outputDir, "write")));
-    yield* fs
-      .writeFileString(outputPath, `${JSON.stringify(outputFile, null, 2)}\n`)
-      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
 
     return {
       ...base,
@@ -605,7 +299,7 @@ export const handlerAll = (options: {
     const generatedAt = DateTime.formatIso(now);
     const dateSegment = getQueryAssetsDateSegment(generatedAt);
     const epochMs = DateTime.toEpochMillis(now);
-    const chains = _.sortBy(sablier.chains.getAll(), (c) => c.slug);
+    const chains = sablier.chains.getAll().toSorted((a, b) => a.slug.localeCompare(b.slug));
 
     yield* displayHeader("RECOVER TOKENS (ALL CHAINS)", "yellow");
 
