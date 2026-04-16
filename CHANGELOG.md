@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[5.0.0]: https://github.com/sablier-labs/indexers/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/sablier-labs/indexers/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/sablier-labs/indexers/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/sablier-labs/indexers/compare/v2.0.0...v3.0.0
@@ -13,6 +14,22 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.1]: https://github.com/sablier-labs/indexers/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
+
+## [5.0.0] - 2026-04-16
+
+### Changed
+
+- Bump `sablier` dependency from `^3.3.5` to `^3.9.0`
+
+### Added
+
+- Add `getIndexerKeyForProtocol` helper mapping `airdrops | flow | lockup` to the public `airdrops | streams` indexer
+  key
+- Add `getProtocolForIndexerKey` helper returning the canonical protocol for a given indexer key
+
+### Removed
+
+- **Breaking:** Remove `getProtocolGraphIndexer`; use `getIndexerGraph` with an `Indexer.IndexerKey` instead
 
 ## [4.0.1] - 2026-04-08
 

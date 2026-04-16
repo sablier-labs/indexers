@@ -5,6 +5,8 @@ type I = Indexer;
 type K = Indexer.IndexerKey;
 type V = Indexer.Vendor;
 
+export { getIndexerKeyForProtocol, getProtocolForIndexerKey } from "./mappers.js";
+
 /**
  * Retrieves an indexer configuration by chain ID, indexer, and vendor.
  *
