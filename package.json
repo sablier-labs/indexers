@@ -1,6 +1,6 @@
 {
   "name": "@sablier/indexers",
-  "version": "4.0.1",
+  "version": "5.0.0-beta.0",
   "description": "Data indexers for the Sablier Protocol",
   "homepage": "https://github.com/sablier-labs/indexers#readme",
   "license": "GPL-3.0-or-later",
@@ -15,7 +15,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "^3.5.0"
+    "sablier": "^3.9.0"
   },
   "exports": {
     ".": {

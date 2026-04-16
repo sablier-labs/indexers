@@ -73,6 +73,18 @@ just test            # Run tests
 just test id.test.ts # Run tests for a specific file
 ```
 
+## Changelog
+
+`CHANGELOG.md` documents changes to the published package surface (the code shipped in `dist/**`). Do **not** record
+GraphQL schema changes in `CHANGELOG.md` — schema evolution is tracked separately and is not part of the JS package
+contract. When writing release notes, focus on:
+
+- Public API additions, removals, and renames (exported functions, types, constants).
+- Runtime behavior changes in shipped code.
+- `dependencies` and `peerDependencies` version bumps (skip `devDependencies`).
+
+Skip schema edits, test changes, CI/CD workflows, and development tooling.
+
 ## Codegen
 
 The `mappings/*` code under `envio/` and `graph/` uses dynamically generated bindings.
