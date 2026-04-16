@@ -3,10 +3,11 @@
  *
  */
 import { sablier } from "sablier";
-import { chains, Protocol } from "sablier/evm";
+import { chains } from "sablier/evm";
 import { SUBGRAPH_STUDIO_USER_ID } from "../constants.js";
 import { Vendor } from "../enums.js";
 import type { Indexer } from "../types.js";
+import { getProtocolForIndexerKey } from "./mappers.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */
@@ -59,18 +60,15 @@ export function getSubgraphYamlChainSlug(chainId: number): string {
   return CHAIN_SLUG_SUBGRAPH_YAML[chainId] ?? getGraphChainSlug(chainId);
 }
 
-type ProtocolGraphIndexer = Omit<Indexer, "indexer"> & {
-  indexer: Indexer.Protocol;
-};
+// Internal indexer representation, indexed by protocol. The public `indexer`
+// key is attached later by `toPublicIndexers`.
+type ProtocolGraphIndexer = Omit<Indexer, "indexer">;
 
 function getSubgraphName(chainId: number, protocol: Indexer.Protocol): string {
   const graphChainName = getSablierChainSlug(chainId);
   return `sablier-${protocol}-${graphChainName}`;
 }
 
-/**
- * Sort indexers alphabetically by chain name.
- */
 function resolveCustom(
   protocol: Indexer.Protocol,
   chainId: number,
@@ -87,7 +85,6 @@ function resolveCustom(
   return {
     chainId,
     explorerURL: `${endpointUrl}/graphql`,
-    indexer: protocol,
     kind: "custom",
     name: subgraphName,
     vendor: Vendor.Graph,
@@ -106,7 +103,6 @@ function resolveOfficial(
   return {
     chainId,
     explorerURL: `https://thegraph.com/explorer/subgraphs/${subgraphId}`,
-    indexer: protocol,
     kind: "official",
     name: subgraphName,
     testingURL: `https://api.studio.thegraph.com/query/${SUBGRAPH_STUDIO_USER_ID}/${subgraphName}/version/latest`,
@@ -122,23 +118,23 @@ function resolveOfficial(
 /*                                 DEFINITIONS                                */
 /* -------------------------------------------------------------------------- */
 
-type SubgraphId = string;
-type SubgraphIdMap = Record<Indexer.Protocol, SubgraphId>;
-type ProtocolIndexerGraphMap = Record<Indexer.Protocol, ProtocolGraphIndexer>;
+// `streams` covers both flow and lockup data: the legacy Lockup subgraph was
+// extended to index Flow events as well, so only one subgraph ID is needed
+// per chain.
+type SubgraphIdMap = Record<Indexer.IndexerKey, string>;
+type ProtocolIndexerGraphMap = Record<Indexer.IndexerKey, ProtocolGraphIndexer>;
 
 function custom(chainId: number, baseURL: string): ProtocolIndexerGraphMap {
   return {
-    airdrops: resolveCustom(Protocol.Airdrops, chainId, baseURL),
-    flow: resolveCustom(Protocol.Flow, chainId, baseURL),
-    lockup: resolveCustom(Protocol.Lockup, chainId, baseURL),
+    airdrops: resolveCustom(getProtocolForIndexerKey("airdrops"), chainId, baseURL),
+    streams: resolveCustom(getProtocolForIndexerKey("streams"), chainId, baseURL),
   };
 }
 
 function official(chainId: number, idMap: SubgraphIdMap): ProtocolIndexerGraphMap {
   return {
-    airdrops: resolveOfficial(Protocol.Airdrops, chainId, idMap.airdrops),
-    flow: resolveOfficial(Protocol.Flow, chainId, idMap.flow),
-    lockup: resolveOfficial(Protocol.Lockup, chainId, idMap.lockup),
+    airdrops: resolveOfficial(getProtocolForIndexerKey("airdrops"), chainId, idMap.airdrops),
+    streams: resolveOfficial(getProtocolForIndexerKey("streams"), chainId, idMap.streams),
   };
 }
 
@@ -159,96 +155,78 @@ const OFFICIALS: ProtocolIndexerGraphMap[] = [
   /* -------------------------------------------------------------------------- */
   official(chains.mainnet.id, {
     airdrops: "DFD73EcSue44R7mpHvXeyvcgaT8tR1iKakZFjBsiFpjs",
-    flow: "ECxBJhKceBGaVvK6vqmK3VQAncKwPeAQutEb8TeiUiod",
-    lockup: "AvDAMYYHGaEwn9F9585uqq6MM5CfvRtYcb7KjK7LKPCt",
+    streams: "AvDAMYYHGaEwn9F9585uqq6MM5CfvRtYcb7KjK7LKPCt",
   }),
   official(chains.abstract.id, {
     airdrops: "DRrf6mYEhRt9QieKvTjDHnSWcBm3GW96hpedMKVxLABx",
-    flow: "Gq3e1gihMoSynURwGXQnPoKGVZzdsyomdrMH934vQHuG",
-    lockup: "2QjTdDFY233faXksUruMERMiDoQDdtGG5hBLC27aT1Pw",
+    streams: "2QjTdDFY233faXksUruMERMiDoQDdtGG5hBLC27aT1Pw",
   }),
   official(chains.arbitrum.id, {
     airdrops: "HkHDg6NVVVeobhpcU4pTPMktyC25zd6xAQBGpYrWDgRr",
-    flow: "C3kBBUVtW2rxqGpAgSgEuSaT49izkH6Q8UibRt7XFTyW",
-    lockup: "yvDXXHSyv6rGPSzfpbBcbQmMFrECac3Q2zADkYsMxam",
+    streams: "yvDXXHSyv6rGPSzfpbBcbQmMFrECac3Q2zADkYsMxam",
   }),
   official(chains.avalanche.id, {
     airdrops: "CpbN5Ps25UzqfdoqYdrjoSK4Him6nwDvdLK6a2sGS1PA",
-    flow: "6PAizjTALVqLLB7Ycq6XnpTeck8Z8QUpDFnVznMnisUh",
-    lockup: "FTDmonvFEm1VGkzECcnDY2CPHcW5dSmHRurSjEEfTkCX",
+    streams: "FTDmonvFEm1VGkzECcnDY2CPHcW5dSmHRurSjEEfTkCX",
   }),
   official(chains.base.id, {
     airdrops: "4SxPXkQNifgBYqje2C4yP5gz69erZwtD7GuLWgXHSLGe",
-    flow: "4XSxXh8ZgkzaA35nrbQG9Ry3FYz3ZFD8QBdWwVg5pF9W",
-    lockup: "778GfecD9tsyB4xNnz4wfuAyfHU6rqGr79VCPZKu3t2F",
+    streams: "778GfecD9tsyB4xNnz4wfuAyfHU6rqGr79VCPZKu3t2F",
   }),
   official(chains.berachain.id, {
     airdrops: "CnYsdmzuY3Mebwywvqv1WrXw9UZuPMTrxoGgR2UdThJE",
-    flow: "J87eaBLfTe7kKWgUGqe5TxntNCzA4pyWmqJowMddehuh",
-    lockup: "C2r13APcUemQtVdPFm7p7T3aJkU2rH2EvdZzrQ53zi14",
+    streams: "C2r13APcUemQtVdPFm7p7T3aJkU2rH2EvdZzrQ53zi14",
   }),
   official(chains.bsc.id, {
     airdrops: "FXQT42kQPvpMJgsF5Bs6CqpxVvPP1LBqEhWThCCLMeGL",
-    flow: "2vU8KF4yWh3vvFjtg7MrRXMnYF3hPX2T3cvVBdaiXhNb",
-    lockup: "A8Vc9hi7j45u7P8Uw5dg4uqYJgPo4x1rB4oZtTVaiccK",
+    streams: "A8Vc9hi7j45u7P8Uw5dg4uqYJgPo4x1rB4oZtTVaiccK",
   }),
   official(chains.chiliz.id, {
     airdrops: "6LK1aqrhzZCp6c88MEBDAR1VDLpZQiXpBKkceJ5Lu4LU",
-    flow: "7QX7tJsANNFpxFLLjqzmXRzfY1wPGp3Lty5xGbhgADa6",
-    lockup: "4KsXUFvsKFHH7Q8k3BPgEv2NhCJJGwG78gCPAUpncYb",
+    streams: "4KsXUFvsKFHH7Q8k3BPgEv2NhCJJGwG78gCPAUpncYb",
   }),
   official(chains.gnosis.id, {
     airdrops: "kQEY5PYbjx4SMKyMUwqJHRLDzKH1aUqGsf1cnibU7Kn",
-    flow: "4KiJ53cTNKdFWPBPmDNQ55tYj8hn1WQg8R4UcTY2STLL",
-    lockup: "DtKniy1RvB19q1r2g1WLN4reMNKDacEnuAjh284rW2iK",
+    streams: "DtKniy1RvB19q1r2g1WLN4reMNKDacEnuAjh284rW2iK",
   }),
   official(chains.linea.id, {
     airdrops: "6koYFSd8FQizdQWLTdRpL1yTmAbpMgN1vZN5W6ajZiTN",
-    flow: "DV9XgcCCPKzUn6pgetg4yPetpW2fNoRKBUQC43aNeLG6",
-    lockup: "GvpecytqVzLzuwuQB3enozXoaZRFoVx8Kr7qrfMiE9bs",
+    streams: "GvpecytqVzLzuwuQB3enozXoaZRFoVx8Kr7qrfMiE9bs",
   }),
   official(chains.optimism.id, {
     airdrops: "CHJtCNDzPqngpa1YJoaVrjuufZL6k6VkEkG9ZFUMQzF7",
-    flow: "AygPgsehNGSB4K7DYYtvBPhTpEiU4dCu3nt95bh9FhRf",
-    lockup: "NZHzd2JNFKhHP5EWUiDxa5TaxGCFbSD4g6YnYr8JGi6",
+    streams: "NZHzd2JNFKhHP5EWUiDxa5TaxGCFbSD4g6YnYr8JGi6",
   }),
   official(chains.polygon.id, {
     airdrops: "FRbBKiDyM5YpFAqHLXRfQWwQdMGzFL82hqoPXPpXzAHE",
-    flow: "ykp38sLarwz3cpmjSSPqo7UuTjYtkZ1KiL4PM2qwmT8",
-    lockup: "8fgeQMEQ8sskVeWE5nvtsVL2VpezDrAkx2d1VeiHiheu",
+    streams: "8fgeQMEQ8sskVeWE5nvtsVL2VpezDrAkx2d1VeiHiheu",
   }),
   official(chains.scroll.id, {
     airdrops: "Ev4xS8VxuoUcpgqz5A2BkTgQxQeskm4Fg41XzVJ2DX9",
-    flow: "HFpTrPzJyrHKWZ9ebb4VFRQSxRwpepyfz5wd138daFkF",
-    lockup: "GycpYx8c9eRqxvEAfqnpNd1ZfXeuLzjRhnG7vvYaqEE1",
+    streams: "GycpYx8c9eRqxvEAfqnpNd1ZfXeuLzjRhnG7vvYaqEE1",
   }),
   official(chains.sonic.id, {
     airdrops: "5g8orwpm5Rf83G8eqDzDjodt3sG2D64cbiLC98Utmv4Q",
-    flow: "HkQKZKuM6dZ7Vc4FGC1gZTVVTniYJWRhTRmDDMNzN8zk",
-    lockup: "GnaSPX9XLkPn219CqbGFU1NgveuQk2Hh3c8WxjtesaEh",
+    streams: "GnaSPX9XLkPn219CqbGFU1NgveuQk2Hh3c8WxjtesaEh",
   }),
   official(chains.unichain.id, {
     airdrops: "4rQMJ85hKNhcaDyirGipGvcqS4auGU3QCFRBnpiexyNy",
-    flow: "Cb5uDYfy4ukN9fjhQ3PQZgDzyo6G66ztn1e847rS7Xa8",
-    lockup: "3MUG4H3gZcp9fpGLiJMTMeUFcQQ6QdT317P4wYKyns9M",
+    streams: "3MUG4H3gZcp9fpGLiJMTMeUFcQQ6QdT317P4wYKyns9M",
   }),
   official(chains.zksync.id, {
     airdrops: "64iDUwNVWKukw67nqTXif5taEfLug4Qf1c2suAv5hrqN",
-    flow: "9DRgWhDAMovpkej3eT8izum6jxEKHE62ciArffsTAScx",
-    lockup: "7SuEYGYwZ835LjVGB85ZE8z5zmqdKgmRh8kAEeJefWQN",
+    streams: "7SuEYGYwZ835LjVGB85ZE8z5zmqdKgmRh8kAEeJefWQN",
   }),
   /* -------------------------------------------------------------------------- */
   /*                                  TESTNETS                                  */
   /* -------------------------------------------------------------------------- */
   official(chains.baseSepolia.id, {
     airdrops: "4R2hm27YJ7CVEJ97BbBJz2r4KTKYc8sTqqzrD8UzEfJt",
-    flow: "AsnKT1waQMvuQxZAqfFuYwtRtAfN8uekDu75jPttfyLh",
-    lockup: "DdiYENuyh5ztSybRJnBnCZuUgESkFasjGFHZUbURpKHz",
+    streams: "DdiYENuyh5ztSybRJnBnCZuUgESkFasjGFHZUbURpKHz",
   }),
   official(chains.sepolia.id, {
     airdrops: "8PLGDyXEsPgRTAnozL7MAjmTUFY4TBzs8i4F9Pq3wwSh",
-    flow: "EU9AWmJjrjMRkjxcdHfuWPZvPTNAL3hiXfNGN5MwUpvm",
-    lockup: "5yDtFSxyRuqyjvGJyyuQhMEW3Uah7Ddy2KFSKVhy9VMa",
+    streams: "5yDtFSxyRuqyjvGJyyuQhMEW3Uah7Ddy2KFSKVhy9VMa",
   }),
 ];
 
@@ -256,10 +234,10 @@ const ALL: ProtocolIndexerGraphMap[] = [...CUSTOMS, ...OFFICIALS];
 
 function toSortedArray(
   indexerMaps: ProtocolIndexerGraphMap[],
-  protocol: Indexer.Protocol
+  indexer: Indexer.IndexerKey
 ): ProtocolGraphIndexer[] {
   return indexerMaps
-    .map((indexerMap) => indexerMap[protocol])
+    .map((indexerMap) => indexerMap[indexer])
     .sort((a, b) => {
       const chainNameA = sablier.chains.getOrThrow(a.chainId).name;
       const chainNameB = sablier.chains.getOrThrow(b.chainId).name;
@@ -274,17 +252,13 @@ function toPublicIndexers(
   return indexers.map((entry) => ({ ...entry, indexer }));
 }
 
-export function getProtocolGraphIndexer(opts: {
-  chainId: number;
-  protocol: Indexer.Protocol;
-}): ProtocolGraphIndexer | undefined {
-  return toSortedArray(ALL, opts.protocol).find((indexer) => indexer.chainId === opts.chainId);
-}
-
+// The public `streams` entry is built from the internal Lockup subgraph deployment,
+// which now indexes the merged flow + lockup events under a single subgraph per chain.
 export const graph: Record<Indexer.IndexerKey, Indexer[]> = {
-  airdrops: toPublicIndexers(toSortedArray(ALL, Protocol.Airdrops), Protocol.Airdrops),
-  streams: toPublicIndexers(toSortedArray(ALL, Protocol.Lockup), "streams"),
+  airdrops: toPublicIndexers(toSortedArray(ALL, "airdrops"), "airdrops"),
+  streams: toPublicIndexers(toSortedArray(ALL, "streams"), "streams"),
 };
 
-// It doesn't matter what protocol we are using since each chain supports all protocols.
+// `streams` covers every chain we support on The Graph; airdrops are deployed
+// to the same chain set, so either key yields the same list.
 export const graphChains = graph.streams.map((c) => c.chainId);

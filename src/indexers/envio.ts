@@ -3,10 +3,11 @@
  *
  * @see https://docs.envio.dev/docs/HyperSync/hypersync-supported-networks
  */
-import { chains, Protocol } from "sablier/evm";
+import { chains } from "sablier/evm";
 import { Vendor } from "../enums.js";
 import type { Indexer } from "../types.js";
 import { getEnvioDeployment } from "./envio-deployments.js";
+import { getProtocolForIndexerKey } from "./mappers.js";
 
 type EnvioChainConfig = {
   /**
@@ -66,32 +67,27 @@ const SUPPORTED_CHAINS = [
   get(chains.sepolia.id),
 ] as const;
 
-function getEnvioDeploymentTarget(indexer: Indexer.IndexerKey): Indexer.Protocol {
-  return indexer === "streams" ? Protocol.Lockup : indexer;
-}
-
 function getIndexers(indexer: Indexer.IndexerKey): Indexer[] {
-  const deploymentTarget = getEnvioDeploymentTarget(indexer);
-  return SUPPORTED_CHAINS.map((chain) => {
-    const deployment = getEnvioDeployment(indexer);
-    return {
-      chainId: chain.id,
-      explorerURL: deployment.explorerURL,
-      indexer,
-      kind: "official",
-      name: `sablier-${deploymentTarget}`,
-      testingURL: `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(deployment.endpoint.url)}`,
-      vendor: Vendor.Envio,
-      endpoint: {
-        id: deployment.endpoint.id,
-        url: deployment.endpoint.url,
-      },
-    };
-  });
+  const deploymentTarget = getProtocolForIndexerKey(indexer);
+  const deployment = getEnvioDeployment(indexer);
+  const testingURL = `https://cloud.hasura.io/public/graphiql?endpoint=${encodeURIComponent(deployment.endpoint.url)}`;
+  return SUPPORTED_CHAINS.map((chain) => ({
+    chainId: chain.id,
+    explorerURL: deployment.explorerURL,
+    indexer,
+    kind: "official",
+    name: `sablier-${deploymentTarget}`,
+    testingURL,
+    vendor: Vendor.Envio,
+    endpoint: {
+      id: deployment.endpoint.id,
+      url: deployment.endpoint.url,
+    },
+  }));
 }
 
 export const envio: Record<Indexer.IndexerKey, Indexer[]> = {
-  airdrops: getIndexers(Protocol.Airdrops),
+  airdrops: getIndexers("airdrops"),
   streams: getIndexers("streams"),
 } as const;
 
