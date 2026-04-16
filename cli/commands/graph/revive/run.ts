@@ -2,9 +2,10 @@ import { HttpBody, HttpClient } from "@effect/platform";
 import chalk from "chalk";
 import { Clock, Console, Effect, Either, Option } from "effect";
 import { sablier } from "sablier";
-import { Protocol } from "sablier/evm";
-import { getProtocolGraphIndexer, graphChains } from "../../../../src/indexers/graph.js";
+import { getIndexerGraph } from "../../../../src/indexers/getters.js";
+import { graphChains } from "../../../../src/indexers/graph.js";
 import type { Indexer } from "../../../../src/types.js";
+import { INDEXER_KEYS } from "../../../constants.js";
 import { colors, createTable, displayHeader } from "../../../display.js";
 import { getOptionalGraphHeaders } from "../../../graph-auth.js";
 import { CliEnv } from "../../../services/env.js";
@@ -15,7 +16,7 @@ import { CliEnv } from "../../../services/env.js";
 
 type QueryResult = {
   chainId: number;
-  protocol: Indexer.Protocol;
+  indexer: Indexer.IndexerKey;
   success: boolean;
   error?: string;
   latencyMs: number;
@@ -51,11 +52,15 @@ const CAMPAIGNS_QUERY = /* GraphQL */ `
 
 const TIMEOUT_MS = 10_000;
 
-function getQueryForProtocol(protocol: Indexer.Protocol): string {
-  return protocol === Protocol.Airdrops ? CAMPAIGNS_QUERY : STREAMS_QUERY;
+function capitalize(value: string): string {
+  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function pingEndpoint(endpoint: string, protocol: Indexer.Protocol) {
+function getQueryForIndexer(indexer: Indexer.IndexerKey): string {
+  return indexer === "airdrops" ? CAMPAIGNS_QUERY : STREAMS_QUERY;
+}
+
+function pingEndpoint(endpoint: string, indexer: Indexer.IndexerKey) {
   return Effect.gen(function* () {
     const headers = yield* getOptionalGraphHeaders(endpoint);
     const startedAt = yield* Clock.currentTimeMillis;
@@ -64,7 +69,7 @@ function pingEndpoint(endpoint: string, protocol: Indexer.Protocol) {
       HttpClient.post(endpoint, {
         accept: "application/json",
         body: HttpBody.unsafeJson({
-          query: getQueryForProtocol(protocol),
+          query: getQueryForIndexer(indexer),
           variables: {},
         }),
         headers: {
@@ -103,11 +108,11 @@ function pingEndpoint(endpoint: string, protocol: Indexer.Protocol) {
 }
 
 function formatResult(result: QueryResult): string {
-  const protocolName = result.protocol.charAt(0).toUpperCase() + result.protocol.slice(1);
+  const indexerName = capitalize(result.indexer);
   if (result.success) {
-    return `${protocolName}: ${colors.success("OK")} (${result.latencyMs}ms)`;
+    return `${indexerName}: ${colors.success("OK")} (${result.latencyMs}ms)`;
   }
-  return `${protocolName}: ${colors.error("FAIL")} (${result.error})`;
+  return `${indexerName}: ${colors.error("FAIL")} (${result.error})`;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -136,7 +141,9 @@ export const handler = (options: {
     }
 
     yield* Console.log("");
-    yield* Console.log(colors.info(`Checking ${chainIds.length} chains × 3 protocols`));
+    yield* Console.log(
+      colors.info(`Checking ${chainIds.length} chains × ${INDEXER_KEYS.length} indexers`)
+    );
     yield* Console.log(colors.info(`Timeout: ${TIMEOUT_MS / 1000}s per request`));
 
     if (!graphQueryKey) {
@@ -152,7 +159,7 @@ export const handler = (options: {
         const chain = sablier.chains.get(chainId);
         const chainName = chain?.name ?? `Chain ${chainId}`;
         yield* Console.log(
-          `[${i + 1}/${chainIds.length}] ${chainName}-${chainId}: Would ping airdrops, flow, lockup`
+          `[${i + 1}/${chainIds.length}] ${chainName}-${chainId}: Would ping ${INDEXER_KEYS.join(", ")}`
         );
       }
       return;
@@ -161,7 +168,6 @@ export const handler = (options: {
     yield* Console.log("");
 
     const allResults: QueryResult[] = [];
-    const protocols: Indexer.Protocol[] = [Protocol.Airdrops, Protocol.Flow, Protocol.Lockup];
 
     // Process chains sequentially
     for (let i = 0; i < chainIds.length; i++) {
@@ -169,36 +175,35 @@ export const handler = (options: {
       const chain = sablier.chains.get(chainId);
       const chainName = chain?.name ?? `Chain ${chainId}`;
 
-      // Query all 3 protocols in parallel for this chain
-      const protocolResults = yield* Effect.forEach(
-        protocols,
-        (protocol) =>
+      const indexerResults = yield* Effect.forEach(
+        INDEXER_KEYS,
+        (indexerKey) =>
           Effect.gen(function* () {
-            const indexer = getProtocolGraphIndexer({ chainId, protocol });
+            const indexer = getIndexerGraph({ chainId, indexer: indexerKey });
             if (!indexer) {
               return {
                 chainId,
                 error: "No indexer configured",
+                indexer: indexerKey,
                 latencyMs: 0,
-                protocol,
                 success: false,
               } satisfies QueryResult;
             }
 
-            const result = yield* pingEndpoint(indexer.endpoint.url, protocol);
+            const result = yield* pingEndpoint(indexer.endpoint.url, indexerKey);
             return {
               chainId,
-              protocol,
+              indexer: indexerKey,
               ...result,
             } satisfies QueryResult;
           }),
         { concurrency: "unbounded" }
       );
 
-      allResults.push(...protocolResults);
+      allResults.push(...indexerResults);
 
       // Format and display results for this chain
-      const resultStrings = protocolResults.map(formatResult).join(", ");
+      const resultStrings = indexerResults.map(formatResult).join(", ");
       yield* Console.log(`[${i + 1}/${chainIds.length}] ${chainName}-${chainId}: ${resultStrings}`);
     }
 
@@ -207,18 +212,18 @@ export const handler = (options: {
     yield* displayHeader("📋 RESULTS", "cyan");
 
     const resultsTable = createTable({
-      colWidths: [16, 10, 14, 14, 14],
-      head: ["Chain", "Id", "Airdrops", "Flow", "Lockup"],
+      colWidths: [16, 10, ...INDEXER_KEYS.map(() => 14)],
+      head: ["Chain", "Id", ...INDEXER_KEYS.map(capitalize)],
       theme: "cyan",
     });
 
     // Group results by chainId
-    const resultsByChain = new Map<number, Map<Indexer.Protocol, QueryResult>>();
+    const resultsByChain = new Map<number, Map<Indexer.IndexerKey, QueryResult>>();
     for (const result of allResults) {
       if (!resultsByChain.has(result.chainId)) {
         resultsByChain.set(result.chainId, new Map());
       }
-      resultsByChain.get(result.chainId)?.set(result.protocol, result);
+      resultsByChain.get(result.chainId)?.set(result.indexer, result);
     }
 
     // Build table rows
@@ -227,8 +232,8 @@ export const handler = (options: {
       const chainName = chain?.name ?? `Chain ${chainId}`;
       const chainResults = resultsByChain.get(chainId);
 
-      const formatCell = (protocol: Indexer.Protocol): string => {
-        const result = chainResults?.get(protocol);
+      const formatCell = (indexerKey: Indexer.IndexerKey): string => {
+        const result = chainResults?.get(indexerKey);
         if (!result) {
           return colors.dim("N/A");
         }
@@ -242,9 +247,7 @@ export const handler = (options: {
       resultsTable.push([
         colors.value(chainName),
         colors.dim(chainId.toString()),
-        formatCell(Protocol.Airdrops),
-        formatCell(Protocol.Flow),
-        formatCell(Protocol.Lockup),
+        ...INDEXER_KEYS.map(formatCell),
       ]);
     }
 
@@ -283,7 +286,7 @@ export const handler = (options: {
 
       const failedTable = createTable({
         colWidths: [30, 30, 50],
-        head: ["Chain", "Protocol", "Error"],
+        head: ["Chain", "Indexer", "Error"],
         theme: "red",
         wrapOnWordBoundary: false,
       });
@@ -293,7 +296,7 @@ export const handler = (options: {
         const chainName = chain?.name ?? `Chain ${f.chainId}`;
         failedTable.push([
           colors.value(chainName),
-          colors.value(f.protocol),
+          colors.value(f.indexer),
           colors.dim(f.error ?? "Unknown error"),
         ]);
       }
