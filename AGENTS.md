@@ -106,3 +106,13 @@ just codegen::envio-bindings streams     # Single indexer
 just codegen::graph-bindings             # All Graph subgraphs
 just codegen::graph-bindings streams     # Single subgraph
 ```
+
+## Print
+
+Use the `print` subcommand group to inspect indexer metadata. Subcommands are nested under `print` — invoke them as
+`just cli print <subcommand>`, not `just cli <subcommand>`.
+
+```bash
+just cli print chains           # Print supported chains with Envio/Graph coverage and Envio-only / Graph-only sections
+just cli print chains --graph   # Same, but use The Graph chain slugs instead of Sablier slugs (alias: -g)
+```
