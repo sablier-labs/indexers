@@ -13,9 +13,9 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.APP_ID }}
+          client-id: ${{ vars.UPDATER_APP_CLIENT_ID }}
           owner: ${{ github.repository_owner }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          private-key: ${{ secrets.UPDATER_APP_PRIVATE_KEY }}
 
       - uses: sablier-labs/devkit/actions/setup@v1
         with:
