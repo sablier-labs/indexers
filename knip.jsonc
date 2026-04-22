@@ -1,7 +1,0 @@
-{
-  "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
-  "entry": ["**/index.ts"],
-  "ignoreBinaries": ["just"],
-  "ignoreDependencies": ["@graphprotocol/.+", "assemblyscript", "envio", "husky"],
-  "project": ["**/*.{js,ts}", "!envio/**/*", "!graph/**/*"]
-}
