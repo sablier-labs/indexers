@@ -4,11 +4,11 @@ import { Console, Effect } from "effect";
 import { sablier } from "sablier";
 import { formatUnits } from "viem";
 import { graph } from "../../../../src/indexers/graph.js";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { ValidationError } from "../../../errors.js";
-import { resolveGraphHeaders } from "../../../graph-auth.js";
-import { wrapText } from "../../../helpers.js";
-import { withSpinner } from "../../../spinner.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { ValidationError } from "../../../utils/errors.js";
+import { resolveGraphHeaders } from "../../../utils/graph-auth.js";
+import { withSpinner } from "../../../utils/spinner.js";
+import { wrapText } from "../../../utils/text.js";
 import { fetchQuarterActionStats } from "../clients/graph.js";
 import { getQuarterWindow } from "../utils/quarter.js";
 

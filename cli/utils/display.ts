@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import Table from "cli-table3";
 import { Effect } from "effect";
-import type { TableTheme } from "./services/ui.js";
-import { CliUi } from "./services/ui.js";
+import type { TableTheme } from "../services/ui.js";
+import { CliUi } from "../services/ui.js";
 
 /* -------------------------------------------------------------------------- */
 /*                               COLOR THEME                                  */

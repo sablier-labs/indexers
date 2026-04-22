@@ -1,10 +1,10 @@
 import * as _ from "lodash-es";
 import { sablier } from "sablier";
-import { sanitizeContractName } from "../../../../cli/contract-name.js";
+import { sanitizeContractName } from "../../../../cli/utils/contract-name.js";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
-import { usdc } from "../../../usdc.js";
+import { usdc } from "../../../utils/usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 

@@ -5,11 +5,10 @@ import { print } from "graphql";
 import * as _ from "lodash-es";
 import { getMergedSchema } from "../../../../schema/index.js";
 import type { Indexer } from "../../../../src/index.js";
-import { AUTOGEN_COMMENT, GRAPH_TARGETS, VENDORS } from "../../../constants.js";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { ProcessError, toFileOperationError } from "../../../errors.js";
-import * as helpers from "../../../helpers.js";
-import paths from "../../../paths.js";
+import { AUTOGEN_COMMENT, GRAPH_TARGETS, VENDORS } from "../../../utils/constants.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { ProcessError, toFileOperationError } from "../../../utils/errors.js";
+import paths, { getRelative } from "../../../utils/paths.js";
 
 /**
  * Generates and writes a GraphQL schema for a specific indexer with result tracking
@@ -25,7 +24,7 @@ function generateSchemaWithResult(vendor: Indexer.Vendor, target: Indexer.GraphT
 
     return {
       target,
-      outputPath: yield* helpers.getRelative(outputPath),
+      outputPath: yield* getRelative(outputPath),
       status: "generated" as const,
       vendor,
     };
@@ -58,7 +57,7 @@ function generateSchema(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
     yield* Console.log(
       `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(target)} target`
     );
-    yield* Console.log(`📁 Output path: ${yield* helpers.getRelative(outputPath)}`);
+    yield* Console.log(`📁 Output path: ${yield* getRelative(outputPath)}`);
     yield* Console.log("");
   });
 }

@@ -3,11 +3,10 @@ import chalk from "chalk";
 import { Console, Effect } from "effect";
 import * as _ from "lodash-es";
 import type { Indexer } from "../../../../src/index.js";
-import { TARGETS } from "../../../constants.js";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { ProcessError, toFileOperationError } from "../../../errors.js";
-import * as helpers from "../../../helpers.js";
-import paths from "../../../paths.js";
+import { TARGETS } from "../../../utils/constants.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { ProcessError, toFileOperationError } from "../../../utils/errors.js";
+import paths, { getRelative } from "../../../utils/paths.js";
 import { dumpYAML } from "../helpers.js";
 import { createEnvioConfig } from "./index.js";
 
@@ -22,7 +21,7 @@ function generateConfig(target: Indexer.Target) {
       .pipe(Effect.mapError(toFileOperationError(configPath, "write")));
 
     yield* Console.log(`✅ Generated the Envio config for target ${_.capitalize(target)}`);
-    yield* Console.log(`📁 Config path: ${yield* helpers.getRelative(configPath)}`);
+    yield* Console.log(`📁 Config path: ${yield* getRelative(configPath)}`);
     yield* Console.log();
   });
 }
@@ -35,7 +34,7 @@ function generateConfigWithResult(target: Indexer.Target) {
     const configPath = paths.envio.config(target);
     yield* fs.writeFileString(configPath, yaml);
     return {
-      configPath: yield* helpers.getRelative(configPath),
+      configPath: yield* getRelative(configPath),
       target,
       status: "generated" as const,
     };

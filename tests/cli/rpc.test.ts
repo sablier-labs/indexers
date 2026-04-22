@@ -2,9 +2,9 @@ import path from "node:path";
 import { Effect, Either, Layer, Option } from "effect";
 import { sablier } from "sablier";
 import { describe, expect, it } from "vitest";
-import { ValidationError } from "../../cli/errors.js";
-import { resolveCliRpcConfig } from "../../cli/rpc.js";
 import { CliEnv } from "../../cli/services/env.js";
+import { ValidationError } from "../../cli/utils/errors.js";
+import { resolveCliRpcConfig } from "../../cli/utils/rpc.js";
 
 function makeCliEnvLayer(envVars: Record<string, string | undefined> = {}) {
   const cwd = process.cwd();

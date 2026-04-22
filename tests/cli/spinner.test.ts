@@ -1,7 +1,7 @@
 import { Effect, Layer } from "effect";
 import { describe, expect, it } from "vitest";
 import { CliSpinner } from "../../cli/services/spinner.js";
-import { startSpinner, withSpinner } from "../../cli/spinner.js";
+import { startSpinner, withSpinner } from "../../cli/utils/spinner.js";
 
 describe("spinner helpers", () => {
   it("supports updating spinner text on an active handle", () => {

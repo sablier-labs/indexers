@@ -2,9 +2,8 @@ import { dirname } from "node:path";
 import type { FileSystem } from "@effect/platform";
 import { Effect, Option } from "effect";
 import { sablier } from "sablier";
-import { FileOperationError, ValidationError } from "../../errors.js";
-import { resolveFromCliCwd } from "../../helpers.js";
-import paths, { getQueryAssetsDirectoryName } from "../../paths.js";
+import { FileOperationError, ValidationError } from "../../utils/errors.js";
+import paths, { getQueryAssetsDirectoryName, resolveFromCliCwd } from "../../utils/paths.js";
 import type { RecoverContract, RecoverTokensProtocol } from "./helpers.js";
 import {
   getAggregateFunctionName,

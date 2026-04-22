@@ -4,11 +4,10 @@ import { Console, Effect } from "effect";
 import { print } from "graphql";
 import * as _ from "lodash-es";
 import { getMergedSchema } from "../../../schema/index.js";
-import { GRAPH_TARGETS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { ProcessError, toFileOperationError } from "../../errors.js";
-import { getRelative } from "../../helpers.js";
-import paths from "../../paths.js";
+import { GRAPH_TARGETS } from "../../utils/constants.js";
+import { colors, createTable, displayHeader } from "../../utils/display.js";
+import { ProcessError, toFileOperationError } from "../../utils/errors.js";
+import paths, { getRelative } from "../../utils/paths.js";
 
 type ExportResult = {
   outputPath: string;

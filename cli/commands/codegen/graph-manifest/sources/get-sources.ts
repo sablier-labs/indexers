@@ -9,7 +9,7 @@ import { getMergedSchema } from "../../../../../schema/merger.js";
 import type { Indexer } from "../../../../../src/index.js";
 import { getSubgraphYamlChainSlug } from "../../../../../src/indexers/graph.js";
 import type { Model } from "../../../../../src/types.js";
-import { sanitizeContractName } from "../../../../contract-name.js";
+import { sanitizeContractName } from "../../../../utils/contract-name.js";
 import { CodegenError } from "../../errors.js";
 import { GRAPH_API_VERSION } from "../constants.js";
 import { resolveEventHandler } from "../event-resolver.js";

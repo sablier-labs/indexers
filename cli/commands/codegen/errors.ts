@@ -2,7 +2,7 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../src/index.js";
 import type { Model } from "../../../src/types.js";
-import { formatRelease } from "../../logger/helpers.js";
+import { formatRelease } from "../../utils/logger/helpers.js";
 
 export namespace CodegenError {
   export class BlockNotFound extends Error {

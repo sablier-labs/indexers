@@ -2,13 +2,14 @@ import path from "node:path";
 import { CommandExecutor, Command as PlatformCommand } from "@effect/platform";
 import chalk from "chalk";
 import { Chunk, Console, Effect, Stream } from "effect";
-import paths, { ROOT_DIR } from "../../../../../cli/paths.js";
+import paths, { ROOT_DIR } from "../../../../../cli/utils/paths.js";
 import { getSablierChainSlug } from "../../../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../../../src/indexers/index.js";
-import { GraphDeployError, ValidationError } from "../../../../errors.js";
-import * as helpers from "../../../../helpers.js";
 import { CliEnv } from "../../../../services/env.js";
-import { finishSpinner, startSpinner } from "../../../../spinner.js";
+import { getChain } from "../../../../utils/args.js";
+import { GraphDeployError, ValidationError } from "../../../../utils/errors.js";
+import { finishSpinner, startSpinner } from "../../../../utils/spinner.js";
+import { extractDeploymentId } from "../../../../utils/text.js";
 import { extractDeployFailureMessage } from "../helpers.js";
 
 /* -------------------------------------------------------------------------- */
@@ -78,7 +79,7 @@ function executeDeployment(args: readonly string[], workingDir: string, chainNam
         }
 
         // Extract and display deployment ID if available
-        const deploymentId = helpers.extractDeploymentId(stdout);
+        const deploymentId = extractDeploymentId(stdout);
         if (deploymentId) {
           yield* Console.log(chalk.green(`\nDeployment ID: ${deploymentId}`));
         }
@@ -158,7 +159,7 @@ export const handler = (options: CommandOptions) =>
     const env = yield* CliEnv;
 
     // Resolve chain from Sablier slug
-    const chain = yield* helpers.getChain(options.chain);
+    const chain = yield* getChain(options.chain);
 
     // Detect if this chain uses a custom Graph node
     const indexerConfig = getIndexerGraph({ chainId: chain.id, indexer: options.indexer });

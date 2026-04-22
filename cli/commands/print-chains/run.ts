@@ -4,7 +4,7 @@ import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { indexers } from "../../../src/indexers/data.js";
 import { getGraphChainSlug } from "../../../src/indexers/graph.js";
-import { colors, createTable, displayHeader, formatStatus } from "../../display.js";
+import { colors, createTable, displayHeader, formatStatus } from "../../utils/display.js";
 
 type ChainData = {
   chainId: number;

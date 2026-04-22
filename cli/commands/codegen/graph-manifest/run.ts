@@ -5,11 +5,11 @@ import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/index.js";
 import { graphChains } from "../../../../src/indexers/graph.js";
-import { GRAPH_TARGETS } from "../../../constants.js";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { toFileOperationError } from "../../../errors.js";
-import * as helpers from "../../../helpers.js";
-import paths from "../../../paths.js";
+import { getChain } from "../../../utils/args.js";
+import { GRAPH_TARGETS } from "../../../utils/constants.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { toFileOperationError } from "../../../utils/errors.js";
+import paths, { getRelative } from "../../../utils/paths.js";
 import { dumpYAML } from "../helpers.js";
 import { createGraphManifest } from "./index.js";
 
@@ -34,14 +34,14 @@ function writeManifestToFile(target: Indexer.GraphTarget, chainId: number) {
       .writeFileString(manifestPath, yaml)
       .pipe(Effect.mapError(toFileOperationError(manifestPath, "write")));
 
-    return yield* helpers.getRelative(manifestPath);
+    return yield* getRelative(manifestPath);
   });
 }
 
 function generateManifest(target: Indexer.GraphTarget, chainArg: string) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const chain = yield* helpers.getChain(chainArg);
+    const chain = yield* getChain(chainArg);
     const manifestsDir = paths.graph.manifests(target);
     yield* fs
       .makeDirectory(manifestsDir, { recursive: true })
@@ -147,9 +147,7 @@ function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog
 
       yield* Console.log("");
       yield* Console.log(colors.success(`✅ Successfully generated ${generated} manifests`));
-      yield* Console.log(
-        colors.dim(`📁 Output directory: ${yield* helpers.getRelative(manifestsDir)}`)
-      );
+      yield* Console.log(colors.dim(`📁 Output directory: ${yield* getRelative(manifestsDir)}`));
     }
 
     return results.filter((r) => r.status === "generated").length;

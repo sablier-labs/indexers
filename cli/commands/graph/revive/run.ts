@@ -5,10 +5,10 @@ import { sablier } from "sablier";
 import { getIndexerGraph } from "../../../../src/indexers/getters.js";
 import { graphChains } from "../../../../src/indexers/graph.js";
 import type { Indexer } from "../../../../src/types.js";
-import { INDEXER_KEYS } from "../../../constants.js";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { getOptionalGraphHeaders } from "../../../graph-auth.js";
 import { CliEnv } from "../../../services/env.js";
+import { INDEXER_KEYS } from "../../../utils/constants.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { getOptionalGraphHeaders } from "../../../utils/graph-auth.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */

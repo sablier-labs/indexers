@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import { Console, Effect } from "effect";
 import { formatUnits } from "viem";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { withSpinner } from "../../../spinner.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { withSpinner } from "../../../utils/spinner.js";
 import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchTotalUsdFees } from "../clients/envio.js";
 import { formatTimestamp, toHasuraTimestamp } from "../utils/date-range.js";
 import { getQuarterWindow } from "../utils/quarter.js";

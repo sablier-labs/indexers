@@ -2,7 +2,7 @@ import * as path from "node:path";
 import { loadFilesSync } from "@graphql-tools/load-files";
 import { mergeTypeDefs } from "@graphql-tools/merge";
 import type { DocumentNode } from "graphql";
-import { SCHEMA_DIR } from "../cli/paths.js";
+import { SCHEMA_DIR } from "../cli/utils/paths.js";
 import type { Indexer } from "../src/index.js";
 import {
   getAssetDefs,

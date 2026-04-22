@@ -1,9 +1,11 @@
 import path, { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { getGraphChainSlug } from "../src/indexers/graph.js";
-import type { Indexer, Model } from "../src/types.js";
+import { Effect } from "effect";
+import { getGraphChainSlug } from "../../src/indexers/graph.js";
+import type { Indexer, Model } from "../../src/types.js";
+import { CliEnv } from "../services/env.js";
 
-export const ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
+export const ROOT_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 export const ABI_DIR = join(ROOT_DIR, "abi");
 export const ENVIO_DIR = join(ROOT_DIR, "envio");
 export const EXPORTS_DIR = join(ROOT_DIR, "src");
@@ -105,3 +107,13 @@ export function getRelativePath(from: string, to: string): string {
   const fromDir = path.extname(from) === "" ? from : path.dirname(from);
   return path.relative(fromDir, to);
 }
+
+export const getRelative = Effect.fn("getRelative")(function* (absolutePath: string) {
+  const env = yield* CliEnv;
+  return env.relativeToCwd(absolutePath);
+});
+
+export const resolveFromCliCwd = Effect.fn("resolveFromCliCwd")(function* (target: string) {
+  const env = yield* CliEnv;
+  return env.resolveFromCwd(target);
+});

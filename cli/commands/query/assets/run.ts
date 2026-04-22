@@ -2,11 +2,11 @@ import { FileSystem } from "@effect/platform";
 import { Console, DateTime, Effect } from "effect";
 import { getEnvioDeployment } from "../../../../src/indexers/envio-deployments.js";
 import type { Indexer } from "../../../../src/types.js";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { toFileOperationError } from "../../../errors.js";
-import { getRelative, wrapText } from "../../../helpers.js";
-import paths from "../../../paths.js";
-import { withSpinner } from "../../../spinner.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { toFileOperationError } from "../../../utils/errors.js";
+import paths, { getRelative } from "../../../utils/paths.js";
+import { withSpinner } from "../../../utils/spinner.js";
+import { wrapText } from "../../../utils/text.js";
 import {
   buildAssetFiles,
   getQueryAssetsDateSegment,

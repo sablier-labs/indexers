@@ -6,22 +6,22 @@ import { Chunk, Clock, Console, Data, Duration, Effect, Option, Schedule, Stream
 import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { Version } from "sablier/evm";
-import paths, { ROOT_DIR } from "../../../../../cli/paths.js";
+import paths, { ROOT_DIR } from "../../../../../cli/utils/paths.js";
 import { getSablierChainSlug } from "../../../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../../../src/indexers/index.js";
 import type { Indexer } from "../../../../../src/types.js";
-import type { FileOperationError } from "../../../../errors.js";
+import type { CliFileLoggerInstance } from "../../../../services/logging.js";
+import { CliFileLogger } from "../../../../services/logging.js";
+import { PromptService } from "../../../../services/prompt.js";
+import type { FileOperationError } from "../../../../utils/errors.js";
 import {
   GraphDeployError,
   ProcessError,
   UserAbortError,
   ValidationError,
-} from "../../../../errors.js";
-import * as helpers from "../../../../helpers.js";
-import type { CliFileLoggerInstance } from "../../../../services/logging.js";
-import { CliFileLogger } from "../../../../services/logging.js";
-import { PromptService } from "../../../../services/prompt.js";
-import { finishSpinner, startSpinner } from "../../../../spinner.js";
+} from "../../../../utils/errors.js";
+import { finishSpinner, startSpinner } from "../../../../utils/spinner.js";
+import { extractDeploymentId } from "../../../../utils/text.js";
 import { extractDeployFailureMessage, hasVersionLabelConflict } from "../helpers.js";
 
 /** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
@@ -361,7 +361,7 @@ function deployToChain(
             return yield* toDeployProcessError(commandStr, errorMessage, exitCode);
           }
 
-          const deploymentId = helpers.extractDeploymentId(stdout);
+          const deploymentId = extractDeploymentId(stdout);
           return { deploymentId, indexerName, success: true } as const;
         })
       );

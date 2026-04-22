@@ -2,8 +2,8 @@ import path from "node:path";
 import { Array as Arr, Order } from "effect";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../src/types.js";
-import { INDEXER_KEYS } from "../../constants.js";
-import paths from "../../paths.js";
+import { INDEXER_KEYS } from "../../utils/constants.js";
+import paths from "../../utils/paths.js";
 
 export const QUERY_ASSET_INDEXERS = INDEXER_KEYS;
 

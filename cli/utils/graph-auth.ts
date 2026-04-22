@@ -1,6 +1,6 @@
 import { Effect } from "effect";
+import { CliEnv } from "../services/env.js";
 import { ValidationError } from "./errors.js";
-import { CliEnv } from "./services/env.js";
 
 export function isGraphGatewayEndpoint(url: string): boolean {
   return url.includes("gateway.thegraph.com");

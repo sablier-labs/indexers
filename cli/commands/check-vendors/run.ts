@@ -4,8 +4,8 @@ import { Console, Effect, Schedule } from "effect";
 import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { envioChains } from "../../../src/indexers/envio.js";
-import { colors, createTable, displayHeader } from "../../display.js";
-import { ValidationError, VendorApiError } from "../../errors.js";
+import { colors, createTable, displayHeader } from "../../utils/display.js";
+import { ValidationError, VendorApiError } from "../../utils/errors.js";
 
 type VendorCheckResult = {
   note?: string;

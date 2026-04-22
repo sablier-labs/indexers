@@ -3,8 +3,8 @@ import type { AbiEventParameter } from "abitype";
 import { Effect } from "effect";
 import type { Abi, AbiEvent, AbiParameter } from "viem";
 import { getAbiItem } from "viem";
-import { sanitizeContractName } from "../../../../cli/contract-name.js";
-import paths from "../../../../cli/paths.js";
+import { sanitizeContractName } from "../../../../cli/utils/contract-name.js";
+import paths from "../../../../cli/utils/paths.js";
 import type { Indexer, Model } from "../../../../src/types.js";
 import type { GraphManifest } from "./manifest-types.js";
 

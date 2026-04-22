@@ -1,6 +1,6 @@
 import * as _ from "lodash-es";
-import { sanitizeContractName } from "../../../../cli/contract-name.js";
-import paths, { getRelativePath } from "../../../../cli/paths.js";
+import { sanitizeContractName } from "../../../../cli/utils/contract-name.js";
+import paths, { getRelativePath } from "../../../../cli/utils/paths.js";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { indexedEvents } from "../../../../events/index.js";
 import type { Indexer, Model } from "../../../../src/types.js";

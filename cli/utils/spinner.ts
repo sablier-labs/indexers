@@ -1,8 +1,8 @@
 import { Effect } from "effect";
-import type { SpinnerHandle, SpinnerStatus } from "./services/spinner.js";
-import { CliSpinner } from "./services/spinner.js";
+import type { SpinnerHandle, SpinnerStatus } from "../services/spinner.js";
+import { CliSpinner } from "../services/spinner.js";
 
-export type { SpinnerHandle, SpinnerStatus } from "./services/spinner.js";
+export type { SpinnerHandle, SpinnerStatus } from "../services/spinner.js";
 
 export const startSpinner = Effect.fn("startSpinner")(function* (message: string) {
   const spinner = yield* CliSpinner;

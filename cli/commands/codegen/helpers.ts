@@ -1,5 +1,5 @@
 import * as yaml from "js-yaml";
-import { AUTOGEN_COMMENT } from "../../constants.js";
+import { AUTOGEN_COMMENT } from "../../utils/constants.js";
 import type { EnvioConfig } from "./envio-config/config-types.js";
 import type { GraphManifest } from "./graph-manifest/manifest-types.js";
 

@@ -5,7 +5,7 @@
 import { HttpBody, HttpClient } from "@effect/platform";
 import { Effect, Schedule } from "effect";
 import { isAddress } from "viem";
-import { VendorApiError } from "../../../errors.js";
+import { VendorApiError } from "../../../utils/errors.js";
 
 // -------------------------------------------------------------------------- //
 //                                    TYPES                                   //

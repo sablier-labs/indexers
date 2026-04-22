@@ -1,9 +1,9 @@
 import path from "node:path";
 import { Effect, Either, Layer, Option } from "effect";
 import { describe, expect, it } from "vitest";
-import { ValidationError } from "../../cli/errors.js";
-import { getOptionalGraphHeaders, resolveGraphHeaders } from "../../cli/graph-auth.js";
 import { CliEnv } from "../../cli/services/env.js";
+import { ValidationError } from "../../cli/utils/errors.js";
+import { getOptionalGraphHeaders, resolveGraphHeaders } from "../../cli/utils/graph-auth.js";
 
 function makeCliEnvLayer(envVars: Record<string, string | undefined> = {}) {
   const cwd = process.cwd();

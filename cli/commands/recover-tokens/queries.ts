@@ -1,8 +1,8 @@
 import { Effect } from "effect";
 import * as _ from "lodash-es";
 import { createPublicClient, fallback, http, parseAbi } from "viem";
-import { ProcessError } from "../../errors.js";
-import type { CliRpcConfig } from "../../rpc.js";
+import { ProcessError } from "../../utils/errors.js";
+import type { CliRpcConfig } from "../../utils/rpc.js";
 import type { AggregateFunctionName, parseIndexedAssetFile, RecoverContract } from "./helpers.js";
 import { computeRecoverTokenRows, mergeRecoverTokenResults } from "./helpers.js";
 

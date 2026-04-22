@@ -15,8 +15,8 @@ import { sablier } from "sablier";
 import { indexers } from "../../../src/indexers/data.js";
 import { graphChains } from "../../../src/indexers/graph.js";
 import type { Indexer } from "../../../src/types.js";
-import { INDEXER_KEYS } from "../../constants.js";
-import { colors, createTable, displayHeader } from "../../display.js";
+import { INDEXER_KEYS } from "../../utils/constants.js";
+import { colors, createTable, displayHeader } from "../../utils/display.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */

@@ -2,11 +2,11 @@ import * as path from "node:path";
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
 import { Console, Effect } from "effect";
-import { colors, createTable, displayHeader } from "../../../display.js";
-import { ProcessError, toFileOperationError } from "../../../errors.js";
-import type { PriceDataFile } from "../../../price-data.js";
-import { getRequiredPriceDataFiles } from "../../../price-data.js";
 import { CliEnv } from "../../../services/env.js";
+import { colors, createTable, displayHeader } from "../../../utils/display.js";
+import { ProcessError, toFileOperationError } from "../../../utils/errors.js";
+import type { PriceDataFile } from "../../../utils/price-data.js";
+import { getRequiredPriceDataFiles } from "../../../utils/price-data.js";
 
 function getPriceDataPaths(cwd: string) {
   return {

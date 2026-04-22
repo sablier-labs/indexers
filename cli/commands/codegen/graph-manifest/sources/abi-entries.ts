@@ -3,7 +3,7 @@ import * as _ from "lodash-es";
 import { indexedContracts } from "../../../../../contracts/index.js";
 import type { Indexer } from "../../../../../src/index.js";
 import type { Model } from "../../../../../src/types.js";
-import paths, { getRelativePath } from "../../../../paths.js";
+import paths, { getRelativePath } from "../../../../utils/paths.js";
 import type { GraphManifest } from "../manifest-types.js";
 
 function get(name: string): GraphManifest.ABI {
