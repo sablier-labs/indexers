@@ -19,8 +19,11 @@ import {
 import { COINGECKO_BASE_URL } from "../../common/constants.js";
 import { isToday } from "../../common/time.js";
 
-const MAX_RETRIES = 5;
+const MAX_RETRIES = 8;
 const NO_PRICE = 0;
+const RATE_LIMIT_BASE_DELAY_MS = 30_000;
+const DEFAULT_BASE_DELAY_MS = 1000;
+const JITTER_RATIO = 0.25;
 
 type CoinConfig = {
   api_id: string;
@@ -75,7 +78,7 @@ export const coinConfigs: Record<string, CoinConfig> = {
     effect: createEffect(mainnet.nativeCurrency.symbol),
   },
   [polygon.nativeCurrency.symbol]: {
-    api_id: "matic-network",
+    api_id: "polygon-ecosystem-token",
     effect: createEffect(polygon.nativeCurrency.symbol),
   },
   [sei.nativeCurrency.symbol]: {
@@ -122,6 +125,11 @@ function getApiKey(): string {
   return apiKey;
 }
 
+function withJitter(delayMs: number): number {
+  const jitter = delayMs * JITTER_RATIO * (Math.random() * 2 - 1);
+  return Math.max(0, Math.round(delayMs + jitter));
+}
+
 // Create axios instance with retry configuration
 const createAxiosInstance = (apiKey: string) => {
   const instance = axios.create({
@@ -140,12 +148,15 @@ const createAxiosInstance = (apiKey: string) => {
       return axiosRetry.isNetworkOrIdempotentRequestError(error) || error.response?.status === 429;
     },
     retryDelay: (retryNumber, error) => {
-      // If server provides Retry-After header, use it
-      if (error.response?.headers["retry-after"]) {
-        return Number(error.response.headers["retry-after"]) * 1000;
+      // If server provides Retry-After header, use it (plus jitter to avoid lockstep retries)
+      const retryAfter = error.response?.headers["retry-after"];
+      if (retryAfter) {
+        return withJitter(Number(retryAfter) * 1000);
       }
-      // Otherwise use exponential backoff starting at 1 second
-      return 2 ** (retryNumber - 1) * 1000;
+      // 429s need a longer base to give CoinGecko's rate-limit window time to reset
+      const baseDelay =
+        error.response?.status === 429 ? RATE_LIMIT_BASE_DELAY_MS : DEFAULT_BASE_DELAY_MS;
+      return withJitter(2 ** (retryNumber - 1) * baseDelay);
     },
   });
 
@@ -154,7 +165,7 @@ const createAxiosInstance = (apiKey: string) => {
 
 /**
  * Fetch the current price of a coin from CoinGecko Pro API's /simple/price endpoint.
- * Uses axios-retry with exponential backoff (up to 5 retries).
+ * Uses axios-retry with exponential backoff (up to MAX_RETRIES retries).
  * @see https://docs.coingecko.com/reference/simple-price
  */
 async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<number> {
@@ -195,7 +206,7 @@ async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<
 }
 
 /**
- * Fetch the price of a coin from CoinGecko Pro API using axios-retry with exponential backoff (up to 5 retries).
+ * Fetch the price of a coin from CoinGecko Pro API using axios-retry with exponential backoff (up to MAX_RETRIES retries).
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
 export async function fetchCoinPrice(
