@@ -26,7 +26,7 @@ jobs:
         run: nup @sablier/price-data
 
       - name: Sync price data to cache
-        run: just prices-sync
+        run: just envio prices-sync
 
       - name: Check for changes
         id: changes
