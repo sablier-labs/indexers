@@ -33,9 +33,10 @@ type MerkleFactoryV13ResetParams = {
 
 /**
  * Upserts the Comptroller custom min-fee for a `(user, protocol)` pair. Applies to
- * Lockup v3.0+, Flow v2.0+, and Airdrops v2.0+. Treats `newMinFeeUSD === 0n` as a
- * disable (nulls the matching protocol field). Skips protocols not covered by the
- * Analytics schema (Staking, Bob).
+ * Lockup v3.0+, Flow v2.0+, and Airdrops v2.0+. A `newMinFeeUSD` of `0n` is stored
+ * verbatim (the Comptroller emits `UpdateCustomFeeUSD` for zero as an explicit
+ * override, not a reset). Skips protocols not covered by the Analytics schema
+ * (Staking, Bob).
  */
 export async function upsertComptrollerFee(
   context: HandlerContext,
@@ -50,11 +51,10 @@ export async function upsertComptrollerFee(
   }
 
   const entity = await loadOrInit(context, event, user);
-  const newValue = newMinFeeUSD === 0n ? undefined : newMinFeeUSD;
 
   commit(context, {
     ...entity,
-    [field]: newValue,
+    [field]: newMinFeeUSD,
   });
 }
 

@@ -140,15 +140,17 @@ Sablier has two independent custom-fee mechanisms, both surfaced on this entity:
 
 1. Comptroller custom fees (8-decimal USD, 1e8 = $1) — set via the Comptroller's
    `UpdateCustomFeeUSD` event, one per (user, protocol) pair. Apply to
-   Lockup v3.0+, Flow v2.0+, and Airdrops v2.0+. When disabled, the field is nulled.
+   Lockup v3.0+, Flow v2.0+, and Airdrops v2.0+. A value of `0` is an explicit
+   override (not a reset) and is persisted as `0`, not null.
 
 2. SablierMerkleFactory v1.3 fee (native wei) — set via the factory's `SetCustomFee`
    event and cleared via `ResetCustomFee`. Applies to Airdrops v1.3 only. Only
    affects *newly-created* campaigns; existing campaigns keep their original fee.
 
-A row exists iff the user currently has at least one active custom fee on this chain.
-When every fee field becomes null (all comptroller fees disabled and the merkle factory fee
-reset), the row is deleted.
+A row exists iff the user has ever had a custom fee touched on this chain. Comptroller
+fee fields, once written, stick around (including at `0`). The merkle factory v1.3 field
+is the only one that can be nulled — via `ResetCustomFee` — and if it's the only field
+ever written and then gets reset, the row is deleted.
 """
 type CustomFee @entity {
   """
@@ -168,19 +170,22 @@ type CustomFee @entity {
 
   """
   Comptroller custom min-fee for Airdrops (8-decimal USD, 1e8 = $1).
-  Null = never set or disabled. Applies to Airdrops v2.0+.
+  Null = never set. `0` = explicit override to zero (emitted by the Comptroller via
+  `UpdateCustomFeeUSD`). Applies to Airdrops v2.0+.
   """
   airdropsFeeUSD: BigInt
 
   """
   Comptroller custom min-fee for Flow (8-decimal USD, 1e8 = $1).
-  Null = never set or disabled. Applies to Flow v2.0+.
+  Null = never set. `0` = explicit override to zero (emitted by the Comptroller via
+  `UpdateCustomFeeUSD`). Applies to Flow v2.0+.
   """
   flowFeeUSD: BigInt
 
   """
   Comptroller custom min-fee for Lockup (8-decimal USD, 1e8 = $1).
-  Null = never set or disabled. Applies to Lockup v3.0+.
+  Null = never set. `0` = explicit override to zero (emitted by the Comptroller via
+  `UpdateCustomFeeUSD`). Applies to Lockup v3.0+.
   """
   lockupFeeUSD: BigInt
 
