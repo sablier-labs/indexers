@@ -52,7 +52,7 @@ export async function upsertComptrollerFee(
   const entity = await loadOrInit(context, event, user);
   const newValue = newMinFeeUSD === 0n ? undefined : newMinFeeUSD;
 
-  context.CustomFee.set({
+  commit(context, {
     ...entity,
     [field]: newValue,
   });
@@ -71,7 +71,7 @@ export async function upsertMerkleFactoryV13Fee(
 
   const entity = await loadOrInit(context, event, campaignCreator);
 
-  context.CustomFee.set({
+  commit(context, {
     ...entity,
     merkleFactoryV13Fee: customFee,
   });
@@ -89,7 +89,7 @@ export async function resetMerkleFactoryV13Fee(
 
   const entity = await loadOrInit(context, event, campaignCreator);
 
-  context.CustomFee.set({
+  commit(context, {
     ...entity,
     merkleFactoryV13Fee: undefined,
   });
@@ -114,6 +114,27 @@ async function loadOrInit(
     merkleFactoryV13Fee: undefined,
     user: user.toLowerCase(),
   };
+}
+
+/**
+ * Persists the entity, or deletes it when every fee field has been cleared. A row
+ * represents at least one active custom-fee override; once all overrides are gone
+ * there is no reason to keep the row around.
+ */
+function commit(context: HandlerContext, entity: Entity<"CustomFee">): void {
+  const hasAnyFee =
+    entity.airdropsFeeUSD !== undefined ||
+    entity.flowFeeUSD !== undefined ||
+    entity.lockupFeeUSD !== undefined ||
+    entity.merkleFactoryV13Fee !== undefined;
+
+  if (hasAnyFee) {
+    context.CustomFee.set(entity);
+  } else {
+    // `CustomFee` is a leaf entity — no other entity references it — so the
+    // referential-integrity caveat behind `deleteUnsafe` does not apply here.
+    context.CustomFee.deleteUnsafe(entity.id);
+  }
 }
 
 function resolveComptrollerField(

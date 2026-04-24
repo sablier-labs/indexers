@@ -146,7 +146,9 @@ Sablier has two independent custom-fee mechanisms, both surfaced on this entity:
    event and cleared via `ResetCustomFee`. Applies to Airdrops v1.3 only. Only
    affects *newly-created* campaigns; existing campaigns keep their original fee.
 
-A row exists iff the user has had at least one custom fee set on this chain.
+A row exists iff the user currently has at least one active custom fee on this chain.
+When every fee field becomes null (all comptroller fees disabled and the merkle factory fee
+reset), the row is deleted.
 """
 type CustomFee @entity {
   """
