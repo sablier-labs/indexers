@@ -11,6 +11,10 @@ export namespace Id {
     return `${getDate(blockTimestamp)}_${chain.nativeCurrency.symbol}`;
   }
 
+  export function customFee(chainId: number, address: string): string {
+    return `${chainId}_${address.toLowerCase()}`;
+  }
+
   export function feeTransaction(chainId: number, hash: string): string {
     return `${chainId}_${hash}`;
   }

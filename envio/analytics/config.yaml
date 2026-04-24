@@ -52,6 +52,8 @@ contracts:
       - event: "CreateMerkleInstant"
       - event: "CreateMerkleLL"
       - event: "CreateMerkleLT"
+      - event: "ResetCustomFee"
+      - event: "SetCustomFee"
   - name: "SablierMerkleInstant_v1_3"
     handler: "mappings/airdrops/v1.3/SablierMerkleInstant.ts"
     abi_file_path: "../../node_modules/sablier/abi/airdrops/v1.3/SablierMerkleInstant.json"
@@ -340,9 +342,10 @@ contracts:
       - event: "CreateLockupTranchedStream"
       - event: "RenounceLockupStream"
       - event: "WithdrawFromLockupStream"
-  - abi_file_path: "../../node_modules/sablier/abi/comptroller/v1.0/SablierComptroller.json"
+  - abi_file_path: "../../node_modules/sablier/abi/comptroller/v1.1/SablierComptroller.json"
     events:
       - event: "TransferFees"
+      - event: "UpdateCustomFeeUSD"
     handler: "mappings/comptroller/SablierComptroller.ts"
     name: "SablierComptroller"
 chains:

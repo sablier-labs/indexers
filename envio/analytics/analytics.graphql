@@ -134,6 +134,62 @@ type FeeCollectionDaily @entity {
 }
 
 """
+Per-user custom fee overrides.
+
+Sablier has two independent custom-fee mechanisms, both surfaced on this entity:
+
+1. Comptroller custom fees (8-decimal USD, 1e8 = $1) — set via the Comptroller's
+   `UpdateCustomFeeUSD` event, one per (user, protocol) pair. Apply to
+   Lockup v3.0+, Flow v2.0+, and Airdrops v2.0+. When disabled, the field is nulled.
+
+2. SablierMerkleFactory v1.3 fee (native wei) — set via the factory's `SetCustomFee`
+   event and cleared via `ResetCustomFee`. Applies to Airdrops v1.3 only. Only
+   affects *newly-created* campaigns; existing campaigns keep their original fee.
+
+A row exists iff the user has had at least one custom fee set on this chain.
+"""
+type CustomFee @entity {
+  """
+  Unique identifier: chainId_userAddress (lowercase)
+  """
+  id: ID!
+
+  """
+  Chain ID where the custom fee applies
+  """
+  chainId: BigInt!
+
+  """
+  User's Ethereum address (lowercase)
+  """
+  user: String!
+
+  """
+  Comptroller custom min-fee for Airdrops (8-decimal USD, 1e8 = $1).
+  Null = never set or disabled. Applies to Airdrops v2.0+.
+  """
+  airdropsFeeUSD: BigInt
+
+  """
+  Comptroller custom min-fee for Flow (8-decimal USD, 1e8 = $1).
+  Null = never set or disabled. Applies to Flow v2.0+.
+  """
+  flowFeeUSD: BigInt
+
+  """
+  Comptroller custom min-fee for Lockup (8-decimal USD, 1e8 = $1).
+  Null = never set or disabled. Applies to Lockup v3.0+.
+  """
+  lockupFeeUSD: BigInt
+
+  """
+  SablierMerkleFactory v1.3 custom claim fee in native wei.
+  Null = never set or reset. Applies to Airdrops v1.3 only.
+  """
+  merkleFactoryV13Fee: BigInt
+}
+
+"""
 Fee collection event.
 
 Airdrops v1.3, Flow v1.1, and Lockup v2.0 emit the `CollectFees` event when protocol fees are

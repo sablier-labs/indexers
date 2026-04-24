@@ -7,16 +7,17 @@ import type { Indexer, Model } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
 
 /**
- * Comptroller is an upgradeable contract which is not a part of the normal versioned Sablier releases.
- * Only TransferFees event is tracked for the Comptroller contract.
- * We use the v1.0 ABI since the TransferFees event signature is identical across versions.
+ * Comptroller is an upgradeable contract, not part of versioned Sablier releases.
+ * We use the v1.1 ABI because v1.1 merged v1.0's SetCustomFeeUSD + DisableCustomFeeUSD
+ * into a single UpdateCustomFeeUSD event (which we index). The TransferFees signature
+ * is unchanged from v1.0.
  */
 export function createComptrollerContract(indexer: Indexer.Target): EnvioConfig.Contract {
-  const abiPath = paths.abi("SablierComptroller", undefined, "v1.0");
+  const abiPath = paths.abi("SablierComptroller", undefined, "v1.1");
   const envioConfigDir = paths.envio.config(indexer);
   return {
     abi_file_path: getRelativePath(envioConfigDir, abiPath),
-    events: [{ event: "TransferFees" }],
+    events: [{ event: "TransferFees" }, { event: "UpdateCustomFeeUSD" }],
     handler: "mappings/comptroller/SablierComptroller.ts",
     name: "SablierComptroller",
   };

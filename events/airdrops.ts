@@ -144,9 +144,18 @@ const airdropHandlers: Model.EventMap = _.merge(
     ...factory(
       "v1.3",
       names.SABLIER_MERKLE_FACTORY,
-      ["CollectFees", "CreateMerkleInstant", "CreateMerkleLL", "CreateMerkleLT"],
+      [
+        "CollectFees",
+        "CreateMerkleInstant",
+        "CreateMerkleLL",
+        "CreateMerkleLT",
+        "ResetCustomFee",
+        "SetCustomFee",
+      ],
       {
         CollectFees: ["analytics"], // index "CollectFees" event only in the Analytics indexer
+        ResetCustomFee: ["analytics"],
+        SetCustomFee: ["analytics"],
       }
     ),
     [names.SABLIER_MERKLE_INSTANT]: {

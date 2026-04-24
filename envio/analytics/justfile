@@ -1,7 +1,7 @@
 import "../indexer.just"
 
 # Run `just --evaluate ENVIO_HASURA_PUBLIC_AGGREGATE` to see the result
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "CryptoFeesDaily&FeeCollection&FeeCollectionDaily&FeeTransaction&FiatFeesDaily&User&UsersActiveMonthly&UserTransaction"
+export ENVIO_HASURA_PUBLIC_AGGREGATE := "CryptoFeesDaily&CustomFee&FeeCollection&FeeCollectionDaily&FeeTransaction&FiatFeesDaily&User&UsersActiveMonthly&UserTransaction"
 export ENVIO_INDEXER_NAME := "analytics"
 export INDEXER_NAME := "analytics"
 
