@@ -43,7 +43,7 @@ export type FeeCollectionPreset = {
   airdropCampaign: string | null;
 };
 
-type Action_Filter = {
+type LockupAction_Filter = {
   subgraphId_gt?: number;
 };
 
@@ -61,8 +61,8 @@ export enum OrderDirection {
 /* -------------------------------------------------------------------------- */
 
 const getActions = /* GraphQL */ `
-  query getActions($first: Int!, $orderDirection: OrderDirection!, $where: Action_filter) {
-    actions(
+  query getActions($first: Int!, $orderDirection: OrderDirection!, $where: LockupAction_filter) {
+    actions: lockupActions(
       first: $first
       orderBy: subgraphId
       orderDirection: $orderDirection
@@ -114,7 +114,7 @@ export async function fetchAllActions(
   type QueryVariables = {
     first: number;
     orderDirection: OrderDirection;
-    where: Action_Filter;
+    where: LockupAction_Filter;
   };
 
   while (hasMore) {
