@@ -9,7 +9,7 @@ Defines which Sablier contracts are indexed by each protocol.
 
 ## Contract Sources
 
-Each protocol file exports `Types.ContractSource[]`:
+Each protocol file exports `Model.ContractSource<Sablier.Version.*>[]`:
 
 - **`name`** - Contract name (from sablier package)
 - **`versions`** - Array of versions to index

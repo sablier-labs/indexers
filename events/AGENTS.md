@@ -10,17 +10,17 @@ Defines which contract events are indexed by each protocol.
 
 ## Event Definitions
 
-Each protocol file exports `Types.EventMap`:
+Each protocol file exports `Model.EventMap`:
 
 ```ts
 {
   [contractName]: {
-    [version]: Types.Event[]
+    [version]: Model.Event[]
   }
 }
 ```
 
-**`Types.Event`** includes:
+**`Model.Event`** includes:
 
 - **`contractName`** - Contract emitting the event
 - **`eventName`** - Event name
