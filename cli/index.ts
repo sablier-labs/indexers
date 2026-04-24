@@ -28,6 +28,7 @@ import { queryAverageMauCommand } from "./commands/query/average-mau/command.js"
 import { queryTotalUsdFeesCommand } from "./commands/query/total-usd-fees/command.js";
 import { queryUniqueTxsCommand } from "./commands/query/unique-txs/command.js";
 import { recoverTokensCommand } from "./commands/recover-tokens/command.js";
+import { syncTokenMetadataCommand } from "./commands/sync-token-metadata/command.js";
 import { CliLive } from "./context.js";
 import { CliEnv } from "./services/env.js";
 
@@ -72,6 +73,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
     graphReviveCommand,
     pricesCheckCommand,
     pricesSyncCommand,
+    syncTokenMetadataCommand,
   ])
 );
 

@@ -49,6 +49,10 @@ const paths = {
     return join(ABI_DIR, `${contractName}.json`);
   },
   envio: {
+    cache: {
+      tokenMetadata: (indexer: Indexer.IndexerKey): string =>
+        join(ENVIO_DIR, indexer, ".envio", "cache", "tokenMetadata.tsv"),
+    },
     config: (target: Target): string => join(ENVIO_DIR, target, "config.yaml"),
     schema: (target: Target): string => join(ENVIO_DIR, target, `${target}.graphql`),
   },
