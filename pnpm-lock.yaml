@@ -47,7 +47,7 @@ importers:
         version: 1.15.3(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/2ee798cc918551cfca99f2b07271bfdf7801b60c
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/ac27ce1c5bc51e9f470fa547d65e00f0768a6708
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1172,8 +1172,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/2ee798cc918551cfca99f2b07271bfdf7801b60c':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/2ee798cc918551cfca99f2b07271bfdf7801b60c}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/ac27ce1c5bc51e9f470fa547d65e00f0768a6708':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/ac27ce1c5bc51e9f470fa547d65e00f0768a6708}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -3872,8 +3872,8 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
-  uuid@11.1.0:
-    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+  uuid@11.1.1:
+    resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
     hasBin: true
 
   uuid@8.3.2:
@@ -4291,7 +4291,7 @@ snapshots:
     dependencies:
       '@effect/platform': 0.96.0(effect@3.21.0)
       effect: 3.21.0
-      uuid: 11.1.0
+      uuid: 11.1.1
 
   '@effect/platform-node-shared@0.59.0(@effect/cluster@0.58.0(@effect/platform@0.96.0(effect@3.21.0))(@effect/rpc@0.75.0(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/sql@0.51.0(@effect/experimental@0.57.10(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/workflow@0.15.1(@effect/experimental@0.57.10(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/platform@0.96.0(effect@3.21.0))(@effect/rpc@0.75.0(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(effect@3.21.0))(effect@3.21.0))(@effect/platform@0.96.0(effect@3.21.0))(@effect/rpc@0.75.0(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/sql@0.51.0(@effect/experimental@0.57.10(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(bufferutil@4.1.0)(effect@3.21.0)(utf-8-validate@6.0.6)':
     dependencies:
@@ -4351,7 +4351,7 @@ snapshots:
       '@effect/experimental': 0.57.10(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0)
       '@effect/platform': 0.96.0(effect@3.21.0)
       effect: 3.21.0
-      uuid: 11.1.0
+      uuid: 11.1.1
 
   '@effect/typeclass@0.38.0(effect@3.21.0)':
     dependencies:
@@ -5079,7 +5079,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.5.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/2ee798cc918551cfca99f2b07271bfdf7801b60c': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/ac27ce1c5bc51e9f470fa547d65e00f0768a6708': {}
 
   '@scure/base@1.1.9': {}
 
@@ -7441,7 +7441,7 @@ snapshots:
       '@types/ws': 8.18.1
       buffer: 6.0.3
       eventemitter3: 5.0.4
-      uuid: 11.1.0
+      uuid: 11.1.1
       ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       bufferutil: 4.1.0
@@ -7905,7 +7905,7 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
-  uuid@11.1.0: {}
+  uuid@11.1.1: {}
 
   uuid@8.3.2: {}
 
