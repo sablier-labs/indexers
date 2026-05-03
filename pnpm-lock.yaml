@@ -47,7 +47,7 @@ importers:
         version: 1.15.3(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/b12bf1dc734420a58f12813705daf5d89a05fd9a
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/72ffdd417729c3e1fc803dbf034831f3132816e4
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1172,8 +1172,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/b12bf1dc734420a58f12813705daf5d89a05fd9a':
-    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/b12bf1dc734420a58f12813705daf5d89a05fd9a}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/72ffdd417729c3e1fc803dbf034831f3132816e4':
+    resolution: {tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/72ffdd417729c3e1fc803dbf034831f3132816e4}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -2967,8 +2967,8 @@ packages:
     resolution: {integrity: sha512-P0efT1C9jIdVRefqjzOQ9Xml57zpOXnIuS+csaB4MdZbTdmGDLo8XhzBG1N7aO11gKDDkJvBLULeFTo46wwreA==}
     hasBin: true
 
-  msgpackr@1.11.10:
-    resolution: {integrity: sha512-iCZNq+HszvF+fC3anCm4nBmWEnbeIAfpDs6IStAEKhQ2YSgkjzVG2FF9XJqwwQh5bH3N9OUTUt4QwVN6MLMLtA==}
+  msgpackr@1.11.12:
+    resolution: {integrity: sha512-RBdJ1Un7yGlXWajrkxcSa93nvQ0w4zBf60c0yYv7YtBelP8H2FA7XsfBbMHtXKXUMUxH7zV3Zuozh+kUQWhHvg==}
 
   msgpackr@1.11.9:
     resolution: {integrity: sha512-FkoAAyyA6HM8wL882EcEyFZ9s7hVADSwG9xrVx3dxxNQAtgADTrJoEWivID82Iv1zWDsv/OtbrrcZAzGzOMdNw==}
@@ -4344,7 +4344,7 @@ snapshots:
     dependencies:
       '@effect/platform': 0.96.0(effect@3.21.0)
       effect: 3.21.0
-      msgpackr: 1.11.10
+      msgpackr: 1.11.12
 
   '@effect/sql@0.51.0(@effect/experimental@0.57.10(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0))(@effect/platform@0.96.0(effect@3.21.0))(effect@3.21.0)':
     dependencies:
@@ -5079,7 +5079,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.5.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/b12bf1dc734420a58f12813705daf5d89a05fd9a': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/72ffdd417729c3e1fc803dbf034831f3132816e4': {}
 
   '@scure/base@1.1.9': {}
 
@@ -6987,7 +6987,7 @@ snapshots:
       '@msgpackr-extract/msgpackr-extract-win32-x64': 3.0.3
     optional: true
 
-  msgpackr@1.11.10:
+  msgpackr@1.11.12:
     optionalDependencies:
       msgpackr-extract: 3.0.3
 
