@@ -1,3 +1,12 @@
+## Production URL
+
+The analytics indexer is private (not exposed via `envioDeployments`). For tasks involving GraphQL queries, use:
+
+- **Endpoint**: https://indexer.hyperindex.xyz/7672d32/v1/graphql
+- **Playground**: https://envio.dev/app/sablier-labs/analytics/48b96e0/playground
+
+Source of truth: `ENVIO_ANALYTICS_ENDPOINT` in `cli/commands/query/clients/envio.ts`.
+
 ## GraphQL Schema Editing
 
 `analytics.graphql` should be **edited directly** in this indexer.
