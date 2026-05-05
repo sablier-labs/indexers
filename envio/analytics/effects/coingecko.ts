@@ -17,10 +17,11 @@ import {
   xdc,
 } from "sablier/evm/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants.js";
-import { isToday } from "../../common/time.js";
+import { isToday, shiftDateUtc } from "../../common/time.js";
 
 const MAX_RETRIES = 8;
 const NO_PRICE = 0;
+const LOOKBACK_DAYS = 7;
 const RATE_LIMIT_BASE_DELAY_MS = 30_000;
 const DEFAULT_BASE_DELAY_MS = 1000;
 const JITTER_RATIO = 0.25;
@@ -206,19 +207,15 @@ async function fetchCurrentCoinPrice(logger: Logger, currency: string): Promise<
 }
 
 /**
- * Fetch the price of a coin from CoinGecko Pro API using axios-retry with exponential backoff (up to MAX_RETRIES retries).
+ * Fetch the historical price of a coin from CoinGecko Pro API for a single date.
+ * Uses axios-retry with exponential backoff (up to MAX_RETRIES retries).
  * @see https://docs.coingecko.com/reference/coins-id-history
  */
-export async function fetchCoinPrice(
+async function fetchHistoricalCoinPrice(
   logger: Logger,
   date: string,
   currency: string
 ): Promise<number> {
-  // Route current-day requests to the live price endpoint
-  if (isToday(date)) {
-    return await fetchCurrentCoinPrice(logger, currency);
-  }
-
   const coinId = coinConfigs[currency].api_id;
 
   const url = new URL(`${COINGECKO_BASE_URL}/coins/${coinId}/history`);
@@ -255,5 +252,38 @@ export async function fetchCoinPrice(
     }
   }
 
+  return NO_PRICE;
+}
+
+/**
+ * Fetch the price of a coin for a given date, falling back to nearest earlier dates when
+ * the primary call returns no data. Walks back up to `LOOKBACK_DAYS` days; never forward,
+ * to avoid leaking prices from after the tx was mined.
+ */
+export async function fetchCoinPrice(
+  logger: Logger,
+  date: string,
+  currency: string
+): Promise<number> {
+  const primary = isToday(date)
+    ? await fetchCurrentCoinPrice(logger, currency)
+    : await fetchHistoricalCoinPrice(logger, date, currency);
+  if (primary !== NO_PRICE) {
+    return primary;
+  }
+
+  for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
+    const candidate = shiftDateUtc(date, -offsetDays);
+    const price = await fetchHistoricalCoinPrice(logger, candidate, currency);
+    if (price !== NO_PRICE) {
+      logger.warn(`Using fallback price from ${candidate} for ${currency} (target ${date})`, {
+        candidate,
+        currency,
+        offsetDays,
+        target: date,
+      });
+      return price;
+    }
+  }
   return NO_PRICE;
 }

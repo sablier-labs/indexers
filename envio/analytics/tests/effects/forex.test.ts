@@ -2,7 +2,7 @@
 import axios from "axios";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CURRENCY_FREAKS_BASE_URL } from "../../../common/constants.js";
-import { fetchFromCurrencyFreaksAPI } from "../../effects/forex.js";
+import { fetchFromCurrencyFreaksAPI, fetchGBPRateWithFallback } from "../../effects/forex.js";
 
 // Mock axios
 vi.mock("axios", () => ({
@@ -154,6 +154,64 @@ describe("fetchFromCurrencyFreaksAPI", () => {
       expect(mockedAxios.get).toHaveBeenCalledWith(
         `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`
       );
+    });
+  });
+
+  describe("walk-back fallback", () => {
+    it("should return the primary rate without warning when first call succeeds", async () => {
+      mockedAxios.get.mockResolvedValueOnce({ data: { rate: 1.25 } });
+
+      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15", "test-api-key");
+
+      expect(result).toBe(1.25);
+      expect(mockedAxios.get).toHaveBeenCalledTimes(1);
+      expect(mockLogger.warn).not.toHaveBeenCalled();
+    });
+
+    it("should walk back and return the first available rate", async () => {
+      // 2024-03-15 misses, 2024-03-14 misses, 2024-03-13 succeeds with 1.30
+      mockedAxios.get
+        .mockResolvedValueOnce({ data: {} })
+        .mockResolvedValueOnce({ data: {} })
+        .mockResolvedValueOnce({ data: { rate: 1.3 } });
+
+      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15", "test-api-key");
+
+      expect(result).toBe(1.3);
+      expect(mockedAxios.get).toHaveBeenCalledTimes(3);
+      expect(mockedAxios.get).toHaveBeenNthCalledWith(
+        1,
+        expect.stringContaining("date=2024-03-15")
+      );
+      expect(mockedAxios.get).toHaveBeenNthCalledWith(
+        2,
+        expect.stringContaining("date=2024-03-14")
+      );
+      expect(mockedAxios.get).toHaveBeenNthCalledWith(
+        3,
+        expect.stringContaining("date=2024-03-13")
+      );
+      expect(mockLogger.warn).toHaveBeenCalledWith(
+        "Using fallback GBP rate from 2024-03-13 (target 2024-03-15)",
+        expect.objectContaining({
+          candidate: "2024-03-13",
+          offsetDays: 2,
+          target: "2024-03-15",
+        })
+      );
+    });
+
+    it("should return 0 when all fallback dates miss", async () => {
+      // All 8 calls (target + 7 fallbacks) miss
+      for (let i = 0; i < 8; i++) {
+        mockedAxios.get.mockResolvedValueOnce({ data: {} });
+      }
+
+      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15", "test-api-key");
+
+      expect(result).toBe(0);
+      expect(mockedAxios.get).toHaveBeenCalledTimes(8);
+      expect(mockLogger.warn).not.toHaveBeenCalled();
     });
   });
 

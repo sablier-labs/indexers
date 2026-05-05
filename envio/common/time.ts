@@ -44,6 +44,18 @@ export function getMonth(timestampInSeconds: number): string {
 }
 
 /**
+ * Shift a YYYY-MM-DD date by `deltaDays` in UTC. Negative values shift backward.
+ * @param yyyymmdd - The date in the format YYYY-MM-DD.
+ * @param deltaDays - Number of days to add (negative to subtract).
+ * @returns The shifted date in YYYY-MM-DD.
+ */
+export function shiftDateUtc(yyyymmdd: string, deltaDays: number): string {
+  const dt = DateTime.unsafeMake(yyyymmdd);
+  const shifted = DateTime.add(dt, { days: deltaDays });
+  return DateTime.formatIsoDateUtc(shifted);
+}
+
+/**
  * Check if a date string (YYYY-MM-DD format) is today in UTC.
  */
 export function isToday(date: string): boolean {

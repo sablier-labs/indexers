@@ -7,6 +7,7 @@ import {
   getMonthTimestamp,
   getTimestamp,
   isToday,
+  shiftDateUtc,
 } from "../../common/time.js";
 
 describe("time", () => {
@@ -189,6 +190,47 @@ describe("time", () => {
 
     it("should return false for a date in the past", () => {
       expect(isToday("2020-01-01")).toBe(false);
+    });
+  });
+
+  describe("shiftDateUtc", () => {
+    it("should shift forward by positive days", () => {
+      expect(shiftDateUtc("2024-01-15", 5)).toBe("2024-01-20");
+    });
+
+    it("should shift backward by negative days", () => {
+      expect(shiftDateUtc("2024-01-15", -5)).toBe("2024-01-10");
+    });
+
+    it("should return the same date for delta 0", () => {
+      expect(shiftDateUtc("2024-01-15", 0)).toBe("2024-01-15");
+    });
+
+    it("should cross month boundary going forward", () => {
+      expect(shiftDateUtc("2024-01-30", 3)).toBe("2024-02-02");
+    });
+
+    it("should cross month boundary going backward", () => {
+      expect(shiftDateUtc("2024-03-02", -3)).toBe("2024-02-28");
+    });
+
+    it("should cross year boundary going forward", () => {
+      expect(shiftDateUtc("2024-12-30", 5)).toBe("2025-01-04");
+    });
+
+    it("should cross year boundary going backward", () => {
+      expect(shiftDateUtc("2024-01-03", -5)).toBe("2023-12-29");
+    });
+
+    it("should handle leap day correctly", () => {
+      expect(shiftDateUtc("2024-02-28", 1)).toBe("2024-02-29");
+      expect(shiftDateUtc("2024-02-29", 1)).toBe("2024-03-01");
+      expect(shiftDateUtc("2024-03-01", -1)).toBe("2024-02-29");
+    });
+
+    it("should handle non-leap year February correctly", () => {
+      expect(shiftDateUtc("2023-02-28", 1)).toBe("2023-03-01");
+      expect(shiftDateUtc("2023-03-01", -1)).toBe("2023-02-28");
     });
   });
 

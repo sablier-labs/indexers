@@ -3,9 +3,10 @@
 // -------------------------------------------------------------------------- //
 
 import { HttpBody, HttpClient } from "@effect/platform";
-import { Effect, Schedule } from "effect";
+import { Effect } from "effect";
 import { isAddress } from "viem";
 import { VendorApiError } from "../../../utils/errors.js";
+import { withVendorRequest } from "../../../utils/vendor-request.js";
 
 // -------------------------------------------------------------------------- //
 //                                    TYPES                                   //
@@ -100,11 +101,6 @@ const INDEXER_ASSETS_QUERY = /* GraphQL */ `
 `;
 
 export const INDEXER_ASSETS_PAGE_SIZE = 1000;
-
-const RETRY_SCHEDULE = Schedule.exponential("100 millis").pipe(
-  Schedule.intersect(Schedule.recurs(3)),
-  Schedule.jittered
-);
 
 // -------------------------------------------------------------------------- //
 //                                  HELPERS                                   //
@@ -225,37 +221,31 @@ const parseEnvioPayload = (
   });
 
 const fetchEnvioQuery = (opts: EnvioRequestOptions) =>
-  Effect.gen(function* () {
-    const response = yield* HttpClient.post(opts.endpoint ?? ENVIO_ANALYTICS_ENDPOINT, {
-      accept: "application/json",
-      body: HttpBody.unsafeJson({
-        query: opts.query,
-        variables: opts.variables,
-      }),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+  withVendorRequest(
+    "envio",
+    Effect.gen(function* () {
+      const response = yield* HttpClient.post(opts.endpoint ?? ENVIO_ANALYTICS_ENDPOINT, {
+        accept: "application/json",
+        body: HttpBody.unsafeJson({
+          query: opts.query,
+          variables: opts.variables,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
 
-    if (response.status < 200 || response.status >= 300) {
-      return yield* Effect.fail(
-        new VendorApiError({
-          message: `Envio request failed with status ${response.status}`,
-          vendor: "envio",
-        })
-      );
-    }
-
-    const payload = yield* response.json;
-    return yield* parseEnvioPayload(payload);
-  }).pipe(
-    Effect.retry(RETRY_SCHEDULE),
-    Effect.mapError((error) => {
-      if (error instanceof VendorApiError) {
-        return error;
+      if (response.status < 200 || response.status >= 300) {
+        return yield* Effect.fail(
+          new VendorApiError({
+            message: `Envio request failed with status ${response.status}`,
+            vendor: "envio",
+          })
+        );
       }
-      const message = error instanceof Error ? error.message : String(error);
-      return new VendorApiError({ message, vendor: "envio" });
+
+      const payload = yield* response.json;
+      return yield* parseEnvioPayload(payload);
     })
   );
 

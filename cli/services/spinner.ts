@@ -1,4 +1,4 @@
-import { Context, Effect, Layer } from "effect";
+import { Cause, Context, Effect, Exit, Layer } from "effect";
 import type { Ora } from "ora";
 import ora from "ora";
 
@@ -37,13 +37,18 @@ export class CliSpinner extends Context.Tag("CliSpinner")<
 export const CliSpinnerLive = Layer.succeed(CliSpinner, {
   start: (message: string) => Effect.sync(() => makeSpinnerHandle(ora(message).start())),
   withSpinner: <A, E, R>(message: string, effect: Effect.Effect<A, E, R>) =>
-    Effect.scoped(
-      Effect.gen(function* () {
-        yield* Effect.acquireRelease(
-          Effect.sync(() => ora(message).start()),
-          (spinner) => Effect.sync(() => void spinner.stop())
-        );
-        return yield* effect;
-      })
+    Effect.acquireUseRelease(
+      Effect.sync(() => ora(message).start()),
+      () => effect,
+      (spinner, exit) =>
+        Effect.sync(() => {
+          if (Exit.isSuccess(exit)) {
+            spinner.succeed();
+          } else if (Cause.isInterruptedOnly(exit.cause)) {
+            spinner.stop();
+          } else {
+            spinner.fail();
+          }
+        })
     ),
 });

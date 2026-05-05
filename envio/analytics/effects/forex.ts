@@ -3,7 +3,7 @@ import type { Logger } from "envio";
 import { createEffect, S } from "envio";
 import * as _ from "lodash-es";
 import { CURRENCY_FREAKS_BASE_URL } from "../../common/constants.js";
-import { isToday } from "../../common/time.js";
+import { isToday, shiftDateUtc } from "../../common/time.js";
 
 type CurrencyFreaksResponse = {
   rate: number;
@@ -16,6 +16,7 @@ type CurrencyFreaksLatestResponse = {
 };
 
 const NO_PRICE = 0;
+const LOOKBACK_DAYS = 7;
 const dateType = S.string;
 
 export const fetchGBPExchangeRate = createEffect(
@@ -31,12 +32,40 @@ export const fetchGBPExchangeRate = createEffect(
     if (!CURRENCY_FREAKS_API_KEY) {
       throw new Error("ENVIO_CURRENCY_FREAKS_API_KEY is not set");
     }
-    if (isToday(date)) {
-      return await fetchTodayGBPRate(context.log, CURRENCY_FREAKS_API_KEY);
-    }
-    return await fetchFromCurrencyFreaksAPI(context.log, date, CURRENCY_FREAKS_API_KEY);
+    return await fetchGBPRateWithFallback(context.log, date, CURRENCY_FREAKS_API_KEY);
   }
 );
+
+/**
+ * Fetch the GBP→USD exchange rate for a given date, falling back to nearest earlier dates when
+ * the primary call returns no data. Walks back up to `LOOKBACK_DAYS` days; never forward.
+ */
+export async function fetchGBPRateWithFallback(
+  logger: Logger,
+  date: string,
+  apiKey: string
+): Promise<number> {
+  const primary = isToday(date)
+    ? await fetchTodayGBPRate(logger, apiKey)
+    : await fetchFromCurrencyFreaksAPI(logger, date, apiKey);
+  if (primary !== NO_PRICE) {
+    return primary;
+  }
+
+  for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
+    const candidate = shiftDateUtc(date, -offsetDays);
+    const rate = await fetchFromCurrencyFreaksAPI(logger, candidate, apiKey);
+    if (rate !== NO_PRICE) {
+      logger.warn(`Using fallback GBP rate from ${candidate} (target ${date})`, {
+        candidate,
+        offsetDays,
+        target: date,
+      });
+      return rate;
+    }
+  }
+  return NO_PRICE;
+}
 
 /**
  * Fetch the latest exchange rate for GBP to USD

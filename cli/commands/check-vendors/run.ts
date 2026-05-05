@@ -1,11 +1,12 @@
 import { HttpClient } from "@effect/platform";
 import { NetworksRegistry } from "@pinax/graph-networks-registry";
-import { Console, Effect, Schedule } from "effect";
+import { Console, Effect } from "effect";
 import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { envioChains } from "../../../src/indexers/envio.js";
 import { colors, createTable, displayHeader } from "../../utils/display.js";
 import { ValidationError, VendorApiError } from "../../utils/errors.js";
+import { withVendorRequest } from "../../utils/vendor-request.js";
 
 type VendorCheckResult = {
   note?: string;
@@ -23,34 +24,31 @@ const checkEnvioSupport = (chainId: number) =>
     }
 
     // Query Envio's public API
-    const result = yield* HttpClient.get("https://chains.hyperquery.xyz/active_chains").pipe(
-      Effect.flatMap((response) => response.json),
-      Effect.flatMap((data) => {
-        if (!Array.isArray(data)) {
-          return Effect.fail(
-            new VendorApiError({ message: "Unexpected API response format", vendor: "envio" })
-          );
-        }
-        const supportedChainIds = (data as Array<{ chain_id: number }>).map((c) => c.chain_id);
-        return Effect.succeed({
-          note: undefined,
-          supported: supportedChainIds.includes(chainId),
-        } satisfies VendorCheckResult);
-      }),
-      Effect.retry(
-        Schedule.exponential("100 millis").pipe(
-          Schedule.intersect(Schedule.recurs(3)),
-          Schedule.jittered
-        )
-      ),
+    const result = yield* withVendorRequest(
+      "envio",
+      HttpClient.get("https://chains.hyperquery.xyz/active_chains").pipe(
+        Effect.flatMap((response) => response.json),
+        Effect.flatMap((data) => {
+          if (!Array.isArray(data)) {
+            return Effect.fail(
+              new VendorApiError({ message: "Unexpected API response format", vendor: "envio" })
+            );
+          }
+          const supportedChainIds = (data as Array<{ chain_id: number }>).map((c) => c.chain_id);
+          return Effect.succeed({
+            note: undefined,
+            supported: supportedChainIds.includes(chainId),
+          } satisfies VendorCheckResult);
+        })
+      )
+    ).pipe(
       // Catch all errors and return unsupported status
-      Effect.catchAll((error) => {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        return Effect.succeed({
-          note: `API error: ${errorMessage}`,
+      Effect.catchAll((error) =>
+        Effect.succeed({
+          note: `API error: ${error.message}`,
           supported: false,
-        } satisfies VendorCheckResult);
-      })
+        } satisfies VendorCheckResult)
+      )
     );
 
     return result;

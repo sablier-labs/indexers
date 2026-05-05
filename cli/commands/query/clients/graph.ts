@@ -3,8 +3,9 @@
 // -------------------------------------------------------------------------- //
 
 import { HttpBody, HttpClient } from "@effect/platform";
-import { Effect, Schedule } from "effect";
+import { Effect } from "effect";
 import { VendorApiError } from "../../../utils/errors.js";
+import { withVendorRequest } from "../../../utils/vendor-request.js";
 
 // -------------------------------------------------------------------------- //
 //                                    TYPES                                   //
@@ -46,11 +47,6 @@ const ACTIONS_QUERY = /* GraphQL */ `
 `;
 
 const PAGE_SIZE = 1000;
-
-const RETRY_SCHEDULE = Schedule.exponential("100 millis").pipe(
-  Schedule.intersect(Schedule.recurs(3)),
-  Schedule.jittered
-);
 
 // -------------------------------------------------------------------------- //
 //                                  HELPERS                                   //
@@ -124,43 +120,37 @@ const fetchActionsPage = (opts: {
   start: string;
   subgraphId: string;
 }) =>
-  Effect.gen(function* () {
-    const response = yield* HttpClient.post(opts.indexerUrl, {
-      accept: "application/json",
-      body: HttpBody.unsafeJson({
-        query: ACTIONS_QUERY,
-        variables: {
-          end: opts.end,
-          first: PAGE_SIZE,
-          start: opts.start,
-          subgraphId: opts.subgraphId,
+  withVendorRequest(
+    "graph",
+    Effect.gen(function* () {
+      const response = yield* HttpClient.post(opts.indexerUrl, {
+        accept: "application/json",
+        body: HttpBody.unsafeJson({
+          query: ACTIONS_QUERY,
+          variables: {
+            end: opts.end,
+            first: PAGE_SIZE,
+            start: opts.start,
+            subgraphId: opts.subgraphId,
+          },
+        }),
+        headers: {
+          "content-type": "application/json",
+          ...opts.headers,
         },
-      }),
-      headers: {
-        "content-type": "application/json",
-        ...opts.headers,
-      },
-    });
+      });
 
-    if (response.status < 200 || response.status >= 300) {
-      return yield* Effect.fail(
-        new VendorApiError({
-          message: `Graph request failed with status ${response.status}`,
-          vendor: "graph",
-        })
-      );
-    }
-
-    const payload = yield* response.json;
-    return yield* parseGraphActions(payload);
-  }).pipe(
-    Effect.retry(RETRY_SCHEDULE),
-    Effect.mapError((error) => {
-      if (error instanceof VendorApiError) {
-        return error;
+      if (response.status < 200 || response.status >= 300) {
+        return yield* Effect.fail(
+          new VendorApiError({
+            message: `Graph request failed with status ${response.status}`,
+            vendor: "graph",
+          })
+        );
       }
-      const message = error instanceof Error ? error.message : String(error);
-      return new VendorApiError({ message, vendor: "graph" });
+
+      const payload = yield* response.json;
+      return yield* parseGraphActions(payload);
     })
   );
 
