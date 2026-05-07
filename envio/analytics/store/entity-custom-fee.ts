@@ -36,7 +36,7 @@ type MerkleFactoryV13ResetParams = {
  * Lockup v3.0+, Flow v2.0+, and Airdrops v2.0+. A `newMinFeeUSD` of `0n` is stored
  * verbatim (the Comptroller emits `UpdateCustomFeeUSD` for zero as an explicit
  * override, not a reset). Skips protocols not covered by the Analytics schema
- * (Staking, Bob).
+ * (Staking).
  */
 export async function upsertComptrollerFee(
   context: HandlerContext,
