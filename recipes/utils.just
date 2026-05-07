@@ -1,4 +1,43 @@
 # ---------------------------------------------------------------------------- #
+#                                    CHECKS                                    #
+# ---------------------------------------------------------------------------- #
+
+# Lint .env.example and diff against .env if present
+[group("checks"), script("bash")]
+env-check:
+    set -uo pipefail
+
+    if ! command -v dotenv-linter &> /dev/null; then
+        echo -e '{{ RED }}✗ dotenv-linter could not be found{{ NORMAL }}'
+        echo "  Install it with 'brew install dotenv-linter'"
+        exit 1
+    fi
+
+    echo -n "📁 root: "
+    if [ -f ".env" ]; then
+        lint_output=$(dotenv-linter check -q .env .env.example 2>&1)
+        diff_output=$(dotenv-linter diff -q .env .env.example 2>&1 | grep -v "^Comparing")
+        if [ -n "$lint_output" ] || [ -n "$diff_output" ]; then
+            echo ""
+            [ -n "$lint_output" ] && echo "$lint_output"
+            [ -n "$diff_output" ] && echo "$diff_output"
+            exit 1
+        else
+            echo "✓"
+        fi
+    else
+        lint_output=$(dotenv-linter check -q .env.example 2>&1)
+        if [ -n "$lint_output" ]; then
+            echo "(no .env)"
+            echo "$lint_output"
+            exit 1
+        else
+            echo "✓ (no .env)"
+        fi
+    fi
+alias envc := env-check
+
+# ---------------------------------------------------------------------------- #
 #                                 SHARED UTILS                                 #
 # ---------------------------------------------------------------------------- #
 
