@@ -13,7 +13,7 @@ repomix
 # Files
 *.log
 *.tsbuildinfo
-.claude/settings.local.json
+.agents/settings.local.json
 .env
 .env.*
 !.env.example
