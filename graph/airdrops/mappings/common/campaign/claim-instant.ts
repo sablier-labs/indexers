@@ -1,5 +1,6 @@
 import { ethereum } from "@graphprotocol/graph-ts";
-import { isVersionWithFees } from "../../../helpers";
+import { AIRDROPS_NON_PAYABLE_VERSIONS } from "../../../../common/constants";
+import { isVersionWithFees } from "../../../../common/fees";
 import { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 
@@ -24,6 +25,6 @@ export function handleClaimInstant(event: ethereum.Event, params: Params.ClaimIn
     claimIndex: params.index,
     claimRecipient: params.recipient,
     claimTo: params.to,
-    fee: isVersionWithFees() ? event.transaction.value : null,
+    fee: isVersionWithFees(AIRDROPS_NON_PAYABLE_VERSIONS) ? event.transaction.value : null,
   } as Params.Action);
 }

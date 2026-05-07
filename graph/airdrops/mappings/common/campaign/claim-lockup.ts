@@ -1,7 +1,8 @@
 import { Address, ethereum } from "@graphprotocol/graph-ts";
+import { AIRDROPS_NON_PAYABLE_VERSIONS } from "../../../../common/constants";
+import { isVersionWithFees } from "../../../../common/fees";
 import { Id } from "../../../../common/id";
 import { logError } from "../../../../common/logger";
-import { isVersionWithFees } from "../../../helpers";
 import { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 
@@ -35,6 +36,6 @@ export function handleClaimLockup(event: ethereum.Event, params: Params.ClaimLoc
     claimStreamId: streamId,
     claimTo: params.to,
     claimTokenId: tokenId,
-    fee: isVersionWithFees() ? event.transaction.value : null,
+    fee: isVersionWithFees(AIRDROPS_NON_PAYABLE_VERSIONS) ? event.transaction.value : null,
   } as Params.Action);
 }

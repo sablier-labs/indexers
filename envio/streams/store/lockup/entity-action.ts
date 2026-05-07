@@ -1,4 +1,5 @@
 import type { Envio } from "../../../common/bindings.js";
+import { isVersionWithFees } from "../../../common/fees.js";
 import { Id } from "../../../common/id.js";
 import type { Entity, Enum } from "../../bindings.js";
 
@@ -30,7 +31,9 @@ export function create(
     category: params.category,
     chainId: BigInt(event.chainId),
     contract: event.srcAddress,
-    fee: event.transaction.value,
+    fee: isVersionWithFees("lockup", event.chainId, event.srcAddress)
+      ? event.transaction.value
+      : undefined,
     from: event.transaction.from || "",
     hash: event.transaction.hash,
     id,

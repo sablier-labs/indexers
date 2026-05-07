@@ -1,5 +1,6 @@
 import * as _ from "lodash-es";
 import type { Address } from "viem";
+import { isVersionWithFees } from "../../../../common/fees.js";
 import { Id } from "../../../../common/id.js";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
@@ -12,7 +13,6 @@ import type {
   SablierMerkleLT_v2_0_ClaimLTWithVesting_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_ClaimLTWithVesting_handler as HandlerLT_v3_0,
 } from "../../../bindings/src/Indexer.gen.js";
-import { isVersionWithFees } from "../../../helpers/index.js";
 import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
@@ -71,7 +71,7 @@ const handler: Handler = async ({ context, event }) => {
 
   /* --------------------------------- ACTION --------------------------------- */
   let fee: bigint | undefined;
-  if (isVersionWithFees(event.chainId, factory.address)) {
+  if (isVersionWithFees("airdrops", event.chainId, factory.address)) {
     fee = event.transaction.value;
   }
   Store.Action.create(context, event, ensuredWatcher, {

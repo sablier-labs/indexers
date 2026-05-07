@@ -1,6 +1,7 @@
 import { ethereum } from "@graphprotocol/graph-ts";
-import { ONE } from "../../../common/constants";
+import { FLOW_NON_PAYABLE_VERSIONS, ONE } from "../../../common/constants";
 import { readChainId } from "../../../common/context";
+import { isVersionWithFees } from "../../../common/fees";
 import { Id } from "../../../common/id";
 import { CommonParams } from "../../../common/types";
 import * as Entity from "../../bindings/schema";
@@ -18,7 +19,7 @@ export function createAction(
   action.block = event.block.number;
   action.chainId = readChainId();
   action.contract = event.address;
-  action.fee = event.transaction.value;
+  action.fee = isVersionWithFees(FLOW_NON_PAYABLE_VERSIONS) ? event.transaction.value : null;
   action.from = event.transaction.from;
   action.hash = event.transaction.hash;
   action.subgraphId = watcher.flowActionCounter;

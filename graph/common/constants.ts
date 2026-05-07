@@ -49,6 +49,10 @@ export const LOCKUP_V2_0 = "v2.0";
 export const LOCKUP_V3_0 = "v3.0";
 export const LOCKUP_V4_0 = "v4.0";
 
+export const AIRDROPS_NON_PAYABLE_VERSIONS: string[] = [AIRDROPS_V1_1, AIRDROPS_V1_2];
+export const FLOW_NON_PAYABLE_VERSIONS: string[] = [FLOW_V1_0];
+export const LOCKUP_NON_PAYABLE_VERSIONS: string[] = [LOCKUP_V1_0, LOCKUP_V1_1, LOCKUP_V1_2];
+
 /* -------------------------------------------------------------------------- */
 /*                                    MISC                                    */
 /* -------------------------------------------------------------------------- */
