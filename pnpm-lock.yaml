@@ -47,7 +47,7 @@ importers:
         version: 1.15.3(vitest@3.2.4)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/6cf54f2b7aa8c153cf5c2c05ff706fc88b21ddc2
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/306f4319be37190af8a37d9445bac67c88e4d145
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1172,8 +1172,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/6cf54f2b7aa8c153cf5c2c05ff706fc88b21ddc2':
-    resolution: {gitHosted: true, integrity: sha512-nuRuZldZNKEXkptuz7Xc0FZ+HgG4ZzlGjsSw98JqeNBBelffkCCrKaG4u6nw+S+MLGFTjE66ay1CCg5WeB5cRw==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/6cf54f2b7aa8c153cf5c2c05ff706fc88b21ddc2}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/306f4319be37190af8a37d9445bac67c88e4d145':
+    resolution: {gitHosted: true, integrity: sha512-IdLRKUINrbMlNYlpLBqI1krPgqxmWQvDG4MSVPtU+1aY/3KdSj2ejPshLd4AQPt1EQJCdsmGU6CaAK/Ifz6yHw==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/306f4319be37190af8a37d9445bac67c88e4d145}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -3411,8 +3411,8 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
-  rpc-websockets@9.3.8:
-    resolution: {integrity: sha512-7r+fm4tSJmLf9GvZfL1DJ1SJwpagpp6AazqM0FUaeV7CA+7+NYINSk1syWa4tU/6OF2CyBicLtzENGmXRJH6wQ==}
+  rpc-websockets@9.3.9:
+    resolution: {integrity: sha512-2iQDaTB4g5fDB2ihrTFSJSibCEuxaRi1q7qTW7ZO9/M5/TC+ToHA4D9/ffNLEbAoHNNrcdeP05oATNk44SKZXA==}
 
   run-applescript@7.0.0:
     resolution: {integrity: sha512-9by4Ij99JUr/MCFBUkDKLWK3G9HVXmabKz9U5MlIAIuvuzkiOicRYs8XJLxX+xahD+mLiiCYDqF9dKAgtzKP1A==}
@@ -3874,6 +3874,10 @@ packages:
 
   uuid@11.1.1:
     resolution: {integrity: sha512-vIYxrBCC/N/K+Js3qSN88go7kIfNPssr/hHCesKCQNAjmgvYS2oqr69kIufEG+O4+PfezOH4EbIeHCfFov8ZgQ==}
+    hasBin: true
+
+  uuid@14.0.0:
+    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
     hasBin: true
 
   uuid@8.3.2:
@@ -5079,7 +5083,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.4(@types/node@25.5.2)(@vitest/ui@3.2.4)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.2)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/6cf54f2b7aa8c153cf5c2c05ff706fc88b21ddc2': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/306f4319be37190af8a37d9445bac67c88e4d145': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5143,7 +5147,7 @@ snapshots:
       fast-stable-stringify: 1.0.0
       jayson: 4.3.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
       node-fetch: 2.7.0(encoding@0.1.13)
-      rpc-websockets: 9.3.8
+      rpc-websockets: 9.3.9
       superstruct: 2.0.2
     transitivePeerDependencies:
       - bufferutil
@@ -7434,14 +7438,14 @@ snapshots:
       '@rollup/rollup-win32-x64-msvc': 4.44.0
       fsevents: 2.3.3
 
-  rpc-websockets@9.3.8:
+  rpc-websockets@9.3.9:
     dependencies:
       '@swc/helpers': 0.5.21
       '@types/uuid': 10.0.0
       '@types/ws': 8.18.1
       buffer: 6.0.3
       eventemitter3: 5.0.4
-      uuid: 11.1.1
+      uuid: 14.0.0
       ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     optionalDependencies:
       bufferutil: 4.1.0
@@ -7906,6 +7910,8 @@ snapshots:
   utils-merge@1.0.1: {}
 
   uuid@11.1.1: {}
+
+  uuid@14.0.0: {}
 
   uuid@8.3.2: {}
 
