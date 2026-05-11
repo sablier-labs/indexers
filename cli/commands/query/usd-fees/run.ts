@@ -3,7 +3,7 @@ import { Console, Effect } from "effect";
 import { formatUnits } from "viem";
 import { colors, createTable, displayHeader } from "../../../utils/display.js";
 import { withSpinner } from "../../../utils/spinner.js";
-import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchTotalUsdFees } from "../clients/envio.js";
+import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchUsdFees } from "../clients/envio.js";
 import { formatTimestamp, toHasuraTimestamp } from "../utils/date-range.js";
 import { getQuarterWindow } from "../utils/quarter.js";
 
@@ -22,7 +22,7 @@ export const handler = (options: { readonly quarter: string }) =>
   Effect.gen(function* () {
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
-    yield* displayHeader("💵 TOTAL USD FEES", "cyan");
+    yield* displayHeader("💵 USD FEES", "cyan");
 
     const infoTable = createTable({
       colWidths: [20, 70],
@@ -42,7 +42,7 @@ export const handler = (options: { readonly quarter: string }) =>
 
     const result = yield* withSpinner(
       "Querying analytics...",
-      fetchTotalUsdFees({
+      fetchUsdFees({
         dateEnd: toHasuraTimestamp(quarterWindow.end),
         dateStart: toHasuraTimestamp(quarterWindow.start),
       })
@@ -59,7 +59,7 @@ export const handler = (options: { readonly quarter: string }) =>
       totalDisplay = chalk.green(formatUsd(result.totalUsd));
     }
 
-    summaryTable.push([colors.value("Total USD Fees"), totalDisplay]);
+    summaryTable.push([colors.value("USD Fees"), totalDisplay]);
 
     yield* Console.log("");
     yield* Console.log(summaryTable.toString());

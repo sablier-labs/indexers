@@ -15,11 +15,11 @@ import "../node_modules/@sablier/devkit/just/settings.just"
         --quarter={{ quarter }} \
         {{ args }}
 
-# Query total USD fees (Envio analytics)
+# Query USD fees (Envio analytics)
 [no-cd]
 [arg("quarter", long, short="q", help="Quarter to query in YYYY-q1 format")]
-@total-usd-fees quarter="latest" *args:
-    just cli query-total-usd-fees --quarter={{ quarter }} {{ args }}
+@usd-fees quarter="latest" *args:
+    just cli query-usd-fees --quarter={{ quarter }} {{ args }}
 
 # Query unique transactions (Envio analytics)
 [no-cd]

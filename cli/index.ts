@@ -25,8 +25,8 @@ import { printChainsCommand } from "./commands/print-chains/command.js";
 import { queryActionsCommand } from "./commands/query/actions/command.js";
 import { queryAssetsCommand } from "./commands/query/assets/command.js";
 import { queryAverageMauCommand } from "./commands/query/average-mau/command.js";
-import { queryTotalUsdFeesCommand } from "./commands/query/total-usd-fees/command.js";
 import { queryUniqueTxsCommand } from "./commands/query/unique-txs/command.js";
+import { queryUsdFeesCommand } from "./commands/query/usd-fees/command.js";
 import { recoverTokensCommand } from "./commands/recover-tokens/command.js";
 import { syncTokenMetadataCommand } from "./commands/sync-token-metadata/command.js";
 import { CliLive } from "./context.js";
@@ -62,7 +62,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
     queryActionsCommand,
     queryAverageMauCommand,
     queryAssetsCommand,
-    queryTotalUsdFeesCommand,
+    queryUsdFeesCommand,
     queryUniqueTxsCommand,
     recoverTokensCommand,
     checkVendorsCommand,

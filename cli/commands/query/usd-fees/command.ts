@@ -8,8 +8,8 @@ const quarterOption = Options.text("quarter").pipe(
   Options.withDescription("Quarter to query in YYYY-q1 format")
 );
 
-export const queryTotalUsdFeesCommand = Command.make(
-  "query-total-usd-fees",
+export const queryUsdFeesCommand = Command.make(
+  "query-usd-fees",
   { quarter: quarterOption },
   (args) =>
     lazyHandler(

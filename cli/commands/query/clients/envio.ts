@@ -35,7 +35,7 @@ type QuarterlyAverageMauResult = {
   average: number | null;
 };
 
-type TotalUsdFeesResult = {
+type UsdFeesResult = {
   totalUsd: bigint | null;
 };
 
@@ -65,8 +65,8 @@ const QUARTERLY_AVERAGE_MAU_QUERY = /* GraphQL */ `
   }
 `;
 
-const TOTAL_USD_FEES_QUERY = /* GraphQL */ `
-  query TotalUsdFees($dateStart: timestamptz!, $dateEnd: timestamptz!) {
+const USD_FEES_QUERY = /* GraphQL */ `
+  query UsdFees($dateStart: timestamptz!, $dateEnd: timestamptz!) {
     FiatFeesDaily_aggregate(where: { dateTimestamp: { _gte: $dateStart, _lt: $dateEnd } }) {
       aggregate {
         sum {
@@ -401,10 +401,10 @@ export const fetchQuarterlyAverageMau = (opts: { quarterEnd: string; quarterStar
     return { average } satisfies QuarterlyAverageMauResult;
   });
 
-export const fetchTotalUsdFees = (opts: { dateEnd: string; dateStart: string }) =>
+export const fetchUsdFees = (opts: { dateEnd: string; dateStart: string }) =>
   Effect.gen(function* () {
     const response = yield* fetchEnvioQuery({
-      query: TOTAL_USD_FEES_QUERY,
+      query: USD_FEES_QUERY,
       variables: {
         dateEnd: opts.dateEnd,
         dateStart: opts.dateStart,
@@ -413,7 +413,7 @@ export const fetchTotalUsdFees = (opts: { dateEnd: string; dateStart: string }) 
 
     const aggregateValue = response.data.FiatFeesDaily_aggregate;
     if (aggregateValue === null) {
-      return { totalUsd: null } satisfies TotalUsdFeesResult;
+      return { totalUsd: null } satisfies UsdFeesResult;
     }
 
     if (!isRecord(aggregateValue)) {
@@ -424,7 +424,7 @@ export const fetchTotalUsdFees = (opts: { dateEnd: string; dateStart: string }) 
 
     const aggregate = aggregateValue.aggregate;
     if (aggregate === null) {
-      return { totalUsd: null } satisfies TotalUsdFeesResult;
+      return { totalUsd: null } satisfies UsdFeesResult;
     }
 
     if (!isRecord(aggregate)) {
@@ -435,7 +435,7 @@ export const fetchTotalUsdFees = (opts: { dateEnd: string; dateStart: string }) 
 
     const sum = aggregate.sum;
     if (sum === null) {
-      return { totalUsd: null } satisfies TotalUsdFeesResult;
+      return { totalUsd: null } satisfies UsdFeesResult;
     }
 
     if (!isRecord(sum)) {
@@ -446,12 +446,12 @@ export const fetchTotalUsdFees = (opts: { dateEnd: string; dateStart: string }) 
 
     const amountUsdValue = sum.amountUSD;
     if (amountUsdValue === null || amountUsdValue === undefined) {
-      return { totalUsd: null } satisfies TotalUsdFeesResult;
+      return { totalUsd: null } satisfies UsdFeesResult;
     }
 
     const totalUsd = yield* parseBigIntValue(amountUsdValue);
 
-    return { totalUsd } satisfies TotalUsdFeesResult;
+    return { totalUsd } satisfies UsdFeesResult;
   });
 
 export const fetchUniqueTxs = (opts: { dateEnd: string; dateStart: string }) =>
