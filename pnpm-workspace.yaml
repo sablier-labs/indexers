@@ -1,0 +1,21 @@
+allowBuilds:
+  "@parcel/watcher": true
+  bufferutil: true
+  esbuild: true
+  msgpackr-extract: true
+  oxc-resolver: true
+  rescript: true
+  utf-8-validate: true
+minimumReleaseAge: 10080 # 7 days
+minimumReleaseAgeExclude:
+  - sablier
+  - "@sablier/*"
+
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - bufferutil
+  - esbuild
+  - msgpackr-extract
+  - oxc-resolver
+  - rescript
+  - utf-8-validate

@@ -62,6 +62,12 @@ nun package-name    # Remove dependency
 nlx package-name    # Execute package
 ```
 
+### pnpm Config
+
+Keep both `.npmrc` and `pnpm-workspace.yaml`: `.npmrc` preserves the Envio codegen install workaround, while
+`pnpm-workspace.yaml` holds pnpm 11 settings such as `minimumReleaseAge`. Preserve the duplicated
+`onlyBuiltDependencies` allowlist unless Envio codegen has been re-verified.
+
 ### Development Workflow
 
 ```bash
