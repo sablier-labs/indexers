@@ -126,7 +126,7 @@ Package scripts:
 
 ```bash
 pnpm prepack  # Frozen install + just build::all
-pnpm start    # envio start --directory ./envio/$ENVIO_INDEXER_NAME
+pnpm start    # ENVIO_CONFIG=config.yaml envio start --directory ./envio/$ENVIO_INDEXER_NAME
 ```
 
 ## Validation
