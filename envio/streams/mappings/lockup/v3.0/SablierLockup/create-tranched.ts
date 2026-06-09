@@ -45,9 +45,9 @@ event CreateLockupTranchedStream(
 */
 Contract.Lockup_v3_0.CreateLockupTranchedStream.handler(async ({ context, event }) => {
   const commonParams = event.params.commonParams;
-  const asset = commonParams[4];
-  const recipient = commonParams[2];
-  const sender = commonParams[1];
+  const asset = commonParams.token;
+  const recipient = commonParams.recipient;
+  const sender = commonParams.sender;
   const result = await preloadCreateEntities({
     context,
     event,
@@ -62,20 +62,20 @@ Contract.Lockup_v3_0.CreateLockupTranchedStream.handler(async ({ context, event 
   }
   const { entities, proxender } = result;
   const params: Params.CreateStreamTranched = {
-    asset: commonParams[4],
-    cancelable: commonParams[5],
+    asset: commonParams.token,
+    cancelable: commonParams.cancelable,
     category: "LockupTranched",
-    depositAmount: commonParams[3],
-    endTime: commonParams[7][1],
-    funder: commonParams[0],
+    depositAmount: commonParams.depositAmount,
+    endTime: commonParams.timestamps.end,
+    funder: commonParams.funder,
     proxender,
-    recipient: commonParams[2],
-    sender: commonParams[1],
-    shape: commonParams[8],
-    startTime: commonParams[7][0],
+    recipient: commonParams.recipient,
+    sender: commonParams.sender,
+    shape: commonParams.shape,
+    startTime: commonParams.timestamps.start,
     tokenId: event.params.streamId,
     tranches: convertTranches(event.params.tranches),
-    transferable: commonParams[6],
+    transferable: commonParams.transferable,
   };
   await createStream({
     context,

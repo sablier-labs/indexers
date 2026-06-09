@@ -41,7 +41,7 @@ struct Durations {
 */
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const asset = event.params.baseParams[0];
+  const asset = event.params.baseParams.asset;
   if (isDeprecatedFactory({ asset, event, protocol: "airdrops" })) {
     return;
   }
@@ -54,8 +54,8 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.contractRegister(({ con
 });
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(async ({ context, event }) => {
-  const admin = event.params.baseParams[3];
-  const asset = event.params.baseParams[0];
+  const admin = event.params.baseParams.initialAdmin;
+  const asset = event.params.baseParams.asset;
   const result = await preloadCreateEntities({
     context,
     event,
@@ -73,22 +73,22 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(async ({ contex
     asset,
     campaignAddress: event.params.merkleLL,
     campaignStartTime: BigInt(event.block.timestamp),
-    cancelable: baseParams[1],
+    cancelable: baseParams.cancelable,
     category: "LockupLinear",
-    cliffDuration: event.params.streamDurations[0],
+    cliffDuration: event.params.streamDurations.cliff,
     cliffPercentage: undefined,
-    expiration: baseParams[2],
-    ipfsCID: baseParams[4],
+    expiration: baseParams.expiration,
+    ipfsCID: baseParams.ipfsCID,
     lockup: event.params.lockupLinear,
-    merkleRoot: baseParams[5],
+    merkleRoot: baseParams.merkleRoot,
     minimumFee: undefined,
-    name: baseParams[6],
+    name: baseParams.name,
     recipientCount: event.params.recipientCount,
     shape: undefined,
     startPercentage: undefined,
     startTime: undefined, // all v1.2 streams use the claim time as the start time
-    totalDuration: event.params.streamDurations[1],
-    transferable: baseParams[7],
+    totalDuration: event.params.streamDurations.total,
+    transferable: baseParams.transferable,
   };
   await createMerkle({
     context,

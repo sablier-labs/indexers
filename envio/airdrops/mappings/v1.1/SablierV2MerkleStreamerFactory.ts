@@ -65,7 +65,7 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handler(
       campaignStartTime: BigInt(event.block.timestamp),
       cancelable: event.params.cancelable,
       category: "LockupLinear",
-      cliffDuration: event.params.streamDurations[0],
+      cliffDuration: event.params.streamDurations.cliff,
       cliffPercentage: undefined,
       expiration: event.params.expiration,
       ipfsCID: event.params.ipfsCID,
@@ -77,7 +77,7 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handler(
       shape: undefined,
       startPercentage: undefined,
       startTime: undefined, // all v1.1 streams use the claim time as the start time
-      totalDuration: event.params.streamDurations[1],
+      totalDuration: event.params.streamDurations.total,
       transferable: event.params.transferable,
     };
     await createMerkle({

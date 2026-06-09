@@ -1,12 +1,12 @@
 import { isDeprecatedStream } from "../../../../common/deprecated.js";
 import { Id } from "../../../../common/id.js";
 import type {
+  Entity,
   SablierFlow_v1_0_RestartFlowStream_handler as Handler_v1_0,
   SablierFlow_v1_1_RestartFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_RestartFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_RestartFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Indexer.gen.js";
-import type { Entity } from "../../../bindings.js";
+} from "../../../bindings.js";
 import { scale } from "../../../helpers/index.js";
 import * as StreamsWatcher from "../../../store/entity-watcher.js";
 import * as FlowAction from "../../../store/flow/entity-action.js";

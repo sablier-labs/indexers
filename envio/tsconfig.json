@@ -1,10 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../node_modules/@sablier/devkit/tsconfig/base.json",
-  "exclude": ["**/bindings/", "node_modules/"],
-  "include": ["declarations.d.ts", "airdrops/", "analytics/", "common/", "streams/"],
-  "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler"
-  }
+  "files": [],
+  "references": [
+    { "path": "./airdrops/tsconfig.json" },
+    { "path": "./analytics/tsconfig.json" },
+    { "path": "./streams/tsconfig.json" }
+  ]
 }

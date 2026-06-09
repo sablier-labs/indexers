@@ -9,7 +9,7 @@ import type {
   SablierFlow_v1_1_CreateFlowStream_handler as Handler_v1_1,
   SablierFlow_v2_0_CreateFlowStream_handler as Handler_v2_0,
   SablierFlow_v3_0_CreateFlowStream_handler as Handler_v3_0,
-} from "../../../bindings/src/Indexer.gen.js";
+} from "../../../bindings.js";
 import * as StreamsWatcher from "../../../store/entity-watcher.js";
 import * as FlowAction from "../../../store/flow/entity-action.js";
 import { Store } from "../../../store/flow/index.js";

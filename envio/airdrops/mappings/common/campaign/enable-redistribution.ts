@@ -1,5 +1,5 @@
 import { Id } from "../../../../common/id.js";
-import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings/src/Indexer.gen.js";
+import type { SablierMerkleVCA_v3_0_EnableRedistribution_handler } from "../../../bindings.js";
 import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */

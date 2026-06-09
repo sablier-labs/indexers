@@ -6,7 +6,7 @@ import { createMerkle } from "../../common/factory/create-merkle.js";
 import { preloadCreateEntities } from "../../common/factory/index.js";
 
 Contract.Factory.FactoryMerkleLL_v3_0.CreateMerkleLL.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.campaignParams[10];
+  const lockupAddress = event.params.campaignParams.lockup;
   if (!isOfficialLockup(context.log, event, lockupAddress)) {
     return;
   }
@@ -58,8 +58,8 @@ Contract.Factory.FactoryMerkleLL_v3_0.CreateMerkleLL.handler(async ({ context, e
     context,
     event,
     params: {
-      admin: event.params.campaignParams[8],
-      asset: event.params.campaignParams[14],
+      admin: event.params.campaignParams.initialAdmin,
+      asset: event.params.campaignParams.token,
     },
   });
   if (!result) {
@@ -69,27 +69,27 @@ Contract.Factory.FactoryMerkleLL_v3_0.CreateMerkleLL.handler(async ({ context, e
   const { entities } = result;
   const baseParams = event.params.campaignParams;
   const params: Params.CreateCampaignLL = {
-    admin: baseParams[8],
+    admin: baseParams.initialAdmin,
     aggregateAmount: event.params.aggregateAmount,
-    asset: baseParams[14],
+    asset: baseParams.token,
     campaignAddress: event.params.merkleLL,
-    campaignStartTime: baseParams[1],
-    cancelable: baseParams[2],
+    campaignStartTime: baseParams.campaignStartTime,
+    cancelable: baseParams.cancelable,
     category: "LockupLinear",
-    cliffDuration: baseParams[4],
-    cliffPercentage: baseParams[5],
-    expiration: baseParams[6],
-    ipfsCID: baseParams[9],
-    lockup: baseParams[10],
-    merkleRoot: baseParams[11],
+    cliffDuration: baseParams.cliffDuration,
+    cliffPercentage: baseParams.cliffUnlockPercentage,
+    expiration: baseParams.expiration,
+    ipfsCID: baseParams.ipfsCID,
+    lockup: baseParams.lockup,
+    merkleRoot: baseParams.merkleRoot,
     minimumFee: event.params.minFeeUSD,
-    name: baseParams[0],
+    name: baseParams.campaignName,
     recipientCount: event.params.recipientCount,
-    shape: baseParams[12],
-    startPercentage: baseParams[13],
-    startTime: baseParams[17],
-    totalDuration: baseParams[15],
-    transferable: baseParams[16],
+    shape: baseParams.shape,
+    startPercentage: baseParams.startUnlockPercentage,
+    startTime: baseParams.vestingStartTime,
+    totalDuration: baseParams.totalDuration,
+    transferable: baseParams.transferable,
   };
   await createMerkle({
     context,

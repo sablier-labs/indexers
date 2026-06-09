@@ -1,5 +1,19 @@
 import type { Address } from "viem";
-import type { Enum } from "../streams/bindings.js";
+
+export type StreamActionCategory =
+  | "Adjust"
+  | "Approval"
+  | "ApprovalForAll"
+  | "Cancel"
+  | "Create"
+  | "Deposit"
+  | "Pause"
+  | "Refund"
+  | "Renounce"
+  | "Restart"
+  | "Transfer"
+  | "Void"
+  | "Withdraw";
 
 export namespace RPCData {
   export enum Category {
@@ -24,7 +38,7 @@ export namespace CommonParams {
     addressB?: string;
     amountA?: bigint;
     amountB?: bigint;
-    category: Enum<"FlowActionCategory"> | Enum<"LockupActionCategory">;
+    category: StreamActionCategory;
     streamId?: string;
   };
 }

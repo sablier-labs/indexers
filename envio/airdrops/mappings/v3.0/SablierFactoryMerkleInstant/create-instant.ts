@@ -46,8 +46,8 @@ Contract.Factory.FactoryMerkleInstant_v3_0.CreateMerkleInstant.handler(
       context,
       event,
       params: {
-        admin: event.params.campaignParams[4],
-        asset: event.params.campaignParams[7],
+        admin: event.params.campaignParams.initialAdmin,
+        asset: event.params.campaignParams.token,
       },
     });
     if (!result) {
@@ -57,17 +57,17 @@ Contract.Factory.FactoryMerkleInstant_v3_0.CreateMerkleInstant.handler(
     const { entities } = result;
     const baseParams = event.params.campaignParams;
     const params: Params.CreateCampaignBase = {
-      admin: baseParams[4],
+      admin: baseParams.initialAdmin,
       aggregateAmount: event.params.aggregateAmount,
-      asset: baseParams[7],
+      asset: baseParams.token,
       campaignAddress: event.params.merkleInstant,
-      campaignStartTime: baseParams[1],
+      campaignStartTime: baseParams.campaignStartTime,
       category: "Instant",
-      expiration: baseParams[3],
-      ipfsCID: baseParams[5],
-      merkleRoot: baseParams[6],
+      expiration: baseParams.expiration,
+      ipfsCID: baseParams.ipfsCID,
+      merkleRoot: baseParams.merkleRoot,
       minimumFee: event.params.minFeeUSD,
-      name: baseParams[0],
+      name: baseParams.campaignName,
       recipientCount: event.params.recipientCount,
     };
     await createMerkle({

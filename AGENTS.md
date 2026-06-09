@@ -28,7 +28,7 @@ After generating code, run these commands **in order**.
 1. **Type-check with tsc** — the root `tsconfig.json` excludes `envio/` and `graph/`, so you must run separate checks
    depending on which files changed:
    - Changed files in `cli/`, `contracts/`, `events/`, `schema/`, `src/`, `tests/` → `na tsc --noEmit`
-   - Changed files in `envio/` → `na tsc --noEmit -p envio/tsconfig.json`
+   - Changed files in `envio/` → `just envio::type-check`
    - Changed files in both → run both commands
    - Changed files in `graph/` → use `just graph::build` (AssemblyScript, not tsc)
 
@@ -45,7 +45,7 @@ na biome lint
 na tsc --noEmit
 
 # TypeScript: Envio indexers
-na tsc --noEmit -p envio/tsconfig.json
+just envio::type-check
 ```
 
 If any command fails, analyze the errors and fix it before continuing.
@@ -106,12 +106,18 @@ Regenerate bindings after:
 ### Regenerate Commands
 
 ```bash
+just codegen::envio                      # Full Envio codegen for all indexers
+just codegen::envio streams              # Full Envio codegen for a single indexer
+
 just codegen::envio-bindings             # All Envio indexers
 just codegen::envio-bindings streams     # Single indexer
 
 just codegen::graph-bindings             # All Graph subgraphs
 just codegen::graph-bindings streams     # Single subgraph
 ```
+
+Envio v3 binding codegen writes ignored type metadata to `envio/<indexer>/.envio/types.d.ts` and
+`envio/<indexer>/envio-env.d.ts`. Regenerate before `just envio::type-check` when those files are missing or stale.
 
 ## Print
 
@@ -122,3 +128,8 @@ Use the `print` subcommand group to inspect indexer metadata. Subcommands are ne
 just cli print chains           # Print supported chains with Envio/Graph coverage and Envio-only / Graph-only sections
 just cli print chains --graph   # Same, but use The Graph chain slugs instead of Sablier slugs (alias: -g)
 ```
+
+## Contribution Workflow
+
+Merge root `CONTRIBUTING.md` into this section before deleting that file; do not split new workflow guidance across both
+files.

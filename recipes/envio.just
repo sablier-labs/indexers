@@ -18,7 +18,9 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 # Run TypeScript type-checking for the Envio project
 [no-cd]
 @type-check:
-    na tsc --noEmit -p envio/tsconfig.json
+    na tsc --noEmit -p envio/airdrops/tsconfig.json
+    na tsc --noEmit -p envio/analytics/tsconfig.json
+    na tsc --noEmit -p envio/streams/tsconfig.json
 
 alias tc := type-check
 

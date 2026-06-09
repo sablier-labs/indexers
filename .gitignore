@@ -18,6 +18,9 @@ repomix
 .env.*
 !.env.example
 !.envio
+envio/**/.envio/.gitignore
+envio/**/.envio/types.d.ts
+envio/**/envio-env.d.ts
 envio/pnpm-lock.yaml
 graph/**/*.graphql
 graph/**/manifests/**/*.yaml

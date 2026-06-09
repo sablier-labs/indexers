@@ -4,7 +4,7 @@ import { Store } from "../../../../store/index.js";
 
 Contract.Airdrops.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.contractRegister(
   ({ context, event }) => {
-    const lockupAddress = event.params.params[8];
+    const lockupAddress = event.params.params.lockup;
     if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
       return;
     }
@@ -53,11 +53,11 @@ struct ConstructorParams {
 
 Contract.Airdrops.Factory.FactoryMerkleLL_v2_0.CreateMerkleLL.handler(
   async ({ context, event }) => {
-    const lockupAddress = event.params.params[8];
+    const lockupAddress = event.params.params.lockup;
     if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
       return;
     }
-    const initialAdmin = event.params.params[6];
+    const initialAdmin = event.params.params.initialAdmin;
     await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
   }
 );

@@ -1,15 +1,26 @@
 import { Id } from "../../../../common/id.js";
 import type {
-  SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as Handler_v2_0,
-  SablierMerkleVCA_v3_0_LowerMinFeeUSD_handler as Handler_v3_0,
-} from "../../../bindings/src/Indexer.gen.js";
+  SablierMerkleInstant_v2_0_LowerMinFeeUSD_handler as HandlerInstant_v2_0,
+  SablierMerkleInstant_v3_0_LowerMinFeeUSD_handler as HandlerInstant_v3_0,
+  SablierMerkleLL_v2_0_LowerMinFeeUSD_handler as HandlerLL_v2_0,
+  SablierMerkleLL_v3_0_LowerMinFeeUSD_handler as HandlerLL_v3_0,
+  SablierMerkleLT_v2_0_LowerMinFeeUSD_handler as HandlerLT_v2_0,
+  SablierMerkleLT_v3_0_LowerMinFeeUSD_handler as HandlerLT_v3_0,
+  SablierMerkleVCA_v3_0_LowerMinFeeUSD_handler as HandlerVCA_v3_0,
+} from "../../../bindings.js";
 import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   HANDLER                                  */
 /* -------------------------------------------------------------------------- */
 
-type Handler = Handler_v2_0 & Handler_v3_0;
+type Handler = HandlerInstant_v2_0 &
+  HandlerInstant_v3_0 &
+  HandlerLL_v2_0 &
+  HandlerLL_v3_0 &
+  HandlerLT_v2_0 &
+  HandlerLT_v3_0 &
+  HandlerVCA_v3_0;
 
 /**
  * We do not check for equality of the previous and new minimum fee USD because it is not possible to emit

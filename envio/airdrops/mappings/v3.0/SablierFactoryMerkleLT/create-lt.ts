@@ -7,7 +7,7 @@ import { createMerkle } from "../../common/factory/create-merkle.js";
 import { preloadCreateEntities } from "../../common/factory/index.js";
 
 Contract.Factory.FactoryMerkleLT_v3_0.CreateMerkleLT.contractRegister(({ context, event }) => {
-  const lockupAddress = event.params.campaignParams[7];
+  const lockupAddress = event.params.campaignParams.lockup;
   if (!isOfficialLockup(context.log, event, lockupAddress)) {
     return;
   }
@@ -62,8 +62,8 @@ Contract.Factory.FactoryMerkleLT_v3_0.CreateMerkleLT.handler(async ({ context, e
     context,
     event,
     params: {
-      admin: event.params.campaignParams[5],
-      asset: event.params.campaignParams[10],
+      admin: event.params.campaignParams.initialAdmin,
+      asset: event.params.campaignParams.token,
     },
   });
   if (!result) {
@@ -73,25 +73,25 @@ Contract.Factory.FactoryMerkleLT_v3_0.CreateMerkleLT.handler(async ({ context, e
   const { entities } = result;
   const baseParams = event.params.campaignParams;
   const params: Params.CreateCampaignLT = {
-    admin: baseParams[5],
+    admin: baseParams.initialAdmin,
     aggregateAmount: event.params.aggregateAmount,
-    asset: baseParams[10],
+    asset: baseParams.token,
     campaignAddress: event.params.merkleLT,
-    campaignStartTime: baseParams[1],
-    cancelable: baseParams[2],
+    campaignStartTime: baseParams.campaignStartTime,
+    cancelable: baseParams.cancelable,
     category: "LockupTranched",
-    expiration: baseParams[4],
-    ipfsCID: baseParams[6],
-    lockup: baseParams[7],
-    merkleRoot: baseParams[8],
+    expiration: baseParams.expiration,
+    ipfsCID: baseParams.ipfsCID,
+    lockup: baseParams.lockup,
+    merkleRoot: baseParams.merkleRoot,
     minimumFee: event.params.minFeeUSD,
-    name: baseParams[0],
+    name: baseParams.campaignName,
     recipientCount: event.params.recipientCount,
-    shape: baseParams[9],
-    startTime: baseParams[13],
+    shape: baseParams.shape,
+    startTime: baseParams.vestingStartTime,
     totalDuration: event.params.totalDuration,
-    tranchesWithPercentages: convertTranches(baseParams[11]),
-    transferable: baseParams[12],
+    tranchesWithPercentages: convertTranches(baseParams.tranchesWithPercentages),
+    transferable: baseParams.transferable,
   };
   await createMerkle({
     context,

@@ -1,14 +1,14 @@
 import { isDeprecatedStream } from "../../../../common/deprecated.js";
 import { Id } from "../../../../common/id.js";
 import type {
+  Entity,
   SablierV2LockupLinear_v1_0_CancelLockupStream_handler as Handler_v1_0,
   SablierV2LockupLinear_v1_1_CancelLockupStream_handler as Handler_v1_1,
   SablierV2LockupLinear_v1_2_CancelLockupStream_handler as Handler_v1_2,
   SablierLockup_v2_0_CancelLockupStream_handler as Handler_v2_0,
   SablierLockup_v3_0_CancelLockupStream_handler as Handler_v3_0,
   SablierLockup_v4_0_CancelLockupStream_handler as Handler_v4_0,
-} from "../../../bindings/src/Indexer.gen.js";
-import type { Entity } from "../../../bindings.js";
+} from "../../../bindings.js";
 import * as Watcher from "../../../store/entity-watcher.js";
 import * as LockupAction from "../../../store/lockup/entity-action.js";
 

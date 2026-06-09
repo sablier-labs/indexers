@@ -50,8 +50,8 @@ struct ConstructorParams {
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.handler(async ({ context, event }) => {
   const baseParams = event.params.baseParams;
-  const admin = baseParams[2];
-  const asset = baseParams[0];
+  const admin = baseParams.initialAdmin;
+  const asset = baseParams.token;
   const result = await preloadCreateEntities({ context, event, params: { admin, asset } });
   if (!result) {
     return;
@@ -66,14 +66,14 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.handler(async ({ context, eve
     campaignStartTime: BigInt(event.block.timestamp),
     cancelable: event.params.cancelable,
     category: "LockupTranched",
-    expiration: baseParams[1],
-    ipfsCID: baseParams[3],
+    expiration: baseParams.expiration,
+    ipfsCID: baseParams.ipfsCID,
     lockup: event.params.lockup,
-    merkleRoot: baseParams[4],
+    merkleRoot: baseParams.merkleRoot,
     minimumFee: event.params.fee,
-    name: baseParams[5],
+    name: baseParams.campaignName,
     recipientCount: event.params.recipientCount,
-    shape: baseParams[6],
+    shape: baseParams.shape,
     startTime: event.params.streamStartTime,
     totalDuration: event.params.totalDuration,
     tranchesWithPercentages: convertTranches(event.params.tranchesWithPercentages),

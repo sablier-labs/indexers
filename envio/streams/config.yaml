@@ -2,7 +2,6 @@
 name: "sablier-streams"
 address_format: "lowercase"
 ecosystem: "evm"
-output: "./bindings"
 schema: "streams.graphql"
 field_selection:
   transaction_fields:

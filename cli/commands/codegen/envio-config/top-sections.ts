@@ -11,7 +11,6 @@ function get(name: string): EnvioConfig.TopSection {
     name: `sablier-${name}`,
     address_format: "lowercase",
     ecosystem: "evm",
-    output: "./bindings",
     schema: `${name}.graphql`,
     field_selection: {
       transaction_fields: ["from", "hash", "to", "transactionIndex", "value"],

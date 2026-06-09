@@ -12,7 +12,7 @@ import type {
   SablierMerkleLT_v1_3_Claim_handler as HandlerLT_v1_3,
   SablierMerkleLT_v2_0_ClaimLTWithVesting_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_ClaimLTWithVesting_handler as HandlerLT_v3_0,
-} from "../../../bindings/src/Indexer.gen.js";
+} from "../../../bindings.js";
 import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */

@@ -38,7 +38,7 @@ struct ConstructorParams {
 
 Contract.Airdrops.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handler(
   async ({ context, event }) => {
-    const initialAdmin = event.params.baseParams[2];
+    const initialAdmin = event.params.baseParams.initialAdmin;
     await Store.User.createOrUpdate(context, event, [initialAdmin, initialAdmin]);
   }
 );

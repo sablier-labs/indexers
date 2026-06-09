@@ -2,7 +2,6 @@
 name: "sablier-airdrops"
 address_format: "lowercase"
 ecosystem: "evm"
-output: "./bindings"
 schema: "airdrops.graphql"
 field_selection:
   transaction_fields:

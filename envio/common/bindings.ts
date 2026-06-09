@@ -1,24 +1,27 @@
-import type { logger as Logger_t } from "envio/src/Envio.gen.js";
-import type { genericEvent as Internal_genericEvent } from "envio/src/Internal.gen.js";
-import type { Address } from "viem";
+import type { Address, Logger as EnvioLogger } from "envio";
 
-/**
- * Generic bindings hard-coded here because Envio doesn't export them.
- * @see https://github.com/enviodev/hyperindex/issues/532
- */
+export type { EvmEvent, Logger } from "envio";
+
 export namespace Envio {
   export type Block = {
+    readonly hash: string;
     readonly number: number;
     readonly timestamp: number;
-    readonly hash: string;
   };
 
-  export type eventLog<params> = Internal_genericEvent<params, Block, Transaction>;
-  export type EventLog<params> = eventLog<params>;
   // biome-ignore lint/suspicious/noConfusingVoidType: Envio generates `params: void` for no-param events
-  export type Event<Params = Record<string, unknown> | void> = EventLog<Params>;
+  export type Event<Params = Record<string, unknown> | void> = {
+    readonly block: Block;
+    readonly chainId: number;
+    readonly contractName?: string;
+    readonly eventName?: string;
+    readonly logIndex: number;
+    readonly params: Params;
+    readonly srcAddress: Address;
+    readonly transaction: Transaction;
+  };
 
-  export type Logger = Logger_t;
+  export type Logger = EnvioLogger;
 
   export type Transaction = {
     readonly from: undefined | Address;

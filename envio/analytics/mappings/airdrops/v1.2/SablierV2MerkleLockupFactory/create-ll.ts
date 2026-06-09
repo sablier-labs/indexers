@@ -49,7 +49,7 @@ Contract.Airdrops.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(
     if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
       return;
     }
-    const initialAdmin = event.params.baseParams[3];
+    const initialAdmin = event.params.baseParams.initialAdmin;
     await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
   }
 );

@@ -1,11 +1,14 @@
 import type { TrancheWithPercentage } from "./types.js";
 
-export function convertTranches(eventTranches: [bigint, bigint][]) {
+export function convertTranches(
+  eventTranches: readonly { readonly duration: bigint; readonly unlockPercentage: bigint }[]
+) {
   const tranches: TrancheWithPercentage[] = [];
   for (const eventTranche of eventTranches) {
-    const unlockPercentage = eventTranche[0];
-    const duration = eventTranche[1];
-    tranches.push({ duration, unlockPercentage });
+    tranches.push({
+      duration: eventTranche.duration,
+      unlockPercentage: eventTranche.unlockPercentage,
+    });
   }
   return tranches;
 }

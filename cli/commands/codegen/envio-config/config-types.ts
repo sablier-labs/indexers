@@ -55,7 +55,6 @@ export namespace EnvioConfig {
     name: string;
     ecosystem: "evm";
     address_format: "checksum" | "lowercase";
-    output: string;
     schema: string;
     field_selection: FieldSelection;
     contracts: Contract[];

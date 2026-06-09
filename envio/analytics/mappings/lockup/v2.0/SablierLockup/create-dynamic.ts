@@ -39,9 +39,9 @@ struct Segment {
 */
 Contract.Lockup.Lockup_v2_0.CreateLockupDynamicStream.handler(async ({ context, event }) => {
   const commonParams = event.params.commonParams;
-  const funder = commonParams[0];
-  const sender = commonParams[1];
-  const recipient = commonParams[2];
+  const funder = commonParams.funder;
+  const sender = commonParams.sender;
+  const recipient = commonParams.recipient;
   await Store.User.createOrUpdate(context, event, [
     funder,
     sender,

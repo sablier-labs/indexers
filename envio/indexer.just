@@ -36,15 +36,14 @@ envio command tui_mode="tui_on" *args:
     set -euo pipefail
     repo_root="{{ source_dir() }}/.."
     if [ "{{ tui_mode }}" = "tui_off" ]; then
-        export TUI_OFF=true
+        export ENVIO_TUI=false
     else
-        export TUI_OFF=false
+        export ENVIO_TUI=true
     fi
     cd "$repo_root"
     pnpm envio {{ command }} {{ args }} \
         --directory {{ justfile_dir() }} \
-        --config {{ justfile_dir() }}/config.yaml \
-        --output-directory {{ justfile_dir() }}/bindings
+        --config {{ justfile_dir() }}/config.yaml
 
 # Run the Vitest tests
 test:

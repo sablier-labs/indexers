@@ -1,15 +1,37 @@
 ## Type Checking
 
-The root `tsconfig.json` excludes `envio/`. Running `just tsc-check` or `na tsc --noEmit` will **not** catch type errors
-here. Use the Envio-specific tsconfig:
+The root `tsconfig.json` excludes `envio/`. Running root `just type-check` / `just tsc-check` or `na tsc --noEmit` will
+**not** catch type errors here. Envio v3 generates one `envio` module augmentation per indexer, so type-check each
+indexer as a separate TS project:
 
 ```bash
-na tsc --noEmit -p envio/tsconfig.json
+just envio::type-check
 ```
+
+For a single indexer, run `na tsc --noEmit -p envio/<indexer>/tsconfig.json`.
 
 ## Type Errors in Bindings
 
 Run `just codegen::envio` from the repo root to regenerate bindings, or `just codegen` from an Envio indexer directory.
+Envio v3 writes generated type metadata to ignored `envio/<indexer>/.envio/types.d.ts` and
+`envio/<indexer>/envio-env.d.ts`.
+
+Do **not** import generated internals from `envio/<indexer>/bindings/src/*`. The `envio/<indexer>/bindings.ts` files are
+hand-maintained compatibility facades over `envio/common/facade.ts`; keep their contract and event lists in sync with
+`config.yaml`.
+
+## Running Indexers
+
+From an Envio indexer directory, use the shared `envio/indexer.just` recipe:
+
+```bash
+just envio dev
+just envio start
+just envio stop
+```
+
+The recipe passes `--directory` and `--config` to `pnpm envio` and toggles TUI mode with `ENVIO_TUI`. Do not use the old
+`ts-node ./bindings/src/Index.res.mjs` start path.
 
 ## After GraphQL Schema Changes
 

@@ -53,11 +53,10 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 [script("bash")]
 _codegen-envio-bindings indexer:
     indexer_dir="envio/{{ indexer }}"
-    generated_types_file="$indexer_dir/bindings/src/Types.ts"
+    generated_types_file="$indexer_dir/.envio/types.d.ts"
     pnpm envio codegen \
         --directory "$indexer_dir" \
-        --config config.yaml \
-        --output-directory bindings
+        --config config.yaml
 
     # Verify the critical files were generated
     if [ ! -f "$generated_types_file" ]; then

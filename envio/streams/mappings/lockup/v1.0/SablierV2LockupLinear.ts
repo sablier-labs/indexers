@@ -57,14 +57,14 @@ Contract.LockupLinear_v1_0.CreateLockupLinearStream.handler(async ({ context, ev
     asset: event.params.asset,
     cancelable: event.params.cancelable,
     category: "LockupLinear",
-    cliffTime: event.params.range[1],
-    depositAmount: event.params.amounts[0],
-    endTime: event.params.range[2],
+    cliffTime: event.params.range.cliff,
+    depositAmount: event.params.amounts.deposit,
+    endTime: event.params.range.end,
     funder: event.params.funder,
     proxender,
     recipient: event.params.recipient,
     sender: event.params.sender,
-    startTime: event.params.range[0],
+    startTime: event.params.range.start,
     tokenId: event.params.streamId,
     transferable: true, // all v1.0 streams are transferable
   };

@@ -54,8 +54,8 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, 
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, event }) => {
   const baseParams = event.params.baseParams;
-  const admin = baseParams[2];
-  const asset = baseParams[0];
+  const admin = baseParams.initialAdmin;
+  const asset = baseParams.token;
   const result = await preloadCreateEntities({ context, event, params: { admin, asset } });
   if (!result) {
     return;
@@ -70,19 +70,19 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, eve
     campaignStartTime: BigInt(event.block.timestamp),
     cancelable: event.params.cancelable,
     category: "LockupLinear",
-    cliffDuration: event.params.schedule[2],
-    cliffPercentage: event.params.schedule[3],
-    expiration: baseParams[1],
-    ipfsCID: baseParams[3],
+    cliffDuration: event.params.schedule.cliffDuration,
+    cliffPercentage: event.params.schedule.cliffPercentage,
+    expiration: baseParams.expiration,
+    ipfsCID: baseParams.ipfsCID,
     lockup: event.params.lockup,
-    merkleRoot: baseParams[4],
+    merkleRoot: baseParams.merkleRoot,
     minimumFee: event.params.fee,
-    name: baseParams[5],
+    name: baseParams.campaignName,
     recipientCount: event.params.recipientCount,
-    shape: baseParams[6],
-    startPercentage: event.params.schedule[1],
-    startTime: event.params.schedule[0],
-    totalDuration: event.params.schedule[4],
+    shape: baseParams.shape,
+    startPercentage: event.params.schedule.startPercentage,
+    startTime: event.params.schedule.startTime,
+    totalDuration: event.params.schedule.totalDuration,
     transferable: event.params.transferable,
   };
   await createMerkle({

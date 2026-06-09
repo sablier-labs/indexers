@@ -39,7 +39,7 @@ struct ConstructorParams {
 */
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.contractRegister(({ context, event }) => {
-  const asset = event.params.baseParams[0];
+  const asset = event.params.baseParams.asset;
   if (isDeprecatedFactory({ asset, event, protocol: "airdrops" })) {
     return;
   }
@@ -52,8 +52,8 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.contractRegister(({ con
 });
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.handler(async ({ context, event }) => {
-  const admin = event.params.baseParams[3];
-  const asset = event.params.baseParams[0];
+  const admin = event.params.baseParams.initialAdmin;
+  const asset = event.params.baseParams.asset;
   const result = await preloadCreateEntities({
     context,
     event,
@@ -71,20 +71,20 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.handler(async ({ contex
     asset,
     campaignAddress: event.params.merkleLT,
     campaignStartTime: BigInt(event.block.timestamp),
-    cancelable: baseParams[1],
+    cancelable: baseParams.cancelable,
     category: "LockupTranched",
-    expiration: baseParams[2],
-    ipfsCID: baseParams[4],
+    expiration: baseParams.expiration,
+    ipfsCID: baseParams.ipfsCID,
     lockup: event.params.lockupTranched,
-    merkleRoot: baseParams[5],
+    merkleRoot: baseParams.merkleRoot,
     minimumFee: undefined,
-    name: baseParams[6],
+    name: baseParams.name,
     recipientCount: event.params.recipientCount,
     shape: undefined,
     startTime: undefined, // all v1.2 streams use the claim time as the start time
     totalDuration: event.params.totalDuration,
     tranchesWithPercentages: convertTranches(event.params.tranchesWithPercentages),
-    transferable: baseParams[7],
+    transferable: baseParams.transferable,
   };
   await createMerkle({
     context,

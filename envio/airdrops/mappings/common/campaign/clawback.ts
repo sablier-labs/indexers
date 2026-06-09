@@ -2,6 +2,7 @@ import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v1_3_Clawback_handler as HandlerInstant_v1_3,
   SablierMerkleInstant_v2_0_Clawback_handler as HandlerInstant_v2_0,
+  SablierMerkleInstant_v3_0_Clawback_handler as HandlerInstant_v3_0,
   SablierV2MerkleStreamerLL_v1_1_Clawback_handler as HandlerLL_v1_1,
   SablierV2MerkleLL_v1_2_Clawback_handler as HandlerLL_v1_2,
   SablierMerkleLL_v1_3_Clawback_handler as HandlerLL_v1_3,
@@ -12,7 +13,7 @@ import type {
   SablierMerkleLT_v2_0_Clawback_handler as HandlerLT_v2_0,
   SablierMerkleLT_v3_0_Clawback_handler as HandlerLT_v3_0,
   SablierMerkleVCA_v3_0_Clawback_handler as HandlerVCA_v3_0,
-} from "../../../bindings/src/Indexer.gen.js";
+} from "../../../bindings.js";
 import { Store } from "../../../store/index.js";
 
 /* -------------------------------------------------------------------------- */
@@ -30,6 +31,7 @@ type Handler = HandlerLL_v1_1 &
   HandlerLT_v3_0 &
   HandlerInstant_v1_3 &
   HandlerInstant_v2_0 &
+  HandlerInstant_v3_0 &
   HandlerVCA_v3_0;
 
 const handler: Handler = async ({ context, event }) => {
