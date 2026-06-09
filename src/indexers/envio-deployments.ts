@@ -38,7 +38,7 @@ const publicDeployments = {
     indexer: "airdrops",
   }),
   // Streams ships through the legacy "Lockup" Envio deployment. We kept it to
-  // avoid a full redeployment and to preserve the existing billing plan.
+  // avoid a full redeployment and preserve the existing Envio plan.
   streams: createDeployment({
     createdOn: 1_712_673_343, // April 8, 2024
     explorerURL: "https://envio.dev/app/sablier-labs/lockup-envio",

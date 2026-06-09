@@ -22,7 +22,6 @@ import {
   SablierV2LockupLinear_v1_1,
   SablierV2LockupLinear_v1_2,
   SablierV2LockupTranched_v1_2,
-  USDC as USDC_Contract,
 } from "./bindings/src/Indexer.gen.js";
 export namespace Contract {
   // Flow
@@ -41,8 +40,6 @@ export namespace Contract {
   export const LockupLinear_v1_1 = SablierV2LockupLinear_v1_1;
   export const LockupLinear_v1_2 = SablierV2LockupLinear_v1_2;
   export const LockupTranched_v1_2 = SablierV2LockupTranched_v1_2;
-  // USDC
-  export const USDC = USDC_Contract;
 }
 
 // Entities & Enums

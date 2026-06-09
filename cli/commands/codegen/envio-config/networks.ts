@@ -4,7 +4,6 @@ import { sanitizeContractName } from "../../../../cli/utils/contract-name.js";
 import { indexedContracts } from "../../../../contracts/index.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
-import { usdc } from "../../../utils/usdc.js";
 import { CodegenError } from "../errors.js";
 import type { EnvioConfig } from "./config-types.js";
 
@@ -52,29 +51,6 @@ export function addComptrollerToChains(chains: EnvioConfig.Chain[]): EnvioConfig
     return {
       ...chain,
       contracts: [...chain.contracts, comptrollerContract],
-    };
-  });
-}
-
-/**
- * Adds the USDC contract to networks that have a known USDC deployment.
- */
-export function addUsdcToChains(chains: EnvioConfig.Chain[]): EnvioConfig.Chain[] {
-  return chains.map((chain) => {
-    const usdcInfo = usdc[chain.id];
-    if (!usdcInfo) {
-      return chain;
-    }
-
-    const usdcContract: EnvioConfig.NetworkContract = {
-      address: usdcInfo.address,
-      name: "USDC",
-      start_block: usdcInfo.startBlock,
-    };
-
-    return {
-      ...chain,
-      contracts: [...chain.contracts, usdcContract],
     };
   });
 }

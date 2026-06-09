@@ -2,12 +2,8 @@ import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/types.js";
 import type { EnvioConfig } from "./config-types.js";
-import {
-  createComptrollerContract,
-  createProtocolContracts,
-  createUsdcContract,
-} from "./contracts.js";
-import { addComptrollerToChains, addUsdcToChains, createChainsForProtocols } from "./networks.js";
+import { createComptrollerContract, createProtocolContracts } from "./contracts.js";
+import { addComptrollerToChains, createChainsForProtocols } from "./networks.js";
 import { topSections } from "./top-sections.js";
 
 /**
@@ -51,13 +47,11 @@ export function createEnvioConfig(target: Indexer.Target): EnvioConfig.TopSectio
     contracts = [
       ...createProtocolContracts(target, "flow", includeProtocolInPath),
       ...createProtocolContracts(target, "lockup", includeProtocolInPath),
-      createUsdcContract(target),
     ];
     chains = mergeChains([
       ...createChainsForProtocols("flow"),
       ...createChainsForProtocols("lockup"),
     ]);
-    chains = addUsdcToChains(chains);
   }
   // Each protocol indexer tracks its own contracts and chains.
   else {
