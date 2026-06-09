@@ -8,6 +8,8 @@ allowBuilds:
   utf-8-validate: true
 minimumReleaseAge: 10080 # 7 days
 minimumReleaseAgeExclude:
+  - effect
+  - "@effect/*"
   - envio
   - "envio-*"
   - sablier
