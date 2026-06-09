@@ -97,6 +97,6 @@
   },
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build::all",
-    "start": "envio start --directory ./envio/$ENVIO_INDEXER_NAME --config config.yaml"
+    "start": "envio start --directory ./envio/$ENVIO_INDEXER_NAME"
   }
 }
