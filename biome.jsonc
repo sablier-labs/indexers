@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": ["ultracite/core", "@sablier/devkit/biome/base"],
+  "extends": ["ultracite/biome/core", "@sablier/devkit/biome/base"],
   "root": true,
   "files": {
     "includes": [
@@ -21,6 +21,16 @@
     }
   },
   "overrides": [
+    {
+      "includes": ["package.json"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noDuplicateDependencies": "off" // `sablier` is both bundled for runtime and declared as a peer for consumers
+          }
+        }
+      }
+    },
     /* -------------------------------------------------------------------------- */
     /*                                YAML CODEGEN                                */
     /* -------------------------------------------------------------------------- */

@@ -42,9 +42,9 @@ describe("Vendors", () => {
       const supportedChainIds = response.data.map((c) => c.chain_id);
 
       // Chains that use RPC as a data source are not supported by Envio.
-      const unsupported = envioChains.filter((c) => {
-        return !(supportedChainIds.includes(c.id) || c.config?.hypersync || c.config?.rpcOnly);
-      });
+      const unsupported = envioChains.filter(
+        (c) => !(supportedChainIds.includes(c.id) || c.config?.hypersync || c.config?.rpcOnly)
+      );
 
       if (unsupported.length > 0) {
         console.warn(

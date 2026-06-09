@@ -1,6 +1,8 @@
 ---
 name: assemblyscript
-description: This skill should be used when working with AssemblyScript code in the graph/ directory, writing subgraph mappings, event handlers, or store operations. Triggers: "AssemblyScript", "subgraph", "graph/", mapping handlers, BigInt operations, entity stores, The Graph indexer code.
+description:
+  Use when working with AssemblyScript code in the graph/ directory, writing subgraph mappings, event handlers, store
+  operations, BigInt operations, entity stores, or The Graph indexer code.
 ---
 
 # AssemblyScript for The Graph

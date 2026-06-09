@@ -26,9 +26,10 @@ export function getABIEntries(
   version: Model.Version
 ) {
   return Effect.gen(function* () {
-    const contract = _.find(indexedContracts[protocol], (c) => {
-      return c.name === contractName && c.versions.includes(version);
-    });
+    const contract = _.find(
+      indexedContracts[protocol],
+      (c) => c.name === contractName && c.versions.includes(version)
+    );
     if (!contract) {
       return yield* Effect.fail(new Error(`Contract ${contractName} not found for ABI entries`));
     }
