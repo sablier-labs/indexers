@@ -188,11 +188,6 @@ contracts:
       - event: "CreateLockupTranchedStream"
       - event: "RenounceLockupStream"
       - event: "WithdrawFromLockupStream"
-  - abi_file_path: "../../abi/ERC20.json"
-    events:
-      - event: "Transfer"
-    handler: "mappings/lockup/common/sponsorship.ts"
-    name: "USDC"
 chains:
   - id: 1
     start_block: 17613133
@@ -244,9 +239,6 @@ chains:
       - address: "0x93b37bd5b6b278373217333ac30d7e74c85fbdcb"
         name: "SablierLockup_v4_0"
         start_block: 24676697
-      - address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
-        name: "USDC"
-        start_block: 24580372
   - id: 10
     start_block: 106405061
     rpc:
@@ -297,9 +289,6 @@ chains:
       - address: "0x945ba0d0eeaa5766d4bae5455a9817d7ae150550"
         name: "SablierLockup_v4_0"
         start_block: 149075526
-      - address: "0x0b2c639c533813f4aa9d7837caf62653d097ff85"
-        name: "USDC"
-        start_block: 148491812
   - id: 50
     start_block: 85225620
     rpc:
@@ -376,9 +365,6 @@ chains:
       - address: "0x6cd06aaf06506bc3ff382d83023354e2b80eed22"
         name: "SablierLockup_v4_0"
         start_block: 87110015
-      - address: "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d"
-        name: "USDC"
-        start_block: 84525157
   - id: 100
     start_block: 28766600
     rpc:
@@ -429,9 +415,6 @@ chains:
       - address: "0xf24e804b0eb4fc0ead41df0e392d25fb230bbab4"
         name: "SablierLockup_v4_0"
         start_block: 45195064
-      - address: "0xddafbb505ad214d7b80b1f830fccc89b60fb7a83"
-        name: "USDC"
-        start_block: 44969466
   - id: 130
     start_block: 13882080
     rpc:
@@ -508,9 +491,6 @@ chains:
       - address: "0xceb5253db890347d45778fb0834fb3c0b57aff93"
         name: "SablierLockup_v4_0"
         start_block: 84316024
-      - address: "0x3c499c542cef5e3811e1192ce70d8cc03d5c3359"
-        name: "USDC"
-        start_block: 83731185
   - id: 143
     start_block: 34582553
     rpc:
@@ -561,9 +541,6 @@ chains:
       - address: "0xa697988451f921185a8c824ad4867dc8933c4ecb"
         name: "SablierLockup_v4_0"
         start_block: 65562236
-      - address: "0x29219dd400f2bf60e5a23d13be72b486d4038894"
-        name: "USDC"
-        start_block: 64263501
   - id: 324
     start_block: 32472581
     rpc:
@@ -608,9 +585,6 @@ chains:
       - address: "0xc2fdf5dcdeaa1f7c83e569d03b22ea8636073f4a"
         name: "SablierLockup_v4_0"
         start_block: 69121942
-      - address: "0x1d17cbcf0d6d143135ae902365d2e5e2a16538d4"
-        name: "USDC"
-        start_block: 68888190
   - id: 999
     start_block: 8594061
     rpc:
@@ -827,9 +801,6 @@ chains:
       - address: "0xc19a09a66887017f603e5df420ed3cb9a5c07c0a"
         name: "SablierLockup_v4_0"
         start_block: 43478436
-      - address: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913"
-        name: "USDC"
-        start_block: 42896527
   - id: 34443
     start_block: 11343389
     rpc:
@@ -918,9 +889,6 @@ chains:
       - address: "0xd103611856f3c2bbae61d9bf138078794fc09c33"
         name: "SablierLockup_v4_0"
         start_block: 442712696
-      - address: "0xaf88d065e77c8cc2239327c5edb3a432268e5831"
-        name: "USDC"
-        start_block: 438064202
   - id: 43114
     start_block: 32164219
     rpc:
@@ -971,9 +939,6 @@ chains:
       - address: "0xb891b41533776ec20f7738c647a11506aa44b8a8"
         name: "SablierLockup_v4_0"
         start_block: 80574676
-      - address: "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e"
-        name: "USDC"
-        start_block: 79496510
   - id: 50104
     start_block: 11275708
     rpc:
@@ -1026,9 +991,6 @@ chains:
       - address: "0xfb898e1626c9b32f89ffb0fedd145b89590d219e"
         name: "SablierLockup_v4_0"
         start_block: 29763571
-      - address: "0x176211869ca2b568f2a7d4ee941e073a821ee1ff"
-        name: "USDC"
-        start_block: 29431923
   - id: 80094
     start_block: 780094
     rpc:
@@ -1137,9 +1099,6 @@ chains:
       - address: "0xa65a1ecef02c2b9bdc604951c6a6d02335d4532e"
         name: "SablierLockup_v4_0"
         start_block: 38985887
-      - address: "0x036cbd53842c5426634e7929541ec2318f3dcf7e"
-        name: "USDC"
-        start_block: 38407056
   - id: 88888
     start_block: 19125587
     hypersync_config:
@@ -1230,9 +1189,6 @@ chains:
       - address: "0x9435e262a4a312d30d6c41fe055f648e91af411e"
         name: "SablierLockup_v4_0"
         start_block: 32070866
-      - address: "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4"
-        name: "USDC"
-        start_block: 31177436
   - id: 11155111
     start_block: 4067889
     rpc:
@@ -1283,6 +1239,3 @@ chains:
       - address: "0xe61cb9153356419bdad0a8767c059f92d221a3c4"
         name: "SablierLockup_v4_0"
         start_block: 10463080
-      - address: "0x1c7d4b196cb0c7b01d743fbc6116a902379c7238"
-        name: "USDC"
-        start_block: 10378869

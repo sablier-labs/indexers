@@ -4,12 +4,7 @@ import { mergeTypeDefs } from "@graphql-tools/merge";
 import type { DocumentNode } from "graphql";
 import { SCHEMA_DIR } from "../cli/utils/paths.js";
 import type { Indexer } from "../src/index.js";
-import {
-  getAssetDefs,
-  getSponsorDefs,
-  getSponsorshipDefs,
-  getWatcherDefs,
-} from "./common/index.js";
+import { getAssetDefs, getWatcherDefs } from "./common/index.js";
 import { getEnumDefs } from "./enums.js";
 import { streamsActionDefs } from "./streams/action.graphql.js";
 import { streamsBatchDefs } from "./streams/batch.graphql.js";
@@ -44,13 +39,11 @@ const PROTOCOL_MAP: Record<string, ProtocolSchemaConfig> = {
   airdrops: {
     generators: BASE.generators,
     indexerSpecific: ["action", "activity", "campaign", "factory", "tranche"],
-    vendorGenerators: { envio: [getSponsorDefs, getSponsorshipDefs], graph: [] },
   },
   streams: {
     common: ["contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
     indexerSpecific: ["segment", "tranche"],
-    vendorGenerators: { envio: [getSponsorDefs, getSponsorshipDefs], graph: [] },
   },
 };
 
