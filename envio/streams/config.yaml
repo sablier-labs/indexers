@@ -587,6 +587,8 @@ chains:
         start_block: 69121942
   - id: 999
     start_block: 8594061
+    hypersync_config:
+      url: "https://hyperliquid.hypersync.xyz"
     rpc:
       - for: "fallback"
         initial_block_interval: 2000

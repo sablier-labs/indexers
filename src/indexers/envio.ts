@@ -44,7 +44,7 @@ const SUPPORTED_CHAINS = [
   get(chains.bsc.id),
   get(chains.chiliz.id, { hypersync: "chiliz" }),
   get(chains.gnosis.id),
-  get(chains.hyperevm.id),
+  get(chains.hyperevm.id, { hypersync: "hyperliquid" }),
   get(chains.linea.id),
   get(chains.mainnet.id),
   get(chains.mode.id),
