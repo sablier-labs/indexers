@@ -23,3 +23,7 @@ onlyBuiltDependencies:
   - oxc-resolver
   - rescript
   - utf-8-validate
+
+overrides:
+  "@effect/cluster": 0.59.0
+  "@effect/workflow": 0.18.2
