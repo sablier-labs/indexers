@@ -8,6 +8,7 @@
   "module": "./dist/esm/index.js",
   "sideEffects": false,
   "type": "module",
+  "packageManager": "pnpm@11.5.1",
   "types": "./dist/types/index.d.ts",
   "typings": "./dist/types/index.d.ts",
   "author": {
