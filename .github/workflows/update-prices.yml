@@ -23,7 +23,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Update price-data dependency
-        run: nup @sablier/price-data
+        run: nup @sablier/price-data --depth 0
 
       - name: Sync price data to cache
         run: just envio prices-sync
