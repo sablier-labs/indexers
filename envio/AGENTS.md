@@ -1,87 +1,105 @@
-## Type Checking
+# Envio Indexers
 
-The root `tsconfig.json` excludes `envio/`. Running root `just type-check` / `just tsc-check` or `na tsc --noEmit` will
-**not** catch type errors here. Envio v3 generates one `envio` module augmentation per indexer, so type-check each
-indexer as a separate TS project:
+Envio HyperIndex implementations for `airdrops`, `analytics`, and `streams`.
+
+## Stack
+
+- Envio `3.1.2`, TypeScript, per-indexer TS projects.
+- Shared compatibility facade in `envio/common/facade.ts`.
+- Generated Envio metadata under ignored `.envio/` directories.
+
+## Commands
+
+From the repo root:
 
 ```bash
-just envio::type-check
+just envio::type-check                 # Type-check all Envio indexers
+na tsc --noEmit -p envio/<indexer>/tsconfig.json
+just codegen::envio [indexer]          # Schema + config + bindings
+just codegen::envio-bindings [indexer] # Bindings only
+just codegen::envio-config [indexer]   # config.yaml only
+just codegen::schema envio [indexer]   # Envio GraphQL schema only
+just envio::prices-check               # Verify analytics price cache
+just envio::prices-sync                # Sync analytics price cache
+just envio::check-vendors [chain_id]   # Compare vendor assets
+just envio::deploy [indexer]           # Force-push deployment branch; confirmed recipe
+just envio::open                       # Open Envio dashboard
 ```
 
-For a single indexer, run `na tsc --noEmit -p envio/<indexer>/tsconfig.json`.
+From `envio/<indexer>/`:
 
-## Type Errors in Bindings
+```bash
+just codegen                 # Full codegen for that indexer
+just codegen-bindings        # Envio bindings
+just codegen-config          # Envio config
+just codegen-schema          # Envio schema
+just envio dev               # Run Envio dev mode with TUI
+just envio dev tui_off       # Run without TUI
+just envio start             # Start Envio
+just envio stop              # Stop Envio
+just test                    # Run that indexer's Vitest tests
+```
 
-Run `just codegen::envio` from the repo root to regenerate bindings, or `just codegen` from an Envio indexer directory.
+## Architecture
+
+- `airdrops/` - Public airdrops indexer.
+- `analytics/` - Private internal metrics indexer.
+- `streams/` - Public Flow + Lockup streams indexer.
+- `common/` - Shared facade, effects, store helpers, IDs, fees, and token metadata helpers.
+- `indexer.just` - Shared local recipe file imported by each indexer.
+- `<indexer>/bindings.ts` - Hand-maintained compatibility facade over generated Envio types.
+- `<indexer>/config.yaml` and `<indexer>/<indexer>.graphql` - Generated artifacts except analytics schema.
+
+## Type Checking
+
+The root `tsconfig.json` excludes `envio/`. Running root `just type-check`, `just tsc-check`, or `na tsc --noEmit` will
+not catch Envio type errors. Envio v3 generates one `envio` module augmentation per indexer, so type-check each indexer
+as a separate TS project through `just envio::type-check`.
+
+## Generated Bindings
+
+Run `just codegen::envio` from the repo root or `just codegen` from an Envio indexer directory when bindings are stale.
 Envio v3 writes generated type metadata to ignored `envio/<indexer>/.envio/types.d.ts` and
 `envio/<indexer>/envio-env.d.ts`.
 
-Do **not** import generated internals from `envio/<indexer>/bindings/src/*`. The `envio/<indexer>/bindings.ts` files are
-hand-maintained compatibility facades over `envio/common/facade.ts`; keep their contract and event lists in sync with
-`config.yaml`.
+Do not import generated internals from `envio/<indexer>/bindings/src/*`. The `bindings.ts` files are hand-maintained
+facades; keep their contract and event lists in sync with `config.yaml`.
 
-## Running Indexers
+## Schema Rules
 
-From an Envio indexer directory, use the shared `envio/indexer.just` recipe:
-
-```bash
-just envio dev
-just envio start
-just envio stop
-```
-
-The recipe passes `--directory` and `--config` to `pnpm envio` and toggles TUI mode with `ENVIO_TUI`. Do not use the old
-`ts-node ./bindings/src/Index.res.mjs` start path.
-
-## After GraphQL Schema Changes
-
-**1. Update `bindings.ts`** — Add/remove imports to match new schema types
-
-**2. Update `ENVIO_HASURA_PUBLIC_AGGREGATE`** (each indexer's `justfile`, e.g. `envio/streams/justfile`) — Add new
-aggregate entities
-
-```bash
-# Example: Adding a new aggregate entity "Baz"
-export ENVIO_HASURA_PUBLIC_AGGREGATE := "Foo&Bar&Baz"
-```
+- `airdrops.graphql` and `streams.graphql` are generated from `schema/`; do not edit them directly.
+- `analytics/analytics.graphql` is maintained directly in the analytics indexer.
+- After schema changes, update each affected `bindings.ts` import/export list and each indexer's
+  `ENVIO_HASURA_PUBLIC_AGGREGATE` in its `justfile`.
 
 ## Production URLs
 
-For tasks involving GraphQL queries, use these endpoints:
+For GraphQL query tasks, use:
 
-- **Airdrops**: https://indexer.hyperindex.xyz/508d217/v1/graphql
-- **Streams**: https://indexer.hyperindex.xyz/53b7e25/v1/graphql
+- `airdrops`: `https://indexer.hyperindex.xyz/508d217/v1/graphql`
+- `streams`: `https://indexer.hyperindex.xyz/53b7e25/v1/graphql`
+
+`converterURL` endpoints are derived in `src/indexers/envio-deployments.ts`.
 
 ## Querying Envio
 
-Envio exposes a **Hasura-style** GraphQL API — different from The Graph's subgraph syntax.
+Envio exposes a Hasura-style GraphQL API, not The Graph subgraph syntax.
 
-**Entity names** are PascalCase singular and prefixed per protocol vertical (`LockupStream`, `FlowStream`,
-`LockupAction`, `FlowAction`, `LockupBatch`, `FlowBatch`, …). Canonical list per indexer:
+- Entity names are PascalCase singular and protocol-prefixed where needed (`LockupStream`, `FlowStream`, `LockupAction`,
+  `FlowAction`, `LockupBatch`, `FlowBatch`, ...).
+- Canonical public schemas live at `envio/streams/streams.graphql` and `envio/airdrops/airdrops.graphql`.
+- `BigInt` scalars such as `chainId` must be passed as strings.
+- `Bytes` scalars are stored lowercase; lowercase address inputs before `_eq`.
+- Default `limit` is 10; pass it explicitly for larger reads.
+- Filter operators are Hasura operators such as `_eq`, `_in`, `_gt`, `_lt`, `_and`, `_or`.
 
-- `envio/streams/streams.graphql`
-- `envio/airdrops/airdrops.graphql`
+## Code Style
 
-**Query shape** — root field is the entity name itself, filters use Hasura operators:
+- Keep handler code TypeScript-safe under each indexer's own `tsconfig.json`.
+- Use shared helpers in `envio/common/` before adding per-indexer duplicates.
+- Preserve the Envio facade contract while Envio v3 generated APIs keep shifting.
 
-```graphql
-query LockupStreamsBySender {
-  LockupStream(
-    where: { sender: { _eq: "0x0298f4332e3857631385b39766325058a93e249f" }, chainId: { _eq: "1" } }
-    limit: 1000
-    order_by: { startTime: desc }
-  ) {
-    id
-    chainId
-    sender
-    tokenId
-  }
-}
-```
+## Contribution Workflow
 
-**Gotchas**:
-
-- `BigInt` scalars (e.g. `chainId`) must be passed as strings.
-- `Bytes` scalars (e.g. `sender`, `recipient`) are stored lowercase — lowercase the input before `_eq`.
-- Default `limit` is 10; pass it explicitly when you want more.
-- Filter operators are `_eq`, `_in`, `_gt`, `_lt`, `_and`, `_or`, … (not `_contains`/`_not`-style from The Graph).
+Follow the root `AGENTS.md` validation flow. Envio changes normally require `just envio::type-check` and targeted
+codegen verification.

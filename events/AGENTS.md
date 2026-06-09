@@ -1,35 +1,46 @@
 # Events
 
-Defines which contract events are indexed by each protocol.
+Defines which contract events are indexed by each protocol and vendor target.
 
-## Structure
+## Stack
 
-- **`{protocol}.ts`** - Event definitions per protocol (airdrops, flow, lockup)
-- **`common/`** - Shared events (ERC721, ERC20)
-- **`index.ts`** - Exports `indexedEvents` map
+- TypeScript event maps.
+- Consumed by Envio config generation and Graph manifest generation.
 
-## Event Definitions
+## Commands
 
-Each protocol file exports `Model.EventMap`:
+```bash
+na biome lint events/**/*.ts  # Lint event definitions
+na tsc --noEmit               # Type-check root TS project
+just codegen::envio [indexer] # Regenerate Envio schema/config/bindings
+just codegen::graph [indexer] # Regenerate Graph schema/manifests/bindings
+just codegen::all             # Regenerate all indexer artifacts
+```
+
+## Architecture
+
+- `{protocol}.ts` - Event definitions per protocol (`airdrops`, `flow`, `lockup`).
+- `common/` - Shared ERC-20/ERC-721 event definitions.
+- `index.ts` - Exports `indexedEvents`.
+
+Each protocol file exports a `Model.EventMap`:
 
 ```ts
 {
   [contractName]: {
-    [version]: Model.Event[]
-  }
+    [version]: Model.Event[];
+  };
 }
 ```
 
-**`Model.Event`** includes:
+`Model.Event` includes `contractName`, `eventName`, `protocol`, `version`, and `indexers`.
 
-- **`contractName`** - Contract emitting the event
-- **`eventName`** - Event name
-- **`protocol`** - Protocol name (flow, lockup, airdrops)
-- **`version`** - Contract version
-- **`indexers`** - Which indexers handle this event (e.g., `["streams", "analytics"]`)
+## Conventions
 
-## Usage
+- Use `indexers` to decide which targets receive the event, e.g. `["streams", "analytics"]`.
+- Keep event names aligned with ABI event names from `sablier`.
+- Regenerate vendor artifacts after changing events; generated handlers/manifests depend on this map.
 
-Used by codegen to generate event handlers for Envio and Graph manifests.
+## Contribution Workflow
 
-The `indexers` array controls which indexers receive each event.
+Follow the root `AGENTS.md` validation flow. Event-map changes usually require codegen verification.

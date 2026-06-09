@@ -1,26 +1,40 @@
 # Tests
 
-**Framework**: Vitest
+Vitest suite for indexer metadata, CLI behavior, Envio helpers, and vendor equivalence.
 
-## Structure
+## Stack
 
-- **`tests/*.test.ts`** - Core tests (event resolution)
-- **`tests/cli/`** - CLI command tests (graph deploy, query, RPC, etc.)
-- **`tests/envio/`** - Envio-specific tests (coingecko)
-- **`tests/indexers/`** - Indexer tests (protocol ↔ indexer-key mappers)
-- **`tests/vendors/`** - Vendor tests (chains, equivalence)
-- **`tests/setup.ts`** - Global setup (log paths)
+- Vitest `~3`.
+- Global setup in `tests/setup.ts`.
+- Vendor tests gated by `TEST_VENDORS=true`.
 
-## Running Tests
+## Commands
 
 ```bash
-just test                 # Core tests only
-just test file.test.ts    # Specific file
-just test-vendors         # Vendor tests (slower)
+just test                         # Run non-vendor tests
+just test file.test.ts            # Run a specific test file/pattern
+just test-vendors                 # Run vendor tests
+TEST_VENDORS=true pnpm vitest run # Direct vendor-test invocation
+pnpm vitest run tests/cli         # Direct targeted Vitest run
 ```
 
-Vendor tests require `TEST_VENDORS=true` environment variable.
+CI retries external-service tests and writes JSON output through `vitest.config.ts`.
+
+## Architecture
+
+- `tests/*.test.ts` - Core tests, including event resolution.
+- `tests/cli/` - CLI command tests.
+- `tests/envio/` - Envio-specific tests.
+- `tests/indexers/` - Indexer key/protocol mapper tests.
+- `tests/vendors/` - Vendor chain and equivalence tests.
+- `tests/setup.ts` - Global setup and log path configuration.
+- `summarize-test-failures.ts` - CI helper for Vitest JSON output.
 
 ## Logs
 
-Test logs written to `.logs/tests/{timestamp}.log` (configured in setup.ts).
+Test logs are written to `.logs/tests/{timestamp}.log`.
+
+## Contribution Workflow
+
+Follow the root `AGENTS.md` validation flow. For changed test files, run the narrowest `just test <path>` command that
+proves the change, then broaden only when shared fixtures or vendor behavior changed.

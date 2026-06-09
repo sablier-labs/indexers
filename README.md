@@ -1,66 +1,44 @@
 ![Sablier Branding](./banner.png)
 
-# Sablier Indexers [![Github Actions][gha-badge]][gha] [![Discord][discord-badge]][discord] [![Twitter][twitter-badge]][twitter]
+# Sablier Indexers [![GitHub Actions][gha-badge]][gha] [![Discord][discord-badge]][discord] [![X][x-badge]][x]
 
 [gha]: https://github.com/sablier-labs/indexers/actions
 [gha-badge]: https://github.com/sablier-labs/indexers/actions/workflows/ci.yml/badge.svg
 [discord]: https://discord.gg/bSwRCwWRsT
 [discord-badge]: https://img.shields.io/discord/659709894315868191
-[twitter-badge]: https://img.shields.io/twitter/follow/Sablier
-[twitter]: https://x.com/Sablier
+[x]: https://x.com/Sablier
+[x-badge]: https://img.shields.io/twitter/follow/Sablier
 
-Data indexers for the [Sablier](https://sablier.com) protocol for onchain token distribution. The indexers monitor
-Sablier's smart contract events and transform them into structured, queryable data APIs via GraphQL. The data is used to
-power the [Sablier Interface](https://app.sablier.com).
+Data indexers for the [Sablier](https://sablier.com) protocol. They monitor Sablier smart-contract events and transform
+them into structured GraphQL data APIs used by the [Sablier Interface](https://app.sablier.com).
 
-There are two indexing providers: [Envio](https://envio.dev) (preferred) and [The Graph](https://thegraph.com).
+The repository maintains indexers for [Envio](https://envio.dev) and [The Graph](https://thegraph.com). Envio is the
+preferred hosted provider; The Graph subgraphs remain available for multi-vendor coverage.
 
-## Documentation 📚
+## Links
 
-In-depth documentation is available at [docs.sablier.com](https://docs.sablier.com/api/overview).
+- [API documentation](https://docs.sablier.com/api/overview)
+- [Airdrops indexer docs](https://docs.sablier.com/api/airdrops/indexers)
+- [Flow indexer docs](https://docs.sablier.com/api/flow/indexers)
+- [Lockup indexer docs](https://docs.sablier.com/api/lockup/indexers)
+- [Package on npm](https://www.npmjs.com/package/@sablier/indexers)
+- [Changelog](CHANGELOG.md)
+- [Discord][discord]
 
-The package exposes two public indexer keys:
+## Indexer Surfaces
+
+The published package exposes two public indexer keys:
 
 - `airdrops` for campaign distribution data
-- `streams` for the Flow + Lockup streams
+- `streams` for Flow and Lockup payment-stream data
 
-`analytics` remains a separate target rather than a public indexer key because it's meant to be a private indexer for
-internal use only.
+`analytics` remains a private Envio target for internal metrics and is not part of the public package surface.
 
-Protocol-specific docs remain available here:
+## Contributing
 
-- [Sablier Airdrops](https://docs.sablier.com/api/airdrops/indexers) - Airdrop distribution data
-- [Sablier Flow](https://docs.sablier.com/api/flow/indexers) - Payment streams data
-- [Sablier Lockup](https://docs.sablier.com/api/lockup/indexers) - Vesting streams data
+Contributions are welcome. See [`AGENTS.md`](AGENTS.md) for the development workflow, commands, and conventions.
 
-## Quickstart 🚀
+## License
 
-You can query the public Envio GraphQL endpoints directly to access Sablier protocol data:
-
-- **Airdrops**: `https://indexer.hyperindex.xyz/508d217/v1/graphql`
-- **Streams**: `https://indexer.hyperindex.xyz/53b7e25/v1/graphql`
-
-The standard Envio endpoints require [Hasura](https://docs.envio.dev/docs/HyperIndex/navigating-hasura) GraphQL query
-syntax.
-
-> [!TIP]
->
-> If you're migrating from The Graph, Envio also exposes `/converter` endpoints that accept subgraph-compatible queries,
-> convert them to HyperIndex (standard GraphQL), and return responses in the same format as a standard subgraph:
->
-> - **Airdrops**: `https://indexer.hyperindex.xyz/508d217/converter`
-> - **Streams**: `https://indexer.hyperindex.xyz/53b7e25/converter`
-
-For detailed documentation, queries, and examples, visit our [API docs](https://docs.sablier.com/api/overview).
-
-## Contributing 🤝
-
-We welcome contributions! [Open an issue](https://github.com/sablier-labs/indexers/issues/new),
-[start a discussion](https://github.com/sablier-labs/indexers/discussions/new), or submit a PR.
-
-Read our [CONTRIBUTING](./CONTRIBUTING.md) guide to get started. Join our [Discord server][discord] for questions and
-feedback.
-
-## License 📄
-
-This repo is licensed under GPL 3-0 or later.
+Package metadata declares `GPL-3.0-or-later`. Add a repository `LICENSE` file before relying on GitHub license
+detection.
