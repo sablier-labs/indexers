@@ -40,5 +40,4 @@ Contributions are welcome. See [`AGENTS.md`](AGENTS.md) for the development work
 
 ## License
 
-Package metadata declares `GPL-3.0-or-later`. Add a repository `LICENSE` file before relying on GitHub license
-detection.
+This project is licensed under [GPL-3.0-or-later](LICENSE.md).

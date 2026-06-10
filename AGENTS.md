@@ -56,6 +56,7 @@ just test [args]                 # Vitest, excluding vendor tests by default
 just test-vendors [args]         # Vendor/equivalence tests
 just ci-run <recipe> [args]      # CI-friendly logging wrapper
 just clean                       # Delete build/generated artifacts
+just clean-modules [globs]       # Remove node_modules recursively
 ```
 
 ### Build and Codegen
@@ -126,7 +127,7 @@ Package scripts:
 
 ```bash
 pnpm prepack  # Frozen install + just build::all
-pnpm start    # ENVIO_CONFIG=config.yaml envio start --directory ./envio/$ENVIO_INDEXER_NAME
+pnpm start    # envio start --directory ./envio/$ENVIO_INDEXER_NAME
 ```
 
 ## Validation
@@ -147,6 +148,7 @@ For docs-only edits, run the narrowest formatter/check that touches the changed 
 
 - `abi/` - ABI overrides and supplemental ABI assets.
 - `cli/` - Effect CLI commands, services, and utilities.
+- `configs/` - TypeScript build configs (`tsconfig.{build,cjs,esm,types}.json`).
 - `contracts/` - Indexed Sablier contract sources per protocol/version.
 - `events/` - Event maps that drive Envio and Graph handler generation.
 - `schema/` - Source GraphQL schema fragments and generators.
@@ -192,5 +194,8 @@ Record public API additions/removals/renames, runtime behavior changes in shippe
 
 ## Contribution Workflow
 
-The default branch is `main`. Merge root `CONTRIBUTING.md` into this section before deleting that file; do not split new
-workflow guidance across both files.
+- Default branch is `main`; branch off it and open PRs back into it.
+- Use Conventional Commit subjects (`feat:`, `fix:`, `chore:`, `docs:`, `refactor(scope):`).
+- A Husky `pre-commit` hook runs `lint-staged`; keep it green before pushing.
+- Run the Validation flow above for the scopes you changed, and update `CHANGELOG.md` only when the shipped package
+  surface changes.
