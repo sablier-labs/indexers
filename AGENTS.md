@@ -189,7 +189,7 @@ Record public API additions/removals/renames, runtime behavior changes in shippe
 
 - Do not use path aliases; root `tsconfig.json` warns that aliases break Envio compatibility.
 - Keep Biome-compatible formatting; generated GraphQL is formatted through recipes.
-- Keep Envio bindings facades hand-maintained; do not import generated internals from `envio/<indexer>/bindings/src/*`.
+- Keep Envio `bindings.ts` facades hand-maintained and import Envio contract bindings through them.
 - Treat `graph/` as AssemblyScript, not TypeScript. See `graph/AGENTS.md` before changing mapping code.
 
 ## Contribution Workflow

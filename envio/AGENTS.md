@@ -62,8 +62,8 @@ Run `just codegen::envio` from the repo root or `just codegen` from an Envio ind
 Envio v3 writes generated type metadata to ignored `envio/<indexer>/.envio/types.d.ts` and
 `envio/<indexer>/envio-env.d.ts`.
 
-Do not import generated internals from `envio/<indexer>/bindings/src/*`. The `bindings.ts` files are hand-maintained
-facades; keep their contract and event lists in sync with `config.yaml`.
+Envio v3 does not emit an importable generated package. The `bindings.ts` files are hand-maintained facades over the
+`envio` module augmentation; keep their contract and event lists in sync with `config.yaml`.
 
 ## Schema Rules
 

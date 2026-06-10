@@ -42,7 +42,7 @@ mappings/v3.0/SablierFactoryMerkleInstant.ts
 mappings/v3.0/SablierFactoryMerkleInstant/create-instant.ts
 ```
 
-Generated `config.yaml` points to wrapper files, and Envio bindings require them at runtime. If a wrapper is missing,
+Generated `config.yaml` points to wrapper files, and the Envio runtime imports them at startup. If a wrapper is missing,
 the indexer fails with `Cannot find module`. When adding a new factory contract version, create both the subdirectory
 and its wrapper file.
 
