@@ -6,6 +6,10 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 # Load env vars from the repo root
 set dotenv-path := "{{ source_dir() }}/../.env"
 
+# Isolate each indexer's local Postgres data; sharing one schema makes Envio
+# refuse to start when the stored indexer name differs from the config name.
+export ENVIO_PG_SCHEMA := INDEXER_NAME
+
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
 # ---------------------------------------------------------------------------- #
