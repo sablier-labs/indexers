@@ -51,7 +51,7 @@ importers:
         version: 1.18.1(vitest@3.2.6)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/1a272522551f58a77d49747a6b2306831de53f6c
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/f112733e7fd556df37af22ca7884ea3229fbc11c
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1352,8 +1352,8 @@ packages:
       vitest:
         optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/1a272522551f58a77d49747a6b2306831de53f6c':
-    resolution: {gitHosted: true, integrity: sha512-65nQTGT8N9EjMBufFVN+bUKYI8DdR04An6PjOH/HpeB4KX1CSdiCybmXX4R7u36yn/95fWgAsvqJb5HAe06U8Q==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/1a272522551f58a77d49747a6b2306831de53f6c}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/f112733e7fd556df37af22ca7884ea3229fbc11c':
+    resolution: {gitHosted: true, integrity: sha512-OJB6TOrkeWTn66XE4oKwC4bC7npA0Ien+QqMCzLn725Zi4s7u+XYtzaeOe012uXFXDOSsdzcUucxKKE5r3AdJw==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/f112733e7fd556df37af22ca7884ea3229fbc11c}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -1448,6 +1448,9 @@ packages:
 
   '@types/node@25.9.1':
     resolution: {integrity: sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg==}
+
+  '@types/node@25.9.2':
+    resolution: {integrity: sha512-G05zqtJhcDLb8uslf5EjCxXg9G1KQxiV8OS0R26IC//Eoyitzqe8z37I7cqvnZlrlSfgocQRfSn/AHBZJJFyGw==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -3153,6 +3156,9 @@ packages:
   msgpackr@1.11.12:
     resolution: {integrity: sha512-RBdJ1Un7yGlXWajrkxcSa93nvQ0w4zBf60c0yYv7YtBelP8H2FA7XsfBbMHtXKXUMUxH7zV3Zuozh+kUQWhHvg==}
 
+  msgpackr@1.11.13:
+    resolution: {integrity: sha512-pWaxg0k1iiNdkAayUQ7Zlz/vYNfVefUttmHxqFcQjjtyqFa3w4x5rginOEzy/GvbWhBDD9K65/ZXyq8qz8utaQ==}
+
   multiformats@13.1.3:
     resolution: {integrity: sha512-CZPi9lFZCM/+7oRolWYsvalsyWQGFo+GpdaTmjxXXomC+nP/W1Rnxb9sUgjvmNmRZ5bOPqRAl4nuK+Ydw/4tGw==}
 
@@ -4549,7 +4555,7 @@ snapshots:
     dependencies:
       '@effect/platform': 0.96.1(effect@3.21.3)
       effect: 3.21.3
-      msgpackr: 1.11.12
+      msgpackr: 1.11.13
 
   '@effect/sql@0.51.1(@effect/experimental@0.60.0(@effect/platform@0.96.1(effect@3.21.3))(effect@3.21.3))(@effect/platform@0.96.1(effect@3.21.3))(effect@3.21.3)':
     dependencies:
@@ -5396,7 +5402,7 @@ snapshots:
     optionalDependencies:
       vitest: 3.2.6(@types/node@25.9.1)(@vitest/ui@3.2.6)(tsx@4.22.4)(yaml@2.9.0)
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/1a272522551f58a77d49747a6b2306831de53f6c': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/f112733e7fd556df37af22ca7884ea3229fbc11c': {}
 
   '@scure/base@1.1.9': {}
 
@@ -5513,6 +5519,10 @@ snapshots:
     dependencies:
       undici-types: 7.24.6
 
+  '@types/node@25.9.2':
+    dependencies:
+      undici-types: 7.24.6
+
   '@types/parse-json@4.0.2': {}
 
   '@types/uuid@10.0.0': {}
@@ -5523,7 +5533,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.9.1
+      '@types/node': 25.9.2
 
   '@vitest/expect@3.2.6':
     dependencies:
@@ -7339,6 +7349,10 @@ snapshots:
     optional: true
 
   msgpackr@1.11.12:
+    optionalDependencies:
+      msgpackr-extract: 3.0.4
+
+  msgpackr@1.11.13:
     optionalDependencies:
       msgpackr-extract: 3.0.4
 
