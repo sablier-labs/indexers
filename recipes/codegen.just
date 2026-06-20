@@ -1,5 +1,7 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
+set no-cd
+
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
 # ---------------------------------------------------------------------------- #
@@ -7,7 +9,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 # Codegen all indexers
 [group("envio")]
 [group("graph")]
-[no-cd]
 @all:
     just _concurrent-vendors \
         "just codegen::envio" \
@@ -16,7 +17,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 # Codegen the GraphQL schema
 [group("envio")]
 [group("graph")]
-[no-cd]
 @schema vendor="all" indexer="all":
     just cli codegen schema \
         --vendor {{ vendor }} \
@@ -33,11 +33,9 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 # 2. Envio config YAML
 [doc("Codegen everything for the Envio indexer")]
 [group("envio")]
-[no-cd]
 @envio indexer="all":
     just codegen::_envio-for-each codegen::_codegen-envio {{ indexer }}
 
-[no-cd]
 @_codegen-envio indexer:
     just codegen::schema envio {{ indexer }}
     just codegen::envio-config {{ indexer }}
@@ -45,11 +43,9 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 
 # Codegen the Envio bindings
 [group("envio")]
-[no-cd]
 @envio-bindings indexer="all":
     just codegen::_envio-for-each codegen::_codegen-envio-bindings {{ indexer }}
 
-[no-cd]
 [script("bash")]
 _codegen-envio-bindings indexer:
     indexer_dir="envio/{{ indexer }}"
@@ -67,7 +63,6 @@ _codegen-envio-bindings indexer:
 
 # Codegen the Envio config YAML
 [group("envio")]
-[no-cd]
 @envio-config indexer="all":
     just cli codegen envio-config --indexer {{ indexer }}
 
@@ -81,11 +76,9 @@ _codegen-envio-bindings indexer:
 # 2. YAML manifest
 [doc("Codegen everything for the Graph indexer")]
 [group("graph")]
-[no-cd]
 @graph indexer="all":
     just codegen::_graph-for-each codegen::_codegen-graph {{ indexer }}
 
-[no-cd]
 @_codegen-graph indexer:
     just codegen::schema graph {{ indexer }}
     just codegen::graph-manifest {{ indexer }} all
@@ -93,11 +86,9 @@ _codegen-envio-bindings indexer:
 
 # Codegen the Graph subgraph bindings
 [group("graph")]
-[no-cd]
 @graph-bindings indexer="all":
     just codegen::_graph-for-each codegen::_codegen-graph-bindings {{ indexer }}
 
-[no-cd]
 [script("bash")]
 _codegen-graph-bindings indexer:
     indexer_dir="graph/{{ indexer }}"
@@ -110,7 +101,6 @@ _codegen-graph-bindings indexer:
 
 # Codegen the Graph subgraph manifest
 [group("graph")]
-[no-cd]
 @graph-manifest indexer="all" chain="all":
     just cli codegen graph-manifest \
         --indexer {{ indexer }} \
@@ -121,7 +111,6 @@ _codegen-graph-bindings indexer:
 # ---------------------------------------------------------------------------- #
 
 # Helper to run three commands in parallel (airdrops, analytics, streams)
-[no-cd]
 @_concurrent-envio-indexers cmd1 cmd2 cmd3:
     pnpm concurrently --group \
         -n "airdrops,analytics,streams" \
@@ -131,7 +120,6 @@ _codegen-graph-bindings indexer:
         "{{ cmd3 }}"
 
 # Helper to run an Envio recipe for all indexers or a specific one
-[no-cd]
 [script("bash")]
 _envio-for-each recipe indexer:
     case "{{ indexer }}" in
@@ -152,7 +140,6 @@ _envio-for-each recipe indexer:
     esac
 
 # Helper to run a Graph recipe for all indexers or a specific one
-[no-cd]
 [script("bash")]
 _graph-for-each recipe indexer:
     case "{{ indexer }}" in

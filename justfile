@@ -15,18 +15,6 @@ import "./recipes/utils.just"
 set dotenv-load
 
 # ---------------------------------------------------------------------------- #
-#                                 DEPENDENCIES                                 #
-# ---------------------------------------------------------------------------- #
-
-# Ni: https://github.com/antfu-collective/ni
-na := require("na")
-ni := require("ni")
-nlx := require("nlx")
-
-# Pnpm: https://github.com/pnpm/pnpm
-pnpm := require("pnpm")
-
-# ---------------------------------------------------------------------------- #
 #                               ENVIRONMENT VARS                               #
 # ---------------------------------------------------------------------------- #
 

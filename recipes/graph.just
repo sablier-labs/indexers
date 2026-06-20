@@ -1,13 +1,13 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
+set no-cd
+
 # Build all Graph indexers
-[no-cd]
 @build-all:
     just _concurrent-indexers \
         "just graph::build airdrops" \
         "just graph::build streams"
 
-[no-cd]
 [script("bash")]
 build indexer:
     just codegen::graph {{ indexer }}
@@ -19,6 +19,5 @@ build indexer:
 
 # Ping all Graph endpoints to wake up dormant subgraphs
 [group("graph")]
-[no-cd]
 @revive *args:
     just cli revive-graphs {{ args }}

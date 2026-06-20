@@ -1,5 +1,7 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
+set no-cd
+
 # ---------------------------------------------------------------------------- #
 #                                     BUILD                                    #
 # ---------------------------------------------------------------------------- #
@@ -9,7 +11,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 #   2. Clean the dist directory
 #   3. Build all packages (CJS, ESM, types)
 [group("build")]
-[no-cd]
 @all:
     just --quiet export-schema
 
@@ -24,7 +25,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 
 # Build all packages in parallel
 [group("build")]
-[no-cd]
 @tsc:
     nlx concurrently --group \
         -n "cjs,esm,types" \
@@ -38,7 +38,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 
 # Build the CJS package
 [group("build")]
-[no-cd]
 @tsc-cjs:
     echo ""
     echo "📦 Building CJS package..."
@@ -47,7 +46,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 
 # Build the ESM package
 [group("build")]
-[no-cd]
 @tsc-esm:
     echo ""
     echo "📦 Building ESM package..."
@@ -56,7 +54,6 @@ import "../node_modules/@sablier/devkit/just/settings.just"
 
 # Build the types package
 [group("build")]
-[no-cd]
 @tsc-types:
     echo ""
     echo "📦 Building types..."

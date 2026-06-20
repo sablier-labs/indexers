@@ -1,22 +1,20 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
+set no-cd
+
 # Fetch assets from The Graph subgraphs and save them to JSON files
-[no-cd]
 @check-vendors chain_id="1":
     just cli check-vendors --chain-id {{ chain_id }}
 
 # Verify price data in cache matches node_modules version
-[no-cd]
 @prices-check:
     just cli prices-check
 
 # Sync price data from @sablier/price-data to Envio cache
-[no-cd]
 @prices-sync:
     just cli prices-sync
 
 # Run TypeScript type-checking for the Envio project
-[no-cd]
 @type-check:
     na tsc --noEmit -p envio/airdrops/tsconfig.json
     na tsc --noEmit -p envio/analytics/tsconfig.json
@@ -26,14 +24,19 @@ alias tc := type-check
 
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
 [confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
-[no-cd]
 @deploy indexer="all":
     just envio::_envio-for-each envio::_deploy {{ indexer }}
 
-[no-cd]
 [script("bash")]
 _deploy indexer:
     set -euo pipefail
+    case "{{ indexer }}" in
+        airdrops | analytics | streams) ;;
+        *)
+            echo "❌ Invalid indexer: '{{ indexer }}'. Must be one of: airdrops, streams, analytics" >&2
+            exit 1
+            ;;
+    esac
     deployment_indexer="{{ indexer }}"
     deployment_branch="deployment/$deployment_indexer"
     echo "Deploying to $deployment_branch..."
@@ -41,7 +44,6 @@ _deploy indexer:
     echo "✅ Deployed to $deployment_branch"
 
 # Open the Envio dashboard in the default browser
-[no-cd]
 [unix]
 @open:
     open "https://envio.dev/app/sablier-labs"
@@ -51,7 +53,6 @@ _deploy indexer:
 # ---------------------------------------------------------------------------- #
 
 # Helper to run three commands in parallel (airdrops, analytics, streams)
-[no-cd]
 @_concurrent-envio-indexers cmd1 cmd2 cmd3:
     pnpm concurrently --group \
         -n "airdrops,analytics,streams" \
