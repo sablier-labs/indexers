@@ -3,14 +3,14 @@
  */
 import { sablier } from "sablier";
 import { gnosis, tangle } from "sablier/evm/chains";
-import { formatEther, parseEther, parseUnits } from "viem";
+import { formatEther, parseUnits } from "viem";
 import type { Envio } from "../../common/bindings.js";
 import { FEB_03_2025 } from "../../common/constants.js";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
 import { coinConfigs } from "../effects/coingecko.js";
 import { fetchGBPExchangeRate } from "../effects/forex.js";
-import { Id } from "../helpers/index.js";
+import { addDecimalStrings, Id, toDecimalString } from "../helpers/index.js";
 
 // Testnet ETH doesn't have value, and TNT is not transferable.
 const TESTNETS = sablier.chains.getTestnets();
@@ -71,11 +71,11 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
 
     // Calculate fiat values.
     const msgValueNum = Number(msgValue);
-    const usdValue = (priceUSD * msgValueNum).toString();
-    const gbpValue = (Number(usdValue) / gbpExchangeRate).toString();
+    const usdValue = toDecimalString(priceUSD * msgValueNum);
+    const gbpValue = toDecimalString(Number(usdValue) / gbpExchangeRate);
 
     // Update fee entities.
-    upsertFiatFeesDaily(context, entities, event, { date, gbpValue, msgValue, usdValue });
+    upsertFiatFeesDaily(context, entities, event, { date, gbpValue, usdValue });
     upsertCryptoFeesDaily(context, entities, event, { currency, date, msgValue });
 
     // Create fee transaction entities.
@@ -99,8 +99,8 @@ function createFeeTx(
     amountDisplay: msgValue,
     amountDisplayGBP: gbpValue,
     amountDisplayUSD: usdValue,
-    amountGBP: parseUnits(gbpValue, 2),
-    amountUSD: parseUnits(usdValue, 2),
+    amountGBP: parseFiatUnits(gbpValue),
+    amountUSD: parseFiatUnits(usdValue),
     block: BigInt(event.block.number),
     chainId: BigInt(event.chainId),
     contractAddress: event.srcAddress,
@@ -140,28 +140,28 @@ function upsertFiatFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { date: string; gbpValue: string; msgValue: string; usdValue: string }
+  params: { date: string; gbpValue: string; usdValue: string }
 ): void {
   let { dailyFiatFees } = entities;
   const { dailyFiatFeesId } = entities;
   const { date, gbpValue, usdValue } = params;
 
   if (dailyFiatFees) {
-    const newGBPValue = (Number(dailyFiatFees.amountDisplayGBP) + Number(gbpValue)).toString();
-    const newUSDValue = (Number(dailyFiatFees.amountDisplayUSD) + Number(usdValue)).toString();
+    const newGBPValue = addDecimalStrings(dailyFiatFees.amountDisplayGBP, gbpValue);
+    const newUSDValue = addDecimalStrings(dailyFiatFees.amountDisplayUSD, usdValue);
     dailyFiatFees = {
       ...dailyFiatFees,
       amountDisplayGBP: newGBPValue,
       amountDisplayUSD: newUSDValue,
-      amountGBP: parseUnits(newGBPValue, 2),
-      amountUSD: parseUnits(newUSDValue, 2),
+      amountGBP: parseFiatUnits(newGBPValue),
+      amountUSD: parseFiatUnits(newUSDValue),
     };
   } else {
     dailyFiatFees = {
       amountDisplayGBP: gbpValue,
       amountDisplayUSD: usdValue,
-      amountGBP: parseUnits(gbpValue, 2),
-      amountUSD: parseUnits(usdValue, 2),
+      amountGBP: parseFiatUnits(gbpValue),
+      amountUSD: parseFiatUnits(usdValue),
       date,
       dateTimestamp: getDateTimestamp(event.block.timestamp),
       id: dailyFiatFeesId,
@@ -182,15 +182,15 @@ function upsertCryptoFeesDaily(
   const { currency, date, msgValue } = params;
 
   if (dailyCryptoFees) {
-    const newAmount = (Number(dailyCryptoFees.amountDisplay) + Number(msgValue)).toString();
+    const newAmount = dailyCryptoFees.amount + event.transaction.value;
     dailyCryptoFees = {
       ...dailyCryptoFees,
-      amount: parseEther(newAmount),
-      amountDisplay: newAmount,
+      amount: newAmount,
+      amountDisplay: formatEther(newAmount),
     };
   } else {
     dailyCryptoFees = {
-      amount: parseEther(msgValue),
+      amount: event.transaction.value,
       amountDisplay: msgValue,
       currency,
       dailyFiatFees_id: entities.dailyFiatFeesId,
@@ -201,4 +201,8 @@ function upsertCryptoFeesDaily(
   }
 
   context.CryptoFeesDaily.set(dailyCryptoFees);
+}
+
+function parseFiatUnits(value: string): bigint {
+  return parseUnits(toDecimalString(value), 2);
 }
