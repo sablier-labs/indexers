@@ -25,7 +25,7 @@ onlyBuiltDependencies:
   - utf-8-validate
 
 overrides:
-  # Envio 3.1.2 pins react@19.2.5, while @rescript/react auto-installs react-dom@19.2.7.
+  # Envio 3.2.1 pins react@19.2.5, while @rescript/react auto-installs react-dom@19.2.7.
   # Keep the transitive React peer set aligned until Envio updates its React dependency.
   react: 19.2.7
   # ws@7 requires utf-8-validate@^5 as an optional peer; v5 also satisfies ws@8's >=5 range.

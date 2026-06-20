@@ -14,7 +14,7 @@ are `airdrops` and `streams`; `analytics` is a private Envio target.
 
 - Node.js `>=22`, pnpm `11.5.1`, TypeScript, ESM-first package output with CJS/types builds.
 - Effect + `@effect/cli` for internal CLI commands.
-- Envio `3.1.2` for HyperIndex indexers.
+- Envio `3.2.1` for HyperIndex indexers.
 - The Graph CLI `0.98.1` and `@graphprotocol/graph-ts` `0.38.2` for AssemblyScript subgraphs.
 - Vitest for tests; Biome, Prettier, Ultracite, and devkit recipes for checks.
 

@@ -4,7 +4,7 @@ Envio HyperIndex implementations for `airdrops`, `analytics`, and `streams`.
 
 ## Stack
 
-- Envio `3.1.2`, TypeScript, per-indexer TS projects.
+- Envio `3.2.1`, TypeScript, per-indexer TS projects.
 - Shared compatibility facade in `envio/common/facade.ts`.
 - Generated Envio metadata under ignored `.envio/` directories.
 

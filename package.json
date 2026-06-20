@@ -61,7 +61,7 @@
     "dayjs": "^1.11.20",
     "dotenv": "^17.4.1",
     "effect": "^3.21.3",
-    "envio": "3.1.2",
+    "envio": "3.2.1",
     "graphql": "^16.13.2",
     "graphql-request": "^7.4.0",
     "graphql-tag": "^2.12.6",
