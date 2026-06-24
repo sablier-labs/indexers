@@ -31,7 +31,7 @@ alias tc := type-check
 # Deploy Envio indexer(s) by syncing current branch to deployment branches
 [confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
 @deploy indexer="all":
-    just envio::_envio-for-each envio::_deploy {{ indexer }}
+    just envio::_deploy-for-each {{ indexer }}
 
 [script("bash")]
 _deploy indexer:
@@ -45,8 +45,42 @@ _deploy indexer:
     esac
     deployment_indexer="{{ indexer }}"
     deployment_branch="deployment/$deployment_indexer"
+    tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/envio-deploy.XXXXXX")
+    worktree="$tmpdir/worktree"
+    cleanup() {
+        git worktree remove --force "$worktree" >/dev/null 2>&1 || true
+        rm -rf "$tmpdir"
+    }
+    trap cleanup EXIT
+
+    git worktree add --detach "$worktree" HEAD
+    cd "$worktree"
+
+    case "$deployment_indexer" in
+        airdrops | streams)
+            cache_source="envio/$deployment_indexer/.envio/cache"
+            cache_file="$cache_source/tokenMetadata.tsv"
+
+            if [ ! -s "$cache_file" ]; then
+                echo "❌ $cache_file is missing or empty" >&2
+                exit 1
+            fi
+
+            # Envio restores effect caches from .envio/cache relative to its process cwd.
+            # Hosted can perform that restore from repo root, while local/package starts cd into envio/<indexer>.
+            # Commit a root cache copy on deployment branches so token metadata is visible in both cwd layouts.
+            rm -rf .envio/cache
+            mkdir -p .envio
+            cp -R "$cache_source" .envio/cache
+            git add -A .envio/cache
+            ;;
+    esac
+
+    timestamp=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+    git commit --allow-empty -m "chore(envio): prepare $deployment_indexer deployment $timestamp"
+
     echo "Deploying to $deployment_branch..."
-    git push --force origin HEAD:$deployment_branch
+    git push --force origin HEAD:"$deployment_branch"
     echo "✅ Deployed to $deployment_branch"
 
 # Open the Envio dashboard in the default browser
@@ -57,6 +91,25 @@ _deploy indexer:
 # ---------------------------------------------------------------------------- #
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
+
+[arg("indexer", pattern="^(airdrops|analytics|streams|all)$")]
+[script("bash")]
+_deploy-for-each indexer:
+    set -euo pipefail
+    case "{{ indexer }}" in
+        all)
+            just envio::_deploy airdrops
+            just envio::_deploy analytics
+            just envio::_deploy streams
+            ;;
+        airdrops | analytics | streams)
+            just envio::_deploy {{ indexer }}
+            ;;
+        *)
+            echo "❌ Invalid indexer: '{{ indexer }}'. Must be one of: airdrops, streams, analytics, all" >&2
+            exit 1
+            ;;
+    esac
 
 [arg("indexer", pattern="^(airdrops|streams|all)$")]
 [script("bash")]
