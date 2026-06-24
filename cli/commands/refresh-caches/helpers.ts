@@ -131,6 +131,51 @@ export function parseProxenderCacheKey(key: string): ProxenderCacheKey | null {
   };
 }
 
+function escapeCopyTextField(value: string): string {
+  return value
+    .replaceAll("\\", "\\\\")
+    .replaceAll("\t", "\\t")
+    .replaceAll("\n", "\\n")
+    .replaceAll("\r", "\\r");
+}
+
+function unescapeCopyTextField(value: string): string {
+  let result = "";
+
+  for (let index = 0; index < value.length; index++) {
+    const char = value[index];
+    if (char !== "\\") {
+      result += char;
+      continue;
+    }
+
+    const next = value[index + 1];
+    switch (next) {
+      case "\\":
+        result += "\\";
+        index++;
+        break;
+      case "n":
+        result += "\n";
+        index++;
+        break;
+      case "r":
+        result += "\r";
+        index++;
+        break;
+      case "t":
+        result += "\t";
+        index++;
+        break;
+      default:
+        result += char;
+        break;
+    }
+  }
+
+  return result;
+}
+
 export function parseEffectCacheTsv(content: string): EffectCacheRows {
   const rows = new Map<string, string>();
   const lines = content.split("\n");
@@ -149,7 +194,10 @@ export function parseEffectCacheTsv(content: string): EffectCacheRows {
       continue;
     }
 
-    rows.set(line.slice(0, tabIndex), line.slice(tabIndex + 1));
+    rows.set(
+      unescapeCopyTextField(line.slice(0, tabIndex)),
+      unescapeCopyTextField(line.slice(tabIndex + 1))
+    );
   }
 
   return rows;
@@ -195,7 +243,7 @@ export function serializeEffectCacheTsv(
   const entries = [...rows.entries()].sort(([left], [right]) => compareKeys(left, right));
 
   for (const [key, output] of entries) {
-    lines.push(`${key}\t${output}`);
+    lines.push(`${escapeCopyTextField(key)}\t${escapeCopyTextField(output)}`);
   }
 
   return `${lines.join("\n")}\n`;

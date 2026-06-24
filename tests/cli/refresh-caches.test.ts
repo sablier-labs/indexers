@@ -51,6 +51,20 @@ ${buildTokenCacheKey(10, TOKEN_B)}\t0
 `);
   });
 
+  it("serializes JSON string escapes for PostgreSQL COPY text", () => {
+    const key = buildTokenCacheKey(1, TOKEN_A);
+    const output = serializeTokenMetadataOutput({
+      decimals: 18,
+      name: `"Buy and Cry" Coin`,
+      symbol: "$EMOJI",
+    });
+    const serialized = serializeEffectCacheTsv(new Map([[key, output]]), compareTokenCacheKeys);
+    const outputCell = serialized.split("\n")[1]?.split("\t")[1];
+
+    expect(outputCell).toBe(output.replaceAll("\\", "\\\\"));
+    expect(parseEffectCacheTsv(serialized).get(key)).toBe(output);
+  });
+
   it("merges live-used token candidates with existing suspicious cache rows", () => {
     const existingRows = new Map([
       [
