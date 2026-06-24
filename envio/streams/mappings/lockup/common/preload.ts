@@ -30,6 +30,10 @@ type PreloadInput = {
   };
 };
 
+function isUnknownMetadata(metadata: RPCData.ERC20Metadata): boolean {
+  return metadata.decimals === 0 && metadata.name === "Unknown" && metadata.symbol === "UNKNOWN";
+}
+
 export async function preloadCreateEntities({
   context,
   event,
@@ -59,6 +63,18 @@ export async function preloadCreateEntities({
       address: params.asset,
       chainId: event.chainId,
     });
+
+    if (isUnknownMetadata(assetMetadata)) {
+      context.log.warn("Lockup asset metadata resolved as unknown", {
+        assetAddress: params.asset,
+        assetId,
+        chainId: event.chainId,
+        lockupAddress: event.srcAddress,
+        recipient: params.recipient,
+        sender: params.sender,
+        transactionHash: event.transaction.hash,
+      });
+    }
   }
 
   const proxenderResult = await context.effect(fetchProxender, {
