@@ -14,6 +14,11 @@ set no-cd
 @prices-sync:
     just cli prices-sync
 
+# Refresh EVM-derived effect caches from live-used addresses and RPC
+[arg("indexer", pattern="^(airdrops|streams|all)$")]
+@refresh-caches indexer="all" *args:
+    just cli refresh-caches --indexer {{ indexer }} {{ args }}
+
 # Verify token metadata effect cache files before deploying public Envio indexers
 [arg("indexer", pattern="^(airdrops|streams|all)$")]
 [group("checks")]

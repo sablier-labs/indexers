@@ -25,6 +25,14 @@ export type EnvioIndexerAsset = {
   symbol: string;
 };
 
+export type EnvioLockupStreamProxenderCandidate = {
+  chainId: number;
+  contract: string;
+  id: string;
+  sender: string;
+  version: string;
+};
+
 type EnvioRequestOptions = {
   endpoint?: string;
   query: string;
@@ -100,7 +108,24 @@ const INDEXER_ASSETS_QUERY = /* GraphQL */ `
   }
 `;
 
+const LOCKUP_STREAM_PROXENDER_CANDIDATES_QUERY = /* GraphQL */ `
+  query LockupStreamProxenderCandidates($afterId: String!, $limit: Int!) {
+    LockupStream(
+      limit: $limit
+      order_by: [{ id: asc }]
+      where: { id: { _gt: $afterId }, version: { _eq: "v1.0" } }
+    ) {
+      chainId
+      contract
+      id
+      sender
+      version
+    }
+  }
+`;
+
 export const INDEXER_ASSETS_PAGE_SIZE = 1000;
+export const LOCKUP_STREAM_PROXENDER_CANDIDATES_PAGE_SIZE = 1000;
 
 // -------------------------------------------------------------------------- //
 //                                  HELPERS                                   //
@@ -249,10 +274,14 @@ const fetchEnvioQuery = (opts: EnvioRequestOptions) =>
     })
   );
 
+function getNextPageCursor(rows: readonly { id: string }[]): string | null {
+  return rows.length === 0 ? null : (rows.at(-1)?.id ?? null);
+}
+
 export function getNextAssetsCursor(
   assets: readonly Pick<EnvioIndexerAsset, "id">[]
 ): string | null {
-  return assets.length === 0 ? null : (assets.at(-1)?.id ?? null);
+  return getNextPageCursor(assets);
 }
 
 export const parseAssetsPage = (
@@ -306,6 +335,61 @@ export const parseAssetsPage = (
     return assets;
   });
 
+export const parseLockupStreamProxenderCandidatesPage = (
+  payload: unknown
+): Effect.Effect<EnvioLockupStreamProxenderCandidate[], VendorApiError> =>
+  Effect.gen(function* () {
+    const invalidPayload = () =>
+      Effect.fail(
+        new VendorApiError({ message: "Invalid Envio lockup stream payload", vendor: "envio" })
+      );
+
+    if (!Array.isArray(payload)) {
+      return yield* Effect.fail(
+        new VendorApiError({
+          message: "Invalid Envio lockup stream page payload",
+          vendor: "envio",
+        })
+      );
+    }
+
+    const streams: EnvioLockupStreamProxenderCandidate[] = [];
+
+    for (const item of payload) {
+      if (!isRecord(item)) {
+        return yield* invalidPayload();
+      }
+
+      const chainId = item.chainId;
+      const contract = item.contract;
+      const id = item.id;
+      const sender = item.sender;
+      const version = item.version;
+
+      if (
+        typeof contract !== "string" ||
+        !isAddress(contract) ||
+        typeof id !== "string" ||
+        id.length === 0 ||
+        typeof sender !== "string" ||
+        !isAddress(sender) ||
+        version !== "v1.0"
+      ) {
+        return yield* invalidPayload();
+      }
+
+      streams.push({
+        chainId: yield* parseSafeInteger(chainId, { minimum: 1 }),
+        contract: contract.toLowerCase(),
+        id,
+        sender: sender.toLowerCase(),
+        version,
+      });
+    }
+
+    return streams;
+  });
+
 const fetchAssetsPage = (opts: { afterId: string; endpoint: string }) =>
   Effect.gen(function* () {
     const response = yield* fetchEnvioQuery({
@@ -318,6 +402,20 @@ const fetchAssetsPage = (opts: { afterId: string; endpoint: string }) =>
     });
 
     return yield* parseAssetsPage(response.data.Asset);
+  });
+
+const fetchLockupStreamProxenderCandidatesPage = (opts: { afterId: string; endpoint: string }) =>
+  Effect.gen(function* () {
+    const response = yield* fetchEnvioQuery({
+      endpoint: opts.endpoint,
+      query: LOCKUP_STREAM_PROXENDER_CANDIDATES_QUERY,
+      variables: {
+        afterId: opts.afterId,
+        limit: LOCKUP_STREAM_PROXENDER_CANDIDATES_PAGE_SIZE,
+      },
+    });
+
+    return yield* parseLockupStreamProxenderCandidatesPage(response.data.LockupStream);
   });
 
 // -------------------------------------------------------------------------- //
@@ -337,7 +435,7 @@ export const fetchAssets = (opts: { endpoint: string }) =>
 
       assets.push(...page);
 
-      const nextCursor = getNextAssetsCursor(page);
+      const nextCursor = getNextPageCursor(page);
       if (!nextCursor || page.length < INDEXER_ASSETS_PAGE_SIZE) {
         break;
       }
@@ -346,6 +444,30 @@ export const fetchAssets = (opts: { endpoint: string }) =>
     }
 
     return assets;
+  });
+
+export const fetchLockupStreamProxenderCandidates = (opts: { endpoint: string }) =>
+  Effect.gen(function* () {
+    const streams: EnvioLockupStreamProxenderCandidate[] = [];
+    let afterId = "";
+
+    while (true) {
+      const page = yield* fetchLockupStreamProxenderCandidatesPage({
+        afterId,
+        endpoint: opts.endpoint,
+      });
+
+      streams.push(...page);
+
+      const nextCursor = getNextPageCursor(page);
+      if (!nextCursor || page.length < LOCKUP_STREAM_PROXENDER_CANDIDATES_PAGE_SIZE) {
+        break;
+      }
+
+      afterId = nextCursor;
+    }
+
+    return streams;
   });
 
 export const fetchQuarterlyAverageMau = (opts: { quarterEnd: string; quarterStart: string }) =>

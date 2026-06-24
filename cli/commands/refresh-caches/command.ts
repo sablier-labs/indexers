@@ -3,25 +3,27 @@ import { Console, Effect } from "effect";
 import { INDEXER_KEYS } from "../../utils/constants.js";
 import { lazyHandler } from "../../utils/lazy-command.js";
 
-const indexerOption = Options.choice("indexer", INDEXER_KEYS).pipe(
+const refreshCacheIndexers = [...INDEXER_KEYS, "all"] as const;
+
+const indexerOption = Options.choice("indexer", refreshCacheIndexers).pipe(
   Options.withAlias("i"),
-  Options.withDefault("streams"),
-  Options.withDescription("Indexer cache to refresh")
+  Options.withDefault("all"),
+  Options.withDescription("Indexer caches to refresh")
 );
 
 const chainIdOption = Options.integer("chain-id").pipe(
   Options.withAlias("c"),
-  Options.withDescription("Only sync rows for the given chain ID"),
+  Options.withDescription("Only refresh rows for the given chain ID"),
   Options.optional
 );
 
 const dryRunOption = Options.boolean("dry-run").pipe(
   Options.withDefault(false),
-  Options.withDescription("Print the summary without writing the cache file")
+  Options.withDescription("Print the summary without writing cache TSVs")
 );
 
-export const syncTokenMetadataCommand = Command.make(
-  "sync-token-metadata",
+export const refreshCachesCommand = Command.make(
+  "refresh-caches",
   {
     chainId: chainIdOption,
     dryRun: dryRunOption,
@@ -38,4 +40,4 @@ export const syncTokenMetadataCommand = Command.make(
         )
       )
     )
-).pipe(Command.withDescription("Refresh an Envio indexer's tokenMetadata.tsv cache via RPC"));
+).pipe(Command.withDescription("Refresh Envio effect cache TSVs from live-used addresses and RPC"));

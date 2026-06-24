@@ -46,6 +46,16 @@ describe("CLI RPC config", () => {
     expect(runResolveCliRpcConfig(1, "   ").rpcUrls).toEqual(defaults);
   });
 
+  it("uses ROUTEMESH_API_KEY when ENVIO_ROUTEMESH_API_KEY is missing", () => {
+    const config = Effect.runSync(
+      resolveCliRpcConfig(1).pipe(
+        Effect.provide(makeCliEnvLayer({ ROUTEMESH_API_KEY: "route-mesh-key" }))
+      )
+    );
+
+    expect(config.rpcUrls[0]).toBe("https://lb.routeme.sh/rpc/1/route-mesh-key");
+  });
+
   it("redacts RouteMesh API keys from display RPC URLs", () => {
     const config = runResolveCliRpcConfig(1, "super-secret-key");
 

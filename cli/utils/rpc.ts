@@ -64,7 +64,9 @@ export function resolveCliRpcConfig(
     }
 
     const resolvedRouteMeshApiKey =
-      routeMeshApiKey ?? (yield* env.getString("ENVIO_ROUTEMESH_API_KEY"));
+      routeMeshApiKey ??
+      (yield* env.getString("ENVIO_ROUTEMESH_API_KEY")) ??
+      (yield* env.getString("ROUTEMESH_API_KEY"));
     const sanitizedRouteMeshApiKey = resolvedRouteMeshApiKey?.trim();
     const routeMeshUrl =
       sanitizedRouteMeshApiKey && chain.rpc.routemesh

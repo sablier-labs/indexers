@@ -50,6 +50,7 @@ const paths = {
   },
   envio: {
     cache: {
+      proxender: (): string => join(ENVIO_DIR, "streams", ".envio", "cache", "proxender.tsv"),
       tokenMetadata: (indexer: Indexer.IndexerKey): string =>
         join(ENVIO_DIR, indexer, ".envio", "cache", "tokenMetadata.tsv"),
     },
