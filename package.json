@@ -97,6 +97,6 @@
   },
   "scripts": {
     "prepack": "pnpm install --frozen-lockfile && just build::all",
-    "start": "start_indexer() { cd ./envio/$ENVIO_INDEXER_NAME && envio start; }; start_indexer"
+    "start": "start_indexer() { set -eu; : \"${ENVIO_INDEXER_NAME:?ENVIO_INDEXER_NAME is required}\"; case \"$ENVIO_INDEXER_NAME\" in airdrops|analytics|streams) ;; *) echo \"Invalid ENVIO_INDEXER_NAME: $ENVIO_INDEXER_NAME\" >&2; exit 1 ;; esac; cd \"./envio/$ENVIO_INDEXER_NAME\"; case \"$ENVIO_INDEXER_NAME\" in airdrops|streams) test -s .envio/cache/tokenMetadata.tsv || { echo \"Missing or empty .envio/cache/tokenMetadata.tsv\" >&2; exit 1; } ;; esac; envio start --config config.yaml; }; start_indexer"
   }
 }

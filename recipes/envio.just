@@ -14,6 +14,12 @@ set no-cd
 @prices-sync:
     just cli prices-sync
 
+# Verify token metadata effect cache files before deploying public Envio indexers
+[arg("indexer", pattern="^(airdrops|streams|all)$")]
+[group("checks")]
+@cache-check indexer="all":
+    just envio::_cache-check-for-each {{ indexer }}
+
 # Run TypeScript type-checking for the Envio project
 @type-check:
     na tsc --noEmit -p envio/airdrops/tsconfig.json
@@ -51,6 +57,55 @@ _deploy indexer:
 # ---------------------------------------------------------------------------- #
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
+
+[arg("indexer", pattern="^(airdrops|streams|all)$")]
+[script("bash")]
+_cache-check-for-each indexer:
+    set -euo pipefail
+    case "{{ indexer }}" in
+        all)
+            just envio::_cache-check-one airdrops
+            just envio::_cache-check-one streams
+            ;;
+        airdrops | streams)
+            just envio::_cache-check-one {{ indexer }}
+            ;;
+        *)
+            echo "❌ Invalid indexer: '{{ indexer }}'. Must be one of: airdrops, streams, all" >&2
+            exit 1
+            ;;
+    esac
+
+[arg("indexer", pattern="^(airdrops|streams)$")]
+[script("bash")]
+_cache-check-one indexer:
+    set -euo pipefail
+    indexer="{{ indexer }}"
+    cache_path="envio/$indexer/.envio/cache/tokenMetadata.tsv"
+
+    if ! git ls-files --error-unmatch "$cache_path" >/dev/null 2>&1; then
+        echo "❌ $cache_path is not tracked" >&2
+        exit 1
+    fi
+
+    if [ ! -s "$cache_path" ]; then
+        echo "❌ $cache_path is missing or empty" >&2
+        exit 1
+    fi
+
+    IFS= read -r header < "$cache_path"
+    if [ "$header" != $'id\toutput' ]; then
+        echo "❌ $cache_path has invalid header" >&2
+        exit 1
+    fi
+
+    if ! (cd "envio/$indexer" && test -s ".envio/cache/tokenMetadata.tsv"); then
+        echo "❌ $indexer cache is not visible from the indexer cwd" >&2
+        exit 1
+    fi
+
+    line_count=$(wc -l < "$cache_path" | tr -d ' ')
+    echo "✅ $cache_path ($line_count lines)"
 
 # Helper to run three commands in parallel (airdrops, analytics, streams)
 @_concurrent-envio-indexers cmd1 cmd2 cmd3:

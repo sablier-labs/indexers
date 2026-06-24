@@ -39,15 +39,16 @@ alias cs := codegen-schema
 envio command tui_mode="tui_on" *args:
     set -euo pipefail
     repo_root="{{ source_dir() }}/.."
+    indexer_dir="{{ justfile_dir() }}"
     if [ "{{ tui_mode }}" = "tui_off" ]; then
         export ENVIO_TUI=false
     else
         export ENVIO_TUI=true
     fi
-    cd "$repo_root"
-    pnpm envio {{ command }} {{ args }} \
-        --directory {{ justfile_dir() }} \
-        --config {{ justfile_dir() }}/config.yaml
+    cd "$indexer_dir"
+    PATH="$repo_root/node_modules/.bin:$PATH" \
+        envio {{ command }} {{ args }} \
+        --config config.yaml
 
 # Run the Vitest tests
 test:
