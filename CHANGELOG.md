@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[5.1.0]: https://github.com/sablier-labs/indexers/compare/v5.0.0...v5.1.0
 [5.0.0]: https://github.com/sablier-labs/indexers/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/sablier-labs/indexers/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/sablier-labs/indexers/compare/v3.0.0...v4.0.0
@@ -14,6 +15,23 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.1]: https://github.com/sablier-labs/indexers/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
+
+## [5.1.0] - 2026-07-15
+
+### Changed
+
+- Deprecate `BILLING_ADDRESS` export now that the in-app billing system has been removed
+  ([#343](https://github.com/sablier-labs/indexers/pull/343))
+- Bump `sablier` dependency from `^3.9.0` to `^3.12.0`
+
+### Added
+
+- Add Robinhood Chain (chain ID `4663`) support to the Envio `airdrops` and `streams` indexers
+
+### Fixed
+
+- Pin the HyperEVM HyperSync URL to `hyperliquid`
+- Pin the Robinhood Chain HyperSync URL to `robinhood`
 
 ## [5.0.0] - 2026-04-16
 
