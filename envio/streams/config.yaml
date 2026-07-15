@@ -714,6 +714,20 @@ chains:
       - address: "0xa74f2cf047a67509f332dd9b2d6d51989e546548"
         name: "SablierLockup_v4_0"
         start_block: 21502833
+  - id: 4663
+    start_block: 10420411
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.mainnet.chain.robinhood.com"
+    contracts:
+      - address: "0x6a99492b94765842808e332143296c8ade09a922"
+        name: "SablierFlow_v3_0"
+        start_block: 10420505
+      - address: "0x548129a58bc230549df7f9e33f27e77f6779ff0f"
+        name: "SablierLockup_v4_0"
+        start_block: 10420411
   - id: 5330
     start_block: 2896160
     rpc:

@@ -52,6 +52,7 @@ const SUPPORTED_CHAINS = [
   get(chains.morph.id),
   get(chains.optimism.id),
   get(chains.polygon.id),
+  get(chains.robinhood.id),
   get(chains.sonic.id),
   get(chains.scroll.id),
   get(chains.sei.id, { hypersync: "sei" }),

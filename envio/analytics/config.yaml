@@ -1434,6 +1434,39 @@ chains:
       - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
         name: "SablierComptroller"
         start_block: 17216266
+  - id: 4663
+    start_block: 10420232
+    rpc:
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.mainnet.chain.robinhood.com"
+    contracts:
+      - address: "0x825526bf59236737c1616a02c4c114c44fe9e669"
+        name: "SablierFactoryMerkleInstant_v3_0"
+        start_block: 10420606
+      - address: "0x5ac1132bfa4b85f5d701b0271de644a067d66ae1"
+        name: "SablierFactoryMerkleLL_v3_0"
+        start_block: 10420631
+      - address: "0x461922764b2c1b82a3b940f6b716daf6e5dec516"
+        name: "SablierFactoryMerkleLT_v3_0"
+        start_block: 10420656
+      - address: "0x8cd1a1d2aa5b7e9f9f388a0f494af9331eb896f3"
+        name: "SablierFactoryMerkleVCA_v3_0"
+        start_block: 10420681
+      - name: "SablierMerkleInstant_v3_0"
+      - name: "SablierMerkleLL_v3_0"
+      - name: "SablierMerkleLT_v3_0"
+      - name: "SablierMerkleVCA_v3_0"
+      - address: "0x6a99492b94765842808e332143296c8ade09a922"
+        name: "SablierFlow_v3_0"
+        start_block: 10420505
+      - address: "0x548129a58bc230549df7f9e33f27e77f6779ff0f"
+        name: "SablierLockup_v4_0"
+        start_block: 10420411
+      - address: "0x12d70713796A9460314C282c613DE307FdED1a36"
+        name: "SablierComptroller"
+        start_block: 10420232
   - id: 5330
     start_block: 799582
     rpc:
