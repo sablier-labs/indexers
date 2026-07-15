@@ -716,6 +716,8 @@ chains:
         start_block: 21502833
   - id: 4663
     start_block: 10420411
+    hypersync_config:
+      url: "https://robinhood.hypersync.xyz"
     rpc:
       - for: "fallback"
         initial_block_interval: 2000

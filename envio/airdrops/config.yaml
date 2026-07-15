@@ -976,6 +976,8 @@ chains:
       - name: "SablierMerkleVCA_v3_0"
   - id: 4663
     start_block: 10420606
+    hypersync_config:
+      url: "https://robinhood.hypersync.xyz"
     rpc:
       - for: "fallback"
         initial_block_interval: 2000
