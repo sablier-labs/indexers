@@ -8,7 +8,7 @@
   "module": "./dist/esm/index.js",
   "sideEffects": false,
   "type": "module",
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@11.11.0",
   "types": "./dist/types/index.d.ts",
   "typings": "./dist/types/index.d.ts",
   "author": {
@@ -16,7 +16,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "^3.12.0"
+    "sablier": "^3.12.2"
   },
   "exports": {
     ".": {
