@@ -1424,7 +1424,7 @@ chains:
         start_block: 45826
       - address: "0xf3cd08105b6745965149ef02b8abdcea0ae51241"
         name: "SablierLockup_v2_0"
-        start_block: 38256772
+        start_block: 4034472
       - address: "0xe646d9a037c6b62e4d417592a10f57e77f007a27"
         name: "SablierLockup_v3_0"
         start_block: 17491200
