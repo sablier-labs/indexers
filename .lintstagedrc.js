@@ -10,15 +10,11 @@ const SCHEMA_OUTPUTS = [
   "src/schemas/airdrops.graphql",
   "src/schemas/streams.graphql",
 ];
-const ENVIO_CONFIG_OUTPUTS = [
-  "envio/airdrops/config.yaml",
-  "envio/streams/config.yaml",
-];
+const ENVIO_CONFIG_OUTPUTS = ["envio/airdrops/config.yaml", "envio/streams/config.yaml"];
 
 const NON_SCHEMA_FILES = `!(schema/**/*).${BIOME_EXTENSIONS}`;
 const SCHEMA_SOURCES = `schema/**/*.${BIOME_EXTENSIONS}`;
-const ENVIO_CONFIG_SOURCES =
-  "{events/**/*.ts,contracts/**/*.ts,src/indexers/envio.ts}";
+const ENVIO_CONFIG_SOURCES = "{events/**/*.ts,contracts/**/*.ts,src/indexers/envio.ts}";
 
 const quote = (file) => `'${file.replaceAll("'", "'\\''")}'`;
 const biomeLint = (files) => `na biome lint ${files.map(quote).join(" ")}`;
@@ -40,10 +36,7 @@ const config = {
     () => "just export-schema",
     biomeLintSchema,
   ],
-  [ENVIO_CONFIG_SOURCES]: [
-    () => "just codegen::envio-config all",
-    verifyEnvioConfig,
-  ],
+  [ENVIO_CONFIG_SOURCES]: [() => "just codegen::envio-config all", verifyEnvioConfig],
   [NON_SCHEMA_FILES]: biomeLintNonSchema,
   "*.{md,yaml,yml}": "pnpm prettier --cache --write",
 };
