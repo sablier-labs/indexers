@@ -140,6 +140,9 @@ After generated code or source changes, run checks in order.
    - `cli/`, `contracts/`, `events/`, `schema/`, `src/`, `tests/`: `na tsc --noEmit`
    - `envio/`: `just envio::type-check`
    - `graph/`: `just graph::build <indexer>` or `just graph::build-all`
+1. If `events/`, `contracts/`, or `src/indexers/envio.ts` changed, run `just codegen::envio-config all` and confirm no
+   unexpected diff in `envio/{airdrops,streams}/config.yaml` — this mirrors `.github/workflows/verify-envio-build.yml`
+   and is enforced automatically by `.lintstagedrc.js` on commit.
 
 For docs-only edits, run the narrowest formatter/check that touches the changed docs.
 
@@ -166,6 +169,12 @@ Regenerate bindings after modifying `schema/` or GraphQL files, updating `cli/co
 
 Envio v3 writes generated type metadata to ignored `envio/<indexer>/.envio/types.d.ts` and
 `envio/<indexer>/envio-env.d.ts`. Regenerate before `just envio::type-check` when those files are missing or stale.
+
+`envio/{airdrops,streams}/config.yaml` and `*.graphql` are tracked generated files; `verify-envio-build.yml` fails the
+build on push to `main` if they drift from source. `schema/**` drives the `.graphql` schema; `events/**`,
+`contracts/**`, and `src/indexers/envio.ts` drive `config.yaml`. Editing `abi/*.json` content affects neither.
+`.lintstagedrc.js` regenerates and enforces both automatically pre-commit — if a commit is rejected for drift, run
+`just codegen::schema all all` / `just codegen::envio-config all` and stage the result.
 
 ## Schema Rules
 
