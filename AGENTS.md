@@ -12,7 +12,7 @@ are `airdrops` and `streams`; `analytics` is a private Envio target.
 
 ## Stack
 
-- Node.js `>=22`, pnpm `11.5.1`, TypeScript, ESM-first package output with CJS/types builds.
+- Node.js `>=22`, pnpm `11.15.1`, TypeScript, ESM-first package output with CJS/types builds.
 - Effect + `@effect/cli` for internal CLI commands.
 - Envio `3.2.1` for HyperIndex indexers.
 - The Graph CLI `0.98.1` and `@graphprotocol/graph-ts` `0.38.2` for AssemblyScript subgraphs.
