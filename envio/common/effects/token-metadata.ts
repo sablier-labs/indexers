@@ -1,6 +1,6 @@
 import { createEffect, S } from "envio";
-import type { Address } from "viem";
-import { erc20Abi, erc20Abi_bytes32, hexToString, trim } from "viem";
+import type { Address, PublicClient } from "viem";
+import { erc20Abi, erc20Abi_bytes32, hexToString, isHex, trim } from "viem";
 import { DECIMALS_DEFAULT } from "../constants.js";
 import { sanitizeStringAndRemoveUrls as sanitize } from "../helpers.js";
 import { getClient } from "../rpc-clients.js";
@@ -76,32 +76,18 @@ export const fetchTokenMetadata = createEffect(
  */
 async function fetch(chainId: number, address: Address): Promise<RPCData.ERC20Metadata> {
   const client = getClient(chainId);
-  const erc20 = { abi: erc20Abi, address: address as `0x${string}` };
-
-  const results = await client.multicall({
-    allowFailure: true,
-    contracts: [
-      {
-        ...erc20,
-        functionName: "decimals",
-      },
-      {
-        ...erc20,
-        functionName: "name",
-      },
-      {
-        ...erc20,
-        functionName: "symbol",
-      },
-    ],
+  const [decimalsResult, nameResult, symbolResult] = await readMetadataFields(client, {
+    abi: erc20Abi,
+    address,
   });
 
-  const decimals = results[0].result ?? DECIMALS_DEFAULT;
-  if (results[1].status !== "failure" && results[2].status !== "failure") {
+  const decimals =
+    typeof decimalsResult.result === "number" ? decimalsResult.result : DECIMALS_DEFAULT;
+  if (typeof nameResult.result === "string" && typeof symbolResult.result === "string") {
     const metadata = {
       decimals,
-      name: sanitize(results[1].result),
-      symbol: sanitize(results[2].result),
+      name: sanitize(nameResult.result),
+      symbol: sanitize(symbolResult.result),
     };
     return metadata;
   }
@@ -112,38 +98,62 @@ async function fetch(chainId: number, address: Address): Promise<RPCData.ERC20Me
 
 async function fetchBytes32(chainId: number, address: Address): Promise<RPCData.ERC20Metadata> {
   const client = getClient(chainId);
-  const erc20Bytes32 = { abi: erc20Abi_bytes32, address: address as `0x${string}` };
-
-  const results = await client.multicall({
-    allowFailure: true,
-    contracts: [
-      {
-        ...erc20Bytes32,
-        functionName: "decimals",
-      },
-      {
-        ...erc20Bytes32,
-        functionName: "name",
-      },
-      {
-        ...erc20Bytes32,
-        functionName: "symbol",
-      },
-    ],
+  const [decimalsResult, nameResult, symbolResult] = await readMetadataFields(client, {
+    abi: erc20Abi_bytes32,
+    address,
   });
 
-  const fromHex = (value: `0x${string}`) => {
+  const fromHex = (value: unknown) => {
+    if (typeof value !== "string" || !isHex(value)) {
+      return undefined;
+    }
     const trimmed = trim(value, { dir: "right" });
-    return hexToString(trimmed);
+    return sanitize(hexToString(trimmed));
   };
 
-  const decimals = results[0].result ?? UNKNOWN.decimals;
-  const name = results[1].result ? sanitize(fromHex(results[1].result)) : UNKNOWN.name;
-  const symbol = results[2].result ? sanitize(fromHex(results[2].result)) : UNKNOWN.symbol;
+  const decimals =
+    typeof decimalsResult.result === "number" ? decimalsResult.result : UNKNOWN.decimals;
+  const name = fromHex(nameResult.result) ?? UNKNOWN.name;
+  const symbol = fromHex(symbolResult.result) ?? UNKNOWN.symbol;
 
   return {
     decimals,
     name,
     symbol,
   };
+}
+
+/** The ERC-20 metadata fields we read, in the order the callers destructure them. */
+const METADATA_FUNCTION_NAMES = ["decimals", "name", "symbol"] as const;
+
+type MetadataFieldResult = { result?: unknown; status: "failure" | "success" };
+
+/**
+ * Reads `decimals`, `name`, and `symbol`, batching them into a single Multicall3 call when the
+ * chain declares a `multicall3` deployment and falling back to one `eth_call` per field otherwise.
+ *
+ * The fallback matters: viem throws `ChainDoesNotSupportContract` from `multicall` before issuing
+ * any RPC request when `chain.contracts.multicall3` is undefined. That throw used to escape to the
+ * effect's catch-all and degrade *every* token on such a chain to the UNKNOWN sentinel, including
+ * `decimals: 0` — which silently rescales amounts in downstream consumers.
+ */
+function readMetadataFields(
+  client: PublicClient,
+  erc20: { abi: typeof erc20Abi | typeof erc20Abi_bytes32; address: Address }
+): Promise<MetadataFieldResult[]> {
+  const contracts = METADATA_FUNCTION_NAMES.map((functionName) => ({ ...erc20, functionName }));
+
+  if (client.chain?.contracts?.multicall3) {
+    return client.multicall({ allowFailure: true, contracts });
+  }
+
+  return Promise.all(
+    contracts.map(async (contract): Promise<MetadataFieldResult> => {
+      try {
+        return { result: await client.readContract(contract), status: "success" };
+      } catch {
+        return { status: "failure" };
+      }
+    })
+  );
 }
