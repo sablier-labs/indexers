@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-[Unreleased]: https://github.com/sablier-labs/indexers/compare/v5.1.0...HEAD
+[6.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v6.0.0
 [5.1.0]: https://github.com/sablier-labs/indexers/compare/v5.0.0...v5.1.0
 [5.0.0]: https://github.com/sablier-labs/indexers/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/sablier-labs/indexers/compare/v4.0.0...v4.0.1
@@ -16,16 +16,17 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.1]: https://github.com/sablier-labs/indexers/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
+[4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
 
-## [Unreleased]
+## [6.0.0] - 2026-07-30
 
 ### Changed
 
-- **Breaking:** Bump `sablier` dependency and peer dependency to v4
+- **Breaking:** Require `sablier` v4 as dependency and peer dependency ([`4716449`][4716449])
 
 ### Removed
 
-- **Breaking:** Remove Denergy support following its removal from `sablier`
+- **Breaking:** Remove Denergy support following its removal from `sablier` ([`4716449`][4716449])
 
 ## [5.1.0] - 2026-07-15
 
