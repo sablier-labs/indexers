@@ -21,7 +21,6 @@ import { getProtocolForIndexerKey } from "./mappers.js";
  */
 const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
   [chains.arbitrum.id]: "arbitrum-one",
-  [chains.denergy.id]: "denergychain",
   [chains.polygon.id]: "matic",
   [chains.zksync.id]: "zksync-era",
 };
@@ -30,7 +29,6 @@ const CHAIN_SLUG_GRAPH_OVERRIDES: { [chainId: number]: string } = {
  * Custom chain slugs used by Sablier subgraphs.
  */
 const CHAIN_SLUG_SABLIER_OVERRIDES: { [chainId: number]: string } = {
-  [chains.denergy.id]: "denergychain",
   [chains.mainnet.id]: "ethereum",
 };
 
@@ -142,10 +140,6 @@ const CUSTOMS: ProtocolIndexerGraphMap[] = [
   custom(
     chains.lightlink.id,
     "https://graph.phoenix.lightlink.io/query/subgraphs/name/lightlink/{SUBGRAPH_NAME}"
-  ),
-  custom(
-    chains.denergy.id,
-    "https://thegraph.denergychain.com/subgraphs/name/denergychain/{SUBGRAPH_NAME}"
   ),
 ];
 

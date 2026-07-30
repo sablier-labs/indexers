@@ -10,10 +10,8 @@ set dotenv-path := "{{ source_dir() }}/../.env"
 #                                   CONSTANTS                                  #
 # ---------------------------------------------------------------------------- #
 
-DENERGY_AUTH_TOKEN := env("DENERGY_AUTH_TOKEN", "")
 GRAPH_DEPLOY_KEY := env("GRAPH_DEPLOY_KEY")
 IPFS_URL := "https://api.thegraph.com/ipfs/"
-IPFS_URL_DENERGY := "https://ipfs.denergychain.com"
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #

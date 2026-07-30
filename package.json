@@ -16,7 +16,7 @@
     "url": "https://sablier.com"
   },
   "dependencies": {
-    "sablier": "^3.12.2"
+    "sablier": "^4.0.0"
   },
   "exports": {
     ".": {
@@ -32,7 +32,7 @@
     "./package.json": "./package.json"
   },
   "peerDependencies": {
-    "sablier": "^3"
+    "sablier": "^4"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",

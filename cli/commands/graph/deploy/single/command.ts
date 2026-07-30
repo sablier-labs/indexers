@@ -3,7 +3,7 @@ import { lazyHandler } from "../../../../utils/lazy-command.js";
 
 const chainOption = Options.text("chain").pipe(
   Options.withAlias("c"),
-  Options.withDescription("Sablier chain slug (e.g., 'arbitrum', 'denergychain')")
+  Options.withDescription("Sablier chain slug (e.g., 'arbitrum', 'lightlink')")
 );
 
 const indexerOption = Options.choice("indexer", ["airdrops", "streams"] as const).pipe(
