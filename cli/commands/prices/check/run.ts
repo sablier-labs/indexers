@@ -133,7 +133,7 @@ export const handler = () =>
 
       errorTable.push(
         [colors.error("❌ Price data is out of sync!")],
-        [colors.value(`Run ${colors.highlight("just price-data-sync")} to fix and commit changes.`)]
+        [colors.value(`Run ${colors.highlight("just envio::prices-sync")} to fix and commit changes.`)]
       );
 
       yield* Console.log(errorTable.toString());
