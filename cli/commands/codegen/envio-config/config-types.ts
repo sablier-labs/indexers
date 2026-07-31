@@ -53,6 +53,7 @@ export namespace EnvioConfig {
    */
   export type TopSection = {
     name: string;
+    handlers?: string;
     ecosystem: "evm";
     address_format: "checksum" | "lowercase";
     schema: string;

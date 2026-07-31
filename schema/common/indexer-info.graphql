@@ -1,0 +1,50 @@
+"""
+Metadata describing the indexer deployment for one chain.
+"""
+type IndexerInfo @entity(immutable: true) {
+  """
+  The chain ID. There is one IndexerInfo entity per chain.
+  """
+  id: String!
+
+  """
+  The chain ID where this indexer is running.
+  """
+  chainId: BigInt!
+
+  """
+  Git commit from which the indexer was deployed.
+  """
+  commitHash: String!
+
+  """
+  Approximate Unix timestamp when the deployment was prepared. This may differ from the time at which the deployment
+  became active. Local deployments fall back to the timestamp of the first indexed block.
+  """
+  deployedAt: BigInt!
+
+  """
+  Public indexer key: "airdrops" or "streams".
+  """
+  indexer: String!
+
+  """
+  Protocols covered by this indexer.
+  """
+  protocols: [String!]!
+
+  """
+  First block processed by this indexer on the chain.
+  """
+  startBlock: BigInt!
+
+  """
+  Indexing service: "envio" or "graph".
+  """
+  vendor: String!
+
+  """
+  The Graph deployment version label. Unavailable for Envio deployments.
+  """
+  versionLabel: String
+}

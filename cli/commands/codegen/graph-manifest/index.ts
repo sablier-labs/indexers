@@ -4,6 +4,7 @@ import type { Indexer } from "../../../../src/types.js";
 import { CodegenError } from "../errors.js";
 import type { GraphManifest } from "./manifest-types.js";
 import { createSources } from "./sources/index.js";
+import { createIndexerInfoSource } from "./sources/indexer-info.js";
 import { topSections } from "./top-sections.js";
 
 /**
@@ -19,7 +20,8 @@ export function createGraphManifest(target: Indexer.GraphTarget, chainId: number
       return yield* Effect.fail(new CodegenError.ContractsNotFound(target, chainId));
     }
 
-    const sourcesByType = _.groupBy(sources, "_type");
+    const indexerInfoSource = createIndexerInfoSource(target, sources);
+    const sourcesByType = _.groupBy([indexerInfoSource, ...sources], "_type");
     const dataSources = _.map(sourcesByType["data-source"], (source) => _.omit(source, "_type"));
     const templates = _.map(sourcesByType.template, (source) => _.omit(source, "_type"));
 

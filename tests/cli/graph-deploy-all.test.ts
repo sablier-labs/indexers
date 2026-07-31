@@ -5,8 +5,36 @@ import {
   isTransientDeployFailure,
 } from "../../cli/commands/graph/deploy/all/run.js";
 import { extractDeployFailureMessage } from "../../cli/commands/graph/deploy/helpers.js";
+import { applyIndexerInfoMetadata } from "../../cli/commands/graph/deploy/indexer-info.js";
 
-describe("graph deploy retry helpers", () => {
+describe("graph deployment helpers", () => {
+  it("injects deployment metadata into the IndexerInfo source", () => {
+    const manifest = {
+      dataSources: [
+        {
+          name: "IndexerInfo",
+          context: {
+            commitHash: { data: "development" },
+            deployedAt: { data: "0" },
+            versionLabel: { data: "development" },
+          },
+        },
+      ],
+    };
+
+    applyIndexerInfoMetadata(manifest, {
+      commitHash: "abc123",
+      deployedAt: 1_753_987_200,
+      versionLabel: "v3.0--v1.0.0",
+    });
+
+    expect(manifest.dataSources[0]?.context).toEqual({
+      commitHash: { data: "abc123" },
+      deployedAt: { data: "1753987200" },
+      versionLabel: { data: "v3.0--v1.0.0" },
+    });
+  });
+
   it("detects transient deploy failures from rate limits and network errors", () => {
     expect(isTransientDeployFailure("Error: 429 Too Many Requests", "")).toBe(true);
     expect(isTransientDeployFailure("", "socket hang up while deploying")).toBe(true);

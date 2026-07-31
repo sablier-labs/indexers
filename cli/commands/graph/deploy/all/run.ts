@@ -23,6 +23,7 @@ import {
 import { finishSpinner, startSpinner } from "../../../../utils/spinner.js";
 import { extractDeploymentId } from "../../../../utils/text.js";
 import { extractDeployFailureMessage, hasVersionLabelConflict } from "../helpers.js";
+import { prepareDeploymentManifest } from "../indexer-info.js";
 
 /** Absolute path to the graph-cli binary. Using this instead of `pnpm exec graph` because
  * pnpm exec resolves binaries from the cwd's nearest node_modules, which fails when cwd is
@@ -291,14 +292,6 @@ function deployToChain(
   const indexerName = indexerConfig.name;
   const manifestPath = paths.graph.manifest(indexer, deployment.chainId);
   const workingDir = join(ROOT_DIR, "graph", indexer);
-  const command = PlatformCommand.make(
-    GRAPH_BIN,
-    "deploy",
-    "--version-label",
-    versionLabel,
-    indexerName,
-    manifestPath
-  ).pipe(PlatformCommand.workingDirectory(workingDir));
 
   return Effect.gen(function* () {
     const spinner = yield* startSpinner(formatDeployAttemptMessage(deployment, 1));
@@ -318,81 +311,98 @@ function deployToChain(
     }
 
     let attempts = 0;
+    return yield* Effect.scoped(
+      Effect.gen(function* () {
+        const deploymentManifest = yield* prepareDeploymentManifest(manifestPath, versionLabel);
+        const command = PlatformCommand.make(
+          GRAPH_BIN,
+          "deploy",
+          "--version-label",
+          versionLabel,
+          indexerName,
+          deploymentManifest
+        ).pipe(PlatformCommand.workingDirectory(workingDir));
+        const executeDeploymentAttempt = (attempt: number) =>
+          Effect.scoped(
+            Effect.gen(function* () {
+              const executor = yield* CommandExecutor.CommandExecutor;
+              const process = yield* executor
+                .start(command)
+                .pipe(
+                  Effect.mapError((error) =>
+                    toDeployProcessError(commandStr, normalizeErrorMessage(error))
+                  )
+                );
+              const [stdoutChunks, stderrChunks, exitCode] = yield* Effect.all([
+                Stream.runCollect(process.stdout),
+                Stream.runCollect(process.stderr),
+                process.exitCode,
+              ]).pipe(
+                Effect.mapError((error) =>
+                  toDeployProcessError(commandStr, normalizeErrorMessage(error))
+                )
+              );
 
-    const executeDeploymentAttempt = (attempt: number) =>
-      Effect.scoped(
-        Effect.gen(function* () {
-          const executor = yield* CommandExecutor.CommandExecutor;
-          const process = yield* executor
-            .start(command)
-            .pipe(
-              Effect.mapError((error) =>
-                toDeployProcessError(commandStr, normalizeErrorMessage(error))
-              )
-            );
-          const [stdoutChunks, stderrChunks, exitCode] = yield* Effect.all([
-            Stream.runCollect(process.stdout),
-            Stream.runCollect(process.stderr),
-            process.exitCode,
-          ]).pipe(
-            Effect.mapError((error) =>
-              toDeployProcessError(commandStr, normalizeErrorMessage(error))
-            )
+              const stdout = chunksToString(stdoutChunks);
+              const stderr = chunksToString(stderrChunks);
+
+              yield* logger.log(`[attempt ${attempt}] STDOUT:\n${stdout}`);
+              if (stderr.trim().length > 0) {
+                yield* logger.log(`[attempt ${attempt}] STDERR:\n${stderr}`);
+              }
+
+              if (exitCode !== 0) {
+                const errorMessage = extractDeployFailureMessage(stdout, stderr, exitCode);
+
+                if (isTransientDeployFailure(stdout, stderr)) {
+                  return yield* new TransientDeployError({
+                    chainSlug: deployment.chainSlug,
+                    message: errorMessage,
+                  });
+                }
+
+                return yield* toDeployProcessError(commandStr, errorMessage, exitCode);
+              }
+
+              const deploymentId = extractDeploymentId(stdout);
+              return { deploymentId, indexerName, success: true } as const;
+            })
           );
 
-          const stdout = chunksToString(stdoutChunks);
-          const stderr = chunksToString(stderrChunks);
-
-          yield* logger.log(`[attempt ${attempt}] STDOUT:\n${stdout}`);
-          if (stderr.trim().length > 0) {
-            yield* logger.log(`[attempt ${attempt}] STDERR:\n${stderr}`);
-          }
-
-          if (exitCode !== 0) {
-            const errorMessage = extractDeployFailureMessage(stdout, stderr, exitCode);
-
-            if (isTransientDeployFailure(stdout, stderr)) {
-              return yield* new TransientDeployError({
-                chainSlug: deployment.chainSlug,
-                message: errorMessage,
-              });
-            }
-
-            return yield* toDeployProcessError(commandStr, errorMessage, exitCode);
-          }
-
-          const deploymentId = extractDeploymentId(stdout);
-          return { deploymentId, indexerName, success: true } as const;
-        })
-      );
-
-    const retryPolicy = DEPLOY_RETRY_SCHEDULE.pipe(
-      Schedule.whileInput((error: DeployAttemptError) => error instanceof TransientDeployError),
-      Schedule.tapOutput(([delay, retryIndex]) => {
-        const retryMessage = formatRetryMessage(deployment, retryIndex, delay);
-        return Effect.all([spinner.setText(retryMessage), logger.log(`⚠️  ${retryMessage}`)]).pipe(
-          Effect.orDie,
-          Effect.asVoid
+        const retryPolicy = DEPLOY_RETRY_SCHEDULE.pipe(
+          Schedule.whileInput((error: DeployAttemptError) => error instanceof TransientDeployError),
+          Schedule.tapOutput(([delay, retryIndex]) => {
+            const retryMessage = formatRetryMessage(deployment, retryIndex, delay);
+            return Effect.all([
+              spinner.setText(retryMessage),
+              logger.log(`⚠️  ${retryMessage}`),
+            ]).pipe(Effect.orDie, Effect.asVoid);
+          })
         );
-      })
-    );
 
-    return yield* Effect.gen(function* () {
-      const result = yield* Effect.gen(function* () {
-        const attempt = yield* Effect.sync(() => {
-          attempts += 1;
-          return attempts;
+        const result = yield* Effect.gen(function* () {
+          const result = yield* Effect.gen(function* () {
+            const attempt = yield* Effect.sync(() => {
+              attempts += 1;
+              return attempts;
+            });
+
+            yield* spinner.setText(formatDeployAttemptMessage(deployment, attempt));
+            return yield* executeDeploymentAttempt(attempt);
+          }).pipe(Effect.retry(retryPolicy));
+
+          yield* finishSpinner(
+            spinner,
+            "success",
+            `Successfully deployed to ${deployment.chainName}`
+          );
+          yield* logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`));
+
+          return result;
         });
-
-        yield* spinner.setText(formatDeployAttemptMessage(deployment, attempt));
-        return yield* executeDeploymentAttempt(attempt);
-      }).pipe(Effect.retry(retryPolicy));
-
-      yield* finishSpinner(spinner, "success", `Successfully deployed to ${deployment.chainName}`);
-      yield* logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`));
-
-      return result;
-    }).pipe(
+        return result;
+      })
+    ).pipe(
       Effect.catchAll((error) => {
         const errorMessage = formatFinalDeployError(error, attempts);
         return finishSpinner(

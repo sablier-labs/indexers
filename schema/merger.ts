@@ -28,6 +28,7 @@ type ProtocolSchemaConfig = {
  * Base GraphQL definition files shared across all indexers.
  */
 const BASE = {
+  common: ["indexer-info"],
   generators: [getEnumDefs, getAssetDefs, getWatcherDefs],
 };
 
@@ -37,11 +38,12 @@ const BASE = {
 const PROTOCOL_MAP: Record<string, ProtocolSchemaConfig> = {
   analytics: {},
   airdrops: {
+    common: BASE.common,
     generators: BASE.generators,
     indexerSpecific: ["action", "activity", "campaign", "factory", "tranche"],
   },
   streams: {
-    common: ["contract", "deprecated-stream"],
+    common: [...BASE.common, "contract", "deprecated-stream"],
     generators: [...BASE.generators, getStreamDefs],
     indexerSpecific: ["segment", "tranche"],
   },

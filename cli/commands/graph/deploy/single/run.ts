@@ -10,6 +10,7 @@ import { GraphDeployError, ValidationError } from "../../../../utils/errors.js";
 import { finishSpinner, startSpinner } from "../../../../utils/spinner.js";
 import { extractDeploymentId } from "../../../../utils/text.js";
 import { extractDeployFailureMessage } from "../helpers.js";
+import { prepareDeploymentManifest } from "../indexer-info.js";
 
 /* -------------------------------------------------------------------------- */
 /*                                   TYPES                                    */
@@ -192,7 +193,16 @@ export const handler = (options: CommandOptions) =>
     }
 
     // Execute deployment (no confirmation — justfile [confirm] handles it)
-    const result = yield* executeDeployment(args, workingDir, chain.name);
+    const result = yield* Effect.scoped(
+      Effect.gen(function* () {
+        const deploymentManifest = yield* prepareDeploymentManifest(
+          manifestPath,
+          options.versionLabel
+        );
+        const deploymentArgs = [...args.slice(0, -1), deploymentManifest];
+        return yield* executeDeployment(deploymentArgs, workingDir, chain.name);
+      })
+    );
 
     if (!result.success) {
       return yield* Effect.fail(
