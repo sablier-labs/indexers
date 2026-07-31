@@ -70,11 +70,11 @@ async function upsert(context: HandlerContext, event: Envio.Event, params: Param
   let user = params.entity;
   if (user) {
     const newAirdropClaimerStatus = user.isOnlyAirdropClaimer && Boolean(params.isAirdropClaim);
-    user = {
-      ...user,
-      isOnlyAirdropClaimer: newAirdropClaimerStatus,
-    };
     if (newAirdropClaimerStatus !== user.isOnlyAirdropClaimer) {
+      user = {
+        ...user,
+        isOnlyAirdropClaimer: newAirdropClaimerStatus,
+      };
       context.User.set(user);
     }
   } else {
