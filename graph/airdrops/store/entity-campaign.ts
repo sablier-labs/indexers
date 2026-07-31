@@ -179,25 +179,27 @@ function addTranchesWithPercentages(
   campaign: Entity.Campaign,
   tranches: TrancheWithPercentage[]
 ): Entity.Campaign {
-  // The start time of the stream is the first tranche's start time, so we use zero for the initial duration.
-  let previous = new TrancheWithPercentage(ZERO, ZERO);
+  let cumulativeDuration = ZERO;
+  let cumulativePercentage = ZERO;
 
   for (let i = 0; i < tranches.length; i++) {
     const current = tranches[i];
+    const startDuration = cumulativeDuration;
+    const startPercentage = cumulativePercentage;
+    cumulativeDuration = cumulativeDuration.plus(current.duration);
+    cumulativePercentage = cumulativePercentage.plus(current.unlockPercentage);
 
     const id = Id.trancheCampaign(campaign.id, i);
     const tranche = new Entity.Tranche(id);
     tranche.campaign = campaign.id;
     tranche.duration = current.duration;
-    tranche.endDuration = previous.duration.plus(current.duration);
-    tranche.endPercentage = previous.unlockPercentage.plus(current.unlockPercentage);
+    tranche.endDuration = cumulativeDuration;
+    tranche.endPercentage = cumulativePercentage;
     tranche.percentage = current.unlockPercentage;
     tranche.position = BigInt.fromU32(i);
-    tranche.startDuration = previous.duration;
-    tranche.startPercentage = previous.unlockPercentage;
+    tranche.startDuration = startDuration;
+    tranche.startPercentage = startPercentage;
     tranche.save();
-
-    previous = new TrancheWithPercentage(tranche.endPercentage, tranche.endDuration);
   }
 
   return campaign;
