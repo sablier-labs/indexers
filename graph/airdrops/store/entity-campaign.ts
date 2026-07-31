@@ -197,7 +197,7 @@ function addTranchesWithPercentages(
     tranche.startPercentage = previous.unlockPercentage;
     tranche.save();
 
-    previous = tranches[i];
+    previous = new TrancheWithPercentage(tranche.endPercentage, tranche.endDuration);
   }
 
   return campaign;

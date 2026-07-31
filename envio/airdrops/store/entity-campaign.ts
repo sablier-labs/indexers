@@ -253,7 +253,10 @@ function addTranchesWithPercentages(
     };
     context.Tranche.set(tranche);
 
-    previous = current;
+    previous = {
+      duration: tranche.endDuration,
+      unlockPercentage: tranche.endPercentage,
+    };
   }
 }
 
