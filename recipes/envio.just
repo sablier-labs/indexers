@@ -50,6 +50,7 @@ _deploy indexer:
     esac
     deployment_indexer="{{ indexer }}"
     deployment_branch="deployment/$deployment_indexer"
+    source_commit=$(git rev-parse HEAD)
     tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/envio-deploy.XXXXXX")
     worktree="$tmpdir/worktree"
     cleanup() {
@@ -65,6 +66,7 @@ _deploy indexer:
         airdrops | streams)
             cache_source="envio/$deployment_indexer/.envio/cache"
             cache_file="$cache_source/tokenMetadata.tsv"
+            metadata_file="envio/$deployment_indexer/indexer-info.json"
 
             if [ ! -s "$cache_file" ]; then
                 echo "❌ $cache_file is missing or empty" >&2
@@ -78,6 +80,15 @@ _deploy indexer:
             mkdir -p .envio
             cp -R "$cache_source" .envio/cache
             git add -A .envio/cache
+
+            deployment_timestamp=$(date -u '+%s')
+            jq \
+                --arg commitHash "$source_commit" \
+                --argjson deployedAt "$deployment_timestamp" \
+                '.commitHash = $commitHash | .deployedAt = $deployedAt' \
+                "$metadata_file" > "$metadata_file.tmp"
+            mv "$metadata_file.tmp" "$metadata_file"
+            git add "$metadata_file"
             ;;
     esac
 

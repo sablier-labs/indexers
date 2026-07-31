@@ -34,10 +34,20 @@ export namespace GraphManifest {
     };
   }
   export type Context = {
-    alias: ContextItem.String;
+    alias?: ContextItem.String;
     chainId: ContextItem.BigInt;
-    version: ContextItem.String;
+    commitHash?: ContextItem.String;
+    deployedAt?: ContextItem.BigInt;
     lockups?: ContextItem.ListAddress;
+    version?: ContextItem.String;
+    versionLabel?: ContextItem.String;
+  };
+
+  export type BlockHandler = {
+    handler: "handleIndexerInfo";
+    filter: {
+      kind: "once";
+    };
   };
 
   export type EventHandler = {
@@ -72,6 +82,7 @@ export namespace GraphManifest {
     kind: string;
     language: string;
     abis: ABI[];
+    blockHandlers?: BlockHandler[];
     entities: string[];
     eventHandlers: EventHandler[];
   };

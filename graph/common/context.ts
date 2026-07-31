@@ -17,6 +17,18 @@ export function readContractVersion(): string {
   return readString("version");
 }
 
+export function readIndexerCommitHash(): string {
+  return readString("commitHash");
+}
+
+export function readIndexerDeployedAt(): BigInt {
+  return readBigInt("deployedAt");
+}
+
+export function readIndexerVersionLabel(): string {
+  return readString("versionLabel");
+}
+
 export function readLockups(): string[] {
   const context = dataSource.context();
   const value = context.get("lockups");
