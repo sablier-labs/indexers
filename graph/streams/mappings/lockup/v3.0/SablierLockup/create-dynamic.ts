@@ -8,6 +8,8 @@ export function handle_SablierLockup_v3_0_CreateLockupDynamicStream(
   const params = event.params;
   const commonParams = params.commonParams;
 
+  Store.Contract.loadOrCreate(event.address);
+
   Store.Stream.createDynamic(
     event,
     {
