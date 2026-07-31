@@ -381,25 +381,22 @@ function deployToChain(
         );
 
         const result = yield* Effect.gen(function* () {
-          const result = yield* Effect.gen(function* () {
-            const attempt = yield* Effect.sync(() => {
-              attempts += 1;
-              return attempts;
-            });
+          const attempt = yield* Effect.sync(() => {
+            attempts += 1;
+            return attempts;
+          });
 
-            yield* spinner.setText(formatDeployAttemptMessage(deployment, attempt));
-            return yield* executeDeploymentAttempt(attempt);
-          }).pipe(Effect.retry(retryPolicy));
+          yield* spinner.setText(formatDeployAttemptMessage(deployment, attempt));
+          return yield* executeDeploymentAttempt(attempt);
+        }).pipe(Effect.retry(retryPolicy));
 
-          yield* finishSpinner(
-            spinner,
-            "success",
-            `Successfully deployed to ${deployment.chainName}`
-          );
-          yield* logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`));
+        yield* finishSpinner(
+          spinner,
+          "success",
+          `Successfully deployed to ${deployment.chainName}`
+        );
+        yield* logger.log(chalk.green(`✅ Successfully deployed to ${deployment.chainName}`));
 
-          return result;
-        });
         return result;
       })
     ).pipe(
