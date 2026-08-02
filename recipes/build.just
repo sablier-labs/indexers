@@ -1,6 +1,7 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
-set no-cd
+# Pin recipes to the repo root; see recipes/codegen.just for why `no-cd` is wrong here.
+set working-directory := ".."
 
 # ---------------------------------------------------------------------------- #
 #                                     BUILD                                    #

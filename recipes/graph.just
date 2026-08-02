@@ -1,6 +1,7 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
-set no-cd
+# Pin recipes to the repo root; see recipes/codegen.just for why `no-cd` is wrong here.
+set working-directory := ".."
 
 # Build all Graph indexers
 @build-all:
@@ -10,9 +11,10 @@ set no-cd
 
 [script("bash")]
 build indexer:
+    set -euo pipefail
     just codegen::graph {{ indexer }}
     indexer_dir="graph/{{ indexer }}"
-    pnpm --dir "{{ justfile_dir() }}" exec graph build \
+    pnpm --dir "{{ source_dir() / '..' }}" exec graph build \
         "$indexer_dir/manifests/mainnet.yaml" \
         --output-dir "$indexer_dir/build"
     echo "✅ Built Graph indexer"

@@ -45,6 +45,10 @@ const TRANSIENT_DEPLOY_PATTERNS = [
   /socket hang up/i,
   /network error/i,
   /timeout/i,
+  // undici surfaces every low-level connection failure as a bare "fetch failed", which is how a
+  // flaky IPFS upload reaches us: "Failed to upload file to IPFS: fetch failed".
+  /fetch failed/i,
+  /EAI_AGAIN/i,
 ];
 
 class TransientDeployError extends Data.TaggedError("TransientDeployError")<{

@@ -25,6 +25,13 @@ export function createIndexerInfoSource(
   if (!referenceSource.context) {
     throw new Error(`Cannot resolve chain context for the ${target} IndexerInfo source`);
   }
+  // graph-node rejects any data source that declares block handlers without a `source.address`
+  // (`SubgraphManifestValidationError::SourceAddressRequired`). The `once` filter below fires at
+  // `startBlock` regardless of which contract is named, so the reference address is only there to
+  // satisfy validation — no call is ever made against it.
+  if (!referenceSource.source.address) {
+    throw new Error(`Cannot resolve a reference address for the ${target} IndexerInfo source`);
+  }
 
   const startBlock = Math.min(
     ...dataSources.map((source) => {
@@ -74,6 +81,7 @@ export function createIndexerInfoSource(
     network: referenceSource.network,
     source: {
       abi: referenceABI.name,
+      address: referenceSource.source.address,
       startBlock,
     },
   };

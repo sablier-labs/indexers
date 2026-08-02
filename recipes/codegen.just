@@ -1,6 +1,10 @@
 import "../node_modules/@sablier/devkit/just/settings.just"
 
-set no-cd
+# Pin recipes to the repo root. These bodies use root-relative paths and shell out to
+# `just <module>::<recipe>`, which resolves modules from the working directory: `no-cd`
+# would inherit the caller's directory, so invoking them from `graph/<indexer>` or
+# `envio/<indexer>` resolved `codegen` against that local justfile, where it is a recipe.
+set working-directory := ".."
 
 # ---------------------------------------------------------------------------- #
 #                                    RECIPES                                   #
@@ -48,6 +52,7 @@ set no-cd
 
 [script("bash")]
 _codegen-envio-bindings indexer:
+    set -euo pipefail
     indexer_dir="envio/{{ indexer }}"
     generated_types_file="$indexer_dir/.envio/types.d.ts"
     pnpm envio codegen \
@@ -91,10 +96,11 @@ _codegen-envio-bindings indexer:
 
 [script("bash")]
 _codegen-graph-bindings indexer:
+    set -euo pipefail
     indexer_dir="graph/{{ indexer }}"
     bindings_dir="$indexer_dir/bindings"
     pnpm dlx del-cli "$bindings_dir"
-    pnpm --dir "{{ justfile_dir() }}" exec graph codegen \
+    pnpm --dir "{{ source_dir() / '..' }}" exec graph codegen \
         --output-dir "$bindings_dir" \
         "$indexer_dir/manifests/sepolia.yaml"
     echo "✅ Generated Graph bindings"
