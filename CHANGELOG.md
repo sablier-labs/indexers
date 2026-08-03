@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[7.0.0]: https://github.com/sablier-labs/indexers/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v6.0.0
 [5.1.0]: https://github.com/sablier-labs/indexers/compare/v5.0.0...v5.1.0
 [5.0.0]: https://github.com/sablier-labs/indexers/compare/v4.0.1...v5.0.0
@@ -17,6 +18,15 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 [4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
+
+## [7.0.0] - 2026-08-03
+
+### Removed
+
+- **Breaking:** Remove the Abstract (chain ID `2741`) `airdrops` and `streams` Graph indexers, following the end of
+  Abstract support by The Graph. `getIndexerGraph` and `getIndexer` with `vendor: "graph"` now return `undefined` for
+  Abstract, and the chain is no longer part of `graphChains` or the Graph deploy targets. Abstract remains fully
+  supported on Envio, so `getIndexerEnvio` is unaffected — consumers should read Abstract data through Envio
 
 ## [6.0.0] - 2026-07-30
 
