@@ -151,10 +151,6 @@ const OFFICIALS: ProtocolIndexerGraphMap[] = [
     airdrops: "DFD73EcSue44R7mpHvXeyvcgaT8tR1iKakZFjBsiFpjs",
     streams: "AvDAMYYHGaEwn9F9585uqq6MM5CfvRtYcb7KjK7LKPCt",
   }),
-  official(chains.abstract.id, {
-    airdrops: "DRrf6mYEhRt9QieKvTjDHnSWcBm3GW96hpedMKVxLABx",
-    streams: "2QjTdDFY233faXksUruMERMiDoQDdtGG5hBLC27aT1Pw",
-  }),
   official(chains.arbitrum.id, {
     airdrops: "HkHDg6NVVVeobhpcU4pTPMktyC25zd6xAQBGpYrWDgRr",
     streams: "yvDXXHSyv6rGPSzfpbBcbQmMFrECac3Q2zADkYsMxam",
