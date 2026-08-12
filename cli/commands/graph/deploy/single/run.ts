@@ -5,6 +5,7 @@ import { Chunk, Console, Effect, Stream } from "effect";
 import paths, { ROOT_DIR } from "../../../../../cli/utils/paths.js";
 import { getSablierChainSlug } from "../../../../../src/indexers/graph.js";
 import { getIndexerGraph } from "../../../../../src/indexers/index.js";
+import { CliEnv } from "../../../../services/env.js";
 import { getChain } from "../../../../utils/args.js";
 import { GraphDeployError, ValidationError } from "../../../../utils/errors.js";
 import { finishSpinner, startSpinner } from "../../../../utils/spinner.js";
@@ -19,6 +20,8 @@ import { prepareDeploymentManifest } from "../indexer-info.js";
 type CustomNodeConfig = {
   nodeUrl: string;
   ipfsUrl: string;
+  authType?: "deploy-key" | "access-token";
+  authEnvVar?: string;
 };
 
 /* -------------------------------------------------------------------------- */
@@ -31,6 +34,12 @@ type CustomNodeConfig = {
 const GRAPH_BIN = path.join(ROOT_DIR, "node_modules", ".bin", "graph");
 
 const CUSTOM_NODES: Record<string, CustomNodeConfig> = {
+  denergychain: {
+    authEnvVar: "DENERGY_AUTH_TOKEN",
+    authType: "access-token",
+    ipfsUrl: "https://ipfs.denergychain.com",
+    nodeUrl: "https://thegraph.denergychain.com/deploy",
+  },
   lightlink: {
     ipfsUrl: "https://api.thegraph.com/ipfs/",
     nodeUrl: "https://graph.phoenix.lightlink.io/rpc",
@@ -99,8 +108,20 @@ function executeDeployment(args: readonly string[], workingDir: string, chainNam
   });
 }
 
-function buildCustomArgs(config: CustomNodeConfig, versionLabel: string): string[] {
-  return [
+function getDisplayArgs(args: readonly string[], authToken?: string): readonly string[] {
+  if (!authToken) {
+    return args;
+  }
+
+  return args.map((arg) => (arg === authToken ? "[redacted]" : arg));
+}
+
+function buildCustomArgs(
+  config: CustomNodeConfig,
+  versionLabel: string,
+  authToken: string | undefined
+): string[] {
+  const args: string[] = [
     "deploy",
     "--version-label",
     versionLabel,
@@ -109,6 +130,14 @@ function buildCustomArgs(config: CustomNodeConfig, versionLabel: string): string
     "--node",
     config.nodeUrl,
   ];
+
+  if (config.authType === "deploy-key" && authToken) {
+    args.push("--deploy-key", authToken);
+  } else if (config.authType === "access-token" && authToken) {
+    args.push("--access-token", authToken);
+  }
+
+  return args;
 }
 
 function buildOfficialArgs(versionLabel: string): string[] {
@@ -128,6 +157,8 @@ type CommandOptions = {
 
 export const handler = (options: CommandOptions) =>
   Effect.gen(function* () {
+    const env = yield* CliEnv;
+
     // Resolve chain from Sablier slug
     const chain = yield* getChain(options.chain);
 
@@ -165,10 +196,26 @@ export const handler = (options: CommandOptions) =>
     const workingDir = path.join(ROOT_DIR, "graph", options.indexer);
 
     // Build command args
-    const args =
-      isCustom && customConfig
-        ? buildCustomArgs(customConfig, options.versionLabel)
-        : buildOfficialArgs(options.versionLabel);
+    let authToken: string | undefined;
+    let args: string[];
+
+    if (isCustom && customConfig) {
+      // Validate auth token if required
+      if (customConfig.authEnvVar) {
+        authToken = (yield* env.getString(customConfig.authEnvVar))?.trim();
+        if (!authToken) {
+          return yield* Effect.fail(
+            new ValidationError({
+              field: customConfig.authEnvVar,
+              message: `Environment variable ${customConfig.authEnvVar} is not set`,
+            })
+          );
+        }
+      }
+      args = buildCustomArgs(customConfig, options.versionLabel, authToken);
+    } else {
+      args = buildOfficialArgs(options.versionLabel);
+    }
 
     args.push(subgraphName, manifestPath);
 
@@ -186,8 +233,9 @@ export const handler = (options: CommandOptions) =>
 
     // Dry-run mode
     if (options.dryRun) {
+      const displayArgs = getDisplayArgs(args, authToken);
       yield* Console.log(chalk.yellow("[DRY RUN] Would execute:"));
-      yield* Console.log(chalk.cyan(`  ${GRAPH_BIN} ${args.join(" ")}`));
+      yield* Console.log(chalk.cyan(`  ${GRAPH_BIN} ${displayArgs.join(" ")}`));
       yield* Console.log(chalk.cyan(`  Working directory: ${workingDir}`));
       return;
     }

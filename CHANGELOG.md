@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+[7.1.0]: https://github.com/sablier-labs/indexers/compare/v7.0.0...v7.1.0
 [7.0.0]: https://github.com/sablier-labs/indexers/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v6.0.0
 [5.1.0]: https://github.com/sablier-labs/indexers/compare/v5.0.0...v5.1.0
@@ -18,6 +19,19 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.1.0]: https://github.com/sablier-labs/indexers/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 [4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
+
+## [7.1.0] - 2026-08-12
+
+### Added
+
+- Re-add Denergy (chain ID `369369`) `airdrops` and `streams` Graph indexers, following the chain's return to `sablier`.
+  `getIndexerGraph` and `getIndexer` with `vendor: "graph"` resolve Denergy again, and it is part of `graphChains` and
+  the Graph deploy targets once more. Denergy is served by a custom Graph node, so it is excluded from the
+  decentralized-network deploy flow and is not available on Envio
+
+### Changed
+
+- Bump `sablier` dependency from `^4.0.0` to `^4.1.0`
 
 ## [7.0.0] - 2026-08-03
 
