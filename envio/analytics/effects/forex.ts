@@ -12,6 +12,7 @@ type FrankfurterResponse = {
 };
 
 const FRANKFURTER_TIMEOUT_MS = 10_000;
+const FRANKFURTER_PROVIDER = "ECB";
 const NO_RATE = 0;
 const LOOKBACK_DAYS = 7;
 const dateType = S.string;
@@ -20,7 +21,7 @@ export const fetchGBPExchangeRate = createEffect(
   {
     cache: true,
     input: dateType,
-    name: "FRANKFURTER_GBP_USD",
+    name: "FRANKFURTER_ECB_GBP_USD",
     output: S.number,
     rateLimit: { calls: 10, per: "second" },
   },
@@ -32,20 +33,15 @@ export const fetchGBPExchangeRate = createEffect(
  * the primary call returns no data. Walks back up to `LOOKBACK_DAYS` days; never forward.
  */
 export async function fetchGBPRateWithFallback(logger: Logger, date: string): Promise<number> {
-  const primary = await fetchFromFrankfurterAPI(logger, date);
+  const primary = await fetchFromFrankfurterAPI(logger, date, date);
   if (primary !== NO_RATE) {
     return primary;
   }
 
   for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
     const candidate = shiftDateUtc(date, -offsetDays);
-    const rate = await fetchFromFrankfurterAPI(logger, candidate);
+    const rate = await fetchFromFrankfurterAPI(logger, candidate, date);
     if (rate !== NO_RATE) {
-      logger.warn(`Using fallback GBP rate from ${candidate} (target ${date})`, {
-        candidate,
-        offsetDays,
-        target: date,
-      });
       return rate;
     }
   }
@@ -58,25 +54,40 @@ export async function fetchGBPRateWithFallback(logger: Logger, date: string): Pr
  * Fetch the GBP to USD exchange rate for a given date.
  * @see https://frankfurter.dev/
  */
-export async function fetchFromFrankfurterAPI(logger: Logger, date: string): Promise<number> {
+export async function fetchFromFrankfurterAPI(
+  logger: Logger,
+  date: string,
+  targetDate = date
+): Promise<number> {
   const url = new URL(`${FRANKFURTER_BASE_URL}/rate/GBP/USD`);
   url.searchParams.set("date", date);
+  url.searchParams.set("providers", FRANKFURTER_PROVIDER);
 
   try {
     const response = await axios.get<FrankfurterResponse>(url.toString(), {
       timeout: FRANKFURTER_TIMEOUT_MS,
     });
     const { base, date: responseDate, quote, rate } = response.data;
+    const offsetDays =
+      typeof responseDate === "string" ? getLookbackOffset(targetDate, responseDate) : undefined;
 
     if (
       base !== "GBP" ||
-      responseDate !== date ||
+      offsetDays === undefined ||
       quote !== "USD" ||
       typeof rate !== "number" ||
       !Number.isFinite(rate) ||
       rate <= 0
     ) {
       throw new Error(`Invalid Frankfurter response for GBP/USD on ${date}`);
+    }
+
+    if (offsetDays > 0) {
+      logger.warn(`Using fallback GBP rate from ${responseDate} (target ${targetDate})`, {
+        candidate: responseDate,
+        offsetDays,
+        target: targetDate,
+      });
     }
 
     return rate;
@@ -97,4 +108,13 @@ export async function fetchFromFrankfurterAPI(logger: Logger, date: string): Pro
     });
     throw error;
   }
+}
+
+function getLookbackOffset(targetDate: string, responseDate: string): number | undefined {
+  for (let offsetDays = 0; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
+    if (responseDate === shiftDateUtc(targetDate, -offsetDays)) {
+      return offsetDays;
+    }
+  }
+  return undefined;
 }

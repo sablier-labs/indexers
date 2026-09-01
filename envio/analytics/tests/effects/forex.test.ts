@@ -45,9 +45,10 @@ describe("fetchFromFrankfurterAPI", () => {
     mockedGet.mockResolvedValueOnce(frankfurterResponse("2023-12-25"));
 
     await expect(fetchFromFrankfurterAPI(mockLogger, "2023-12-25")).resolves.toBe(1.2345);
-    expect(mockedGet).toHaveBeenCalledWith(`${FRANKFURTER_BASE_URL}/rate/GBP/USD?date=2023-12-25`, {
-      timeout: 10_000,
-    });
+    expect(mockedGet).toHaveBeenCalledWith(
+      `${FRANKFURTER_BASE_URL}/rate/GBP/USD?date=2023-12-25&providers=ECB`,
+      { timeout: 10_000 }
+    );
   });
 
   it.each([
@@ -58,6 +59,7 @@ describe("fetchFromFrankfurterAPI", () => {
     ["wrong base", { base: "EUR", date: "2023-01-01", quote: "USD", rate: 1.2 }],
     ["wrong quote", { base: "GBP", date: "2023-01-01", quote: "EUR", rate: 1.2 }],
     ["wrong date", { base: "GBP", date: "2023-01-02", quote: "USD", rate: 1.2 }],
+    ["stale date", { base: "GBP", date: "2022-12-24", quote: "USD", rate: 1.2 }],
   ])("rejects a %s response", async (_scenario, data) => {
     mockedGet.mockResolvedValueOnce({ data });
 
@@ -67,6 +69,20 @@ describe("fetchFromFrankfurterAPI", () => {
     expect(mockLogger.error).toHaveBeenCalledWith(
       "Failed to fetch exchange rate from Frankfurter",
       expect.objectContaining({ date: "2023-01-01" })
+    );
+  });
+
+  it("accepts the preceding ECB business-day rate", async () => {
+    mockedGet.mockResolvedValueOnce(frankfurterResponse("2024-03-15", 1.28));
+
+    await expect(fetchFromFrankfurterAPI(mockLogger, "2024-03-17")).resolves.toBe(1.28);
+    expect(mockLogger.warn).toHaveBeenCalledWith(
+      "Using fallback GBP rate from 2024-03-15 (target 2024-03-17)",
+      expect.objectContaining({
+        candidate: "2024-03-15",
+        offsetDays: 2,
+        target: "2024-03-17",
+      })
     );
   });
 
