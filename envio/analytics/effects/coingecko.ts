@@ -40,7 +40,13 @@ function createEffect(currency: string) {
       output: S.number,
       rateLimit: false,
     },
-    async ({ context, input: date }) => await fetchCoinPrice(context.log, date, currency)
+    async ({ context, input: date }) => {
+      const price = await fetchCoinPrice(context.log, date, currency);
+      if (!Number.isFinite(price) || price <= NO_PRICE) {
+        context.cache = false;
+      }
+      return price;
+    }
   );
 }
 

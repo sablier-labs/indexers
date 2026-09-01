@@ -58,16 +58,22 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
       // Gnosis uses xDAI as a native currency.
       priceUSD = 1;
     } else {
-      if (!coinConfigs[currency]) {
-        context.log.error("No fetchPrice effect found for currency", { currency, event });
-        return;
+      const coinConfig = coinConfigs[currency];
+      if (!coinConfig) {
+        throw new Error(`No USD price effect configured for ${currency}`);
       }
       // Fetch the USD price of the native currency and the GBP exchange rate.
-      priceUSD = await context.effect(coinConfigs[currency].effect, date);
+      priceUSD = await context.effect(coinConfig.effect, date);
+    }
+    if (!Number.isFinite(priceUSD) || priceUSD <= 0) {
+      throw new Error(`Invalid USD price for ${currency} on ${date}: ${priceUSD}`);
     }
 
     // Fetch the GBP/USD exchange rate.
     const gbpExchangeRate = await context.effect(fetchGBPExchangeRate, date);
+    if (!Number.isFinite(gbpExchangeRate) || gbpExchangeRate <= 0) {
+      throw new Error(`Invalid GBP/USD exchange rate on ${date}: ${gbpExchangeRate}`);
+    }
 
     // Calculate fiat values.
     const msgValueNum = Number(msgValue);
@@ -82,6 +88,7 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     createFeeTx(context, entities, event, { currency, gbpValue, msgValue, usdValue });
   } catch (error) {
     context.log.error("Failed to create or update fee entities", { error, event });
+    throw error;
   }
 }
 

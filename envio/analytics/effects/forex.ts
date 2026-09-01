@@ -1,15 +1,18 @@
 import axios from "axios";
 import type { Logger } from "envio";
 import { createEffect, S } from "envio";
-import * as _ from "lodash-es";
 import { FRANKFURTER_BASE_URL } from "../../common/constants.js";
 import { shiftDateUtc } from "../../common/time.js";
 
 type FrankfurterResponse = {
-  rate: number;
+  base?: unknown;
+  date?: unknown;
+  quote?: unknown;
+  rate?: unknown;
 };
 
-const NO_PRICE = 0;
+const FRANKFURTER_TIMEOUT_MS = 10_000;
+const NO_RATE = 0;
 const LOOKBACK_DAYS = 7;
 const dateType = S.string;
 
@@ -17,9 +20,9 @@ export const fetchGBPExchangeRate = createEffect(
   {
     cache: true,
     input: dateType,
-    name: "GBP_USD",
+    name: "FRANKFURTER_GBP_USD",
     output: S.number,
-    rateLimit: false,
+    rateLimit: { calls: 10, per: "second" },
   },
   async ({ context, input: date }) => await fetchGBPRateWithFallback(context.log, date)
 );
@@ -30,14 +33,14 @@ export const fetchGBPExchangeRate = createEffect(
  */
 export async function fetchGBPRateWithFallback(logger: Logger, date: string): Promise<number> {
   const primary = await fetchFromFrankfurterAPI(logger, date);
-  if (primary !== NO_PRICE) {
+  if (primary !== NO_RATE) {
     return primary;
   }
 
   for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
     const candidate = shiftDateUtc(date, -offsetDays);
     const rate = await fetchFromFrankfurterAPI(logger, candidate);
-    if (rate !== NO_PRICE) {
+    if (rate !== NO_RATE) {
       logger.warn(`Using fallback GBP rate from ${candidate} (target ${date})`, {
         candidate,
         offsetDays,
@@ -46,7 +49,9 @@ export async function fetchGBPRateWithFallback(logger: Logger, date: string): Pr
       return rate;
     }
   }
-  return NO_PRICE;
+  throw new Error(
+    `No GBP/USD exchange rate found for ${date} or the previous ${LOOKBACK_DAYS} days`
+  );
 }
 
 /**
@@ -58,28 +63,38 @@ export async function fetchFromFrankfurterAPI(logger: Logger, date: string): Pro
   url.searchParams.set("date", date);
 
   try {
-    const response = await axios.get<FrankfurterResponse>(url.toString());
+    const response = await axios.get<FrankfurterResponse>(url.toString(), {
+      timeout: FRANKFURTER_TIMEOUT_MS,
+    });
+    const { base, date: responseDate, quote, rate } = response.data;
 
-    if (!response.data.rate || _.isNaN(response.data.rate)) {
-      logger.error("Failed to fetch exchange rate: API returned error", {
-        date,
-        response: response.data,
-        url: url.toString(),
-      });
-      return NO_PRICE;
+    if (
+      base !== "GBP" ||
+      responseDate !== date ||
+      quote !== "USD" ||
+      typeof rate !== "number" ||
+      !Number.isFinite(rate) ||
+      rate <= 0
+    ) {
+      throw new Error(`Invalid Frankfurter response for GBP/USD on ${date}`);
     }
 
-    return _.toNumber(response.data.rate);
+    return rate;
   } catch (error) {
-    handleFrankfurterError(logger, error, url);
-    return NO_PRICE;
-  }
-}
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      logger.warn(`No GBP/USD exchange rate available from Frankfurter for ${date}`, {
+        date,
+        url: url.toString(),
+      });
+      return NO_RATE;
+    }
 
-function handleFrankfurterError(logger: Logger, error: unknown, url: URL): void {
-  if (axios.isAxiosError(error)) {
-    logger.error(`Failed to fetch exchange rate from Frankfurter API: ${error.message}`, {
+    logger.error("Failed to fetch exchange rate from Frankfurter", {
+      date,
+      error: error instanceof Error ? error.message : String(error),
+      status: axios.isAxiosError(error) ? error.response?.status : undefined,
       url: url.toString(),
     });
+    throw error;
   }
 }
