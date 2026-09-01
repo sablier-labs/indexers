@@ -1,8 +1,8 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: any is used to mock axios */
 import axios from "axios";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { CURRENCY_FREAKS_BASE_URL } from "../../../common/constants.js";
-import { fetchFromCurrencyFreaksAPI, fetchGBPRateWithFallback } from "../../effects/forex.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { FRANKFURTER_BASE_URL } from "../../../common/constants.js";
+import { fetchFromFrankfurterAPI, fetchGBPRateWithFallback } from "../../effects/forex.js";
 
 // Mock axios
 vi.mock("axios", () => ({
@@ -24,25 +24,12 @@ const mockLogger = {
   warn: vi.fn(),
 };
 
-describe("fetchFromCurrencyFreaksAPI", () => {
-  const originalEnv = process.env;
-
+describe("fetchFromFrankfurterAPI", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Reset environment variables
-    process.env = { ...originalEnv };
-  });
-
-  afterEach(() => {
-    process.env = originalEnv;
   });
 
   describe("error handling scenarios", () => {
-    it("should return 0 when API key parameter is missing", async () => {
-      // Test the function directly with missing API key parameter
-      await expect(fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "")).resolves.toBe(0);
-    });
-
     it("should return 0 when API returns no rate", async () => {
       const mockResponse = {
         data: {
@@ -52,15 +39,15 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-01-01");
 
       expect(result).toBe(0);
       expect(mockLogger.error).toHaveBeenCalledWith(
         "Failed to fetch exchange rate: API returned error",
         expect.objectContaining({
           date: "2023-01-01",
-          response: mockResponse,
-          url: expect.stringContaining(CURRENCY_FREAKS_BASE_URL),
+          response: mockResponse.data,
+          url: expect.stringContaining(FRANKFURTER_BASE_URL),
         })
       );
     });
@@ -74,14 +61,14 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-01-01");
 
       expect(result).toBe(0);
       expect(mockLogger.error).toHaveBeenCalledWith(
         "Failed to fetch exchange rate: API returned error",
         expect.objectContaining({
           date: "2023-01-01",
-          response: mockResponse,
+          response: mockResponse.data,
         })
       );
     });
@@ -95,14 +82,14 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-01-01");
 
       expect(result).toBe(0);
       expect(mockLogger.error).toHaveBeenCalledWith(
         "Failed to fetch exchange rate: API returned error",
         expect.objectContaining({
           date: "2023-01-01",
-          response: mockResponse,
+          response: mockResponse.data,
         })
       );
     });
@@ -113,13 +100,13 @@ describe("fetchFromCurrencyFreaksAPI", () => {
       mockedAxios.isAxiosError.mockReturnValue(true);
       mockedAxios.get.mockRejectedValueOnce(axiosError);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-01-01");
 
       expect(result).toBe(0);
       expect(mockLogger.error).toHaveBeenCalledWith(
-        "Failed to fetch exchange rate from CurrencyFreaks API: Network Error",
+        "Failed to fetch exchange rate from Frankfurter API: Network Error",
         expect.objectContaining({
-          url: expect.stringContaining(CURRENCY_FREAKS_BASE_URL),
+          url: expect.stringContaining(FRANKFURTER_BASE_URL),
         })
       );
     });
@@ -129,7 +116,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
       mockedAxios.isAxiosError.mockReturnValue(false);
       mockedAxios.get.mockRejectedValueOnce(genericError);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-01-01");
 
       expect(result).toBe(0);
       // Should not log error for non-axios errors
@@ -149,10 +136,10 @@ describe("fetchFromCurrencyFreaksAPI", () => {
     });
 
     it("should construct correct URL with parameters", async () => {
-      await fetchFromCurrencyFreaksAPI(mockLogger, "2023-12-25", "test-api-key");
+      await fetchFromFrankfurterAPI(mockLogger, "2023-12-25");
 
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`
+        `${FRANKFURTER_BASE_URL}/rate/GBP/USD?date=2023-12-25`
       );
     });
   });
@@ -161,7 +148,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
     it("should return the primary rate without warning when first call succeeds", async () => {
       mockedAxios.get.mockResolvedValueOnce({ data: { rate: 1.25 } });
 
-      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15", "test-api-key");
+      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15");
 
       expect(result).toBe(1.25);
       expect(mockedAxios.get).toHaveBeenCalledTimes(1);
@@ -175,7 +162,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
         .mockResolvedValueOnce({ data: {} })
         .mockResolvedValueOnce({ data: { rate: 1.3 } });
 
-      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15", "test-api-key");
+      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15");
 
       expect(result).toBe(1.3);
       expect(mockedAxios.get).toHaveBeenCalledTimes(3);
@@ -207,7 +194,7 @@ describe("fetchFromCurrencyFreaksAPI", () => {
         mockedAxios.get.mockResolvedValueOnce({ data: {} });
       }
 
-      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15", "test-api-key");
+      const result = await fetchGBPRateWithFallback(mockLogger, "2024-03-15");
 
       expect(result).toBe(0);
       expect(mockedAxios.get).toHaveBeenCalledTimes(8);
@@ -225,11 +212,11 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-01-01", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-01-01");
 
       expect(result).toBe(1.2345);
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-01-01&from=GBP&to=USD&amount=1`
+        `${FRANKFURTER_BASE_URL}/rate/GBP/USD?date=2023-01-01`
       );
     });
 
@@ -242,11 +229,11 @@ describe("fetchFromCurrencyFreaksAPI", () => {
 
       mockedAxios.get.mockResolvedValueOnce(mockResponse);
 
-      const result = await fetchFromCurrencyFreaksAPI(mockLogger, "2023-12-25", "test-api-key");
+      const result = await fetchFromFrankfurterAPI(mockLogger, "2023-12-25");
 
       expect(result).toBe(1.3456);
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${CURRENCY_FREAKS_BASE_URL}/convert/historical?apikey=test-api-key&date=2023-12-25&from=GBP&to=USD&amount=1`
+        `${FRANKFURTER_BASE_URL}/rate/GBP/USD?date=2023-12-25`
       );
     });
   });

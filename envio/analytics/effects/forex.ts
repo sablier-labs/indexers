@@ -2,17 +2,11 @@ import axios from "axios";
 import type { Logger } from "envio";
 import { createEffect, S } from "envio";
 import * as _ from "lodash-es";
-import { CURRENCY_FREAKS_BASE_URL } from "../../common/constants.js";
-import { isToday, shiftDateUtc } from "../../common/time.js";
+import { FRANKFURTER_BASE_URL } from "../../common/constants.js";
+import { shiftDateUtc } from "../../common/time.js";
 
-type CurrencyFreaksResponse = {
+type FrankfurterResponse = {
   rate: number;
-};
-
-type CurrencyFreaksLatestResponse = {
-  rates: {
-    [currency: string]: string;
-  };
 };
 
 const NO_PRICE = 0;
@@ -27,34 +21,22 @@ export const fetchGBPExchangeRate = createEffect(
     output: S.number,
     rateLimit: false,
   },
-  async ({ context, input: date }) => {
-    const CURRENCY_FREAKS_API_KEY = process.env.ENVIO_CURRENCY_FREAKS_API_KEY;
-    if (!CURRENCY_FREAKS_API_KEY) {
-      throw new Error("ENVIO_CURRENCY_FREAKS_API_KEY is not set");
-    }
-    return await fetchGBPRateWithFallback(context.log, date, CURRENCY_FREAKS_API_KEY);
-  }
+  async ({ context, input: date }) => await fetchGBPRateWithFallback(context.log, date)
 );
 
 /**
  * Fetch the GBP→USD exchange rate for a given date, falling back to nearest earlier dates when
  * the primary call returns no data. Walks back up to `LOOKBACK_DAYS` days; never forward.
  */
-export async function fetchGBPRateWithFallback(
-  logger: Logger,
-  date: string,
-  apiKey: string
-): Promise<number> {
-  const primary = isToday(date)
-    ? await fetchTodayGBPRate(logger, apiKey)
-    : await fetchFromCurrencyFreaksAPI(logger, date, apiKey);
+export async function fetchGBPRateWithFallback(logger: Logger, date: string): Promise<number> {
+  const primary = await fetchFromFrankfurterAPI(logger, date);
   if (primary !== NO_PRICE) {
     return primary;
   }
 
   for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
     const candidate = shiftDateUtc(date, -offsetDays);
-    const rate = await fetchFromCurrencyFreaksAPI(logger, candidate, apiKey);
+    const rate = await fetchFromFrankfurterAPI(logger, candidate);
     if (rate !== NO_PRICE) {
       logger.warn(`Using fallback GBP rate from ${candidate} (target ${date})`, {
         candidate,
@@ -68,64 +50,20 @@ export async function fetchGBPRateWithFallback(
 }
 
 /**
- * Fetch the latest exchange rate for GBP to USD
- * @see https://currencyfreaks.com/documentation.html
+ * Fetch the GBP to USD exchange rate for a given date.
+ * @see https://frankfurter.dev/
  */
-async function fetchTodayGBPRate(logger: Logger, apiKey: string): Promise<number> {
-  const url = new URL(`${CURRENCY_FREAKS_BASE_URL}/rates/latest`);
-  url.searchParams.set("apikey", apiKey);
-  url.searchParams.set("symbols", "GBP");
-
-  try {
-    const response = await axios.get<CurrencyFreaksLatestResponse>(url.toString());
-
-    if (!response.data.rates?.GBP) {
-      logger.error("Failed to fetch latest GBP rate: API returned no GBP rate", {
-        response: response.data,
-        url: url.toString(),
-      });
-      return NO_PRICE;
-    }
-
-    // Convert USD to GBP rate to GBP to USD rate
-    const usdToGbpRate = _.toNumber(response.data.rates.GBP);
-    if (_.isNaN(usdToGbpRate) || usdToGbpRate === 0) {
-      logger.error("Invalid GBP rate received", { rate: response.data.rates.GBP });
-      return NO_PRICE;
-    }
-
-    // The API returns USD to GBP rate, but we need GBP to USD rate
-    const gbpToUsdRate = 1 / usdToGbpRate;
-    // Truncate to 4 decimal places
-    return Math.trunc(gbpToUsdRate * 10_000) / 10_000;
-  } catch (error) {
-    handleCurrencyFreaksError(logger, error, url);
-    return NO_PRICE;
-  }
-}
-
-/**
- * @see https://currencyfreaks.com/documentation.html
- */
-export async function fetchFromCurrencyFreaksAPI(
-  logger: Logger,
-  date: string,
-  apiKey: string
-): Promise<number> {
-  const url = new URL(`${CURRENCY_FREAKS_BASE_URL}/convert/historical`);
-  url.searchParams.set("apikey", apiKey);
+export async function fetchFromFrankfurterAPI(logger: Logger, date: string): Promise<number> {
+  const url = new URL(`${FRANKFURTER_BASE_URL}/rate/GBP/USD`);
   url.searchParams.set("date", date);
-  url.searchParams.set("from", "GBP");
-  url.searchParams.set("to", "USD");
-  url.searchParams.set("amount", "1");
 
   try {
-    const response = await axios.get<CurrencyFreaksResponse>(url.toString());
+    const response = await axios.get<FrankfurterResponse>(url.toString());
 
     if (!response.data.rate || _.isNaN(response.data.rate)) {
       logger.error("Failed to fetch exchange rate: API returned error", {
         date,
-        response,
+        response: response.data,
         url: url.toString(),
       });
       return NO_PRICE;
@@ -133,14 +71,14 @@ export async function fetchFromCurrencyFreaksAPI(
 
     return _.toNumber(response.data.rate);
   } catch (error) {
-    handleCurrencyFreaksError(logger, error, url);
+    handleFrankfurterError(logger, error, url);
     return NO_PRICE;
   }
 }
 
-function handleCurrencyFreaksError(logger: Logger, error: unknown, url: URL): void {
+function handleFrankfurterError(logger: Logger, error: unknown, url: URL): void {
   if (axios.isAxiosError(error)) {
-    logger.error(`Failed to fetch exchange rate from CurrencyFreaks API: ${error.message}`, {
+    logger.error(`Failed to fetch exchange rate from Frankfurter API: ${error.message}`, {
       url: url.toString(),
     });
   }

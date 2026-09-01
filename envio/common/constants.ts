@@ -35,6 +35,6 @@ export const UD2X18_ONE = 1_000_000_000_000_000_000n;
 /* -------------------------------------------------------------------------- */
 
 export const COINGECKO_BASE_URL = "https://pro-api.coingecko.com/api/v3";
-export const CURRENCY_FREAKS_BASE_URL = "https://api.currencyfreaks.com/v2.0";
 export const FIXER_BASE_URL = "https://data.fixer.io/api";
+export const FRANKFURTER_BASE_URL = "https://api.frankfurter.dev/v2";
 export const NOT_AVAILABLE = "n/a";
