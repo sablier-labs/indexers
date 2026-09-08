@@ -20,6 +20,14 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 [4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
 
+## Unreleased
+
+### Removed
+
+- **Breaking:** Remove Sophon (chain ID `50104`) support from the Envio `airdrops` and `streams` indexers.
+  `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now return `undefined` for Sophon, and the chain is no
+  longer part of `envioChains`
+
 ## [7.1.0] - 2026-08-12
 
 ### Added

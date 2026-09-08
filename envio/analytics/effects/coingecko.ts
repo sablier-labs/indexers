@@ -13,7 +13,6 @@ import {
   polygon,
   sei,
   sonic,
-  sophon,
   xdc,
 } from "sablier/evm/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants.js";
@@ -93,10 +92,6 @@ export const coinConfigs: Record<string, CoinConfig> = {
   [monad.nativeCurrency.symbol]: {
     api_id: "monad",
     effect: createEffect(monad.nativeCurrency.symbol),
-  },
-  [sophon.nativeCurrency.symbol]: {
-    api_id: "sophon",
-    effect: createEffect(sophon.nativeCurrency.symbol),
   },
   [sonic.nativeCurrency.symbol]: {
     api_id: "sonic-3",

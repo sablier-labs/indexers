@@ -4021,8 +4021,6 @@ id	output
 [43114,"0xec3492a2508ddf4fdc0cd76f31f340b30d1793e6"]	{"decimals":18,"name":"Colony Token","symbol":"CLY"}
 [43114,"0xed72d5e053887dd05724adfe775dc71f134351ec"]	{"decimals":18,"name":"Joe LP Token","symbol":"JLP"}
 [43114,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
-[50104,"0x2b1a859de6a55c553520d7780bc5805712b128f9"]	{"decimals":18,"name":"Wrapped Sophon","symbol":"WSOPH"}
-[50104,"0xe2c0c3e0ff10df4485a2dcbbdd1d002a40446164"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [59144,"0x176211869ca2b568f2a7d4ee941e073a821ee1ff"]	{"decimals":6,"name":"USDC","symbol":"USDC"}
 [59144,"0x1789e0043623282d5dcc7f213d703c6d8bafbb04"]	{"decimals":18,"name":"Linea","symbol":"LINEA"}
 [59144,"0x3439fdf88fc0f621083cd8ce284de612a5588876"]	{"decimals":18,"name":"Etherex Volatile - WETH/dREX","symbol":"Volatile - WETH/dREX"}

@@ -957,20 +957,6 @@ chains:
       - address: "0xb891b41533776ec20f7738c647a11506aa44b8a8"
         name: "SablierLockup_v4_0"
         start_block: 80574676
-  - id: 50104
-    start_block: 11275708
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.sophon.xyz"
-    contracts:
-      - address: "0x20c9a3e27322fc2b21ced430d1b2e12d90804db6"
-        name: "SablierFlow_v1_1"
-        start_block: 11341394
-      - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
-        name: "SablierLockup_v2_0"
-        start_block: 11275708
   - id: 59144
     start_block: 7728316
     rpc:

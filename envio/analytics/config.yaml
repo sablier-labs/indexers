@@ -1917,26 +1917,6 @@ chains:
       - address: "0x0000008ABbFf7a84a2fE09f9A9b74D3BC2072399"
         name: "SablierComptroller"
         start_block: 69219791
-  - id: 50104
-    start_block: 11275708
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.sophon.xyz"
-    contracts:
-      - address: "0x9d4923e2ff0b9dadc447a89f528760928f84d0f7"
-        name: "SablierMerkleFactory_v1_3"
-        start_block: 11290094
-      - name: "SablierMerkleInstant_v1_3"
-      - name: "SablierMerkleLL_v1_3"
-      - name: "SablierMerkleLT_v1_3"
-      - address: "0x20c9a3e27322fc2b21ced430d1b2e12d90804db6"
-        name: "SablierFlow_v1_1"
-        start_block: 11341394
-      - address: "0x28fcae6bda2546c93183eec8638691b2eb184003"
-        name: "SablierLockup_v2_0"
-        start_block: 11275708
   - id: 59144
     start_block: 7728316
     rpc:
