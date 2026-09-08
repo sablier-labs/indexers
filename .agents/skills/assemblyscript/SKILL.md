@@ -1,184 +1,73 @@
 ---
 name: assemblyscript
-description:
-  Use when working with AssemblyScript code in the graph/ directory, writing subgraph mappings, event handlers, store
-  operations, BigInt operations, entity stores, or The Graph indexer code.
+description: Use when maintaining AssemblyScript mappings, helpers, or stores under graph/ for The Graph subgraphs.
 ---
 
 # AssemblyScript for The Graph
 
-The `graph/` directory uses AssemblyScript (not TypeScript) for The Graph subgraphs. AssemblyScript compiles to
-WebAssembly and has critical differences from TypeScript.
+This guidance applies to hand-maintained code under `graph/`: mappings, helpers, and stores. Route generated-source
+ownership, schema changes, Graph recipes, and version additions through [graph/AGENTS.md](../../../graph/AGENTS.md).
+Apply it within the requested scope and keep review work read-only.
 
-## Critical Constraints
+## Pinned Compiler Constraints
 
-### No Closures
+- `@graphprotocol/graph-ts` is the only runtime dependency.
+- Array callbacks cannot capture outer variables; use a manual loop when they need surrounding state.
+- Compare `BigInt` values with `.gt()`, `.equals()`, and `.lt()`, using constants from
+  [graph/common/constants.ts](../../../graph/common/constants.ts).
+- The pinned Graph compiler uses AssemblyScript 0.19 semantics: compare strings with `==` or `areStringsEqual()`, never
+  `===`. See [graph/common/strings.ts](../../../graph/common/strings.ts).
+- Do not use object spread, optional chaining, or nullish coalescing.
+- Use `try_*()` contract calls and handle a reverted result before reading `value`.
 
-Array methods cannot capture outer variables:
+Use ordinary `as` conversions for compatible types and contextual object casts, as in
+[entity-campaign.ts](../../../graph/airdrops/store/entity-campaign.ts) and
+[entity-stream.ts](../../../graph/streams/store/lockup/entity-stream.ts). Reserve `changetype<T>()` for an intentional
+representation-compatible reinterpretation, such as generated store loads in
+[graph/common/bindings/erc20/schema.ts](../../../graph/common/bindings/erc20/schema.ts).
 
-```typescript
-// WRONG - closure captures `targetId`
-const index = items.findIndex((item) => item.id == targetId);
+## Repository Utilities
 
-// CORRECT - use manual iteration
-let index = -1;
-for (let i = 0; i < items.length; i++) {
-  if (items[i].id == targetId) {
-    index = i;
-    break;
-  }
-}
-```
+Paths in this table are repository-relative. Match each import to the caller’s directory rather than copying it
+unchanged.
 
-### BigInt Comparison
+| Utility                                         | Source                                                          | Example caller import                                                    |
+| ----------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `ONE`, `ZERO`                                   | [graph/common/constants.ts](../../../graph/common/constants.ts) | `graph/airdrops/store/entity-campaign.ts`: `../../common/constants`      |
+| `areStringsEqual()`                             | [graph/common/strings.ts](../../../graph/common/strings.ts)     | `graph/streams/store/lockup/entity-stream.ts`: `../../../common/strings` |
+| `logDebug`, `logError`, `logInfo`, `logWarning` | [graph/common/logger.ts](../../../graph/common/logger.ts)       | `graph/airdrops/store/entity-campaign.ts`: `../../common/logger`         |
+| `getDay()`                                      | [graph/common/helpers.ts](../../../graph/common/helpers.ts)     | `graph/airdrops/store/entity-activity.ts`: `../../common/helpers`        |
+| `Id`                                            | [graph/common/id.ts](../../../graph/common/id.ts)               | `graph/airdrops/store/entity-asset.ts`: `../../common/id`                |
 
-Use methods, not operators:
+`Id` derives chain context itself. Use `Id.asset(assetAddress)`, `Id.action(event)`, and
+`Id.stream(contractAddress, tokenId)`.
 
-```typescript
-import { ONE, ZERO } from "../common/constants";
+## Asset Creation Pattern
 
-// WRONG
-if (amount > 0) { ... }
-if (amount === ZERO) { ... }
-
-// CORRECT
-if (amount.gt(ZERO)) { ... }
-if (amount.equals(ZERO)) { ... }
-if (amount.lt(ONE)) { ... }
-```
-
-### String Comparison
-
-Use `==` or the helper, never `===`:
-
-```typescript
-import { areStringsEqual } from "../common/strings";
-
-// WRONG - strict equality compares object references
-if (name === "linear") { ... }
-
-// CORRECT
-if (name == "linear") { ... }
-if (areStringsEqual(name, "linear")) { ... }
-```
-
-### No Spread Operators
+Reuse the subgraph's `getOrCreateAsset(address)` helper. When editing it, preserve the required-field initialization
+before saving, as in [graph/airdrops/store/entity-asset.ts](../../../graph/airdrops/store/entity-asset.ts) (identical in
+Streams):
 
 ```typescript
-// WRONG
-const newObj = { ...oldObj, newField: value };
-
-// CORRECT
-const newObj = new MyType();
-newObj.field1 = oldObj.field1;
-newObj.field2 = oldObj.field2;
-newObj.newField = value;
-```
-
-### No Nullish Coalescing or Optional Chaining
-
-```typescript
-// WRONG
-const value = obj?.field ?? defaultValue;
-
-// CORRECT
-const value = obj !== null ? obj.field : defaultValue;
-```
-
-### Type Assertions
-
-Use `changetype<T>()`, not `as T`:
-
-```typescript
-// WRONG
-const addr = value as Address;
-
-// CORRECT
-const addr = changetype<Address>(value);
-```
-
-### Dependencies
-
-Only `@graphprotocol/graph-ts` is allowed. No other npm packages.
-
-## Common Patterns
-
-### Error Handling with try\_\*()
-
-Contract calls can revert. Use `try_` methods:
-
-```typescript
-const contract = ERC20.bind(address);
-const decimals = contract.try_decimals();
-
-if (decimals.reverted) {
-  return ZERO;
-}
-return BigInt.fromI32(decimals.value);
-```
-
-### Entity Load/Save
-
-```typescript
+const id = Id.asset(address);
 let asset = Entity.Asset.load(id);
+
 if (asset === null) {
   asset = new Entity.Asset(id);
   asset.address = address;
-  asset.chainId = chainId;
-}
-asset.symbol = symbol;
-asset.save();
-```
-
-### Array Iteration
-
-```typescript
-// Process all items
-for (let i = 0; i < segments.length; i++) {
-  const segment = segments[i];
-  // Process segment
-}
-
-// Find with condition
-let found: Segment | null = null;
-for (let i = 0; i < segments.length; i++) {
-  if (segments[i].amount.gt(ZERO)) {
-    found = segments[i];
-    break;
-  }
+  asset.chainId = readChainId();
+  asset.decimals = fetchAssetDecimals(address);
+  asset.name = fetchAssetName(address);
+  asset.symbol = fetchAssetSymbol(address);
+  asset.save();
 }
 ```
 
-### Function Pointers (Generic Array Operations)
+From `graph/airdrops/store/entity-asset.ts`, import the fetch helpers from `../../common/bindings/fetch`, `readChainId`
+from `../../common/context`, `Id` from `../../common/id`, and `Entity` from `../bindings/schema`.
 
-```typescript
-function convertItems<T>(items: T[], getValue: (item: T) => BigInt): BigInt[] {
-  const result: BigInt[] = [];
-  for (let i = 0; i < items.length; i++) {
-    result.push(getValue(items[i]));
-  }
-  return result;
-}
-```
+## Completion Evidence
 
-## Project Utilities
-
-Import with relative paths from your subgraph directory:
-
-| Utility                       | Import                | Purpose                |
-| ----------------------------- | --------------------- | ---------------------- |
-| `ONE`, `ZERO`                 | `../common/constants` | BigInt constants       |
-| `areStringsEqual()`           | `../common/strings`   | Safe string comparison |
-| `logDebug/Error/Info/Warning` | `../common/logger`    | Prefixed logging       |
-| `getDay()`                    | `../common/helpers`   | Timestamp to day       |
-| `Id` namespace                | `../common/id`        | Entity ID generation   |
-
-### Id Namespace Usage
-
-```typescript
-import { Id } from "../common/id";
-
-const streamId = Id.stream(contractAddress, tokenId);
-const assetId = Id.asset(chainId, assetAddress);
-const actionId = Id.action(event, contractAddress, chainId);
-```
+For a maintained source change, use the affected target’s Graph build as completion evidence, following
+[graph/AGENTS.md](../../../graph/AGENTS.md). For review or documentation work, statically check referenced declarations
+and documentation paths without running generation.
