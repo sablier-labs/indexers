@@ -28,6 +28,10 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
   `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now return `undefined` for Sophon, and the chain is no
   longer part of `envioChains`
 
+### Changed
+
+- Bump `sablier` dependency from `^4.1.0` to `^4.1.1`
+
 ## [7.1.0] - 2026-08-12
 
 ### Added
