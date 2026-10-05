@@ -9,16 +9,12 @@ import type { Indexer } from "../types.js";
 import { getEnvioDeployment } from "./envio-deployments.js";
 import { getProtocolForIndexerKey } from "./mappers.js";
 
-export type EnvioChainConfig = {
+type EnvioChainConfig = {
   /**
    * @see https://github.com/sablier-labs/indexers/discussions/147
    * @see https://github.com/enviodev/hyperindex/issues/599
    */
   hypersync?: string;
-  /**
-   * Fallback RPCs that replace the `sablier` package defaults, which come from viem and can be unusable.
-   */
-  rpcs?: string[];
   /**
    * Chains indexed only through RPC. No HyperSync support.
    * @see https://docs.envio.dev/docs/HyperIndex/rpc-sync
@@ -50,10 +46,7 @@ const SUPPORTED_CHAINS = [
   get(chains.gnosis.id),
   get(chains.hyperevm.id, { hypersync: "hyperliquid" }),
   get(chains.linea.id),
-  // viem's default, eth.merkle.io, rate-limits every request, which crashes the indexer on `getBlock` timeouts.
-  get(chains.mainnet.id, {
-    rpcs: ["https://mainnet.gateway.tenderly.co", "https://rpc.mevblocker.io"],
-  }),
+  get(chains.mainnet.id),
   get(chains.mode.id),
   get(chains.monad.id),
   get(chains.morph.id),
