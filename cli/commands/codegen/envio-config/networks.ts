@@ -2,6 +2,7 @@ import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import { sanitizeContractName } from "../../../../cli/utils/contract-name.js";
 import { indexedContracts } from "../../../../contracts/index.js";
+import type { EnvioChainConfig } from "../../../../src/indexers/envio.js";
 import { envioChains } from "../../../../src/indexers/envio.js";
 import type { Indexer } from "../../../../src/types.js";
 import { CodegenError } from "../errors.js";
@@ -15,7 +16,7 @@ export function createChainsForProtocols(protocol: Indexer.Protocol): EnvioConfi
     const hypersync_config = chain.config?.hypersync
       ? { url: `https://${chain.config.hypersync}.hypersync.xyz` }
       : undefined;
-    const rpc = getRPCs(chain.id, chain.config?.rpcOnly);
+    const rpc = getRPCs(chain.id, chain.config);
 
     // Order matters for readability in the YAML config file.
     chains.push({
@@ -63,16 +64,16 @@ export function addComptrollerToChains(chains: EnvioConfig.Chain[]): EnvioConfig
 // RPC, it does not switch back to HyperSync, which can drain paid account resources.
 function getRPCs(
   chainId: number,
-  rpcOnly: boolean | undefined
+  config: EnvioChainConfig | undefined
 ): EnvioConfig.ChainRPC[] | undefined {
   const RPCs: EnvioConfig.ChainRPC[] = [];
   const chain = sablier.chains.getOrThrow(chainId);
 
-  if (rpcOnly) {
+  if (config?.rpcOnly) {
     throw new Error("RPC-only mode is temporary disabled");
   }
 
-  for (const url of chain.rpc.defaults) {
+  for (const url of config?.rpcs ?? chain.rpc.defaults) {
     RPCs.push({
       for: "fallback",
       initial_block_interval: 2000,

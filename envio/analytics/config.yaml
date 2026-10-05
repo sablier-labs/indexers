@@ -354,7 +354,11 @@ chains:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://eth.merkle.io"
+        url: "https://mainnet.gateway.tenderly.co"
+      - for: "fallback"
+        initial_block_interval: 2000
+        interval_ceiling: 2000
+        url: "https://rpc.mevblocker.io"
     contracts:
       - address: "0x1a272b596b10f02931480bc7a3617db4a8d154e3"
         name: "SablierV2MerkleStreamerFactory_v1_1"
