@@ -57,6 +57,16 @@ exception above.
 behavior, and `dependencies` or `peerDependencies` version changes. Do not add GraphQL schema, test, CI, or development
 tooling changes.
 
+## Releases
+
+npm publishing runs only in `.github/workflows/release.yml` through npm trusted publishing in staged mode. Never run
+`npm publish`, `npm stage approve`, or `npm stage reject` locally. To ship an update, bump the version and changelog,
+commit, create the annotated tag `vX.Y.Z` (prerelease: `vX.Y.Z-beta.N`), push the commit, then push the tag with
+`git push origin <tag>`. CI stages the version, and it stays unpublished until a maintainer approves it with 2FA on
+npmjs.com (Staged Packages) or `npm stage approve <stage-id>`. Prereleases use their identifier as the dist-tag.
+One-time maintainer setup:
+`npm trust github @sablier/indexers --repo sablier-labs/indexers --file release.yml --allow-stage-publish -y`
+
 ## Conventions
 
 Do not use TypeScript path aliases: they break Envio compatibility. Treat `graph/` as AssemblyScript and follow

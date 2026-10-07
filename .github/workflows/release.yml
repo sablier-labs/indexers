@@ -1,13 +1,16 @@
 # Creates GitHub releases automatically when version tags (e.g. v1.0.0) are pushed.
+# Also, stages the version on npm. Prerelease tags (e.g. v1.0.0-beta.1) only stage.
 name: Release
 
 on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-*"
 
 jobs:
   release:
+    if: ${{ !contains(github.ref_name, '-') }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -17,3 +20,66 @@ jobs:
         uses: docker://antonyurchenko/git-release:v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Stages the version on npm through trusted publishing (OIDC). It stays unpublished until a maintainer approves it.
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      # `npm stage` needs npm >= 11.15.0
+      - name: Install npm
+        run: npm install --global npm@11.20.0
+
+      # Installs the pnpm version from the packageManager field
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Just
+        uses: extractions/setup-just@v4
+
+      # The devkit justfiles require the na, ni, and nlx binaries
+      - name: Install Ni
+        run: npm install --global @antfu/ni@30.6.0
+
+      - name: Verify the tag and derive the dist-tag
+        id: release
+        env:
+          TAG: ${{ github.ref_name }}
+        run: | #shell
+          VERSION=$(jq -r '.version' package.json)
+          if [ "$TAG" != "v$VERSION" ]; then
+            echo "::error::Tag $TAG does not match package.json version $VERSION"
+            exit 1
+          fi
+
+          # A prerelease uses its identifier as the dist-tag, e.g. 7.2.0-beta.1 -> beta. Stable versions omit --tag,
+          # so npm refuses to move `latest` back to an older version.
+          DIST_TAG=""
+          if [[ "$VERSION" == *-* ]]; then
+            DIST_TAG="${VERSION#*-}"
+            DIST_TAG="${DIST_TAG%%.*}"
+            if ! [[ "$DIST_TAG" =~ ^[a-z][a-z-]*$ ]] || [ "$DIST_TAG" = "latest" ]; then
+              echo "::error::Unsupported prerelease identifier in version $VERSION"
+              exit 1
+            fi
+          fi
+          echo "dist-tag=$DIST_TAG" >> "$GITHUB_OUTPUT"
+
+      # The prepack script installs the dependencies and builds the package
+      - name: Stage the package on npm
+        env:
+          DIST_TAG: ${{ steps.release.outputs.dist-tag }}
+        run: npm stage publish ${DIST_TAG:+--tag "$DIST_TAG"}
