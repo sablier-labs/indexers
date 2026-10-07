@@ -1,7 +1,7 @@
 # NOTE: this file is not meant to be run directly.
 # Go to each indexer's directory and run `just --list` to see the available recipes.
 mod root "../justfile"
-import "../node_modules/@sablier/devkit/just/settings.just"
+import "../node_modules/@prb/devkit/just/settings.just"
 
 # Load env vars from the repo root
 set dotenv-path := "{{ source_dir() }}/../.env"

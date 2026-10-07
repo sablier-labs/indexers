@@ -35,7 +35,7 @@
     "sablier": "^4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.10",
+    "@biomejs/biome": "^2.5.11",
     "@effect/cli": "^0.75.2",
     "@effect/platform": "^0.96.1",
     "@effect/platform-node": "^0.107.0",
@@ -45,7 +45,7 @@
     "@graphql-tools/merge": "^9.1.7",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@pinax/graph-networks-registry": "^0.7.1",
-    "@sablier/devkit": "^1.15.3",
+    "@prb/devkit": "^1.0.4",
     "@sablier/price-data": "github:sablier-labs/price-data#main",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash-es": "^4.17.12",

@@ -1,4 +1,4 @@
-import "../node_modules/@sablier/devkit/just/settings.just"
+import "../node_modules/@prb/devkit/just/settings.just"
 
 # Pin recipes to the repo root; see recipes/codegen.just for why `no-cd` is wrong here.
 set working-directory := ".."

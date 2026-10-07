@@ -1,4 +1,4 @@
-import "../node_modules/@sablier/devkit/just/settings.just"
+import "../node_modules/@prb/devkit/just/settings.just"
 
 # Pin recipes to the repo root. These bodies use root-relative paths and shell out to
 # `just <module>::<recipe>`, which resolves modules from the working directory: `no-cd`

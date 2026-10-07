@@ -14,7 +14,7 @@ jobs:
       GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
     runs-on: ubuntu-latest
     steps:
-      - uses: sablier-labs/devkit/actions/setup@v1
+      - uses: PaulRBerg/devkit/actions/setup@v1
 
       - name: Ping Graph endpoints
         continue-on-error: true

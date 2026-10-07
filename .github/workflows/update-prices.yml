@@ -17,7 +17,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           private-key: ${{ secrets.UPDATER_APP_PRIVATE_KEY }}
 
-      - uses: sablier-labs/devkit/actions/setup@v1
+      - uses: PaulRBerg/devkit/actions/setup@v1
         with:
           save-cache: true
           token: ${{ steps.app-token.outputs.token }}

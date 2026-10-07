@@ -14,6 +14,7 @@ minimumReleaseAgeExclude:
   - "envio-*"
   - sablier
   - "@sablier/*"
+  - "@prb/devkit"
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
