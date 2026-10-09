@@ -12,7 +12,7 @@ jobs:
   revive:
     env:
       GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: PaulRBerg/devkit/actions/setup@v1
 

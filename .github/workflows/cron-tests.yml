@@ -11,7 +11,7 @@ jobs:
       CI_LOG_MODE: quiet
       CI_LOG_TAIL_LINES: 200
       GRAPH_QUERY_KEY: ${{ secrets.GRAPH_QUERY_KEY }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Set up devkit
         uses: PaulRBerg/devkit/actions/setup@v1

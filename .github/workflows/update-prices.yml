@@ -7,7 +7,7 @@ on:
 
 jobs:
   update-prices:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Get app installation token
         id: app-token

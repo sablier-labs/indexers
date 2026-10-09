@@ -16,7 +16,7 @@ jobs:
       CI_LOG_TAIL_LINES: 200
       ENVIO_ENVIRONMENT: development
       ENVIO_ROUTEMESH_API_KEY: ${{ secrets.ENVIO_ROUTEMESH_API_KEY }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Set up devkit
         uses: PaulRBerg/devkit/actions/setup@v1
