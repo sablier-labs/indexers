@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Common Changelog](https://common-changelog.org/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+> [!NOTE]
+>
+> Starting with v7.2.0, removing a chain is not considered a breaking change, since networks can shut down outside our
+> control.
+
+[7.2.0]: https://github.com/sablier-labs/indexers/compare/v7.1.0...v7.2.0
 [7.1.0]: https://github.com/sablier-labs/indexers/compare/v7.0.0...v7.1.0
 [7.0.0]: https://github.com/sablier-labs/indexers/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v6.0.0
@@ -20,16 +26,16 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 [4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
 
-## Unreleased
+## [7.2.0] - 2026-10-19
 
 ### Removed
 
-- **Breaking:** Remove Sophon (chain ID `50104`) support from the Envio `airdrops` and `streams` indexers.
-  `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now return `undefined` for Sophon, and the chain is no
-  longer part of `envioChains`
-- **Breaking:** Remove Superseed (chain ID `5330`) support from the Envio `airdrops` and `streams` indexers, following
-  the network's sunset and its removal from `sablier`. `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now
-  return `undefined` for Superseed, and the chain is no longer part of `envioChains`
+- Remove Sophon (chain ID `50104`) support from the Envio `airdrops` and `streams` indexers. `getIndexerEnvio` and
+  `getIndexer` with `vendor: "envio"` now return `undefined` for Sophon, and the chain is no longer part of
+  `envioChains`
+- Remove Superseed (chain ID `5330`) support from the Envio `airdrops` and `streams` indexers, following the network's
+  sunset and its removal from `sablier`. `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now return
+  `undefined` for Superseed, and the chain is no longer part of `envioChains`
 
 ### Changed
 

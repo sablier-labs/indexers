@@ -57,6 +57,9 @@ exception above.
 behavior, and `dependencies` or `peerDependencies` version changes. Do not add GraphQL schema, test, CI, or development
 tooling changes.
 
+Removing a chain is not a breaking change: networks shut down outside our control. Ship it in a minor release, list it
+under `### Removed` without a **Breaking** marker, and do not use `!` or `BREAKING CHANGE:` in its commit.
+
 ## Releases
 
 npm publishing runs only in `.github/workflows/release.yml` through npm trusted publishing in staged mode. Never run
