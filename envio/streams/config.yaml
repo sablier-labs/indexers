@@ -735,44 +735,6 @@ chains:
       - address: "0x548129a58bc230549df7f9e33f27e77f6779ff0f"
         name: "SablierLockup_v4_0"
         start_block: 10420411
-  - id: 5330
-    start_block: 2896160
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://mainnet.superseed.xyz"
-    contracts:
-      - address: "0x4f5f9b3fb57bba43aaf90e3f71d8f8f384e88e20"
-        name: "SablierFlow_v1_0"
-        start_block: 3610744
-      - address: "0x40e75bb2f2aa3507d3a332872829c71be19ef623"
-        name: "SablierFlow_v1_1"
-        start_block: 5911913
-      - address: "0xe91bbae6c7d67b7c5055de1c9635c17af056211b"
-        name: "SablierFlow_v2_0"
-        start_block: 16718519
-      - address: "0xa80de83ea03335396161bb267e1250fb5cc99cdf"
-        name: "SablierFlow_v3_0"
-        start_block: 23785112
-      - address: "0x1fa500262b352d821b4e1c933a20f2242b45383d"
-        name: "SablierV2LockupDynamic_v1_2"
-        start_block: 2896160
-      - address: "0x251fc799344151026d19b959b8f3667416d56b88"
-        name: "SablierV2LockupLinear_v1_2"
-        start_block: 2896160
-      - address: "0x91211e1760280d3f7df2182ce4d1fd6a1735c202"
-        name: "SablierV2LockupTranched_v1_2"
-        start_block: 2896160
-      - address: "0xf46d1f8c85f215a515f6d738ab3e3ba081f6c083"
-        name: "SablierLockup_v2_0"
-        start_block: 5908538
-      - address: "0x2f1c6ad6306bd0200d55b59ad54d4b44067d00e6"
-        name: "SablierLockup_v3_0"
-        start_block: 16675054
-      - address: "0x3ac18f736d0e1b9bd9259cd6c8a43539c86c16fd"
-        name: "SablierLockup_v4_0"
-        start_block: 23786199
   - id: 8453
     start_block: 1750275
     rpc:

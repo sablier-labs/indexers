@@ -27,10 +27,13 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 - **Breaking:** Remove Sophon (chain ID `50104`) support from the Envio `airdrops` and `streams` indexers.
   `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now return `undefined` for Sophon, and the chain is no
   longer part of `envioChains`
+- **Breaking:** Remove Superseed (chain ID `5330`) support from the Envio `airdrops` and `streams` indexers, following
+  the network's sunset and its removal from `sablier`. `getIndexerEnvio` and `getIndexer` with `vendor: "envio"` now
+  return `undefined` for Superseed, and the chain is no longer part of `envioChains`
 
 ### Changed
 
-- Bump `sablier` dependency from `^4.1.0` to `^4.1.1`
+- Bump `sablier` dependency from `^4.1.0` to `^4.2.0`
 
 ## [7.1.0] - 2026-08-12
 

@@ -990,10 +990,6 @@ id	output
 [2818,"0xc7d67a9cbb121b3b0b9c053dd9f469523243379a"]	{"decimals":6,"name":"Tether USD","symbol":"USDT"}
 [2818,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [4663,"0x0bd7d308f8e1639fab988df18a8011f41eacad73"]	{"decimals":18,"name":"WETH","symbol":"WETH"}
-[5330,"0x4200000000000000000000000000000000000006"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
-[5330,"0x6d64fc0bb0291c6a4f416ec1c379815c06967eaf"]	{"decimals":18,"name":"MockERC20","symbol":"MOCK"}
-[5330,"0x6ea1ffcbd7f5d210db07d9e773862b0512fa219b"]	{"decimals":18,"name":"Superseed","symbol":"SUPR"}
-[5330,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [8453,"0x00000000000007c8612ba63df8ddefd9e6077c97"]	{"decimals":18,"name":"NANI","symbol":"⌘"}
 [8453,"0x000000000000a59351f61b598e8da953b9e041ec"]	{"decimals":18,"name":"Gun Game Token","symbol":"GG"}
 [8453,"0x000096630066820566162c94874a776532705231"]	{"decimals":18,"name":"IDRISS","symbol":"IDRISS"}

@@ -56,7 +56,6 @@ const SUPPORTED_CHAINS = [
   get(chains.sonic.id),
   get(chains.scroll.id),
   get(chains.sei.id, { hypersync: "sei" }),
-  get(chains.superseed.id),
   get(chains.unichain.id),
   get(chains.xdc.id),
   get(chains.zksync.id),

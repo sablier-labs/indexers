@@ -184,8 +184,6 @@ id	output
 [2818,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [2818,"0xf983a617da60e88c112d52f00f9fab17851d2fef"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [4663,"0x0bd7d308f8e1639fab988df18a8011f41eacad73"]	{"decimals":18,"name":"WETH","symbol":"WETH"}
-[5330,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
-[5330,"0xf983a617da60e88c112d52f00f9fab17851d2fef"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [5845,"0x0000000000000000000000000000000000000802"]	{"name": "Tangle Network Token", "symbol": "TNT", "decimals": 18}
 [8453,"0x0578d8a44db98b23bf096a382e016e29a5ce0ffe"]	{"decimals":18,"name":"higher","symbol":"HIGHER"}
 [8453,"0x07d15798a67253d76cea61f0ea6f57aedc59dffb"]	{"decimals":18,"name":"Based Coin","symbol":"BASED"}
