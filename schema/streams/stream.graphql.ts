@@ -12,20 +12,20 @@ import { streamDefs as commonStreamDefs } from "../common/stream.graphql.js";
  * - `StreamCategory` → `FlowStreamCategory`
  */
 const flowCommonStreamDefs = commonStreamDefs
-  .replace(/: \[Action!\]!/g, ": [FlowAction!]!")
-  .replace(/: Action/g, ": FlowAction")
-  .replace(/: Batch!/g, ": FlowBatch!")
-  .replace(/: StreamCategory!/g, ": FlowStreamCategory!");
+  .replace(/: \[Action!\]!/gu, ": [FlowAction!]!")
+  .replace(/: Action/gu, ": FlowAction")
+  .replace(/: Batch!/gu, ": FlowBatch!")
+  .replace(/: StreamCategory!/gu, ": FlowStreamCategory!");
 
 /* -------------------------------------------------------------------------- */
 /*                            LOCKUP STREAM DEFS                              */
 /* -------------------------------------------------------------------------- */
 
 const lockupCommonStreamDefs = commonStreamDefs
-  .replace(/: \[Action!\]!/g, ": [LockupAction!]!")
-  .replace(/: Action/g, ": LockupAction")
-  .replace(/: Batch!/g, ": LockupBatch!")
-  .replace(/: StreamCategory!/g, ": LockupStreamCategory!");
+  .replace(/: \[Action!\]!/gu, ": [LockupAction!]!")
+  .replace(/: Action/gu, ": LockupAction")
+  .replace(/: Batch!/gu, ": LockupBatch!")
+  .replace(/: StreamCategory!/gu, ": LockupStreamCategory!");
 
 /* -------------------------------------------------------------------------- */
 /*                              MERGED EXPORT                                 */

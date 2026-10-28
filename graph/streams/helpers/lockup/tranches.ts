@@ -45,7 +45,7 @@ function convertTranches<T>(
 ): Tranche[] {
   const result: Tranche[] = [];
 
-  for (let i = 0; i < eventTranches.length; i++) {
+  for (let i = 0; i < eventTranches.length; i += 1) {
     const eventTranche = eventTranches[i];
 
     const amount = getAmount(eventTranche);

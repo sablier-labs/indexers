@@ -279,7 +279,7 @@ function addSegments(stream: Entity.LockupStream, segments: Segment[]): Entity.L
   // The start time of the stream is the first segment's start time
   let previous = new Segment(ZERO, ZERO, stream.startTime);
 
-  for (let i = 0; i < segments.length; i++) {
+  for (let i = 0; i < segments.length; i += 1) {
     const current = segments[i];
 
     const id = Id.segment(stream.id, i);
@@ -323,7 +323,7 @@ function addTranches(stream: Entity.LockupStream, tranches: Tranche[]): void {
   // The start time of the stream is the first tranche's start time
   let previous = new Tranche(ZERO, stream.startTime);
 
-  for (let i = 0; i < tranches.length; i++) {
+  for (let i = 0; i < tranches.length; i += 1) {
     const current = tranches[i];
 
     const id = Id.tranche(stream.id, i);

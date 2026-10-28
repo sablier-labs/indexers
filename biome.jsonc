@@ -69,6 +69,8 @@
           "style": {
             "noNegationElse": "off",
             "noSubstr": "off",
+            // The Graph's AssemblyScript 0.19 parser does not support destructuring.
+            "useDestructuring": "off",
             "useFilenamingConvention": "off",
             "useForOf": "off",
             "useImportType": "off"
@@ -76,6 +78,20 @@
           "suspicious": {
             "noDoubleEquals": "off",
             "noShadowRestrictedNames": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "cli/commands/refresh-caches/run.ts",
+        "tests/vendors/equivalence/create-test.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": {
+            // Queue workers and cursor pagination require each prior result before advancing.
+            "noAwaitInLoops": "off"
           }
         }
       }

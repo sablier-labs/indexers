@@ -44,7 +44,7 @@ const CLAIM_EVENTS: ClaimEventsConfig = {
   },
 };
 
-const names = contracts.names;
+const { names } = contracts;
 
 const DEFAULT_INDEXERS: Indexer.Target[] = ["airdrops", "analytics"];
 

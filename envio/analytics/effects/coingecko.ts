@@ -271,7 +271,7 @@ export async function fetchCoinPrice(
     return primary;
   }
 
-  for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
+  for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays += 1) {
     const candidate = shiftDateUtc(date, -offsetDays);
     const price = await fetchHistoricalCoinPrice(logger, candidate, currency);
     if (price !== NO_PRICE) {

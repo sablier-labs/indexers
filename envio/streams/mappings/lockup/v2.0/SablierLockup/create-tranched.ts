@@ -44,10 +44,10 @@ event CreateLockupTranchedStream(
 ──────────────────────────────────────────────────────────────
 */
 Contract.Lockup_v2_0.CreateLockupTranchedStream.handler(async ({ context, event }) => {
-  const commonParams = event.params.commonParams;
+  const { commonParams } = event.params;
   const asset = commonParams.token;
-  const recipient = commonParams.recipient;
-  const sender = commonParams.sender;
+  const { recipient } = commonParams;
+  const { sender } = commonParams;
   const result = await preloadCreateEntities({
     context,
     event,

@@ -31,7 +31,7 @@ export type QuarterWindow = {
 //                                  CONSTANTS                                 //
 // -------------------------------------------------------------------------- //
 
-const QUARTER_PATTERN = /^([0-9]{4})-q([1-4])$/i;
+const QUARTER_PATTERN = /^(?<year>[0-9]{4})-q(?<quarter>[1-4])$/iu;
 
 export const DEFAULT_QUARTER_NAME = getMostRecentQuarterName(dayjs.utc());
 

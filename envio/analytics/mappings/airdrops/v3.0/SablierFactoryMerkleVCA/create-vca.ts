@@ -44,7 +44,7 @@ struct ConstructorParams {
 
 Contract.Airdrops.Factory.FactoryMerkleVCA_v3_0.CreateMerkleVCA.handler(
   async ({ context, event }) => {
-    const initialAdmin = event.params.campaignParams.initialAdmin;
+    const { initialAdmin } = event.params.campaignParams;
     await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
   }
 );

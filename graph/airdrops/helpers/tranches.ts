@@ -45,7 +45,7 @@ function convertTranches<T>(
 ): TrancheWithPercentage[] {
   const result: TrancheWithPercentage[] = [];
 
-  for (let i = 0; i < tranches.length; i++) {
+  for (let i = 0; i < tranches.length; i += 1) {
     const tranche = tranches[i];
 
     const unlockPercentage = getUnlockPercentage(tranche);

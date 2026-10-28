@@ -50,6 +50,6 @@ Contract.Airdrops.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ con
   if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
     return;
   }
-  const initialAdmin = event.params.baseParams.initialAdmin;
+  const { initialAdmin } = event.params.baseParams;
   await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
 });

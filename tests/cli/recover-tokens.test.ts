@@ -8,12 +8,14 @@ import {
 
 const QUERY_ASSETS_DATE = "2026-03-06";
 const STREAMS_MAINNET_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/mainnet\\.json$`
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/mainnet\\.json$`,
+  "u"
 );
 const STREAMS_OPTIMISM_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/optimism\\.json$`
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/optimism\\.json$`,
+  "u"
 );
-const INVALID_ASSET_FILE_NUMERIC_FIELDS_REGEX = /Invalid asset decimals|Invalid chainId/;
+const INVALID_ASSET_FILE_NUMERIC_FIELDS_REGEX = /Invalid asset decimals|Invalid chainId/u;
 
 describe("recover-tokens helpers", () => {
   describe("getRecoverTokensContractName", () => {

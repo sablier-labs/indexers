@@ -7,7 +7,7 @@ export function create(
   event: Envio.Event,
   campaignId: string
 ): Entity<"Activity"> {
-  const timestamp = event.block.timestamp;
+  const { timestamp } = event.block;
   const day = getDay(timestamp);
 
   const activity: Entity<"Activity"> = {

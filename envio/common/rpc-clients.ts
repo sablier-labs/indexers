@@ -20,8 +20,8 @@ function createClient(chainId: number): PublicClient {
   const chain = (() => {
     try {
       return sablier.chains.getOrThrow(chainId);
-    } catch {
-      throw new CriticalError.ClientNotFound(chainId);
+    } catch (cause) {
+      throw Object.assign(new CriticalError.ClientNotFound(chainId), { cause });
     }
   })();
 

@@ -7,26 +7,19 @@ See https://thegraph.com/docs/en/subgraphs/developing/creating/ql-schema/#defini
 """
 type Batch @entity(immutable: true) {
   """
-  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
+  The sender address that created this batch.
   """
-  id: String!
+  batcher: Batcher
 
   # -------------------------------- Transaction ------------------------------- #
   """
   Hash of the Ethereum transaction that created this batch.
   """
   hash: Bytes
-
   """
-  Timestamp of the transaction that created this batch.
+  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
   """
-  timestamp: BigInt
-
-  # ------------------------------- Batch Fields ------------------------------- #
-  """
-  The sender address that created this batch.
-  """
-  batcher: Batcher
+  id: String!
 
   """
   Index of the batch based on the `batchCounter` in the `Batcher` entity.
@@ -42,17 +35,17 @@ type Batch @entity(immutable: true) {
   Streams part of this batch.
   """
   streams: [Stream!]! @derivedFrom(field: "batch")
+
+  """
+  Timestamp of the transaction that created this batch.
+  """
+  timestamp: BigInt
 }
 
 """
 Sender address that created batches.
 """
 type Batcher @entity(immutable: false) {
-  """
-  Unique identifier: `batcher-{chainId}-{sender}`
-  """
-  id: String!
-
   """
   Total number of batches started by this sender.
   """
@@ -62,4 +55,8 @@ type Batcher @entity(immutable: false) {
   Batches started by this sender.
   """
   batches: [Batch!]! @derivedFrom(field: "batcher")
+  """
+  Unique identifier: `batcher-{chainId}-{sender}`
+  """
+  id: String!
 }

@@ -14,7 +14,7 @@ export function create(
   const { asset, batch, batcher, watcher } = entities;
 
   const counter = watcher.flowStreamCounter;
-  const tokenId = params.tokenId;
+  const { tokenId } = params;
   const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
   const flow = getContract("flow", event.chainId, event.srcAddress);
 

@@ -6,7 +6,7 @@ import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchUniqueTxs } from "../clients/envio
 import { formatTimestamp, toHasuraTimestamp } from "../utils/date-range.js";
 import { getQuarterWindow } from "../utils/quarter.js";
 
-const THOUSANDS_PATTERN = /\B(?=(\d{3})+(?!\d))/g;
+const THOUSANDS_PATTERN = /\B(?=(?:\d{3})+(?!\d))/gu;
 
 function formatCount(value: bigint): string {
   const raw = value.toString();

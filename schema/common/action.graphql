@@ -3,65 +3,6 @@ A generic entity for tracking protocol actions. There may be multiple actions fo
 """
 type Action @entity(immutable: true) {
   """
-  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
-  """
-  id: String!
-
-  """
-  Unique global id as tracked by the `Watcher` entity.
-  """
-  subgraphId: BigInt!
-
-  # -------------------------------- Transaction ------------------------------- #
-  """
-  Block number of the Ethereum transaction.
-  """
-  block: BigInt!
-
-  """
-  The chain ID where the action was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-
-  """
-  The tx.origin of the Ethereum transaction.
-  """
-  from: Bytes!
-
-  """
-  Hash of the Ethereum transaction.
-  """
-  hash: Bytes!
-
-  """
-  Unix timestamp of the Ethereum transaction.
-  """
-  timestamp: BigInt!
-
-  # --------------------------------- Metadata --------------------------------- #
-  """
-  Category of action, e.g., Deposit.
-  """
-  category: ActionCategory!
-
-  """
-  Contract through which the action was triggered.
-  """
-  contract: Bytes!
-
-  """
-  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
-  See https://docs.sablier.com/concepts/fees
-  """
-  fee: BigInt
-
-  """
-  Stream linked to this action, if any.
-  """
-  stream: Stream
-
-  # --------------------------------- Addresses -------------------------------- #
-  """
   Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
   """
   addressA: Bytes
@@ -81,4 +22,61 @@ type Action @entity(immutable: true) {
   2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
   """
   amountB: BigInt
+
+  # -------------------------------- Transaction ------------------------------- #
+  """
+  Block number of the Ethereum transaction.
+  """
+  block: BigInt!
+
+  # --------------------------------- Metadata --------------------------------- #
+  """
+  Category of action, e.g., Deposit.
+  """
+  category: ActionCategory!
+
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+
+  """
+  Contract through which the action was triggered.
+  """
+  contract: Bytes!
+
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+
+  """
+  The tx.origin of the Ethereum transaction.
+  """
+  from: Bytes!
+
+  """
+  Hash of the Ethereum transaction.
+  """
+  hash: Bytes!
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+
+  """
+  Stream linked to this action, if any.
+  """
+  stream: Stream
+
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+
+  """
+  Unix timestamp of the Ethereum transaction.
+  """
+  timestamp: BigInt!
 }

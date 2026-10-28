@@ -39,7 +39,7 @@ struct ConstructorParams {
 */
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.contractRegister(({ context, event }) => {
-  const asset = event.params.baseParams.asset;
+  const { asset } = event.params.baseParams;
   if (isDeprecatedFactory({ asset, event, protocol: "airdrops" })) {
     return;
   }
@@ -53,7 +53,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.contractRegister(({ con
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.handler(async ({ context, event }) => {
   const admin = event.params.baseParams.initialAdmin;
-  const asset = event.params.baseParams.asset;
+  const { asset } = event.params.baseParams;
   const result = await preloadCreateEntities({
     context,
     event,
@@ -64,7 +64,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.handler(async ({ contex
   }
   const { entities } = result;
 
-  const baseParams = event.params.baseParams;
+  const { baseParams } = event.params;
   const params: Params.CreateCampaignLT = {
     admin,
     aggregateAmount: event.params.aggregateAmount,

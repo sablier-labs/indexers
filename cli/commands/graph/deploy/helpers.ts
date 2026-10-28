@@ -1,7 +1,7 @@
 import stripAnsi from "strip-ansi";
 
-const LEADING_FAILURE_MARKER_PATTERN = /^[^A-Za-z0-9]+/;
-const VERSION_LABEL_EXISTS_PATTERN = /version label already exists/i;
+const LEADING_FAILURE_MARKER_PATTERN = /^[^A-Za-z0-9]+/u;
+const VERSION_LABEL_EXISTS_PATTERN = /version label already exists/iu;
 
 function getDeployOutput(stdout: string, stderr: string): string {
   return stripAnsi(`${stderr}\n${stdout}`);

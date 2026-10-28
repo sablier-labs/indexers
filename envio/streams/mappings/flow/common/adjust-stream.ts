@@ -44,7 +44,7 @@ const handler: Handler = async ({ context, event }) => {
   /* --------------------------------- STREAM --------------------------------- */
   const now = BigInt(event.block.timestamp);
   // If the stream has not started yet, the snapshot amount is not updated.
-  let snapshotAmount = stream.snapshotAmount;
+  let { snapshotAmount } = stream;
   if (now > stream.startTime) {
     const actualAdjustmentTime =
       stream.lastAdjustmentTimestamp > stream.startTime
@@ -56,7 +56,7 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   // The depletion time is recalculated only if the current depletion time is in the future.
-  let depletionTime = stream.depletionTime;
+  let { depletionTime } = stream;
   if (stream.depletionTime > now) {
     const withdrawnAmount = scale(stream.withdrawnAmount, stream.assetDecimalsValue);
     const notWithdrawn = snapshotAmount - withdrawnAmount;

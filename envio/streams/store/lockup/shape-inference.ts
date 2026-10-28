@@ -52,7 +52,7 @@ export function normalizeEventShape(shape: string): LockupShape | undefined {
     return undefined;
   }
   // Normalize: lowercase and remove spaces for map lookup
-  const key = shape.toLowerCase().replace(/ /g, "");
+  const key = shape.toLowerCase().replace(/ /gu, "");
   if (SHAPE_NORMALIZATION_MAP[key]) {
     return SHAPE_NORMALIZATION_MAP[key];
   }
@@ -100,7 +100,7 @@ export function inferDynamicShape(segments: Segment[], startTime: bigint): Locku
     if (seg.amount > 0n) {
       nonZeroCount += 1;
       if (nonZeroCount === 1) {
-        exponent = seg.exponent;
+        ({ exponent } = seg);
       }
     }
   }
@@ -178,7 +178,7 @@ export function inferDynamicShape(segments: Segment[], startTime: bigint): Locku
  * - Odd indices: amount > 0 with duration ≤ 1s
  */
 function isAlternatingStepPattern(segments: Segment[], startTime: bigint): boolean {
-  for (let i = 0; i < segments.length; i++) {
+  for (let i = 0; i < segments.length; i += 1) {
     if (i % 2 === 0) {
       // Even index: should have zero amount
       if (segments[i].amount !== 0n) {
@@ -253,7 +253,7 @@ export function inferTranchedShape(
   let allDurationsEqual = true;
 
   // Check if all durations between consecutive tranches are equal
-  for (let i = 1; i < count; i++) {
+  for (let i = 1; i < count; i += 1) {
     const duration = tranches[i].timestamp - tranches[i - 1].timestamp;
     if (duration !== firstDuration) {
       allDurationsEqual = false;

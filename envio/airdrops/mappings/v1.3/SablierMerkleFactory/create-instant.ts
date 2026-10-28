@@ -36,7 +36,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.contractRegister(({ even
 });
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleInstant.handler(async ({ context, event }) => {
-  const baseParams = event.params.baseParams;
+  const { baseParams } = event.params;
   const admin = event.params.baseParams.initialAdmin;
   const asset = event.params.baseParams.token;
   const result = await preloadCreateEntities({ context, event, params: { admin, asset } });

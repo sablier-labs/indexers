@@ -46,8 +46,8 @@ describe("CoinGecko Effects", () => {
           "",
           "Chains by currency:",
           ...Array.from(chainsByCurrency.entries()).map(
-            ([currency, chains]) =>
-              `  ${currency}: ${chains.join(", ")} ${supportedCurrencies.includes(currency) ? "✅" : "❌"}`
+            ([currencyName, currencyChains]) =>
+              `  ${currencyName}: ${currencyChains.join(", ")} ${supportedCurrencies.includes(currencyName) ? "✅" : "❌"}`
           ),
         ].join("\n");
 

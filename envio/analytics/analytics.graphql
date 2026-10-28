@@ -3,11 +3,6 @@ Daily fees aggregated by currency across all chains.
 """
 type CryptoFeesDaily @entity {
   """
-  Unique identifier: YYYY-MM-DD_currency
-  """
-  id: ID!
-
-  """
   Total fee amount for this day in BigInt format (wei-equivalent, e.g., 2e16)
   """
   amount: BigInt!
@@ -36,101 +31,15 @@ type CryptoFeesDaily @entity {
   Date as Unix timestamp for easier querying
   """
   dateTimestamp: Timestamp!
-
-  """
-  Transactions in this currency for this day
-  """
-  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyCryptoFees")
-}
-
-"""
-Aggregated fees across all chains and all currencies for a particular day.
-"""
-type FiatFeesDaily @entity {
-  """
-  Unique identifier: YYYY-MM-DD
-  """
-  id: ID!
-
-  """
-  GBP value of the fee amount in BigInt format (cents/pence, e.g., 12550 for £125.50)
-  """
-  amountGBP: BigInt!
-
-  """
-  GBP value of the fee amount in human-readable format (e.g., "125.50")
-  """
-  amountDisplayGBP: String!
-
-  """
-  USD value of the fee amount in BigInt format (cents, e.g., 15000 for $150.00)
-  """
-  amountUSD: BigInt!
-
-  """
-  USD value of the fee amount in human-readable format (e.g., "150.00")
-  """
-  amountDisplayUSD: String!
-
-  """
-  Fee breakdown by currency for this day
-  """
-  currencyBreakdown: [CryptoFeesDaily!]! @derivedFrom(field: "dailyFiatFees")
-
-  """
-  Date in YYYY-MM-DD format
-  """
-  date: String!
-
-  """
-  Date as Unix timestamp for easier querying
-  """
-  dateTimestamp: Timestamp!
-
-  """
-  Transactions
-  """
-  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyFiatFees")
-}
-
-"""
-Aggregated fee collections by currency across all chains and protocols.
-"""
-type FeeCollectionDaily @entity {
   """
   Unique identifier: YYYY-MM-DD_currency
   """
   id: ID!
 
   """
-  Total fee amount collected for this day in BigInt format (wei-equivalent, e.g., 2e16)
+  Transactions in this currency for this day
   """
-  amount: BigInt!
-
-  """
-  Total fee amount collected for this day in human-readable format (e.g., "0.02")
-  """
-  amountDisplay: String!
-
-  """
-  Native currency symbol (ETH, POL, BNB, etc.)
-  """
-  currency: String!
-
-  """
-  Date in YYYY-MM-DD format
-  """
-  date: String!
-
-  """
-  Date as Unix timestamp for easier querying
-  """
-  dateTimestamp: Timestamp!
-
-  """
-  Collection transactions for this day
-  """
-  transactions: [FeeCollection!]! @derivedFrom(field: "daily")
+  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyCryptoFees")
 }
 
 """
@@ -154,21 +63,6 @@ ever written and then gets reset, the row is deleted.
 """
 type CustomFee @entity {
   """
-  Unique identifier: chainId_userAddress (lowercase)
-  """
-  id: ID!
-
-  """
-  Chain ID where the custom fee applies
-  """
-  chainId: BigInt!
-
-  """
-  User's Ethereum address (lowercase)
-  """
-  user: String!
-
-  """
   Comptroller custom min-fee for Airdrops (8-decimal USD, 1e8 = $1).
   Null = never set. `0` = explicit override to zero (emitted by the Comptroller via
   `UpdateCustomFeeUSD`). Applies to Airdrops v2.0+.
@@ -176,11 +70,20 @@ type CustomFee @entity {
   airdropsFeeUSD: BigInt
 
   """
+  Chain ID where the custom fee applies
+  """
+  chainId: BigInt!
+
+  """
   Comptroller custom min-fee for Flow (8-decimal USD, 1e8 = $1).
   Null = never set. `0` = explicit override to zero (emitted by the Comptroller via
   `UpdateCustomFeeUSD`). Applies to Flow v2.0+.
   """
   flowFeeUSD: BigInt
+  """
+  Unique identifier: chainId_userAddress (lowercase)
+  """
+  id: ID!
 
   """
   Comptroller custom min-fee for Lockup (8-decimal USD, 1e8 = $1).
@@ -194,6 +97,11 @@ type CustomFee @entity {
   Null = never set or reset. Applies to Airdrops v1.3 only.
   """
   merkleFactoryV13Fee: BigInt
+
+  """
+  User's Ethereum address (lowercase)
+  """
+  user: String!
 }
 
 """
@@ -209,11 +117,6 @@ emits `TransferFees` when fees are transferred to the fee recipient. This includ
 three protocols.
 """
 type FeeCollection @entity {
-  """
-  Unique identifier: chainId_transactionHash_logIndex
-  """
-  id: ID!
-
   """
   Admin address who collected the fees
   """
@@ -240,14 +143,14 @@ type FeeCollection @entity {
   block: BigInt!
 
   """
+  The tx.origin of the Ethereum transaction.
+  """
+  caller: Bytes!
+
+  """
   Chain ID where the fee was collected
   """
   chainId: BigInt!
-
-  """
-  Native currency symbol (ETH, POL, BNB, etc.)
-  """
-  currency: String!
 
   """
   The contract address that emitted the event
@@ -255,9 +158,9 @@ type FeeCollection @entity {
   contractAddress: String!
 
   """
-  The tx.origin of the Ethereum transaction.
+  Native currency symbol (ETH, POL, BNB, etc.)
   """
-  caller: Bytes!
+  currency: String!
 
   """
   Reference to FeeCollectionDaily entity
@@ -268,6 +171,10 @@ type FeeCollection @entity {
   Transaction hash
   """
   hash: String!
+  """
+  Unique identifier: chainId_transactionHash_logIndex
+  """
+  id: ID!
 
   """
   Log index within the transaction
@@ -286,14 +193,48 @@ type FeeCollection @entity {
 }
 
 """
-Ethereum transaction that generated a fee, which is due to be collected.
+Aggregated fee collections by currency across all chains and protocols.
 """
-type FeeTransaction @entity {
+type FeeCollectionDaily @entity {
   """
-  Unique identifier: chainId_transactionHash
+  Total fee amount collected for this day in BigInt format (wei-equivalent, e.g., 2e16)
+  """
+  amount: BigInt!
+
+  """
+  Total fee amount collected for this day in human-readable format (e.g., "0.02")
+  """
+  amountDisplay: String!
+
+  """
+  Native currency symbol (ETH, POL, BNB, etc.)
+  """
+  currency: String!
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+  """
+  Unique identifier: YYYY-MM-DD_currency
   """
   id: ID!
 
+  """
+  Collection transactions for this day
+  """
+  transactions: [FeeCollection!]! @derivedFrom(field: "daily")
+}
+
+"""
+Ethereum transaction that generated a fee, which is due to be collected.
+"""
+type FeeTransaction @entity {
   """
   Fee amount from this transaction in BigInt format (wei-equivalent, e.g., 2e16)
   """
@@ -305,24 +246,24 @@ type FeeTransaction @entity {
   amountDisplay: String!
 
   """
-  GBP value of the fee amount from this transaction in BigInt format (cents/pence, e.g., 1250 for £12.50)
-  """
-  amountGBP: BigInt!
-
-  """
   GBP value of the fee amount from this transaction in human-readable format (e.g., "12.50")
   """
   amountDisplayGBP: String!
 
   """
-  USD value of the fee amount from this transaction in BigInt format (cents, e.g., 1500 for $15.00)
-  """
-  amountUSD: BigInt!
-
-  """
   USD value of the fee amount from this transaction in human-readable format (e.g., "15.00")
   """
   amountDisplayUSD: String!
+
+  """
+  GBP value of the fee amount from this transaction in BigInt format (cents/pence, e.g., 1250 for £12.50)
+  """
+  amountGBP: BigInt!
+
+  """
+  USD value of the fee amount from this transaction in BigInt format (cents, e.g., 1500 for $15.00)
+  """
+  amountUSD: BigInt!
 
   """
   Block number of the transaction
@@ -358,11 +299,64 @@ type FeeTransaction @entity {
   Transaction hash
   """
   hash: String!
+  """
+  Unique identifier: chainId_transactionHash
+  """
+  id: ID!
 
   """
   Block Unix timestamp
   """
   timestamp: Timestamp!
+}
+
+"""
+Aggregated fees across all chains and all currencies for a particular day.
+"""
+type FiatFeesDaily @entity {
+  """
+  GBP value of the fee amount in human-readable format (e.g., "125.50")
+  """
+  amountDisplayGBP: String!
+
+  """
+  USD value of the fee amount in human-readable format (e.g., "150.00")
+  """
+  amountDisplayUSD: String!
+
+  """
+  GBP value of the fee amount in BigInt format (cents/pence, e.g., 12550 for £125.50)
+  """
+  amountGBP: BigInt!
+
+  """
+  USD value of the fee amount in BigInt format (cents, e.g., 15000 for $150.00)
+  """
+  amountUSD: BigInt!
+
+  """
+  Fee breakdown by currency for this day
+  """
+  currencyBreakdown: [CryptoFeesDaily!]! @derivedFrom(field: "dailyFiatFees")
+
+  """
+  Date in YYYY-MM-DD format
+  """
+  date: String!
+
+  """
+  Date as Unix timestamp for easier querying
+  """
+  dateTimestamp: Timestamp!
+  """
+  Unique identifier: YYYY-MM-DD
+  """
+  id: ID!
+
+  """
+  Transactions
+  """
+  transactions: [FeeTransaction!]! @derivedFrom(field: "dailyFiatFees")
 }
 
 """
@@ -383,11 +377,6 @@ Notes:
 """
 type User @entity {
   """
-  Unique identifier: chainId_address
-  """
-  id: ID!
-
-  """
   User's Ethereum address (lowercase)
   """
   address: String!
@@ -396,6 +385,10 @@ type User @entity {
   Chain ID where this user was first seen
   """
   chainId: BigInt!
+  """
+  Unique identifier: chainId_address
+  """
+  id: ID!
 
   """
   True if user has only claimed airdrops (no other protocol interaction)
@@ -409,45 +402,18 @@ type User @entity {
 }
 
 """
-Monthly active users aggregated across all chains.
-A user is considered active if they had at least one transaction during the month.
-"""
-type UsersActiveMonthly @entity {
-  """
-  Unique identifier: YYYY-MM
-  """
-  id: ID!
-
-  """
-  Number of unique user addresses active this month
-  """
-  count: BigInt!
-
-  """
-  Month in YYYY-MM format
-  """
-  month: String!
-
-  """
-  Month as Unix timestamp (first day of month at 00:00:00)
-  """
-  monthTimestamp: Timestamp!
-}
-
-"""
 Tracks individual user activity per month for deduplication.
 Used internally to prevent double-counting users across indexer restarts.
 """
 type UserActivityMonth @entity {
   """
-  Unique identifier: userAddress_YYYY-MM
-  """
-  id: ID!
-
-  """
   Timestamp when this user was first active in this month
   """
   firstActivityTimestamp: Timestamp!
+  """
+  Unique identifier: userAddress_YYYY-MM
+  """
+  id: ID!
 
   """
   Month in YYYY-MM format
@@ -461,14 +427,34 @@ type UserActivityMonth @entity {
 }
 
 """
-Transaction-level user interaction tracking.
+Monthly active users aggregated across all chains.
+A user is considered active if they had at least one transaction during the month.
 """
-type UserTransaction @entity {
+type UsersActiveMonthly @entity {
   """
-  Unique identifier: userId_transactionHash
+  Number of unique user addresses active this month
+  """
+  count: BigInt!
+  """
+  Unique identifier: YYYY-MM
   """
   id: ID!
 
+  """
+  Month in YYYY-MM format
+  """
+  month: String!
+
+  """
+  Month as Unix timestamp (first day of month at 00:00:00)
+  """
+  monthTimestamp: Timestamp!
+}
+
+"""
+Transaction-level user interaction tracking.
+"""
+type UserTransaction @entity {
   """
   Block number of the transaction
   """
@@ -493,6 +479,10 @@ type UserTransaction @entity {
   Transaction hash
   """
   hash: String!
+  """
+  Unique identifier: userId_transactionHash
+  """
+  id: ID!
 
   """
   Whether this transaction is an airdrop claim

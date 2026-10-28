@@ -182,7 +182,7 @@ function addTranchesWithPercentages(
   let cumulativeDuration = ZERO;
   let cumulativePercentage = ZERO;
 
-  for (let i = 0; i < tranches.length; i++) {
+  for (let i = 0; i < tranches.length; i += 1) {
     const current = tranches[i];
     const startDuration = cumulativeDuration;
     const startPercentage = cumulativePercentage;

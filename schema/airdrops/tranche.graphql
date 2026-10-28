@@ -3,11 +3,6 @@ Used in Merkle Lockup campaigns for the vesting schedule.
 """
 type Tranche @entity(immutable: true) {
   """
-  Unique identifier: `tranche-{campaignId}-{position}`
-  """
-  id: String!
-
-  """
   The campaign in which this tranche was created.
   """
   campaign: Campaign!
@@ -26,6 +21,10 @@ type Tranche @entity(immutable: true) {
   Total percentage unlocked at the end of the tranche. This is the sum of this tranche's percentage and all previous tranches' percentages.
   """
   endPercentage: BigInt!
+  """
+  Unique identifier: `tranche-{campaignId}-{position}`
+  """
+  id: String!
 
   """
   Percentage of the total amount unlocked by this tranche.

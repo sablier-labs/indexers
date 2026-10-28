@@ -1,8 +1,8 @@
-const DECIMAL_COEFFICIENT_REGEX = /^[+-]?(?:\d+\.?\d*|\.\d+)$/;
-const EXPONENT_REGEX = /^[+-]?\d+$/;
-const LEADING_ZEROES_REGEX = /^0+(?=\d)/;
-const SIGN_REGEX = /^[+-]/;
-const TRAILING_ZEROES_REGEX = /0+$/;
+const DECIMAL_COEFFICIENT_REGEX = /^[+-]?(?:\d+\.?\d*|\.\d+)$/u;
+const EXPONENT_REGEX = /^[+-]?\d+$/u;
+const LEADING_ZEROES_REGEX = /^0+(?=\d)/u;
+const SIGN_REGEX = /^[+-]/u;
+const TRAILING_ZEROES_REGEX = /0+$/u;
 
 export function addDecimalStrings(left: string, right: string): string {
   const lhs = parseDecimalParts(toDecimalString(left));

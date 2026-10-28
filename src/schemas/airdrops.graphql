@@ -1,147 +1,11 @@
-enum ActionCategory {
-  Claim
-  Clawback
-  Create
-  LowerMinFeeUSD
-  RedistributionEnabled
-  TransferAdmin
-}
-
-enum CampaignCategory {
-  Instant
-  LockupLinear
-  LockupTranched
-  VariableClaimAmount
-}
-
-"""
-ERC-20 asset
-"""
-type Asset @entity(immutable: false) {
-  """
-  Unique identifier: `asset-{chainId}-{address}`
-  """
-  id: String!
-  """
-  Address of the ERC-20 token.
-  """
-  address: Bytes!
-  """
-  The chain ID where the asset exists (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  Decimals of the ERC20 token.
-  """
-  decimals: BigInt!
-  """
-  Name of the ERC20 token.
-  """
-  name: String!
-  """
-  Symbol of the ERC20 token.
-  """
-  symbol: String!
-  """
-  Campaigns that rely on this asset.
-  """
-  campaigns: [Campaign!]! @derivedFrom(field: "asset")
-}
-
-type Watcher @entity(immutable: false) {
-  """
-  The chain ID. There is one watcher per subgraph.
-  """
-  id: String!
-  """
-  Global counter for actions.
-  """
-  actionCounter: BigInt!
-  """
-  Alias for id.
-  """
-  chainId: BigInt!
-  """
-  Global counter.
-  """
-  campaignCounter: BigInt!
-}
-
-"""
-Metadata describing the indexer deployment for one chain.
-"""
-type IndexerInfo @entity(immutable: true) {
-  """
-  The chain ID. There is one IndexerInfo entity per chain.
-  """
-  id: String!
-  """
-  The chain ID where this indexer is running.
-  """
-  chainId: BigInt!
-  """
-  Git commit from which the indexer was deployed.
-  """
-  commitHash: String!
-  """
-  Approximate Unix timestamp when the deployment was prepared. This may differ from the time at which the deployment
-  became active. Local deployments fall back to the timestamp of the first indexed block.
-  """
-  deployedAt: BigInt!
-  """
-  Public indexer key: "airdrops" or "streams".
-  """
-  indexer: String!
-  """
-  Protocols covered by this indexer.
-  """
-  protocols: [String!]!
-  """
-  First block processed by this indexer on the chain.
-  """
-  startBlock: BigInt!
-  """
-  Indexing service: "envio" or "graph".
-  """
-  vendor: String!
-  """
-  The Graph deployment version label. Unavailable for Envio deployments.
-  """
-  versionLabel: String
-}
-
 """
 A generic entity for tracking protocol actions. There may be multiple actions for a single tx.
 """
 type Action @entity(immutable: true) {
   """
-  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
-  """
-  id: String!
-  """
-  Unique global id as tracked by the `Watcher` entity.
-  """
-  subgraphId: BigInt!
-  """
   Transaction details: block number
   """
   block: BigInt!
-  """
-  The chain ID where the action was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  The tx.origin of the Ethereum transaction.
-  """
-  from: Bytes!
-  """
-  Transaction details: hash
-  """
-  hash: Bytes!
-  """
-  Transaction details: timestamp
-  """
-  timestamp: BigInt!
   """
   Contract through which the stream actions has been triggered
   """
@@ -151,10 +15,9 @@ type Action @entity(immutable: true) {
   """
   category: ActionCategory!
   """
-  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
-  See https://docs.sablier.com/concepts/fees
+  The chain ID where the action was created (e.g., 137 for Polygon).
   """
-  fee: BigInt
+  chainId: BigInt!
   """
   Claim action data: amount.
   """
@@ -168,14 +31,14 @@ type Action @entity(immutable: true) {
   """
   claimRecipient: Bytes
   """
+  Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
+  """
+  claimStreamId: String
+  """
   Claim action data: the actual address that will receive the airdrop, which can be different from the `claimRecipient`.
   This field is available in v2.0 and later.
   """
   claimTo: Bytes
-  """
-  Claim action data: stream ID as provided by the Lockup subgraph: {contractAddress}-{chainId}-{tokenId}.
-  """
-  claimStreamId: String
   """
   Claim action data: ERC-721 token id as provided by the Lockup contract.
   """
@@ -193,19 +56,49 @@ type Action @entity(immutable: true) {
   """
   clawbackTo: Bytes
   """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+  """
+  The tx.origin of the Ethereum transaction.
+  """
+  from: Bytes!
+  """
+  Transaction details: hash
+  """
+  hash: Bytes!
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+  """
+  Transaction details: timestamp
+  """
+  timestamp: BigInt!
+  """
   Forgone amount for VCA campaigns only.
   """
   vcaForgoneAmount: BigInt
+}
+
+enum ActionCategory {
+  Claim
+  Clawback
+  Create
+  LowerMinFeeUSD
+  RedistributionEnabled
+  TransferAdmin
 }
 
 """
 User activity grouped by day.
 """
 type Activity @entity(immutable: false) {
-  """
-  Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
-  """
-  id: String!
   """
   Total amount claimed during the day.
   """
@@ -223,9 +116,47 @@ type Activity @entity(immutable: false) {
   """
   day: BigInt!
   """
+  Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
+  """
+  id: String!
+  """
   Timestamp of the start of the day.
   """
   timestamp: BigInt!
+}
+
+"""
+ERC-20 asset
+"""
+type Asset @entity(immutable: false) {
+  """
+  Address of the ERC-20 token.
+  """
+  address: Bytes!
+  """
+  Campaigns that rely on this asset.
+  """
+  campaigns: [Campaign!]! @derivedFrom(field: "asset")
+  """
+  The chain ID where the asset exists (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Decimals of the ERC20 token.
+  """
+  decimals: BigInt!
+  """
+  Unique identifier: `asset-{chainId}-{address}`
+  """
+  id: String!
+  """
+  Name of the ERC20 token.
+  """
+  name: String!
+  """
+  Symbol of the ERC20 token.
+  """
+  symbol: String!
 }
 
 """
@@ -233,45 +164,9 @@ Entity for Merkle campaigns.
 """
 type Campaign @entity(immutable: false) {
   """
-  Unique identifier: `{contractAddress}-{chainId}`
-  """
-  id: String!
-  """
-  The chain ID where the campaign was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  Unique global id as tracked by the subgraph watcher.
-  """
-  subgraphId: BigInt!
-  """
-  Hash of the Ethereum transaction that created this campaign.
-  """
-  hash: Bytes!
-  """
-  Unix timestamp of the Ethereum transaction that created this campaign.
-  """
-  timestamp: BigInt!
-  """
   Actions triggered by this campaign.
   """
   actions: [Action!]! @derivedFrom(field: "campaign")
-  """
-  Action in which the admin clawed back funds from the campaign.
-  """
-  clawbackAction: Action
-  """
-  Type of campaign, e.g. Instant.
-  """
-  category: CampaignCategory!
-  """
-  User-provided name for the campaign, which is null in Airdrops v1.1.
-  """
-  name: String
-  """
-  Internal name generated by us, derived from `name` or generated from scratch in older versions.
-  """
-  nickname: String!
   """
   List of daily activity snapshots for days in which at least one action was triggered.
   """
@@ -293,6 +188,18 @@ type Campaign @entity(immutable: false) {
   """
   asset: Asset!
   """
+  Unix timestamp when the campaign starts and claiming becomes available.
+  """
+  campaignStartTime: BigInt!
+  """
+  Type of campaign, e.g. Instant.
+  """
+  category: CampaignCategory!
+  """
+  The chain ID where the campaign was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
   Total amount claimed so far.
   """
   claimedAmount: BigInt!
@@ -300,6 +207,10 @@ type Campaign @entity(immutable: false) {
   Number of claims made so far.
   """
   claimedCount: BigInt!
+  """
+  Action in which the admin clawed back funds from the campaign.
+  """
+  clawbackAction: Action
   """
   Unix timestamp when the campaign underwent a clawback.
   """
@@ -323,9 +234,29 @@ type Campaign @entity(immutable: false) {
   """
   fee: BigInt
   """
+  Hash of the Ethereum transaction that created this campaign.
+  """
+  hash: Bytes!
+  """
+  Unique identifier: `{contractAddress}-{chainId}`
+  """
+  id: String!
+  """
   IPFS content identifier for the list of recipients and other static details.
   """
   ipfsCID: String!
+  """
+  Address of the Lockup contract through which streams are created.
+  """
+  lockup: Bytes
+  """
+  User-provided name for the campaign, which is null in Airdrops v1.1.
+  """
+  name: String
+  """
+  Internal name generated by us, derived from `name` or generated from scratch in older versions.
+  """
+  nickname: String!
   """
   Index of the campaign based on the `campaignCounter` in the `Factory` entity.
   """
@@ -334,22 +265,6 @@ type Campaign @entity(immutable: false) {
   Merkle root.
   """
   root: Bytes!
-  """
-  Unix timestamp when the campaign starts and claiming becomes available.
-  """
-  campaignStartTime: BigInt!
-  """
-  Total number of recipients.
-  """
-  totalRecipients: BigInt!
-  """
-  Version of the campaign contract, e.g., v1.3.
-  """
-  version: String!
-  """
-  Address of the Lockup contract through which streams are created.
-  """
-  lockup: Bytes
   """
   Flag indicating whether the claimed streams will be cancelable initially.
   """
@@ -404,40 +319,59 @@ type Campaign @entity(immutable: false) {
   """
   streamTransferable: Boolean
   """
-  Flag indicating whether the forgone amount will be redistributed.
+  Unique global id as tracked by the subgraph watcher.
+  """
+  subgraphId: BigInt!
+  """
+  Unix timestamp of the Ethereum transaction that created this campaign.
+  """
+  timestamp: BigInt!
+  """
+  Total number of recipients.
+  """
+  totalRecipients: BigInt!
+  """
+  Unix timestamp when VCA vesting ends.
   Only available for VCA campaigns.
   """
-  vcaRedistributionEnabled: Boolean
+  vcaEndTime: BigInt
   """
   Total amount forgone by early claimers.
   Only available for VCA campaigns.
   """
   vcaForgoneAmount: BigInt
   """
-  The percentage unlocked immediately at vesting start.
+  Flag indicating whether the forgone amount will be redistributed.
   Only available for VCA campaigns.
   """
-  vcaUnlockPercentage: BigInt
+  vcaRedistributionEnabled: Boolean
   """
   Unix timestamp when VCA vesting begins.
   Only available for VCA campaigns.
   """
   vcaStartTime: BigInt
   """
-  Unix timestamp when VCA vesting ends.
+  The percentage unlocked immediately at vesting start.
   Only available for VCA campaigns.
   """
-  vcaEndTime: BigInt
+  vcaUnlockPercentage: BigInt
+  """
+  Version of the campaign contract, e.g., v1.3.
+  """
+  version: String!
+}
+
+enum CampaignCategory {
+  Instant
+  LockupLinear
+  LockupTranched
+  VariableClaimAmount
 }
 
 """
 Entity for Merkle factories, which deploy campaigns.
 """
 type Factory @entity(immutable: false) {
-  """
-  Unique identifier: `factory-{chainId}-{address}`
-  """
-  id: String!
   """
   The address of the factory contract.
   """
@@ -452,23 +386,66 @@ type Factory @entity(immutable: false) {
   """
   campaignCounter: BigInt!
   """
+  Campaigns deployed by this factory.
+  """
+  campaigns: [Campaign!]! @derivedFrom(field: "factory")
+  """
   The chain ID where the factory was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
   """
-  Campaigns deployed by this factory.
+  Unique identifier: `factory-{chainId}-{address}`
   """
-  campaigns: [Campaign!]! @derivedFrom(field: "factory")
+  id: String!
+}
+
+"""
+Metadata describing the indexer deployment for one chain.
+"""
+type IndexerInfo @entity(immutable: true) {
+  """
+  The chain ID where this indexer is running.
+  """
+  chainId: BigInt!
+  """
+  Git commit from which the indexer was deployed.
+  """
+  commitHash: String!
+  """
+  Approximate Unix timestamp when the deployment was prepared. This may differ from the time at which the deployment
+  became active. Local deployments fall back to the timestamp of the first indexed block.
+  """
+  deployedAt: BigInt!
+  """
+  The chain ID. There is one IndexerInfo entity per chain.
+  """
+  id: String!
+  """
+  Public indexer key: "airdrops" or "streams".
+  """
+  indexer: String!
+  """
+  Protocols covered by this indexer.
+  """
+  protocols: [String!]!
+  """
+  First block processed by this indexer on the chain.
+  """
+  startBlock: BigInt!
+  """
+  Indexing service: "envio" or "graph".
+  """
+  vendor: String!
+  """
+  The Graph deployment version label. Unavailable for Envio deployments.
+  """
+  versionLabel: String
 }
 
 """
 Used in Merkle Lockup campaigns for the vesting schedule.
 """
 type Tranche @entity(immutable: true) {
-  """
-  Unique identifier: `tranche-{campaignId}-{position}`
-  """
-  id: String!
   """
   The campaign in which this tranche was created.
   """
@@ -486,6 +463,10 @@ type Tranche @entity(immutable: true) {
   """
   endPercentage: BigInt!
   """
+  Unique identifier: `tranche-{campaignId}-{position}`
+  """
+  id: String!
+  """
   Percentage of the total amount unlocked by this tranche.
   """
   percentage: BigInt!
@@ -501,4 +482,23 @@ type Tranche @entity(immutable: true) {
   Total percentage unlocked at the start of the tranche. This is the sum of all previous tranches' percentages.
   """
   startPercentage: BigInt!
+}
+
+type Watcher @entity(immutable: false) {
+  """
+  Global counter for actions.
+  """
+  actionCounter: BigInt!
+  """
+  Global counter.
+  """
+  campaignCounter: BigInt!
+  """
+  Alias for id.
+  """
+  chainId: BigInt!
+  """
+  The chain ID. There is one watcher per subgraph.
+  """
+  id: String!
 }

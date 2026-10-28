@@ -15,7 +15,7 @@ export function scale(amount: BigInt, decimals: BigInt): BigInt {
   const delta = DECIMALS_18.minus(decimals).toU32();
 
   let multiplier = ONE;
-  for (let i: u32 = 0; i < delta; i++) {
+  for (let i: u32 = 0; i < delta; i += 1) {
     multiplier = multiplier.times(TEN);
   }
   return amount.times(multiplier);

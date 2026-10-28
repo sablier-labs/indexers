@@ -64,13 +64,13 @@ const parseGraphActions = (payload: unknown): Effect.Effect<GraphAction[], Vendo
       );
     }
 
-    const errors = payload.errors;
+    const { errors } = payload;
     if (Array.isArray(errors) && errors.length > 0) {
       const message = errors.map((error) => error.message).join("; ");
       return yield* Effect.fail(new VendorApiError({ message, vendor: "graph" }));
     }
 
-    const data = payload.data;
+    const { data } = payload;
     if (!isRecord(data)) {
       return yield* Effect.fail(
         new VendorApiError({ message: "Missing data in Graph response", vendor: "graph" })
@@ -92,8 +92,8 @@ const parseGraphActions = (payload: unknown): Effect.Effect<GraphAction[], Vendo
         );
       }
 
-      const fee = item.fee;
-      const subgraphId = item.subgraphId;
+      const { fee } = item;
+      const { subgraphId } = item;
 
       if (typeof subgraphId !== "string") {
         return yield* Effect.fail(
@@ -164,7 +164,7 @@ export const fetchQuarterActionStats = (opts: FetchQuarterActionStatsOptions) =>
     let subgraphId = "0";
     let totalFees = 0n;
 
-    while (true) {
+    for (;;) {
       const page = yield* fetchActionsPage({
         end: opts.end,
         headers: opts.headers,
@@ -188,7 +188,7 @@ export const fetchQuarterActionStats = (opts: FetchQuarterActionStatsOptions) =>
       if (!last) {
         break;
       }
-      subgraphId = last.subgraphId;
+      ({ subgraphId } = last);
 
       if (page.length < PAGE_SIZE) {
         break;

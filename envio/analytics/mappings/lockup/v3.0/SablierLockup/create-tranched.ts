@@ -31,10 +31,10 @@ struct CreateEventCommon {
 ──────────────────────────────────────────────────────────────
 */
 Contract.Lockup.Lockup_v3_0.CreateLockupTranchedStream.handler(async ({ context, event }) => {
-  const commonParams = event.params.commonParams;
-  const funder = commonParams.funder;
-  const sender = commonParams.sender;
-  const recipient = commonParams.recipient;
+  const { commonParams } = event.params;
+  const { funder } = commonParams;
+  const { sender } = commonParams;
+  const { recipient } = commonParams;
   await Store.User.createOrUpdate(context, event, [
     funder,
     sender,

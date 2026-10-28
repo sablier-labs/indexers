@@ -15,6 +15,53 @@
           }
         }
       }
+    },
+    {
+      "includes": ["common/facade.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            // Method syntax preserves EventHandler's intentional legacy bivariance.
+            "useConsistentMethodSignatures": "off"
+          },
+          "suspicious": {
+            // The callback executes after registration, so retain the late optional-call guard.
+            "noUnnecessaryConditions": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "analytics/effects/coingecko.ts",
+        "analytics/effects/forex.ts",
+        "analytics/presets/helpers.ts",
+        "analytics/store/entity-user.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": {
+            // Fallback dates, cursor pages and entity upserts depend on preceding results.
+            "noAwaitInLoops": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "streams/helpers/stream-amounts.ts",
+        "streams/mappings/flow/common/adjust-stream.ts",
+        "streams/mappings/flow/common/deposit-stream.ts",
+        "streams/mappings/flow/common/void-stream.ts"
+      ],
+      "linter": {
+        "rules": {
+          "complexity": {
+            // Math.min/max reject bigint stream amounts and timestamps.
+            "useMathMinMax": "off"
+          }
+        }
+      }
     }
   ]
 }

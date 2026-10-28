@@ -35,20 +35,20 @@ const DEPLOY_INITIAL_BACKOFF = "2 seconds";
 const MAX_DEPLOY_ATTEMPTS = MAX_DEPLOY_RETRIES + 1;
 
 const TRANSIENT_DEPLOY_PATTERNS = [
-  /429/i,
-  /rate limit/i,
-  /too many requests/i,
-  /ECONNRESET/i,
-  /ETIMEDOUT/i,
-  /ENOTFOUND/i,
-  /ECONNREFUSED/i,
-  /socket hang up/i,
-  /network error/i,
-  /timeout/i,
+  /429/iu,
+  /rate limit/iu,
+  /too many requests/iu,
+  /ECONNRESET/iu,
+  /ETIMEDOUT/iu,
+  /ENOTFOUND/iu,
+  /ECONNREFUSED/iu,
+  /socket hang up/iu,
+  /network error/iu,
+  /timeout/iu,
   // undici surfaces every low-level connection failure as a bare "fetch failed", which is how a
   // flaky IPFS upload reaches us: "Failed to upload file to IPFS: fetch failed".
-  /fetch failed/i,
-  /EAI_AGAIN/i,
+  /fetch failed/iu,
+  /EAI_AGAIN/iu,
 ];
 
 class TransientDeployError extends Data.TaggedError("TransientDeployError")<{

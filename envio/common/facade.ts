@@ -102,11 +102,11 @@ function legacyContractRegisterContext(
     get(target, property, receiver) {
       if (typeof property === "string" && property.startsWith("add")) {
         const contractName = property.slice(3);
-        const registration = (
+        const chainRegistration = (
           context.chain as unknown as Record<string, { add?: (address: Address) => void }>
         )[contractName];
-        if (registration?.add) {
-          return registration.add.bind(registration);
+        if (chainRegistration?.add) {
+          return chainRegistration.add.bind(chainRegistration);
         }
       }
       return Reflect.get(target, property, receiver);

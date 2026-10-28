@@ -61,9 +61,9 @@ function getRelativeAbiFilePath(
   return getRelativePath(envioConfigDir, abiPath);
 }
 
-function getEvents(target: Indexer.Target, indexedEvents: Model.Event[]): EnvioConfig.Event[] {
+function getEvents(target: Indexer.Target, selectedEvents: Model.Event[]): EnvioConfig.Event[] {
   const events: EnvioConfig.Event[] = [];
-  _.forEach(indexedEvents, (indexedEvent) => {
+  _.forEach(selectedEvents, (indexedEvent) => {
     if (indexedEvent.indexers.includes(target)) {
       events.push({
         event: indexedEvent.eventName,

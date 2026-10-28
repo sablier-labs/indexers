@@ -38,7 +38,7 @@ export async function fetchGBPRateWithFallback(logger: Logger, date: string): Pr
     return primary;
   }
 
-  for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
+  for (let offsetDays = 1; offsetDays <= LOOKBACK_DAYS; offsetDays += 1) {
     const candidate = shiftDateUtc(date, -offsetDays);
     const rate = await fetchFromFrankfurterAPI(logger, candidate, date);
     if (rate !== NO_RATE) {
@@ -111,7 +111,7 @@ export async function fetchFromFrankfurterAPI(
 }
 
 function getLookbackOffset(targetDate: string, responseDate: string): number | undefined {
-  for (let offsetDays = 0; offsetDays <= LOOKBACK_DAYS; offsetDays++) {
+  for (let offsetDays = 0; offsetDays <= LOOKBACK_DAYS; offsetDays += 1) {
     if (responseDate === shiftDateUtc(targetDate, -offsetDays)) {
       return offsetDays;
     }

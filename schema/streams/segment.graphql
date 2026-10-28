@@ -3,11 +3,6 @@ See https://docs.sablier.com/concepts/lockup/segments
 """
 type Segment @entity(immutable: true) {
   """
-  Unique identifier: `segment-{streamId}-{position}`
-  """
-  id: String!
-
-  """
   Amount distributed by this segment.
   """
   amount: BigInt!
@@ -27,6 +22,10 @@ type Segment @entity(immutable: true) {
   See https://github.com/sablier-labs/lockup/blob/v2.0/src/types/DataTypes.sol#L279-L288
   """
   exponent: BigInt!
+  """
+  Unique identifier: `segment-{streamId}-{position}`
+  """
+  id: String!
 
   """
   Position of the segment inside the array.

@@ -3,11 +3,6 @@ User activity grouped by day.
 """
 type Activity @entity(immutable: false) {
   """
-  Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
-  """
-  id: String!
-
-  """
   Total amount claimed during the day.
   """
   amount: BigInt!
@@ -26,6 +21,10 @@ type Activity @entity(immutable: false) {
   Day index: Unix timestamp / 24 * 60 * 60.
   """
   day: BigInt!
+  """
+  Unique identifier: `activity-{campaignId}-{dayOfSnapshot}`
+  """
+  id: String!
 
   """
   Timestamp of the start of the day.

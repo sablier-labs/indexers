@@ -72,13 +72,13 @@ describe("graph deployment helpers", () => {
     let state = DEPLOY_RETRY_SCHEDULE.initial;
 
     const first = await Effect.runPromise(DEPLOY_RETRY_SCHEDULE.step(0, "retry", state));
-    state = first[0];
+    [state] = first;
 
     const second = await Effect.runPromise(DEPLOY_RETRY_SCHEDULE.step(0, "retry", state));
-    state = second[0];
+    [state] = second;
 
     const third = await Effect.runPromise(DEPLOY_RETRY_SCHEDULE.step(0, "retry", state));
-    state = third[0];
+    [state] = third;
 
     const exhausted = await Effect.runPromise(DEPLOY_RETRY_SCHEDULE.step(0, "retry", state));
 

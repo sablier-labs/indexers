@@ -15,6 +15,8 @@ minimumReleaseAgeExclude:
   - sablier
   - "@sablier/*"
   - "@prb/devkit"
+  # Approved Biome 2.6 compatibility fix; exempt only this release.
+  - ultracite@8.1.0
 
 onlyBuiltDependencies:
   - "@parcel/watcher"

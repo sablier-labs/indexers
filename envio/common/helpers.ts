@@ -53,7 +53,7 @@ export function isOfficialLockup(
 export function removeUrls(str: string): string {
   const matches = linkify.find(str, "url");
 
-  if (!matches || matches.length === 0) {
+  if (matches.length === 0) {
     return str;
   }
 
@@ -66,7 +66,7 @@ export function removeUrls(str: string): string {
   }
 
   // Collapse multiple consecutive spaces into single space
-  return result.replace(/\s{2,}/g, " ").trim();
+  return result.replace(/\s{2,}/gu, " ").trim();
 }
 
 /**
@@ -75,7 +75,7 @@ export function removeUrls(str: string): string {
  */
 export function sanitizeString(str: string): string {
   // biome-ignore lint/suspicious/noControlCharactersInRegex: needing to remove null bytes
-  return str.replace(/[\u0000-\u001F\u007F-\u009F]/g, "").trim();
+  return str.replace(/[\u0000-\u001F\u007F-\u009F]/gu, "").trim();
 }
 
 export function sanitizeStringAndRemoveUrls(str: string): string {

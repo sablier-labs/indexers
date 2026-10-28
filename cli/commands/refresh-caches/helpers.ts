@@ -142,7 +142,7 @@ function escapeCopyTextField(value: string): string {
 function unescapeCopyTextField(value: string): string {
   let result = "";
 
-  for (let index = 0; index < value.length; index++) {
+  for (let index = 0; index < value.length; index += 1) {
     const char = value[index];
     if (char !== "\\") {
       result += char;
@@ -153,19 +153,19 @@ function unescapeCopyTextField(value: string): string {
     switch (next) {
       case "\\":
         result += "\\";
-        index++;
+        index += 1;
         break;
       case "n":
         result += "\n";
-        index++;
+        index += 1;
         break;
       case "r":
         result += "\r";
-        index++;
+        index += 1;
         break;
       case "t":
         result += "\t";
-        index++;
+        index += 1;
         break;
       default:
         result += char;
@@ -180,7 +180,7 @@ export function parseEffectCacheTsv(content: string): EffectCacheRows {
   const rows = new Map<string, string>();
   const lines = content.split("\n");
 
-  for (let index = 0; index < lines.length; index++) {
+  for (let index = 0; index < lines.length; index += 1) {
     const line = lines[index];
     if (!line) {
       continue;

@@ -35,7 +35,7 @@ export function isTokenWithUrl(address: string): boolean {
   ];
 
   // Linear search through blocklist (only 6 addresses - very fast)
-  for (let i = 0; i < scamAddresses.length; i++) {
+  for (let i = 0; i < scamAddresses.length; i += 1) {
     if (lower == scamAddresses[i]) {
       return true;
     }

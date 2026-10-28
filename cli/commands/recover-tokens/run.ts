@@ -14,7 +14,7 @@ import { absBigInt, buildRecoverTokenOutputFile } from "./helpers.js";
 import { queryRecoverTokenDeltas } from "./queries.js";
 import { readIndexedAssetFile, resolveSablierContracts, resolveSourcePath } from "./resolve.js";
 
-const TRAILING_ZEROES_REGEX = /0+$/;
+const TRAILING_ZEROES_REGEX = /0+$/u;
 
 function writeOutputFile(
   fs: FileSystem.FileSystem,

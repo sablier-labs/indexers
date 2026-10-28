@@ -67,7 +67,7 @@ async function fetchEntities(
 ): Promise<Entities | undefined> {
   let headers: Record<string, string> = {};
   if (vendor === "graph") {
-    const GRAPH_QUERY_KEY = process.env.GRAPH_QUERY_KEY;
+    const { GRAPH_QUERY_KEY } = process.env;
     if (!GRAPH_QUERY_KEY) {
       throw new Error("GRAPH_QUERY_KEY is not set");
     }
@@ -194,7 +194,7 @@ export function createEquivalenceTest(config: TestConfig) {
       let done = false;
       let totalCount = 0;
 
-      for (let i = 0; i < queries.envio.length; i++) {
+      for (let i = 0; i < queries.envio.length; i += 1) {
         while (!done) {
           const envioEntities = await fetchEntities(
             "envio",
@@ -213,14 +213,14 @@ export function createEquivalenceTest(config: TestConfig) {
           }
 
           expect(envioEntities.length).toBe(graphEntities.length);
-          for (let i = 0; i < envioEntities.length; i++) {
+          for (let entityIndex = 0; entityIndex < envioEntities.length; entityIndex += 1) {
             // Debug by unsetting fields, e.g.
 
-            sanitizeEntity(envioEntities[i], "envio");
-            sanitizeEntity(graphEntities[i], "graph");
+            sanitizeEntity(envioEntities[entityIndex], "envio");
+            sanitizeEntity(graphEntities[entityIndex], "graph");
 
-            expect(envioEntities[i], "Expected is Graph, Received is Envio").toEqual(
-              graphEntities[i]
+            expect(envioEntities[entityIndex], "Expected is Graph, Received is Envio").toEqual(
+              graphEntities[entityIndex]
             );
           }
 

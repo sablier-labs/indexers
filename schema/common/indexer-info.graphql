@@ -3,11 +3,6 @@ Metadata describing the indexer deployment for one chain.
 """
 type IndexerInfo @entity(immutable: true) {
   """
-  The chain ID. There is one IndexerInfo entity per chain.
-  """
-  id: String!
-
-  """
   The chain ID where this indexer is running.
   """
   chainId: BigInt!
@@ -22,6 +17,10 @@ type IndexerInfo @entity(immutable: true) {
   became active. Local deployments fall back to the timestamp of the first indexed block.
   """
   deployedAt: BigInt!
+  """
+  The chain ID. There is one IndexerInfo entity per chain.
+  """
+  id: String!
 
   """
   Public indexer key: "airdrops" or "streams".

@@ -10,6 +10,14 @@ import {
 import "../../../presets/presets";
 
 /* -------------------------------------------------------------------------- */
+/*                              CREATE HANDLERS                              */
+/* -------------------------------------------------------------------------- */
+
+import "./SablierLockup/create-dynamic";
+import "./SablierLockup/create-linear";
+import "./SablierLockup/create-tranched";
+
+/* -------------------------------------------------------------------------- */
 /*                               LOCKUP-SPECIFIC                              */
 /* -------------------------------------------------------------------------- */
 
@@ -55,11 +63,3 @@ Contract.Lockup.Lockup_v3_0.Transfer.handler(async ({ context, event }) => {
     to: event.params.to,
   });
 });
-
-/* -------------------------------------------------------------------------- */
-/*                              CREATE HANDLERS                              */
-/* -------------------------------------------------------------------------- */
-
-import "./SablierLockup/create-dynamic";
-import "./SablierLockup/create-linear";
-import "./SablierLockup/create-tranched";

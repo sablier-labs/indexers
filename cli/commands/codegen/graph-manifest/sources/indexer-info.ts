@@ -11,7 +11,7 @@ export function createIndexerInfoSource(
   sources: GraphManifest.Source[]
 ): GraphManifest.Source {
   const dataSources = sources.filter((source) => source._type === "data-source");
-  const referenceSource = dataSources[0];
+  const [referenceSource] = dataSources;
   if (!referenceSource) {
     throw new Error(`Cannot create IndexerInfo source without a data source for ${target}`);
   }

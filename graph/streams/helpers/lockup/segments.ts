@@ -73,7 +73,7 @@ function convertSegments<T>(
 ): Segment[] {
   const result: Segment[] = [];
 
-  for (let i = 0; i < eventSegments.length; i++) {
+  for (let i = 0; i < eventSegments.length; i += 1) {
     const eventSegment = eventSegments[i];
 
     const amount = getAmount(eventSegment);

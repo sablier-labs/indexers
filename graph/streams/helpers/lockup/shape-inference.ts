@@ -36,7 +36,7 @@ export function inferDynamicShape(segments: Segment[], startTime: BigInt): strin
 
   // Find first non-zero segment index
   let firstNonZeroIndex = -1;
-  for (let i = 0; i < segments.length; i++) {
+  for (let i = 0; i < segments.length; i += 1) {
     if (segments[i].amount.gt(ZERO)) {
       firstNonZeroIndex = i;
       break;
@@ -47,12 +47,12 @@ export function inferDynamicShape(segments: Segment[], startTime: BigInt): strin
   // Count non-zero segments and get exponent of first non-zero
   let nonZeroCount = 0;
   let exponent = ZERO;
-  for (let i = 0; i < segments.length; i++) {
+  for (let i = 0; i < segments.length; i += 1) {
     if (segments[i].amount.gt(ZERO)) {
       if (nonZeroCount == 0) {
         exponent = segments[i].exponent;
       }
-      nonZeroCount++;
+      nonZeroCount += 1;
     }
   }
 
@@ -203,7 +203,7 @@ export function inferTranchedShape(tranches: Tranche[], startTime: BigInt): stri
   let allDurationsEqual = true;
 
   // Check if all durations between consecutive tranches are equal
-  for (let i = 1; i < count; i++) {
+  for (let i = 1; i < count; i += 1) {
     const duration = tranches[i].timestamp.minus(tranches[i - 1].timestamp);
     if (!duration.equals(firstDuration)) {
       allDurationsEqual = false;

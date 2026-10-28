@@ -3,11 +3,6 @@ A Sablier protocol contract
 """
 type Contract @entity(immutable: false) {
   """
-  Unique identifier: contract-{chainId}-{address}
-  """
-  id: String!
-
-  """
   Contract address
   """
   address: Bytes!
@@ -26,4 +21,8 @@ type Contract @entity(immutable: false) {
   The chain ID where the contract exists
   """
   chainId: BigInt!
+  """
+  Unique identifier: contract-{chainId}-{address}
+  """
+  id: String!
 }

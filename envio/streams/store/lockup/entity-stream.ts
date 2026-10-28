@@ -82,14 +82,14 @@ function createBase(
 
   const counter = watcher.lockupStreamCounter;
   const now = BigInt(event.block.timestamp);
-  const tokenId = params.tokenId;
+  const { tokenId } = params;
   const streamId = Id.stream(event.srcAddress, event.chainId, tokenId);
   const lockup = getContract("lockup", event.chainId, event.srcAddress);
 
   /* --------------------------------- STREAM --------------------------------- */
   const isProxied = Boolean(params.proxender);
-  const recipient = params.recipient;
-  const sender = params.sender;
+  const { recipient } = params;
+  const { sender } = params;
 
   // Some fields are set to 0/ undefined because they are set later depending on the stream category.
   let stream: Entity<"LockupStream"> = {
@@ -257,7 +257,7 @@ function addSegments(
   // The start time of the stream is the first segment's start time
   let previous: Segment = { amount: 0n, exponent: 0n, milestone: stream.startTime };
 
-  for (let i = 0; i < segments.length; i++) {
+  for (let i = 0; i < segments.length; i += 1) {
     const current = segments[i];
 
     const segment: Entity<"Segment"> = {
@@ -288,7 +288,7 @@ function addTranches(
   // The start time of the stream is the first tranche's start time
   let previous: Tranche = { amount: 0n, timestamp: stream.startTime };
 
-  for (let i = 0; i < tranches.length; i++) {
+  for (let i = 0; i < tranches.length; i += 1) {
     const current = tranches[i];
     const tranche: Entity<"Tranche"> = {
       amount: current.amount,

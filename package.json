@@ -3,21 +3,17 @@
   "version": "7.2.0",
   "description": "Data indexers for the Sablier Protocol",
   "homepage": "https://github.com/sablier-labs/indexers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sablier-labs/indexers.git"
+  },
   "license": "GPL-3.0-or-later",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "sideEffects": false,
-  "type": "module",
-  "packageManager": "pnpm@11.15.1",
-  "types": "./dist/types/index.d.ts",
-  "typings": "./dist/types/index.d.ts",
   "author": {
     "name": "Sablier Labs Ltd",
     "url": "https://sablier.com"
   },
-  "dependencies": {
-    "sablier": "^4.2.0"
-  },
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -31,11 +27,23 @@
     },
     "./package.json": "./package.json"
   },
-  "peerDependencies": {
-    "sablier": "^4"
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
+  "files": [
+    "dist/**",
+    "banner.png"
+  ],
+  "scripts": {
+    "prepack": "pnpm install --frozen-lockfile && just build::all",
+    "start": "start_indexer() { set -eu; : \"${ENVIO_INDEXER_NAME:?ENVIO_INDEXER_NAME is required}\"; case \"$ENVIO_INDEXER_NAME\" in airdrops|analytics|streams) ;; *) echo \"Invalid ENVIO_INDEXER_NAME: $ENVIO_INDEXER_NAME\" >&2; exit 1 ;; esac; cd \"./envio/$ENVIO_INDEXER_NAME\"; case \"$ENVIO_INDEXER_NAME\" in airdrops|streams) test -s .envio/cache/tokenMetadata.tsv || { echo \"Missing or empty .envio/cache/tokenMetadata.tsv\" >&2; exit 1; } ;; esac; envio start --config config.yaml; }; start_indexer"
+  },
+  "dependencies": {
+    "sablier": "^4.2.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.11",
+    "@biomejs/biome": "^2.6.2",
     "@effect/cli": "^0.75.2",
     "@effect/platform": "^0.96.1",
     "@effect/platform-node": "^0.107.0",
@@ -45,7 +53,7 @@
     "@graphql-tools/merge": "^9.1.7",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@pinax/graph-networks-registry": "^0.7.1",
-    "@prb/devkit": "^1.0.4",
+    "@prb/devkit": "^1.2.0",
     "@sablier/price-data": "github:sablier-labs/price-data#main",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash-es": "^4.17.12",
@@ -76,27 +84,19 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "~5",
-    "ultracite": "^7.4.3",
+    "ultracite": "^8.1.0",
     "viem": "^2.47.10",
     "vite": "^7.3.2",
     "vitest": "~3"
   },
+  "peerDependencies": {
+    "sablier": "^4"
+  },
+  "packageManager": "pnpm@11.15.1",
   "engines": {
     "node": ">=22"
   },
-  "files": [
-    "dist/**",
-    "banner.png"
-  ],
   "publishConfig": {
     "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sablier-labs/indexers.git"
-  },
-  "scripts": {
-    "prepack": "pnpm install --frozen-lockfile && just build::all",
-    "start": "start_indexer() { set -eu; : \"${ENVIO_INDEXER_NAME:?ENVIO_INDEXER_NAME is required}\"; case \"$ENVIO_INDEXER_NAME\" in airdrops|analytics|streams) ;; *) echo \"Invalid ENVIO_INDEXER_NAME: $ENVIO_INDEXER_NAME\" >&2; exit 1 ;; esac; cd \"./envio/$ENVIO_INDEXER_NAME\"; case \"$ENVIO_INDEXER_NAME\" in airdrops|streams) test -s .envio/cache/tokenMetadata.tsv || { echo \"Missing or empty .envio/cache/tokenMetadata.tsv\" >&2; exit 1; } ;; esac; envio start --config config.yaml; }; start_indexer"
   }
 }

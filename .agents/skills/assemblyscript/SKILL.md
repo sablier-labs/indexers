@@ -17,7 +17,7 @@ Apply it within the requested scope and keep review work read-only.
   [graph/common/constants.ts](../../../graph/common/constants.ts).
 - The pinned Graph compiler uses AssemblyScript 0.19 semantics: compare strings with `==` or `areStringsEqual()`, never
   `===`. See [graph/common/strings.ts](../../../graph/common/strings.ts).
-- Do not use object spread, optional chaining, or nullish coalescing.
+- Do not use destructuring, object spread, optional chaining, or nullish coalescing.
 - Use `try_*()` contract calls and handle a reverted result before reading `value`.
 
 Use ordinary `as` conversions for compatible types and contextual object casts, as in

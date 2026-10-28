@@ -3,11 +3,6 @@ Entity for Merkle factories, which deploy campaigns.
 """
 type Factory @entity(immutable: false) {
   """
-  Unique identifier: `factory-{chainId}-{address}`
-  """
-  id: String!
-
-  """
   The address of the factory contract.
   """
   address: Bytes!
@@ -24,12 +19,16 @@ type Factory @entity(immutable: false) {
   campaignCounter: BigInt!
 
   """
-  The chain ID where the factory was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-
-  """
   Campaigns deployed by this factory.
   """
   campaigns: [Campaign!]! @derivedFrom(field: "factory")
+
+  """
+  The chain ID where the factory was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Unique identifier: `factory-{chainId}-{address}`
+  """
+  id: String!
 }

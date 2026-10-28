@@ -1,3 +1,165 @@
+"""
+ERC-20 asset
+"""
+type Asset @entity(immutable: false) {
+  """
+  Address of the ERC-20 token.
+  """
+  address: Bytes!
+  """
+  The chain ID where the asset exists (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Decimals of the ERC20 token.
+  """
+  decimals: BigInt!
+  """
+  Flow streams that rely on this token
+  """
+  flowStreams: [FlowStream!]! @derivedFrom(field: "asset")
+  """
+  Unique identifier: `asset-{chainId}-{address}`
+  """
+  id: String!
+  """
+  Lockup streams that rely on this token
+  """
+  lockupStreams: [LockupStream!]! @derivedFrom(field: "asset")
+  """
+  Name of the ERC20 token.
+  """
+  name: String!
+  """
+  Symbol of the ERC20 token.
+  """
+  symbol: String!
+}
+
+"""
+A Sablier protocol contract
+"""
+type Contract @entity(immutable: false) {
+  """
+  Contract address
+  """
+  address: Bytes!
+  """
+  Contract alias (e.g., "FL", "LK")
+  """
+  alias: String!
+  """
+  Contract category (e.g., "Flow", "Lockup")
+  """
+  category: String!
+  """
+  The chain ID where the contract exists
+  """
+  chainId: BigInt!
+  """
+  Unique identifier: contract-{chainId}-{address}
+  """
+  id: String!
+}
+
+"""
+Older streams are no longer indexed.
+See https://x.com/Sablier/status/1914326014995620114
+"""
+type DeprecatedStream @entity(immutable: true) {
+  """
+  The chain ID where the stream was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  The address of the contract that created the stream.
+  """
+  contractAddress: Bytes!
+  """
+  Hash of the Ethereum transaction that created this stream.
+  """
+  hash: Bytes!
+  """
+  Unique identifier: \`{contractAddress}-{chainId}-{tokenId}\`
+  """
+  id: String!
+  """
+  Unix timestamp of the Ethereum transaction that created this stream.
+  """
+  timestamp: BigInt!
+  """
+  The id provided by the NFT contract. It's the ERC-721 tokenId.
+  """
+  tokenId: BigInt!
+}
+
+"""
+A generic entity for tracking Flow protocol actions.
+"""
+type FlowAction @entity(immutable: true) {
+  """
+  Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
+  """
+  addressA: Bytes
+  """
+  Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
+  """
+  addressB: Bytes
+  """
+  1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
+  """
+  amountA: BigInt
+  """
+  2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
+  """
+  amountB: BigInt
+  """
+  Block number of the Ethereum transaction.
+  """
+  block: BigInt!
+  """
+  Category of action, e.g., Deposit.
+  """
+  category: FlowActionCategory!
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Contract through which the action was triggered.
+  """
+  contract: Bytes!
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+  """
+  The tx.origin of the Ethereum transaction.
+  """
+  from: Bytes!
+  """
+  Hash of the Ethereum transaction.
+  """
+  hash: Bytes!
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
+  """
+  id: String!
+  """
+  Stream linked to this action, if any.
+  """
+  stream: FlowStream
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  """
+  subgraphId: BigInt!
+  """
+  Unix timestamp of the Ethereum transaction.
+  """
+  timestamp: BigInt!
+}
+
 enum FlowActionCategory {
   Approval
   ApprovalForAll
@@ -12,130 +174,67 @@ enum FlowActionCategory {
   Withdraw
 }
 
-enum FlowStreamCategory {
-  Flow
-}
-
-enum LockupActionCategory {
-  Approval
-  ApprovalForAll
-  Cancel
-  Create
-  Renounce
-  Transfer
-  Withdraw
-}
-
-enum LockupStreamCategory {
-  LockupDynamic
-  LockupLinear
-  LockupTranched
-}
-
-enum ShapeSource {
-  Event
-  Inferred
-}
-
 """
-ERC-20 asset
+Creating streams in bulk is possible using the Sablier batch contracts.
 """
-type Asset @entity(immutable: false) {
+type FlowBatch @entity(immutable: true) {
   """
-  Unique identifier: `asset-{chainId}-{address}`
+  The sender address that created this batch.
+  """
+  batcher: FlowBatcher
+  """
+  Hash of the Ethereum transaction that created this batch.
+  """
+  hash: Bytes
+  """
+  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
   """
   id: String!
   """
-  Address of the ERC-20 token.
+  Index of the batch based on the `batchCounter` in the `Batcher` entity.
   """
-  address: Bytes!
+  position: BigInt
   """
-  The chain ID where the asset exists (e.g., 137 for Polygon).
+  Number of streams part of this batch.
   """
-  chainId: BigInt!
+  size: BigInt!
   """
-  Decimals of the ERC20 token.
+  Streams part of this batch.
   """
-  decimals: BigInt!
+  streams: [FlowStream!]! @derivedFrom(field: "batch")
   """
-  Name of the ERC20 token.
+  Timestamp of the transaction that created this batch.
   """
-  name: String!
-  """
-  Symbol of the ERC20 token.
-  """
-  symbol: String!
-  """
-  Flow streams that rely on this token
-  """
-  flowStreams: [FlowStream!]! @derivedFrom(field: "asset")
-  """
-  Lockup streams that rely on this token
-  """
-  lockupStreams: [LockupStream!]! @derivedFrom(field: "asset")
+  timestamp: BigInt
 }
 
-type Watcher @entity(immutable: false) {
+"""
+Sender address that created batches.
+"""
+type FlowBatcher @entity(immutable: false) {
   """
-  The chain ID. There is one watcher per subgraph.
+  Total number of batches started by this sender.
+  """
+  batchCounter: BigInt!
+  """
+  Batches started by this sender.
+  """
+  batches: [FlowBatch!]! @derivedFrom(field: "batcher")
+  """
+  Unique identifier: `batcher-{chainId}-{sender}`
   """
   id: String!
-  """
-  Alias for id.
-  """
-  chainId: BigInt!
-  """
-  Global counter for Flow actions.
-  """
-  flowActionCounter: BigInt!
-  """
-  Global counter for Flow streams.
-  """
-  flowStreamCounter: BigInt!
-  """
-  Global counter for Lockup actions.
-  """
-  lockupActionCounter: BigInt!
-  """
-  Global counter for Lockup streams.
-  """
-  lockupStreamCounter: BigInt!
 }
 
 type FlowStream @entity(immutable: false) {
   """
-  Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
+  Actions triggered by this stream.
   """
-  id: String!
+  actions: [FlowAction!]! @derivedFrom(field: "stream")
   """
   Like the id: `{contractAlias}-{chainId}-{tokenId}`
   """
   alias: String!
-  """
-  The chain ID where the stream was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  Unique global id as tracked by the `Watcher` entity.
-  🚨 This may change if new data sources are added and the chronological order of streams changes.
-  """
-  subgraphId: BigInt!
-  """
-  The id provided by the NFT contract. It's the ERC-721 tokenId.
-  """
-  tokenId: BigInt!
-  """
-  Hash of the Ethereum transaction that created this stream.
-  """
-  hash: Bytes!
-  """
-  Unix timestamp of the Ethereum transaction that created this stream.
-  """
-  timestamp: BigInt!
-  """
-  Actions triggered by this stream.
-  """
-  actions: [FlowAction!]! @derivedFrom(field: "stream")
   """
   ERC-20 token distributed via this stream.
   """
@@ -146,6 +245,10 @@ type FlowStream @entity(immutable: false) {
   """
   assetDecimalsValue: BigInt!
   """
+  This is equivalent to the value returned by ERC20.balanceOf, and it changes after deposit and withdrawal.
+  """
+  availableAmount: BigInt!
+  """
   The batch the stream may be part of.
   Note: this is available only when created within a batch create transaction.
   """
@@ -155,43 +258,13 @@ type FlowStream @entity(immutable: false) {
   """
   category: FlowStreamCategory!
   """
+  The chain ID where the stream was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
   The address of the contract the stream originates from.
   """
   contract: Bytes!
-  """
-  Position in the batch, if available.
-  """
-  position: BigInt!
-  """
-  Current recipient of the stream, with permission to withdraw funds to any third-party address.
-  Note: the recipient can change on NFT transfer.
-  """
-  recipient: Bytes!
-  """
-  Manager of the stream, with ability to cancel the stream.
-  """
-  sender: Bytes!
-  """
-  Unix timestamp for the start of the stream.
-  """
-  startTime: BigInt!
-  """
-  Flag indicating the transferability of the stream. This is set when the stream is created, and cannot
-  be changed later.
-  """
-  transferable: Boolean!
-  """
-  Version of contract, e.g., v1.0.
-  """
-  version: String!
-  """
-  The sum of all withdrawn amounts.
-  """
-  withdrawnAmount: BigInt!
-  """
-  This is equivalent to the value returned by ERC20.balanceOf, and it changes after deposit and withdrawal.
-  """
-  availableAmount: BigInt!
   """
   The account that created the stream, which can be different from the sender.
   """
@@ -208,6 +281,14 @@ type FlowStream @entity(immutable: false) {
   The amount of debt forgiven by a void action.
   """
   forgivenDebt: BigInt!
+  """
+  Hash of the Ethereum transaction that created this stream.
+  """
+  hash: Bytes!
+  """
+  Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
+  """
+  id: String!
   """
   Action in which the payment rate was adjusted.
   """
@@ -229,17 +310,56 @@ type FlowStream @entity(immutable: false) {
   """
   pausedTime: BigInt
   """
+  Position in the batch, if available.
+  """
+  position: BigInt!
+  """
   Current payment rate per second, denominated in 18 decimals.
   """
   ratePerSecond: BigInt!
+  """
+  Current recipient of the stream, with permission to withdraw funds to any third-party address.
+  Note: the recipient can change on NFT transfer.
+  """
+  recipient: Bytes!
   """
   The sum of all refunds.
   """
   refundedAmount: BigInt!
   """
+  Manager of the stream, with ability to cancel the stream.
+  """
+  sender: Bytes!
+  """
   The amount streamed up until the time of the last adjustment, denominated in 18 decimals.
   """
   snapshotAmount: BigInt!
+  """
+  Unix timestamp for the start of the stream.
+  """
+  startTime: BigInt!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  🚨 This may change if new data sources are added and the chronological order of streams changes.
+  """
+  subgraphId: BigInt!
+  """
+  Unix timestamp of the Ethereum transaction that created this stream.
+  """
+  timestamp: BigInt!
+  """
+  The id provided by the NFT contract. It's the ERC-721 tokenId.
+  """
+  tokenId: BigInt!
+  """
+  Flag indicating the transferability of the stream. This is set when the stream is created, and cannot
+  be changed later.
+  """
+  transferable: Boolean!
+  """
+  Version of contract, e.g., v1.0.
+  """
+  version: String!
   """
   Flag indicating if a stream is voided.
   """
@@ -252,445 +372,20 @@ type FlowStream @entity(immutable: false) {
   Unix timestamp for when the stream was voided.
   """
   voidedTime: BigInt
-}
-
-type LockupStream @entity(immutable: false) {
-  """
-  Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
-  """
-  id: String!
-  """
-  Like the id: `{contractAlias}-{chainId}-{tokenId}`
-  """
-  alias: String!
-  """
-  The chain ID where the stream was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  Unique global id as tracked by the `Watcher` entity.
-  🚨 This may change if new data sources are added and the chronological order of streams changes.
-  """
-  subgraphId: BigInt!
-  """
-  The id provided by the NFT contract. It's the ERC-721 tokenId.
-  """
-  tokenId: BigInt!
-  """
-  Hash of the Ethereum transaction that created this stream.
-  """
-  hash: Bytes!
-  """
-  Unix timestamp of the Ethereum transaction that created this stream.
-  """
-  timestamp: BigInt!
-  """
-  Actions triggered by this stream.
-  """
-  actions: [LockupAction!]! @derivedFrom(field: "stream")
-  """
-  ERC-20 token distributed via this stream.
-  """
-  asset: Asset!
-  """
-  ERC-20 token decimals. Stored here to avoid loading the asset entity on each stream.
-  Note: the "Value" suffix is added because of a bug in GraphQL Code Generator.
-  """
-  assetDecimalsValue: BigInt!
-  """
-  The batch the stream may be part of.
-  Note: this is available only when created within a batch create transaction.
-  """
-  batch: LockupBatch!
-  """
-  Category used for sorting.
-  """
-  category: LockupStreamCategory!
-  """
-  The address of the contract the stream originates from.
-  """
-  contract: Bytes!
-  """
-  Position in the batch, if available.
-  """
-  position: BigInt!
-  """
-  Current recipient of the stream, with permission to withdraw funds to any third-party address.
-  Note: the recipient can change on NFT transfer.
-  """
-  recipient: Bytes!
-  """
-  Manager of the stream, with ability to cancel the stream.
-  """
-  sender: Bytes!
-  """
-  Unix timestamp for the start of the stream.
-  """
-  startTime: BigInt!
-  """
-  Flag indicating the transferability of the stream. This is set when the stream is created, and cannot
-  be changed later.
-  """
-  transferable: Boolean!
-  """
-  Version of contract, e.g., v1.0.
-  """
-  version: String!
   """
   The sum of all withdrawn amounts.
   """
   withdrawnAmount: BigInt!
-  """
-  Action in which the stream was canceled.
-  """
-  canceledAction: LockupAction
-  """
-  Action in which the stream was made non-cancelable.
-  Note: if the stream was made non-cancelable from the get-go, this is the same as the Create action.
-  """
-  renounceAction: LockupAction
-  """
-  Flag indicating the cancelability of the stream.
-  """
-  cancelable: Boolean!
-  """
-  Flag indicating if the stream was canceled.
-  """
-  canceled: Boolean!
-  """
-  Unix timestamp for the when the stream was canceled.
-  """
-  canceledTime: BigInt
-  """
-  The amount deposited when the stream was created.
-  """
-  depositAmount: BigInt!
-  """
-  Snapshot of the duration in seconds (the difference between end and start time).
-  """
-  duration: BigInt!
-  """
-  Unix timestamp for the end of the stream.
-  """
-  endTime: BigInt!
-  """
-  The account that funded the stream, which can be different from the sender.
-  """
-  funder: Bytes!
-  """
-  The amount that is still held by the stream regardless of whether if was fully vested or not.
-  This is the difference between the deposit amount and all withdrawn amounts.
-  """
-  intactAmount: BigInt!
-  """
-  Flag indicating if the stream has been fully withdrawn (intactAmount is zero).
-  """
-  depleted: Boolean!
-  """
-  Owner of the proxy when the stream is created through a PRBProxy (https://github.com/PaulRBerg/prb-proxy)
-  Note that proxy = stream sender, and proxender = owner of proxy
-  """
-  proxender: Bytes
-  """
-  Flag for streams created through a PRBProxy.
-  """
-  proxied: Boolean!
-  """
-  Unix timestamp for when the stream was made non-cancelable. This can coincide with the create time.
-  """
-  renounceTime: BigInt
-  """
-  An optional parameter to specify the shape of the distribution.
-  Available since Lockup v2.0.
-  """
-  shape: String
-  """
-  The source of the shape value: Event (from contract event) or Inferred (computed by indexer).
-  """
-  shapeSource: ShapeSource
-  """
-  Flag for Linear streams with a cliff.
-  """
-  cliff: Boolean
-  """
-  The amount that will unlock at the cliff time.
-  """
-  cliffAmount: BigInt
-  """
-  Unix timestamp for the start of the cliff.
-  """
-  cliffTime: BigInt
-  """
-  The smallest step in time between two consecutive token unlocks.
-  Applies only for LockupLinear and available since Lockup v4.0
-  """
-  granularity: BigInt
-  """
-  Flag for Linear stream with an initial unlock.
-  Available since Lockup v2.0.
-  """
-  initial: Boolean
-  """
-  The initial unlock amount of a Linear stream.
-  Available since Lockup v2.0.
-  """
-  initialAmount: BigInt
-  """
-  Segments of a Dynamic stream.
-  """
-  segments: [Segment!]! @derivedFrom(field: "stream")
-  """
-  Segments of a Tranched stream.
-  """
-  tranches: [Tranche!]! @derivedFrom(field: "stream")
 }
 
-"""
-A generic entity for tracking Flow protocol actions.
-"""
-type FlowAction @entity(immutable: true) {
-  """
-  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
-  """
-  id: String!
-  """
-  Unique global id as tracked by the `Watcher` entity.
-  """
-  subgraphId: BigInt!
-  """
-  Block number of the Ethereum transaction.
-  """
-  block: BigInt!
-  """
-  The chain ID where the action was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  The tx.origin of the Ethereum transaction.
-  """
-  from: Bytes!
-  """
-  Hash of the Ethereum transaction.
-  """
-  hash: Bytes!
-  """
-  Unix timestamp of the Ethereum transaction.
-  """
-  timestamp: BigInt!
-  """
-  Category of action, e.g., Deposit.
-  """
-  category: FlowActionCategory!
-  """
-  Contract through which the action was triggered.
-  """
-  contract: Bytes!
-  """
-  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
-  See https://docs.sablier.com/concepts/fees
-  """
-  fee: BigInt
-  """
-  Stream linked to this action, if any.
-  """
-  stream: FlowStream
-  """
-  Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
-  """
-  addressA: Bytes
-  """
-  Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
-  """
-  addressB: Bytes
-  """
-  1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
-  """
-  amountA: BigInt
-  """
-  2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
-  """
-  amountB: BigInt
-}
-
-"""
-A generic entity for tracking Lockup protocol actions.
-"""
-type LockupAction @entity(immutable: true) {
-  """
-  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
-  """
-  id: String!
-  """
-  Unique global id as tracked by the `Watcher` entity.
-  """
-  subgraphId: BigInt!
-  """
-  Block number of the Ethereum transaction.
-  """
-  block: BigInt!
-  """
-  The chain ID where the action was created (e.g., 137 for Polygon).
-  """
-  chainId: BigInt!
-  """
-  The tx.origin of the Ethereum transaction.
-  """
-  from: Bytes!
-  """
-  Hash of the Ethereum transaction.
-  """
-  hash: Bytes!
-  """
-  Unix timestamp of the Ethereum transaction.
-  """
-  timestamp: BigInt!
-  """
-  Category of action, e.g., Deposit.
-  """
-  category: LockupActionCategory!
-  """
-  Contract through which the action was triggered.
-  """
-  contract: Bytes!
-  """
-  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
-  See https://docs.sablier.com/concepts/fees
-  """
-  fee: BigInt
-  """
-  Stream linked to this action, if any.
-  """
-  stream: LockupStream
-  """
-  Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
-  """
-  addressA: Bytes
-  """
-  Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
-  """
-  addressB: Bytes
-  """
-  1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
-  """
-  amountA: BigInt
-  """
-  2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
-  """
-  amountB: BigInt
-}
-
-"""
-Creating streams in bulk is possible using the Sablier batch contracts.
-"""
-type FlowBatch @entity(immutable: true) {
-  """
-  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
-  """
-  id: String!
-  """
-  Hash of the Ethereum transaction that created this batch.
-  """
-  hash: Bytes
-  """
-  Timestamp of the transaction that created this batch.
-  """
-  timestamp: BigInt
-  """
-  The sender address that created this batch.
-  """
-  batcher: FlowBatcher
-  """
-  Index of the batch based on the `batchCounter` in the `Batcher` entity.
-  """
-  position: BigInt
-  """
-  Number of streams part of this batch.
-  """
-  size: BigInt!
-  """
-  Streams part of this batch.
-  """
-  streams: [FlowStream!]! @derivedFrom(field: "batch")
-}
-
-"""
-Sender address that created batches.
-"""
-type FlowBatcher @entity(immutable: false) {
-  """
-  Unique identifier: `batcher-{chainId}-{sender}`
-  """
-  id: String!
-  """
-  Total number of batches started by this sender.
-  """
-  batchCounter: BigInt!
-  """
-  Batches started by this sender.
-  """
-  batches: [FlowBatch!]! @derivedFrom(field: "batcher")
-}
-
-"""
-Creating streams in bulk is possible using the Sablier batch contracts.
-"""
-type LockupBatch @entity(immutable: true) {
-  """
-  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
-  """
-  id: String!
-  """
-  Hash of the Ethereum transaction that created this batch.
-  """
-  hash: Bytes
-  """
-  Timestamp of the transaction that created this batch.
-  """
-  timestamp: BigInt
-  """
-  The sender address that created this batch.
-  """
-  batcher: LockupBatcher
-  """
-  Index of the batch based on the `batchCounter` in the `Batcher` entity.
-  """
-  position: BigInt
-  """
-  Number of streams part of this batch.
-  """
-  size: BigInt!
-  """
-  Streams part of this batch.
-  """
-  streams: [LockupStream!]! @derivedFrom(field: "batch")
-}
-
-"""
-Sender address that created batches.
-"""
-type LockupBatcher @entity(immutable: false) {
-  """
-  Unique identifier: `batcher-{chainId}-{sender}`
-  """
-  id: String!
-  """
-  Total number of batches started by this sender.
-  """
-  batchCounter: BigInt!
-  """
-  Batches started by this sender.
-  """
-  batches: [LockupBatch!]! @derivedFrom(field: "batcher")
+enum FlowStreamCategory {
+  Flow
 }
 
 """
 Metadata describing the indexer deployment for one chain.
 """
 type IndexerInfo @entity(immutable: true) {
-  """
-  The chain ID. There is one IndexerInfo entity per chain.
-  """
-  id: String!
   """
   The chain ID where this indexer is running.
   """
@@ -704,6 +399,10 @@ type IndexerInfo @entity(immutable: true) {
   became active. Local deployments fall back to the timestamp of the first indexed block.
   """
   deployedAt: BigInt!
+  """
+  The chain ID. There is one IndexerInfo entity per chain.
+  """
+  id: String!
   """
   Public indexer key: "airdrops" or "streams".
   """
@@ -727,70 +426,335 @@ type IndexerInfo @entity(immutable: true) {
 }
 
 """
-A Sablier protocol contract
+A generic entity for tracking Lockup protocol actions.
 """
-type Contract @entity(immutable: false) {
+type LockupAction @entity(immutable: true) {
   """
-  Unique identifier: contract-{chainId}-{address}
+  Address of 1st actor. Who this is depends upon the action type, e.g. for Create, it is the sender.
+  """
+  addressA: Bytes
+  """
+  Address of 2nd actor. Who this is depends upon the action type, e.g. for Transfer, it is the recipient.
+  """
+  addressB: Bytes
+  """
+  1st amount. What this is depends upon the action type, e.g. for Deposit, it is the deposit amount.
+  """
+  amountA: BigInt
+  """
+  2nd amount. What this is depends upon the action type, e.g. for Withdraw, it is the refund amount.
+  """
+  amountB: BigInt
+  """
+  Block number of the Ethereum transaction.
+  """
+  block: BigInt!
+  """
+  Category of action, e.g., Deposit.
+  """
+  category: LockupActionCategory!
+  """
+  The chain ID where the action was created (e.g., 137 for Polygon).
+  """
+  chainId: BigInt!
+  """
+  Contract through which the action was triggered.
+  """
+  contract: Bytes!
+  """
+  The Sablier fee paid in the native token of the chain (e.g., ETH for Mainnet).
+  See https://docs.sablier.com/concepts/fees
+  """
+  fee: BigInt
+  """
+  The tx.origin of the Ethereum transaction.
+  """
+  from: Bytes!
+  """
+  Hash of the Ethereum transaction.
+  """
+  hash: Bytes!
+  """
+  Unique identifier: `action-{chainId}-{txHash}-{logIndex}`
   """
   id: String!
   """
-  Contract address
+  Stream linked to this action, if any.
   """
-  address: Bytes!
+  stream: LockupStream
   """
-  Contract alias (e.g., "FL", "LK")
+  Unique global id as tracked by the `Watcher` entity.
   """
-  alias: String!
+  subgraphId: BigInt!
   """
-  Contract category (e.g., "Flow", "Lockup")
+  Unix timestamp of the Ethereum transaction.
   """
-  category: String!
-  """
-  The chain ID where the contract exists
-  """
-  chainId: BigInt!
+  timestamp: BigInt!
+}
+
+enum LockupActionCategory {
+  Approval
+  ApprovalForAll
+  Cancel
+  Create
+  Renounce
+  Transfer
+  Withdraw
 }
 
 """
-Older streams are no longer indexed.
-See https://x.com/Sablier/status/1914326014995620114
+Creating streams in bulk is possible using the Sablier batch contracts.
 """
-type DeprecatedStream @entity(immutable: true) {
+type LockupBatch @entity(immutable: true) {
   """
-  Unique identifier: \`{contractAddress}-{chainId}-{tokenId}\`
+  The sender address that created this batch.
+  """
+  batcher: LockupBatcher
+  """
+  Hash of the Ethereum transaction that created this batch.
+  """
+  hash: Bytes
+  """
+  Unique identifier: `batch-{chainId}-{txHash}-{batcher}`
   """
   id: String!
+  """
+  Index of the batch based on the `batchCounter` in the `Batcher` entity.
+  """
+  position: BigInt
+  """
+  Number of streams part of this batch.
+  """
+  size: BigInt!
+  """
+  Streams part of this batch.
+  """
+  streams: [LockupStream!]! @derivedFrom(field: "batch")
+  """
+  Timestamp of the transaction that created this batch.
+  """
+  timestamp: BigInt
+}
+
+"""
+Sender address that created batches.
+"""
+type LockupBatcher @entity(immutable: false) {
+  """
+  Total number of batches started by this sender.
+  """
+  batchCounter: BigInt!
+  """
+  Batches started by this sender.
+  """
+  batches: [LockupBatch!]! @derivedFrom(field: "batcher")
+  """
+  Unique identifier: `batcher-{chainId}-{sender}`
+  """
+  id: String!
+}
+
+type LockupStream @entity(immutable: false) {
+  """
+  Actions triggered by this stream.
+  """
+  actions: [LockupAction!]! @derivedFrom(field: "stream")
+  """
+  Like the id: `{contractAlias}-{chainId}-{tokenId}`
+  """
+  alias: String!
+  """
+  ERC-20 token distributed via this stream.
+  """
+  asset: Asset!
+  """
+  ERC-20 token decimals. Stored here to avoid loading the asset entity on each stream.
+  Note: the "Value" suffix is added because of a bug in GraphQL Code Generator.
+  """
+  assetDecimalsValue: BigInt!
+  """
+  The batch the stream may be part of.
+  Note: this is available only when created within a batch create transaction.
+  """
+  batch: LockupBatch!
+  """
+  Flag indicating the cancelability of the stream.
+  """
+  cancelable: Boolean!
+  """
+  Flag indicating if the stream was canceled.
+  """
+  canceled: Boolean!
+  """
+  Action in which the stream was canceled.
+  """
+  canceledAction: LockupAction
+  """
+  Unix timestamp for the when the stream was canceled.
+  """
+  canceledTime: BigInt
+  """
+  Category used for sorting.
+  """
+  category: LockupStreamCategory!
   """
   The chain ID where the stream was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
   """
-  The address of the contract that created the stream.
+  Flag for Linear streams with a cliff.
   """
-  contractAddress: Bytes!
+  cliff: Boolean
   """
-  The id provided by the NFT contract. It's the ERC-721 tokenId.
+  The amount that will unlock at the cliff time.
   """
-  tokenId: BigInt!
+  cliffAmount: BigInt
+  """
+  Unix timestamp for the start of the cliff.
+  """
+  cliffTime: BigInt
+  """
+  The address of the contract the stream originates from.
+  """
+  contract: Bytes!
+  """
+  Flag indicating if the stream has been fully withdrawn (intactAmount is zero).
+  """
+  depleted: Boolean!
+  """
+  The amount deposited when the stream was created.
+  """
+  depositAmount: BigInt!
+  """
+  Snapshot of the duration in seconds (the difference between end and start time).
+  """
+  duration: BigInt!
+  """
+  Unix timestamp for the end of the stream.
+  """
+  endTime: BigInt!
+  """
+  The account that funded the stream, which can be different from the sender.
+  """
+  funder: Bytes!
+  """
+  The smallest step in time between two consecutive token unlocks.
+  Applies only for LockupLinear and available since Lockup v4.0
+  """
+  granularity: BigInt
   """
   Hash of the Ethereum transaction that created this stream.
   """
   hash: Bytes!
   """
+  Unique identifier: `{contractAddress}-{chainId}-{tokenId}`
+  """
+  id: String!
+  """
+  Flag for Linear stream with an initial unlock.
+  Available since Lockup v2.0.
+  """
+  initial: Boolean
+  """
+  The initial unlock amount of a Linear stream.
+  Available since Lockup v2.0.
+  """
+  initialAmount: BigInt
+  """
+  The amount that is still held by the stream regardless of whether if was fully vested or not.
+  This is the difference between the deposit amount and all withdrawn amounts.
+  """
+  intactAmount: BigInt!
+  """
+  Position in the batch, if available.
+  """
+  position: BigInt!
+  """
+  Owner of the proxy when the stream is created through a PRBProxy (https://github.com/PaulRBerg/prb-proxy)
+  Note that proxy = stream sender, and proxender = owner of proxy
+  """
+  proxender: Bytes
+  """
+  Flag for streams created through a PRBProxy.
+  """
+  proxied: Boolean!
+  """
+  Current recipient of the stream, with permission to withdraw funds to any third-party address.
+  Note: the recipient can change on NFT transfer.
+  """
+  recipient: Bytes!
+  """
+  Action in which the stream was made non-cancelable.
+  Note: if the stream was made non-cancelable from the get-go, this is the same as the Create action.
+  """
+  renounceAction: LockupAction
+  """
+  Unix timestamp for when the stream was made non-cancelable. This can coincide with the create time.
+  """
+  renounceTime: BigInt
+  """
+  Segments of a Dynamic stream.
+  """
+  segments: [Segment!]! @derivedFrom(field: "stream")
+  """
+  Manager of the stream, with ability to cancel the stream.
+  """
+  sender: Bytes!
+  """
+  An optional parameter to specify the shape of the distribution.
+  Available since Lockup v2.0.
+  """
+  shape: String
+  """
+  The source of the shape value: Event (from contract event) or Inferred (computed by indexer).
+  """
+  shapeSource: ShapeSource
+  """
+  Unix timestamp for the start of the stream.
+  """
+  startTime: BigInt!
+  """
+  Unique global id as tracked by the `Watcher` entity.
+  🚨 This may change if new data sources are added and the chronological order of streams changes.
+  """
+  subgraphId: BigInt!
+  """
   Unix timestamp of the Ethereum transaction that created this stream.
   """
   timestamp: BigInt!
+  """
+  The id provided by the NFT contract. It's the ERC-721 tokenId.
+  """
+  tokenId: BigInt!
+  """
+  Segments of a Tranched stream.
+  """
+  tranches: [Tranche!]! @derivedFrom(field: "stream")
+  """
+  Flag indicating the transferability of the stream. This is set when the stream is created, and cannot
+  be changed later.
+  """
+  transferable: Boolean!
+  """
+  Version of contract, e.g., v1.0.
+  """
+  version: String!
+  """
+  The sum of all withdrawn amounts.
+  """
+  withdrawnAmount: BigInt!
+}
+
+enum LockupStreamCategory {
+  LockupDynamic
+  LockupLinear
+  LockupTranched
 }
 
 """
 See https://docs.sablier.com/concepts/lockup/segments
 """
 type Segment @entity(immutable: true) {
-  """
-  Unique identifier: `segment-{streamId}-{position}`
-  """
-  id: String!
   """
   Amount distributed by this segment.
   """
@@ -808,6 +772,10 @@ type Segment @entity(immutable: true) {
   See https://github.com/sablier-labs/lockup/blob/v2.0/src/types/DataTypes.sol#L279-L288
   """
   exponent: BigInt!
+  """
+  Unique identifier: `segment-{streamId}-{position}`
+  """
+  id: String!
   """
   Position of the segment inside the array.
   """
@@ -827,14 +795,15 @@ type Segment @entity(immutable: true) {
   stream: LockupStream!
 }
 
+enum ShapeSource {
+  Event
+  Inferred
+}
+
 """
 See https://docs.sablier.com/concepts/lockup/tranches
 """
 type Tranche @entity(immutable: true) {
-  """
-  Unique identifier: `tranche-{streamId}-{position}`
-  """
-  id: String!
   """
   Amount distributed by this tranche.
   """
@@ -847,6 +816,10 @@ type Tranche @entity(immutable: true) {
   Unix timestamp indicating the end of the tranche.
   """
   endTime: BigInt!
+  """
+  Unique identifier: `tranche-{streamId}-{position}`
+  """
+  id: String!
   """
   Position of the tranche inside the array.
   """
@@ -864,4 +837,31 @@ type Tranche @entity(immutable: true) {
   The stream in which this tranche was created.
   """
   stream: LockupStream!
+}
+
+type Watcher @entity(immutable: false) {
+  """
+  Alias for id.
+  """
+  chainId: BigInt!
+  """
+  Global counter for Flow actions.
+  """
+  flowActionCounter: BigInt!
+  """
+  Global counter for Flow streams.
+  """
+  flowStreamCounter: BigInt!
+  """
+  The chain ID. There is one watcher per subgraph.
+  """
+  id: String!
+  """
+  Global counter for Lockup actions.
+  """
+  lockupActionCounter: BigInt!
+  """
+  Global counter for Lockup streams.
+  """
+  lockupStreamCounter: BigInt!
 }

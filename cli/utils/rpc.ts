@@ -4,7 +4,7 @@ import { sablier } from "sablier";
 import { CliEnv } from "../services/env.js";
 import { ValidationError } from "./errors.js";
 
-const ROUTEMESH_URL_REGEX = /^https:\/\/lb\.routeme\.sh\/rpc\/(\d+)\/.+$/;
+const ROUTEMESH_URL_REGEX = /^https:\/\/lb\.routeme\.sh\/rpc\/(?<chainId>\d+)\/.+$/u;
 
 export type CliRpcConfig = {
   chain: Sablier.Chain;

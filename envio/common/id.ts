@@ -64,7 +64,7 @@ export namespace Id {
    */
   export function activity(event: Envio.Event<unknown>): string {
     const campaignId = campaign(event.srcAddress, event.chainId);
-    const timestamp = event.block.timestamp;
+    const { timestamp } = event.block;
     const day = BigInt(timestamp) / (60n * 60n * 24n); // 60 seconds * 60 minutes * 24 hours
     return `activity-${campaignId}-${day}`;
   }

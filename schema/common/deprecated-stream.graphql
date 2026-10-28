@@ -4,11 +4,6 @@ See https://x.com/Sablier/status/1914326014995620114
 """
 type DeprecatedStream @entity(immutable: true) {
   """
-  Unique identifier: \`{contractAddress}-{chainId}-{tokenId}\`
-  """
-  id: String!
-
-  """
   The chain ID where the stream was created (e.g., 137 for Polygon).
   """
   chainId: BigInt!
@@ -18,19 +13,23 @@ type DeprecatedStream @entity(immutable: true) {
   """
   contractAddress: Bytes!
 
-  """
-  The id provided by the NFT contract. It's the ERC-721 tokenId.
-  """
-  tokenId: BigInt!
-
   # ------------------------------- TRANSACTION ------------------------------ #
   """
   Hash of the Ethereum transaction that created this stream.
   """
   hash: Bytes!
+  """
+  Unique identifier: \`{contractAddress}-{chainId}-{tokenId}\`
+  """
+  id: String!
 
   """
   Unix timestamp of the Ethereum transaction that created this stream.
   """
   timestamp: BigInt!
+
+  """
+  The id provided by the NFT contract. It's the ERC-721 tokenId.
+  """
+  tokenId: BigInt!
 }

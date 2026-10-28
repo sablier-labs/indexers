@@ -8,8 +8,8 @@ type EventSegment = {
 export function convertSegments(eventSegments: readonly EventSegment[]) {
   const segments: Segment[] = [];
   for (const eventSegment of eventSegments) {
-    const amount = eventSegment.amount;
-    const exponent = eventSegment.exponent;
+    const { amount } = eventSegment;
+    const { exponent } = eventSegment;
     const milestone = "milestone" in eventSegment ? eventSegment.milestone : eventSegment.timestamp;
     segments.push({ amount, exponent, milestone });
   }

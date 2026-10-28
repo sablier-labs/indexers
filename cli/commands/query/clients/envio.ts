@@ -222,7 +222,7 @@ const parseEnvioPayload = (
       );
     }
 
-    const errors = payload.errors;
+    const { errors } = payload;
     if (Array.isArray(errors) && errors.length > 0) {
       const message = errors
         .map((error) => {
@@ -235,7 +235,7 @@ const parseEnvioPayload = (
       return yield* Effect.fail(new VendorApiError({ message, vendor: "envio" }));
     }
 
-    const data = payload.data;
+    const { data } = payload;
     if (!isRecord(data)) {
       return yield* Effect.fail(
         new VendorApiError({ message: "Missing data in Envio response", vendor: "envio" })
@@ -304,12 +304,12 @@ export const parseAssetsPage = (
         return yield* invalidPayload();
       }
 
-      const address = item.address;
-      const chainId = item.chainId;
-      const decimals = item.decimals;
-      const id = item.id;
-      const name = item.name;
-      const symbol = item.symbol;
+      const { address } = item;
+      const { chainId } = item;
+      const { decimals } = item;
+      const { id } = item;
+      const { name } = item;
+      const { symbol } = item;
 
       if (
         typeof address !== "string" ||
@@ -360,11 +360,11 @@ export const parseLockupStreamProxenderCandidatesPage = (
         return yield* invalidPayload();
       }
 
-      const chainId = item.chainId;
-      const contract = item.contract;
-      const id = item.id;
-      const sender = item.sender;
-      const version = item.version;
+      const { chainId } = item;
+      const { contract } = item;
+      const { id } = item;
+      const { sender } = item;
+      const { version } = item;
 
       if (
         typeof contract !== "string" ||
@@ -427,7 +427,7 @@ export const fetchAssets = (opts: { endpoint: string }) =>
     const assets: EnvioIndexerAsset[] = [];
     let afterId = "";
 
-    while (true) {
+    for (;;) {
       const page = yield* fetchAssetsPage({
         afterId,
         endpoint: opts.endpoint,
@@ -451,7 +451,7 @@ export const fetchLockupStreamProxenderCandidates = (opts: { endpoint: string })
     const streams: EnvioLockupStreamProxenderCandidate[] = [];
     let afterId = "";
 
-    while (true) {
+    for (;;) {
       const page = yield* fetchLockupStreamProxenderCandidatesPage({
         afterId,
         endpoint: opts.endpoint,
@@ -491,7 +491,7 @@ export const fetchQuarterlyAverageMau = (opts: { quarterEnd: string; quarterStar
       );
     }
 
-    const aggregate = aggregateValue.aggregate;
+    const { aggregate } = aggregateValue;
     if (aggregate === null) {
       return { average: null } satisfies QuarterlyAverageMauResult;
     }
@@ -502,7 +502,7 @@ export const fetchQuarterlyAverageMau = (opts: { quarterEnd: string; quarterStar
       );
     }
 
-    const avg = aggregate.avg;
+    const { avg } = aggregate;
     if (avg === null) {
       return { average: null } satisfies QuarterlyAverageMauResult;
     }
@@ -544,7 +544,7 @@ export const fetchUsdFees = (opts: { dateEnd: string; dateStart: string }) =>
       );
     }
 
-    const aggregate = aggregateValue.aggregate;
+    const { aggregate } = aggregateValue;
     if (aggregate === null) {
       return { totalUsd: null } satisfies UsdFeesResult;
     }
@@ -555,7 +555,7 @@ export const fetchUsdFees = (opts: { dateEnd: string; dateStart: string }) =>
       );
     }
 
-    const sum = aggregate.sum;
+    const { sum } = aggregate;
     if (sum === null) {
       return { totalUsd: null } satisfies UsdFeesResult;
     }
@@ -593,7 +593,7 @@ export const fetchUniqueTxs = (opts: { dateEnd: string; dateStart: string }) =>
       );
     }
 
-    const aggregate = aggregateValue.aggregate;
+    const { aggregate } = aggregateValue;
     if (!isRecord(aggregate)) {
       return yield* Effect.fail(
         new VendorApiError({ message: "Invalid transactions aggregate payload", vendor: "envio" })

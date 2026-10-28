@@ -38,7 +38,7 @@ describe("CLI RPC config", () => {
   });
 
   it("falls back to public RPC defaults when the RouteMesh API key is missing or blank", () => {
-    const defaults = sablier.chains.getOrThrow(1).rpc.defaults;
+    const { defaults } = sablier.chains.getOrThrow(1).rpc;
 
     expect(
       Effect.runSync(resolveCliRpcConfig(1).pipe(Effect.provide(makeCliEnvLayer()))).rpcUrls

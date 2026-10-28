@@ -41,7 +41,7 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* --------------------------------- STREAM --------------------------------- */
-  const withdrawAmount = event.params.withdrawAmount;
+  const { withdrawAmount } = event.params;
   const updatedStream = {
     ...stream,
     availableAmount: stream.availableAmount - withdrawAmount,

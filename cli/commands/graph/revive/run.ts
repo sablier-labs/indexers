@@ -154,7 +154,7 @@ export const handler = (options: {
 
     if (options.dryRun) {
       yield* Console.log(colors.warning("\n🧪 DRY RUN MODE - No queries will be executed\n"));
-      for (let i = 0; i < chainIds.length; i++) {
+      for (let i = 0; i < chainIds.length; i += 1) {
         const chainId = chainIds[i];
         const chain = sablier.chains.get(chainId);
         const chainName = chain?.name ?? `Chain ${chainId}`;
@@ -170,7 +170,7 @@ export const handler = (options: {
     const allResults: QueryResult[] = [];
 
     // Process chains sequentially
-    for (let i = 0; i < chainIds.length; i++) {
+    for (let i = 0; i < chainIds.length; i += 1) {
       const chainId = chainIds[i];
       const chain = sablier.chains.get(chainId);
       const chainName = chain?.name ?? `Chain ${chainId}`;

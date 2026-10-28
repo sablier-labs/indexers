@@ -144,7 +144,7 @@ type Bytes32MetadataCalls = {
 
 function removeUrls(str: string): string {
   const matches = linkify.find(str, "url");
-  if (!matches || matches.length === 0) {
+  if (matches.length === 0) {
     return str;
   }
 
@@ -154,12 +154,12 @@ function removeUrls(str: string): string {
     result = result.slice(0, match.start) + result.slice(match.end);
   }
 
-  return result.replace(/\s{2,}/g, " ").trim();
+  return result.replace(/\s{2,}/gu, " ").trim();
 }
 
 function sanitizeString(str: string): string {
   // biome-ignore lint/suspicious/noControlCharactersInRegex: keep parity with Envio cache sanitization.
-  return str.replace(/[\u0000-\u001F\u007F-\u009F]/g, "").trim();
+  return str.replace(/[\u0000-\u001F\u007F-\u009F]/gu, "").trim();
 }
 
 function sanitizeTokenString(str: string): string {
@@ -205,7 +205,7 @@ async function mapConcurrent<T, R>(
   async function worker() {
     while (nextIndex < values.length) {
       const index = nextIndex;
-      nextIndex++;
+      nextIndex += 1;
       results[index] = await fn(values[index], index);
     }
   }

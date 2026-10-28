@@ -49,7 +49,7 @@ struct ConstructorParams {
 */
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLT.handler(async ({ context, event }) => {
-  const baseParams = event.params.baseParams;
+  const { baseParams } = event.params;
   const admin = baseParams.initialAdmin;
   const asset = baseParams.token;
   const result = await preloadCreateEntities({ context, event, params: { admin, asset } });

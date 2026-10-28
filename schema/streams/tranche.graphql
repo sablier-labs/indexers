@@ -3,11 +3,6 @@ See https://docs.sablier.com/concepts/lockup/tranches
 """
 type Tranche @entity(immutable: true) {
   """
-  Unique identifier: `tranche-{streamId}-{position}`
-  """
-  id: String!
-
-  """
   Amount distributed by this tranche.
   """
   amount: BigInt!
@@ -21,6 +16,10 @@ type Tranche @entity(immutable: true) {
   Unix timestamp indicating the end of the tranche.
   """
   endTime: BigInt!
+  """
+  Unique identifier: `tranche-{streamId}-{position}`
+  """
+  id: String!
 
   """
   Position of the tranche inside the array.

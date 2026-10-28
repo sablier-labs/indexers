@@ -27,7 +27,7 @@ type FailureSummary = {
   retryCount: number;
 };
 
-const ERROR_REGEX = /^.*?Error:\s*/;
+const ERROR_REGEX = /^.*?Error:\s*/u;
 
 function extractFirstErrorLine(errorMessage: string): string {
   // Extract the most relevant error line
@@ -95,8 +95,8 @@ function generateMarkdownTable(failures: FailureSummary[]): string {
   markdown += "|------|-------|:-------:|\n";
 
   for (const failure of failures) {
-    const testName = failure.fullName.replace(/\|/g, "\\|"); // Escape pipes
-    const error = failure.shortError.replace(/\|/g, "\\|").slice(0, 100); // Limit length
+    const testName = failure.fullName.replace(/\|/gu, "\\|"); // Escape pipes
+    const error = failure.shortError.replace(/\|/gu, "\\|").slice(0, 100); // Limit length
     const retries = `${failure.retryCount}/${failure.retryCount}`;
 
     markdown += `| ${testName} | ${error} | ${retries} |\n`;

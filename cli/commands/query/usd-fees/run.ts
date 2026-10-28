@@ -12,7 +12,7 @@ function formatUsd(value: bigint): string {
   const isNegative = normalized.startsWith("-");
   const amount = isNegative ? normalized.slice(1) : normalized;
   const [integerPart, fractionalPart] = amount.split(".");
-  const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const formattedInteger = integerPart.replace(/\B(?=(?:\d{3})+(?!\d))/gu, ",");
   const paddedFractional = (fractionalPart ?? "").padEnd(2, "0").slice(0, 2);
   const prefix = isNegative ? "-" : "";
   return `${prefix}$${formattedInteger}.${paddedFractional}`;

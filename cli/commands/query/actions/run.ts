@@ -28,7 +28,7 @@ function toUnixSeconds(value: Dayjs): string {
 
 export const handler = (options: { readonly chainId: number; readonly quarter: string }) =>
   Effect.gen(function* () {
-    const chainId = options.chainId;
+    const { chainId } = options;
     const quarterWindow = yield* getQuarterWindow(options.quarter);
 
     if (chainId <= 0) {

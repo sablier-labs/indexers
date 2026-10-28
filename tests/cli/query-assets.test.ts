@@ -9,14 +9,16 @@ import {
 } from "../../cli/commands/query/assets.file.js";
 import { getNextAssetsCursor, parseAssetsPage } from "../../cli/commands/query/clients/envio.js";
 
-const INVALID_ENVIO_ASSET_PAYLOAD_REGEX = /Invalid Envio asset payload|Out-of-range integer value/;
+const INVALID_ENVIO_ASSET_PAYLOAD_REGEX = /Invalid Envio asset payload|Out-of-range integer value/u;
 const QUERY_ASSETS_DATE = "2026-03-06";
 const GENERATED_AT = "2026-03-06T00:00:00.000Z";
 const AIRDROPS_MAINNET_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/airdrops/mainnet\\.json$`
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/airdrops/mainnet\\.json$`,
+  "u"
 );
 const STREAMS_OPTIMISM_FILE_REGEX = new RegExp(
-  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/optimism\\.json$`
+  `cli/generated/assets-${QUERY_ASSETS_DATE}/streams/optimism\\.json$`,
+  "u"
 );
 
 describe("query-assets helpers", () => {

@@ -33,7 +33,7 @@ export function getNickname(
  */
 export function isOfficialLockup(address: Address): boolean {
   const lockups = readLockups();
-  for (let i = 0; i < lockups.length; i++) {
+  for (let i = 0; i < lockups.length; i += 1) {
     if (Address.fromString(lockups[i]).equals(address)) {
       return true;
     }

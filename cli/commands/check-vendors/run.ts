@@ -79,7 +79,7 @@ const checkGraphSupport = (chainId: number): Effect.Effect<VendorCheckResult> =>
 
 export const handler = (options: { readonly chainId: number }) =>
   Effect.gen(function* () {
-    const chainId = options.chainId;
+    const { chainId } = options;
 
     // Validate chain ID
     if (chainId <= 0) {

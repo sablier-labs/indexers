@@ -36,7 +36,7 @@ export function readLockups(): string[] {
     shutDown("Lockups not found in data source context: {}", [dataSource.address().toHexString()]);
     return [];
   }
-  return value.toArray().map<string>((value) => value.toString());
+  return value.toArray().map<string>((entry) => entry.toString());
 }
 
 function readBigInt(key: string): BigInt {

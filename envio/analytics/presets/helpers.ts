@@ -134,7 +134,7 @@ export async function fetchAllActions(
         break;
       }
 
-      const actions = response.actions;
+      const { actions } = response;
       allActions.push(...actions);
 
       if (actions.length < batchSize) {
@@ -205,7 +205,7 @@ export async function processActions(
 
       // Filter out null/undefined addresses
       const addresses = [action.addressA, action.addressB, action.from].filter(
-        (addr): addr is string => addr != null
+        (addr): addr is string => addr !== null && addr !== undefined
       );
       promises.push(Store.User.createOrUpdate(context, event, addresses));
 

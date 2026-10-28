@@ -47,7 +47,7 @@ const handler: Handler = async ({ context, event }) => {
   const scaledAvailableAmount = scale(availableAmount, stream.assetDecimalsValue);
 
   const now = BigInt(event.block.timestamp);
-  let snapshotAmount = stream.snapshotAmount;
+  let { snapshotAmount } = stream;
   // If the stream has not started yet, the snapshot amount is not updated.
   if (now > stream.startTime) {
     const actualAdjustmentTime =
@@ -62,7 +62,7 @@ const handler: Handler = async ({ context, event }) => {
   const notWithdrawnAmount = snapshotAmount - withdrawnAmount;
 
   // If the stream still has debt, mimic the contract behavior.
-  let depletionTime = stream.depletionTime;
+  let { depletionTime } = stream;
   if (scaledAvailableAmount > notWithdrawnAmount) {
     const extraAmount = scaledAvailableAmount - notWithdrawnAmount;
 
