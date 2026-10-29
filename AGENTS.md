@@ -38,18 +38,21 @@ recipe for scope accounting and to attribute its resulting diffs; the formatter 
 Public source schemas are in `schema/` for airdrops and streams, while `envio/analytics/analytics.graphql` is maintained
 directly. The tracked public Envio outputs are `envio/airdrops/{config.yaml,airdrops.graphql}` and
 `envio/streams/{config.yaml,streams.graphql}`; CI regenerates Envio and verifies precisely those four files.
-`just export-schema` writes the tracked package exports in `src/schemas/`. GraphQL schema outputs under `graph/` are
-ignored. `events/`, `contracts/`, and `src/indexers/envio.ts` drive Envio configs; changing `abi/*.json` does not.
+`just export-schema` writes the tracked repository schema snapshots in `src/schemas/`. The npm package does not ship
+these GraphQL files. GraphQL schema outputs under `graph/` are ignored. `events/`, `contracts/`, and
+`src/indexers/envio.ts` drive Envio configs; changing `abi/*.json` does not.
 
-A Husky pre-commit hook runs `lint-staged`. Schema-source changes regenerate all vendor schemas and package exports,
-then lint their outputs; config-source changes run `just codegen::envio-config all` and verify the tracked public Envio
-configs. If the hook reports drift, rerun the applicable generation command and stage its expected tracked output.
+A Husky pre-commit hook runs `lint-staged`. It rejects partially staged files and disables stashing and hiding partial
+changes. Stage or unstage each file fully before committing. Schema-source changes regenerate all vendor schemas and
+repository snapshots, then lint their outputs; config-source changes run `just codegen::envio-config all` and verify the
+tracked public Envio configs. If the hook reports drift, rerun the applicable generation command and stage its expected
+tracked output.
 
 ## Schema Rules
 
 Edit source schemas, then use `just codegen::schema <vendor> <indexer>` for vendor outputs and `just export-schema` for
-package exports. Do not edit generated public vendor schemas or package exports directly; analytics is the direct-schema
-exception above.
+repository snapshots. Do not edit generated public vendor schemas or repository snapshots directly; analytics is the
+direct-schema exception above.
 
 ## Changelog
 

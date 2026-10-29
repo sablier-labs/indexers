@@ -26,6 +26,9 @@ jobs:
       - name: Codegen Envio indexers
         run: just ci-run codegen::envio
 
+      - name: Type-check Envio indexers
+        run: just ci-run envio::type-check
+
       - name: Build all Graph indexers as a check
         run: just ci-run graph::build-all
 
