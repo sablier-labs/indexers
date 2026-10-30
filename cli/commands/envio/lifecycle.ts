@@ -45,6 +45,31 @@ function failure(operation: string, message: string) {
   return new EnvioCloudError({ message, operation });
 }
 
+/** Shared native `deployment logs` argv for operator reads and bounded failure reports. */
+export function readDeploymentLogs(
+  cloud: ReleaseOperations["cloud"],
+  target: EnvioTarget,
+  commit: string,
+  build: boolean,
+  since: string,
+  limit: number
+) {
+  return cloud.readJson(
+    [
+      "deployment",
+      "logs",
+      getEnvioTarget(target).cloudName,
+      commit,
+      ...(build ? ["--build"] : []),
+      "--since",
+      since,
+      "--limit",
+      String(limit),
+    ],
+    Schema.Array(Schema.Unknown)
+  );
+}
+
 function getProduction(indexer: CloudIndexer) {
   const production = indexer.deployments.filter((item) => item.prod_status === "prod");
   if (production.length !== 1) {
@@ -84,30 +109,9 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     );
   }
 
-  function selected(target: EnvioTarget, selector: DeploymentSelector) {
-    return inventory(target).pipe(Effect.flatMap((indexer) => selectDeployment(indexer, selector)));
-  }
-
-  function logs(target: EnvioTarget, commit: string, build: boolean, since: string, limit: number) {
-    return ops.cloud.readJson(
-      [
-        "deployment",
-        "logs",
-        getEnvioTarget(target).cloudName,
-        commit,
-        ...(build ? ["--build"] : []),
-        "--since",
-        since,
-        "--limit",
-        String(limit),
-      ],
-      Schema.Array(Schema.Unknown)
-    );
-  }
-
   function reportFailureLogs(target: EnvioTarget, commit: string) {
     return Effect.forEach([true, false], (build) =>
-      logs(target, commit, build, build ? "24h" : "30m", 30).pipe(
+      readDeploymentLogs(ops.cloud, target, commit, build, build ? "24h" : "30m", 30).pipe(
         Effect.flatMap((rows) =>
           ops.log(`${build ? "Build" : "Runtime"} logs for ${commit}: ${JSON.stringify(rows)}`)
         ),
@@ -118,7 +122,11 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     );
   }
 
-  function waitReady(prepared: PreparedDeployment, timeout: number) {
+  /**
+   * Readiness observation never mutates Cloud by default. Only `deploy` may enable one manual
+   * trigger, and only when the hosted project has auto-deploy disabled.
+   */
+  function waitReady(prepared: PreparedDeployment, timeout: number, manualTrigger = false) {
     const { cloudName } = getEnvioTarget(prepared.target);
     return Effect.gen(function* () {
       const deadline = (yield* ops.now()) + timeout;
@@ -153,8 +161,11 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
               )
             );
           }
-          if (commit.status === "inactive" && !triggered) {
-            // One manual trigger only; auto-deploy and pending/deploy states are observed first.
+          if (commit.status === "inactive" && manualTrigger && !triggered) {
+            // Auto-deploy is disabled on the hosted project: trigger this commit exactly once.
+            yield* ops.log(
+              `${prepared.target} ${commit.commit_hash} is inactive and auto-deploy is disabled; triggering one manual deployment`
+            );
             yield* mutate("deploy", prepared.target, commit.commit_hash);
             triggered = true;
           } else if (
@@ -271,7 +282,8 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     previousProduction = expectedCloudCommit
   ) {
     return Effect.gen(function* () {
-      // The marker may take a moment to reflect promotion, but any third deployment aborts.
+      // The marker may take a moment to reflect promotion. Only the expected previous or
+      // candidate identity may hold it; any other production identity aborts before cleanup.
       const deadline = (yield* ops.now()) + timeout;
       while ((yield* ops.now()) < deadline) {
         const current = yield* production(prepared.target);
@@ -431,7 +443,8 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
         );
       }
       yield* ops.push(prepared);
-      yield* waitReady(prepared, timeout);
+      // Auto-deploy projects are observed only; a disabled project gets one manual trigger.
+      yield* waitReady(prepared, timeout, !settings.auto_deploy);
       return prepared;
     });
   }
@@ -527,5 +540,5 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     });
   }
 
-  return { cleanup, deploy, logs, promote, selected, waitReady };
+  return { cleanup, deploy, promote, waitReady };
 }

@@ -58,7 +58,10 @@ export function parseDeploymentConfig(text: string): DeploymentConfig {
   return config;
 }
 
-/** Only the captured config defines an end block; status API end_block: 0 is a sentinel. */
+/**
+ * Only the captured config defines an end block; status API end_block: 0 is a sentinel.
+ * Metrics are sampled non-atomically, so processed may briefly exceed the sampled head.
+ */
 export function syncProgress(config: DeploymentConfig, metrics: Metrics) {
   if (new Set(metrics.map((metric) => metric.chain_id)).size !== metrics.length) {
     throw new Error("Metrics contain duplicate chains");
@@ -73,7 +76,6 @@ export function syncProgress(config: DeploymentConfig, metrics: Metrics) {
       metric !== undefined &&
       metric.start_block === chain.start_block &&
       metric.block_height > 0 &&
-      metric.latest_processed_block <= metric.block_height &&
       goal !== undefined &&
       goal >= chain.start_block;
     return {

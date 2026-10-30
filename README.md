@@ -64,17 +64,20 @@ Deployment creates a temporary detached worktree at `--ref` (default `HEAD`), pr
 writes the **source SHA** and deployment timestamp into public `IndexerInfo` metadata. It then force-pushes a distinct
 **prepared SHA** to `deployment/<target>`. Cloud selectors always identify that prepared commit. The caller's checkout
 and index are untouched. Historical prepared objects are recovered locally or by fetching an exact SHA; provide the full
-prepared SHA if an older object is unavailable and no longer heads the deployment branch.
+prepared SHA if an older object is unavailable and no longer heads the deployment branch. `status` and `promote` read
+the prepared object, so they may fetch a missing object from `origin` and require GitHub access.
 
-The workflow verifies hosted repository, branch, root directory, and config settings before pushing. It observes
-auto-deploy, triggers an inactive commit once, polls every ten seconds, and requires valid metrics for every chain in
-the exact deployed config to reach its current head or configured end block. Public candidate GraphQL checks require the
-captured source SHA and timestamp on every chain. Every target requires the Cloud production record's endpoint to match
-the configured stable alias before cleanup. Analytics verifies completed metrics, successful `UserTransaction` queries
-on the candidate and stable alias, and the actual Cloud production marker. Its schema does not expose deployment
-metadata, so analytics deployment identity relies on that Cloud marker and endpoint mapping. Before promotion, timeouts
-and failed builds preserve production and print bounded build/runtime logs. If verification fails after promotion,
-cleanup stops and reports that production may already have changed.
+The workflow verifies hosted repository, branch, root directory, and config settings before pushing. Projects with
+auto-deploy enabled are observed only; the CLI never manually triggers builds for them. If auto-deploy is disabled,
+`deploy` triggers the pushed inactive commit exactly once. Readiness verification during `promote` and `cleanup` never
+triggers builds. Polling runs every ten seconds and requires valid metrics for every chain in the exact deployed config
+to reach its sampled head or configured end block. Public candidate GraphQL checks require the captured source SHA and
+timestamp on every chain. Every target requires the Cloud production record's endpoint to match the configured stable
+alias before cleanup. Analytics verifies completed metrics, successful `UserTransaction` queries on the candidate and
+stable alias, and the actual Cloud production marker. Its schema does not expose deployment metadata, so analytics
+deployment identity relies on that Cloud marker and endpoint mapping. Before promotion, timeouts and failed builds
+preserve production and print bounded build/runtime logs. If verification fails after promotion, cleanup stops and
+reports that production may already have changed.
 
 `deploy` leaves a synced candidate for previewing. It retains the existing `all` default; `release` requires one
 explicit target. `release` composes deployment and promotion. Promotion displays the current production, candidate, and

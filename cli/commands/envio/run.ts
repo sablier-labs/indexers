@@ -1,14 +1,14 @@
-import { Console, Effect, Schema } from "effect";
+import { Console, Effect } from "effect";
 import { EnvioCloud, EnvioCloudLive } from "../../services/envio-cloud.js";
 import { CLOUD_COMMIT_PATTERN, EnvioCloudError } from "../../services/envio-cloud.types.js";
 import type { DeploymentSelector } from "./discovery.js";
 import { discoverDeployment } from "./discovery.js";
-import { makeReleaseWorkflow } from "./lifecycle.js";
+import { makeReleaseWorkflow, readDeploymentLogs } from "./lifecycle.js";
 import { MetricsSchema, parseTimeout, syncProgress } from "./model.js";
 import { readPreparedDeployment, withProjectLock } from "./preparation.js";
 import { makeReleaseOperations } from "./runtime.js";
 import type { EnvioTarget } from "./targets.js";
-import { envioTargets, getEnvioTarget } from "./targets.js";
+import { envioTargets } from "./targets.js";
 
 function validated<A>(operation: string, evaluate: () => A) {
   return Effect.try({
@@ -106,19 +106,13 @@ export const logs = (
     }
     const selected = yield* discoverDeployment(args.indexer, selector);
     const cloud = yield* EnvioCloud;
-    const rows = yield* cloud.readJson(
-      [
-        "deployment",
-        "logs",
-        getEnvioTarget(args.indexer).cloudName,
-        selected.deployment.commit_hash,
-        ...(args.build ? ["--build"] : []),
-        "--since",
-        args.since,
-        "--limit",
-        String(args.limit),
-      ],
-      Schema.Array(Schema.Unknown)
+    const rows = yield* readDeploymentLogs(
+      cloud,
+      args.indexer,
+      selected.deployment.commit_hash,
+      args.build,
+      args.since,
+      args.limit
     );
     yield* Console.log(JSON.stringify(rows, null, 2));
   }).pipe(Effect.provide(EnvioCloudLive));

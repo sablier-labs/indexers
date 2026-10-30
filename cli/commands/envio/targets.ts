@@ -1,5 +1,6 @@
 import { envioDeployments } from "../../../src/indexers/envio-deployments.js";
 import { ENVIO_CLOUD_ORG } from "../../services/envio-cloud.types.js";
+import { ENVIO_ANALYTICS_ENDPOINT } from "../query/clients/envio.js";
 
 export const envioTargets = {
   airdrops: {
@@ -8,7 +9,7 @@ export const envioTargets = {
   },
   analytics: {
     cloudName: "analytics",
-    productionEndpointUrl: "https://indexer.hyperindex.xyz/7672d32/v1/graphql",
+    productionEndpointUrl: ENVIO_ANALYTICS_ENDPOINT,
   },
   streams: {
     cloudName: "lockup-envio",

@@ -1,7 +1,7 @@
 import { Effect, Either, Schema } from "effect";
 import { describe, expect, it } from "vitest";
 import type { ReleaseOperations } from "../../../cli/commands/envio/lifecycle.js";
-import { makeReleaseWorkflow } from "../../../cli/commands/envio/lifecycle.js";
+import { makeReleaseWorkflow, readDeploymentLogs } from "../../../cli/commands/envio/lifecycle.js";
 import type { PreparedDeployment } from "../../../cli/commands/envio/model.js";
 import {
   MetricsSchema,
@@ -216,11 +216,42 @@ describe("Envio release safety", () => {
     expect(f.state.production).toBe(previous);
   });
 
-  it("manually triggers an inactive prepared commit once and waits for active", async () => {
+  it("observes inactive through active without a manual trigger when auto-deploy is enabled", async () => {
     const f = fixture();
-    f.state.statuses = ["inactive", "inactive", "active"];
-    await Effect.runPromise(f.workflow.waitReady(prepared, 60_000));
-    expect(f.actions).toEqual([`deploy:${candidate}`]);
+    f.state.commits = [previous];
+    f.state.statuses = ["inactive", "pending", "deploy", "active"];
+    await Effect.runPromise(f.workflow.deploy("streams", "HEAD", 60_000));
+    expect(f.actions).toEqual(["prepare", `push:${prepared.preparedCommit}`]);
+  });
+
+  it("triggers an inactive commit exactly once when auto-deploy is disabled", async () => {
+    const f = fixture();
+    f.state.autoDeploy = false;
+    f.state.commits = [previous];
+    f.state.statuses = ["inactive", "inactive", "inactive", "active"];
+    await Effect.runPromise(f.workflow.deploy("streams", "HEAD", 60_000));
+    expect(f.actions).toEqual([
+      "prepare",
+      `push:${prepared.preparedCommit}`,
+      `deploy:${candidate}`,
+    ]);
+    expect(f.messages.some((message) => message.includes("triggering one manual deployment"))).toBe(
+      true
+    );
+  });
+
+  it("never mutates during default readiness or promotion checks on an inactive commit", async () => {
+    const readiness = fixture();
+    readiness.state.statuses = ["inactive"];
+    expect(await fail(readiness.workflow.waitReady(prepared, 100))).toContain("Timed out");
+    expect(readiness.actions).toEqual(["logs", "logs"]);
+    const promotion = fixture();
+    promotion.state.statuses = ["inactive"];
+    expect(
+      await fail(promotion.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100))
+    ).toContain("Timed out");
+    expect(promotion.actions).toEqual(["logs", "logs"]);
+    expect(promotion.state.commits).toEqual([candidate, previous, older]);
   });
 
   it("verifies retained deployments omitted from recent commit history for promotion and cleanup", async () => {
@@ -393,6 +424,60 @@ describe("Envio completion and smoke evidence", () => {
       "chains:\n  - id: 1\n    start_block: 10\n    end_block: 999\n"
     );
     expect(syncProgress(futureEnd, completeMetrics)[0].complete).toBe(true);
+  });
+
+  it("accepts a non-atomic sample where processed exceeds the head but not one below the goal", () => {
+    const ahead = completeMetrics.map((metric) => ({
+      ...metric,
+      latest_processed_block: metric.block_height + 1,
+    }));
+    expect(syncProgress(prepared.config, ahead).every((row) => row.complete)).toBe(true);
+    const behind = completeMetrics.map((metric) => ({
+      ...metric,
+      latest_processed_block: metric.block_height - 1,
+    }));
+    expect(syncProgress(prepared.config, behind).some((row) => row.complete)).toBe(false);
+  });
+
+  it("builds one bounded native log argv for operator and failure reads", () => {
+    const calls: Array<readonly string[]> = [];
+    const cloud = makeEnvioCloud((args) => {
+      calls.push(args);
+      return Effect.succeed({ exitCode: 0, stderr: "", stdout: '{"ok":true,"data":[]}' });
+    });
+    Effect.runSync(readDeploymentLogs(cloud, "streams", candidate, true, "24h", 30));
+    Effect.runSync(readDeploymentLogs(cloud, "airdrops", candidate, false, "30m", 100));
+    expect(calls).toEqual([
+      [
+        "deployment",
+        "logs",
+        "lockup-envio",
+        candidate,
+        "--build",
+        "--since",
+        "24h",
+        "--limit",
+        "30",
+        "--org",
+        "sablier-labs",
+        "--output",
+        "json",
+      ],
+      [
+        "deployment",
+        "logs",
+        "merkle-envio",
+        candidate,
+        "--since",
+        "30m",
+        "--limit",
+        "100",
+        "--org",
+        "sablier-labs",
+        "--output",
+        "json",
+      ],
+    ]);
   });
 
   it("rejects malformed and duplicate config/metrics and invalid timeouts", () => {
