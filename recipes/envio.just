@@ -34,71 +34,51 @@ set working-directory := ".."
 
 alias tc := type-check
 
-# Deploy Envio indexer(s) by syncing current branch to deployment branches
-[confirm("This will force-push to deployment branch(es). Continue? [y/N]")]
-@deploy indexer="all":
-    just envio::_deploy-for-each {{ indexer }}
+# Inventory the three hosted projects
+@list:
+    just cli envio list
 
-[script("bash")]
-_deploy indexer:
-    set -euo pipefail
-    case "{{ indexer }}" in
-        airdrops | analytics | streams) ;;
-        *)
-            echo "❌ Invalid indexer: '{{ indexer }}'. Must be one of: airdrops, streams, analytics" >&2
-            exit 1
-            ;;
-    esac
-    deployment_indexer="{{ indexer }}"
-    deployment_branch="deployment/$deployment_indexer"
-    source_commit=$(git rev-parse HEAD)
-    tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/envio-deploy.XXXXXX")
-    worktree="$tmpdir/worktree"
-    cleanup() {
-        git worktree remove --force "$worktree" >/dev/null 2>&1 || true
-        rm -rf "$tmpdir"
-    }
-    trap cleanup EXIT
+# Inspect a production, latest-nonproduction, or exact prepared commit deployment
+[arg("indexer", pattern="^(airdrops|analytics|streams)$")]
+[positional-arguments]
+@status indexer deployment="production":
+    pnpm tsx cli/index.ts envio status --indexer "$1" --deployment "$2"
 
-    git worktree add --detach "$worktree" HEAD
-    cd "$worktree"
+# Print only the selected deployment URL to stdout (fails closed)
+[arg("indexer", pattern="^(airdrops|analytics|streams)$")]
+[positional-arguments]
+@endpoint indexer deployment="production":
+    pnpm tsx cli/index.ts envio endpoint --indexer "$1" --deployment "$2"
 
-    case "$deployment_indexer" in
-        airdrops | streams)
-            cache_source="envio/$deployment_indexer/.envio/cache"
-            cache_file="$cache_source/tokenMetadata.tsv"
-            metadata_file="envio/$deployment_indexer/indexer-info.json"
+# Bounded runtime logs; pass --build, --since, or --limit after the selector
+[arg("indexer", pattern="^(airdrops|analytics|streams)$")]
+[positional-arguments]
+@logs indexer deployment="production" *args:
+    pnpm tsx cli/index.ts envio logs --indexer "$1" --deployment "$2" "${@:3}"
 
-            if [ ! -s "$cache_file" ]; then
-                echo "❌ $cache_file is missing or empty" >&2
-                exit 1
-            fi
+# Prepare, push, and wait for a synced candidate without changing production
+[arg("indexer", pattern="^(airdrops|analytics|streams|all)$")]
+[positional-arguments]
+@deploy indexer="all" *args:
+    pnpm tsx cli/index.ts envio deploy --indexer "$1" "${@:2}"
 
-            # Envio restores effect caches from .envio/cache relative to its process cwd.
-            # Hosted can perform that restore from repo root, while local/package starts cd into envio/<indexer>.
-            # Commit a root cache copy on deployment branches so token metadata is visible in both cwd layouts.
-            rm -rf .envio/cache
-            mkdir -p .envio
-            cp -R "$cache_source" .envio/cache
-            git add -A .envio/cache
+# Verify a candidate, confirm promotion, then remove the reviewed previous deployments
+[arg("indexer", pattern="^(airdrops|analytics|streams)$")]
+[positional-arguments]
+@promote indexer deployment="latest-nonproduction" *args:
+    pnpm tsx cli/index.ts envio promote --indexer "$1" --deployment "$2" "${@:3}"
 
-            deployment_timestamp=$(date -u '+%s')
-            jq \
-                --arg commitHash "$source_commit" \
-                --argjson deployedAt "$deployment_timestamp" \
-                '.commitHash = $commitHash | .deployedAt = $deployedAt' \
-                "$metadata_file" > "$metadata_file.tmp"
-            mv "$metadata_file.tmp" "$metadata_file"
-            git add "$metadata_file"
-            ;;
-    esac
+# Deploy and promote exactly one explicit indexer; confirmation precedes production changes
+[arg("indexer", pattern="^(airdrops|analytics|streams)$")]
+[positional-arguments]
+@release indexer *args:
+    pnpm tsx cli/index.ts envio release --indexer "$1" "${@:2}"
 
-    timestamp=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
-    git commit --allow-empty -m "chore(envio): prepare $deployment_indexer deployment $timestamp"
-
-    echo "Deploying to $deployment_branch..."
-    git push --force origin HEAD:"$deployment_branch"
-    echo "✅ Deployed to $deployment_branch"
+# Dry-run by default; --apply requires repeated exact --commit IDs and confirmation
+[arg("indexer", pattern="^(airdrops|analytics|streams)$")]
+[positional-arguments]
+@cleanup indexer *args:
+    pnpm tsx cli/index.ts envio cleanup --indexer "$1" "${@:2}"
 
 # Open the Envio dashboard in the default browser
 [unix]
@@ -108,25 +88,6 @@ _deploy indexer:
 # ---------------------------------------------------------------------------- #
 #                                 PRIVATE UTILS                                #
 # ---------------------------------------------------------------------------- #
-
-[arg("indexer", pattern="^(airdrops|analytics|streams|all)$")]
-[script("bash")]
-_deploy-for-each indexer:
-    set -euo pipefail
-    case "{{ indexer }}" in
-        all)
-            just envio::_deploy airdrops
-            just envio::_deploy analytics
-            just envio::_deploy streams
-            ;;
-        airdrops | analytics | streams)
-            just envio::_deploy {{ indexer }}
-            ;;
-        *)
-            echo "❌ Invalid indexer: '{{ indexer }}'. Must be one of: airdrops, streams, analytics, all" >&2
-            exit 1
-            ;;
-    esac
 
 [arg("indexer", pattern="^(airdrops|streams|all)$")]
 [script("bash")]

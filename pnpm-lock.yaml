@@ -97,6 +97,9 @@ importers:
       envio:
         specifier: 3.2.1
         version: 3.2.1(bufferutil@4.1.0)(react-dom@19.2.7(react@19.2.7))(supports-color@8.1.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      envio-cloud:
+        specifier: 1.0.0
+        version: 1.0.0
       graphql:
         specifier: ^16.13.2
         version: 16.14.1
@@ -401,6 +404,31 @@ packages:
   '@elastic/ecs-pino-format@1.4.0':
     resolution: {integrity: sha512-eCSBUTgl8KbPyxky8cecDRLCYu2C1oFV4AZ72bEsI+TxXEvaljaL2kgttfzfu7gW+M89eCz55s49uF2t+YMTWA==}
     engines: {node: '>=10'}
+
+  '@envio-dev/envio-cloud-darwin-arm64@1.0.0':
+    resolution: {integrity: sha512-FVM51zsvyzpoUpqw4/dKdZDQRjcOVx0hYzk0ap1QOuZQYt31KNbM4dkgnon8KJnqzEhJNcLN5ev/4KsBCmFjjQ==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@envio-dev/envio-cloud-darwin-x64@1.0.0':
+    resolution: {integrity: sha512-LP5BHxcmjSeIwXO1A8nlZoEPYQ8rDM3ZUiSA9UWBz+D8zQa/r8bNSqppH19IBnuk3mm4xYynUmPqQHgnHLcKsg==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@envio-dev/envio-cloud-linux-arm64@1.0.0':
+    resolution: {integrity: sha512-gnhpQQnlBny8xSueOnTK+g16ye9v8PC3opXbd6ZWHZaN+Yl0zV15Qj9OSQV1enffSZr8nf+fBeDpIamAuVMmbw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@envio-dev/envio-cloud-linux-x64@1.0.0':
+    resolution: {integrity: sha512-whAxOwpOexpxIQJS76xSpNfwo2FBWtWTX7gtOWja8bsIO8ZnU7AMHyK/hfQaYuMMSrkvE8d+xqlL3LTO6tDZTw==}
+    cpu: [x64]
+    os: [linux]
+
+  '@envio-dev/envio-cloud-win32-x64@1.0.0':
+    resolution: {integrity: sha512-1zDdMDd3KLc07bjEB66ib3Doo+wv2Y7K/xtxGlH/h/cz2ru4Jz2uXzT/w/2v+MLSMbapAwBLuAxlPmyDejC0Ow==}
+    cpu: [x64]
+    os: [win32]
 
   '@envio-dev/hyperfuel-client-darwin-arm64@1.2.2':
     resolution: {integrity: sha512-eQyd9kJCIz/4WCTjkjpQg80DA3pdneHP7qhJIVQ2ZG+Jew9o5XDG+uI0Y16AgGzZ6KGmJSJF6wyUaaAjJfbO1Q==}
@@ -2226,6 +2254,10 @@ packages:
   enquirer@2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
     engines: {node: '>=8.6'}
+
+  envio-cloud@1.0.0:
+    resolution: {integrity: sha512-6oJ62ZeB2djKUN/2WuMyRZ18HWbp04jXKduMp37+CLycXKxcM1/P1V1wzgaea/UnyswwFc1BuYdO6gkQwU7YXg==}
+    hasBin: true
 
   envio-darwin-arm64@3.2.1:
     resolution: {integrity: sha512-PohM1rGjlNxV0W/BOQOitsVPua944B2t2M0p81x9VpsZOwNWc9SgPsEjIsV4ZJOIceJaHrmWZnfwaWubgDGKMg==}
@@ -4775,6 +4807,21 @@ snapshots:
     dependencies:
       '@elastic/ecs-helpers': 1.1.0
 
+  '@envio-dev/envio-cloud-darwin-arm64@1.0.0':
+    optional: true
+
+  '@envio-dev/envio-cloud-darwin-x64@1.0.0':
+    optional: true
+
+  '@envio-dev/envio-cloud-linux-arm64@1.0.0':
+    optional: true
+
+  '@envio-dev/envio-cloud-linux-x64@1.0.0':
+    optional: true
+
+  '@envio-dev/envio-cloud-win32-x64@1.0.0':
+    optional: true
+
   '@envio-dev/hyperfuel-client-darwin-arm64@1.2.2':
     optional: true
 
@@ -6447,6 +6494,14 @@ snapshots:
   enquirer@2.3.6:
     dependencies:
       ansi-colors: 4.1.3
+
+  envio-cloud@1.0.0:
+    optionalDependencies:
+      '@envio-dev/envio-cloud-darwin-arm64': 1.0.0
+      '@envio-dev/envio-cloud-darwin-x64': 1.0.0
+      '@envio-dev/envio-cloud-linux-arm64': 1.0.0
+      '@envio-dev/envio-cloud-linux-x64': 1.0.0
+      '@envio-dev/envio-cloud-win32-x64': 1.0.0
 
   envio-darwin-arm64@3.2.1:
     optional: true

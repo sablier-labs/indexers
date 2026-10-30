@@ -14,6 +14,7 @@ import { checkVendorsCommand } from "./commands/check-vendors/command.js";
 import { envioConfigCommand } from "./commands/codegen/envio-config/command.js";
 import { graphManifestCommand } from "./commands/codegen/graph-manifest/command.js";
 import { schemaCommand } from "./commands/codegen/schema/command.js";
+import { envioCommand } from "./commands/envio/command.js";
 import { exportSchemaCommand } from "./commands/export-schema/command.js";
 import { graphDeployAllCommand } from "./commands/graph/deploy/all/command.js";
 import { graphDeploySingleCommand } from "./commands/graph/deploy/single/command.js";
@@ -68,6 +69,7 @@ const rootCommand = Command.make("indexers-cli").pipe(
     recoverTokensCommand,
     checkVendorsCommand,
     exportSchemaCommand,
+    envioCommand,
     graphDeployAllCommand,
     graphDeploySingleCommand,
     graphOpenStudioCommand,
