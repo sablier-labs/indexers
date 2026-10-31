@@ -51,7 +51,7 @@ importers:
         version: 1.2.0(@biomejs/biome@2.6.2)(vitest@3.2.6)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/d8ba07e89b8372bbbf66bc9a5e63b6858deafce3
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/fb38781bcf1b3182397a7ee43f167cf01148c422
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1409,8 +1409,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/d8ba07e89b8372bbbf66bc9a5e63b6858deafce3':
-    resolution: {gitHosted: true, integrity: sha512-SUtDi33CKNiOe6VFeplvmcbHI7Esw6cRyxBv/aAFY1r9Rnu6IGtCk5nO0SSafy93cNQTOl/1T5aEpd3RGr017w==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/d8ba07e89b8372bbbf66bc9a5e63b6858deafce3}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/fb38781bcf1b3182397a7ee43f167cf01148c422':
+    resolution: {gitHosted: true, integrity: sha512-3fTxAvHGLl3B0cmvDyFM8BcIPznsUK4jc0HtTwg3AAV0FM1OfE7QPY8Dm126eickxGECqnUbcOjY3gUu3dlgxA==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/fb38781bcf1b3182397a7ee43f167cf01148c422}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -2686,6 +2686,7 @@ packages:
   http-call@5.3.0:
     resolution: {integrity: sha512-ahwimsC23ICE4kPl9xTBjKB4inbRaeLyZeRunC/1Jy/Z6X8tv22MEAjK+KBOMSVLaqXPTTmd8638waVIKLGx2w==}
     engines: {node: '>=8.0.0'}
+    deprecated: Renamed to @heroku/http-call — please install @heroku/http-call instead.
 
   http-errors@2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
@@ -5642,7 +5643,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.61.0':
     optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/d8ba07e89b8372bbbf66bc9a5e63b6858deafce3': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/fb38781bcf1b3182397a7ee43f167cf01148c422': {}
 
   '@scure/base@1.1.9': {}
 
