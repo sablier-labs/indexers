@@ -51,7 +51,7 @@ importers:
         version: 1.2.0(@biomejs/biome@2.6.2)(vitest@3.2.6)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/a4eb6ee6d50f6f90b26c93922351d573cf9be5ef
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1409,8 +1409,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a4eb6ee6d50f6f90b26c93922351d573cf9be5ef':
-    resolution: {gitHosted: true, integrity: sha512-+34AgsJzw4KlLbjf2TTeht++H9L/1gzUsq2UyWpPrv3zR4goX8eLjDx2EWDCpKYtAQXFDTHmSQ3M7Ivxjwn6fA==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/a4eb6ee6d50f6f90b26c93922351d573cf9be5ef}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c':
+    resolution: {gitHosted: true, integrity: sha512-pIgB9fw2RHgth7aDDWTugC8UuTR4Y8dpd6bukGiYjNz9/CJUlpB0Vu1830OsyMYHb8d+dtsjRAq/rVr6HWxzWw==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -5643,7 +5643,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.61.0':
     optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/a4eb6ee6d50f6f90b26c93922351d573cf9be5ef': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c': {}
 
   '@scure/base@1.1.9': {}
 
