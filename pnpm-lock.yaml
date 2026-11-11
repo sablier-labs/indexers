@@ -51,7 +51,7 @@ importers:
         version: 1.2.0(@biomejs/biome@2.6.2)(vitest@3.2.6)
       '@sablier/price-data':
         specifier: github:sablier-labs/price-data#main
-        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c
+        version: https://codeload.github.com/sablier-labs/price-data/tar.gz/5b06b4a99aa26787b3c1bbecddbdc4aa9faf1c0c
       '@types/js-yaml':
         specifier: ^4.0.9
         version: 4.0.9
@@ -1409,8 +1409,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c':
-    resolution: {gitHosted: true, integrity: sha512-pIgB9fw2RHgth7aDDWTugC8UuTR4Y8dpd6bukGiYjNz9/CJUlpB0Vu1830OsyMYHb8d+dtsjRAq/rVr6HWxzWw==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5b06b4a99aa26787b3c1bbecddbdc4aa9faf1c0c':
+    resolution: {gitHosted: true, integrity: sha512-u4PVrPCiCMBhY4/C4bTZ4Fitz1AxFM6GCZoKK0W66GDPW1nDq1UcRMmj9sHnsya1+F8ibWwwDQJWHR819kLsDA==, tarball: https://codeload.github.com/sablier-labs/price-data/tar.gz/5b06b4a99aa26787b3c1bbecddbdc4aa9faf1c0c}
     version: 1.0.0
     engines: {node: '>=22'}
 
@@ -1740,6 +1740,7 @@ packages:
 
   axios-retry@4.5.0:
     resolution: {integrity: sha512-aR99oXhpEDGo0UuAlYcn2iGRds30k366Zfa05XWScR9QaQD4JYiP3/1Qt1u7YlefUOK+cn0CcwoL1oefavQUlQ==}
+    deprecated: axios-retry is no longer maintained. See https://github.com/softonic/axios-retry for alternatives.
     peerDependencies:
       axios: 0.x || 1.x
 
@@ -5643,7 +5644,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.61.0':
     optional: true
 
-  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/bdb6b3fd37a2ea9a0689b2282fe90fd68f168f9c': {}
+  '@sablier/price-data@https://codeload.github.com/sablier-labs/price-data/tar.gz/5b06b4a99aa26787b3c1bbecddbdc4aa9faf1c0c': {}
 
   '@scure/base@1.1.9': {}
 
