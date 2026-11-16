@@ -131,7 +131,7 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     return Effect.gen(function* () {
       const deadline = (yield* ops.now()) + timeout;
       let triggered = false;
-      while ((yield* ops.now()) < deadline) {
+      const poll = Effect.gen(function* () {
         const commits = yield* ops.cloud.readJson(["indexer", "commits", cloudName], CommitsSchema);
         const matches = commits.filter(
           (item) =>
@@ -214,6 +214,22 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
               return candidate;
             }
           }
+        }
+        return undefined;
+      });
+      while ((yield* ops.now()) < deadline) {
+        // envio-cloud exits 2 on API or server errors; only reads carry an exit code, so poll again.
+        const ready = yield* poll.pipe(
+          Effect.catchIf(
+            (error) => error.exitCode === 2,
+            (error) =>
+              ops
+                .log(`Transient Envio Cloud error during ${error.operation}; polling again`)
+                .pipe(Effect.as(undefined))
+          )
+        );
+        if (ready) {
+          return ready;
         }
         const remaining = deadline - (yield* ops.now());
         if (remaining > 0) {

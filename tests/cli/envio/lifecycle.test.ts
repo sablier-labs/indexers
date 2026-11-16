@@ -44,6 +44,7 @@ function fixture() {
     historyOmitted: boolean;
     mismatchProductionEndpoint: boolean;
     metrics: typeof completeMetrics;
+    metricsExitCodes: number[];
     onConfirm: () => void;
     onDelete: (commit: string) => void;
     onSmoke: (endpoint: string) => void;
@@ -59,6 +60,7 @@ function fixture() {
     historyBranch: "deployment/streams",
     historyOmitted: false,
     metrics: completeMetrics,
+    metricsExitCodes: [],
     mismatchProductionEndpoint: false,
     production: previous,
     settingsBranch: "deployment/streams",
@@ -107,6 +109,10 @@ function fixture() {
           status: currentStatus,
         }));
       } else if (args[1] === "metrics") {
+        const exitCode = state.metricsExitCodes.shift();
+        if (exitCode !== undefined) {
+          return { exitCode, stderr: "fixture failure", stdout: "" };
+        }
         data = state.metrics;
       } else if (args[1] === "logs") {
         actions.push("logs");
@@ -214,6 +220,23 @@ describe("Envio release safety", () => {
     expect(result.sourceCommit).not.toBe(result.preparedCommit);
     expect(f.actions).toEqual(["prepare", `push:${prepared.preparedCommit}`]);
     expect(f.state.production).toBe(previous);
+  });
+
+  it("keeps polling through transient Cloud API errors but fails on other read errors", async () => {
+    const transient = fixture();
+    transient.state.commits = [previous];
+    transient.state.metricsExitCodes = [2, 2];
+    await Effect.runPromise(transient.workflow.deploy("streams", "HEAD", 60_000));
+    expect(transient.smokes).toHaveLength(1);
+    expect(
+      transient.messages.filter((m) => m.startsWith("Transient Envio Cloud error"))
+    ).toHaveLength(2);
+
+    const fatal = fixture();
+    fatal.state.commits = [previous];
+    fatal.state.metricsExitCodes = [1];
+    expect(await fail(fatal.workflow.deploy("streams", "HEAD", 60_000))).toContain("exit code 1");
+    expect(fatal.smokes).toEqual([]);
   });
 
   it("observes inactive through active without a manual trigger when auto-deploy is enabled", async () => {
