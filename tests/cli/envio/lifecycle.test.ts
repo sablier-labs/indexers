@@ -487,9 +487,13 @@ describe("Envio completion and smoke evidence", () => {
     ).toThrow();
     expect(() =>
       Schema.decodeUnknownSync(MetricsSchema)([
-        { ...completeMetrics[0], latest_processed_block: -1 },
+        { ...completeMetrics[0], latest_processed_block: -2 },
       ])
     ).toThrow();
+    const unstarted = Schema.decodeUnknownSync(MetricsSchema)([
+      { ...completeMetrics[0], latest_processed_block: -1 },
+    ]);
+    expect(syncProgress(prepared.config, unstarted)[0].complete).toBe(false);
     expect(() => syncProgress(prepared.config, [completeMetrics[0], completeMetrics[0]])).toThrow();
     expect(parseTimeout("60m")).toBe(3_600_000);
     expect(() => parseTimeout("0m")).toThrow();

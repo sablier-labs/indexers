@@ -22,7 +22,8 @@ export const MetricsSchema = Schema.Array(
   Schema.Struct({
     block_height: block,
     chain_id: block,
-    latest_processed_block: block,
+    // Envio Cloud reports -1 until a chain processes its first block.
+    latest_processed_block: Schema.Union(Schema.Literal(-1), block),
     start_block: block,
   })
 );
