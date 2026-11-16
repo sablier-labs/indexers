@@ -179,8 +179,8 @@ importers:
   .:
     dependencies:
       sablier:
-        specifier: ^4.2.2
-        version: 4.2.2(@coral-xyz/anchor@0.30.1(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(viem@2.52.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
+        specifier: ^4.2.3
+        version: 4.2.3(@coral-xyz/anchor@0.30.1(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(viem@2.52.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.6.2
@@ -3555,8 +3555,8 @@ packages:
   rxjs@7.8.2:
     resolution: {integrity: sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==}
 
-  sablier@4.2.2:
-    resolution: {integrity: sha512-yqM31KbIXwbBcOrslpogU8nAD6PNWH0py39ye57NsS8oz11IhnjN7IlIEDxN+r90eaDeGdtWGZhdVc302M3ZPQ==}
+  sablier@4.2.3:
+    resolution: {integrity: sha512-kVEZDx1oUOf72K8dd+sGmGpZ8ZcJafWNUJWU6kWC4h98bPN2CtuqsgqOotPalVc4IaEJsI5gBsc/xamP6QT32g==}
     peerDependencies:
       '@coral-xyz/anchor': ^0.30
       '@solana/web3.js': ^1.98
@@ -7486,7 +7486,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  sablier@4.2.2(@coral-xyz/anchor@0.30.1(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(viem@2.52.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)):
+  sablier@4.2.3(@coral-xyz/anchor@0.30.1(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(viem@2.52.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)):
     dependencies:
       '@coral-xyz/anchor': 0.30.1(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)
       '@solana/web3.js': 1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)

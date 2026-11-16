@@ -299,11 +299,11 @@ chains:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.xinfin.network"
+        url: "https://rpc.xdc.network"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://erpc.xinfin.network"
+        url: "https://xdc.public-rpc.com"
     contracts:
       - address: "0xd6482334242862951da3e730f818c3f6e3f45a30"
         name: "SablierFlow_v1_1"

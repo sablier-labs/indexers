@@ -30,7 +30,7 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 
 ### Changed
 
-- Bump `sablier` dependency from `^4.2.0` to `^4.2.2`, which replaces the rate-limited XDC default RPC
+- Bump `sablier` dependency from `^4.2.0` to `^4.2.3`, which replaces the rate-limited XDC default RPC
 
 ## [7.2.0] - 2026-10-19
 

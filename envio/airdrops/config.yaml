@@ -1178,11 +1178,11 @@ chains:
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://rpc.xinfin.network"
+        url: "https://rpc.xdc.network"
       - for: "fallback"
         initial_block_interval: 2000
         interval_ceiling: 2000
-        url: "https://erpc.xinfin.network"
+        url: "https://xdc.public-rpc.com"
     contracts:
       - address: "0xe41909f5623c3b78219d9a2bb92be95aee5bbc30"
         name: "SablierMerkleFactory_v1_3"
