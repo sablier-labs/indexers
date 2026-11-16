@@ -44,6 +44,8 @@ function fixture() {
     mismatchProductionEndpoint: boolean;
     metrics: typeof completeMetrics;
     metricsExitCodes: number[];
+    pendingAfterPromote: number;
+    pendingReads: number;
     onDelete: (commit: string) => void;
     onSmoke: (endpoint: string) => void;
     production: string;
@@ -59,6 +61,8 @@ function fixture() {
     metrics: completeMetrics,
     metricsExitCodes: [],
     mismatchProductionEndpoint: false,
+    pendingAfterPromote: 0,
+    pendingReads: 0,
     production: previous,
     settingsBranch: "deployment/streams",
     statuses: ["active"],
@@ -70,6 +74,9 @@ function fixture() {
     Effect.sync(() => {
       let data: unknown;
       if (args[0] === "indexer" && args[1] === "get") {
+        // Simulates Cloud's promotion transition: the new production is "pending" with no endpoint.
+        const pending = state.pendingReads > 0;
+        state.pendingReads = Math.max(0, state.pendingReads - 1);
         data = {
           access_type: "public",
           created_time: "2026-10-01T00:00:00Z",
@@ -77,12 +84,14 @@ function fixture() {
             commit_hash: commit,
             created_time: `2026-10-0${i + 1}T00:00:00Z`,
             gql_endpoint:
-              commit === state.production && !state.mismatchProductionEndpoint
-                ? "https://indexer.hyperindex.xyz/53b7e25/v1/graphql"
-                : `https://example.com/${commit}/graphql`,
+              pending && commit === state.production
+                ? ""
+                : commit === state.production && !state.mismatchProductionEndpoint
+                  ? "https://indexer.hyperindex.xyz/53b7e25/v1/graphql"
+                  : `https://example.com/${commit}/graphql`,
             indexer_id: "lockup-envio",
             organisation_id: "sablier-labs",
-            prod_status: commit === state.production ? "prod" : "dev",
+            prod_status: commit === state.production ? (pending ? "pending" : "prod") : "dev",
           })),
           description: "Streams",
           indexer_id: "lockup-envio",
@@ -118,6 +127,7 @@ function fixture() {
         actions.push(`${args[1]}:${commit}`);
         if (args[1] === "promote") {
           state.production = commit;
+          state.pendingReads = state.pendingAfterPromote;
         }
         if (args[1] === "delete") {
           if (commit === state.failDelete) {
@@ -346,6 +356,15 @@ describe("Envio release safety", () => {
     expect(f.actions).toEqual([`promote:${candidate}`, `delete:${previous}`, `delete:${older}`]);
     expect(f.smokes).toContain("https://indexer.hyperindex.xyz/53b7e25/v1/graphql");
     expect(f.state.commits).toEqual([candidate]);
+  });
+
+  it("waits through the pending promotion transition before verifying and deleting", async () => {
+    const f = fixture();
+    f.state.pendingAfterPromote = 2;
+    await Effect.runPromise(
+      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100_000, true)
+    );
+    expect(f.actions).toEqual([`promote:${candidate}`, `delete:${previous}`, `delete:${older}`]);
   });
 
   it("never deletes if production changes during stable alias verification", async () => {

@@ -303,6 +303,15 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
       // candidate identity may hold it; any other production identity aborts before cleanup.
       const deadline = (yield* ops.now()) + timeout;
       while ((yield* ops.now()) < deadline) {
+        // Promotion passes through a "pending" state without any production deployment.
+        if (
+          (yield* inventory(prepared.target)).deployments.some(
+            (item) => item.prod_status === "pending"
+          )
+        ) {
+          yield* ops.sleep(Math.min(10_000, Math.max(1, deadline - (yield* ops.now()))));
+          continue;
+        }
         const current = yield* production(prepared.target);
         if (current.commit_hash === expectedCloudCommit) {
           const stableAlias = getEnvioTarget(prepared.target).productionEndpointUrl;

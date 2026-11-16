@@ -58,7 +58,8 @@ const endpoint = Schema.String.pipe(
 export const CloudDeploymentSchema = Schema.Struct({
   commit_hash: CloudCommitSchema,
   created_time: createdTime,
-  gql_endpoint: Schema.optional(Schema.NullOr(endpoint)),
+  // Promotion briefly reports an empty endpoint while the deployment is pending.
+  gql_endpoint: Schema.optional(Schema.NullOr(Schema.Union(Schema.Literal(""), endpoint))),
   indexer_id: nonempty,
   organisation_id: Schema.Literal(ENVIO_CLOUD_ORG),
   prod_status: nonempty,
