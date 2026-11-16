@@ -32,8 +32,9 @@ const handler: Handler = async ({ context, event }) => {
   const createdActivity = activity ?? Store.Activity.create(context, event, campaign.id);
 
   /* -------------------------------- CAMPAIGN -------------------------------- */
-  Store.Campaign.updateClaimed(context, campaign, event.params.claimAmount);
-  Store.Campaign.updateForgoneAmount(context, campaign, event.params.forgoneAmount);
+  // Chain the updates: each `set` writes a whole entity, so spreading the stale `campaign` again would reset the claim.
+  const claimedCampaign = Store.Campaign.updateClaimed(context, campaign, event.params.claimAmount);
+  Store.Campaign.updateForgoneAmount(context, claimedCampaign, event.params.forgoneAmount);
 
   /* -------------------------------- ACTIVITY -------------------------------- */
   Store.Activity.update(context, createdActivity, event.params.claimAmount);

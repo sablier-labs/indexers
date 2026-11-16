@@ -97,13 +97,14 @@ export function updateClaimed(
   context: Context.Handler,
   campaign: Entity<"Campaign">,
   amount: bigint
-): void {
+): Entity<"Campaign"> {
   const updatedCampaign: Entity<"Campaign"> = {
     ...campaign,
     claimedAmount: campaign.claimedAmount + amount,
     claimedCount: campaign.claimedCount + 1n,
   };
   context.Campaign.set(updatedCampaign);
+  return updatedCampaign;
 }
 
 export function updateClawback(
