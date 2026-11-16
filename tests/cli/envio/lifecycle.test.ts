@@ -393,6 +393,14 @@ describe("Envio release safety", () => {
     expect(f.state.commits).toEqual([candidate]);
   });
 
+  it("cleanup deletes while the kept production is still syncing", async () => {
+    const f = fixture();
+    f.state.metrics = completeMetrics.map((metric) => ({ ...metric, latest_processed_block: 15 }));
+    await Effect.runPromise(f.workflow.cleanup("streams", true, [older], 100));
+    expect(f.actions).toEqual([`delete:${older}`]);
+    expect(f.smokes).toEqual(["https://indexer.hyperindex.xyz/53b7e25/v1/graphql"]);
+  });
+
   it("cleanup defaults to a dry run and requires explicit exact nonproduction IDs", async () => {
     const f = fixture();
     await Effect.runPromise(f.workflow.cleanup("streams", false, [], 100));

@@ -294,7 +294,9 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     prepared: PreparedDeployment,
     expectedCloudCommit: string,
     timeout: number,
-    previousProduction = expectedCloudCommit
+    previousProduction = expectedCloudCommit,
+    // Cleanup keeps a production that may be lagging; it only needs identity, alias, and a live endpoint.
+    requireSynced = true
   ) {
     return Effect.gen(function* () {
       // The marker may take a moment to reflect promotion. Only the expected previous or
@@ -312,7 +314,9 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
               )
             );
           }
-          yield* waitReady(prepared, Math.max(1, deadline - (yield* ops.now())));
+          if (requireSynced) {
+            yield* waitReady(prepared, Math.max(1, deadline - (yield* ops.now())));
+          }
           yield* ops.smoke(prepared, stableAlias);
           yield* assertProduction(prepared.target, expectedCloudCommit);
           return;
@@ -548,7 +552,7 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
         );
       }
       const prepared = yield* ops.readPrepared(target, current.commit_hash);
-      yield* verifyProduction(prepared, current.commit_hash, timeout);
+      yield* verifyProduction(prepared, current.commit_hash, timeout, current.commit_hash, false);
       yield* ops.log(
         `Keep production ${current.commit_hash}; permanently deleting only ${commits.join(", ")} from ${target}. No concurrent dashboard/remote deployment operations are permitted.`
       );

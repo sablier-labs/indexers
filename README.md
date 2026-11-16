@@ -92,10 +92,11 @@ just envio::cleanup streams
 just envio::cleanup streams --apply --commit <exact-nonproduction-id> --commit <another-id>
 ```
 
-Cleanup is a dry run by default. Applying requires `--apply` with explicit exact IDs, verifies the kept production, and
-rechecks its marker before every deletion. A partial failure reports remaining IDs and a retry command; inspect current
-state before retrying. A retained deployment can be rolled back with `promote`; after deletion, rebuild from its
-original source with `release --ref <old-source-sha>`.
+Cleanup is a dry run by default. Applying requires `--apply` with explicit exact IDs, verifies the kept production
+identity, alias, and endpoint without waiting for it to finish syncing, and rechecks its marker before every deletion. A
+partial failure reports remaining IDs and a retry command; inspect current state before retrying. A retained deployment
+can be rolled back with `promote`; after deletion, rebuild from its original source with
+`release --ref <old-source-sha>`.
 
 Mutations hold a local per-project lock. Do not run concurrent operations for the same project from the dashboard,
 another checkout, or another machine: Cloud has no conditional promotion/deletion primitive. Unexpected production
