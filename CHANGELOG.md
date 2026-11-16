@@ -26,6 +26,12 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 [4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
 
+## Unreleased
+
+### Changed
+
+- Bump `sablier` dependency from `^4.2.0` to `^4.2.2`, which replaces the rate-limited XDC default RPC
+
 ## [7.2.0] - 2026-10-19
 
 ### Removed
