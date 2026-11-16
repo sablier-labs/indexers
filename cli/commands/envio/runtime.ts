@@ -2,7 +2,6 @@ import { CommandExecutor, FileSystem, HttpBody, HttpClient } from "@effect/platf
 import { Clock, Console, Context, Effect, Schema } from "effect";
 import { EnvioCloud } from "../../services/envio-cloud.js";
 import { EnvioCloudError } from "../../services/envio-cloud.types.js";
-import { PromptService } from "../../services/prompt.js";
 import type { ReleaseOperations } from "./lifecycle.js";
 import type { PreparedDeployment } from "./model.js";
 import { git, prepareDeployment, readPreparedDeployment } from "./preparation.js";
@@ -56,7 +55,6 @@ export function validateSmoke(prepared: PreparedDeployment, response: unknown) {
 
 export const makeReleaseOperations = Effect.gen(function* () {
   const cloud = yield* EnvioCloud;
-  const prompt = yield* PromptService;
   const http = yield* HttpClient.HttpClient;
   const executor = yield* CommandExecutor.CommandExecutor;
   const fs = yield* FileSystem.FileSystem;
@@ -65,15 +63,6 @@ export const makeReleaseOperations = Effect.gen(function* () {
   );
   const operations: ReleaseOperations = {
     cloud,
-    confirm: (message) =>
-      prompt
-        .confirmOrCancel(message)
-        .pipe(
-          Effect.mapError(
-            () =>
-              new EnvioCloudError({ message: "Confirmation cancelled", operation: "confirmation" })
-          )
-        ),
     log: (message) => Console.error(message),
     now: () => Clock.currentTimeMillis,
     prepare: (target, ref) => prepareDeployment(target, ref).pipe(Effect.provide(processContext)),

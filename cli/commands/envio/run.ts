@@ -130,15 +130,20 @@ export const deploy = (
     }
   }).pipe(Effect.provide(EnvioCloudLive));
 
-export const promote = (args: Selection & Timed) =>
+export const promote = (args: Selection & Timed & { readonly yes: boolean }) =>
   Effect.gen(function* () {
     const timeout = yield* validated("timeout", () => parseTimeout(args.timeout));
     const selector = yield* validated("selector", () => parseSelector(args.deployment));
     const workflow = makeReleaseWorkflow(yield* makeReleaseOperations);
-    yield* withProjectLock(args.indexer, workflow.promote(args.indexer, selector, timeout));
+    yield* withProjectLock(
+      args.indexer,
+      workflow.promote(args.indexer, selector, timeout, args.yes)
+    );
   }).pipe(Effect.provide(EnvioCloudLive));
 
-export const release = (args: Timed & { readonly indexer: EnvioTarget; readonly ref: string }) =>
+export const release = (
+  args: Timed & { readonly indexer: EnvioTarget; readonly ref: string; readonly yes: boolean }
+) =>
   Effect.gen(function* () {
     const timeout = yield* validated("timeout", () => parseTimeout(args.timeout));
     const workflow = makeReleaseWorkflow(yield* makeReleaseOperations);
@@ -149,7 +154,8 @@ export const release = (args: Timed & { readonly indexer: EnvioTarget; readonly 
         yield* workflow.promote(
           args.indexer,
           { commit: prepared.preparedCommit, kind: "commit" },
-          timeout
+          timeout,
+          args.yes
         );
       })
     );

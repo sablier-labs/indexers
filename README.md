@@ -80,20 +80,21 @@ preserve production and print bounded build/runtime logs. If verification fails 
 reports that production may already have changed.
 
 `deploy` leaves a synced candidate for previewing. It retains the existing `all` default; `release` requires one
-explicit target. `release` composes deployment and promotion. Promotion displays the current production, candidate, and
-exact previous deployments to delete, then requires interactive confirmation. It rechecks production and readiness,
-promotes, verifies the production marker and stable GraphQL alias, and only then deletes the reviewed previous
-deployments. Successful promotion retains production only. A full three-deployment project stops before pushing and
-lists cleanup candidates; production is never deleted to free capacity.
+explicit target. `release` composes deployment and promotion. Promotion prints the current production, candidate, and
+exact previous deployments to delete, then stops without changes unless `--yes` was passed. With `--yes`, it rechecks
+production, promotes, verifies the production marker and stable GraphQL alias, and only then deletes the reviewed
+previous deployments. Neither promotion nor cleanup needs an interactive terminal. Successful promotion retains
+production only. A full three-deployment project stops before pushing and lists cleanup candidates; production is never
+deleted to free capacity.
 
 ```bash
 just envio::cleanup streams
 just envio::cleanup streams --apply --commit <exact-nonproduction-id> --commit <another-id>
 ```
 
-Cleanup is a dry run by default. Applying requires explicit exact IDs and confirmation, verifies the kept production,
-and rechecks its marker before every deletion. A partial failure reports remaining IDs and a retry command; inspect
-current state before retrying. A retained deployment can be rolled back with `promote`; after deletion, rebuild from its
+Cleanup is a dry run by default. Applying requires `--apply` with explicit exact IDs, verifies the kept production, and
+rechecks its marker before every deletion. A partial failure reports remaining IDs and a retry command; inspect current
+state before retrying. A retained deployment can be rolled back with `promote`; after deletion, rebuild from its
 original source with `release --ref <old-source-sha>`.
 
 Mutations hold a local per-project lock. Do not run concurrent operations for the same project from the dashboard,

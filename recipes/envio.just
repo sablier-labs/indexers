@@ -62,19 +62,19 @@ alias tc := type-check
 @deploy indexer="all" *args:
     pnpm tsx cli/index.ts envio deploy --indexer "$1" "${@:2}"
 
-# Verify a candidate, confirm promotion, then remove the reviewed previous deployments
+# Print the promotion plan; with --yes, promote, verify, then remove the reviewed previous deployments
 [arg("indexer", pattern="^(airdrops|analytics|streams)$")]
 [positional-arguments]
 @promote indexer deployment="latest-nonproduction" *args:
     pnpm tsx cli/index.ts envio promote --indexer "$1" --deployment "$2" "${@:3}"
 
-# Deploy and promote exactly one explicit indexer; confirmation precedes production changes
+# Deploy and promote exactly one explicit indexer; production changes require --yes
 [arg("indexer", pattern="^(airdrops|analytics|streams)$")]
 [positional-arguments]
 @release indexer *args:
     pnpm tsx cli/index.ts envio release --indexer "$1" "${@:2}"
 
-# Dry-run by default; --apply requires repeated exact --commit IDs and confirmation
+# Dry-run by default; --apply requires repeated exact --commit IDs
 [arg("indexer", pattern="^(airdrops|analytics|streams)$")]
 [positional-arguments]
 @cleanup indexer *args:

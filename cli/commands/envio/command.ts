@@ -8,6 +8,9 @@ const deployment = Options.text("deployment").pipe(
 );
 const timeout = Options.text("timeout").pipe(Options.withDefault("60m"));
 const ref = Options.text("ref").pipe(Options.withDefault("HEAD"));
+const yes = Options.boolean("yes").pipe(
+  Options.withDescription("Apply the printed promotion plan; without it, no deployments change")
+);
 
 const list = Command.make("list", {}, () =>
   lazyHandler(
@@ -63,6 +66,7 @@ const promote = Command.make(
     deployment: Options.text("deployment").pipe(Options.withDefault("latest-nonproduction")),
     indexer,
     timeout,
+    yes,
   },
   (args) =>
     lazyHandler(
@@ -70,7 +74,7 @@ const promote = Command.make(
       (module) => module.promote(args)
     )
 );
-const release = Command.make("release", { indexer, ref, timeout }, (args) =>
+const release = Command.make("release", { indexer, ref, timeout, yes }, (args) =>
   lazyHandler(
     () => import("./run.js"),
     (module) => module.release(args)

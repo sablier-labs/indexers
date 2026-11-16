@@ -11,7 +11,6 @@ import { getEnvioTarget } from "./targets.js";
 
 export type ReleaseOperations = {
   readonly cloud: ReturnType<typeof makeEnvioCloud>;
-  readonly confirm: (message: string) => Effect.Effect<boolean, EnvioCloudError>;
   readonly log: (message: string) => Effect.Effect<void>;
   readonly now: () => Effect.Effect<number>;
   readonly prepare: (
@@ -465,7 +464,13 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
     });
   }
 
-  function promote(target: EnvioTarget, selector: DeploymentSelector, timeout: number) {
+  /** Without `yes`, only prints the exact plan; no deployment changes. */
+  function promote(
+    target: EnvioTarget,
+    selector: DeploymentSelector,
+    timeout: number,
+    yes: boolean
+  ) {
     return Effect.gen(function* () {
       const snapshot = yield* inventory(target);
       const candidate = yield* selectDeployment(snapshot, selector);
@@ -481,17 +486,17 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
       const deletions = snapshot.deployments
         .filter((item) => item.commit_hash !== candidate.commit_hash)
         .map((item) => item.commit_hash);
-      const accepted = yield* ops.confirm(
-        `Promote ${target}: current production ${current.commit_hash} -> candidate ${candidate.commit_hash} (source ${prepared.sourceCommit}, prepared ${prepared.preparedCommit}, deployedAt ${prepared.deployedAt}). After production sync and alias verification, permanently delete these exact deployments: ${deletions.join(", ") || "none"}. No concurrent dashboard/remote deployment operations are permitted. Continue?`
+      yield* ops.log(
+        `Promote ${target}: current production ${current.commit_hash} -> candidate ${candidate.commit_hash} (source ${prepared.sourceCommit}, prepared ${prepared.preparedCommit}, deployedAt ${prepared.deployedAt}). After production sync and alias verification, permanently delete these exact deployments: ${deletions.join(", ") || "none"}. No concurrent dashboard/remote deployment operations are permitted.`
       );
-      if (!accepted) {
+      if (!yes) {
         return yield* Effect.fail(
-          failure("promotion", "Promotion cancelled; no deployments changed")
+          failure(
+            "promotion",
+            "Promotion not applied; re-run with --yes to apply this plan. No deployments changed"
+          )
         );
       }
-      yield* assertProduction(target, current.commit_hash);
-      // Confirmation can remain open indefinitely; repeat sync/smoke after the answer.
-      yield* waitReady(prepared, timeout);
       yield* assertProduction(target, current.commit_hash);
       if (candidate.commit_hash !== current.commit_hash) {
         yield* mutate("promote", target, candidate.commit_hash);
@@ -544,14 +549,9 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
       }
       const prepared = yield* ops.readPrepared(target, current.commit_hash);
       yield* verifyProduction(prepared, current.commit_hash, timeout);
-      if (
-        !(yield* ops.confirm(
-          `Keep production ${current.commit_hash}; permanently delete only ${commits.join(", ")} from ${target}? No concurrent dashboard/remote deployment operations are permitted.`
-        ))
-      ) {
-        return yield* Effect.fail(failure("cleanup", "Cleanup cancelled"));
-      }
-      yield* verifyProduction(prepared, current.commit_hash, timeout);
+      yield* ops.log(
+        `Keep production ${current.commit_hash}; permanently deleting only ${commits.join(", ")} from ${target}. No concurrent dashboard/remote deployment operations are permitted.`
+      );
       return yield* deleteReviewed(target, current.commit_hash, commits);
     });
   }

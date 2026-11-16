@@ -37,7 +37,6 @@ function fixture() {
   const state: {
     autoDeploy: boolean;
     commits: string[];
-    confirm: boolean;
     failDelete: string;
     failSmoke: boolean;
     historyBranch: string;
@@ -45,7 +44,6 @@ function fixture() {
     mismatchProductionEndpoint: boolean;
     metrics: typeof completeMetrics;
     metricsExitCodes: number[];
-    onConfirm: () => void;
     onDelete: (commit: string) => void;
     onSmoke: (endpoint: string) => void;
     production: string;
@@ -54,7 +52,6 @@ function fixture() {
   } = {
     autoDeploy: true,
     commits: [candidate, previous, older],
-    confirm: true,
     failDelete: "",
     failSmoke: false,
     historyBranch: "deployment/streams",
@@ -65,7 +62,6 @@ function fixture() {
     production: previous,
     settingsBranch: "deployment/streams",
     statuses: ["active"],
-    onConfirm: (): void => undefined,
     onDelete: (_commit: string): void => undefined,
     onSmoke: (_endpoint: string): void => undefined,
   };
@@ -139,12 +135,6 @@ function fixture() {
   );
   const operations: ReleaseOperations = {
     cloud,
-    confirm: (message) =>
-      Effect.sync(() => {
-        messages.push(message);
-        state.onConfirm();
-        return state.confirm;
-      }),
     log: (message) =>
       Effect.sync(() => {
         messages.push(message);
@@ -271,7 +261,9 @@ describe("Envio release safety", () => {
     const promotion = fixture();
     promotion.state.statuses = ["inactive"];
     expect(
-      await fail(promotion.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100))
+      await fail(
+        promotion.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true)
+      )
     ).toContain("Timed out");
     expect(promotion.actions).toEqual(["logs", "logs"]);
     expect(promotion.state.commits).toEqual([candidate, previous, older]);
@@ -281,7 +273,7 @@ describe("Envio release safety", () => {
     const promotion = fixture();
     promotion.state.historyOmitted = true;
     await Effect.runPromise(
-      promotion.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100)
+      promotion.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true)
     );
     expect(promotion.actions).toEqual([
       `promote:${candidate}`,
@@ -315,52 +307,41 @@ describe("Envio release safety", () => {
     const f = fixture();
     f.state.metrics = [];
     expect(
-      await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100))
+      await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true))
     ).toContain("Timed out");
     expect(f.actions).toEqual(["logs", "logs"]);
   });
 
-  it("fails smoke before confirmation or production mutation", async () => {
+  it("fails smoke before printing the plan or mutating production", async () => {
     const f = fixture();
     f.state.failSmoke = true;
-    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100));
+    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true));
     expect(f.actions).toEqual(["logs", "logs"]);
     expect(f.messages.some((message) => message.startsWith("Promote"))).toBe(false);
   });
 
-  it("shows the exact plan, respects cancellation, and detects production changing during confirmation", async () => {
+  it("prints the exact plan without --yes and detects production changing during readiness", async () => {
     const f = fixture();
-    f.state.confirm = false;
     expect(
-      await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100))
-    ).toContain("cancelled");
+      await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, false))
+    ).toContain("not applied");
     expect(f.messages.find((message) => message.startsWith("Promote"))).toContain(
       `${previous}, ${older}`
     );
     expect(f.actions).toEqual([]);
-    f.state.confirm = true;
-    f.state.onConfirm = () => {
+    f.state.onSmoke = () => {
       f.state.production = older;
     };
     expect(
-      await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100))
+      await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true))
     ).toContain("Production changed");
     expect(f.actions).toEqual([]);
-  });
-
-  it("rechecks candidate readiness after confirmation", async () => {
-    const f = fixture();
-    f.state.onConfirm = () => {
-      f.state.metrics = [];
-    };
-    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100));
-    expect(f.actions).toEqual(["logs", "logs"]);
   });
 
   it("promotes, verifies production and its stable alias, then deletes only reviewed older IDs", async () => {
     const f = fixture();
     await Effect.runPromise(
-      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100)
+      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true)
     );
     expect(f.actions).toEqual([`promote:${candidate}`, `delete:${previous}`, `delete:${older}`]);
     expect(f.smokes).toContain("https://indexer.hyperindex.xyz/53b7e25/v1/graphql");
@@ -374,7 +355,7 @@ describe("Envio release safety", () => {
         f.state.production = older;
       }
     };
-    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100));
+    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true));
     expect(f.actions).toEqual([`promote:${candidate}`]);
   });
 
@@ -382,7 +363,7 @@ describe("Envio release safety", () => {
     const f = fixture();
     f.state.mismatchProductionEndpoint = true;
     const error = await fail(
-      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100)
+      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true)
     );
     expect(error).toContain("does not match the configured stable alias");
     expect(f.actions).toEqual([`promote:${candidate}`]);
@@ -394,7 +375,7 @@ describe("Envio release safety", () => {
     f.state.onDelete = () => {
       f.state.production = older;
     };
-    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100));
+    await fail(f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true));
     expect(f.actions).toEqual([`promote:${candidate}`, `delete:${previous}`]);
   });
 
@@ -402,7 +383,7 @@ describe("Envio release safety", () => {
     const f = fixture();
     f.state.failDelete = older;
     const message = await fail(
-      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100)
+      f.workflow.promote("streams", { commit: candidate, kind: "commit" }, 100, true)
     );
     expect(message).toContain(`Remaining reviewed IDs: ${older}`);
     expect(message).toContain(`--apply --commit ${older}`);
