@@ -77,7 +77,7 @@ const handler: Handler = async ({ context, event }) => {
   context.FlowStream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  FlowAction.create(context, event, ensuredWatcher, {
+  const action = FlowAction.create(context, event, ensuredWatcher, {
     amountA: event.params.oldRatePerSecond,
     amountB: event.params.newRatePerSecond,
     category: "Adjust",
@@ -85,7 +85,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher);
+  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher, action);
 };
 
 export const adjustStream = { handler };

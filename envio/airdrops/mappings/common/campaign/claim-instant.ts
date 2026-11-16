@@ -1,4 +1,5 @@
 import * as _ from "lodash-es";
+import { getDirectCallFee } from "../../../../common/fees.js";
 import { Id } from "../../../../common/id.js";
 import type {
   SablierMerkleInstant_v1_3_Claim_handler,
@@ -60,7 +61,7 @@ const handler: Handler = async ({ context, event }) => {
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
     claimTo: _.get(event.params, "to") ?? event.params.recipient,
-    fee: event.transaction.value,
+    fee: getDirectCallFee(event),
   });
 
   /* --------------------------------- WATCHER -------------------------------- */

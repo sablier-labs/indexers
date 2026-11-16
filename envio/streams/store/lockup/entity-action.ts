@@ -2,6 +2,7 @@ import type { Envio } from "../../../common/bindings.js";
 import { isVersionWithFees } from "../../../common/fees.js";
 import { Id } from "../../../common/id.js";
 import type { Entity, Enum } from "../../bindings.js";
+import * as Watcher from "../entity-watcher.js";
 
 type ActionParams = {
   addressA?: string;
@@ -32,7 +33,7 @@ export function create(
     chainId: BigInt(event.chainId),
     contract: event.srcAddress,
     fee: isVersionWithFees("lockup", event.chainId, event.srcAddress)
-      ? event.transaction.value
+      ? Watcher.getFee(watcher, event)
       : undefined,
     from: event.transaction.from || "",
     hash: event.transaction.hash,

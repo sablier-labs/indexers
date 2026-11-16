@@ -6,6 +6,7 @@ import { gnosis, tangle } from "sablier/evm/chains";
 import { formatEther, parseUnits } from "viem";
 import type { Envio } from "../../common/bindings.js";
 import { FEB_03_2025 } from "../../common/constants.js";
+import { getDirectCallFee } from "../../common/fees.js";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
 import { coinConfigs } from "../effects/coingecko.js";
@@ -37,10 +38,11 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
   }
 
   // Fees are charged via `msg.value`.
-  const msgValue = formatEther(event.transaction.value);
-  if (msgValue === "0") {
+  const fee = getDirectCallFee(event);
+  if (fee === 0n) {
     return;
   }
+  const msgValue = formatEther(fee);
 
   try {
     // Load and validate entities. If the fee transaction already exists, we stop here.

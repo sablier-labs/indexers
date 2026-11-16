@@ -1,3 +1,4 @@
+import { getDirectCallFee } from "../../../../common/fees.js";
 import { Id } from "../../../../common/id.js";
 import type { SablierMerkleVCA_v3_0_ClaimVCA_handler } from "../../../bindings.js";
 import { Store } from "../../../store/index.js";
@@ -47,7 +48,7 @@ const handler: Handler = async ({ context, event }) => {
     claimIndex: event.params.index,
     claimRecipient: event.params.recipient,
     claimTo: event.params.to,
-    fee: event.transaction.value,
+    fee: getDirectCallFee(event),
     vcaForgoneAmount: event.params.forgoneAmount,
   });
 

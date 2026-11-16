@@ -62,7 +62,7 @@ const handler: Handler = async ({ context, event }) => {
   context.LockupStream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  LockupAction.create(context, event, ensuredWatcher, {
+  const action = LockupAction.create(context, event, ensuredWatcher, {
     addressA: event.transaction.from,
     addressB: event.params.to,
     amountB: event.params.amount,
@@ -71,7 +71,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Watcher.incrementLockupActionCounter(context, ensuredWatcher);
+  Watcher.incrementLockupActionCounter(context, ensuredWatcher, action);
 };
 
 export const withdrawStream = { handler };

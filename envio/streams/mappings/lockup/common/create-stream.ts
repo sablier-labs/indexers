@@ -47,7 +47,7 @@ export async function createStream<P extends Params.CreateStreamCommon>(
   const stream = createInStore(context, event, entities, params);
 
   /* --------------------------------- ACTION --------------------------------- */
-  LockupAction.create(context, event, entities.watcher, {
+  const action = LockupAction.create(context, event, entities.watcher, {
     addressA: params.sender,
     addressB: params.recipient,
     amountA: params.depositAmount,
@@ -56,7 +56,7 @@ export async function createStream<P extends Params.CreateStreamCommon>(
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Watcher.incrementLockupCounters(context, entities.watcher);
+  Watcher.incrementLockupCounters(context, entities.watcher, action);
 
   return stream;
 }

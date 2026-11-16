@@ -4,6 +4,7 @@
 import * as _ from "lodash-es";
 import { formatEther, zeroAddress } from "viem";
 import type { Envio } from "../../common/bindings.js";
+import { getDirectCallFee } from "../../common/fees.js";
 import { getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
 import { Id } from "../helpers/index.js";
@@ -94,8 +95,8 @@ async function upsert(context: HandlerContext, event: Envio.Event, params: Param
   let fee = "0";
   let feeNumeric = 0n;
   if (event.transaction.from?.toLowerCase() === params.address.toLowerCase()) {
-    fee = formatEther(event.transaction.value);
-    feeNumeric = event.transaction.value;
+    feeNumeric = getDirectCallFee(event);
+    fee = formatEther(feeNumeric);
   }
   const userTransaction: Entity<"UserTransaction"> = {
     block: BigInt(event.block.number),

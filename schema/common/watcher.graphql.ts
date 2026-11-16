@@ -26,6 +26,12 @@ export function getWatcherDefs(target: Indexer.Target) {
         flowStreamCounter: BigInt!
 
         """
+        Hash of the latest transaction whose value was attributed as a fee. Batched calls share one msg.value,
+        so the fee is attributed only to the first action in the transaction.
+        """
+        lastFeeHash: Bytes
+
+        """
         Global counter for Lockup actions.
         """
         lockupActionCounter: BigInt!

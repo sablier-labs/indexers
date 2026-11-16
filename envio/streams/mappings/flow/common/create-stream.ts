@@ -79,7 +79,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- ACTION --------------------------------- */
-  FlowAction.create(context, event, entities.watcher, {
+  const action = FlowAction.create(context, event, entities.watcher, {
     addressA: event.params.sender,
     addressB: event.params.recipient,
     amountA: event.params.ratePerSecond,
@@ -88,7 +88,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  StreamsWatcher.incrementFlowCounters(context, entities.watcher);
+  StreamsWatcher.incrementFlowCounters(context, entities.watcher, action);
 };
 
 export const createStream = { handler };

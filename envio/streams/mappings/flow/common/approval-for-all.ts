@@ -24,7 +24,7 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* --------------------------------- ACTION --------------------------------- */
-  FlowAction.create(context, event, ensuredWatcher, {
+  const action = FlowAction.create(context, event, ensuredWatcher, {
     addressA: event.params.owner,
     addressB: event.params.operator,
     amountA: event.params.approved ? 1n : 0n,
@@ -32,7 +32,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher);
+  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher, action);
 };
 
 export const approvalForAll = { handler };

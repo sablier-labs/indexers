@@ -31,7 +31,7 @@ const handler: Handler = async ({ context, event }) => {
   }
 
   /* --------------------------------- ACTION --------------------------------- */
-  LockupAction.create(context, event, ensuredWatcher, {
+  const action = LockupAction.create(context, event, ensuredWatcher, {
     addressA: event.params.owner,
     addressB: event.params.operator,
     amountA: event.params.approved ? 1n : 0n,
@@ -39,7 +39,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Watcher.incrementLockupActionCounter(context, ensuredWatcher);
+  Watcher.incrementLockupActionCounter(context, ensuredWatcher, action);
 };
 
 /* -------------------------------------------------------------------------- */

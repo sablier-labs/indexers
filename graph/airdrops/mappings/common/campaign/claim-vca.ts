@@ -1,4 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+import { getDirectCallFee } from "../../../../common/fees";
 import { Params } from "../../../helpers/types";
 import { Store } from "../../../store";
 
@@ -24,7 +25,7 @@ export function handleClaimVCA(event: ethereum.Event, params: Params.ClaimVCA): 
     claimIndex: params.index,
     claimRecipient: params.recipient,
     claimTo: params.to,
-    fee: event.transaction.value,
+    fee: getDirectCallFee(event),
     vcaForgoneAmount: params.vcaForgoneAmount,
   } as Params.Action);
 }

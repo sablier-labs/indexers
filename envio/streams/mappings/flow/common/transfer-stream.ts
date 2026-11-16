@@ -58,7 +58,7 @@ const handler: Handler = async ({ context, event }) => {
   context.FlowStream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  FlowAction.create(context, event, ensuredWatcher, {
+  const action = FlowAction.create(context, event, ensuredWatcher, {
     addressA: currentRecipient,
     addressB: newRecipient,
     category: "Transfer",
@@ -66,7 +66,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher);
+  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher, action);
 };
 
 /* -------------------------------------------------------------------------- */

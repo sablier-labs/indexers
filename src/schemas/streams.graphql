@@ -857,6 +857,11 @@ type Watcher @entity(immutable: false) {
   """
   id: String!
   """
+  Hash of the latest transaction whose value was attributed as a fee. Batched calls share one msg.value,
+  so the fee is attributed only to the first action in the transaction.
+  """
+  lastFeeHash: Bytes
+  """
   Global counter for Lockup actions.
   """
   lockupActionCounter: BigInt!

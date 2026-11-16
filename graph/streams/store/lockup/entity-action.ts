@@ -5,7 +5,7 @@ import { isVersionWithFees } from "../../../common/fees";
 import { Id } from "../../../common/id";
 import { CommonParams } from "../../../common/types";
 import * as Entity from "../../bindings/schema";
-import { getOrCreateWatcher } from "../entity-watcher";
+import { attributeFee, getOrCreateWatcher } from "../entity-watcher";
 
 export function createAction(
   event: ethereum.Event,
@@ -19,7 +19,7 @@ export function createAction(
   action.block = event.block.number;
   action.chainId = readChainId();
   action.contract = event.address;
-  action.fee = isVersionWithFees(LOCKUP_NON_PAYABLE_VERSIONS) ? event.transaction.value : null;
+  action.fee = isVersionWithFees(LOCKUP_NON_PAYABLE_VERSIONS) ? attributeFee(watcher, event) : null;
   action.from = event.transaction.from;
   action.hash = event.transaction.hash;
   action.subgraphId = watcher.lockupActionCounter;

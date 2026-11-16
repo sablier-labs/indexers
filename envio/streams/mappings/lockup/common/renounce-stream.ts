@@ -54,13 +54,13 @@ const handler: Handler = async ({ context, event }) => {
   context.LockupStream.set(updatedStream);
 
   /* --------------------------------- ACTION --------------------------------- */
-  LockupAction.create(context, event, ensuredWatcher, {
+  const action = LockupAction.create(context, event, ensuredWatcher, {
     category: "Renounce",
     streamId: stream.id,
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  Watcher.incrementLockupActionCounter(context, ensuredWatcher);
+  Watcher.incrementLockupActionCounter(context, ensuredWatcher, action);
 };
 
 export const renounceStream = { handler };

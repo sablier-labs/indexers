@@ -1,6 +1,6 @@
 import * as _ from "lodash-es";
 import type { Address } from "viem";
-import { isVersionWithFees } from "../../../../common/fees.js";
+import { getDirectCallFee, isVersionWithFees } from "../../../../common/fees.js";
 import { Id } from "../../../../common/id.js";
 import type {
   SablierV2MerkleStreamerLL_v1_1_Claim_handler as HandlerLL_v1_1,
@@ -72,7 +72,7 @@ const handler: Handler = async ({ context, event }) => {
   /* --------------------------------- ACTION --------------------------------- */
   let fee: bigint | undefined;
   if (isVersionWithFees("airdrops", event.chainId, factory.address)) {
-    fee = event.transaction.value;
+    fee = getDirectCallFee(event);
   }
   Store.Action.create(context, event, ensuredWatcher, {
     campaignId: campaign.id,

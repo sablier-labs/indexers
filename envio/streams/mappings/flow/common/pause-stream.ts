@@ -58,7 +58,7 @@ const handler: Handler = async ({ context, event }) => {
 
   /* --------------------------------- ACTION --------------------------------- */
 
-  FlowAction.create(context, event, ensuredWatcher, {
+  const action = FlowAction.create(context, event, ensuredWatcher, {
     addressA: event.params.recipient,
     addressB: event.params.sender,
     amountA: event.params.totalDebt,
@@ -67,7 +67,7 @@ const handler: Handler = async ({ context, event }) => {
   });
 
   /* --------------------------------- WATCHER -------------------------------- */
-  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher);
+  StreamsWatcher.incrementFlowActionCounter(context, ensuredWatcher, action);
 };
 
 export const pauseStream = { handler };
