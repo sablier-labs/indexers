@@ -621,14 +621,6 @@ id	output
 [10,"0xe536e17eab6e30c04d3bf14c713872dcfc4ae3c2"]	{"decimals":18,"name":"UDT","symbol":"UDT"}
 [10,"0xf22f7a8b4a648779c78bcce6670c3689e99335f2"]	{"decimals":18,"name":"DAO","symbol":"DAO"}
 [10,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
-[50,"0x23db6050336b16fc7d7030956b03214537e55f2e"]	{"decimals":18,"name":"VitalVEDA","symbol":"VVFIT"}
-[50,"0x2d1c02cf9e7a1659b82185fef243078bfd237b23"]	{"decimals":18,"name":"Roxonn Token","symbol":"ROXN"}
-[50,"0x6168664ffc0a22cc4e9df7cb7247dcbb0c066169"]	{"decimals":18,"name":"0xFútbol","symbol":"FUTBOL"}
-[50,"0x678adf7955d8f6dcaa9e2fcc1c5ba70bccc464e6"]	{"decimals":18,"name":"Gama Coin","symbol":"GAMA"}
-[50,"0x951857744785e80e2de051c32ee7b25f9c458c42"]	{"decimals":18,"name":"Wrapped XDC","symbol":"WXDC"}
-[50,"0x9640ebf3807401a3c9e4a290e6ac0678e23c9985"]	{"decimals":18,"name":"Frac Ecosystem Token","symbol":"FRAC"}
-[50,"0xc6126ebfa8b5ffd41561c086979c97416969cebf"]	{"decimals":18,"name":"Growlimitless","symbol":"GLL"}
-[50,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [56,"0x000ae314e2a2172a039b26378814c252734f556a"]	{"decimals":18,"name":"Aster","symbol":"ASTER"}
 [56,"0x0366bb765b8e7180f8e0f6c33b93fdcaa0a4d447"]	{"decimals":18,"name":"iobeats","symbol":"IOB"}
 [56,"0x053063ffe0f65567e488da3d73ea6aaac7bef8d2"]	{"decimals":18,"name":"ZT","symbol":"ZT"}

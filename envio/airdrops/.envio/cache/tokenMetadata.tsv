@@ -91,9 +91,6 @@ id	output
 [10,"0xda10009cbd5d07dd0cecc66161fc93d7c9000da1"]	{"decimals":18,"name":"Dai Stablecoin","symbol":"DAI"}
 [10,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [10,"0xf983a617da60e88c112d52f00f9fab17851d2fef"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
-[50,"0x951857744785e80e2de051c32ee7b25f9c458c42"]	{"decimals":18,"name":"Wrapped XDC","symbol":"WXDC"}
-[50,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
-[50,"0xf983a617da60e88c112d52f00f9fab17851d2fef"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [56,"0x010a8cc90b07f98bba09ed02256c5cdead89920c"]	{"decimals":18,"name":"Mock Token","symbol":"MTK"}
 [56,"0x1a03c6dd80fb048e449bff3e9319bc3cdaf118e5"]	{"decimals":18,"name":"TestJuly9","symbol":"TJ9"}
 [56,"0x1f34c87ded863fe3a3cd76fac8ada9608137c8c3"]	{"decimals":18,"name":"Overlay","symbol":"OVL"}

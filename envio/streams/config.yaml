@@ -293,36 +293,6 @@ chains:
       - address: "0x945ba0d0eeaa5766d4bae5455a9817d7ae150550"
         name: "SablierLockup_v4_0"
         start_block: 149075526
-  - id: 50
-    start_block: 85225620
-    rpc:
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://rpc.xdc.network"
-      - for: "fallback"
-        initial_block_interval: 2000
-        interval_ceiling: 2000
-        url: "https://xdc.public-rpc.com"
-    contracts:
-      - address: "0xd6482334242862951da3e730f818c3f6e3f45a30"
-        name: "SablierFlow_v1_1"
-        start_block: 85226840
-      - address: "0x3f00b8334ebe2a85875d1f8b50a43a12db67acad"
-        name: "SablierFlow_v2_0"
-        start_block: 94421891
-      - address: "0x2a89ddeafebf51cb8517da2d00df2365bf3ef49e"
-        name: "SablierFlow_v3_0"
-        start_block: 100412971
-      - address: "0x489e0dc5e62a751a2b209f1cc03e189fd6257176"
-        name: "SablierLockup_v2_0"
-        start_block: 85225620
-      - address: "0x2266901b1ecf499b4c91b6cbea8e06700cfbde1e"
-        name: "SablierLockup_v3_0"
-        start_block: 94381434
-      - address: "0x16f5c4ddc5b828f00e8f92267f3abf60b700db5c"
-        name: "SablierLockup_v4_0"
-        start_block: 100412659
   - id: 56
     start_block: 29646271
     rpc:

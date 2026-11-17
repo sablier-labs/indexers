@@ -57,7 +57,6 @@ const SUPPORTED_CHAINS = [
   get(chains.scroll.id),
   get(chains.sei.id, { hypersync: "sei" }),
   get(chains.unichain.id),
-  get(chains.xdc.id),
   get(chains.zksync.id),
   /* -------------------------------------------------------------------------- */
   /*                                  TESTNETS                                  */

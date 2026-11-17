@@ -13,7 +13,6 @@ import {
   polygon,
   sei,
   sonic,
-  xdc,
 } from "sablier/evm/chains";
 import { COINGECKO_BASE_URL } from "../../common/constants.js";
 import { isToday, shiftDateUtc } from "../../common/time.js";
@@ -96,10 +95,6 @@ export const coinConfigs: Record<string, CoinConfig> = {
   [sonic.nativeCurrency.symbol]: {
     api_id: "sonic-3",
     effect: createEffect(sonic.nativeCurrency.symbol),
-  },
-  [xdc.nativeCurrency.symbol]: {
-    api_id: "xdce-crowd-sale",
-    effect: createEffect(xdc.nativeCurrency.symbol),
   },
 };
 

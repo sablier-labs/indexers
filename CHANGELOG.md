@@ -32,6 +32,11 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 
 - Bump `sablier` dependency from `^4.2.0` to `^4.2.3`, which replaces the rate-limited XDC default RPC
 
+### Removed
+
+- Remove XDC (chain ID `50`) support from the Envio `airdrops` and `streams` indexers. `getIndexerEnvio` and
+  `getIndexer` with `vendor: "envio"` now return `undefined` for XDC, and the chain is no longer part of `envioChains`
+
 ## [7.2.0] - 2026-10-19
 
 ### Removed
