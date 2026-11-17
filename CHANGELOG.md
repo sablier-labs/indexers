@@ -10,6 +10,7 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 > Starting with v7.2.0, removing a chain is not considered a breaking change, since networks can shut down outside our
 > control.
 
+[7.3.0]: https://github.com/sablier-labs/indexers/compare/v7.2.0...v7.3.0
 [7.2.0]: https://github.com/sablier-labs/indexers/compare/v7.1.0...v7.2.0
 [7.1.0]: https://github.com/sablier-labs/indexers/compare/v7.0.0...v7.1.0
 [7.0.0]: https://github.com/sablier-labs/indexers/compare/v6.0.0...v7.0.0
@@ -26,11 +27,11 @@ The format is based on [Common Changelog](https://common-changelog.org/), and th
 [1.0.0]: https://github.com/sablier-labs/indexers/releases/tag/v1.0.0
 [4716449]: https://github.com/sablier-labs/indexers/commit/4716449e
 
-## Unreleased
+## [7.3.0] - 2026-11-17
 
 ### Changed
 
-- Bump `sablier` dependency from `^4.2.0` to `^4.2.3`, which replaces the rate-limited XDC default RPC
+- Bump `sablier` dependency from `^4.2.0` to `^4.2.3`
 
 ### Removed
 
