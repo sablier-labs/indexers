@@ -31,3 +31,30 @@ cache-dump:
         mv "$file.tmp" "$file"
     done
     echo "✅ Dumped the fee caches to $cache_dir"
+
+# The recipe restarts the indexer after a crash and continues from the stored progress. Run it again to resume.
+# Backfill locally until all chains are synced, then dump the fee caches
+[script("bash")]
+cache-backfill:
+    set -uo pipefail
+    cd "{{ justfile_dir() }}"
+    log="{{ source_dir() }}/../../.logs/analytics-cache-backfill.log"
+    mkdir -p "$(dirname "$log")"
+    metrics="http://localhost:${ENVIO_INDEXER_PORT:-9898}/metrics"
+    stop_indexer() { pkill -TERM -f "envio/bin.mjs dev" || true; }
+    trap 'stop_indexer; exit 130' INT TERM
+    while true; do
+        echo "[$(date '+%F %T')] starting the indexer" >> "$log"
+        just envio dev tui_off >> "$log" 2>&1 &
+        indexer=$!
+        while kill -0 "$indexer" 2>/dev/null; do
+            sleep 60
+            ready=$(curl --silent --max-time 10 "$metrics" | grep '^envio_progress_ready' || true)
+            if [ -n "$ready" ] && ! grep -qv ' 1$' <<< "$ready"; then
+                echo "[$(date '+%F %T')] all chains are synced" >> "$log"
+                just cache-dump >> "$log" 2>&1 && { stop_indexer; echo "✅ Backfill complete; commit the fee caches"; exit 0; }
+            fi
+        done
+        echo "[$(date '+%F %T')] the indexer exited; restarting in 30 seconds" >> "$log"
+        sleep 30
+    done

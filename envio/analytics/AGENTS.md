@@ -65,12 +65,13 @@ cached input.
   fallback ran.
 - Do not commit a forex cache. The rate of a recent date can change.
 
-To refresh the fee caches, do these steps in `envio/analytics`:
+To refresh the fee caches, run `just cache-backfill` in `envio/analytics`, then commit the fee cache files.
 
-1. Run `just envio dev tui_off -r`. The local `ENVIO_API_TOKEN` quota controls the backfill speed.
-2. Wait until all chains are synced.
-3. Run `just cache-dump`, then stop the indexer.
-4. Commit the fee cache files.
+- The recipe backfills locally, restarts the indexer after a crash, and dumps the caches when all chains are synced.
+- It continues from the stored progress. Run it again after an interruption. Use `just envio dev tui_off -r` first only
+  when you need a clean database.
+- The local `ENVIO_API_TOKEN` quota controls the speed. With the free package, a full backfill takes more than a day.
+- The log is `.logs/analytics-cache-backfill.log`.
 
 If you change the trace parsers or the input of a cached effect, delete its cache file and refresh it. A stale row gives
 a wrong fee and no error.
