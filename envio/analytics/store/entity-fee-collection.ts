@@ -6,16 +6,18 @@ import type { Sablier } from "sablier";
 import { sablier } from "sablier";
 import { formatEther } from "viem";
 import type { Envio } from "../../common/bindings.js";
-import type { COMPTROLLER } from "../../common/constants.js";
+import { COMPTROLLER } from "../../common/constants.js";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
 import { Id } from "../helpers/index.js";
+import * as FeeLedger from "./entity-fee-ledger.js";
 
 type Params = {
   admin: string;
   airdropCampaign: string | undefined;
   amount: bigint;
   protocol: Sablier.Protocol | typeof COMPTROLLER;
+  skipLedger?: boolean;
 };
 
 type LoadedEntities = {
@@ -42,7 +44,7 @@ export async function create(
   event: Envio.Event,
   params: Params
 ): Promise<void> {
-  const { admin, airdropCampaign, amount, protocol } = params;
+  const { admin, airdropCampaign, amount, protocol, skipLedger } = params;
 
   // Ignore zero-amount fee collections. This behavior is allowed in the contracts due to the
   // need to keep the contract size small.
@@ -59,6 +61,16 @@ export async function create(
   // If transaction already exists, return early
   if (entities.feeCollectionTransaction) {
     return;
+  }
+
+  // Reconcile this sweep against the fees attributed to the swept contract.
+  let unattributed: bigint | undefined;
+  if (!skipLedger && !FeeLedger.FEE_EXCLUDED_CHAINS.includes(event.chainId)) {
+    const key: FeeLedger.LedgerKey =
+      protocol === COMPTROLLER
+        ? { kind: "comptroller" }
+        : { address: airdropCampaign ?? event.srcAddress, kind: "contract" };
+    unattributed = await FeeLedger.collect(context, event.chainId, key, amount);
   }
 
   const amountFormatted = formatEther(amount);
@@ -83,6 +95,7 @@ export async function create(
     logIndex: BigInt(event.logIndex),
     protocol,
     timestamp: getTimestamp(event.block.timestamp),
+    unattributed,
   };
 
   context.FeeCollection.set(transaction);

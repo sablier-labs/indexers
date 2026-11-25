@@ -8,6 +8,7 @@ import type { Address } from "viem";
 import { parseEther } from "viem";
 import type { Envio } from "../../common/bindings.js";
 import type { HandlerContext } from "../bindings.js";
+import { FeePolicies } from "../store/fee-resolver.js";
 import { Store } from "../store/index.js";
 
 /* -------------------------------------------------------------------------- */
@@ -190,7 +191,8 @@ export async function processActions(
         transaction: {
           from: action.from as Address,
           hash: action.hash,
-          to: undefined,
+          // The preset's fee was paid to this contract.
+          to: action.contract as Address,
           transactionIndex: 0,
           value: BigInt(action.fee),
         },
@@ -200,7 +202,7 @@ export async function processActions(
 
       // Track fees only if non-zero
       if (BigInt(action.fee) !== BigInt(0)) {
-        promises.push(Store.Fees.createOrUpdate(context, event));
+        promises.push(Store.Fees.createOrUpdate(context, event, FeePolicies.preset));
       }
 
       // Filter out null/undefined addresses
@@ -270,6 +272,8 @@ export async function processFeeCollections(
         airdropCampaign: fc.airdropCampaign ?? undefined,
         amount: parseEther(fc.amount),
         protocol,
+        // Presets are replayed out of chain order, so reconciliation does not apply.
+        skipLedger: true,
       });
     })
   );

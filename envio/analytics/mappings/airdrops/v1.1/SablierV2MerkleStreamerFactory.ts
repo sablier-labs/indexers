@@ -19,6 +19,7 @@ Contract.Airdrops.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.hand
     if (!isOfficialLockup(context.log, event, lockupAddress, { allowAll: true })) {
       return;
     }
+    Store.AirdropCampaign.register(context, event.chainId, event.params.merkleStreamer);
     await Store.User.createOrUpdate(context, event, [event.params.admin, event.transaction.from]);
   }
 );

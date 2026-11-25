@@ -1,4 +1,5 @@
 import { Contract } from "../../../bindings.js";
+import { FeePolicies } from "../../../store/fee-resolver.js";
 import { Store } from "../../../store/index.js";
 import {
   handleApproval,
@@ -20,7 +21,7 @@ Contract.Flow.Flow_v2_0.CreateFlowStream.handler(async ({ context, event }) => {
     event.params.recipient,
     event.transaction.from,
   ]);
-  await Store.Fees.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(context, event, FeePolicies.voluntaryComptroller);
 });
 
 Contract.Flow.Flow_v2_0.DepositFlowStream.handler(async ({ context, event }) => {
@@ -45,7 +46,11 @@ Contract.Flow.Flow_v2_0.VoidFlowStream.handler(async ({ context, event }) => {
 
 Contract.Flow.Flow_v2_0.WithdrawFromFlowStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
-  await Store.Fees.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(
+    context,
+    event,
+    FeePolicies.streamWithdraw(event.params.streamId)
+  );
 });
 
 /* -------------------------------------------------------------------------- */

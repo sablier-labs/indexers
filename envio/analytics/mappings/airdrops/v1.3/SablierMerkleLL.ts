@@ -1,4 +1,5 @@
 import { Contract } from "../../../bindings.js";
+import { FeePolicies } from "../../../store/fee-resolver.js";
 import { Store } from "../../../store/index.js";
 
 Contract.Airdrops.Campaign.MerkleLL_v1_3.Claim.handler(async ({ context, event }) => {
@@ -9,7 +10,7 @@ Contract.Airdrops.Campaign.MerkleLL_v1_3.Claim.handler(async ({ context, event }
     [event.params.recipient, event.transaction.from],
     isAirdropClaim
   );
-  await Store.Fees.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(context, event, FeePolicies.airdropFixed);
 });
 
 Contract.Airdrops.Campaign.MerkleLL_v1_3.Clawback.handler(async ({ context, event }) => {

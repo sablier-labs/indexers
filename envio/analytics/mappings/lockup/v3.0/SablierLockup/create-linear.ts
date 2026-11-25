@@ -1,4 +1,5 @@
 import { Contract } from "../../../../bindings.js";
+import { FeePolicies } from "../../../../store/fee-resolver.js";
 import { Store } from "../../../../store/index.js";
 
 /*
@@ -42,5 +43,5 @@ Contract.Lockup.Lockup_v3_0.CreateLockupLinearStream.handler(async ({ context, e
     recipient,
     event.transaction.from,
   ]);
-  await Store.Fees.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(context, event, FeePolicies.voluntaryComptroller);
 });

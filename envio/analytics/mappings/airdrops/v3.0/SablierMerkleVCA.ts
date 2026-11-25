@@ -1,4 +1,5 @@
 import { Contract } from "../../../bindings.js";
+import { FeePolicies } from "../../../store/fee-resolver.js";
 import { Store } from "../../../store/index.js";
 
 /*
@@ -29,7 +30,7 @@ Contract.Airdrops.Campaign.MerkleVCA_v3_0.ClaimVCA.handler(async ({ context, eve
     [event.params.recipient, event.params.to, event.transaction.from],
     isAirdropClaim
   );
-  await Store.Fees.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(context, event, FeePolicies.airdropOracle);
 });
 
 Contract.Airdrops.Campaign.MerkleVCA_v3_0.Clawback.handler(async ({ context, event }) => {

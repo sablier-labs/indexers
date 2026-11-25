@@ -1,4 +1,25 @@
 """
+Airdrop campaign that creates Lockup streams on claim (MerkleLL, MerkleLT and their predecessors).
+Used to recognise transactions whose callee is a Sablier campaign.
+"""
+type AirdropCampaign @entity {
+  """
+  Campaign contract address (lowercase)
+  """
+  address: String!
+
+  """
+  Chain ID of this campaign
+  """
+  chainId: BigInt!
+
+  """
+  Unique identifier: chainId_address
+  """
+  id: ID!
+}
+
+"""
 Daily fees aggregated by currency across all chains.
 """
 type CryptoFeesDaily @entity {
@@ -190,6 +211,14 @@ type FeeCollection @entity {
   Block Unix timestamp
   """
   timestamp: Timestamp!
+
+  """
+  Cumulative collected minus cumulative attributed fees for this collection's ledger right after
+  this collection, in wei. Zero is expected for per-contract ledgers; positive means fees were
+  collected that were never attributed; negative means attributed fees are not yet swept (normal
+  for the comptroller ledger) or were overcounted. Null when reconciliation does not apply.
+  """
+  unattributed: BigInt
 }
 
 """
@@ -229,6 +258,50 @@ type FeeCollectionDaily @entity {
   Collection transactions for this day
   """
   transactions: [FeeCollection!]! @derivedFrom(field: "daily")
+}
+
+"""
+Reconciliation ledger comparing cumulative fees attributed to FeeTransaction entities with
+cumulative fees swept on-chain. Every sweep transfers the contract's entire native balance, so the
+swept amount equals all native value received since the previous sweep.
+"""
+type FeeLedger @entity {
+  """
+  Cumulative fees attributed to this ledger, in wei
+  """
+  attributed: BigInt!
+
+  """
+  Chain ID of this ledger
+  """
+  chainId: BigInt!
+
+  """
+  Cumulative fees swept from this ledger, in wei
+  """
+  collected: BigInt!
+
+  """
+  Contract address (lowercase). Null for the comptroller ledger.
+  """
+  contractAddress: String
+  """
+  Unique identifier: chainId_contractAddress or chainId_comptroller
+  """
+  id: ID!
+}
+
+"""
+How the amount of a FeeTransaction was determined.
+
+- `MIN_FEE`: on-chain minimum fee, a lower bound used when no trace is available.
+- `TRACE`: inner `msg.value` summed from the call trace.
+- `TX_VALUE`: direct call, outer transaction value.
+"""
+enum FeeSource {
+  MIN_FEE
+  TRACE
+  TX_VALUE
 }
 
 """
@@ -300,9 +373,16 @@ type FeeTransaction @entity {
   """
   hash: String!
   """
-  Unique identifier: chainId_transactionHash
+  Unique identifier: chainId_transactionHash_contractAddress
   """
   id: ID!
+
+  """
+  How the amount was determined: `TX_VALUE` (direct call, outer transaction value), `TRACE` (inner
+  `msg.value` summed from the call trace), or `MIN_FEE` (on-chain minimum fee, a lower bound used
+  when no trace is available).
+  """
+  source: FeeSource!
 
   """
   Block Unix timestamp

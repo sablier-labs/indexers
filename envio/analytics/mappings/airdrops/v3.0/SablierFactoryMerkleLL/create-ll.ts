@@ -60,6 +60,7 @@ Contract.Airdrops.Factory.FactoryMerkleLL_v3_0.CreateMerkleLL.handler(
       return;
     }
     const { initialAdmin } = event.params.campaignParams;
+    Store.AirdropCampaign.register(context, event.chainId, event.params.merkleLL);
     await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
   }
 );

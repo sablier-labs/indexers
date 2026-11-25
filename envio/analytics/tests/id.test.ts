@@ -72,23 +72,39 @@ describe("Id", () => {
   /* -------------------------------------------------------------------------- */
 
   describe("feeTransaction", () => {
-    it("should create fee transaction id", () => {
-      const chainId = 1;
-      const hash = "0xabc123def456";
-      const actual = Id.feeTransaction(chainId, hash);
-      expect(actual).toBe("1_0xabc123def456");
+    it("should create fee transaction id with lowercase contract address", () => {
+      const actual = Id.feeTransaction(1, "0xabc123def456", "0xABCDEF");
+      expect(actual).toBe("1_0xabc123def456_0xabcdef");
     });
 
     it("should handle different chain ids", () => {
-      const chainId = 137;
-      const hash = "0xdef789ghi012";
-      const actual = Id.feeTransaction(chainId, hash);
-      expect(actual).toBe("137_0xdef789ghi012");
+      const actual = Id.feeTransaction(137, "0xdef789ghi012", "0xabc");
+      expect(actual).toBe("137_0xdef789ghi012_0xabc");
     });
 
     it("should handle empty hash", () => {
-      const actual = Id.feeTransaction(1, "");
-      expect(actual).toBe("1_");
+      const actual = Id.feeTransaction(1, "", "0xabc");
+      expect(actual).toBe("1__0xabc");
+    });
+  });
+
+  /* -------------------------------------------------------------------------- */
+  /*                                 FEE LEDGER                                 */
+  /* -------------------------------------------------------------------------- */
+
+  describe("airdropCampaign", () => {
+    it("should create campaign id with lowercase address", () => {
+      expect(Id.airdropCampaign(1, "0xABCDEF")).toBe("1_0xabcdef");
+    });
+  });
+
+  describe("feeLedger", () => {
+    it("should create contract ledger id with lowercase address", () => {
+      expect(Id.feeLedger(1, "0xABCDEF")).toBe("1_0xabcdef");
+    });
+
+    it("should create comptroller ledger id when address is omitted", () => {
+      expect(Id.feeLedger(137)).toBe("137_comptroller");
     });
   });
 

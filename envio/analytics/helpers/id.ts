@@ -11,12 +11,20 @@ export namespace Id {
     return `${getDate(blockTimestamp)}_${chain.nativeCurrency.symbol}`;
   }
 
+  export function airdropCampaign(chainId: number, address: string): string {
+    return `${chainId}_${address.toLowerCase()}`;
+  }
+
   export function customFee(chainId: number, address: string): string {
     return `${chainId}_${address.toLowerCase()}`;
   }
 
-  export function feeTransaction(chainId: number, hash: string): string {
-    return `${chainId}_${hash}`;
+  export function feeTransaction(chainId: number, hash: string, contractAddress: string): string {
+    return `${chainId}_${hash}_${contractAddress.toLowerCase()}`;
+  }
+
+  export function feeLedger(chainId: number, contractAddress?: string): string {
+    return `${chainId}_${contractAddress ? contractAddress.toLowerCase() : "comptroller"}`;
   }
 
   export function feeCollection(chainId: number, hash: string, logIndex: number): string {

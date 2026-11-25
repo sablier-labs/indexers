@@ -2,20 +2,20 @@
  * @see {@link: file://./../analytics.graphql}
  */
 import { sablier } from "sablier";
-import { gnosis, tangle } from "sablier/evm/chains";
+import { gnosis } from "sablier/evm/chains";
 import { formatEther, parseUnits } from "viem";
 import type { Envio } from "../../common/bindings.js";
 import { FEB_03_2025 } from "../../common/constants.js";
-import { getDirectCallFee } from "../../common/fees.js";
 import { getDate, getDateTimestamp, getTimestamp } from "../../common/time.js";
 import type { Entity, HandlerContext } from "../bindings.js";
 import { coinConfigs } from "../effects/coingecko.js";
 import { fetchGBPExchangeRate } from "../effects/forex.js";
 import { addDecimalStrings, Id, toDecimalString } from "../helpers/index.js";
-
-// Testnet ETH doesn't have value, and TNT is not transferable.
-const TESTNETS = sablier.chains.getTestnets();
-const EXCLUDED_CHAINS = [...TESTNETS.map((c) => c.id), tangle.id];
+// Imported directly rather than through `store/index.ts` to avoid a circular import.
+import * as AirdropCampaign from "./entity-airdrop-campaign.js";
+import * as FeeLedger from "./entity-fee-ledger.js";
+import type { FeePolicy, ResolvedFee } from "./fee-resolver.js";
+import { resolveFee } from "./fee-resolver.js";
 
 type LoadedEntities = {
   dailyFiatFeesId: string;
@@ -26,9 +26,18 @@ type LoadedEntities = {
   feeTx: Entity<"FeeTransaction"> | undefined;
 };
 
-export async function createOrUpdate(context: HandlerContext, event: Envio.Event): Promise<void> {
+/**
+ * Records the native-currency fee paid to `event.srcAddress` in this event's transaction. At most one fee is recorded
+ * per (transaction, contract): later events from the same contract in the same transaction are ignored before any fee
+ * resolution, so they never trigger RPC calls.
+ */
+export async function createOrUpdate(
+  context: HandlerContext,
+  event: Envio.Event,
+  policy: FeePolicy
+): Promise<void> {
   // Check for excluded chains.
-  if (EXCLUDED_CHAINS.includes(event.chainId)) {
+  if (FeeLedger.FEE_EXCLUDED_CHAINS.includes(event.chainId)) {
     return;
   }
 
@@ -37,19 +46,30 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
     return;
   }
 
-  // Fees are charged via `msg.value`.
-  const fee = getDirectCallFee(event);
-  if (fee === 0n) {
-    return;
-  }
-  const msgValue = formatEther(fee);
-
   try {
-    // Load and validate entities. If the fee transaction already exists, we stop here.
+    // Load and validate entities. If the fee transaction already exists for this contract, we stop here.
     const entities = await loadEntities(context, event);
     if (entities.feeTx) {
       return;
     }
+
+    // A campaign pays for the streams it creates but never forwards native value to Lockup, so a transaction sent to
+    // a campaign cannot carry a Lockup fee.
+    const to = event.transaction.to?.toLowerCase();
+    if (
+      to &&
+      to !== event.srcAddress.toLowerCase() &&
+      (await AirdropCampaign.exists(context, event.chainId, to))
+    ) {
+      return;
+    }
+
+    // Fees are charged via `msg.value`.
+    const fee = await resolveFee(context, event, policy);
+    if (!fee) {
+      return;
+    }
+    const msgValue = formatEther(fee.amount);
 
     const date = getDate(event.block.timestamp);
     const chain = sablier.chains.getOrThrow(event.chainId);
@@ -84,10 +104,24 @@ export async function createOrUpdate(context: HandlerContext, event: Envio.Event
 
     // Update fee entities.
     upsertFiatFeesDaily(context, entities, event, { date, gbpValue, usdValue });
-    upsertCryptoFeesDaily(context, entities, event, { currency, date, msgValue });
+    upsertCryptoFeesDaily(context, entities, event, {
+      amount: fee.amount,
+      currency,
+      date,
+      msgValue,
+    });
 
     // Create fee transaction entities.
-    createFeeTx(context, entities, event, { currency, gbpValue, msgValue, usdValue });
+    createFeeTx(context, entities, event, { currency, fee, gbpValue, msgValue, usdValue });
+
+    // Attribute the fee to the ledger it accumulates in until swept.
+    if (policy.ledger !== "none") {
+      const key: FeeLedger.LedgerKey =
+        policy.ledger === "comptroller"
+          ? { kind: "comptroller" }
+          : { address: event.srcAddress, kind: "contract" };
+      await FeeLedger.attribute(context, event.chainId, key, fee.amount);
+    }
   } catch (error) {
     context.log.error("Failed to create or update fee entities", { error, event });
     throw error;
@@ -98,13 +132,19 @@ function createFeeTx(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { currency: string; gbpValue: string; msgValue: string; usdValue: string }
+  params: {
+    currency: string;
+    fee: ResolvedFee;
+    gbpValue: string;
+    msgValue: string;
+    usdValue: string;
+  }
 ): void {
   const { feeTxId, dailyFiatFeesId, dailyCryptoFeesId } = entities;
-  const { currency, gbpValue, msgValue, usdValue } = params;
+  const { currency, fee, gbpValue, msgValue, usdValue } = params;
 
   const feeTx: Entity<"FeeTransaction"> = {
-    amount: event.transaction.value,
+    amount: fee.amount,
     amountDisplay: msgValue,
     amountDisplayGBP: gbpValue,
     amountDisplayUSD: usdValue,
@@ -118,6 +158,7 @@ function createFeeTx(
     dailyFiatFees_id: dailyFiatFeesId,
     hash: event.transaction.hash,
     id: feeTxId,
+    source: fee.source,
     timestamp: getTimestamp(event.block.timestamp),
   };
 
@@ -127,7 +168,7 @@ function createFeeTx(
 async function loadEntities(context: HandlerContext, event: Envio.Event): Promise<LoadedEntities> {
   const dailyFiatFeesId = Id.dailyFiatFees(event.block.timestamp);
   const dailyCryptoFeesId = Id.dailyCryptoFees(event.chainId, event.block.timestamp);
-  const feeTxId = Id.feeTransaction(event.chainId, event.transaction.hash);
+  const feeTxId = Id.feeTransaction(event.chainId, event.transaction.hash, event.srcAddress);
 
   const [dailyFiatFees, dailyCryptoFees, feeTx] = await Promise.all([
     context.FiatFeesDaily.get(dailyFiatFeesId),
@@ -184,14 +225,14 @@ function upsertCryptoFeesDaily(
   context: HandlerContext,
   entities: LoadedEntities,
   event: Envio.Event,
-  params: { currency: string; date: string; msgValue: string }
+  params: { amount: bigint; currency: string; date: string; msgValue: string }
 ): void {
   let { dailyCryptoFees } = entities;
   const { dailyCryptoFeesId } = entities;
-  const { currency, date, msgValue } = params;
+  const { amount, currency, date, msgValue } = params;
 
   if (dailyCryptoFees) {
-    const newAmount = dailyCryptoFees.amount + event.transaction.value;
+    const newAmount = dailyCryptoFees.amount + amount;
     dailyCryptoFees = {
       ...dailyCryptoFees,
       amount: newAmount,
@@ -199,7 +240,7 @@ function upsertCryptoFeesDaily(
     };
   } else {
     dailyCryptoFees = {
-      amount: event.transaction.value,
+      amount,
       amountDisplay: msgValue,
       currency,
       dailyFiatFees_id: entities.dailyFiatFeesId,

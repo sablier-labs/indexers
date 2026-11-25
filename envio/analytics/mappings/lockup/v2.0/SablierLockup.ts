@@ -1,4 +1,5 @@
 import { Contract } from "../../../bindings.js";
+import { FeePolicies } from "../../../store/fee-resolver.js";
 import { Store } from "../../../store/index.js";
 import {
   handleApproval,
@@ -45,7 +46,7 @@ Contract.Lockup.Lockup_v2_0.RenounceLockupStream.handler(async ({ context, event
 Contract.Lockup.Lockup_v2_0.WithdrawFromLockupStream.handler(async ({ context, event }) => {
   await Store.User.createOrUpdate(context, event, [event.params.to, event.transaction.from]);
   // Lockup v2.0 introduced fees, so we track fees
-  await Store.Fees.createOrUpdate(context, event);
+  await Store.Fees.createOrUpdate(context, event, FeePolicies.voluntaryContract);
 });
 
 /* -------------------------------------------------------------------------- */

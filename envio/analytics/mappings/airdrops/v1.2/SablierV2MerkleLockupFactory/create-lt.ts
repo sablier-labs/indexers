@@ -52,6 +52,7 @@ Contract.Airdrops.Factory.MerkleLockupFactory_v1_2.CreateMerkleLT.handler(
       return;
     }
     const { initialAdmin } = event.params.baseParams;
+    Store.AirdropCampaign.register(context, event.chainId, event.params.merkleLT);
     await Store.User.createOrUpdate(context, event, [initialAdmin, event.transaction.from]);
   }
 );
