@@ -75,8 +75,9 @@ export function prepareDeployment(target: EnvioTarget, ref: string, root = ROOT_
         catch: (cause) => error("deployment config", cause),
         try: () => parseDeploymentConfig(configText),
       });
+      const cache = `envio/${target}/.envio/cache`;
+      const staged: string[] = [];
       if (target !== "analytics") {
-        const cache = `envio/${target}/.envio/cache`;
         const tokenMetadata = yield* fs.readFileString(
           path.join(worktree, cache, "tokenMetadata.tsv")
         );
@@ -91,9 +92,16 @@ export function prepareDeployment(target: EnvioTarget, ref: string, root = ROOT_
             )
           );
         }
+      }
+      // Envio restores effect caches from `.envio/cache` relative to its process cwd, and Hosted can restore from
+      // the repository root. The root copy makes the caches visible in both layouts.
+      if (yield* fs.exists(path.join(worktree, cache))) {
         yield* fs.remove(path.join(worktree, ".envio/cache"), { force: true, recursive: true });
         yield* fs.makeDirectory(path.join(worktree, ".envio"), { recursive: true });
         yield* fs.copy(path.join(worktree, cache), path.join(worktree, ".envio/cache"));
+        staged.push(".envio/cache");
+      }
+      if (target !== "analytics") {
         const metadataPath = `envio/${target}/indexer-info.json`;
         const metadataText = yield* fs.readFileString(path.join(worktree, metadataPath));
         const metadata = yield* Schema.decodeUnknown(
@@ -103,7 +111,10 @@ export function prepareDeployment(target: EnvioTarget, ref: string, root = ROOT_
           path.join(worktree, metadataPath),
           `${JSON.stringify({ ...metadata, commitHash: sourceCommit, deployedAt }, null, 2)}\n`
         );
-        yield* git(["add", "--force", "-A", "--", ".envio/cache", metadataPath], worktree);
+        staged.push(metadataPath);
+      }
+      if (staged.length > 0) {
+        yield* git(["add", "--force", "-A", "--", ...staged], worktree);
       }
       yield* git(
         [

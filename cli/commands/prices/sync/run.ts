@@ -35,14 +35,23 @@ export const handler = () =>
       .makeDirectory(cacheDir, { recursive: true })
       .pipe(Effect.mapError(toFileOperationError(cacheDir, "write")));
 
-    // Remove existing TSV files
+    // Remove only the files that the price-data package owns: the directory also holds other effect caches.
     const entries = yield* fs.readDirectory(cacheDir);
-    const existingTsvFiles = entries.filter((file) => file.endsWith(".tsv"));
+    const packageFiles = new Set<string>();
+    for (const sourceDir of ["crypto", "forex"]) {
+      const files = yield* fs
+        .readDirectory(path.join(priceDataDir, sourceDir))
+        .pipe(Effect.orElseSucceed((): string[] => []));
+      for (const file of files) {
+        packageFiles.add(file);
+      }
+    }
+    const existingTsvFiles = entries.filter((file) => packageFiles.has(file));
 
     if (existingTsvFiles.length > 0) {
       yield* Console.log("");
       yield* Console.log(
-        colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing TSV files from cache...`)
+        colors.warning(`🗑️  Removing ${existingTsvFiles.length} existing price files from cache...`)
       );
       for (const file of existingTsvFiles) {
         const filePath = path.join(cacheDir, file);

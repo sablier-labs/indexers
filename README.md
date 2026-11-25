@@ -60,12 +60,12 @@ prepared commit SHA. `promote` defaults to `latest-nonproduction`. Endpoint disc
 fails when the selection is absent, ambiguous, or missing its endpoint. Do not pass `just --quiet`: that flag suppresses
 the URL. The underlying CLI uses `--indexer` and `--deployment`.
 
-Deployment creates a temporary detached worktree at `--ref` (default `HEAD`), preserves the public root cache copy, and
-writes the **source SHA** and deployment timestamp into public `IndexerInfo` metadata. It then force-pushes a distinct
-**prepared SHA** to `deployment/<target>`. Cloud selectors always identify that prepared commit. The caller's checkout
-and index are untouched. Historical prepared objects are recovered locally or by fetching an exact SHA; provide the full
-prepared SHA if an older object is unavailable and no longer heads the deployment branch. `status` and `promote` read
-the prepared object, so they may fetch a missing object from `origin` and require GitHub access.
+Deployment creates a temporary detached worktree at `--ref` (default `HEAD`), copies the indexer cache to the root
+`.envio/cache`, and writes the **source SHA** and deployment timestamp into public `IndexerInfo` metadata. It then
+force-pushes a distinct **prepared SHA** to `deployment/<target>`. Cloud selectors always identify that prepared commit.
+The caller's checkout and index are untouched. Historical prepared objects are recovered locally or by fetching an exact
+SHA; provide the full prepared SHA if an older object is unavailable and no longer heads the deployment branch. `status`
+and `promote` read the prepared object, so they may fetch a missing object from `origin` and require GitHub access.
 
 The workflow verifies hosted repository, branch, root directory, and config settings before pushing. Projects with
 auto-deploy enabled are observed only; the CLI never manually triggers builds for them. If auto-deploy is disabled,

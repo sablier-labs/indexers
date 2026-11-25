@@ -54,3 +54,23 @@ Pass a policy from `FeePolicies` in `store/fee-resolver.ts` to every `Store.Fees
 `FeeCollection.unattributed` is the cumulative collected fees minus the cumulative attributed fees of the swept ledger.
 Expect zero for a contract ledger. A positive value means that a sweep collected fees that the indexer did not
 attribute. A negative value means that attributed fees are not swept yet, or that the indexer overcounted.
+
+## Effect Caches
+
+Envio loads each `.envio/cache/<effect>.tsv` file into a new deployment, and the indexer does not call an effect for a
+cached input.
+
+- `<SYMBOL>_USD.tsv`: `@sablier/price-data` owns these files. Update them with `just envio::prices-sync` only.
+- `nativeValueReceived.tsv`: the call-trace results, zero values included. `minFeeWei.tsv` appears only when the
+  fallback ran.
+- Do not commit a forex cache. The rate of a recent date can change.
+
+To refresh the fee caches, do these steps in `envio/analytics`:
+
+1. Run `just envio dev tui_off -r`. The local `ENVIO_API_TOKEN` quota controls the backfill speed.
+2. Wait until all chains are synced.
+3. Run `just cache-dump`, then stop the indexer.
+4. Commit the fee cache files.
+
+If you change the trace parsers or the input of a cached effect, delete its cache file and refresh it. A stale row gives
+a wrong fee and no error.

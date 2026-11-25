@@ -8,3 +8,26 @@ export INDEXER_NAME := "analytics"
 # Show available commands
 default:
     @just --list
+
+# Dump the effect caches of the running `just envio dev` indexer and keep the fee caches
+[script("bash")]
+cache-dump:
+    set -euo pipefail
+    cache_dir="{{ justfile_dir() }}/.envio/cache"
+    dumped=$(curl --fail --silent --show-error --request POST "http://localhost:${ENVIO_INDEXER_PORT:-9898}/console/syncCache")
+    if [ "$dumped" != "true" ]; then
+        echo "❌ The indexer did not dump its effect caches" >&2
+        exit 1
+    fi
+    # The dump rewrites every cache. The price files belong to @sablier/price-data, and recent forex rates can change.
+    cd "{{ justfile_dir() }}"
+    git ls-files -z -- '.envio/cache/*_USD.tsv' | xargs -0 git checkout --quiet --
+    git clean --force --quiet -- '.envio/cache/*_USD.tsv'
+    # Sort the rows so that later dumps produce minimal diffs.
+    for name in minFeeWei nativeValueReceived; do
+        file="$cache_dir/$name.tsv"
+        [ -f "$file" ] || continue
+        { head -n 1 "$file"; tail -n +2 "$file" | LC_ALL=C sort; } > "$file.tmp"
+        mv "$file.tmp" "$file"
+    done
+    echo "✅ Dumped the fee caches to $cache_dir"

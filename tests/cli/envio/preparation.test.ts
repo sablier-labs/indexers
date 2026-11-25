@@ -35,7 +35,11 @@ function fixture() {
   git("config", "user.name", "Envio preparation test");
   git("config", "user.email", "envio-test@example.com");
   mkdirSync(path.join(root, "envio/streams/.envio/cache"), { recursive: true });
-  mkdirSync(path.join(root, "envio/analytics"), { recursive: true });
+  mkdirSync(path.join(root, "envio/analytics/.envio/cache"), { recursive: true });
+  writeFileSync(
+    path.join(root, "envio/analytics/.envio/cache/nativeValueReceived.tsv"),
+    'id\toutput\n[1,"0xabc","0xdef"]\t"0"\n'
+  );
   const configText = "chains:\n  - id: 1\n    start_block: 10\n    end_block: 100\n";
   writeFileSync(path.join(root, "envio/streams/config.yaml"), configText);
   writeFileSync(path.join(root, "envio/analytics/config.yaml"), configText);
@@ -94,7 +98,7 @@ describe("detached Envio deployment preparation", () => {
     expect(loaded.config).toEqual(prepared.config);
   });
 
-  it("prepares an explicit historical source ref and handles analytics without public metadata", async () => {
+  it("prepares an explicit historical source ref and copies the analytics root cache without public metadata", async () => {
     const f = fixture();
     writeFileSync(path.join(f.root, "README.md"), "new source\n");
     f.git("commit", "-am", "test: newer source");
@@ -103,6 +107,9 @@ describe("detached Envio deployment preparation", () => {
     );
     expect(prepared.sourceCommit).toBe(f.sourceCommit);
     expect(f.git("show", `${prepared.preparedCommit}:README.md`)).toBe("original source");
+    expect(f.git("show", `${prepared.preparedCommit}:.envio/cache/nativeValueReceived.tsv`)).toBe(
+      'id\toutput\n[1,"0xabc","0xdef"]\t"0"'
+    );
     const loaded = await Effect.runPromise(
       readPreparedDeployment("analytics", prepared.preparedCommit, f.root).pipe(
         Effect.provide(NodeContext.layer)
