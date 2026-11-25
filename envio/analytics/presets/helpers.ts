@@ -174,53 +174,54 @@ export async function processActions(
 
   context.log.info(`Processing ${actions.length} actions for chain ${chainId}`);
 
-  const results = await Promise.allSettled(
-    actions.map(async (action) => {
-      const event: Envio.Event = {
-        block: {
-          hash: "N/A",
-          number: Number(action.block),
-          timestamp: Number(action.timestamp),
-        },
-        chainId,
-        contractName: "",
-        eventName: "",
-        logIndex: 0,
-        params: {},
-        srcAddress: action.contract as Address,
-        transaction: {
-          from: action.from as Address,
-          hash: action.hash,
-          // The preset's fee was paid to this contract.
-          to: action.contract as Address,
-          transactionIndex: 0,
-          value: BigInt(action.fee),
-        },
-      };
+  const processAction = async (action: Action): Promise<void> => {
+    const event: Envio.Event = {
+      block: {
+        hash: "N/A",
+        number: Number(action.block),
+        timestamp: Number(action.timestamp),
+      },
+      chainId,
+      contractName: "",
+      eventName: "",
+      logIndex: 0,
+      params: {},
+      srcAddress: action.contract as Address,
+      transaction: {
+        from: action.from as Address,
+        hash: action.hash,
+        // The preset's fee was paid to this contract.
+        to: action.contract as Address,
+        transactionIndex: 0,
+        value: BigInt(action.fee),
+      },
+    };
 
-      const promises: Promise<void>[] = [];
+    const promises: Promise<void>[] = [];
 
-      // Track fees only if non-zero
-      if (BigInt(action.fee) !== BigInt(0)) {
-        promises.push(Store.Fees.createOrUpdate(context, event, FeePolicies.preset));
-      }
-
-      // Filter out null/undefined addresses
-      const addresses = [action.addressA, action.addressB, action.from].filter(
-        (addr): addr is string => addr !== null && addr !== undefined
-      );
-      promises.push(Store.User.createOrUpdate(context, event, addresses));
-
-      await Promise.all(promises);
-    })
-  );
-
-  // Log failures
-  results.forEach((result, index) => {
-    if (result.status === "rejected") {
-      context.log.error(`Failed to process action ${actions[index].hash}:`, result.reason);
+    // Track fees only if non-zero
+    if (BigInt(action.fee) !== BigInt(0)) {
+      promises.push(Store.Fees.createOrUpdate(context, event, FeePolicies.preset));
     }
-  });
+
+    // Filter out null/undefined addresses
+    const addresses = [action.addressA, action.addressB, action.from].filter(
+      (addr): addr is string => addr !== null && addr !== undefined
+    );
+    promises.push(Store.User.createOrUpdate(context, event, addresses));
+
+    await Promise.all(promises);
+  };
+
+  // Actions run one at a time: each one reads and then writes shared daily aggregates and users, so concurrent runs
+  // would overwrite each other's totals. A failed action is logged and does not stop the rest.
+  await actions.reduce(
+    (previous, action) =>
+      previous
+        .then(() => processAction(action))
+        .catch((error) => context.log.error(`Failed to process action ${action.hash}:`, error)),
+    Promise.resolve()
+  );
 }
 
 /**
