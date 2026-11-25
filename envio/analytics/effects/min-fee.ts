@@ -27,9 +27,9 @@ export const fetchMinFeeWei = createEffect(
   {
     cache: true,
     input: S.tuple((t) => ({
+      blockNumber: t.item(2, S.number),
       chainId: t.item(0, S.number),
       contract: t.item(1, S.string),
-      blockNumber: t.item(2, S.number),
       fn: t.item(3, S.union([S.schema("FEE" as const), S.schema("calculateMinFeeWei" as const)])),
       streamId: t.item(4, S.optional(S.bigint)),
     })),

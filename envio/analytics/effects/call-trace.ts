@@ -37,8 +37,8 @@ export const fetchNativeValueReceived = createEffect(
     cache: true,
     input: S.tuple((t) => ({
       chainId: t.item(0, S.number),
-      txHash: t.item(1, S.string),
       contract: t.item(2, S.string),
+      txHash: t.item(1, S.string),
     })),
     name: "nativeValueReceived",
     output: S.nullable(S.string),

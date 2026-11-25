@@ -40,30 +40,31 @@ function parity(
 describe("sumCallTracerValue", () => {
   it("sums the value of every CALL into the contract", () => {
     const root = frame({
+      to: WRAPPER,
+      value: "0x100",
       calls: [
         frame({ value: "0x10" }),
         frame({ calls: [frame({ value: "0x5" })], to: OTHER, value: "0x1" }),
       ],
-      to: WRAPPER,
-      value: "0x100",
     });
     expect(sumCallTracerValue(root, CONTRACT)).toBe(0x15n);
   });
 
   it("excludes reverted subtrees, including nested calls", () => {
     const root = frame({
+      to: WRAPPER,
       calls: [
         frame({ value: "0x1" }),
         frame({ error: "execution reverted", value: "0x2" }),
         frame({ calls: [frame({ value: "0x4" })], error: "out of gas", to: OTHER }),
       ],
-      to: WRAPPER,
     });
     expect(sumCallTracerValue(root, CONTRACT)).toBe(1n);
   });
 
   it("ignores non-CALL frame types", () => {
     const root = frame({
+      to: WRAPPER,
       calls: [
         frame({ value: "0x1" }),
         frame({ type: "DELEGATECALL", value: "0x2" }),
@@ -72,7 +73,6 @@ describe("sumCallTracerValue", () => {
         frame({ type: "CREATE2", value: "0x8" }),
         frame({ type: "SELFDESTRUCT", value: "0x10" }),
       ],
-      to: WRAPPER,
     });
     expect(sumCallTracerValue(root, CONTRACT)).toBe(1n);
   });

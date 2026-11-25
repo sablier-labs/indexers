@@ -56,6 +56,10 @@ function createContext() {
   const context = {
     AirdropCampaign: campaigns.table,
     CryptoFeesDaily: cryptoFees.table,
+    FeeLedger: ledgers.table,
+    FeeTransaction: feeTxs.table,
+    FiatFeesDaily: fiatFees.table,
+    log: mockLogger,
     effect: (effect: unknown, input: unknown) => {
       effectSpy(effect);
       if (effect === coinConfigs[mainnet.nativeCurrency.symbol]?.effect) {
@@ -72,10 +76,6 @@ function createContext() {
       }
       return Promise.reject(new Error("Unexpected effect"));
     },
-    FeeLedger: ledgers.table,
-    FeeTransaction: feeTxs.table,
-    FiatFeesDaily: fiatFees.table,
-    log: mockLogger,
   } as unknown as HandlerContext;
 
   return {

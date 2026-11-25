@@ -20,15 +20,15 @@ export const FeePolicies = {
   airdropOracle: { ledger: "comptroller", minFee: { fn: "calculateMinFeeWei" } },
   /** Synthetic preset events: fee is supplied by the preset, no reconciliation. */
   preset: { ledger: "none" },
+  /** Lockup v3.0+ and Flow v2.0+ payable calls with no enforced minimum (creates). */
+  voluntaryComptroller: { ledger: "comptroller" },
+  /** Lockup v2.0 and Flow v1.1: payable, no minimum, no getter, swept per contract. */
+  voluntaryContract: { ledger: "contract" },
   /** Lockup v3.0+ and Flow v2.0+ withdrawals: `calculateMinFeeWei(streamId)`. */
   streamWithdraw: (streamId: bigint): FeePolicy => ({
     ledger: "comptroller",
     minFee: { fn: "calculateMinFeeWei", streamId },
   }),
-  /** Lockup v3.0+ and Flow v2.0+ payable calls with no enforced minimum (creates). */
-  voluntaryComptroller: { ledger: "comptroller" },
-  /** Lockup v2.0 and Flow v1.1: payable, no minimum, no getter, swept per contract. */
-  voluntaryContract: { ledger: "contract" },
 } satisfies Record<string, FeePolicy | ((streamId: bigint) => FeePolicy)>;
 
 export type ResolvedFee = { amount: bigint; source: FeeSource };

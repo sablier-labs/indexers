@@ -53,11 +53,11 @@ describe("processActions", () => {
     const context = {
       AirdropCampaign: createTable<Entity<"AirdropCampaign">>().table,
       CryptoFeesDaily: cryptoFees.table,
-      // Every price effect returns 2000 USD; the GBP rate is 1.25.
-      effect: (effect: unknown) => Promise.resolve(effect === fetchGBPExchangeRate ? 1.25 : 2000),
       FeeTransaction: feeTxs.table,
       FiatFeesDaily: createTable<Entity<"FiatFeesDaily">>().table,
       log: mockLogger,
+      // Every price effect returns 2000 USD; the GBP rate is 1.25.
+      effect: (effect: unknown) => Promise.resolve(effect === fetchGBPExchangeRate ? 1.25 : 2000),
     } as unknown as HandlerContext;
 
     await processActions(context, lightlink.id, [action("0x01", "100"), action("0x02", "250")]);
