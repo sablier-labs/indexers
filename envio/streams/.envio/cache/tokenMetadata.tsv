@@ -4,6 +4,7 @@ id	output
 [1,"0x00a6f4fb3911ef2e493b93a7856e12b9b6609f89"]	{"decimals":18,"name":"DiabetesDAO Token","symbol":"DIA"}
 [1,"0x01d3077eeb27f55d82079297f2896dadfbde470b"]	{"decimals":18,"name":"Auralex AI","symbol":"AURA"}
 [1,"0x02493e1e24baa2caa533d94c343b9b7f32471838"]	{"decimals":18,"name":"SIMPLE","symbol":"$TEST"}
+[1,"0x02d54e48ea4dd76a408a7175d466bb8f578c0e93"]	{"decimals":18,"name":"Pheasant Network Token","symbol":"PNT"}
 [1,"0x02f92800f57bcd74066f5709f1daa1a4302df875"]	{"decimals":18,"name":"Peapods","symbol":"PEAS"}
 [1,"0x03268783d9e70ed6fe1c6065f38906c038db10a7"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0x035afeb9b84919bb10977a639b49ef3f93477cc0"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
@@ -61,11 +62,13 @@ id	output
 [1,"0x163f8c2467924be0ae7b5347228cabf260318753"]	{"decimals":18,"name":"Worldcoin","symbol":"WLD"}
 [1,"0x17422d756ce9024cc3fe7569f64941010ef277db"]	{"decimals":18,"name":"Pulley Token","symbol":"PLY"}
 [1,"0x1796ae0b0fa4862485106a0de9b654efe301d0b2"]	{"decimals":18,"name":"Polkamon","symbol":"PMON"}
+[1,"0x17f8f916189000b3cd9f4d3cf7f7ef92900a73b8"]	{"decimals":18,"name":"MOETH","symbol":"SOL"}
 [1,"0x18ef464fd73ed484c12339eaa5d5e3c8f6c48180"]	{"decimals":18,"name":"COFFEE","symbol":"COFFEE"}
 [1,"0x19062190b1925b5b6689d7073fdfc8c2976ef8cb"]	{"decimals":16,"name":"BZZ","symbol":"BZZ"}
 [1,"0x19247618d79e3fc4d4866169789e4b8eedef52e6"]	{"decimals":18,"name":"ChasmAI","symbol":"CAI"}
 [1,"0x195f5c217b96cd3dd75d39327161b8911a42e509"]	{"decimals":18,"name":"NUTS","symbol":"NUTS"}
 [1,"0x1a6c8ef6e82717130682935dcb1a765c87287281"]	{"decimals":18,"name":"Endemic","symbol":"END"}
+[1,"0x1abaea1f7c830bd89acc67ec4af516284b1bc33c"]	{"decimals":6,"name":"Euro Coin","symbol":"EURC"}
 [1,"0x1bfce574deff725a3f483c334b790e25c8fa9779"]	{"decimals":18,"name":"Tao Ceτi","symbol":"CETI"}
 [1,"0x1c2e03b7081157048e04c13176e98160e941c422"]	{"decimals":18,"name":"Autobots Network","symbol":"AUTOZ"}
 [1,"0x1c92c0295807f1f7c0726cf51a1d26298563f14a"]	{"decimals":18,"name":"Coinracer Reloaded","symbol":"CRACER"}
@@ -87,6 +90,7 @@ id	output
 [1,"0x2349303e8cf825a53d550b24bfc5648b79fb760a"]	{"decimals":18,"name":"MINDCP","symbol":"MCP"}
 [1,"0x23d7ff057c696fee679c60cef61fee6614218f04"]	{"decimals":18,"name":"Unipoly Coin","symbol":"UNP"}
 [1,"0x249ca82617ec3dfb2589c4c17ab7ec9765350a18"]	{"decimals":18,"name":"Verse","symbol":"VERSE"}
+[1,"0x25bbdad6fd7a75e07f25270541db67f72b120945"]	{"decimals":18,"name":"QA Token","symbol":"QAT"}
 [1,"0x25ed873e64edc5d9769e2037f7098c110efd6111"]	{"decimals":18,"name":"UA1","symbol":"UA1"}
 [1,"0x27702a26126e0b3702af63ee09ac4d1a084ef628"]	{"decimals":18,"name":"v2","symbol":"ALEPH"}
 [1,"0x28ae7b2ebd6f10f4393f410f6b7896380a949d62"]	{"decimals":9,"name":"CoinCreate","symbol":"CREA"}
@@ -97,7 +101,10 @@ id	output
 [1,"0x2af808e8655e0ea2df163b03bd821419d2b3ab10"]	{"decimals":6,"name":"Syrian Pound","symbol":"SYP"}
 [1,"0x2b117f0a9a56dddaaf0257b476bfc39ca7e6fda1"]	{"decimals":18,"name":"Conwai","symbol":"CNW"}
 [1,"0x2b1d36f5b61addaf7da7ebbd11b35fd8cfb0de31"]	{"decimals":18,"name":"Interport Token","symbol":"ITP"}
+[1,"0x2c8022bfd230032a8db0432739fb19d6c258564d"]	{"decimals":18,"name":"test","symbol":"test"}
+[1,"0x2d1f7226bd1f780af6b9a49dcc0ae00e8df4bdee"]	{"decimals":18,"name":"NVIDIA (Ondo Tokenized)","symbol":"NVDAon"}
 [1,"0x2de1218c31a04e1040fc5501b89e3a58793b3ddf"]	{"decimals":18,"name":"THREE ARROWZ CAPITEL","symbol":"3AC"}
+[1,"0x2e2ecdbac6d60867898791d2e70f3977d113903f"]	{"decimals":18,"name":"test","symbol":"test"}
 [1,"0x2e4039e8e31475d65dc00293c366fdbfbbc02dc3"]	{"decimals":18,"name":"Piku Utility Token","symbol":"PIKU"}
 [1,"0x2e44f3f609ff5aa4819b323fd74690f07c3607c4"]	{"decimals":18,"name":"PinLink","symbol":"Pin"}
 [1,"0x2ed8926c4f29a8e670adbbb1135d313a4142c3c3"]	{"decimals":18,"name":"SpinnakerToken","symbol":"SPIN"}
@@ -118,6 +125,7 @@ id	output
 [1,"0x3446dd70b2d52a6bf4a5a192d9b0a161295ab7f9"]	{"decimals":18,"name":"SUDO GOVERNANCE TOKEN","symbol":"SUDO"}
 [1,"0x3472a5a71965499acd81997a54bba8d852c6e53d"]	{"decimals":18,"name":"Badger","symbol":"BADGER"}
 [1,"0x3506424f91fd33084466f402d5d97f05f8e3b4af"]	{"decimals":18,"name":"chiliZ","symbol":"CHZ"}
+[1,"0x3525a75fa8c3b81456c4bc9c3467f2119346e29c"]	{"decimals":18,"name":"Interweave","symbol":"WEAVE"}
 [1,"0x35a8f6adb40f6a88aa1e459d18969622530b61e7"]	{"decimals":13,"name":"Tregnant","symbol":"Trustees"}
 [1,"0x35fa164735182de50811e8e2e824cfb9b6118ac2"]	{"decimals":18,"name":"ETH","symbol":"eETH"}
 [1,"0x360b77c490a82f7bddbc3f69dd3c648e91a76560"]	{"decimals":9,"name":"BINDY","symbol":"$BINDY"}
@@ -136,6 +144,7 @@ id	output
 [1,"0x3a872ae95f645acdd17db8aa961f4d39e0f5bc39"]	{"decimals":18,"name":"Brillion Token","symbol":"BRLN"}
 [1,"0x3b50629910e104beb3e2995b4fcd6b095fcd0bc1"]	{"decimals":18,"name":"AstraAI","symbol":"ASTRA"}
 [1,"0x3bd7d4f524d09f4e331577247a048d56e4b67a7f"]	{"decimals":18,"name":"5ire Token","symbol":"5IRE"}
+[1,"0x3c2f61f2e27c865981d2e7aaf6b2cdf823030039"]	{"decimals":18,"name":"TermMax","symbol":"TMX"}
 [1,"0x3c571e6dc8f3249e7b05c4ae4973c58750a53e7c"]	{"decimals":18,"name":"GutDAO","symbol":"GUT"}
 [1,"0x3d1c949a761c11e4cc50c3ae6bdb0f24fd7a39da"]	{"decimals":18,"name":"Neurahub","symbol":"NEURA"}
 [1,"0x3e29793c9bdeb6ce5a84c2beced91ad50c530b16"]	{"decimals":18,"name":"ChainZoom","symbol":"ZOOM"}
@@ -163,8 +172,10 @@ id	output
 [1,"0x44971abf0251958492fee97da3e5c5ada88b9185"]	{"decimals":18,"name":"basedAI","symbol":"basedAI"}
 [1,"0x44e3ae622c1570dc6e492adb8de92d01ca923d26"]	{"decimals":18,"name":"Aryze","symbol":"RYZE"}
 [1,"0x44ff8620b8ca30902395a7bd3f2407e1a091bf73"]	{"decimals":18,"name":"Virtual Protocol","symbol":"VIRTUAL"}
+[1,"0x45383aaba30d641d006fe0f5e9c887ba63c25516"]	{"decimals":18,"name":"evmbot","symbol":"EVM"}
 [1,"0x464361e01d7c633a9c37e85aab51833259e51f5e"]	{"decimals":18,"name":"Ulalo Token","symbol":"ULA"}
 [1,"0x468eabcb5c914ac59e72691f8fc970880a94f4b3"]	{"decimals":18,"name":"Ethereum MDR","symbol":"eMDR"}
+[1,"0x4691937a7508860f876c9c0a2a617e7d9e945d4b"]	{"decimals":18,"name":"Wootrade Network","symbol":"WOO"}
 [1,"0x46fdcddfad7c72a621e8298d231033cc00e067c6"]	{"decimals":18,"name":"Department Of Government Efficiency","symbol":"D.O.G.E"}
 [1,"0x474ed38c256a7fa0f3b8c48496ce1102ab0ea91e"]	{"decimals":18,"name":"Eagle","symbol":"EAGLE"}
 [1,"0x482df7483a52496f4c65ab499966dfcdf4ddfdbc"]	{"decimals":18,"name":"Ledgity Token","symbol":"LDY"}
@@ -187,13 +198,16 @@ id	output
 [1,"0x50defeeb4137b331c6011ec8fd3700c10f67e770"]	{"decimals":18,"name":"Flashtools","symbol":"FLASH"}
 [1,"0x514910771af9ca656af840dff83e8264ecf986ca"]	{"decimals":18,"name":"ChainLink Token","symbol":"LINK"}
 [1,"0x516fab8a398f00ba899bc1d537634484515a25b3"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[1,"0x51b979206468b3ea5603efb1d5a6dca7a0bc91ee"]	{"decimals":18,"name":"test","symbol":"test"}
 [1,"0x51cb253744189f11241becb29bedd3f1b5384fdb"]	{"decimals":18,"name":"Dimitra Token","symbol":"DMTR"}
 [1,"0x525574c899a7c877a11865339e57376092168258"]	{"decimals":18,"name":"GURU Token","symbol":"GURU"}
 [1,"0x534d1f5e617e0f72a6b06a04aa599839af776a5e"]	{"decimals":18,"name":"Blockswap Network","symbol":"BSN"}
 [1,"0x5481450a3a96796ab4780fb77919e73920531c28"]	{"decimals":18,"name":"Booba","symbol":"8008S"}
+[1,"0x54d8f7c812e474d52cd8acc1d2ea18497d74e9f7"]	{"decimals":18,"name":"test","symbol":"test"}
 [1,"0x5531acde386abe41ee22cd86170e71ce3e288c6f"]	{"decimals":18,"name":"Hubic","symbol":"HUB"}
 [1,"0x5582a479f0c403e207d2578963ccef5d03ba636f"]	{"decimals":18,"name":"Salad","symbol":"SALD"}
 [1,"0x558e7139800f8bc119f68d23a6126fffd43a66a6"]	{"decimals":18,"name":"U2U Network","symbol":"U2U"}
+[1,"0x55b5e917c0ca778a9978d385acfa6f75fcf73be4"]	{"decimals":18,"name":"ETH USD","symbol":"USDT"}
 [1,"0x55c08ca52497e2f1534b59e2917bf524d4765257"]	{"decimals":18,"name":"UwU Lend","symbol":"UwU"}
 [1,"0x56eab26e7d55e848806190b410c41b27c4bd3eb9"]	{"decimals":18,"name":"WALO AI","symbol":"WAI"}
 [1,"0x58b9cb810a68a7f3e1e4f8cb45d1b9b3c79705e8"]	{"decimals":18,"name":"Everclear","symbol":"CLEAR"}
@@ -224,6 +238,7 @@ id	output
 [1,"0x640bb7b0716a3c58b29f83a10e0b4b51580693d3"]	{"decimals":18,"name":"ARYZE","symbol":"RYZE"}
 [1,"0x644192291cc835a93d6330b24ea5f5fedd0eef9e"]	{"decimals":18,"name":"AllianceBlock Nexera Token","symbol":"NXRA"}
 [1,"0x64669032f612ae608671853ff8871df0889870a9"]	{"decimals":18,"name":"INUGAMES","symbol":"INU"}
+[1,"0x64b34a9e5d57f2e9874ec2d675ef73cc19bfc5cc"]	{"decimals":18,"name":"CrossLedger Token","symbol":"CLXT"}
 [1,"0x64c7d8c8abf28daf9d441c507cfe9be678a0929c"]	{"decimals":18,"name":"Koto","symbol":"KOTO"}
 [1,"0x65b29daf4cb9c84abf13cfe1d00871ae3082407b"]	{"decimals":18,"name":"tzv","symbol":"tzv"}
 [1,"0x65bbedd76cc413fe34deaaa4c231056b9500f0b9"]	{"decimals":9,"name":"Fuku-Kun","symbol":"FUKU"}
@@ -237,6 +252,7 @@ id	output
 [1,"0x690f1eef8acead09ac695d9111af081045c6d5b7"]	{"decimals":18,"name":"GNET","symbol":"GNET"}
 [1,"0x69457a1c9ec492419344da01daf0df0e0369d5d0"]	{"decimals":18,"name":"Fjord Foundry","symbol":"FJO"}
 [1,"0x6982508145454ce325ddbe47a25d4ec3d2311933"]	{"decimals":18,"name":"Pepe","symbol":"PEPE"}
+[1,"0x69e658650b4881b0c821d3bf4053013f71d5e3a7"]	{"decimals":18,"name":"Art Market Coin","symbol":"AMC"}
 [1,"0x6a1d6a577b17b425f3437c8a7c2c4d3a161816d8"]	{"decimals":18,"name":"PillarFi","symbol":"PILLAR"}
 [1,"0x6a32129e4e391727ea3011cc0e643549318ac8b7"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0x6a43795941113c2f58eb487001f4f8ee74b6938a"]	{"decimals":18,"name":"Stabull Finance","symbol":"STABUL"}
@@ -248,6 +264,7 @@ id	output
 [1,"0x6bec5f1c594af73202cd3e5c1f699d440959954c"]	{"decimals":18,"name":"","symbol":"HFUN"}
 [1,"0x6c05b8141cefb64502b6dfcaae7c77babbac18fa"]	{"decimals":18,"name":"FUMoney","symbol":"FU"}
 [1,"0x6c13f19b8d1a454e394885ea7a4a533417f41809"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[1,"0x6c33d1730366fc71a3396f7dcb040617fc0cdcd1"]	{"decimals":18,"name":"STATUS","symbol":"STAT"}
 [1,"0x6d44ddba07a9373d665ce636f639e1c46565a349"]	{"decimals":18,"name":"FOMO","symbol":"FOMO"}
 [1,"0x6d68882857402ec9460d2ea43cef2a4e5b058191"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0x6f2ee0e1ebfa00015d3040760f6c039f46b6c662"]	{"decimals":18,"name":"OmniTensor","symbol":"OMNIT"}
@@ -303,6 +320,7 @@ id	output
 [1,"0x81d982d268df0b6378f422095d1bd9bbe9efe76e"]	{"decimals":18,"name":"ComputeCredits","symbol":"CPC"}
 [1,"0x81f8f0bb1cb2a06649e51913a151f0e7ef6fa321"]	{"decimals":18,"name":"VitaDAO Token","symbol":"VITA"}
 [1,"0x8258df28cbaa51199c0a8b7e1de1d669e4be9fc1"]	{"decimals":9,"name":"Zodor","symbol":"ZOD"}
+[1,"0x8292bb45bf1ee4d140127049757c2e0ff06317ed"]	{"decimals":18,"name":"RLUSD","symbol":"RLUSD"}
 [1,"0x82aacac4f58616eef5070a7eaf3bbdd66a7e657a"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0x82d09e30d5d682d69b4a5d97c61b7ba651457625"]	{"decimals":18,"name":"TokenDao","symbol":"TKN"}
 [1,"0x82d36570842fc1ac2a3b4dbe0e7c5c0e2e665090"]	{"decimals":18,"name":"nfinityAI","symbol":"NFNT"}
@@ -343,9 +361,11 @@ id	output
 [1,"0x8f8221afbb33998d8584a2b05749ba73c37a938a"]	{"decimals":18,"name":"Request Token","symbol":"REQ"}
 [1,"0x901e3059bf118abc74d917440f0c08fc78ec0aa6"]	{"decimals":18,"name":"GOAT","symbol":"GOA"}
 [1,"0x90720671a0436cc35718a89dc8aba7dcee4deb08"]	{"decimals":18,"name":"DEXLab AI","symbol":"DXAI"}
+[1,"0x90d54d77453286d30db891d729a0e18ba7081b07"]	{"decimals":18,"name":"Auteur Network","symbol":"AUTEUR"}
 [1,"0x922d8563631b03c2c4cf817f4d18f6883aba0109"]	{"decimals":18,"name":"Houdini Swap","symbol":"LOCK"}
 [1,"0x924d9492e010856a07cfbd2a6999f69dcee7d041"]	{"decimals":18,"name":"LUNTRA","symbol":"LUNTRA"}
 [1,"0x926759a8eaecfadb5d8bdc7a9c7b193c5085f507"]	{"decimals":18,"name":"Nura Labs","symbol":"NURA"}
+[1,"0x93ed3fbe21207ec2e8f2d3c3de6e058cb73bc04d"]	{"decimals":18,"name":"Pinakion","symbol":"PNK"}
 [1,"0x93f014930d90a0d0f17b079f71d9aa5f3adf2b27"]	{"decimals":18,"name":"Waku","symbol":"WAKU"}
 [1,"0x93ff39f65cc1d21067939961993adf3f36bbf893"]	{"decimals":18,"name":"ParalleliX Network","symbol":"PRLX"}
 [1,"0x943af2ece93118b973c95c2f698ee9d15002e604"]	{"decimals":18,"name":"DUEL Token","symbol":"DUEL"}
@@ -373,6 +393,7 @@ id	output
 [1,"0x9ef3da23c304d88f856f2928b0be17d9f5d0752f"]	{"decimals":18,"name":"Multipool","symbol":"MUL"}
 [1,"0x9f04c2bd696a6191246144ba762456a24c457520"]	{"decimals":18,"name":"AITaxBot","symbol":"AITAX"}
 [1,"0x9f12b81cec37bda3d5863376bd0c99da51ffcd8a"]	{"decimals":18,"name":"EACCToken","symbol":"EACC"}
+[1,"0x9f269cc2d9e3c29271f257a437ac0b7abea73a00"]	{"decimals":18,"name":"test","symbol":"test"}
 [1,"0x9fb7b4477576fe5b32be4c1843afb1e55f251b33"]	{"decimals":6,"name":"Fluid USD Coin","symbol":"fUSDC"}
 [1,"0x9fc5cdf40740512ee52ac254b4b640a6323fc430"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0xa0084063ea01d5f09e56ef3ff6232a9e18b0bacd"]	{"decimals":18,"name":"CyberDEX","symbol":"CYDX"}
@@ -442,24 +463,31 @@ id	output
 [1,"0xbc396689893d065f41bc2c6ecbee5e0085233447"]	{"decimals":18,"name":"Perpetual","symbol":"PERP"}
 [1,"0xbca23cc4b274a0e7e6f64dbc7e739cf5aaa6a3e1"]	{"decimals":18,"name":"Magmar","symbol":"MGR"}
 [1,"0xbca42e5ee4c4e4c74282a08d57d610edc65bd1e0"]	{"decimals":18,"name":"RDT","symbol":"RDTS"}
+[1,"0xbe0ed4138121ecfc5c0e56b40517da27e6c5226b"]	{"decimals":18,"name":"Aethir Token","symbol":"ATH"}
 [1,"0xbe1a001fe942f96eea22ba08783140b9dcc09d28"]	{"decimals":18,"name":"Beta Token","symbol":"BETA"}
 [1,"0xbe4d9c8c638b5f0864017d7f6a04b66c42953847"]	{"decimals":18,"name":"Nimbus Network","symbol":"NIMBUS"}
 [1,"0xbf358f7023d6fd0d11ac284eb47b877c1af635aa"]	{"decimals":18,"name":"ArcheriumAi","symbol":"ARCA"}
 [1,"0xbf9c3abe47ecdaa859b0db77fa7f81f101a2a3fa"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0xc00e94cb662c3520282e6f5717214004a7f26888"]	{"decimals":18,"name":"Compound","symbol":"COMP"}
 [1,"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
+[1,"0xc0fe36f4ffbdf1b38e192215073590a68f9a2af7"]	{"decimals":18,"name":"SK Hynix (Ondo Tokenized)","symbol":"SKHYon"}
 [1,"0xc18360217d8f7ab5e7c516566761ea12ce7f9d72"]	{"decimals":18,"name":"Ethereum Name Service","symbol":"ENS"}
+[1,"0xc1a5d2a623c44408553fe720570530e1710b9f46"]	{"decimals":18,"name":"ephemeral","symbol":"EPH"}
 [1,"0xc1f33e0cf7e40a67375007104b929e49a581bafe"]	{"decimals":9,"name":"SPOT","symbol":"SPOT"}
 [1,"0xc221b7e65ffc80de234bbb6667abdd46593d34f0"]	{"decimals":18,"name":"Wrapped Centrifuge","symbol":"wCFG"}
 [1,"0xc2af820610e055264f928388b85cdede6a21d710"]	{"decimals":18,"name":"iobeats","symbol":"IOB"}
 [1,"0xc4116efc9e279d4bbf577d92f224508f13637c6c"]	{"decimals":18,"name":"DevHub AI","symbol":"DHUB"}
+[1,"0xc477d038d5420c6a9e0b031712f61c5120090de9"]	{"decimals":18,"name":"Boson Token","symbol":"BOSON"}
 [1,"0xc47ef9b19c3e29317a50f5fbe594eba361dada4a"]	{"decimals":6,"name":"Edelcoin","symbol":"EDLC"}
+[1,"0xc4833ce62be146bd7ed0d332929b7d039c49a5fb"]	{"decimals":6,"name":"Tether USD","symbol":"USDT"}
 [1,"0xc55da0fca97d65a8ace475a1e4eba9ab3f8a4da6"]	{"decimals":18,"name":"ArcheriumAi","symbol":"ARCA"}
 [1,"0xc575bd129848ce06a460a19466c30e1d0328f52c"]	{"decimals":18,"name":"Reploy","symbol":"RAI"}
 [1,"0xc69996612249417db3407d98ea5b534faa0e90a7"]	{"decimals":18,"name":"Decentrashop","symbol":"DXS"}
 [1,"0xc75c635c1f5e21d23ec8592cb37503b82a7ef942"]	{"decimals":18,"name":"Koto V2","symbol":"KOTOV2"}
 [1,"0xc770eefad204b5180df6a14ee197d99d808ee52d"]	{"decimals":18,"name":"FOX","symbol":"FOX"}
+[1,"0xc884dd7b2747f12c4c2244ddd9d5fabc0fabc5b8"]	{"decimals":18,"name":"test","symbol":"test"}
 [1,"0xc944e90c64b2c07662a292be6244bdf05cda44a7"]	{"decimals":18,"name":"Graph Token","symbol":"GRT"}
+[1,"0xc9c3beba0a7473d50757f1ddfe6496f8ff30a840"]	{"decimals":18,"name":"evmbot","symbol":"EVM"}
 [1,"0xca76bf98b6e44df7360da8650e701f6d9d94bb58"]	{"decimals":18,"name":"MemeLinked","symbol":"MK"}
 [1,"0xcafe001067cdef266afb7eb5a286dcfd277f3de5"]	{"decimals":18,"name":"ParaSwap","symbol":"PSP"}
 [1,"0xcb1592591996765ec0efc1f92599a19767ee5ffa"]	{"decimals":18,"name":"BIO","symbol":"BIO"}
@@ -479,6 +507,7 @@ id	output
 [1,"0xcf5104d094e3864cfcbda43b82e1cefd26a016eb"]	{"decimals":18,"name":"Humanity","symbol":"H"}
 [1,"0xcffcfdada28ab44d5440301470dcd410e75c4765"]	{"decimals":18,"name":"Parifi","symbol":"PRF"}
 [1,"0xd177000d71ab154ca6b75f42be53c18e0b7148f7"]	{"decimals":18,"name":"Ditto","symbol":"DITTO"}
+[1,"0xd1d3b662d91faaa4a5d809d804fa70550b2b3e9c"]	{"decimals":18,"name":"Petcoin","symbol":"PETC"}
 [1,"0xd22d97bb77e6bdf8d3f81ca8ffe58f58b7505282"]	{"decimals":18,"name":"ICHI Vault Liquidity","symbol":"ICHI_Vault_LP"}
 [1,"0xd328c9104c02f9f65377463d615960ccf91f6a01"]	{"decimals":18,"name":"Earth Coin","symbol":"OUR"}
 [1,"0xd347514c12d6acbbec08ceea127bc5e57ddb2847"]	{"decimals":18,"name":"Aver AI","symbol":"AVER"}
@@ -491,6 +520,8 @@ id	output
 [1,"0xd888a5460fffa4b14340dd9fe2710cbabd520659"]	{"decimals":18,"name":"ProtoKOLs","symbol":"KOL"}
 [1,"0xd8a2f109bec88d9c9df6f4958c3301bd9d1929fd"]	{"decimals":9,"name":"CloneX AI","symbol":"CLX"}
 [1,"0xd96aaae799b12d799468b24633eaa11919cea13f"]	{"decimals":9,"name":"ZIGLY AI","symbol":"$ZIGAI"}
+[1,"0xda187eb6f4d7ee3a0b8f5cd81eed8d347f5693ad"]	{"decimals":18,"name":"Harbor Tide","symbol":"TIDE"}
+[1,"0xda23800a2fc8d345af55d9bf88a7a910b2f90a6d"]	{"decimals":18,"name":"CrossLedger Token","symbol":"CLXT"}
 [1,"0xda2a7d083ff252b48e084419c0e4808b16d175e9"]	{"decimals":18,"name":"ta","symbol":"ta"}
 [1,"0xda7ad9dea9397cffddae2f8a052b82f1484252b3"]	{"decimals":18,"name":"River","symbol":"RIVER"}
 [1,"0xdac17f958d2ee523a2206206994597c13d831ec7"]	{"decimals":6,"name":"Tether USD","symbol":"USDT"}
@@ -500,6 +531,7 @@ id	output
 [1,"0xdc669c74154318436ea50671236e214ee3d1dee9"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [1,"0xdcd2aa9c0756ea7f9d5020e41b07be469c221ffc"]	{"decimals":18,"name":"Evo Exchange","symbol":"EvoX"}
 [1,"0xdd3a28e1d38c882f5558b4daef1c500222dca276"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[1,"0xdd3b11ef34cd511a2da159034a05fcb94d806686"]	{"decimals":18,"name":"Rekt","symbol":"REKT"}
 [1,"0xde4ee8057785a7e8e800db58f9784845a5c2cbd6"]	{"decimals":18,"name":"Dexe","symbol":"DEXE"}
 [1,"0xde6aceaf7f2dceb3d425643c5f85351f2b38fcde"]	{"decimals":18,"name":"Metaverse HQ","symbol":"HQ"}
 [1,"0xde8cd13b812bcd82218754a740b27e76ec1e86ad"]	{"decimals":18,"name":"Trestle","symbol":"TRESTLE"}
@@ -525,9 +557,11 @@ id	output
 [1,"0xe76c5b78f93909d34404e9eb4c1f19e7582a5de1"]	{"decimals":18,"name":"Humanity","symbol":"H"}
 [1,"0xe76c6c83af64e4c60245d8c7de953df673a7a33d"]	{"decimals":18,"name":"Rail","symbol":"RAIL"}
 [1,"0xe7dee4823ee18f1347f1cf7997f70b94efde2e1f"]	{"decimals":18,"name":"Form","symbol":"FORM"}
+[1,"0xe7e7e741c23a4767831a56a8c99f522c5ac1e7e7"]	{"decimals":18,"name":"Everything","symbol":"EV"}
 [1,"0xe7fd461b39cba24d9fa5e42da7404c2883fa8624"]	{"decimals":18,"name":"ETH Money Glitch","symbol":"EMG"}
 [1,"0xe8d57b9088f80681208817495c71357a22998d11"]	{"decimals":18,"name":"Termi Fun","symbol":"TERMI"}
 [1,"0xe8fc52b1bb3a40fd8889c0f8f75879676310ddf0"]	{"decimals":18,"name":"Mystiko Token","symbol":"XZK"}
+[1,"0xe92f673ca36c5e2efd2de7628f815f84807e803f"]	{"decimals":18,"name":"Alphabet xStock","symbol":"GOOGLx"}
 [1,"0xe9ca6ab26f83b1874d1148c6de91a6652d783e1e"]	{"decimals":12,"name":"JetLag Coin","symbol":"JTLG"}
 [1,"0xea00c770f3948519f2c551f72d82b5a226f6ba05"]	{"decimals":18,"name":"Aurk AI","symbol":"AURK"}
 [1,"0xea4170a365952c666a9f34950771e51841732de9"]	{"decimals":18,"name":"Filter AI","symbol":"FILTER"}
@@ -567,6 +601,7 @@ id	output
 [1,"0xf64265e65c4529879a7abf467e00d39e39c0b0da"]	{"decimals":18,"name":"Independence Token","symbol":"RFKJ"}
 [1,"0xf858184f5f04ab02e787dceadb00b04ab96ef54e"]	{"decimals":18,"name":"KiwiDefi","symbol":"KIWI"}
 [1,"0xf89fd50899ec9728cc16add640596da0d01846ed"]	{"decimals":18,"name":"ELON MUST AI","symbol":"EMAI"}
+[1,"0xf8d12651007ee9680fd4976b363e61cdee129728"]	{"decimals":18,"name":"test","symbol":"test"}
 [1,"0xf94e7d0710709388bce3161c32b4eea56d3f91cc"]	{"decimals":18,"name":"Destra Network","symbol":"DSync"}
 [1,"0xf9877901a3d8c8d26078703004e748e66a4009b5"]	{"decimals":18,"name":"Pulse","symbol":"PULSE"}
 [1,"0xf9ca9523e5b5a42c3018c62b084db8543478c400"]	{"decimals":18,"name":"Data Lake Token","symbol":"LAKE"}
@@ -582,6 +617,7 @@ id	output
 [1,"0xfe67a4450907459c3e1fff623aa927dd4e28c67a"]	{"decimals":18,"name":"Connext","symbol":"NEXT"}
 [1,"0xfe7290b932cd0d5aec29c57394e87cdaa41cc054"]	{"decimals":9,"name":"Smart AI","symbol":"SMART"}
 [1,"0xfea2e874c0d06031e65ea7e275070e207c2746fd"]	{"decimals":18,"name":"Vocalad","symbol":"VOCL"}
+[1,"0xfeac2eae96899709a43e252b6b92971d32f9c0f9"]	{"decimals":18,"name":"ANyONe Protocol","symbol":"ANYONE"}
 [1,"0xff7f8f301f7a706e3cfd3d2275f5dc0b9ee8009b"]	{"decimals":6,"name":"Folks Finance","symbol":"FOLKS"}
 [10,"0x098f5b648756b6d289b56eb73f3dd614d292b5b7"]	{"decimals":18,"name":"VOTE","symbol":"VOTE"}
 [10,"0x0a7b751fcdbbaa8bb988b9217ad5fb5cfe7bf7a0"]	{"decimals":18,"name":"Infinite Trading Protocol","symbol":"ITP"}
@@ -631,7 +667,9 @@ id	output
 [56,"0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"]	{"decimals":18,"name":"PancakeSwap Token","symbol":"Cake"}
 [56,"0x11a38e06699b238d6d9a0c7a01f3ac63a07ad318"]	{"decimals":18,"name":"USDFI","symbol":"USDFI"}
 [56,"0x1219c409fabe2c27bd0d1a565daeed9bd9f271de"]	{"decimals":18,"name":"TAC Token","symbol":"TAC"}
+[56,"0x152010b6cffdab079db7fe371ac833aef3c5a43f"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x1796ae0b0fa4862485106a0de9b654efe301d0b2"]	{"decimals":18,"name":"Polkamon","symbol":"PMON"}
+[56,"0x17a818c6bdc31725b76117638fc2afd262d3db86"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x185141d43aa8541257793fbb429f091e74807f9e"]	{"decimals":18,"name":"Khalidgraphy","symbol":"$KMIR"}
 [56,"0x1a03c6dd80fb048e449bff3e9319bc3cdaf118e5"]	{"decimals":18,"name":"TestJuly9","symbol":"TJ9"}
 [56,"0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3"]	{"decimals":18,"name":"Dai Token","symbol":"DAI"}
@@ -643,6 +681,7 @@ id	output
 [56,"0x2170ed0880ac9a755fd29b2688956bd959f933f8"]	{"decimals":18,"name":"Ethereum Token","symbol":"ETH"}
 [56,"0x24a87c348a4c8cf9a4be5d03c70c739353a65ed6"]	{"decimals":18,"name":"vesting test","symbol":"Vtest"}
 [56,"0x250632378e573c6be1ac2f97fcdf00515d0aa91b"]	{"decimals":18,"name":"Binance Beacon ETH","symbol":"BETH"}
+[56,"0x26a8dcb4ee31f97581f320100da9eec3f0aa65d6"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x26b5555377c2943408e2eda15a5a05091a1789c1"]	{"decimals":18,"name":"FarmAI","symbol":"FarmAI"}
 [56,"0x294fae55ea0526f7b35d5daa16fc2a2a74ff838b"]	{"decimals":18,"name":"FLASH","symbol":"FLASH"}
 [56,"0x29c55f1b02a95f0b30e61976835a3eee2359ad92"]	{"decimals":18,"name":"ESHARE V2","symbol":"ESHARE"}
@@ -652,9 +691,13 @@ id	output
 [56,"0x2e263804ae82c926342e01056a52863c172a136f"]	{"decimals":18,"name":"VestingTest","symbol":"VTEST"}
 [56,"0x2f714d7b9a035d4ce24af8d9b6091c07e37f43fb"]	{"decimals":18,"name":"NodeOps","symbol":"NODE"}
 [56,"0x2f8a339b5889ffac4c5a956787cda593b3c36867"]	{"decimals":18,"name":"CoinMarketCap 20 Index DTF","symbol":"CMC20"}
+[56,"0x2fbdcae9d254e29858c0111e2ac0a6f3333f589c"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
+[56,"0x30ffe532319eb801fc72ebe1918c9ee1839f78cb"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x36e1a1e2a622fc7d80f0cb5138b62b6a409c12a0"]	{"decimals":18,"name":"AIBTC","symbol":"AIBTC"}
 [56,"0x36f5675029e129b5fcabb29ec750ed268520acf7"]	{"decimals":18,"name":"BAD AI","symbol":"BADAI"}
 [56,"0x3875112cdd18c8ed0971986d9e693f71aa970c48"]	{"decimals":18,"name":"USD Vision","symbol":"USDV"}
+[56,"0x3c2f61f2e27c865981d2e7aaf6b2cdf823030039"]	{"decimals":18,"name":"TermMax","symbol":"TMX"}
+[56,"0x3c7acd54b69a94e1315e979bdf5d18a1a28d64d9"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x3d4f0513e8a29669b960f9dbca61861548a9a760"]	{"decimals":18,"name":"Banana For Scale","symbol":"$BANANA"}
 [56,"0x3f9d77c0b4b65676ac15bd576ba7c3a4bc38bdd2"]	{"decimals":18,"name":"All New Horizon","symbol":"ANH"}
 [56,"0x41c544303d45205f6717aeea168d74a4e59284a7"]	{"decimals":18,"name":"ALFA Game","symbol":"ALFA"}
@@ -669,13 +712,17 @@ id	output
 [56,"0x4b3a2187648902082db0a44e8235d57f3f23dd10"]	{"decimals":18,"name":"PINEYE","symbol":"PINEYE"}
 [56,"0x4b948d64de1f71fcd12fb586f4c776421a35b3ee"]	{"decimals":18,"name":"0G","symbol":"0G"}
 [56,"0x4d5e89b450e1175e9ee033cfa09255d4eb392036"]	{"decimals":18,"name":"Coinfair LPs","symbol":"PE-LP"}
+[56,"0x4f0ed1f48beaa4797a62202a21804cadc2170d6b"]	{"decimals":18,"name":"ShopinX","symbol":"SHOPINX"}
 [56,"0x502a641decfe32b1e3d030e05effb8ae5146e64b"]	{"decimals":6,"name":"rsPALM","symbol":"rsPALM"}
+[56,"0x5063ef56477935e84f953dc41a126133a9cfc294"]	{"decimals":18,"name":"Datai Network","symbol":"DATAI"}
 [56,"0x507459a9c13df6058cf55f08e892c2d2deb49f60"]	{"decimals":18,"name":"MEGA","symbol":"$MEGA"}
 [56,"0x510ca7d22a84599e7d0f15f09e674056a6255389"]	{"decimals":18,"name":"LABS Group V2","symbol":"LABS"}
 [56,"0x52c1751c89fc913ed274d72e8d56dce4ee44a5cf"]	{"decimals":18,"name":"Wizarre Scroll","symbol":"SCRL"}
 [56,"0x53e75e405047cd8195e64876f54fa5c33d5fc311"]	{"decimals":18,"name":"Test","symbol":"TEST"}
 [56,"0x55d398326f99059ff775485246999027b3197955"]	{"decimals":18,"name":"Tether USD","symbol":"USDT"}
 [56,"0x57710e52e5e596b77b70334ca1d319c1286444e1"]	{"decimals":18,"name":"Linear Token","symbol":"LINA"}
+[56,"0x57aab42804434c4cb118ee7fe5865859483051f8"]	{"decimals":18,"name":"SwarmBase","symbol":"SWARM"}
+[56,"0x58688a3dc841b527690546cc95a7ee5c04637777"]	{"decimals":18,"name":"MAKE TUNE","symbol":"MAKETUNE"}
 [56,"0x59264f02d301281f3393e1385c0aefd446eb0f00"]	{"decimals":18,"name":"PARTI Token","symbol":"PARTI"}
 [56,"0x5b73a93b4e5e4f1fd27d8b3f8c97d69908b5e284"]	{"decimals":18,"name":"FORM Token","symbol":"FORM"}
 [56,"0x5bc247a5fc7dc148b682787c58f6f764ce27581b"]	{"decimals":18,"name":"LUCK","symbol":"LUCK"}
@@ -689,7 +736,9 @@ id	output
 [56,"0x6261963ebe9ff014aad10ecc3b0238d4d04e8353"]	{"decimals":18,"name":"Hana Token","symbol":"HANA"}
 [56,"0x6616d852f95fda4e0db5da43700ade178a3b052e"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x6679d7fdc5addb9f1af675d5f31131b0ebe751e3"]	{"decimals":18,"name":"GXB","symbol":"GXB"}
+[56,"0x6698cfc4f7fda030e807d86087200c9f8aa2b58a"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0x6894cde390a3f51155ea41ed24a33a4827d3063d"]	{"decimals":18,"name":"Simons Cat","symbol":"CAT"}
+[56,"0x7345bb126a7806abe5e82fbbaf162797cfe599cb"]	{"decimals":18,"name":"Nadrix","symbol":"NADX"}
 [56,"0x7465858234db8ca7bdcadd0d655368c333a42768"]	{"decimals":18,"name":"Coinfair LPs","symbol":"PE-LP"}
 [56,"0x748288b31490e9f4e90b1ad15d560e26dd5f37e9"]	{"decimals":18,"name":"WBNB","symbol":"BNB"}
 [56,"0x74ac77d7ca54c38eb5ea2e638a80a5182558d3a2"]	{"decimals":18,"name":"SURGE","symbol":"SURGE"}
@@ -710,6 +759,7 @@ id	output
 [56,"0x8b194370825e37b33373e74a41009161808c1488"]	{"decimals":18,"name":"Velvet","symbol":"VELVET"}
 [56,"0x8bf75bc68fd337dfd8186d731df8b3c2cb14b9e6"]	{"decimals":18,"name":"STABLE","symbol":"STABLE"}
 [56,"0x8f857b34d08251b733be276b07be383b19e8b551"]	{"decimals":18,"name":"PIPE gDAO Token","symbol":"$GDAO"}
+[56,"0x977ee3c2ac83db41f99e0312edea3d7fd7653451"]	{"decimals":18,"name":"NACHA","symbol":"NACHA"}
 [56,"0x987be10eee9074aff8c31dfe99a3990a28f647e7"]	{"decimals":18,"name":"Shonen Pump","symbol":"SHONEN"}
 [56,"0x991b4ce57864060115700d6fc05c7780346a15ac"]	{"decimals":18,"name":"","symbol":"Y8U"}
 [56,"0x9959413ec3eb6cee73ad16e6cd531352c9ce816f"]	{"decimals":18,"name":"ZAYA","symbol":"ZAI"}
@@ -719,12 +769,14 @@ id	output
 [56,"0xa178c0c1b026e0acdf039314ca0bba24e04f4444"]	{"decimals":18,"name":"他是我们这最没天赋的人","symbol":"逆袭人生"}
 [56,"0xa1832f7f4e534ae557f9b5ab76de54b1873e498b"]	{"decimals":18,"name":"CreatorBid","symbol":"BID"}
 [56,"0xa18bbdcd86e4178d10ecd9316667cfe4c4aa8717"]	{"decimals":18,"name":"BNBXBT","symbol":"BNBXBT"}
+[56,"0xa190336d9757687d2349941ced50e71afcaed90e"]	{"decimals":18,"name":"QA Token","symbol":"QAT"}
 [56,"0xa3870fbbeb730ba99e4107051612af3465ca9f5e"]	{"decimals":18,"name":"STABLE","symbol":"STABLE"}
 [56,"0xa890f8ba60051ec8a5b528f056da362ba208a96f"]	{"decimals":18,"name":"GriffinAI","symbol":"GAIN"}
 [56,"0xaa9e73d929f336aea9b6bb5c0e9826f62e4e08f8"]	{"decimals":18,"name":"QURAX","symbol":"QX"}
 [56,"0xacb6a7018b30fa5296ad5370d375c143f27b2ba4"]	{"decimals":18,"name":"Heineken","symbol":"Hen"}
 [56,"0xacf5a368ec5bb9e804c8ac0b508daa5a21c92e13"]	{"decimals":18,"name":"GriffinAI","symbol":"GAIN"}
 [56,"0xadc0e51476f6a483e65d2a379ebb0a4ac68852e9"]	{"decimals":18,"name":"R0AR TOKEN","symbol":"1R0R"}
+[56,"0xb083bf9407ff3ac7f3f1096b84d01b79f8d0f253"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0xb0b84d294e0c75a6abe60171b70edeb2efd14a1b"]	{"decimals":18,"name":"Staked Lista BNB","symbol":"slisBNB"}
 [56,"0xb192d5fc358d35194282a1a06814aba006198010"]	{"decimals":18,"name":"myMessage","symbol":"MESA"}
 [56,"0xb474a3eeab69593a19231e78ad9b0e7dbc04c261"]	{"decimals":18,"name":"Ponzicoin","symbol":"PONZI"}
@@ -734,14 +786,21 @@ id	output
 [56,"0xba2ae424d960c26247dd6c32edc70b295c744c43"]	{"decimals":8,"name":"Dogecoin","symbol":"DOGE"}
 [56,"0xbabb3905df6bfbc17f9d3fea80fda3dc2626a6ba"]	{"decimals":9,"name":"PLASMOON","symbol":"PLASMOON"}
 [56,"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"]	{"decimals":18,"name":"Wrapped BNB","symbol":"WBNB"}
+[56,"0xbc6829b26f0bed03239e016ff11009c188844a8e"]	{"decimals":6,"name":"PARK Token","symbol":"PARK"}
 [56,"0xbf5140a22578168fd562dccf235e5d43a02ce9b1"]	{"decimals":18,"name":"Uniswap","symbol":"UNI"}
+[56,"0xc03fd1cbe3efad185a20a2b0b07c9ca78e9ccd0d"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
+[56,"0xc27a719105a987b4c34116223cae8bd8f4b5def4"]	{"decimals":18,"name":"ACEToken","symbol":"ACE"}
 [56,"0xc51b789d93ec1c0f79462c97ef0877e3505d28ef"]	{"decimals":18,"name":"USDT-T","symbol":"BEP-20"}
+[56,"0xc61eb549acf4a05ed6e3fe0966f5e213b23541ce"]	{"decimals":18,"name":"NUMINE Token","symbol":"NUMI"}
 [56,"0xc8ab6940bd5456c69bd806a74c6996411543c57b"]	{"decimals":18,"name":"Scenium App","symbol":"SCEN"}
+[56,"0xc946f52c6fb8272bfa41136381d2ba283414f6a0"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0xcb4e201fac73703449328bffdd28cfe235f7b34f"]	{"decimals":18,"name":"BTCBR","symbol":"0x0cF8e180350253271f4b917CcFb0aCCc4862F262"}
 [56,"0xcded5a69e9f23d59b5f636db081aac400b7ef3c9"]	{"decimals":18,"name":"WAND Token","symbol":"WAND"}
 [56,"0xce1791637a67ca95460e5b7890ebce5253708860"]	{"decimals":18,"name":"BabloCoin","symbol":"BLO"}
+[56,"0xd1c4b3dbedb71545f7464a79021ca7c365926ea9"]	{"decimals":18,"name":"ANO Token","symbol":"ANO"}
 [56,"0xd363062f62c6f72d4a517fee580a6d58f8f4dd86"]	{"decimals":18,"name":"QABC","symbol":"QABC"}
 [56,"0xda7ad9dea9397cffddae2f8a052b82f1484252b3"]	{"decimals":18,"name":"River","symbol":"RIVER"}
+[56,"0xdbef4b5b1f002fda32511a33a4c9da49bcb473f6"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [56,"0xdc5d7f9e812d7575239bb03ab3823416fff04444"]	{"decimals":18,"name":"GridiumAI","symbol":"GRDM"}
 [56,"0xe3225e11cab122f1a126a28997788e5230838ab9"]	{"decimals":18,"name":"Codatta XNY","symbol":"XNY"}
 [56,"0xe32b28cdb373c0cc8047f5c06668f08585152dfd"]	{"decimals":18,"name":"The Flat Earth Question","symbol":"EART"}
@@ -782,12 +841,15 @@ id	output
 [130,"0x078d782b760474a361dda0af3839290b0ef57ad6"]	{"decimals":6,"name":"USDC","symbol":"USDC"}
 [130,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [137,"0x0566c506477cd2d8df4e0123512dbc344bd9d111"]	{"decimals":18,"name":"MyLovelyCoin","symbol":"MLC"}
+[137,"0x06357a859f1443dd07a9b9c5a4da16e32b9fe664"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
+[137,"0x077dee8027942c7b3d945659fa8e006601a245ba"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0x07a4ff6387e5007e89da9dcc6a11cb73efa76e89"]	{"decimals":18,"name":"Warrior Moolah","symbol":"WAR"}
 [137,"0x086373fad3447f7f86252fb59d56107e9e0faafa"]	{"decimals":18,"name":"Yup","symbol":"YUP"}
 [137,"0x098d8be4ab681d73277fc968346384637cf8f11f"]	{"decimals":18,"name":"Ttmmcc1","symbol":"TC1"}
 [137,"0x0ac731693ef50a47df4755566a42b454fcbca07d"]	{"decimals":18,"name":"Everace","symbol":"EVER"}
 [137,"0x0d3442e3ac6c9d7c7170947b94f62f7e93709317"]	{"decimals":18,"name":"DOGGIR","symbol":"DGR"}
 [137,"0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270"]	{"decimals":18,"name":"Wrapped Polygon Ecosystem Token","symbol":"WPOL"}
+[137,"0x0f1762037d567c4dbff989dfa84d0defd5c484b4"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0x111111517e4929d3dcbdfa7cce55d30d4b6bc4d6"]	{"decimals":18,"name":"ICHI","symbol":"ICHI"}
 [137,"0x13b357a93aa3f09b84e1112476c413fb8f63cba7"]	{"decimals":6,"name":"Test USD","symbol":"Test USD"}
 [137,"0x172370d5cd63279efa6d502dab29171933a610af"]	{"decimals":18,"name":"CRV (PoS)","symbol":"CRV"}
@@ -801,6 +863,7 @@ id	output
 [137,"0x1e4a2f01d401f5f58fe132dd14a270ab7c110cb3"]	{"decimals":18,"name":"AKASH","symbol":"AA"}
 [137,"0x1e4a4c918eb9d7dd384f1e23d618d9e86c571c73"]	{"decimals":6,"name":"Trumps","symbol":"Trump"}
 [137,"0x1e81587cdac4884a94a76d003c1191e24832ffbc"]	{"decimals":18,"name":"kevmeme","symbol":"kmeme"}
+[137,"0x2098c46e14b3d4d993b7c291a8a1f305c7afdf61"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0x2791bca1f2de4661ed88a30c99a7a9449aa84174"]	{"decimals":6,"name":"USD Coin (PoS)","symbol":"USDC"}
 [137,"0x288c43beb9f239baa75c611d4ed4d94dda9413cf"]	{"decimals":18,"name":"uniStable USD","symbol":"uUSD"}
 [137,"0x2a2c206ac686edd7d5b8cf1cf325de5261cd446f"]	{"decimals":18,"name":"OBSD Genesis","symbol":"OBSD"}
@@ -812,6 +875,7 @@ id	output
 [137,"0x301735eb8500c5c1d1c64ad35f43601db76220d8"]	{"decimals":18,"name":"MyToken","symbol":"MTK"}
 [137,"0x32cc6314f4724b63e754192bc0d5390b9ee62a3a"]	{"decimals":17,"name":"SAADWEB3","symbol":"SAADWEB"}
 [137,"0x3332bd1ed4d08a55fbc777fee13abffb675b7107"]	{"decimals":6,"name":"Trumps","symbol":"Trumps"}
+[137,"0x33c6ee7b33e781f9e919df80c014ad20167172bf"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0x35a4ffdebbb9d5ec0639c4eebb6c9d1ed6d2a2c4"]	{"decimals":18,"name":"FakeToken","symbol":"FKT"}
 [137,"0x37ed1625e73fc20ff2ec1c07533ddecbb9542d47"]	{"decimals":18,"name":"STADX","symbol":"STADX"}
 [137,"0x387d3f083798931e4f92d86b977958aee27ebd40"]	{"decimals":18,"name":"POLYBTC","symbol":"PBTC"}
@@ -834,6 +898,7 @@ id	output
 [137,"0x52ce4925cdf7ea4562764fc3231df9eb669e5d81"]	{"decimals":18,"name":"Tree10","symbol":"Tr10"}
 [137,"0x546a233605fb948b499e37382633c74fc1f3c598"]	{"decimals":18,"name":"OilVen","symbol":"OILV"}
 [137,"0x54ab78efcd482fc79891eaecedf787d79b4a3977"]	{"decimals":18,"name":"MONET","symbol":"MNT"}
+[137,"0x55b5cd86f0689d4b83770e93f1af3e4d5854a4be"]	{"decimals":18,"name":"Tarefay","symbol":"TFY"}
 [137,"0x56c79b61ffc3d826188db700791f1a7ecb007fd0"]	{"decimals":18,"name":"Time26","symbol":"TIME26"}
 [137,"0x5714b76b3d69f797bede08409e027e1a280c2530"]	{"decimals":18,"name":"Check Token","symbol":"CHECK"}
 [137,"0x58c7b2828e7f2b2caa0cc7feef242fa3196d03df"]	{"decimals":18,"name":"3A Utility Token (FXERC20)","symbol":"fxA3A"}
@@ -845,6 +910,8 @@ id	output
 [137,"0x60e5d23818ac99ad00b55df6c98f8c596cd01640"]	{"decimals":6,"name":"test","symbol":"TEST"}
 [137,"0x61299774020da444af134c82fa83e3810b309991"]	{"decimals":18,"name":"Render Token","symbol":"RNDR"}
 [137,"0x6264889f0616831bff0144652588902124469b05"]	{"decimals":18,"name":"TO_Test_Token","symbol":"TOTT"}
+[137,"0x63de49a3c952ca35957d03741ec62e7a19af67a3"]	{"decimals":18,"name":"PredictAsiaX","symbol":"PAX"}
+[137,"0x668762b5ce46895cfb4fc821d9fc2a8e3f1f0ce2"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0x6700bd05e3fb6de4542ec3af95677a611cfe912b"]	{"decimals":18,"name":"Hmergy","symbol":"HMRG"}
 [137,"0x68a7aa83f4b46346824c6344b616a5517da1bb57"]	{"decimals":18,"name":"KAGUYA","symbol":"KAGUYA"}
 [137,"0x6c249b6f6492864d914361308601a7abb32e68f8"]	{"decimals":18,"name":"DUA","symbol":"DUA"}
@@ -857,6 +924,7 @@ id	output
 [137,"0x7cbb8acc2fc122528d013182bbfbd8208b61f3fa"]	{"decimals":18,"name":"President Trump","symbol":"TRUMP"}
 [137,"0x7cdb8aad271bff3320665856a8046ffb2de940e4"]	{"decimals":18,"name":"Galaxy Token","symbol":"Galaxy"}
 [137,"0x7ceb23fd6bc0add59e62ac25578270cff1b9f619"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
+[137,"0x7e13b43065380acdec1c2d138c579cbbbafa0731"]	{"decimals":18,"name":"Telcoin","symbol":"TEL"}
 [137,"0x804d2367c4c7bdd9498f11ef8377bd9e40862400"]	{"decimals":18,"name":"FFT","symbol":"FFT"}
 [137,"0x8368d401732a1b2a63b2183c5dbbe657107953a5"]	{"decimals":18,"name":"NLT","symbol":"NLT"}
 [137,"0x84cac4e34cb94b8db53768e298814f671701d794"]	{"decimals":16,"name":"BINARYX","symbol":"BINX"}
@@ -872,7 +940,9 @@ id	output
 [137,"0xa65fd329464bb83a4230a02a5b23c6099542cfff"]	{"decimals":18,"name":"Tree4","symbol":"Tr4"}
 [137,"0xa8a85d99519846f145b73a450a09019ef6747518"]	{"decimals":18,"name":"Play wallet","symbol":"Rvc"}
 [137,"0xa9623d63f73113481e0ab8acf0739079f4ed78a1"]	{"decimals":18,"name":"Hmergy","symbol":"HMRG"}
+[137,"0xaba2ca9a4937d69a31874c38330a5de4868f7fcf"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0xabfdc2a4adc15eb8ee414bb3cbb512a3ee11811e"]	{"decimals":18,"name":"MINT","symbol":"MINT"}
+[137,"0xac53164667a013b90d06885f6d8d7368d600e22a"]	{"decimals":18,"name":"RealCrown","symbol":"RC"}
 [137,"0xadc0e51476f6a483e65d2a379ebb0a4ac68852e9"]	{"decimals":18,"name":"R0AR TOKEN","symbol":"1R0R"}
 [137,"0xadffc008d888b286a6c3b0c1d4279efd948db768"]	{"decimals":18,"name":"MetaBadge Tokens","symbol":"MBG"}
 [137,"0xae3de258b1ce7d3a41a3c7ddd5569d91d685fd18"]	{"decimals":18,"name":"ExaeToken","symbol":"EMPL"}
@@ -890,12 +960,14 @@ id	output
 [137,"0xc3493d5787d4ff987d56855c64aad60f382b5959"]	{"decimals":18,"name":"TestGX","symbol":"TESTGX"}
 [137,"0xc3617d06a09c1730f009c26c0fbbfe24001f0ac5"]	{"decimals":18,"name":"Trump vs Putin","symbol":"War or Peace"}
 [137,"0xc3c7d422809852031b44ab29eec9f1eff2a58756"]	{"decimals":18,"name":"Lido DAO Token (PoS)","symbol":"LDO"}
+[137,"0xc4b30935bded8b4aec33b6134806da0d8aed77c9"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0xc7540ffb953d3fcc838e0a396c9c10e669f5c738"]	{"decimals":6,"name":"Trumps","symbol":"Trumps"}
 [137,"0xcb8a789011684e8fb2dc82084b4dad2d365fb50d"]	{"decimals":9,"name":"ElLicoin","symbol":"ELC"}
 [137,"0xcce180adef29c5ad95ca734abaa7a77b11b3535a"]	{"decimals":18,"name":"Collective Cents","symbol":"COL"}
 [137,"0xcd288a789abf06cbe27935c1b30adab69125ede0"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [137,"0xd459e2aa0a9da205b60e51d360af221f824daa9e"]	{"decimals":6,"name":"SDCOIN","symbol":"SDCOIN"}
 [137,"0xdb7cb471dd0b49b29cab4a1c14d070f27216a0ab"]	{"decimals":18,"name":"Bankless Token (PoS)","symbol":"BANK"}
+[137,"0xdbeedf87a99809b3c536c767602aa3299438a603"]	{"decimals":18,"name":"MINERA","symbol":"MNRQV"}
 [137,"0xdc6d1bd104e1efa4a1bf0bbcf6e0bd093614e31a"]	{"decimals":18,"name":"Early Primex Token","symbol":"ePMX"}
 [137,"0xdcb72ae4d5dc6ae274461d57e65db8d50d0a33ad"]	{"decimals":18,"name":"DappRadar","symbol":"RADAR"}
 [137,"0xdf7837de1f2fa4631d716cf2502f8b230f1dcc32"]	{"decimals":2,"name":"Telcoin (PoS)","symbol":"TEL"}
@@ -909,6 +981,7 @@ id	output
 [137,"0xeb4b98c15de29f44e7d4109370a78de6c9d12248"]	{"decimals":6,"name":"Trumps","symbol":"Trumps"}
 [137,"0xed755dba6ec1eb520076cec051a582a6d81a8253"]	{"decimals":18,"name":"Ultimate Champions Token","symbol":"CHAMP"}
 [137,"0xef4d39b11f1611df2c8c438ab7f15a095cdba3b1"]	{"decimals":6,"name":"Trumps","symbol":"Trumps"}
+[137,"0xef5128964cf9039f9e5782d9232923a01c5a745c"]	{"decimals":18,"name":"USDT","symbol":"USDT"}
 [137,"0xf122a63f9fd807fa28a3495ad822ad84c934793d"]	{"decimals":18,"name":"CREEKS","symbol":"CRK"}
 [137,"0xf33bfb70fece6f50edf917997f809c5fd6b436f5"]	{"decimals":18,"name":"DANKY","symbol":"DANKY"}
 [137,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
@@ -920,6 +993,7 @@ id	output
 [137,"0xfbbe4b730e1e77d02dc40fedf9438e2802eab3b5"]	{"decimals":6,"name":"NZD Stablecoin (Polygon PoS)","symbol":"NZDS"}
 [137,"0xfd9d9dad90a925630ffbd7ee7b2b57581269c63b"]	{"decimals":18,"name":"iobeats","symbol":"IOB"}
 [143,"0x1ad7052bb331a0529c1981c3ec2bc4663498a110"]	{"decimals":18,"name":"ALLOCA","symbol":"ALLOCA"}
+[143,"0x21e325b059cd83d4037c82f0f5998ba2df3d7777"]	{"decimals":18,"name":"Bob","symbol":"BOB"}
 [143,"0x2c5859c6c1ef80b4553297433be418e86d187777"]	{"decimals":18,"name":"MonadClaw","symbol":"MonadClaw"}
 [143,"0x350035555e10d9afaf1566aaebfced5ba6c27777"]	{"decimals":18,"name":"Chog","symbol":"CHOG"}
 [143,"0x3987f63faf0f7aff27952e70f641ab26672a7777"]	{"decimals":18,"name":"yo","symbol":"yo"}
@@ -928,6 +1002,7 @@ id	output
 [143,"0x5b359c6cc24b2b61555f8ec2edaa9f9c4d697777"]	{"decimals":18,"name":"Monjak","symbol":"MONJAK"}
 [143,"0x68f80416af610aa46d92b31f71b61671548a7777"]	{"decimals":18,"name":"losers","symbol":"losers"}
 [143,"0x6d64fc0bb0291c6a4f416ec1c379815c06967eaf"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
+[143,"0x73b62ff5cfea3fb857dbe84a57f1631630247777"]	{"decimals":18,"name":"Monigga","symbol":"MONIGGA"}
 [143,"0x754704bc059f8c67012fed69bc8a327a5aafb603"]	{"decimals":6,"name":"USDC","symbol":"USDC"}
 [143,"0x86a4cc3a42965bbe139fd6864e808f09dac17777"]	{"decimals":18,"name":"trolltest","symbol":"troltlr"}
 [143,"0x87deeb3696ec069d5460c389cc78925df50d7777"]	{"decimals":18,"name":"IDGAF","symbol":"IDGAF"}
@@ -954,6 +1029,7 @@ id	output
 [999,"0x03832767bdf9a8ef007449942125ad605acfadb8"]	{"decimals":18,"name":"Swap","symbol":"SWAP"}
 [999,"0x27270bd5b2c4e3aef30cce8c8eebe6eb70000000"]	{"decimals":18,"name":"ASSDAQ","symbol":"ASSDAQ"}
 [999,"0x5555555555555555555555555555555555555555"]	{"decimals":18,"name":"Wrapped HYPE","symbol":"WHYPE"}
+[999,"0x7f7430a1ad9a9b0e86849c332bf27facfd700000"]	{"decimals":18,"name":"HODL","symbol":"HODL"}
 [999,"0xa300c891157803e72370d15a30ccedffc7153142"]	{"decimals":8,"name":"Brila Finance","symbol":"BRLA"}
 [999,"0xb88339cb7199b77e23db6e890353e22632ba630f"]	{"decimals":6,"name":"USDC","symbol":"USDC"}
 [999,"0xbbdb879d20a5df53dba1b400b0413d348170a8cb"]	{"decimals":18,"name":"Test Time","symbol":"TIME*"}
@@ -962,8 +1038,11 @@ id	output
 [999,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
 [999,"0xf535d7406baf7322171142bb165643821cab01fe"]	{"decimals":18,"name":"Swap escrowed token","symbol":"xSWAP"}
 [999,"0xfdd3c75bcd2b2f47693524ac9d1dda8760000000"]	{"decimals":18,"name":"NOEDGE","symbol":"NOEDGE"}
+[1329,"0x26bd1537ac4b68ae5c2e6e0c85f0e32f8a130f07"]	{"decimals":18,"name":"Quantum Wave","symbol":"QWAV"}
+[1329,"0x292273ae24cb2867cdf3fc7d6c97296d73910cb0"]	{"decimals":18,"name":"Neon Panda","symbol":"NPAN"}
 [1329,"0xa4777ca525d43a7af55d45b11b430606d7416f8d"]	{"decimals":18,"name":"TOUCHE","symbol":"TOUCHE"}
 [1329,"0xaf210dd54870745ed18f1081252aeee4119ea6ca"]	{"decimals":18,"name":"TOUCHE","symbol":"TOUCHE"}
+[1329,"0xde0f16294aa165bc485a81ce9234acc0c38855bf"]	{"decimals":18,"name":"Azure Cedar","symbol":"ACED"}
 [1329,"0xffd58c89f777e0ee3995b04713d8f45df2fa5850"]	{"decimals":18,"name":"NOISE","symbol":"NOISE"}
 [2741,"0x140f881932ce4ef84a54b20eda31bbb1e3a137ad"]	{"decimals":18,"name":"DREAMILLIONAIRES","symbol":"DREAM"}
 [2741,"0x1ea7d0b5317741a2581d7dc98075a11efd149312"]	{"decimals":18,"name":"KINO","symbol":"KINO"}
@@ -980,8 +1059,189 @@ id	output
 [2818,"0x5300000000000000000000000000000000000011"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
 [2818,"0x803dce4d3f4ae2e17af6c51343040dee320c149d"]	{"decimals":8,"name":"Wrapped BTC","symbol":"WBTC"}
 [2818,"0xc7d67a9cbb121b3b0b9c053dd9f469523243379a"]	{"decimals":6,"name":"Tether USD","symbol":"USDT"}
+[2818,"0xe34c91815d7fc18a9e2148bcd4241d0a5848b693"]	{"decimals":6,"name":"USD Coin","symbol":"USDC"}
 [2818,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
+[4663,"0x002d06a9a0d90365e9eadd99be193b0d5fcb08d5"]	{"decimals":18,"name":"Klon Labs","symbol":"KLON"}
+[4663,"0x0208eafc9492f0d1b36421ba234160d219f1632f"]	{"decimals":18,"name":"DLMM KING","symbol":"KING"}
+[4663,"0x02fb8af69de97457d109cc38bb96244ea11a2981"]	{"decimals":18,"name":"BASED","symbol":"BASED"}
+[4663,"0x0850ca883d8081732cdd4363a9920a49525d5fb4"]	{"decimals":18,"name":"NITRO GAMING","symbol":"NITRO"}
+[4663,"0x0ab331e5ad49d2da0ac1e9aa7b973a4fc97a4802"]	{"decimals":18,"name":"World Of Defense","symbol":"WORLD"}
+[4663,"0x0b401c5ad2b35f4b6f8900a48527d72e86332c73"]	{"decimals":18,"name":"TEST Launch 2CF7","symbol":"TEST2CF7"}
 [4663,"0x0bd7d308f8e1639fab988df18a8011f41eacad73"]	{"decimals":18,"name":"WETH","symbol":"WETH"}
+[4663,"0x0c25aa36986e0ae904d0233695e828d08a065fe2"]	{"decimals":18,"name":"Faust Protocol","symbol":"FP"}
+[4663,"0x0ca913b40450fc94e1addd912780e4dd3cd86883"]	{"decimals":18,"name":"Hoodrat","symbol":"RAT"}
+[4663,"0x0d4ed27a906a0774474b200cc5392019facd2a47"]	{"decimals":18,"name":"FAIRLAUNCH","symbol":"FLX"}
+[4663,"0x0d6bd3c8ee98c353b05a8b50f560679b68a10ba3"]	{"decimals":18,"name":"jankrstock4","symbol":"jankrstock4"}
+[4663,"0x0eecad277c7e2d309ad12820cfb4a590ee3f32c3"]	{"decimals":18,"name":"Kingsley Kingfish","symbol":"KING"}
+[4663,"0x13c9d20b1fe3696b855526614965a4ab474b886b"]	{"decimals":18,"name":"Commit","symbol":"COMMIT"}
+[4663,"0x13eafa8190d14463d7b760e8d55742db64a4b609"]	{"decimals":18,"name":"Muppet","symbol":"MUPPET"}
+[4663,"0x14637e3850d0446d68716542011d4cc89bbec670"]	{"decimals":18,"name":"NFA","symbol":"NFA"}
+[4663,"0x165902a6a0f53f5edfc3e18330ea6d633d6e32e8"]	{"decimals":18,"name":"KEELMARK","symbol":"KEELMARK"}
+[4663,"0x17ab342a6e4947b57a8b49a8d02b414a8198e642"]	{"decimals":18,"name":"INDEXER B","symbol":"INDEXERB"}
+[4663,"0x1e760afc1cc0c5ea9ba8a619c9d6deda0078363b"]	{"decimals":18,"name":"","symbol":"MRBL"}
+[4663,"0x1eb800b3e9eed33b5978a1ccc6f3133417f538f7"]	{"decimals":18,"name":"mstrstock3-2percent","symbol":"MSTRSTOCK32"}
+[4663,"0x204652a8a7a14ff7ab5c3329462e5dae9caff60b"]	{"decimals":18,"name":"NetStrat","symbol":"NSTRAT"}
+[4663,"0x2062801d30e9308eb55bd158224e85c5855625f7"]	{"decimals":18,"name":"AFTERBELL","symbol":"ABELL"}
+[4663,"0x2148de139817ccdf6f0ee6ffbe2c856fa7065cce"]	{"decimals":18,"name":"Kessler","symbol":"KESSLER"}
+[4663,"0x2285ca7671e88d6018b559eb6edf61e97e608537"]	{"decimals":18,"name":"Dialed","symbol":"DIALED"}
+[4663,"0x22f490ffd6b93ca9231f359ad78f373ed9f4c66f"]	{"decimals":18,"name":"Envi","symbol":"ENVI"}
+[4663,"0x24d8657e10af588b12de3e102a116f77b9e35ee8"]	{"decimals":18,"name":"Greenwood","symbol":"GWOOD"}
+[4663,"0x2531f3ca1b31086b7fc130ecda6d3253daf83ba3"]	{"decimals":18,"name":"Quotient","symbol":"QUOTIENT"}
+[4663,"0x274e7bbef7aac7fe19ba8e43fc561f1449e492cc"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[4663,"0x2e8c31162b855a2ffa90f6f8634643ad6f111e18"]	{"decimals":18,"name":"Artificial Inu","symbol":"AI"}
+[4663,"0x2f036d6e5d5594435ea9cb6893a71b8675a38362"]	{"decimals":18,"name":"KEMMA","symbol":"KEMMA"}
+[4663,"0x2fe0681044c17fe012a3d7dcf6c0509e82ea1111"]	{"decimals":18,"name":"IRIS","symbol":"IRIS"}
+[4663,"0x30a096a79b36b643846863e76884ee7e7945a103"]	{"decimals":18,"name":"Keel","symbol":"KEEL"}
+[4663,"0x30c8951781975bf83d3f74be20aecc8bd43f72c9"]	{"decimals":18,"name":"CON GRESSMAN 2: The Re-Election","symbol":"REELECT"}
+[4663,"0x30db03a051205ccbeb1b6524ddf87fbc6c0127bc"]	{"decimals":18,"name":"Trump Account Fund","symbol":"TA"}
+[4663,"0x31b9da53db4fce741c81ccef709d57a71a3716d0"]	{"decimals":18,"name":"BARGE","symbol":"BARGE"}
+[4663,"0x325ed5a3617b1eaab6ebeefcc2af084beef49ece"]	{"decimals":18,"name":"Raphael","symbol":"RAPH"}
+[4663,"0x32cda1abbfa80c7c75478175ed767a1b07411111"]	{"decimals":18,"name":"ELMO","symbol":"ELMO"}
+[4663,"0x341bc4872d1efc2696322fa9c5e71cd48ba2d46e"]	{"decimals":18,"name":"JOHNPORK","symbol":"JOHNPORK"}
+[4663,"0x36b478caf84194d2d201ededf7895a334f30d26f"]	{"decimals":18,"name":"TEST Launch UPY2","symbol":"TESTUPY2"}
+[4663,"0x37f805682f518a5e643d7deceb4292531e385953"]	{"decimals":18,"name":"Crypto Cars","symbol":"CC"}
+[4663,"0x39dbed3a2bd333467115de45665cc57f813c4571"]	{"decimals":18,"name":"Pons","symbol":"PONS"}
+[4663,"0x39e4197ade95c161b25ca56e0c7a624ae087578e"]	{"decimals":18,"name":"OMAN","symbol":"OMN"}
+[4663,"0x3b14ad30aab99ac6caf2063cc89ffac57a375546"]	{"decimals":18,"name":"SIM-DOP-6cOWfBy2RTl_","symbol":"SDP6cOWfB"}
+[4663,"0x3d6f5b1aa5a704f725734ba9bbe0224751bd2a25"]	{"decimals":18,"name":"CRIMECAT","symbol":"CCAT"}
+[4663,"0x419fde0b1d9e1d4ce86bbc865de0272b027d6f11"]	{"decimals":18,"name":"Verto Treasury","symbol":"VERTO"}
+[4663,"0x42e79a34ff51307e2eb9a25a41734471d87ac446"]	{"decimals":18,"name":"TEST Launch W1V9","symbol":"TESTW1V9"}
+[4663,"0x44cf4ca3d50b2ee4fb614c7b27f7e5fb72baeaf3"]	{"decimals":18,"name":"PATRON","symbol":"PAT"}
+[4663,"0x452f46afa60b54a1cb824ec420af2ee871a1a5af"]	{"decimals":18,"name":"INDEXER3","symbol":"INDEXER3"}
+[4663,"0x47b61b058c0944c05cf65419a3cefe1d4c33bba3"]	{"decimals":18,"name":"jankrstock2","symbol":"jankrstock2"}
+[4663,"0x48394a724b89d0eead5057d71a2810611f7d39c6"]	{"decimals":18,"name":"KIMI","symbol":"KIMI"}
+[4663,"0x4a33e2d435b2799c53bdd40175cd9b7bacdeb2ff"]	{"decimals":18,"name":"TEST Launch DXFV","symbol":"TESTDXFV"}
+[4663,"0x4a527540e893610b8cf769fb050cdc974320bd3e"]	{"decimals":18,"name":"Modus Builders","symbol":"MODUS"}
+[4663,"0x4b1b3cb23e1cd1eb03eff3123b6ccd698629cd65"]	{"decimals":18,"name":"RWAPACT","symbol":"RWAPACT"}
+[4663,"0x4eb9ade7369a51762f913b8f96812b4ad5bd1bef"]	{"decimals":18,"name":"Owed","symbol":"OWED"}
+[4663,"0x4fbb9aaea681d2018055716b1383c136674d47b1"]	{"decimals":18,"name":"BASED","symbol":"BASED"}
+[4663,"0x531140fc4ae9aa04c21b9b9f3bea0e1daaa81111"]	{"decimals":18,"name":"IRIS","symbol":"IRIS"}
+[4663,"0x56910d4409f3a0c78c64dd8d0545ff0705389870"]	{"decimals":18,"name":"The Index","symbol":"Index"}
+[4663,"0x5a1de60e5cf65cf8ca159af88699149940a161bd"]	{"decimals":18,"name":"GRAFT","symbol":"GRAFT"}
+[4663,"0x5a8625d314fdd298101d87932a784b756a401e18"]	{"decimals":18,"name":"AGI Frog","symbol":"AGI"}
+[4663,"0x5d3a1ff2b6bab83b63cd9ad0787074081a52ef34"]	{"decimals":18,"name":"USDe","symbol":"USDe"}
+[4663,"0x5f62c57e5c537887117eef828b7e3ad41c009feb"]	{"decimals":18,"name":"Good In The Hood","symbol":"GOOD"}
+[4663,"0x5fc5360d0400a0fd4f2af552add042d716f1d168"]	{"decimals":6,"name":"Global Dollar","symbol":"USDG"}
+[4663,"0x612ae0322980094d5dc9eaf3cd997752750a919b"]	{"decimals":18,"name":"NEW INDEXER 1","symbol":"NIND1"}
+[4663,"0x62177377c361bf76f12612aa153a9b405bef9ff2"]	{"decimals":18,"name":"Deepstate 2","symbol":"2DEEP"}
+[4663,"0x65005110bce327eb9a58552c969f675138cbe4fc"]	{"decimals":18,"name":"Kovel","symbol":"KOVEL"}
+[4663,"0x654be3adbfebbcd1003917f0e22dba02cf017ebd"]	{"decimals":18,"name":"","symbol":"WICK"}
+[4663,"0x67b7e8b4dc9101b7bc0222a82987f11227eb573e"]	{"decimals":18,"name":"Vault Street","symbol":"VST"}
+[4663,"0x68a318110ed60a395e17655bed0a98bb5807a411"]	{"decimals":18,"name":"Diamond Larry","symbol":"LARRY"}
+[4663,"0x68c457b6f57334e929b13ed0a18b37fd9feecdb6"]	{"decimals":18,"name":"SIM-DOP-f0ewHlCexP0S","symbol":"SDPf0ewHl"}
+[4663,"0x6a6edeb8996fa3e3fb0f02d917250fb5f0620bdc"]	{"decimals":18,"name":"Waypoint","symbol":"WAY"}
+[4663,"0x6a828e4c2b5a0648de3039ceb793dae12863fdad"]	{"decimals":18,"name":"Paygent","symbol":"PAYGENT"}
+[4663,"0x6c421de4fab68347892470281dee829cdf470855"]	{"decimals":18,"name":"Alloy","symbol":"ALLOY"}
+[4663,"0x6db54758143cee89b9fa44e97d7358fc0f8a18e3"]	{"decimals":18,"name":"BirdScan","symbol":"BIRD"}
+[4663,"0x6e22253bb9fbaf113ae5e613e51448c753d47b12"]	{"decimals":18,"name":"Ledger Trust","symbol":"LTRUST"}
+[4663,"0x6eacc0461fdf3bd446634ccd0ed774a1ead028cc"]	{"decimals":18,"name":"Shuffle","symbol":"SHUFFLE"}
+[4663,"0x71a836cfb9941db6ee6cd4182999331e28ae9063"]	{"decimals":18,"name":"Poffi","symbol":"POFFI"}
+[4663,"0x7289b41ab8c28aeb07cc4efb6a3edbf2c13b8ff3"]	{"decimals":18,"name":"bestow","symbol":"BESTOW"}
+[4663,"0x73079643cfbb6020b8ebc0ad03d2fca5678f3098"]	{"decimals":18,"name":"DotPaid","symbol":"DOTPAID"}
+[4663,"0x73128370400632ac7ecc2e997966489787b03cbc"]	{"decimals":18,"name":"Synapse","symbol":"SYNAPSE"}
+[4663,"0x763cbf77cb2aeced1cca49aec9b8fe388a10b217"]	{"decimals":18,"name":"SIM-DOP-TTuUrIdWg8tY","symbol":"SDPTTuUrI"}
+[4663,"0x764fffe1c0a16bd560d646c356d890bd150b002a"]	{"decimals":18,"name":"COMMON","symbol":"COMMON"}
+[4663,"0x779fefc1222acde8c2bf9905a1e2ce04e4b87777"]	{"decimals":18,"name":"Dex Reserve Coin","symbol":"DEX"}
+[4663,"0x79cdbb375e756914582972df8480cafe7790fee1"]	{"decimals":18,"name":"Quanta Compute","symbol":"QUANTA"}
+[4663,"0x7c587ede6948a55a35163ca4e61c8c6124b8ca34"]	{"decimals":18,"name":"REDS","symbol":"REDS"}
+[4663,"0x7dbf38976f6d3b9c529e7d9484a71898b409ee6a"]	{"decimals":18,"name":"ZZZ","symbol":"ZZZ"}
+[4663,"0x7f207f60d8e67b266acbc0d04a47b5c78dcca2ab"]	{"decimals":18,"name":"VEST","symbol":"VEST"}
+[4663,"0x8490758993a7e19037f664fbc1adc77bb3c535bd"]	{"decimals":18,"name":"Slop Cash","symbol":"SLOP"}
+[4663,"0x866563bf14c4678a97e2d3eda57fc50504a3b379"]	{"decimals":18,"name":"DottieLand","symbol":"DOTTIE"}
+[4663,"0x86e5ac7ec60eeec0a8989f1f1d617ae18c15fa0c"]	{"decimals":18,"name":"button","symbol":"BUTTON"}
+[4663,"0x883b316dc4c222e47076d3c9844354bc35ffeacd"]	{"decimals":18,"name":"SIM-DOP-ssXPACQ5lCY-","symbol":"SDPssXPAC"}
+[4663,"0x885107a127266fdab66548b6c311b14318b866b5"]	{"decimals":18,"name":"LOAN","symbol":"LOAN"}
+[4663,"0x8d1612b4b78ebf08cfbf01a04fa270ccbb0509a2"]	{"decimals":18,"name":"rocket strategy","symbol":"RKST"}
+[4663,"0x8ea0eb3505f5b3bd2bbea0febae0ce850cc73ecc"]	{"decimals":18,"name":"OuroLayer","symbol":"OURO"}
+[4663,"0x8ea10cab0acc42fb782b3ab2261ca1a453d14cf4"]	{"decimals":18,"name":"KAIRO","symbol":"KAIRO"}
+[4663,"0x8ee2c6804f57db5b06af50a910b6284749aedf83"]	{"decimals":18,"name":"INDEXER A","symbol":"INDEXERA"}
+[4663,"0x8f96a2dfe940a2ae05fa8943f0e5b27a37d3f012"]	{"decimals":18,"name":"Ferry","symbol":"FERRY"}
+[4663,"0x9128ae7271cca2caca2c0e269ea7ecdad9c05ee3"]	{"decimals":18,"name":"mstrstock25mins","symbol":"MSTRSTOCK25"}
+[4663,"0x9162fefe5b784be862b826cabf52c0fa5a3f846a"]	{"decimals":18,"name":"RobinSight","symbol":"SIGHT"}
+[4663,"0x917453d111d01e131d9a36fa2cd255414674fcd2"]	{"decimals":18,"name":"Buy High","symbol":"HIGH"}
+[4663,"0x92fd66527192e3e61d4ddd13322aa222de86f9b5"]	{"decimals":18,"name":"iShares 0-3 Month Treasury Bond • Robinhood Token","symbol":"SGOV"}
+[4663,"0x931e498887d956b3cd6317de1e79d8f235a16aba"]	{"decimals":18,"name":"FATHOM HOOK","symbol":"FATHOM"}
+[4663,"0x940af83839d07ea4e2b36ae952328b619e6da346"]	{"decimals":18,"name":"FEE SHARING SCENARIO 1","symbol":"FSC1"}
+[4663,"0x962a93c580a6a5fb461768b5fea6bb4b0bbcb60e"]	{"decimals":18,"name":"Tiny Legends","symbol":"TINY"}
+[4663,"0x9731c7f2dc2c28472b7dbd2281d00bee782bf324"]	{"decimals":18,"name":"welf","symbol":"WELF"}
+[4663,"0x99c2a41ebddcade297e241fd152aa237d16832bc"]	{"decimals":18,"name":"DUSK","symbol":"DUSK"}
+[4663,"0x9b3a765a32f3ff0623a2dea04136960c77205b09"]	{"decimals":18,"name":"Kyzen Network","symbol":"KYZN"}
+[4663,"0x9ca1cc0c90d97b4f36c5e2232d4fbd705a73c65d"]	{"decimals":18,"name":"TA FUND","symbol":"TA"}
+[4663,"0x9eb9b2986111ae9f60b36f6d26bdd02d19372f9d"]	{"decimals":18,"name":"NOTCH by Virtuals","symbol":"NOTCH"}
+[4663,"0xa057943a31838b593063c148e0747290e5e331a0"]	{"decimals":18,"name":"INDEXER","symbol":"INDEXER"}
+[4663,"0xa0ca5fb8f46ff12cebc1f8f4abc59cb00d128a6f"]	{"decimals":18,"name":"PENUMBRA","symbol":"PENUMBRA"}
+[4663,"0xa1cb6983c32561443a84eb52ef8187240211ceea"]	{"decimals":18,"name":"If Only","symbol":"ONLY"}
+[4663,"0xa2cb1c33450b436d0361cdfe3e898f0de6f3c8a9"]	{"decimals":18,"name":"NightShiftSI","symbol":"NS"}
+[4663,"0xa4632863814b4728e199b01091e93da486e4514f"]	{"decimals":18,"name":"jankr3prodmstr","symbol":"JANKR3PRODM"}
+[4663,"0xa55cc7162e8c31f0db9a81f8f3c86006413bb3bd"]	{"decimals":18,"name":"Hammy Hamour","symbol":"HAM"}
+[4663,"0xa6c4b0d47085f3b7993884f56d3d27e547dcce71"]	{"decimals":18,"name":"NUMEN","symbol":"NUMEN"}
+[4663,"0xa77c8594112ea0eb4b5c853165288757fa148c1b"]	{"decimals":18,"name":"Silt","symbol":"SILT"}
+[4663,"0xa7f54c61ad97393ad0cda58e99092e5226f09c12"]	{"decimals":18,"name":"INDEXER C","symbol":"INDEXERC"}
+[4663,"0xa80eb66b3e0cf66ccb46f8b8c9e7ff5803eeb820"]	{"decimals":18,"name":"Wen Lambo","symbol":"WEN"}
+[4663,"0xa8ff2170d8a2a68975f1c3309b0f3ab625913594"]	{"decimals":18,"name":"TubePaid","symbol":"TUBEPAID"}
+[4663,"0xa9222242c89fe7af55a9fd5aa0587c23b8d1c845"]	{"decimals":18,"name":"Circuit OS","symbol":"CIRCUIT"}
+[4663,"0xa9e00a9c48ad74f7a99c31b6df132f82728bb4bf"]	{"decimals":18,"name":"Pons Flow","symbol":"PONSFLOW"}
+[4663,"0xaea0a3cc74f3dc7bdba924846810e6e5b0531111"]	{"decimals":18,"name":"FERN","symbol":"FERN"}
+[4663,"0xb0007d59fe4050a1636c2fa19038973d16481337"]	{"decimals":18,"name":"RYFT","symbol":"RYFT"}
+[4663,"0xb1e9b822b81bbbdab375f7f4d86e44fa04d12b07"]	{"decimals":18,"name":"Pons Bot","symbol":"PONSBOT"}
+[4663,"0xb4d3972853621e56e33fd08a7b614ec140d10bc0"]	{"decimals":18,"name":"Pons cat","symbol":"PCAT"}
+[4663,"0xb934cabf87781f7eb13265de4cb2ce090d00c4e3"]	{"decimals":18,"name":"SURPLUS","symbol":"SURPLUS"}
+[4663,"0xba2572c9b0c450a76d2107bdb915cbddf97bd008"]	{"decimals":18,"name":"TEST Launch Y2V1","symbol":"TESTY2V1"}
+[4663,"0xba356353542ed5564f8b9e48fc6c8d5e6c14a1a8"]	{"decimals":18,"name":"SPONGE","symbol":"SPON"}
+[4663,"0xba79b09772f8ab5d325ff81e68fe137d9a34c1c3"]	{"decimals":18,"name":"WebPaid","symbol":"WEBPAID"}
+[4663,"0xbb09abb73f766f00625852894eb5c9cf08a94ba3"]	{"decimals":18,"name":"MacroStrategy","symbol":"MACRO"}
+[4663,"0xbb1e19ce4d13df67192ad169f498c3b4ba197faf"]	{"decimals":18,"name":"Crypto Cars","symbol":"CC"}
+[4663,"0xbd3822d1f8f370b4068e16453ac5b033a6a2c538"]	{"decimals":18,"name":"MinersRH","symbol":"GLD"}
+[4663,"0xbd7a6223ad53aa351dc3946fe5e7559c06120b0e"]	{"decimals":18,"name":"SIGRA","symbol":"SIGRA"}
+[4663,"0xbec416ac3e36a8ca0571cef5a104edaef2a31a89"]	{"decimals":18,"name":"wrkr by Virtuals","symbol":"WRKR"}
+[4663,"0xbfc3a980b78b007ef0cde9625e52dbb66c51a1a7"]	{"decimals":18,"name":"HOLD","symbol":"EARN"}
+[4663,"0xc1743a9eaa1e6f52962da566e542b24e561e1111"]	{"decimals":18,"name":"ELMO","symbol":"ELMO"}
+[4663,"0xc35122212f5bff58351ba73cc0e43622fb39bf9a"]	{"decimals":18,"name":"PonsBall","symbol":"PONSBALL"}
+[4663,"0xc3e57bda69f21934c19575ea94eb2826be957861"]	{"decimals":18,"name":"TEST Launch GTT8","symbol":"TESTGTT8"}
+[4663,"0xc42f8a219bbe3553589ad67b0eb4be958e651111"]	{"decimals":18,"name":"FERN","symbol":"FERN"}
+[4663,"0xc4f904acb81ed8bb55108c8aaa69b41eeae4190b"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[4663,"0xc725d0384204fe2f4f60c85bd3376c9ef4d3fc8f"]	{"decimals":18,"name":"Sight","symbol":"Sight"}
+[4663,"0xcab4373d72d31d11fa83e0c4a6767b9c502ab101"]	{"decimals":18,"name":"CON GRESSMAN","symbol":"CONG"}
+[4663,"0xcd81e79a73f1431d5595625aebea77684a757421"]	{"decimals":18,"name":"DEX Sandbox","symbol":"DEXBOX"}
+[4663,"0xd0601ce157db5bdc3162bbac2a2c8af5320d9eec"]	{"decimals":18,"name":"NVIDIA • Robinhood Token","symbol":"NVDA"}
+[4663,"0xd1e92ba7c7355c2698addd894919cba198601e18"]	{"decimals":18,"name":"Qubit","symbol":"QUBIT"}
+[4663,"0xd2c54c5fac4bee0a75a1e53f8035890800a3b658"]	{"decimals":18,"name":"TIM","symbol":"TIM"}
+[4663,"0xd56b082cd2f820f3e74afbbc1cef9e02bbda93fb"]	{"decimals":18,"name":"Gigaverso","symbol":"GLHfers"}
+[4663,"0xd5d7ebdd4b0999eaa1ae24efe852471b10f0289b"]	{"decimals":18,"name":"Ladder","symbol":"LADR"}
+[4663,"0xd71b7b4e1dc16bd6938d3f235a68aa8ab1cf4f0e"]	{"decimals":18,"name":"ARROWS","symbol":"ARROWS"}
+[4663,"0xd80d21575e605a6a349d9df117db78f3904027e0"]	{"decimals":18,"name":"Argus","symbol":"ARGUS"}
+[4663,"0xd9d885656cce6d2063ee04f5dc0efe93d94584d3"]	{"decimals":18,"name":"Hoodly AI","symbol":"HOODLY"}
+[4663,"0xdc453b1405cfe25e2afba8e7f4272b0a00437777"]	{"decimals":18,"name":"TasQ Network","symbol":"TasQ"}
+[4663,"0xdce7bcf919c8b91f7ad637efaa0e117eec7c300b"]	{"decimals":18,"name":"AgentSoul","symbol":"AGENTSOUL"}
+[4663,"0xde6a823f9d8ffc54e691f9c4e7f5f9adafcc58bb"]	{"decimals":18,"name":"kernel","symbol":"KERNEL"}
+[4663,"0xe1159510804c2da37bfb18ea0d7bd15c78faa32f"]	{"decimals":18,"name":"mstrstock5-80-orders-lotsa-monitors","symbol":"MSTRSTOCK58"}
+[4663,"0xe14aa714e9834032200179d6f4b67db3dab82588"]	{"decimals":18,"name":"MinersRH","symbol":"GLD"}
+[4663,"0xe4da8354edc0e0927da1cc9dae0134841a71dba3"]	{"decimals":18,"name":"FLUX","symbol":"FLUX"}
+[4663,"0xe60f67329cab9e3b9aa5f09a8f46b2639bc96dc2"]	{"decimals":18,"name":"Sweep","symbol":"SWEEP"}
+[4663,"0xe7dec18b0b29c8e02fb90a5dce413b3bc66e8251"]	{"decimals":18,"name":"Stash","symbol":"STASH"}
+[4663,"0xe8eb024b703f21c483bf7f6cdf2d17f3856f1111"]	{"decimals":18,"name":"s9","symbol":"s9"}
+[4663,"0xe9770adbc96795e9e920d3860a7389c04861ec12"]	{"decimals":18,"name":"Hypotheca","symbol":"HYPO"}
+[4663,"0xeb650dd384ce301f02df90c98bab532159147741"]	{"decimals":18,"name":"Anchor Yield","symbol":"ANCR"}
+[4663,"0xeb73fa8bc45bc35dc4973fc863727e9a32a7a5ef"]	{"decimals":18,"name":"PALE","symbol":"PALE"}
+[4663,"0xed3c833cbf55ce7fadc90eca3f5f7e0c3e95de70"]	{"decimals":18,"name":"Sightline","symbol":"STLN"}
+[4663,"0xedb51558887cc193be97c3163d47306e38966435"]	{"decimals":18,"name":"NoMaD Wolf Clan","symbol":"NMD"}
+[4663,"0xedb58812217edfd4cf5570ccf1878fd5c7c60ba3"]	{"decimals":18,"name":"mstr10-1","symbol":"mstr10-1"}
+[4663,"0xf0b6959ac8b586be9e469969d52ea692ef1b368c"]	{"decimals":18,"name":"superdino","symbol":"SUPERDINO"}
+[4663,"0xf262be2da16fd346b884e32296d47f4b60220c84"]	{"decimals":18,"name":"simmstr1","symbol":"SIMMSTR1"}
+[4663,"0xf2915d1e3c1b0c769d0c756ec43f1c1f6c99cd03"]	{"decimals":18,"name":"Arrow","symbol":"ARROW"}
+[4663,"0xf2c3a3fd3d99ea35a1aef52eb2e23742c30a8cbf"]	{"decimals":18,"name":"ARMORY","symbol":"ARMORY"}
+[4663,"0xf4412a5d0fedbf146521e0d5b3ff5bbaa82d1111"]	{"decimals":18,"name":"Yarrow","symbol":"YARW"}
+[4663,"0xf471ab31542fa9cf513f6b8fc4c9fe2511892b70"]	{"decimals":18,"name":"crimson","symbol":"CRIMSON"}
+[4663,"0xf5982c219528a8b2aacea6a2666d06565232aaf2"]	{"decimals":18,"name":"SESTRA","symbol":"SESTRA"}
+[4663,"0xf6f707455777c3eafe5f28edb9b301acd7bd7c99"]	{"decimals":18,"name":"HOODIO","symbol":"HOODIO"}
+[4663,"0xfba627be1dfad59ac7cb638eea6cf9be4d157076"]	{"decimals":18,"name":"SYNOPSE","symbol":"SYNOPSE"}
+[4663,"0xfc39e99e78524d7c891669f70d5aa92ab1041eb6"]	{"decimals":18,"name":"Select","symbol":"SELECT"}
+[4663,"0xfce34d21a92069100e3226638140706cf03a266e"]	{"decimals":18,"name":"Goldstein","symbol":"GLDSTN"}
+[4663,"0xfd453d9bab9f807165cd3464ac6c9700ad9ee5cc"]	{"decimals":18,"name":"LONGCAT","symbol":"LONGCAT"}
+[4663,"0xfe177128df8d336caf99f787b72183d1e68ff9c2"]	{"decimals":18,"name":"MinePea","symbol":"PEA"}
+[4663,"0xfe2e976c743f7eaa5cf3b7e5234ace5d3f15c71b"]	{"decimals":18,"name":"MinersRH","symbol":"GOLD"}
+[4663,"0xfeb9d37d0eb3cc491035678e3122d1aee0bfcd1b"]	{"decimals":18,"name":"VECTRA","symbol":"VECTRA"}
+[4663,"0xfedc36ce22354853ab9c5f1215a28eff2c40731f"]	{"decimals":18,"name":"Test","symbol":"TST"}
 [8453,"0x00000000000007c8612ba63df8ddefd9e6077c97"]	{"decimals":18,"name":"NANI","symbol":"⌘"}
 [8453,"0x000000000000a59351f61b598e8da953b9e041ec"]	{"decimals":18,"name":"Gun Game Token","symbol":"GG"}
 [8453,"0x000096630066820566162c94874a776532705231"]	{"decimals":18,"name":"IDRISS","symbol":"IDRISS"}
@@ -1316,6 +1576,7 @@ id	output
 [8453,"0x037ad303239e730031dec544f317d9000104611c"]	{"decimals":18,"name":"TEST","symbol":"TEST"}
 [8453,"0x037b2bf01ce927945805f8079edfb8ebbb20b1ef"]	{"decimals":18,"name":"bankr","symbol":"BANKR"}
 [8453,"0x037dc75513aba6c759f4e0e5b6f1bdda1460b814"]	{"decimals":18,"name":"Noice GOLD","symbol":"NOGLD"}
+[8453,"0x037ddf73c3f688dfa3188bf989c4cb1111747e4e"]	{"decimals":18,"name":"Trustless","symbol":"TLS"}
 [8453,"0x037e0a4899869b681b5bfe28e4b4638c105e380c"]	{"decimals":18,"name":"PHAROSHUB","symbol":"PHAROSHUB"}
 [8453,"0x03808c031ca87eb47eb3cfd86a1f53b4e3327865"]	{"decimals":18,"name":"blaise","symbol":"BLAIS"}
 [8453,"0x03817a2f42d772a8fd185de5e123749e8ab8ef2f"]	{"decimals":18,"name":"Neymar","symbol":"NEYMAR"}
@@ -1475,6 +1736,7 @@ id	output
 [8453,"0x050d34e911f87c32873396fa6913c434f66b6763"]	{"decimals":18,"name":"Central","symbol":"CENTRAL"}
 [8453,"0x050d67b8f5f43b6c474ab1a47d0aaa4b8da1a4b5"]	{"decimals":18,"name":"Ehlon","symbol":"EHLON"}
 [8453,"0x050efa5750c8382a2f7b1f354f0d1878f60e6883"]	{"decimals":18,"name":"Keylessapi","symbol":"KEYLES"}
+[8453,"0x051024b653e8ec69e72693f776c41c2a9401fb07"]	{"decimals":18,"name":"BETRMINT","symbol":"BETR"}
 [8453,"0x0512db0f34ab47e5567f1620908e894f33a13675"]	{"decimals":18,"name":"blaise","symbol":"BLAIS"}
 [8453,"0x0513cd8109e156b5779bff5fb3fb3dd44e7eb5dd"]	{"decimals":18,"name":"nigger","symbol":"NIGGER"}
 [8453,"0x0514320fcb6d13c603dadd001ba54a852e2ddaef"]	{"decimals":18,"name":"blaise","symbol":"BLAIS"}
@@ -1655,6 +1917,7 @@ id	output
 [8453,"0x06c0b4b4068ab201601e78a6d615707a8e7e143e"]	{"decimals":18,"name":"","symbol":"CLAWSO"}
 [8453,"0x06c10053dcd9ddb89e4cf344d9651fa5b721ad39"]	{"decimals":18,"name":"Volatile AMM - WETH/OS","symbol":"vAMM-WETH/OS"}
 [8453,"0x06c201e86d6cf69281ebdbb76b39db0fed6ebe9e"]	{"decimals":18,"name":"Shadow art","symbol":"SDA"}
+[8453,"0x06c89b5fd70f3b266c022e6edd8b1debb4600a21"]	{"decimals":18,"name":"BlueBase","symbol":"BLB"}
 [8453,"0x06ca43fd4bc824ea10f163c58852ead682b84cf3"]	{"decimals":18,"name":"oracle","symbol":"ORACLE"}
 [8453,"0x06ca7e63e20ff61da8e2393253c84a2eb65a540c"]	{"decimals":18,"name":"NIRT","symbol":"NIRT"}
 [8453,"0x06cad2c255840afe9fb8a8cf09b4b337f8f028a2"]	{"decimals":18,"name":"Vance Lever","symbol":"VANCE"}
@@ -1807,6 +2070,7 @@ id	output
 [8453,"0x08490cb8d0cecb9783dd93547e56e33dffa8836a"]	{"decimals":18,"name":"opensea","symbol":"OPENSEA"}
 [8453,"0x084bfe7324c749fa9f6ab7b522a389e1a1d66bef"]	{"decimals":18,"name":"blaise","symbol":"BLAIS"}
 [8453,"0x084c1060b083947f5f1542df695ea8bd2c5a75e7"]	{"decimals":18,"name":"goyim","symbol":"GOYIM"}
+[8453,"0x08512bc3570d2e9015a60866d1f6941a31576ba3"]	{"decimals":18,"name":"SleuthAI","symbol":"Sleuth"}
 [8453,"0x0851b4843dffee0741540d22e08608ef7a7ffbc2"]	{"decimals":18,"name":"Pumpdotbase","symbol":"PDB"}
 [8453,"0x0852f19044357ab778503103a2b60b894c9a0d87"]	{"decimals":18,"name":"ChaosClaw","symbol":"CHAOSCLAW"}
 [8453,"0x08598a789900474f5010314fdd0bf3e3c109a5d1"]	{"decimals":18,"name":"Hellogram","symbol":"HGRM"}
@@ -2573,6 +2837,7 @@ id	output
 [8453,"0x12d6562196e278ca8ba07eeed62844048d187ed2"]	{"decimals":18,"name":"Internal Test","symbol":"TESTI"}
 [8453,"0x1398fb9109bbd034a7cae21bd1a2f45c50bbb85c"]	{"decimals":18,"name":"TEST100","symbol":"TEST1"}
 [8453,"0x13bbbcf561de3680dc9598aaa8e73cb84000f082"]	{"decimals":18,"name":"Dolphin Dave","symbol":"$DOLP"}
+[8453,"0x13ea1cbd6fe70bbd40a817eba940133fdb21cccc"]	{"decimals":18,"name":"Rerouter","symbol":"ROUTER"}
 [8453,"0x14252340bac9c568216be8d063d71041700619cd"]	{"decimals":18,"name":"Patchara","symbol":"PATCHA"}
 [8453,"0x14748915ad43d37e46ed98a632e7d04e66ea4863"]	{"decimals":18,"name":"Yuno Miles","symbol":"$YUNO"}
 [8453,"0x14ea29da4603688fcfbf3896a423ba4701c60077"]	{"decimals":18,"name":"007 TEST","symbol":"T007"}
@@ -2580,12 +2845,14 @@ id	output
 [8453,"0x15946b1b0a9dfa675c66b424e889dbb35fb6e6a5"]	{"decimals":18,"name":"Wayfinders","symbol":"WYFNDR"}
 [8453,"0x15b15fa54b629c634958e8bd639b2fc8af654974"]	{"decimals":18,"name":"Litebeam","symbol":"LBM"}
 [8453,"0x15d0ed42c99d565cc5c0768332773b1c4cda8e86"]	{"decimals":18,"name":"test","symbol":"TEST2"}
+[8453,"0x160735fa2d321f7e411697775d913af5b18f5d99"]	{"decimals":18,"name":"Ronin","symbol":"ONOWU"}
 [8453,"0x16332535e2c27da578bc2e82beb09ce9d3c8eb07"]	{"decimals":18,"name":"ClawBank","symbol":"ClawBank"}
 [8453,"0x1644077a8dd878f320f8fc73a5c94ad96da393fc"]	{"decimals":18,"name":"dtest","symbol":"DTEST"}
 [8453,"0x16bb5181537c340634e5023ccdee013758355509"]	{"decimals":18,"name":"Panth3on Launch 29","symbol":"P29"}
 [8453,"0x16eca4ce2ce038e9aae1e39abc423142937f9752"]	{"decimals":18,"name":"Volatile AMM - rbt/USDC","symbol":"vAMM-rbt/USDC"}
 [8453,"0x1700769f0edcdc3e7097864aae2246f65af244f0"]	{"decimals":18,"name":"Test","symbol":"TESST"}
 [8453,"0x17340e0c30223a6308ffd601e7ba8b78f15d9e0d"]	{"decimals":18,"name":"ai","symbol":"AI"}
+[8453,"0x177c78746f9c932ca2b6f792a7246f0b5a2377f9"]	{"decimals":18,"name":"Shiny Things","symbol":"SHINY"}
 [8453,"0x17926fa7f12dc45d2fb1f12d34e7f2d8d266d849"]	{"decimals":18,"name":"DynTest Eleven","symbol":"DT11"}
 [8453,"0x17ede5423b5f03def2079a39b993b4e8a4dc300d"]	{"decimals":18,"name":"guiyizhuan","symbol":"GYZ"}
 [8453,"0x17f4d0b1976e12a1c2e93229663ec15d625c34b6"]	{"decimals":18,"name":"Bond on Base","symbol":"BOND"}
@@ -2622,10 +2889,12 @@ id	output
 [8453,"0x1e34de28702a4a95a6ec0c1029c7590a7dc9a286"]	{"decimals":18,"name":"indi1","symbol":"INDI1"}
 [8453,"0x1e4039aa9c5f7ac78057750f8bf184791993a19d"]	{"decimals":18,"name":"Bobby Kertanegara","symbol":"BKAT"}
 [8453,"0x1e4f98f50fbc46f802073c1e7ebf44c48f447168"]	{"decimals":18,"name":"all good","symbol":"allgood"}
+[8453,"0x1ea8deb921aa6015f4938010c848140b98108dd2"]	{"decimals":18,"name":"vAPI Network","symbol":"vAPI"}
 [8453,"0x1f16e03c1a5908818f47f6ee7bb16690b40d0671"]	{"decimals":18,"name":"Recall","symbol":"RECALL"}
 [8453,"0x1f9532da06dfb414ed25ceaa999a4036a044ddee"]	{"decimals":18,"name":"Based Agents Genesis Token","symbol":"BAG"}
 [8453,"0x20275ea26acede56f9f683198df9a20f6ee1cde4"]	{"decimals":18,"name":"internal test 2","symbol":"IT2"}
 [8453,"0x202c76043c90c2de7931a5fbc244394302e9064f"]	{"decimals":18,"name":"ZK","symbol":"ZK"}
+[8453,"0x20ab774d23cd0121fd217b4c4046a5773a56fb07"]	{"decimals":18,"name":"Chaos Report","symbol":"CHAOS"}
 [8453,"0x20b425d3f40afc70be84afbe50891535bdf50c3a"]	{"decimals":18,"name":"MADED 4.99","symbol":"MADED"}
 [8453,"0x20d2044a0ae625b78c4347020e785806c573763a"]	{"decimals":18,"name":"Strong Me","symbol":"$STRONG"}
 [8453,"0x20d295c65e81bff59b47400943ae56eb6192f1a8"]	{"decimals":18,"name":"dontfadepantheon","symbol":"FADED"}
@@ -2634,6 +2903,7 @@ id	output
 [8453,"0x2148a7a27afe2f5d7b339985d9f00b2ebd580f62"]	{"decimals":18,"name":"TEST105","symbol":"TEST1"}
 [8453,"0x2183fbf134e12678d483ddf8aebfcb2154a3a039"]	{"decimals":18,"name":"Retire on Base","symbol":"$RETIRE"}
 [8453,"0x21f9a40b4d35090147a7ccc4134396fc5eec3feb"]	{"decimals":18,"name":"Dont Fade Pantheon","symbol":"Faded"}
+[8453,"0x2218b3908b2f33b75241397a26fb27383cd8b35c"]	{"decimals":18,"name":"DegenQuest Gold","symbol":"GOLD"}
 [8453,"0x221a8558846f4dc158d5dfd826d83bbe08f056a2"]	{"decimals":18,"name":"TEST56","symbol":"TEST5"}
 [8453,"0x2236e3be9c07a437a057f952d2f66f2462186561"]	{"decimals":18,"name":"NOVA","symbol":"NVA"}
 [8453,"0x2263214f657de024c2b43a9edd5044e966aff774"]	{"decimals":18,"name":"FF","symbol":"FF"}
@@ -2661,6 +2931,7 @@ id	output
 [8453,"0x2574dbdfb4d8cf63b30ff7d639ebf71f9660cbe4"]	{"decimals":18,"name":"Loaded","symbol":"LOAD"}
 [8453,"0x258d4e38fcd6169dddbd38939268fdd2474d36f2"]	{"decimals":18,"name":"I Understand It Now","symbol":"$STAND"}
 [8453,"0x25d1a1dffdc0e9e26d4a6d693f3e6fd5e1be0e83"]	{"decimals":18,"name":"HUNIN","symbol":"HUNIN"}
+[8453,"0x25e0a7767d03461eaf88b47cd9853722fe05dfd3"]	{"decimals":18,"name":"PoSciDonDAO Token","symbol":"SCI"}
 [8453,"0x25e1c298f100d7c600e9e44d46788c1ebbd4f69b"]	{"decimals":18,"name":"Pike Token","symbol":"P"}
 [8453,"0x261bbdc5f818e8418e3bf65a73c43af94a1a362a"]	{"decimals":18,"name":"ARARAAZUL","symbol":"ARAZ"}
 [8453,"0x26a40101cf98a970f8e3761984d94c7a53180223"]	{"decimals":18,"name":"Do you know DA WAE","symbol":"$DAWAE"}
@@ -2670,6 +2941,7 @@ id	output
 [8453,"0x2800f7bbdd38e84f38ef0a556705a62b5104e91b"]	{"decimals":18,"name":"Bet on Bangers","symbol":"BANGER"}
 [8453,"0x286d04aa8b82ac9699c000d80344862d46edab0a"]	{"decimals":18,"name":"NEW TEST","symbol":"NEW"}
 [8453,"0x2878cfc54aabdadd9bb5d70dd24d6b91485afba3"]	{"decimals":18,"name":"Polygraph litmus","symbol":"Polygraph"}
+[8453,"0x28b73a5c4efafb970a5c9adee3033e63de7d6bd2"]	{"decimals":18,"name":"Sovashi","symbol":"SOVA"}
 [8453,"0x28bc44f9754f590da1564c1a7ba35f8e1d1b134a"]	{"decimals":18,"name":"Blonde","symbol":"BLONDE"}
 [8453,"0x28e24db7ceec24aca96292641b44facecfa1d454"]	{"decimals":18,"name":"SRIJAN","symbol":"SRIJA"}
 [8453,"0x290cfc94dc1b5c6ea57e1a8bb8e9f32040af0bc3"]	{"decimals":18,"name":"Quantz","symbol":"$QUANTZ"}
@@ -2678,6 +2950,7 @@ id	output
 [8453,"0x29cc30f9d113b356ce408667aa6433589cecbdca"]	{"decimals":18,"name":"Elsa","symbol":"ELSA"}
 [8453,"0x2a1eb18a86cee9574a8bf91aabdcfc26c680ebe3"]	{"decimals":18,"name":"Am i A Joke","symbol":"$JOKE"}
 [8453,"0x2a24b9fab1bdaf4ba1c2fed5628cc050181a8c91"]	{"decimals":18,"name":"degen","symbol":"degen"}
+[8453,"0x2a358e8e0962c558f025c848a73b9d9cf1074eca"]	{"decimals":18,"name":"Crypto Strikers Token","symbol":"CST"}
 [8453,"0x2a3f48af62ce71c8829aa014c482b4bcff2b8975"]	{"decimals":9,"name":"Based Buster","symbol":"BSTR"}
 [8453,"0x2a5353c03bf9cf7acf5168f8a3320e904514261d"]	{"decimals":18,"name":"Crypto Crash","symbol":"$CRASH"}
 [8453,"0x2a5f5d2ae75a47ca64a2716b5c0d5ae85f6a8658"]	{"decimals":18,"name":"The Rock","symbol":"$ROCK"}
@@ -2698,6 +2971,7 @@ id	output
 [8453,"0x2e7df1528f4ea427f48b49ae8a1f78149db7185a"]	{"decimals":18,"name":"ProductClank","symbol":"PRO"}
 [8453,"0x2e8c7e7ac0741cd144d46912c9874d36b68da661"]	{"decimals":18,"name":"Fluff","symbol":"Fluff"}
 [8453,"0x2ef299a1a111257a9fc22f5bca119e85bcd2ccd5"]	{"decimals":18,"name":"S-TEST","symbol":"S-TES"}
+[8453,"0x2efac0a597a37050aafcf4bec627249d533dd9f8"]	{"decimals":18,"name":"Checkr","symbol":"$checkr"}
 [8453,"0x2efe2ee58445f548b3fc94862cea59b681cf5bee"]	{"decimals":18,"name":"Blob","symbol":"Blob"}
 [8453,"0x2f0cb88122aee9fe506c41229993f6993d8510bf"]	{"decimals":18,"name":"Base Apes","symbol":"$BAPES"}
 [8453,"0x2f3c9e0c8375b9ce12cee42726b49ad4c2d4d635"]	{"decimals":18,"name":"009 TEST","symbol":"T009"}
@@ -2722,8 +2996,10 @@ id	output
 [8453,"0x31e32a8ac96e8a067db90badaad9e9a072297250"]	{"decimals":18,"name":"Lion kove","symbol":"Lion"}
 [8453,"0x321725ee44cb4bfa544cf45a5a585b925d30a58c"]	{"decimals":18,"name":"ValleyDAO Token","symbol":"GROW"}
 [8453,"0x3236beca58f77452fc6c58f49c342c0b26e0dc00"]	{"decimals":18,"name":"what if","symbol":"if"}
+[8453,"0x323e74c31915db296b82b032f9665924f31efba3"]	{"decimals":18,"name":"ankydotapp","symbol":"ANKY"}
 [8453,"0x3242a605379083969934ab4554f88449b3ef9d47"]	{"decimals":18,"name":"LAMIA","symbol":"TOKEN"}
 [8453,"0x325385124ea6e1d43ff89891787e19cf7ef9b615"]	{"decimals":18,"name":"Sledge","symbol":"$SLED"}
+[8453,"0x3364ba9b21723985443a541a25ba3f1c074d0ba3"]	{"decimals":18,"name":"Try Basket","symbol":"BASKET"}
 [8453,"0x3489256febdb1dc930dc3743617ad387cd6d3568"]	{"decimals":18,"name":"GraphAI","symbol":"GAI"}
 [8453,"0x3498da076ce15452efe2f02dd4c2e7ddead2e95d"]	{"decimals":18,"name":"Mad Toad","symbol":"$GRUB"}
 [8453,"0x34baab917fe77d12b9d3c4c8bc065a91200b03e8"]	{"decimals":18,"name":"MIND","symbol":"MIND"}
@@ -2791,8 +3067,11 @@ id	output
 [8453,"0x431c248257c1d3897fea3b99eb8e2e4de008cbdf"]	{"decimals":18,"name":"Parifi","symbol":"PRF"}
 [8453,"0x436b0fe70c84402a531fd0989ceecf5caa80244c"]	{"decimals":18,"name":"Victorai by Virtuals","symbol":"VCTRAI"}
 [8453,"0x43d6d50ac2f70070a4bd3cbed4ea3710c48cc519"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[8453,"0x43dcd925bfc9844623ca9356d15d8f97ad566173"]	{"decimals":18,"name":"MapleFi","symbol":"MPFI"}
 [8453,"0x442a5a0ad1ed4627b43b439e14c38cb28ca30e50"]	{"decimals":18,"name":"dgsiqi","symbol":"dgsiqi"}
+[8453,"0x4493f9b45352981e3364c31106ceabc633893ba3"]	{"decimals":18,"name":"Flux","symbol":"FLUX"}
 [8453,"0x44c17effbfacee4e26c559414d22275eae9cc12b"]	{"decimals":18,"name":"\\"Buy and Cry\\" Coin","symbol":"$EMOJI"}
+[8453,"0x44c682798014ad6ab60b45685e88e38b73d76836"]	{"decimals":18,"name":"Prexora","symbol":"PRIX"}
 [8453,"0x456d45759103f0671e53ee12d7665e824eec61b0"]	{"decimals":18,"name":"Bad Hair Cut","symbol":"$BADCUT"}
 [8453,"0x4581252ed96d81302f00b2dca0f97b176d35ecfd"]	{"decimals":18,"name":"fun Mini Mega","symbol":"M3GA"}
 [8453,"0x45bc451818502c45b7e9f628b9e1a72247f891b5"]	{"decimals":18,"name":"Tren Finance Protocol Token","symbol":"TREN"}
@@ -2821,9 +3100,12 @@ id	output
 [8453,"0x4a3049a82abbdc03021dc3340cc3e0598ca61ab2"]	{"decimals":18,"name":"DYNTEST7","symbol":"DT7"}
 [8453,"0x4a32e2efd5ce11488d204bb1d715dadbfdf7faba"]	{"decimals":18,"name":"Polar Bear Hibernation","symbol":"$POLR"}
 [8453,"0x4a82401277ac7559f78ad7a2709f7fbe3eddbc26"]	{"decimals":18,"name":"TEST","symbol":"TEST"}
+[8453,"0x4a927f52bc32c298b2848549e2734ac2d5181fe1"]	{"decimals":18,"name":"SuperWorld","symbol":"SPWR"}
 [8453,"0x4a9bcc3d75d9c9d69ef26cd29a519fa49154da4c"]	{"decimals":18,"name":"DYNTEST10","symbol":"DT10"}
+[8453,"0x4a9da2831a691e7c4aca594cafd58c35e0131fd1"]	{"decimals":18,"name":"LUKO","symbol":"LUKO"}
 [8453,"0x4b69ea52f8cb02b53613fa1e24f2579176c44c57"]	{"decimals":18,"name":"fun Consigliere","symbol":"RAZZ"}
 [8453,"0x4bb8cf537c908a9a54e9f1236dc906d9afd9e416"]	{"decimals":18,"name":"TEST5","symbol":"TEST5"}
+[8453,"0x4bc12215fd6cb26bbfe1f2960ac025250fa0c6b5"]	{"decimals":18,"name":"Amberforge Token","symbol":"AMBR"}
 [8453,"0x4bfaa776991e85e5f8b1255461cbbd216cfc714f"]	{"decimals":18,"name":"Home","symbol":"HOME"}
 [8453,"0x4c7efedec321fb437b7c61e2acd8697769e98a76"]	{"decimals":18,"name":"FOX BETS AI by Virtuals","symbol":"FOX"}
 [8453,"0x4c95cd5b24cba798c56f9c3045975d7b24437415"]	{"decimals":18,"name":"","symbol":"SAMS"}
@@ -2862,6 +3144,7 @@ id	output
 [8453,"0x536df4a570a58497b438c18fc0a85744a95d3f65"]	{"decimals":18,"name":"lcktest","symbol":"ltst"}
 [8453,"0x538344444a95e5f576ab9ddb081b4feb595ae2a5"]	{"decimals":18,"name":"Green Phil","symbol":"$PHIL"}
 [8453,"0x53a74c814b41737be0ae45ff00abac349571dbcc"]	{"decimals":18,"name":"Squid Game 2","symbol":"$SKUID"}
+[8453,"0x53ba2ffbd5c6a7829853b89b3c3531fe56e39a99"]	{"decimals":18,"name":"Stoshi","symbol":"STOSHI"}
 [8453,"0x53f8bb79fdaa7554b08d9a175f11979faf03345d"]	{"decimals":18,"name":"BAGATATA","symbol":"$TATA"}
 [8453,"0x5443d17b4d1438854dd514049fbe4a8a91ff0300"]	{"decimals":18,"name":"Samoyed Serenity","symbol":"$SAMO"}
 [8453,"0x54bcf00b0507aa691449847ab8d0ce5c4b551c27"]	{"decimals":18,"name":"cbsaner","symbol":"CBSE"}
@@ -2876,6 +3159,7 @@ id	output
 [8453,"0x557e8f1cd9fb4e9dfeca817b15b737328d90821a"]	{"decimals":18,"name":"TRANSMUTE ORACLE","symbol":"TRANSMUTE"}
 [8453,"0x5597ce42b315f29e42071d231dcd0158da35b77b"]	{"decimals":18,"name":"Kendu Inu","symbol":"KENDU"}
 [8453,"0x559e67b53da37a579af7859d0f9402bef8d70750"]	{"decimals":18,"name":"Golden Hour Gains","symbol":"$DOGE"}
+[8453,"0x55ab7447f95159dcf732c02c9d04cc61d9720606"]	{"decimals":18,"name":"OK","symbol":"OK"}
 [8453,"0x55e3f1133bc5a9eacfd54bdf5357dae8ea0541f2"]	{"decimals":18,"name":"RAGE GUY","symbol":"RAGE"}
 [8453,"0x561df972518bfadeb4dbdf1167153d9436b14b59"]	{"decimals":18,"name":"Maded 4.7","symbol":"MADED"}
 [8453,"0x563779c9aae23b866fce4cc6ef240f6bb432cd10"]	{"decimals":18,"name":"Open Source","symbol":"OS"}
@@ -2916,6 +3200,7 @@ id	output
 [8453,"0x5cd7773262fb63fe14818f12d4a56fdf03c9ec66"]	{"decimals":18,"name":"testing ff","symbol":"FGSDF"}
 [8453,"0x5cf6f61cd575e658ab903d8b5fdb3484fb79be4d"]	{"decimals":18,"name":"Dramatic Dogs, Dramatic","symbol":"$KLEE"}
 [8453,"0x5d5516d1711bc65d94e4bbc07f91110cd0a09232"]	{"decimals":18,"name":"GG","symbol":"GG"}
+[8453,"0x5daf95280e6a1635a199380a10d2a970d4b50a34"]	{"decimals":18,"name":"Responsible Bindage Minutes","symbol":"XBM"}
 [8453,"0x5e308f622559d8ae2985dd8a10ade9f390444b07"]	{"decimals":18,"name":"FarTapp","symbol":"Tapp"}
 [8453,"0x5e7190dbe8694810b369f3ecf322133f93672bca"]	{"decimals":18,"name":"Art the Clown","symbol":"$ART"}
 [8453,"0x5e9a7ec3493f8bf5f205633825f8cf20fbe5020e"]	{"decimals":18,"name":"LSD Frog","symbol":"$LSDF"}
@@ -2927,6 +3212,7 @@ id	output
 [8453,"0x60055099734c0f122e467eb564a8101ac60a689d"]	{"decimals":9,"name":"DPEPETOKEN","symbol":"PEPETOKEN"}
 [8453,"0x601a9f9538699c19dc7246dd7f6852d59d3a7925"]	{"decimals":18,"name":"AikaVerse","symbol":"AIKA"}
 [8453,"0x60359a0dd148b18d5cf1ddf8aa1916221ed0cbcd"]	{"decimals":18,"name":"NetherFi","symbol":"NFI"}
+[8453,"0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42"]	{"decimals":6,"name":"EURC","symbol":"EURC"}
 [8453,"0x60a5f4ddf7fcdf202e6da458e106497dfe194636"]	{"decimals":18,"name":"ezfangyuan","symbol":"EZFY"}
 [8453,"0x60c878d639593d3a2752182ac602ba7a4f5fdf02"]	{"decimals":18,"name":"Dæmons","symbol":"DMN"}
 [8453,"0x611e5bd245960a1f198cdc319a8fc96ccfe182ac"]	{"decimals":18,"name":"SIRENBROS","symbol":"$SIREN"}
@@ -2948,6 +3234,7 @@ id	output
 [8453,"0x645c64bd13fbbbecc605710b0405d5b32b5e8b59"]	{"decimals":18,"name":"CowDeeng","symbol":"COWDEENG"}
 [8453,"0x64712fbdf19ae8b5b3b6d0478750e3d5e1a17718"]	{"decimals":18,"name":"Waveform by Virtuals","symbol":"WAVE"}
 [8453,"0x649c78b3115df77903421ac798e149f3b5da24a4"]	{"decimals":18,"name":"WE LOVE PINOY","symbol":"PINOY"}
+[8453,"0x64cc19a52f4d631ef5be07947caba14ae00c52eb"]	{"decimals":18,"name":"Kibble","symbol":"KIBBLE"}
 [8453,"0x64db7389566522bdafa957046dcde889135e59b3"]	{"decimals":18,"name":"Lion kove","symbol":"Lion"}
 [8453,"0x64f2e71a08d49f2fecc93840693e5c7a69d4fe7f"]	{"decimals":18,"name":"fun Token Terminal","symbol":"TT"}
 [8453,"0x64fcc3a02eeeba05ef701b7eed066c6ebd5d4e51"]	{"decimals":18,"name":"Spectra Token","symbol":"SPECTRA"}
@@ -2978,6 +3265,7 @@ id	output
 [8453,"0x6b2504a03ca4d43d0d73776f6ad46dab2f2a4cfd"]	{"decimals":18,"name":"Unit 00 - Rei","symbol":"REI"}
 [8453,"0x6b52969fd5f2a48eed82709bdb3a761aed524933"]	{"decimals":18,"name":"Screaming Camel","symbol":"$CAMEL"}
 [8453,"0x6b9fbe36208997f39714e17b1099ea8c5e33f3d3"]	{"decimals":18,"name":"Sentinel","symbol":"SAFE"}
+[8453,"0x6bd24bbe3d7ff4a354ec45aeb92c2cbe7301589c"]	{"decimals":18,"name":"TESTYUP","symbol":"TUP"}
 [8453,"0x6c72189aea5a1f3edae3e05706d3cda39f3c5b4d"]	{"decimals":18,"name":"DYNTEST6","symbol":"DT6"}
 [8453,"0x6c8c8e945c2ccb997b88259b2890ba95f740debe"]	{"decimals":18,"name":"NuSHA by Virtuals","symbol":"AISPACE"}
 [8453,"0x6cd44987ca1b3a03b61dd36f57b13062b737c106"]	{"decimals":18,"name":"TEST7","symbol":"TEST7"}
@@ -2995,6 +3283,7 @@ id	output
 [8453,"0x6ede0b65766b9029e761bc8d704487f70f2b8bc6"]	{"decimals":18,"name":"Karl Marx","symbol":"MARX"}
 [8453,"0x6f1a42f5347c0b7b09347c90949eab6930ea97ab"]	{"decimals":18,"name":"MISSME","symbol":"MISSME"}
 [8453,"0x6f4dfde50ec25159f4e408d5cfd7e8a85168e3f0"]	{"decimals":18,"name":"Staked Dolphin","symbol":"sDPHN"}
+[8453,"0x6fab1bd451707577e2703492b2284da7cbf4abd7"]	{"decimals":18,"name":"Crypto Grit","symbol":"GRIT"}
 [8453,"0x6fc369d15381a168807c6e5bb82d47507e3da7f7"]	{"decimals":18,"name":"Ftech","symbol":"Ftech"}
 [8453,"0x7107a9258884e5ab037960c71ec362ad2dd9a329"]	{"decimals":18,"name":"Quartz Ridge","symbol":"Quartz"}
 [8453,"0x71848f44c10ab56fa97659114ef998b063040bc4"]	{"decimals":18,"name":"fun VirtualyVii","symbol":"VII"}
@@ -3059,6 +3348,7 @@ id	output
 [8453,"0x7e509d8a25d0c06e53f1f0ef1944225f39892b3e"]	{"decimals":18,"name":"baba","symbol":"BA"}
 [8453,"0x7e61c934de6c5aee31697b2f2940f37d7a74c4de"]	{"decimals":18,"name":"Rice Bowl","symbol":"RICE"}
 [8453,"0x7e7ddbce106029942b1c07e6483f63f0fc1f34cb"]	{"decimals":18,"name":"sanshi","symbol":"sanshi"}
+[8453,"0x7ed4b2dd49cf656a428283415907a4350747ebf2"]	{"decimals":18,"name":"0x_Samir","symbol":"SAMIR"}
 [8453,"0x7f15e233f1f31a32bfa146c9a3670550ee5d6f76"]	{"decimals":18,"name":"fun Yuga AI","symbol":"YUGA"}
 [8453,"0x7f6f8bb1aa8206921e80ab6abf1ac5737e39ab07"]	{"decimals":18,"name":"machines-cash","symbol":"MACHINES"}
 [8453,"0x7f7fd07cad64ce8493af7f084fe086548324beaf"]	{"decimals":18,"name":"VV","symbol":"VV"}
@@ -3067,6 +3357,7 @@ id	output
 [8453,"0x8026e831ebb4e2a88c0a9c0cac3d6ea5b76b43d5"]	{"decimals":18,"name":"Poireau","symbol":"POI"}
 [8453,"0x806b6f3d576744c6b05088e4e49e3aadbca110cc"]	{"decimals":18,"name":"Charlie","symbol":"CHARLIE"}
 [8453,"0x8070b5e222f1ec077845e46ced2267e0def4cba3"]	{"decimals":18,"name":"Protean","symbol":"PRTN"}
+[8453,"0x80ded22d9c6487181ed74d0222add805815e8df4"]	{"decimals":18,"name":"Cybercentry by Virtuals","symbol":"CENTRY"}
 [8453,"0x80f6bcedd3d4fa1035285affa30e38f464db3895"]	{"decimals":18,"name":"BetBase","symbol":"BET"}
 [8453,"0x81355d8bc88c72915c6abf9aef6c7c346f7c8bab"]	{"decimals":18,"name":"SHREK","symbol":"$SHREK"}
 [8453,"0x815269d17c10f0f3df7249370e0c1b9efe781aa8"]	{"decimals":18,"name":"SANTA by Virtuals","symbol":"SANTA"}
@@ -3095,6 +3386,7 @@ id	output
 [8453,"0x870d1803057b8500cd3f15bc78102113576ecacd"]	{"decimals":18,"name":"It will see","symbol":"$STARE"}
 [8453,"0x8738f41d006dc96beec0bf1e0675573903c8a523"]	{"decimals":18,"name":"Crazy Frog","symbol":"$CROG"}
 [8453,"0x87b319f5cca3854d79e5fad6149320dddcc86d02"]	{"decimals":18,"name":"TEST9","symbol":"T"}
+[8453,"0x87ca84ed60c50af6f2aa90198cc2ac0b07913878"]	{"decimals":18,"name":"Murmur","symbol":"MURM"}
 [8453,"0x87fa440fc6656440697253b2baa1a9c34646dd5a"]	{"decimals":18,"name":"test escrow 1","symbol":"TKPT1"}
 [8453,"0x8801276df424419d358215896e2ef475207a9bae"]	{"decimals":18,"name":"fun ai6ix9ine","symbol":"AI6IX9"}
 [8453,"0x880b08a860715725557dccce2cbcf2f8e3c4179a"]	{"decimals":18,"name":"Glazed Donut","symbol":"$GLAZED"}
@@ -3136,6 +3428,7 @@ id	output
 [8453,"0x8fb64903b077f658a12e3dd5ca325558df472e90"]	{"decimals":18,"name":"ind","symbol":"IND"}
 [8453,"0x8fb7d54ebe46151ba40d3edd917d6da3883bd1f6"]	{"decimals":18,"name":"BTCmoon","symbol":"BTCM"}
 [8453,"0x9021c6ca4d4c995fd39fcd4bb7d6fee92cc2b379"]	{"decimals":18,"name":"ZTEST","symbol":"ZTEST"}
+[8453,"0x9023d3d3e923d3870c35ac3dbda1f0aa1202b6fb"]	{"decimals":18,"name":"Test D","symbol":"TDD"}
 [8453,"0x902dd9986b17ffdc8177e2576af7223205fca9e1"]	{"decimals":18,"name":"HEDG FUND AI","symbol":"HEDG"}
 [8453,"0x9055574fe16cc44da4ab419d7e15035c65334cf8"]	{"decimals":18,"name":"MAXICOIN","symbol":"MAXI"}
 [8453,"0x905d9873a2726c51099a4a401a06dedcba098b96"]	{"decimals":18,"name":"Red Light Green Light","symbol":"$RLGL"}
@@ -3199,6 +3492,7 @@ id	output
 [8453,"0x9c038fd801394cb743a6674480019f275d658b72"]	{"decimals":18,"name":"Magicaltux","symbol":"$TUX"}
 [8453,"0x9c1ef902592553f521d8bc6164f7c1c51a28738d"]	{"decimals":18,"name":"test","symbol":"TEST"}
 [8453,"0x9c41b69746315f13b97a89c691cb6a56d7c64362"]	{"decimals":18,"name":"spravne","symbol":"SPR"}
+[8453,"0x9c41c64e6699f2e8d1c599f31469c75831f0cd7b"]	{"decimals":18,"name":"VELTR","symbol":"VLTR"}
 [8453,"0x9cb41fd9dc6891bae8187029461bfaadf6cc0c69"]	{"decimals":18,"name":"noice","symbol":"noice"}
 [8453,"0x9cf9603aa39fc980732b437db0fc3672661eba57"]	{"decimals":18,"name":"Tech Support Coin","symbol":"$HELP"}
 [8453,"0x9d56c29e820dd13b0580b185d0e0dc301d27581d"]	{"decimals":18,"name":"Aubrai by Bio","symbol":"AUBRAI"}
@@ -3223,6 +3517,7 @@ id	output
 [8453,"0xa0aebd4ae5f256b72b7d43f67ed934237adb1aee"]	{"decimals":18,"name":"BONSAI COIN","symbol":"BONSAICOIN"}
 [8453,"0xa169ddc9c95e260142d2e23599ccb8bf77416324"]	{"decimals":18,"name":"POC Token 3","symbol":"POC"}
 [8453,"0xa1832f7f4e534ae557f9b5ab76de54b1873e498b"]	{"decimals":18,"name":"CreatorBid","symbol":"BID"}
+[8453,"0xa190336d9757687d2349941ced50e71afcaed90e"]	{"decimals":18,"name":"QA Token","symbol":"QAT"}
 [8453,"0xa1d57c4fb12cc2af71fa9d62bbe296407da2d466"]	{"decimals":18,"name":"CYBERTRUCK","symbol":"$CYBERTRUCK"}
 [8453,"0xa29010934ea15591f9dc5e9e3e1679278995c902"]	{"decimals":9,"name":"Pink Iguana","symbol":"Pigu"}
 [8453,"0xa29fded9ea095e38a3ec0495eee7077a4fffe279"]	{"decimals":18,"name":"Tokenized Electric Susta","symbol":"$TESLA"}
@@ -3259,6 +3554,7 @@ id	output
 [8453,"0xa80768509a3e89bc8d35901b6507d9cbb7b0613e"]	{"decimals":18,"name":"OG","symbol":"OG"}
 [8453,"0xa812753252cae6a48970fd761a7225c2f3819a85"]	{"decimals":18,"name":"BaseHaven","symbol":"$Haven"}
 [8453,"0xa82138d538cf6e465d0b6915b0d072b1e6910f7d"]	{"decimals":18,"name":"Cobot","symbol":"COBOT"}
+[8453,"0xa85fae354a9e79910e5d726e8a8f9fc02bdeb5fe"]	{"decimals":18,"name":"WordAbstractor","symbol":"$WORD"}
 [8453,"0xa88594d404727625a9437c3f886c7643872296ae"]	{"decimals":18,"name":"WELL","symbol":"WELL"}
 [8453,"0xa896b1b6ef08d80c7e1386077e0a73ed27394d87"]	{"decimals":18,"name":"OPTIMUS","symbol":"$OPTIMUS"}
 [8453,"0xa8b4a2a899ab41be42aa94260367f7e7ca43d9af"]	{"decimals":18,"name":"WAGMI","symbol":"$WAGMI"}
@@ -3273,6 +3569,7 @@ id	output
 [8453,"0xaaa843fb2916c0b57454270418e121c626402aaa"]	{"decimals":18,"name":"Arcadia","symbol":"AAA"}
 [8453,"0xaaa9a3bc81fe7951fe0c3755837b40749ce0c894"]	{"decimals":18,"name":"Legend by Virtuals","symbol":"LEGEND"}
 [8453,"0xaadd98ad4660008c917c6fe7286bc54b2eef894d"]	{"decimals":18,"name":"CLONES","symbol":"CLONES"}
+[8453,"0xaaed08c65759c25ffa0dcfb0eec4eeb9b7afb356"]	{"decimals":18,"name":"Snitch","symbol":"SNITCH"}
 [8453,"0xaaef0979696bbf7f0a2db68351b77b30cc095815"]	{"decimals":18,"name":"TOKOPS","symbol":"TOKOPS"}
 [8453,"0xab0185607aa79054672fc72efcc2edd176796834"]	{"decimals":18,"name":"fun A.R.C","symbol":"ARC"}
 [8453,"0xab28b59e84827fa482dcc8dc7f4f3f958e0ab121"]	{"decimals":18,"name":"Gingerbreadman","symbol":"$COOKIE"}
@@ -3311,6 +3608,7 @@ id	output
 [8453,"0xb0e92abaf203984c6a6ff09927668b7717182a58"]	{"decimals":18,"name":"1Month","symbol":"1Month"}
 [8453,"0xb13dfd424aff15f7cc7a01094968009cd5854cff"]	{"decimals":18,"name":"TEST8","symbol":"T"}
 [8453,"0xb1a03eda10342529bbf8eb700a06c60441fef25d"]	{"decimals":18,"name":"Mister Miggles","symbol":"MIGGLES"}
+[8453,"0xb2000000000000000000003a2dbd664940442c5b"]	{"decimals":18,"name":"CTB20 Revenue","symbol":"CTB20"}
 [8453,"0xb2090ac93fd38f161d6851793c48414b3345c959"]	{"decimals":18,"name":"Sentinel","symbol":"Sentinel"}
 [8453,"0xb211dc27359c345d9af7d94ab756cea2cad58d15"]	{"decimals":18,"name":"AWOO CAT","symbol":"$AWOO"}
 [8453,"0xb2499fbb4dd76cd55169a6aa83caa3cf5be3bfc0"]	{"decimals":18,"name":"NN","symbol":"NN"}
@@ -3318,6 +3616,7 @@ id	output
 [8453,"0xb29c82c678275c6ab221af3e689beb69db8d3048"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [8453,"0xb300f46272d163372448c838cb95b71dee3c3185"]	{"decimals":18,"name":"JESUS","symbol":"JESUS"}
 [8453,"0xb33ff54b9f7242ef1593d2c9bcd8f9df46c77935"]	{"decimals":18,"name":"FAI","symbol":"FAI"}
+[8453,"0xb35924f760550feeeaaa7620eb756fdcf77d1bf2"]	{"decimals":18,"name":"WordAbstractor","symbol":"WORD"}
 [8453,"0xb3621cd34803cf7065dcb0d5bfb0f56c1834a063"]	{"decimals":18,"name":"DeFi Agents AI Token","symbol":"DEFAI"}
 [8453,"0xb3f7770310df49b359605ef69bc233d3aac634b1"]	{"decimals":18,"name":"Bimbo the Big Titty Squi","symbol":"$BIMBO"}
 [8453,"0xb459a8f795834a9bfb5e32b677222b2bfe0abede"]	{"decimals":18,"name":"TES55","symbol":"TES55"}
@@ -3356,6 +3655,7 @@ id	output
 [8453,"0xbabb26a026b1dc4c6af00eea1b9dbf171caff228"]	{"decimals":18,"name":"TEST8","symbol":"TEST8"}
 [8453,"0xbb2a93afcf5d3af8ae28dd50d6c18556ea532c5a"]	{"decimals":18,"name":"Sage Market","symbol":"SAGE"}
 [8453,"0xbb488786e232e636a7e23a0c06bbd236ed7b2f29"]	{"decimals":18,"name":"DeePilot","symbol":"DeePilot"}
+[8453,"0xbb559349f8db9104b7843b1707a5b47ae43d8cfc"]	{"decimals":18,"name":"TEST SWAP","symbol":"TSWAP"}
 [8453,"0xbb70c1d4ae59a1872bb230e22b2d49f7ec85c991"]	{"decimals":18,"name":"cgsanqi","symbol":"CGSQ"}
 [8453,"0xbb9867d9ef9efdc818518003edd3b629e424e574"]	{"decimals":6,"name":"FedNow USD","symbol":"USDf"}
 [8453,"0xbc86a1897429b2e60b7a68660e412ae6fd14b85a"]	{"decimals":18,"name":"internal test","symbol":"TEST"}
@@ -3395,6 +3695,7 @@ id	output
 [8453,"0xc44141a684f6aa4e36cd9264ab55550b03c88643"]	{"decimals":18,"name":"Ethy AI by Virtuals","symbol":"ETHY"}
 [8453,"0xc46d23b5ccd86fc37cca478caefcd61dc94e5cb0"]	{"decimals":18,"name":"bab","symbol":"BAB"}
 [8453,"0xc48823ec67720a04a9dfd8c7d109b2c3d6622094"]	{"decimals":18,"name":"Metacade","symbol":"MCADE"}
+[8453,"0xc4db7f7571d9c58be83e1a7c6ed6114cdb907a68"]	{"decimals":18,"name":"KORVANE","symbol":"KRV"}
 [8453,"0xc4f6f93e0fb50b75a050f458035475a4ef30ffee"]	{"decimals":18,"name":"Fun","symbol":"Fun"}
 [8453,"0xc4f9aa228e1c996c6e713dbe22db9f57f3c2b7ca"]	{"decimals":18,"name":"test","symbol":"TEST3"}
 [8453,"0xc598d5466a81dd21b7bd671f515757b90f6165d1"]	{"decimals":18,"name":"Atharon","symbol":"COIN"}
@@ -3433,6 +3734,7 @@ id	output
 [8453,"0xcc1dff22466f3b2d26425535ed67a902ecb0c09b"]	{"decimals":18,"name":"Mobee Token","symbol":"MBE"}
 [8453,"0xcc9f55222d17b1a5c903318a733ef6a611fe018e"]	{"decimals":18,"name":"internal testing","symbol":"TEST"}
 [8453,"0xccf0f9d9cb01ad552d1cfa79e5a27adc0a3c61f3"]	{"decimals":18,"name":"fun algorithmic","symbol":"ALGO"}
+[8453,"0xccf3534624fb57eaa0536a8b570c2a34dda501f9"]	{"decimals":18,"name":"TQ | SAUCE Anichess","symbol":"SAUCE"}
 [8453,"0xcd0a42d5243b80d20bc9612e5d70d30c0410bd58"]	{"decimals":18,"name":"Raul Cat","symbol":"$RAUL"}
 [8453,"0xcd4ea30f34555d4497ccd2873890ad0ed4bb8a01"]	{"decimals":18,"name":"Ketchup","symbol":"$KETCHUP"}
 [8453,"0xcd58723d47a4a74f32ce7cfbbd07ff5fb8bf6d59"]	{"decimals":18,"name":"TESTP","symbol":"TESTP"}
@@ -3444,6 +3746,7 @@ id	output
 [8453,"0xcde90558fc317c69580deeaf3efc509428df9080"]	{"decimals":18,"name":"Normilio","symbol":"NORMILIO"}
 [8453,"0xce1eab31756a48915b7e7bb79c589835aac6242d"]	{"decimals":18,"name":"Gigabrain by Virtuals","symbol":"BRAIN"}
 [8453,"0xce22767822feacc3a37ee54352b02c0910b228bf"]	{"decimals":18,"name":"asdad by Virtuals","symbol":"ASDDAS"}
+[8453,"0xce2b4ef859a2b57407b8cd5ee5e4209a510dddf3"]	{"decimals":18,"name":"BDW Reserve","symbol":"BDW"}
 [8453,"0xce788ec15914de6b3fc1f9904dc0a7c4badaa226"]	{"decimals":18,"name":"Eternix","symbol":"EEIX"}
 [8453,"0xce7e7a83f593b4d862b4c24d34c3bc895e63d793"]	{"decimals":18,"name":"COMFRaCE","symbol":"COMFRACE"}
 [8453,"0xcec8e0422dee23cabcdda73b2547a1339051af16"]	{"decimals":18,"name":"internaltest2","symbol":"TST3"}
@@ -3460,6 +3763,7 @@ id	output
 [8453,"0xd064c53f043d5aee2ac9503b13ee012bf2def1d0"]	{"decimals":18,"name":"DeFido","symbol":"DEFIDO"}
 [8453,"0xd080ed3c74a20250a2c9821885203034acd2d5ae"]	{"decimals":18,"name":"ZyFAI","symbol":"ZFI"}
 [8453,"0xd0ab84a7f4ac7fb02117a6935ca9c3d6adcfa424"]	{"decimals":18,"name":"Nailong","symbol":"$NAILONG"}
+[8453,"0xd0c3e8b124d2fefbeecaa003ec34f8ea71579b07"]	{"decimals":18,"name":"EVERGREEN","symbol":"EVE"}
 [8453,"0xd0fdfbf70cbb2bdde226422be5417e84c8791a51"]	{"decimals":18,"name":"Hope Core","symbol":"$HOPE"}
 [8453,"0xd1217ac5d037805eb044a7eeb9a97ce2ec682687"]	{"decimals":18,"name":"HIHI","symbol":"$HIHI"}
 [8453,"0xd1ab275e0b9798ae324c79c7133def6631426a2c"]	{"decimals":18,"name":"Zoof Wallet by Virtuals","symbol":"ZOOF"}
@@ -3478,6 +3782,7 @@ id	output
 [8453,"0xd477063f33f295eaa0517ce867e974e33aad84f8"]	{"decimals":18,"name":"Launch 45","symbol":"P45"}
 [8453,"0xd50072dfc2035e728b8f0b7fd01501ccf8e1c497"]	{"decimals":18,"name":"AVA","symbol":"$AVA"}
 [8453,"0xd560f7da6786614db8641db1a554ce07362aeed5"]	{"decimals":18,"name":"Awesome token","symbol":"AWESOME"}
+[8453,"0xd5a09d20652b58872a2e0f302de6ad2326db3b84"]	{"decimals":18,"name":"GachaPad","symbol":"GACHA"}
 [8453,"0xd5ab739f33bbaa000ba56c974a97a96758513986"]	{"decimals":18,"name":"Blockchainism Labs DAO","symbol":"BLDAO"}
 [8453,"0xd6267efe1a46ac5d5715b8a3a05aecca74e3176d"]	{"decimals":18,"name":"internal test","symbol":"TEST"}
 [8453,"0xd6346eac2895c19b4572f237e54221727022ea5a"]	{"decimals":18,"name":"ZZ","symbol":"ZZ"}
@@ -3494,6 +3799,7 @@ id	output
 [8453,"0xd82186b89d6c2dc289e4b5864aad388fb8fdf63a"]	{"decimals":18,"name":"Mock AZ Token","symbol":"AZ"}
 [8453,"0xd830cab9f54618a111aa1197d480885e8aa9f289"]	{"decimals":18,"name":"BigWil","symbol":"BWIL"}
 [8453,"0xd88fd4a11255e51f64f78b4a7d74456325c2d8dc"]	{"decimals":18,"name":"BitVault Signal","symbol":"BV7X"}
+[8453,"0xd93c521d39ee255bcc3cc9b6269e380fc08e022a"]	{"decimals":18,"name":"Syncrate Token","symbol":"SYNC"}
 [8453,"0xd952609986db2be3be7e3d288d7b1255c0098f6e"]	{"decimals":18,"name":"CLIPPER","symbol":"CLIPPR"}
 [8453,"0xd97f1d21a4aff9fbd50cfb627a9a196f0019eab9"]	{"decimals":18,"name":"Kumala Savesta","symbol":"$KUMALA"}
 [8453,"0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca"]	{"decimals":6,"name":"USD Base Coin","symbol":"USDbC"}
@@ -3533,6 +3839,7 @@ id	output
 [8453,"0xe1b1c343da6bcbd51bd47befd8d16c1843afde12"]	{"decimals":18,"name":"Central Park Drama","symbol":"$NYCPARK"}
 [8453,"0xe1bfa25468af64e366ddafc9d91bcc6c97439a14"]	{"decimals":18,"name":"Mirror Token","symbol":"MIRROR"}
 [8453,"0xe205faacc488163ecd0b83996aaeec69e00866c0"]	{"decimals":18,"name":"name","symbol":"TKN"}
+[8453,"0xe23fc76e1a20da97d21ec5e2ed30538f3aef4824"]	{"decimals":18,"name":"Acme Space ORBIP","symbol":"ORBIP"}
 [8453,"0xe2682338c0ae3e2a5cad10d3cff4441651c0469a"]	{"decimals":18,"name":"Internal Test","symbol":"ITEST"}
 [8453,"0xe271505414ed9a3ad1d3f5fc22d5824490798e5e"]	{"decimals":18,"name":"blah","symbol":"BLAH"}
 [8453,"0xe28e0526218cee4793c5112120f6a9a0eb017beb"]	{"decimals":18,"name":"Blind Faith","symbol":"$BLND"}
@@ -3540,6 +3847,7 @@ id	output
 [8453,"0xe2dd2c8e0bbede1ec8718ddd2a540e932cf81237"]	{"decimals":18,"name":"another test","symbol":"ATEST"}
 [8453,"0xe2f3fae4bc62e21826018364aa30ae45d430bb07"]	{"decimals":18,"name":"AntiHunter","symbol":"AntiHunter"}
 [8453,"0xe30cfcca7c83e79a1e151a4cd9304626e72f1cd3"]	{"decimals":18,"name":"MADED 4","symbol":"MADED"}
+[8453,"0xe31700c6bd46638d207991fb5cc5c0dad3d1e3da"]	{"decimals":18,"name":"Ratehopper AI","symbol":"ROO"}
 [8453,"0xe35a903807c6c22e69bdba0eba96d1a6b49aa433"]	{"decimals":18,"name":"Internal Test","symbol":"TESTF"}
 [8453,"0xe38fe5bedb96b808ed4c98a88c240c158b26d91a"]	{"decimals":18,"name":"Violet","symbol":"$VIOLET"}
 [8453,"0xe399fe2ce6d2fdc0ad41df5db203b55ef43cbe7f"]	{"decimals":18,"name":"Chainspin","symbol":"SPIN"}
@@ -3567,7 +3875,9 @@ id	output
 [8453,"0xe95bac561375126d42d4df8580076e74d9475f60"]	{"decimals":18,"name":"Sweeping Racoon","symbol":"$SWEEP"}
 [8453,"0xe9908e0d144f0e817d7459a34f69ce4e7808a099"]	{"decimals":18,"name":"lilele","symbol":"LLL"}
 [8453,"0xea48ca359666767c2869fa16d7f75dcedad2694b"]	{"decimals":18,"name":"\\"Late to the Party\\" Coin","symbol":"$FOMO3"}
+[8453,"0xeaa6795a443bbac36db850ea0b5d1aaa21c74ebb"]	{"decimals":18,"name":"INC","symbol":"INC"}
 [8453,"0xeab5df15c98d72da44bde1fa8a6247003ef6145c"]	{"decimals":18,"name":"ErissAI","symbol":"EAI"}
+[8453,"0xeabcf419f768cacec93db1e39fe3870a64de91e5"]	{"decimals":18,"name":"Starfish","symbol":"STARFISH"}
 [8453,"0xeada4d5535c46bd25077da6a175dcd606d2a1225"]	{"decimals":18,"name":"Dads Gone Crypto","symbol":"DGC"}
 [8453,"0xeaf1471585c3e202b6caa1ac2484951f78b7410e"]	{"decimals":18,"name":"Praxus","symbol":"PRAX"}
 [8453,"0xeaf9046fab29b3d3648344b7b84c2034dfa09678"]	{"decimals":18,"name":"POC Token","symbol":"POC"}
@@ -3584,6 +3894,7 @@ id	output
 [8453,"0xedb6970b7be5a522cff14c8b679a2d813ff97b4d"]	{"decimals":18,"name":"SURGE","symbol":"SURGE"}
 [8453,"0xee22e1039a365fa8ed1dadcad78a50ff4a5b166c"]	{"decimals":18,"name":"Glitchstar","symbol":"Gstar"}
 [8453,"0xee2deea23c9ae49c4e2284cf6738cc0b763420c4"]	{"decimals":18,"name":"Ace","symbol":"AC3"}
+[8453,"0xee60cb5528e9d4f25396cf9190f4cb6594303174"]	{"decimals":18,"name":"calvenj","symbol":"calvenj"}
 [8453,"0xee9a3816d52a847e723d610d9f83ac13cc70ce13"]	{"decimals":18,"name":"Zombie Worm","symbol":"$ZORM"}
 [8453,"0xeec468333ccc16d4bf1cef497a56cf8c0aae4ca3"]	{"decimals":18,"name":"Anzen Token","symbol":"ANZ"}
 [8453,"0xeeef8401b7f7001232010d4a94cf7e7dbf17f413"]	{"decimals":18,"name":"TEST11","symbol":"TST11B"}
@@ -3640,9 +3951,11 @@ id	output
 [8453,"0xf72efdafaf5daabaaad984a01d612648154183ac"]	{"decimals":18,"name":"paper","symbol":"PAPER"}
 [8453,"0xf781676fd82e34fd6ad6e4ca8c039729f4e73fb7"]	{"decimals":18,"name":"DAWG","symbol":"$DAWG"}
 [8453,"0xf7b0dd0b642a6ccc2fc4d8ffe2bffb0cac8c43c8"]	{"decimals":18,"name":"Gekko AI by Virtuals","symbol":"GEKKO"}
+[8453,"0xf7c35fd9ade76b09ef17d4a7e7b690b988c5cccc"]	{"decimals":18,"name":"Clanker Naming Service","symbol":"CNS"}
 [8453,"0xf7c5fe8f6125cf899f8caa8c32516e7b410ed84e"]	{"decimals":18,"name":"Get Rich","symbol":"GTRCH"}
 [8453,"0xf7cc998e10b5b776d8e661f49e76969453af38e4"]	{"decimals":18,"name":"WoofCoin","symbol":"WOOF"}
 [8453,"0xf80c7d3e78607a18a75a364fdb34bb57150df9bb"]	{"decimals":18,"name":"SURGE","symbol":"URGE"}
+[8453,"0xf8472c1f50d24f8d41ea37ef3b176b8506eecee5"]	{"decimals":18,"name":"EDS","symbol":"EDS"}
 [8453,"0xf857b2764095b9a5f57c3e71f82f297fe4e45334"]	{"decimals":18,"name":"DeFAI","symbol":"DEFAI"}
 [8453,"0xf8644b0fa38511f7d65c8d7b5d5b5c3e7e47083f"]	{"decimals":18,"name":"Vita","symbol":"Vita"}
 [8453,"0xf878e27afb649744eec3c5c0d03bc9335703cfe3"]	{"decimals":18,"name":"Eolas ☴","symbol":"EOLAS"}
@@ -3660,6 +3973,7 @@ id	output
 [8453,"0xfacfc79cd6c8df77bfa5d7dc05cef5f7aa6808aa"]	{"decimals":18,"name":"Pug Profits","symbol":"$PUGG"}
 [8453,"0xfaf8dfbfe70c66823eeef00731dc608c19fa33ac"]	{"decimals":18,"name":"feard","symbol":"FEA"}
 [8453,"0xfb1b73a861104b36049d1b6c0a0eb76a608ce5f7"]	{"decimals":18,"name":"PrimeLayer","symbol":"PRML"}
+[8453,"0xfb31f85a8367210b2e4ed2360d2da9dc2d2ccc95"]	{"decimals":18,"name":"Edel","symbol":"EDEL"}
 [8453,"0xfb42da273158b0f642f59f2ba7cc1d5457481677"]	{"decimals":18,"name":"Lingo","symbol":"LINGO"}
 [8453,"0xfb4bc85b67d3d7d4a254e936925899c65fad1219"]	{"decimals":18,"name":"wallet.exe","symbol":"WALLET.exe"}
 [8453,"0xfb90df1170176bbfe85f23d54f7eb6809be2a9d4"]	{"decimals":18,"name":"n5","symbol":"n5"}
@@ -3700,8 +4014,10 @@ id	output
 [42161,"0x092baadb7def4c3981454dd9c0a0d7ff07bcfc86"]	{"decimals":18,"name":"MOR","symbol":"MOR"}
 [42161,"0x094eb9c92013eb8cdbb6d2e2afa4656ad9d807f4"]	{"decimals":9,"name":"Session Token","symbol":"SESH"}
 [42161,"0x0a5501ab5d162ba19a7d9aa64b1d286f1794b999"]	{"decimals":18,"name":"Skill","symbol":"$Skill"}
+[42161,"0x0c15c33c41d769a2ab169619b2432168a8d762e5"]	{"decimals":18,"name":"Arbitrum Launch MU5TW5MF","symbol":"ALU5TW5MF"}
 [42161,"0x0de66d5c7a171047fa9ea45da7302cd153e2d72b"]	{"decimals":18,"name":"Wrapped Staked GOA","symbol":"wstGOA"}
 [42161,"0x10ea9e5303670331bdddfa66a4cea47dae4fcf3b"]	{"decimals":9,"name":"Session Token","symbol":"SESH"}
+[42161,"0x1250360162941fa8fef9b05a49197f9c76bd10d7"]	{"decimals":18,"name":"FairLaunch Smoke 20260918","symbol":"FLSMOKE"}
 [42161,"0x12bd79a806b944114321977d4f21e5fd0e0df2e5"]	{"decimals":18,"name":"AI Time Token","symbol":"AITT"}
 [42161,"0x130096af9163b185cae4a833f856760199fc6ceb"]	{"decimals":18,"name":"FUMoney","symbol":"FU"}
 [42161,"0x1310952bc5594852459ee45bfd0df70b34ac5509"]	{"decimals":18,"name":"Parifi","symbol":"PRF"}
@@ -3725,6 +4041,7 @@ id	output
 [42161,"0x3ed03e95dd894235090b3d4a49e0c3239edce59e"]	{"decimals":18,"name":"MYRC","symbol":"MYRC"}
 [42161,"0x4936b42ed0a28b24365ceebd78f5381f0d1781f8"]	{"decimals":18,"name":"DUCA","symbol":"DUCA"}
 [42161,"0x498127b0a9fbb955084ebb5cff1e1e53dc670731"]	{"decimals":18,"name":"HAYA","symbol":"HAYA"}
+[42161,"0x4cdd4e599423bd49c32fa25e4c57685019860eff"]	{"decimals":18,"name":"arb26","symbol":"ARB26"}
 [42161,"0x4e6b45bb1c7d11402faf72c2d59cabc4085e36f2"]	{"decimals":18,"name":"OogaBooga","symbol":"OogaBooga"}
 [42161,"0x4f604735c1cf31399c6e711d5962b2b3e0225ad3"]	{"decimals":18,"name":"Glo Dollar","symbol":"USDGLO"}
 [42161,"0x5039973fa3e9c9c26a7510f8150c4a4f55fa700b"]	{"decimals":18,"name":"Ethereum ETF","symbol":"ETF"}
@@ -3734,6 +4051,7 @@ id	output
 [42161,"0x5979d7b546e38e414f7e9822514be443a4800529"]	{"decimals":18,"name":"Wrapped liquid staked Ether 2.0","symbol":"wstETH"}
 [42161,"0x5c21f4b87eb5d811c824035bde9de9791766c094"]	{"decimals":18,"name":"Weave Synthetic","symbol":"WSN"}
 [42161,"0x5f7679420eb555a369e937ce31a6ffe6a73b82c8"]	{"decimals":18,"name":"Outcome","symbol":"OTCM"}
+[42161,"0x630517626b73c0db23db32f4a3f1994c26638d22"]	{"decimals":18,"name":"QA Token","symbol":"QAT"}
 [42161,"0x666966ef3925b1c92fa355fda9722899f3e73451"]	{"decimals":18,"name":"STABLE","symbol":"STABLE"}
 [42161,"0x66e535e8d2ebf13f49f3d49e5c50395a97c137b1"]	{"decimals":18,"name":"Molten","symbol":"MOLTEN"}
 [42161,"0x6985884c4392d348587b19cb9eaaf157f13271cd"]	{"decimals":18,"name":"LayerZero","symbol":"ZRO"}
@@ -3754,10 +4072,13 @@ id	output
 [42161,"0x8d8e012d80e2a7b3b4de2a050c0cf923a0064a8e"]	{"decimals":18,"name":"Cow Uniswap Arbitrum WBTC-ETH","symbol":"cowUniswapArbitrumWBTC-ETH"}
 [42161,"0x903ca00944d0b51e50d9f4fc96167c89f211542a"]	{"decimals":18,"name":"Poolshark","symbol":"FIN"}
 [42161,"0x912ce59144191c1204e64559fe8253a0e49e6548"]	{"decimals":18,"name":"Arbitrum","symbol":"ARB"}
+[42161,"0x938953cdb438d81645ac14766b3762404c4bb558"]	{"decimals":18,"name":"Arbitrum Launch MUFYX0GJ","symbol":"ALUFYX0GJ"}
 [42161,"0x93fa0b88c0c78e45980fa74cdd87469311b7b3e4"]	{"decimals":18,"name":"XBorg","symbol":"XBG"}
 [42161,"0x9623063377ad1b27544c965ccd7342f7ea7e88c7"]	{"decimals":18,"name":"Graph Token","symbol":"GRT"}
+[42161,"0x9842989969687f7d249d01cae1d2ff6b7b6b6d35"]	{"decimals":18,"name":"New Crypto Space","symbol":"CRYPTO"}
 [42161,"0x98b941a891bdacc51412114293a06fb8d80a08da"]	{"decimals":18,"name":"Meticulous","symbol":"MET"}
 [42161,"0x999faf0af2ff109938eefe6a7bf91ca56f0d07e1"]	{"decimals":18,"name":"Ledgity Token","symbol":"LDY"}
+[42161,"0x9a9660d91b2893f038eeebde6a15dab10f50fe51"]	{"decimals":18,"name":"Scaled Arbitrum Simulation","symbol":"SCALED"}
 [42161,"0x9aee3c99934c88832399d6c6e08ad802112ebeab"]	{"decimals":18,"name":"FU Money","symbol":"FU"}
 [42161,"0x9b43b45d1f2cd84a091784e920e6556041c820b5"]	{"decimals":18,"name":"EACCToken","symbol":"EACC"}
 [42161,"0x9e949461f9ec22c6032ce26ea509824fd2f6d98f"]	{"decimals":18,"name":"KABOSU","symbol":"KABOSUCHAN"}
@@ -3999,6 +4320,7 @@ id	output
 [43114,"0xb04499a1532e8a1cd3d5c53690a88e9592854fc0"]	{"decimals":18,"name":"Donkey","symbol":"ASS"}
 [43114,"0xb1ae732c3c67d58192a8e59a09f16ee6007a60f0"]	{"decimals":18,"name":"APU2","symbol":"APU2"}
 [43114,"0xb279f8dd152b99ec1d84a489d32c35bc0c7f5674"]	{"decimals":18,"name":"STEAK","symbol":"STEAK"}
+[43114,"0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"]	{"decimals":18,"name":"Wrapped AVAX","symbol":"WAVAX"}
 [43114,"0xb418417374fca27bb54169d3c777492e6fe17ee7"]	{"decimals":18,"name":"DUA","symbol":"DUA"}
 [43114,"0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e"]	{"decimals":6,"name":"USD Coin","symbol":"USDC"}
 [43114,"0xd224687864bead95ee2e3f3bf158f55899d93751"]	{"decimals":18,"name":"VaporDEX LP Token","symbol":"VLP"}
@@ -4009,6 +4331,7 @@ id	output
 [43114,"0xec3492a2508ddf4fdc0cd76f31f340b30d1793e6"]	{"decimals":18,"name":"Colony Token","symbol":"CLY"}
 [43114,"0xed72d5e053887dd05724adfe775dc71f134351ec"]	{"decimals":18,"name":"Joe LP Token","symbol":"JLP"}
 [43114,"0xf3db6e7a53db2e6dc5a219fcf70a82f2afa16738"]	{"decimals":18,"name":"ERC20Faucet","symbol":"FAU-ERC20"}
+[43114,"0xf7ec48d59b0e27380c339c66366bf55a93d19999"]	{"decimals":18,"name":"FamrChain","symbol":"FAMR"}
 [59144,"0x176211869ca2b568f2a7d4ee941e073a821ee1ff"]	{"decimals":6,"name":"USDC","symbol":"USDC"}
 [59144,"0x1789e0043623282d5dcc7f213d703c6d8bafbb04"]	{"decimals":18,"name":"Linea","symbol":"LINEA"}
 [59144,"0x3439fdf88fc0f621083cd8ce284de612a5588876"]	{"decimals":18,"name":"Etherex Volatile - WETH/dREX","symbol":"Volatile - WETH/dREX"}
@@ -4093,9 +4416,11 @@ id	output
 [84532,"0x0d819db34f14ba031f7925518b19eb6c17f5afd3"]	{"decimals":18,"name":"zz7","symbol":"zz7"}
 [84532,"0x0d8932541778e6a1a0f20efc13cad5ffcc34a49b"]	{"decimals":18,"name":"alomak","symbol":"amkl"}
 [84532,"0x0f6d0abf1723d823f76e645abb1653a4591d06ae"]	{"decimals":18,"name":"vesti","symbol":"vsti"}
+[84532,"0x1250554fdbd8e63a75ea9ed0021f2dcae55d3f4b"]	{"decimals":18,"name":"Cindral","symbol":"CINDR"}
 [84532,"0x1256f6120ac117d2685e978c0730850347660c23"]	{"decimals":18,"name":"ShinobiTesting","symbol":"SHINOBI"}
 [84532,"0x1388b195c3777c848505c8365f6f5f23fe24a4aa"]	{"decimals":18,"name":"what","symbol":"what"}
 [84532,"0x14cb8391fdcb2fb31eeed317d3f002f21ac044af"]	{"decimals":18,"name":"PILEK","symbol":"PLK"}
+[84532,"0x17e75069dd837eda977abedf7a455adda42868a9"]	{"decimals":18,"name":"Rose Spike Token","symbol":"RSPIKE"}
 [84532,"0x1979ab2ce8c487d7cfb24b0f4bba5b1bd0ad4aa3"]	{"decimals":18,"name":"coin block","symbol":"cbk"}
 [84532,"0x1a450d6096f5e059f5ed7dd51a089be14fd67ef6"]	{"decimals":18,"name":"french","symbol":"FRENCH"}
 [84532,"0x1a849315676c9515b434e4d5375f45203a2250fd"]	{"decimals":18,"name":"xx44","symbol":"xx44"}
@@ -4113,10 +4438,13 @@ id	output
 [84532,"0x24bfe3b866365a26cbdac9046735c9acafbee04b"]	{"decimals":18,"name":"Je t co","symbol":"STA"}
 [84532,"0x2519879333887e818c2cd1c36104c333e1a5636d"]	{"decimals":18,"name":"AUDIOPOOL Boost Token","symbol":"BOOST"}
 [84532,"0x26d4b549538eac83003f7f00c7e2cc3093205206"]	{"decimals":18,"name":"kjasd","symbol":"kajsd"}
+[84532,"0x280883c40bfce54e6d304f4ced1ef84d6fbc610c"]	{"decimals":18,"name":"Test UP","symbol":"tUP"}
+[84532,"0x2a639c03a65c73d35e8091714a49182f67b7dbfc"]	{"decimals":18,"name":"Quitclaim Test Token","symbol":"QTT"}
 [84532,"0x2ab8ef6bd3f4022d7adbfb36303495422990a185"]	{"decimals":6,"name":"XO Protocol","symbol":"XOXO"}
 [84532,"0x2e0e9de4c88a8b007a71628db658b2d4e8ff080d"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [84532,"0x2e4d6c809b409e32e2ce19475f5c18710e334fb1"]	{"decimals":18,"name":"tes","symbol":"tes"}
 [84532,"0x2e7145035041d20f7394ebc2333a2951068d57ce"]	{"decimals":18,"name":"xx2","symbol":"xx2"}
+[84532,"0x2f3a8806d9094dd7866e04635b400f65587e5fb2"]	{"decimals":18,"name":"Reclaim Demo USD","symbol":"rUSD"}
 [84532,"0x305837508dd00a9518c1f907fe19857e78a81195"]	{"decimals":18,"name":"MADED 2","symbol":"MADED"}
 [84532,"0x32c902d03a61ffda1729fc986ff0e7368e4fdb24"]	{"decimals":18,"name":"beliethvesting","symbol":"beliethvesting"}
 [84532,"0x3366feee9bbe5b830df9e1fa743828732b13959a"]	{"decimals":18,"name":"The Innovation Game","symbol":"TIG"}
@@ -4124,6 +4452,7 @@ id	output
 [84532,"0x356b1342867cb65e74d7a952f1cf6af164a1c910"]	{"decimals":18,"name":"aaa11","symbol":"aaa11"}
 [84532,"0x37f638d975fdab3531c2f9d0dda52a188ceae8ea"]	{"decimals":18,"name":"MockUSD","symbol":"MUSD"}
 [84532,"0x38128245057502bb7bf71372fd13e30101e3944c"]	{"decimals":18,"name":"Scout Token","symbol":"$SCOUT"}
+[84532,"0x38d81431b9f76d9699af7517040d5221d9dea252"]	{"decimals":6,"name":"Tidepool Testnet USDC (no value)","symbol":"USDC"}
 [84532,"0x3c524eb283f2e3b639f2a4e20a09e178e97841fc"]	{"decimals":18,"name":"fdfgd","symbol":"DFDFG"}
 [84532,"0x3e62fed35c97145e6b445704b8ce74b2544776a9"]	{"decimals":18,"name":"EARNM","symbol":"EARNM"}
 [84532,"0x403f31d52722cc911642247003a6b51b0b36b3b1"]	{"decimals":6,"name":"USD Coin","symbol":"USDC"}
@@ -4135,6 +4464,7 @@ id	output
 [84532,"0x470e14f6179d2217e17cb3dab2d2f845a61850c7"]	{"decimals":18,"name":"bjrot","symbol":"bjrot"}
 [84532,"0x4a570a87d4d8ff704432438ba4b304046afa4ec5"]	{"decimals":18,"name":"AMPLE","symbol":"AMPD"}
 [84532,"0x4abb40eceddf8d4e2a59996ada8e5baea0bff5e0"]	{"decimals":18,"name":"Scout Token","symbol":"$SCOUT"}
+[84532,"0x4cfe4a9e2b51037318d41aa2cc944605c8ac830a"]	{"decimals":18,"name":"イルカ","symbol":"🐬"}
 [84532,"0x50ae9c4206e470f1aca220f1d3c620cbe73f0529"]	{"decimals":18,"name":"TestTokenX2","symbol":"TESTX2"}
 [84532,"0x51e73a99b0992f7973a71262e1fdf23401a00352"]	{"decimals":18,"name":"dev token","symbol":"devtk01"}
 [84532,"0x5249ebf87f51e73174775c372b07c5fde65f1539"]	{"decimals":18,"name":"cok","symbol":"cok"}
@@ -4185,6 +4515,13 @@ id	output
 [84532,"0xa6961e7f8832aa9a3495aa28b411f3fc0ca3f6b0"]	{"decimals":18,"name":"NABLA Placeholder","symbol":"NABLAPlaceholder"}
 [84532,"0xab975b61687adaaee5f10ddbcad077e8f95eb78f"]	{"decimals":18,"name":"TERNGREIGNERRENZNGRZNEJJN","symbol":"TTTT"}
 [84532,"0xae63ecacdb5307b842ee82e3335ca188767d5800"]	{"decimals":18,"name":"STRAFGE","symbol":"TER"}
+[84532,"0xb2000000000000000000000559e486c3ae14a9d3"]	{"decimals":18,"name":"MORE Revenue","symbol":"MORE"}
+[84532,"0xb20000000000000000000015f4b3d9bac0c5b3ca"]	{"decimals":18,"name":"SYMBOL Revenue","symbol":"SYMBOL"}
+[84532,"0xb2000000000000000000002a5f43272804365660"]	{"decimals":18,"name":"DYM Revenue","symbol":"DYM"}
+[84532,"0xb2000000000000000000002daac7de2d48af8808"]	{"decimals":18,"name":"BILLIONS Revenue","symbol":"BILLIONS"}
+[84532,"0xb2000000000000000000004da7ee004dcf8ce831"]	{"decimals":18,"name":"CTB Revenue","symbol":"CTB"}
+[84532,"0xb20000000000000000000055280c0076f2f472a7"]	{"decimals":18,"name":"MAIN Revenue","symbol":"MAIN"}
+[84532,"0xb200000000000000000000d16e8edb3cea20e9fa"]	{"decimals":18,"name":"NEW Revenue","symbol":"NEW"}
 [84532,"0xb29364bac40906b6e5957b47a50b2d4ea747ce00"]	{"decimals":18,"name":"Saturday Coin","symbol":"stdc"}
 [84532,"0xb4820c30abefc22e4d0dcad4efafd7b48cc7c4aa"]	{"decimals":18,"name":"BAND TEST","symbol":"BAND"}
 [84532,"0xb522c2ffa7feaa610975e9ca4ba996ce8cbcfb39"]	{"decimals":18,"name":"vesttest1","symbol":"vt1"}
@@ -4193,10 +4530,13 @@ id	output
 [84532,"0xbbf1d295d7112efb3dbcbbf585da8fc503d793d7"]	{"decimals":18,"name":"FUSDC","symbol":"FUSDC"}
 [84532,"0xbddafec9fe517f60f9b26724cf43c8b9dfd6aa3c"]	{"decimals":18,"name":"xx2","symbol":"xx2"}
 [84532,"0xbf9784d10be8e38eadf40a3199ebfc044b31c46f"]	{"decimals":18,"name":"Lighthouse Token","symbol":"HOUSE"}
+[84532,"0xbf980eb0b15ea842f9b86bd94ce4f6ea2b277516"]	{"decimals":18,"name":"DegenQuest Gold","symbol":"GOLD"}
 [84532,"0xc149145ef68f0a33c00a22206b6f602d6f474c0e"]	{"decimals":18,"name":"Scout Token","symbol":"$SCOUT"}
 [84532,"0xc4ef2767d55b2b005f2fcdccf839a245c590ff35"]	{"decimals":18,"name":"Mock Token","symbol":"MOCK"}
 [84532,"0xc5b7ed7ad4478ce63fa4b6145a4883cff6f0f7e4"]	{"decimals":18,"name":"GENAS","symbol":"AS"}
 [84532,"0xc8acaca4deea74f600251fd959258acf1ae33e90"]	{"decimals":18,"name":"vestu","symbol":"vestu"}
+[84532,"0xcdf24142f02ea7fcf5db8b1dfbc1dd25bf021f64"]	{"decimals":18,"name":"Quitclaim Test Token","symbol":"QTT"}
+[84532,"0xce5a3d1f832342a96dce62030222618070c4b7f6"]	{"decimals":18,"name":"Axis Token","symbol":"AXIS"}
 [84532,"0xcf40aff1f7fce408ac5f562c93098109f942f9c3"]	{"decimals":18,"name":"LADY","symbol":"LADY"}
 [84532,"0xd2a3709a4e82273769200490bb088a321e638247"]	{"decimals":18,"name":"tes","symbol":"tes"}
 [84532,"0xd4f8fbf4d1b2878c299498faaa3cfd4de3c36e10"]	{"decimals":18,"name":"BNPLVoucher","symbol":"vBNPL"}
@@ -4208,6 +4548,7 @@ id	output
 [84532,"0xda9f782d9dd2b30959b0dc13876b9c069423b1a0"]	{"decimals":18,"name":"creator_coin_test","symbol":"$CRTR"}
 [84532,"0xdaaa68f07108f79c9264494b7134f3a7979bce35"]	{"decimals":6,"name":"USDC Mock","symbol":"USDCM"}
 [84532,"0xdbfb7f8d30fdcdee51e5bdb4d6ff6a135f28ee2e"]	{"decimals":6,"name":"USDC-test","symbol":"USDC"}
+[84532,"0xdd2ae427931a596a08ec31a0c76c098b8c4b486f"]	{"decimals":18,"name":"xイルカ","symbol":"x🐬"}
 [84532,"0xde15faaa0fd47f4de823a3079ce02483970bd8be"]	{"decimals":18,"name":"Lighthouse Token","symbol":"HOUSE"}
 [84532,"0xdf0a3c9ca41559bb1aa36f0455919baaf223adc6"]	{"decimals":18,"name":"xxxx","symbol":"xnxss"}
 [84532,"0xe05967bf98647c027bc1706fbd9040f8140a4a79"]	{"decimals":18,"name":"oke","symbol":"oke"}
@@ -4265,6 +4606,7 @@ id	output
 [11155111,"0x085769c29f194ea345e4abf0af7813f634eb5d24"]	{"decimals":18,"name":"Play","symbol":"PLAY"}
 [11155111,"0x096aa55ec009a2e69eab81d577686a14513af733"]	{"decimals":18,"name":"martin","symbol":"M"}
 [11155111,"0x096e743fe7e61426e9451e3dcbd7439afb1c6674"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-unlock-cliff-vesting","symbol":"ASTING"}
+[11155111,"0x09fb4caf469c814756131f67d44546f14fbe3b17"]	{"decimals":18,"name":"Blind Oracle Flow Asset","symbol":"BOFA"}
 [11155111,"0x0a41ff7039c250eab4a1de9974437a81ad89be68"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-unlock-cliff-vesting","symbol":"ASTING"}
 [11155111,"0x0a58b6e23afdf2fccbb19803f3292068d5537ce2"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-unlock-linear-vesting","symbol":"ASTING"}
 [11155111,"0x0a7ce58d4d0b411e0231f2d2959a9a9317af5903"]	{"decimals":18,"name":"crazy0001","symbol":"crazy0001"}
@@ -4273,6 +4615,7 @@ id	output
 [11155111,"0x0b90c820e006c5700acbad7507842a47898764ac"]	{"decimals":18,"name":"RPS","symbol":"RPS"}
 [11155111,"0x0b9293124b5903e770c4e8229760402213c1462a"]	{"decimals":18,"name":"QA Active Lifecycle fps-linear-vesting","symbol":"ASTING"}
 [11155111,"0x0bbdcbd3d61b6bf4f75f1b761a98e851c83f1024"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
+[11155111,"0x0cd835a12dfd30b453de41af060aa8d55d3635d2"]	{"decimals":18,"name":"Em Tech and Innovation","symbol":"ETI"}
 [11155111,"0x0d2c63bcef8f08c7e993d03960a7f0343506d70d"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-cliff-vesting","symbol":"ASTING"}
 [11155111,"0x0d71b3ee923b921f78e16f942ba41e5bd8c430ac"]	{"decimals":18,"name":"Test DTK","symbol":"tDTK"}
 [11155111,"0x0de7152906dcf4c0ec0d5863aa2f2624c15241d4"]	{"decimals":18,"name":"TestSM","symbol":"TestSM"}
@@ -4288,9 +4631,12 @@ id	output
 [11155111,"0x11735622fc77ca8b84fe0deec13de1c4f6213884"]	{"decimals":18,"name":"QA Active Lifecycle fps-linear-vesting","symbol":"ASTING"}
 [11155111,"0x11bbdae63832fdde26730331200876ef5b7f8d23"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
 [11155111,"0x11db4214fe80ad9d346c635ccae7ff53a268dc72"]	{"decimals":18,"name":"106515601560","symbol":"156016"}
+[11155111,"0x1333563cf9b14437c56adac5a9d158a89330c1a7"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0x13ac3a80338cc10a1918d73298562bb593c28d95"]	{"decimals":18,"name":"FAKE","symbol":"FKE"}
 [11155111,"0x13f70987b45bb3f95bb0c0c532c36d15d621a658"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-linear-vesting","symbol":"ASTING"}
 [11155111,"0x14c4749da6dd793bbbf7fbbdd04497ff65dbe24d"]	{"decimals":18,"name":"BugBash","symbol":"Bug"}
+[11155111,"0x14d62dcf1f6568db8639b8366592489369af16b9"]	{"decimals":6,"name":"USD Coin (NoxStream testnet)","symbol":"USDC"}
+[11155111,"0x14db93f70340ce399cdafda6c9c5defb386e2222"]	{"decimals":18,"name":"Nox Demo Token","symbol":"NDT"}
 [11155111,"0x151210b0a17aaf4a73ee8260b3121f962af5a535"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0x1521c67fdfdb670fa21407ebdbbda5f41591646c"]	{"decimals":18,"name":"LstTokenMock","symbol":"lstETH"}
 [11155111,"0x15dab81d80fc4c73d3eb65dbee24fb4239b7af88"]	{"decimals":18,"name":"CryptoAutosP","symbol":"AUTOS"}
@@ -4329,6 +4675,7 @@ id	output
 [11155111,"0x26441a748e6a76ea0f7ba992ef6365e457161056"]	{"decimals":18,"name":"Avarik Token","symbol":"AVRK"}
 [11155111,"0x26cca6b2f0351266195596f703f26e9698a79883"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [11155111,"0x27bbc2267116f7e0e74ddad7dbbd350733b57bff"]	{"decimals":18,"name":"Vortex.Flow","symbol":"VFX"}
+[11155111,"0x287c77e9ed5a8b002e71c64efcd42b8c9bf16c3b"]	{"decimals":18,"name":"smoking jacket","symbol":"SMKJCKT"}
 [11155111,"0x29b93d0a6d9bd7f0a216c604dc2ac720fdef3b58"]	{"decimals":18,"name":"hatzs","symbol":"HATSZ"}
 [11155111,"0x2a679d95df7c0316863a50162db2b1dd124d7ca7"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-cliff-vesting","symbol":"ASTING"}
 [11155111,"0x2b7af3f79b7b6e40604dc25f2988cd731c767201"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-linear-vesting","symbol":"ASTING"}
@@ -4358,7 +4705,9 @@ id	output
 [11155111,"0x33e127f1c2815ede2778162773483b52b563f683"]	{"decimals":18,"name":"QABC","symbol":"QABC"}
 [11155111,"0x33ec5e17c3c3f8c6dc1c8d8ca9b590180305d2fb"]	{"decimals":18,"name":"New token","symbol":"NEWT"}
 [11155111,"0x34613762b85eea4d13044ca8ac50684256c96fd9"]	{"decimals":18,"name":"NELX313","symbol":"NELX"}
+[11155111,"0x35e3be25997a21a34ff79a2562e13a9d1d06937f"]	{"decimals":18,"name":"Pay USD","symbol":"PayUSD"}
 [11155111,"0x36ce3f9c9aab850e4f06f1a3f9591e2f6dd43219"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[11155111,"0x37071525acac4c66798f8fbbe1bcb25f09a4e744"]	{"decimals":18,"name":"Four Eyes","symbol":"EYES"}
 [11155111,"0x38158d05cb8903f4319841b4a9272be772feea77"]	{"decimals":18,"name":"goopsyboopsy","symbol":"GBP"}
 [11155111,"0x381bf9d658cc9f1d48e92c3a283436b356a75367"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
 [11155111,"0x3836446a558f06f9146b24f339d2b573454633a4"]	{"decimals":18,"name":"Arbius","symbol":"AIUS"}
@@ -4378,9 +4727,11 @@ id	output
 [11155111,"0x40f2aa71abbab82ec9662d14c46178e448ea4099"]	{"decimals":18,"name":"MOCK","symbol":"MOCK"}
 [11155111,"0x410034f3d7b2a1eef234ca2c190f4c202ca30d5a"]	{"decimals":18,"name":"HEHE","symbol":"HEHE"}
 [11155111,"0x419fe9f14ff3aa22e46ff1d03a73edf3b70a62ed"]	{"decimals":6,"name":"USDT","symbol":"USDT"}
+[11155111,"0x42180870e4ddcb16af1013c133719a2711ee2ef4"]	{"decimals":18,"name":"Sablier Test USD","symbol":"sTUSD"}
 [11155111,"0x424177f421bfc5b6727d556346823dea78d48f42"]	{"decimals":4,"name":"Studio Stereogram coin","symbol":"SSC"}
 [11155111,"0x429866ecef6b00148040a32ba7828bb9767b4551"]	{"decimals":18,"name":"Locked Token","symbol":"LOCKT"}
 [11155111,"0x42a59ec1d06c9a8cee6a2a2a6014fff12932577d"]	{"decimals":18,"name":"Omni Test DAO","symbol":"OTD"}
+[11155111,"0x42b138f1b6b93c9adb78c266b1a5818835da858b"]	{"decimals":18,"name":"Pay USD","symbol":"PayUSD"}
 [11155111,"0x42ddbab98545997221d605265ea331da4aad7fb9"]	{"decimals":18,"name":"dede","symbol":"dede"}
 [11155111,"0x43f532d678b6a1587be989a50526f89428f68315"]	{"decimals":18,"name":"Appreciate","symbol":"APPR"}
 [11155111,"0x445b69a1de3e4d6464975e347cebd5a5e4d5dd55"]	{"decimals":18,"name":"PIKU","symbol":"PIKU"}
@@ -4392,6 +4743,7 @@ id	output
 [11155111,"0x47b588a3e154e83e9348b4ad08eb9ab939435d45"]	{"decimals":18,"name":"Play","symbol":"PLAY"}
 [11155111,"0x4873528341d33ec918c7465f244491acb75bc95f"]	{"decimals":18,"name":"DOP","symbol":"DOP"}
 [11155111,"0x48a28e5c82fb4f1fbe59d2f2cf759ccd7446d5fe"]	{"decimals":18,"name":"LIFEProject Coin","symbol":"LPC"}
+[11155111,"0x48cc32739d970b992d4d40057a5eb0ee44c7b092"]	{"decimals":18,"name":"Four Eyes","symbol":"EYES"}
 [11155111,"0x490830d4b176b0622627af46c18dae6f9dbafde7"]	{"decimals":18,"name":"QA Active Lifecycle fps-vesting","symbol":"ASTING"}
 [11155111,"0x491a0d1f6b9ab3186d2931b2f8d17c3142c76b32"]	{"decimals":8,"name":"FeeClaimTest","symbol":"FeeC"}
 [11155111,"0x492358b37af496c2b64b862694d68028729d4959"]	{"decimals":18,"name":"Parifi","symbol":"PRF"}
@@ -4407,6 +4759,7 @@ id	output
 [11155111,"0x4e15661a87b668956f059de301c6570f3ffcaa86"]	{"decimals":18,"name":"Test Token","symbol":"TEST"}
 [11155111,"0x4e330841d71407e461cf83df83d9c5df319e3e8d"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-unlock-linear-vesting","symbol":"ASTING"}
 [11155111,"0x4e8d4c1ccc383094163d0ecbc91ee6db6732d1ff"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
+[11155111,"0x4f6b6683a78e3da0f7ecd8241735bbc495e04f70"]	{"decimals":18,"name":"Lighthouse Token","symbol":"HOUSE"}
 [11155111,"0x4fd01a059550e68a8a9d81b451c6c932c9acb016"]	{"decimals":18,"name":"testToken","symbol":"TT"}
 [11155111,"0x511fbdfb09c58042ffc4378f57281862116cb9e9"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
 [11155111,"0x51874d1e90ee34fde805e3431363c141e5c021af"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
@@ -4421,10 +4774,12 @@ id	output
 [11155111,"0x5945a753192c8bcb1b46879b8c8c75723a1a2f2f"]	{"decimals":18,"name":"Play","symbol":"PLAY"}
 [11155111,"0x5ac34c53a04b9aaa0bf047e7291fb4e8a48f2a18"]	{"decimals":18,"name":"Nuklai Token","symbol":"NAI"}
 [11155111,"0x5be6c08e7fba54037885a51952516f4a4b4e1686"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
+[11155111,"0x5c023aed41f1c86b32a53b20081acb1c8fee94d7"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0x5c2dd4ca094bc07b80704f635ff0f03dc22ba218"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-unlock-linear-vesting","symbol":"ASTING"}
 [11155111,"0x5c30169114138deee3acaca1dd869466c94f6a73"]	{"decimals":18,"name":"Imilimitiate","symbol":"LLLL"}
 [11155111,"0x5c425f279ced69810a81f05680d1b5b1f88b1ab6"]	{"decimals":18,"name":"Linear Token","symbol":"LINA"}
 [11155111,"0x5cf3a8102f9b047b9a1ccfd2079dc97b683a8fa3"]	{"decimals":18,"name":"wellwell","symbol":"WW"}
+[11155111,"0x5d99828fcf4861437838d88983d3daa4b8740cba"]	{"decimals":18,"name":"Mock Stream Asset","symbol":"MSA"}
 [11155111,"0x60b483d7b72774693d17c0e1954b5a6a703902e5"]	{"decimals":18,"name":"Unlock Me","symbol":"UNLME"}
 [11155111,"0x60f211f93ef65281b8526e51b63d7c7ef77aa111"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
 [11155111,"0x612e09897256c83a5a78641cee31c47f3e44b199"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-cliff-vesting","symbol":"ASTING"}
@@ -4434,12 +4789,14 @@ id	output
 [11155111,"0x661afa2738e43ae4ebad603947ce65f108fc2a4c"]	{"decimals":18,"name":"LIT Token","symbol":"LIT"}
 [11155111,"0x66c6b3e1a408e4376d87782734c447aa137bd515"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-linear-vesting","symbol":"ASTING"}
 [11155111,"0x673601a43499b0678d4cf8ef44ee18ad437b434c"]	{"decimals":18,"name":"fdbdabfdabdf","symbol":"adfbda"}
+[11155111,"0x676cce4a5076452216f2eac868d9d20b6559961d"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0x68120178de86bde3593541942ae1e33d7a37b2ad"]	{"decimals":18,"name":"SEP3","symbol":"SEP3"}
 [11155111,"0x68fc1fed77dd758ba0b767c7c922847959f26436"]	{"decimals":18,"name":"Sticky","symbol":"STICK"}
 [11155111,"0x69960ce102f881ad6cedb20baec5b9451fb5e987"]	{"decimals":18,"name":"FAKE","symbol":"FKE"}
 [11155111,"0x6b9e0476fe8da87e5d2326eac6d99716eaca2da5"]	{"decimals":18,"name":"MyToken","symbol":"MTK"}
 [11155111,"0x6bb9c1fbb316feff58e1509a52603a1b15765c94"]	{"decimals":18,"name":"AQUA","symbol":"AQUA"}
 [11155111,"0x6c7004a79e0003b7c22cba1228ac593be618eddc"]	{"decimals":18,"name":"CrazyMeme","symbol":"Crazy"}
+[11155111,"0x6d2caba6364cae211fa7424190cdb0906221d234"]	{"decimals":18,"name":"Pay Per Use Token","symbol":"PPU"}
 [11155111,"0x6d619161fd777775aabf87ff7854996ac81b4e3f"]	{"decimals":18,"name":"Mobile Chuff","symbol":"MCHF"}
 [11155111,"0x6d880b085ab1af0ccadc0941c1e46da46324b22a"]	{"decimals":18,"name":"0250150156","symbol":"410156"}
 [11155111,"0x6e73f44daefb3e1844d278332c58351ad2aa1269"]	{"decimals":18,"name":"520015665105106","symbol":"150610"}
@@ -4464,6 +4821,7 @@ id	output
 [11155111,"0x776b6fc2ed15d6bb5fc32e0c89de68683118c62a"]	{"decimals":18,"name":"Dai Stablecoin","symbol":"DAI"}
 [11155111,"0x779877a7b0d9e8603169ddbd7836e478b4624789"]	{"decimals":18,"name":"ChainLink Token","symbol":"LINK"}
 [11155111,"0x77a4341cb2b43f172a6ab240e588830d217f7422"]	{"decimals":18,"name":"bebe","symbol":"bbb"}
+[11155111,"0x77b3e1ae0cad279b8ad1e7b01a89efd139e1e5e9"]	{"decimals":6,"name":"Morrow Source Test Token","symbol":"mSRC"}
 [11155111,"0x78678dee6e2c8d2f505b2ffc8e81aaeeb6ecc880"]	{"decimals":18,"name":"QA Active Lifecycle fps-linear-vesting","symbol":"ASTING"}
 [11155111,"0x78a400b048fe610a870742b94afcf7506edc8245"]	{"decimals":18,"name":"Test XAV","symbol":"XAV"}
 [11155111,"0x78ab1a9c913107d0f989f7802c5981123fb9ba4f"]	{"decimals":18,"name":"GHO","symbol":"GHO"}
@@ -4477,10 +4835,12 @@ id	output
 [11155111,"0x7b79995e5f793a07bc00c21412e50ecae098e7f9"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
 [11155111,"0x7bc2a953a6161eaf8135613db81f6ceea4918b16"]	{"decimals":18,"name":"Dai Stablecoin","symbol":"DAI"}
 [11155111,"0x7cd3fd4417719029399f0157e375ec039c0952d5"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
+[11155111,"0x7d20609bdb2fa772143905d6ada079b1515db0b0"]	{"decimals":18,"name":"Notch Demo Asset","symbol":"NDA"}
 [11155111,"0x7d339f95544fb77272fd5f54ecbf96a2c817bf4d"]	{"decimals":18,"name":"THEDAO","symbol":"THEDOA"}
 [11155111,"0x7e55557101079877f5fff1879c4a28aeb8eb317c"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
 [11155111,"0x7edadf58ae3ad8e796f0bb022688d642f2887601"]	{"decimals":18,"name":"NELX313","symbol":"NELX"}
 [11155111,"0x7f63c82b83b9375c21efbead2010f003d7fad746"]	{"decimals":18,"name":"Shutter Token","symbol":"SHU"}
+[11155111,"0x7fde6f2e098bd4b7c13b345a518296598b4cbd7f"]	{"decimals":18,"name":"ogr","symbol":"OGR"}
 [11155111,"0x8010545903c943ad53bea666b37933a350e2138a"]	{"decimals":18,"name":"GasLiteTest","symbol":"GLT"}
 [11155111,"0x802066e7c50adba777cb30259c9f855790acadc6"]	{"decimals":18,"name":"Khalid","symbol":"Khd"}
 [11155111,"0x80bd9bc4e2521c7c90754e14e07dfb18f776e006"]	{"decimals":18,"name":"Max","symbol":"DOG"}
@@ -4494,6 +4854,7 @@ id	output
 [11155111,"0x8665b19f9b5372f9b24483e12d6998238fa22792"]	{"decimals":18,"name":"vested token","symbol":"vt"}
 [11155111,"0x867b91efb6c9da8e5202c9601d08da58b83ff1aa"]	{"decimals":18,"name":"asdf","symbol":"asdf"}
 [11155111,"0x869fc98ae10e33a59443715f852a54ee7499a939"]	{"decimals":18,"name":"Dai Stablecoin","symbol":"DAI"}
+[11155111,"0x86dab788bfaf222a7c7c0abc2c3d22d176edbe45"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0x8747ea1f30d778e53c0dc81899b824f03aa6498e"]	{"decimals":18,"name":"123","symbol":"123"}
 [11155111,"0x87d7224091e113f9394903268b629329de3cae0d"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
 [11155111,"0x886974242dee3a5c8ebf2d1ee6a7443256fd8165"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
@@ -4523,6 +4884,7 @@ id	output
 [11155111,"0x9574d535fb7f5350b2018bbbde6886fc7d025c73"]	{"decimals":18,"name":"QA Active Lifecycle fps-linear-vesting","symbol":"ASTING"}
 [11155111,"0x957710e2699dbc4c0170261bcd685ef136fb4c3f"]	{"decimals":18,"name":"KennyG is a G","symbol":"KG"}
 [11155111,"0x962a0cbbbac055a9e11db27784763552df9ebdac"]	{"decimals":18,"name":"crazy000111","symbol":"crazy000111"}
+[11155111,"0x968ac3c65cb5d0e2c64f381a5fc0e073d1906796"]	{"decimals":6,"name":"Mock USD Coin [MOCK]","symbol":"mUSDC"}
 [11155111,"0x96f9c511e6de1896e3bcde288606e50785db4577"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-unlock-linear-vesting","symbol":"ASTING"}
 [11155111,"0x970dc387e0aa32521dbe6e7cbbbc1ab592741533"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-linear-vesting","symbol":"ASTING"}
 [11155111,"0x98cec103ae046a31420508eabe1494e71c3ee7a3"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
@@ -4542,6 +4904,7 @@ id	output
 [11155111,"0x9f5eb96f4e76cea15eea8c5ffabf8cf7d4ac4e95"]	{"decimals":18,"name":"Test Token","symbol":"TST"}
 [11155111,"0x9f72cc7c54a190e28b9fe627ccd746ce715745bb"]	{"decimals":18,"name":"TEST SEP","symbol":"TS"}
 [11155111,"0x9fa2ae3c0a571bbbfd17e74d7470b6c444a87af2"]	{"decimals":6,"name":"USDTT","symbol":"USDTT"}
+[11155111,"0x9fddcf29a0ad3878b7e1694fc51bb9dff615a504"]	{"decimals":18,"name":"MZ","symbol":"MZ"}
 [11155111,"0xa0194c01b45ba58482dc70446cb41af62dd21a47"]	{"decimals":18,"name":"","symbol":"PUSDT"}
 [11155111,"0xa048e46c35cf210bb0d5bb46b2dd06828ef17893"]	{"decimals":18,"name":"DOP","symbol":"DOP"}
 [11155111,"0xa121dc549673bbd894cd6560e32f899e533f523e"]	{"decimals":18,"name":"OZAK AI","symbol":"OZ"}
@@ -4579,6 +4942,7 @@ id	output
 [11155111,"0xb5706d2e7d37e34dfce0343a11033a7f092f9b8b"]	{"decimals":18,"name":"QA Active Lifecycle fps-vesting","symbol":"ASTING"}
 [11155111,"0xb585f04b80282502cc5046239b6bbf935eef54b3"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-cliff-vesting","symbol":"ASTING"}
 [11155111,"0xb598ac7d39c0d9c9f2f490152b951759b7ca237e"]	{"decimals":18,"name":"TEN","symbol":"TEN"}
+[11155111,"0xb6254c5a59db95cea2ccc4e175283059b46766d9"]	{"decimals":18,"name":"ETI Coin","symbol":"ETI"}
 [11155111,"0xb626f6574324208fe43752864c724ca98da8b02e"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-unlock-cliff-vesting","symbol":"ASTING"}
 [11155111,"0xb68fb94cfae1b3fe94908de32e647314afb93136"]	{"decimals":18,"name":"ShinobiSepolia","symbol":"SHINOBI"}
 [11155111,"0xb6b25da98516b5f1c69bc03e1ffa304a942b3048"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
@@ -4592,6 +4956,7 @@ id	output
 [11155111,"0xb79481202d90e9a3f1a275baea73fefcf601d319"]	{"decimals":18,"name":"QK","symbol":"QK"}
 [11155111,"0xb7dd46168a7aff17d91c1265e97605391691eece"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-unlock-cliff-vesting","symbol":"ASTING"}
 [11155111,"0xb8f3a95b436a29ff408afad2ba24a2d245dae834"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[11155111,"0xb9ae4c94c33aa4051ecc157863dce46cf4bbb9ed"]	{"decimals":18,"name":"MZ","symbol":"MZ"}
 [11155111,"0xb9fce3a63fb7600f995990b4618366fc7b819117"]	{"decimals":18,"name":"Token","symbol":"tkn"}
 [11155111,"0xbaca88a993d9a1452402dc511efeecda1b18c18f"]	{"decimals":9,"name":"FUEL","symbol":"FUEL"}
 [11155111,"0xbb13093742548a1f00c76f31653d244d90e1eb4d"]	{"decimals":18,"name":"QA Active Lifecycle fps-vesting","symbol":"ASTING"}
@@ -4613,6 +4978,7 @@ id	output
 [11155111,"0xc594bddeed88d8a99ba079ac68a712f66e3d1400"]	{"decimals":18,"name":"Griffin Token: Sablier","symbol":"SABLIER"}
 [11155111,"0xc5ced228a414e6a3d7d15585f2aaf111d61e3283"]	{"decimals":18,"name":"USD Stable Coin","symbol":"USDC"}
 [11155111,"0xc5dde1b9ad18d323a788b957a3b9bf385c35a010"]	{"decimals":18,"name":"Latency","symbol":"LAG"}
+[11155111,"0xc92938e68c197510dca561390d8bf63495a4e5a7"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0xc989cc1c0fa1a690ebf16455f5ad9642793fe70a"]	{"decimals":18,"name":"CARAJO","symbol":"CRJO"}
 [11155111,"0xc9e054fced09cdeaf0d7aa655780e3dd2977dcb4"]	{"decimals":18,"name":"IP Tokens of IPNFT #79","symbol":"sesymbol"}
 [11155111,"0xca2ef4f7528e8840f2a3b5ace3ef9f2ed5018c2f"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
@@ -4620,9 +4986,11 @@ id	output
 [11155111,"0xcb15bf651febea90550aed2af0870a7210e34680"]	{"decimals":2,"name":"CAT-TOKEN","symbol":"MEOW"}
 [11155111,"0xcb1c1d45f0a15fef648add452c55437118992481"]	{"decimals":18,"name":"Fractal Sablier Testing Token","symbol":"FSTT"}
 [11155111,"0xcb4ee7ee88761f52f37e0a7c03a47b07b4f8fd00"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-linear-vesting","symbol":"ASTING"}
+[11155111,"0xcb6fa387b1af82687310d749a45c5bda95a0bbf5"]	{"decimals":18,"name":"MOAI","symbol":"MOAI"}
 [11155111,"0xcbb940244c5a0d6e906d6807efc0695d076e81a3"]	{"decimals":9,"name":"tt","symbol":"tt"}
 [11155111,"0xcc121ab1098625728950b200490d28f8b2c324fd"]	{"decimals":6,"name":"USD Coin","symbol":"USDC"}
 [11155111,"0xcd789635ed87f6df5731b89f27efc838cd5870e3"]	{"decimals":18,"name":"Test Token","symbol":"TST"}
+[11155111,"0xcdee266e7148fd0dcdda35bf17000b477b7c3811"]	{"decimals":6,"name":"Mock USD Coin [MOCK]","symbol":"mUSDC"}
 [11155111,"0xcebaaeff7f8675f95aee85ea54ed166a22dc0f17"]	{"decimals":18,"name":"Parifi","symbol":"PRF"}
 [11155111,"0xcf8b632ae760e83abdc09e7b194d5ff3b177dce1"]	{"decimals":18,"name":"+++++","symbol":"+++"}
 [11155111,"0xd00910b5aab9f2796fdb000c871a376f4f495b02"]	{"decimals":18,"name":"Exit Liquidity","symbol":"EXIT"}
@@ -4638,12 +5006,15 @@ id	output
 [11155111,"0xd532d8c1a4590b473752c5e3e08d5cf32fe1d4ba"]	{"decimals":18,"name":"Test Token","symbol":"TST"}
 [11155111,"0xd5ccca05e27998b310de8d7438a3f5ca34311bff"]	{"decimals":18,"name":"Delux Token","symbol":"DT"}
 [11155111,"0xd6085986c8c6f8255d108cc88e36612d65b382eb"]	{"decimals":18,"name":"TKN","symbol":"TKN"}
+[11155111,"0xd68bf92e1932e88aba70d1498900fb7e68636e7e"]	{"decimals":18,"name":"ZOTH","symbol":"ZOTH"}
 [11155111,"0xd6bde551219c9dfb9e1676959030b5de9f7dc228"]	{"decimals":18,"name":"eUSD","symbol":"eUSD"}
 [11155111,"0xd7f32ef92d09a6dc63df5a14cb70bbe39b8e619d"]	{"decimals":18,"name":"MyToken","symbol":"MT"}
 [11155111,"0xd81c70631c2980d79700de9a54c86b3abc490379"]	{"decimals":18,"name":"QA Active Lifecycle tiered-tiered-linear-vesting","symbol":"ASTING"}
 [11155111,"0xd8273937ac59513df6e084855e1eccc9869699c1"]	{"decimals":18,"name":"123","symbol":"1231"}
+[11155111,"0xd83a8af71313cffa99f582999d8ec8cd289ea532"]	{"decimals":18,"name":"Blind Oracle Flow Asset","symbol":"BOFA"}
 [11155111,"0xd90deb1f60dfb4aeaee71b91ac6c28f0f28899af"]	{"decimals":18,"name":"FEE","symbol":"FEE"}
 [11155111,"0xd9d40f843a6a31154a2bcd1747bdc2edff72efe7"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
+[11155111,"0xda4db7f6f01c01969043521adca9dbe75d7be3ee"]	{"decimals":18,"name":"Pay USD","symbol":"PayUSD"}
 [11155111,"0xda9d4f9b69ac6c22e444ed9af0cfc043b7a7f53f"]	{"decimals":6,"name":"USDC","symbol":"USDC"}
 [11155111,"0xdaba2588db25a47e6209632b3bd85646a8e93c54"]	{"decimals":18,"name":"Centuriones","symbol":"CENT$"}
 [11155111,"0xdb97f184939f60eae5768f1cbd2e678835420d79"]	{"decimals":18,"name":"TokenOps","symbol":"TKOPS"}
@@ -4656,12 +5027,14 @@ id	output
 [11155111,"0xdfae10143b3010a675da85c26acde63f240a92ed"]	{"decimals":18,"name":"Avarik Token","symbol":"AVRK"}
 [11155111,"0xdfed75eba56a07a0ec6d291c2ea8b8408c142a4b"]	{"decimals":18,"name":"Gedas Test Token","symbol":"GTT"}
 [11155111,"0xe130a5894a3567e4751beda70bd2a708226c9482"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
+[11155111,"0xe172f9a2ddc4afe83eb51cbbbd1009651fc478a7"]	{"decimals":6,"name":"Mock USD Coin [MOCK]","symbol":"mUSDC"}
 [11155111,"0xe28fc9c6448b23dbdb5a62ee9104920f271a04aa"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
 [11155111,"0xe2e8a5332d5c459c7970f80ec144c578bcfe72b4"]	{"decimals":18,"name":"Wrapped Bitcoin","symbol":"WBTC"}
 [11155111,"0xe3173cd891ff00b3834769e5ad9b7a941204915c"]	{"decimals":18,"name":"5IRE TEST","symbol":"5T"}
 [11155111,"0xe3226b7ce643c1ef07418e4a8a7e319cf4ae50c6"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
 [11155111,"0xe3eec1ca62952b0e3e411addac59057e1af9f562"]	{"decimals":18,"name":"QA Active Lifecycle fps-vesting","symbol":"ASTING"}
 [11155111,"0xe3fad904f18ccb463a426d02c3df73b72f158372"]	{"decimals":8,"name":"Exa Protocol","symbol":"XAP"}
+[11155111,"0xe464cc19e8231cafe1da34dab596feec43de78c8"]	{"decimals":18,"name":"Four Eyes","symbol":"EYES"}
 [11155111,"0xe646c580aaaa1a3620fc77158b69413279b697ea"]	{"decimals":6,"name":"Play","symbol":"PLAY"}
 [11155111,"0xe647ac9b2dd9c78ebe57f90dc02264cc61f9309d"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-cliff-vesting","symbol":"ASTING"}
 [11155111,"0xe66b3dd9b032ea599dcedb592a71e748b6f18b09"]	{"decimals":18,"name":"QA Active Lifecycle fps-fixed-unlock-linear-vesting","symbol":"ASTING"}
@@ -4686,8 +5059,12 @@ id	output
 [11155111,"0xefd0fd3ea9ce0445633218ec5a38cc62428dad02"]	{"decimals":18,"name":"Play","symbol":"PLAY"}
 [11155111,"0xf090d4cb40dbe5baef0088ac69cf7593584b6ea1"]	{"decimals":18,"name":"NABLA Placeholder","symbol":"NABLAPlaceholder"}
 [11155111,"0xf0ff88bd386d8bee4b25492d17b71f3c98227901"]	{"decimals":18,"name":"Padre","symbol":"PADRE"}
+[11155111,"0xf187422619859a5be5a2db1a275da7a1532d930a"]	{"decimals":18,"name":"Pay USD","symbol":"PayUSD"}
 [11155111,"0xf1a8185c663b7b6ddcece411c84beca4cbaedc39"]	{"decimals":18,"name":"FLUFF","symbol":"FLUFF"}
+[11155111,"0xf2801337bbe66ae360ce7ed9f7d6fc661c581a9f"]	{"decimals":18,"name":"Mock Stream Asset","symbol":"MSA"}
+[11155111,"0xf289b2963d813b5df26e63dac958c32e73fb06a9"]	{"decimals":18,"name":"Sablier Test USD","symbol":"sTUSD"}
 [11155111,"0xf2ff59767b776ecb03b9a7d57cc31075dd82c43d"]	{"decimals":18,"name":"QA Active Lifecycle batch-vesting","symbol":"ASTING"}
+[11155111,"0xf3184881891528060c440d51664c9211eaee284a"]	{"decimals":6,"name":"Mock USD Coin [MOCK]","symbol":"mUSDC"}
 [11155111,"0xf3e48a67014a19b090df617112ef7e573112595b"]	{"decimals":18,"name":"token","symbol":"TOKEN"}
 [11155111,"0xf3ede539e2a7a2f445d24fed38281fb697dc584c"]	{"decimals":18,"name":"CrabToken","symbol":"CRABT"}
 [11155111,"0xf478f8dedebe67cc095693a9d6778deb3fb67ffe"]	{"decimals":18,"name":"NUMA","symbol":"NUMA"}
@@ -4719,4 +5096,5 @@ id	output
 [11155111,"0xff4c87086c43ec611481d5ce13f5bab48214c87c"]	{"decimals":18,"name":"QA Active Lifecycle tiered-vesting","symbol":"ASTING"}
 [11155111,"0xff7d6e284dea13399754c794d777d608ecf866d5"]	{"decimals":18,"name":"Taiwan","symbol":"tawa"}
 [11155111,"0xff96279bbbef6309abacfe20d00f232f9dfe6086"]	{"decimals":18,"name":"Uniswap V2","symbol":"UNI-V2"}
+[11155111,"0xffedd1cbab8b30f2c1c3e96439fd666ad20ca017"]	{"decimals":18,"name":"Pay USD","symbol":"PayUSD"}
 [11155111,"0xfff9976782d46cc05630d1f6ebab18b2324d6b14"]	{"decimals":18,"name":"Wrapped Ether","symbol":"WETH"}
