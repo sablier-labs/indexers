@@ -9,7 +9,7 @@ import type { PriceDataFile } from "../../../utils/price-data.js";
 import { getRequiredPriceDataFiles } from "../../../utils/price-data.js";
 
 /**
- * Get list of required TSV files based on Sablier chain data and forex rates.
+ * Get list of required TSV files based on Sablier chain data.
  */
 function getRequiredFiles(): PriceDataFile[] {
   return getRequiredPriceDataFiles();

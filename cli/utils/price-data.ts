@@ -3,7 +3,7 @@ import { envioChains } from "../../src/indexers/envio.js";
 
 export type PriceDataFile = {
   name: string;
-  sourceDir: "crypto" | "forex";
+  sourceDir: "crypto";
 };
 
 type SablierChain = NonNullable<ReturnType<typeof sablier.evm.chains.get>>;
@@ -22,11 +22,6 @@ export function getRequiredPriceDataFiles(): PriceDataFile[] {
       sourceDir: "crypto",
     });
   }
-
-  files.push({
-    name: "GBP_USD.tsv",
-    sourceDir: "forex",
-  });
 
   return files;
 }
