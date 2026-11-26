@@ -20,6 +20,37 @@ type AirdropCampaign @entity {
 }
 
 """
+Native value that a contract received in a transaction, summed from the call trace. One row per cached trace result:
+`just cache-export` turns these rows into the `nativeValueReceived` effect cache.
+"""
+type CallTrace @entity {
+  """
+  Chain ID of the transaction
+  """
+  chainId: BigInt!
+
+  """
+  Contract address that received the value (lowercase)
+  """
+  contractAddress: String!
+
+  """
+  Transaction hash
+  """
+  hash: String!
+
+  """
+  Unique identifier: chainId_hash_contractAddress
+  """
+  id: ID!
+
+  """
+  Native value received, in wei. A string because the export must keep every digit.
+  """
+  value: String!
+}
+
+"""
 Daily fees aggregated by currency across all chains.
 """
 type CryptoFeesDaily @entity {

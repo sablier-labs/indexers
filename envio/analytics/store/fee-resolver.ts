@@ -3,6 +3,7 @@ import type { Envio } from "../../common/bindings.js";
 import type { HandlerContext } from "../bindings.js";
 import { fetchNativeValueReceived } from "../effects/call-trace.js";
 import { fetchMinFeeWei } from "../effects/min-fee.js";
+import { Id } from "../helpers/index.js";
 
 export type FeeSource = "TX_VALUE" | "TRACE" | "MIN_FEE";
 
@@ -35,7 +36,9 @@ export type ResolvedFee = { amount: bigint; source: FeeSource };
 
 /** Returns undefined when no fee was paid or none can be established. */
 export async function resolveFee(
-  context: Pick<HandlerContext, "effect" | "log">,
+  context: Pick<HandlerContext, "effect" | "log"> & {
+    CallTrace: Pick<HandlerContext["CallTrace"], "set">;
+  },
   event: Envio.Event,
   policy: FeePolicy
 ): Promise<ResolvedFee | undefined> {
@@ -59,6 +62,14 @@ export async function resolveFee(
     txHash: event.transaction.hash,
   });
   if (traced !== null) {
+    // Recorded so that the hosted deployment can export its trace results as an effect cache.
+    context.CallTrace.set({
+      chainId: BigInt(chainId),
+      contractAddress: contract,
+      hash: event.transaction.hash,
+      id: Id.callTrace(chainId, event.transaction.hash, contract),
+      value: traced,
+    });
     return toResolvedFee(BigInt(traced), "TRACE");
   }
 

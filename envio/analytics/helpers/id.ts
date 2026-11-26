@@ -15,6 +15,10 @@ export namespace Id {
     return `${chainId}_${address.toLowerCase()}`;
   }
 
+  export function callTrace(chainId: number, hash: string, contractAddress: string): string {
+    return `${chainId}_${hash}_${contractAddress.toLowerCase()}`;
+  }
+
   export function customFee(chainId: number, address: string): string {
     return `${chainId}_${address.toLowerCase()}`;
   }

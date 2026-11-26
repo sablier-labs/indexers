@@ -32,6 +32,35 @@ cache-dump:
     done
     echo "✅ Dumped the fee caches to $cache_dir"
 
+# Rebuild the call-trace cache from the `CallTrace` rows of a hosted deployment
+[script("bash")]
+cache-export deployment="production":
+    set -euo pipefail
+    file="{{ justfile_dir() }}/.envio/cache/nativeValueReceived.tsv"
+    endpoint=$(just envio::endpoint analytics "{{ deployment }}")
+    query='query ($after: String!) { CallTrace(limit: 1000, order_by: [{ id: asc }], where: { id: { _gt: $after } }) { chainId contractAddress hash id value } }'
+    rows=$(mktemp)
+    trap 'rm -f "$rows"' EXIT
+    after=""
+    while true; do
+        page=$(jq --null-input --arg query "$query" --arg after "$after" '{ query: $query, variables: { after: $after } }' \
+            | curl --fail --silent --show-error --header "Content-Type: application/json" --data @- "$endpoint")
+        if [ "$(jq 'has("errors")' <<< "$page")" = "true" ]; then
+            echo "❌ The deployment rejected the query: $(jq --compact-output '.errors' <<< "$page")" >&2
+            exit 1
+        fi
+        [ "$(jq '.data.CallTrace | length' <<< "$page")" -gt 0 ] || break
+        # The row format is the one that Envio writes: the effect input tuple, then the output.
+        jq --raw-output '.data.CallTrace[] | "[\(.chainId | tonumber),\(.hash | tojson),\(.contractAddress | tojson)]\t\(.value | tojson)"' <<< "$page" >> "$rows"
+        after=$(jq --raw-output '.data.CallTrace[-1].id' <<< "$page")
+    done
+    if [ ! -s "$rows" ]; then
+        echo "❌ The deployment has no CallTrace rows" >&2
+        exit 1
+    fi
+    { printf 'id\toutput\n'; LC_ALL=C sort "$rows"; } > "$file"
+    echo "✅ Exported $(wc -l < "$rows" | tr -d ' ') call traces to $file"
+
 # The recipe restarts the indexer after a crash and continues from the stored progress. Run it again to resume.
 # Backfill locally until all chains are synced, then dump the fee caches
 [script("bash")]

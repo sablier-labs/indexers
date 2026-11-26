@@ -65,7 +65,14 @@ cached input.
   fallback ran.
 - Do not commit a forex cache. The rate of a recent date can change.
 
-To refresh the fee caches, run `just cache-backfill` in `envio/analytics`, then commit the fee cache files.
+To refresh the call-trace cache, run `just cache-export [deployment]` in `envio/analytics`, then commit the file.
+
+- The handlers record each trace result in a `CallTrace` row. The recipe reads these rows from a synced hosted
+  deployment and writes `nativeValueReceived.tsv` again.
+- The default deployment is `production`. Use `latest-nonproduction` for a candidate.
+- The recipe does not export `minFeeWei.tsv`.
+
+`just cache-backfill` is the local alternative. It also dumps `minFeeWei.tsv`.
 
 - The recipe backfills locally, restarts the indexer after a crash, and dumps the caches when all chains are synced.
 - The recipe also restarts the indexer after 45 minutes without a new event. Rate-limited HyperSync queries can stop the

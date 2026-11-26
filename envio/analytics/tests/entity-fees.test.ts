@@ -55,6 +55,7 @@ function createContext() {
 
   const context = {
     AirdropCampaign: campaigns.table,
+    CallTrace: createTable<Entity<"CallTrace">>().table,
     CryptoFeesDaily: cryptoFees.table,
     FeeLedger: ledgers.table,
     FeeTransaction: feeTxs.table,

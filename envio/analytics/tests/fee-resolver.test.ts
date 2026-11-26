@@ -23,7 +23,10 @@ const mockLogger = {
   warn: vi.fn(),
 } satisfies Logger;
 
+const setCallTrace = vi.fn();
+
 const context = {
+  CallTrace: { set: setCallTrace },
   effect: ((effect: unknown, input: unknown) => {
     if (effect === fetchNativeValueReceived) {
       return traceEffect(input);
@@ -95,6 +98,13 @@ describe("resolveFee", () => {
       await expect(
         resolveFee(context, createEvent(WRAPPER), FeePolicies.airdropOracle)
       ).resolves.toEqual({ amount: 42n, source: "TRACE" });
+      expect(setCallTrace).toHaveBeenCalledWith({
+        chainId: 1n,
+        contractAddress: CONTRACT.toLowerCase(),
+        hash: TX_HASH,
+        id: `1_${TX_HASH}_${CONTRACT.toLowerCase()}`,
+        value: "42",
+      });
       expect(traceEffect).toHaveBeenCalledWith({
         chainId: CHAIN_ID,
         contract: CONTRACT.toLowerCase(),
@@ -110,6 +120,7 @@ describe("resolveFee", () => {
         resolveFee(context, createEvent(WRAPPER), FeePolicies.airdropOracle)
       ).resolves.toBeUndefined();
       expect(minFeeEffect).not.toHaveBeenCalled();
+      expect(setCallTrace).toHaveBeenCalledWith(expect.objectContaining({ value: "0" }));
     });
 
     it("traces transactions without a recipient", async () => {
