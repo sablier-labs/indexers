@@ -56,8 +56,6 @@ type UniqueTxsResult = {
 // -------------------------------------------------------------------------- //
 
 export const ENVIO_ANALYTICS_ENDPOINT = "https://indexer.hyperindex.xyz/7672d32/v1/graphql";
-export const ENVIO_ANALYTICS_PLAYGROUND_URL =
-  "https://envio.dev/app/sablier-labs/analytics/5c522f5/playground";
 
 const QUARTERLY_AVERAGE_MAU_QUERY = /* GraphQL */ `
   query QuarterlyAverageMAU($quarterStart: timestamptz!, $quarterEnd: timestamptz!) {

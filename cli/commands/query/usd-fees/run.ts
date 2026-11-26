@@ -3,7 +3,7 @@ import { Console, Effect } from "effect";
 import { formatUnits } from "viem";
 import { colors, createTable, displayHeader } from "../../../utils/display.js";
 import { withSpinner } from "../../../utils/spinner.js";
-import { ENVIO_ANALYTICS_PLAYGROUND_URL, fetchUsdFees } from "../clients/envio.js";
+import { ENVIO_ANALYTICS_ENDPOINT, fetchUsdFees } from "../clients/envio.js";
 import { formatTimestamp, toHasuraTimestamp } from "../utils/date-range.js";
 import { getQuarterWindow } from "../utils/quarter.js";
 
@@ -34,7 +34,7 @@ export const handler = (options: { readonly quarter: string }) =>
       [colors.value("Quarter"), colors.value(quarterWindow.name.toUpperCase())],
       [colors.value("Start (UTC)"), colors.dim(formatTimestamp(quarterWindow.start))],
       [colors.value("End (UTC)"), colors.dim(formatTimestamp(quarterWindow.end))],
-      [colors.value("Envio"), colors.dim(ENVIO_ANALYTICS_PLAYGROUND_URL)]
+      [colors.value("Envio"), colors.dim(ENVIO_ANALYTICS_ENDPOINT)]
     );
 
     yield* Console.log("");
