@@ -32,12 +32,13 @@ cache-dump:
     done
     echo "✅ Dumped the fee caches to $cache_dir"
 
-# Rebuild the call-trace cache from the `CallTrace` rows of a hosted deployment
+# Update the call-trace cache from the `CallTrace` rows of a hosted deployment
 [script("bash")]
 cache-export deployment="production":
     set -euo pipefail
     file="{{ justfile_dir() }}/.envio/cache/nativeValueReceived.tsv"
-    endpoint=$(just envio::endpoint analytics "{{ deployment }}")
+    # The root justfile is named explicitly: here, `envio` is a recipe and not the root module.
+    endpoint=$(just --justfile "{{ justfile_dir() }}/../../justfile" envio::endpoint analytics "{{ deployment }}")
     query='query ($after: String!) { CallTrace(limit: 1000, order_by: [{ id: asc }], where: { id: { _gt: $after } }) { chainId contractAddress hash id value } }'
     rows=$(mktemp)
     trap 'rm -f "$rows"' EXIT
@@ -58,8 +59,16 @@ cache-export deployment="production":
         echo "❌ The deployment has no CallTrace rows" >&2
         exit 1
     fi
+    exported=$(wc -l < "$rows" | tr -d ' ')
+    # Envio also calls the effect in its preload pass for events that the handler then skips. These results have no
+    # CallTrace row, so the rows that the file already holds are kept.
+    if [ -f "$file" ]; then
+        awk -F '\t' 'NR == FNR { seen[$1]; next } FNR > 1 && !($1 in seen)' "$rows" "$file" > "$rows.kept"
+        cat "$rows.kept" >> "$rows"
+        rm -f "$rows.kept"
+    fi
     { printf 'id\toutput\n'; LC_ALL=C sort "$rows"; } > "$file"
-    echo "✅ Exported $(wc -l < "$rows" | tr -d ' ') call traces to $file"
+    echo "✅ Exported $exported call traces to $file ($(wc -l < "$rows" | tr -d ' ') rows in total)"
 
 # The recipe restarts the indexer after a crash and continues from the stored progress. Run it again to resume.
 # Backfill locally until all chains are synced, then dump the fee caches

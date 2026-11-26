@@ -68,7 +68,9 @@ cached input.
 To refresh the call-trace cache, run `just cache-export [deployment]` in `envio/analytics`, then commit the file.
 
 - The handlers record each trace result in a `CallTrace` row. The recipe reads these rows from a synced hosted
-  deployment and writes `nativeValueReceived.tsv` again.
+  deployment and merges them into `nativeValueReceived.tsv`. An exported row replaces a row with the same key.
+- The recipe keeps the rows that have no `CallTrace` row. Envio calls the effect in its preload pass for events that the
+  handler then skips, for example a claim on a campaign registered in the same batch.
 - The default deployment is `production`. Use `latest-nonproduction` for a candidate.
 - The recipe does not export `minFeeWei.tsv`.
 
