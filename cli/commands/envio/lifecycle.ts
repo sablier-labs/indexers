@@ -217,10 +217,11 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
         return undefined;
       });
       while ((yield* ops.now()) < deadline) {
-        // envio-cloud exits 2 on API or server errors; only reads carry an exit code, so poll again.
+        // envio-cloud exits 2 on API or server errors and reads can hang; only reads carry these
+        // markers (mutate strips timeouts), so poll again.
         const ready = yield* poll.pipe(
           Effect.catchIf(
-            (error) => error.exitCode === 2,
+            (error) => error.exitCode === 2 || error.timedOut === true,
             (error) =>
               ops
                 .log(`Transient Envio Cloud error during ${error.operation}; polling again`)
@@ -266,6 +267,17 @@ export function makeReleaseWorkflow(ops: ReleaseOperations) {
         "json",
       ])
       .pipe(
+        // A timed-out mutation has an unknown outcome; keep it fatal so polling never repeats it.
+        Effect.catchIf(
+          (error) => error.timedOut === true,
+          () =>
+            Effect.fail(
+              failure(
+                `deployment ${action}`,
+                `Cloud ${action} timed out for ${commit}; reinspect Cloud before retrying`
+              )
+            )
+        ),
         Effect.flatMap((output) => {
           if (output.exitCode !== 0) {
             return Effect.fail(

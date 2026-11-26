@@ -44,6 +44,7 @@ function fixture() {
     mismatchProductionEndpoint: boolean;
     metrics: typeof completeMetrics;
     metricsExitCodes: number[];
+    metricsTimeouts: number;
     pendingAfterPromote: number;
     pendingReads: number;
     onDelete: (commit: string) => void;
@@ -60,6 +61,7 @@ function fixture() {
     historyOmitted: false,
     metrics: completeMetrics,
     metricsExitCodes: [],
+    metricsTimeouts: 0,
     mismatchProductionEndpoint: false,
     pendingAfterPromote: 0,
     pendingReads: 0,
@@ -70,7 +72,7 @@ function fixture() {
     onSmoke: (_endpoint: string): void => undefined,
   };
   let now = 0;
-  const cloud = makeEnvioCloud((args) =>
+  const respond = (args: readonly string[]) =>
     Effect.sync(() => {
       let data: unknown;
       if (args[0] === "indexer" && args[1] === "get") {
@@ -141,8 +143,20 @@ function fixture() {
         throw new Error(`Unexpected Cloud command: ${args.join(" ")}`);
       }
       return { exitCode: 0, stderr: "", stdout: JSON.stringify({ data, ok: true }) };
-    })
-  );
+    });
+  const cloud = makeEnvioCloud((args) => {
+    if (args[1] === "metrics" && state.metricsTimeouts > 0) {
+      state.metricsTimeouts -= 1;
+      return Effect.fail(
+        new EnvioCloudError({
+          message: "timed out",
+          operation: "deployment metrics",
+          timedOut: true,
+        })
+      );
+    }
+    return respond(args);
+  });
   const operations: ReleaseOperations = {
     cloud,
     log: (message) =>
@@ -226,11 +240,12 @@ describe("Envio release safety", () => {
     const transient = fixture();
     transient.state.commits = [previous];
     transient.state.metricsExitCodes = [2, 2];
+    transient.state.metricsTimeouts = 1;
     await Effect.runPromise(transient.workflow.deploy("streams", "HEAD", 60_000));
     expect(transient.smokes).toHaveLength(1);
     expect(
       transient.messages.filter((m) => m.startsWith("Transient Envio Cloud error"))
-    ).toHaveLength(2);
+    ).toHaveLength(3);
 
     const fatal = fixture();
     fatal.state.commits = [previous];

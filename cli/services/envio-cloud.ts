@@ -41,7 +41,11 @@ function executeCloudCommand(executor: CommandExecutor.CommandExecutor, args: re
     Effect.timeoutFail({
       duration: "60 seconds",
       onTimeout: () =>
-        new EnvioCloudError({ message: "CLI command timed out after 60 seconds", operation }),
+        new EnvioCloudError({
+          message: "CLI command timed out after 60 seconds",
+          operation,
+          timedOut: true,
+        }),
     }),
     Effect.mapError((error) =>
       error instanceof EnvioCloudError

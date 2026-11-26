@@ -6,6 +6,7 @@ export class EnvioCloudError extends Data.TaggedError("EnvioCloudError")<{
   readonly operation: string;
   readonly message: string;
   readonly exitCode?: number;
+  readonly timedOut?: boolean;
 }> {}
 
 const nonempty = Schema.NonEmptyString;
