@@ -47,9 +47,21 @@ cache-backfill:
         echo "[$(date '+%F %T')] starting the indexer" >> "$log"
         just envio dev tui_off >> "$log" 2>&1 &
         indexer=$!
+        events=""
+        idle=0
         while kill -0 "$indexer" 2>/dev/null; do
             sleep 60
-            ready=$(curl --silent --max-time 10 "$metrics" | grep '^envio_progress_ready' || true)
+            snapshot=$(curl --silent --max-time 10 "$metrics" || true)
+            ready=$(grep '^envio_progress_ready' <<< "$snapshot" || true)
+            # Rate-limited partitions can starve for hours and block event processing: a restart clears them.
+            current=$(awk '/^envio_progress_events/ { sum += $2 } END { print sum + 0 }' <<< "$snapshot")
+            if [ "$current" = "$events" ]; then idle=$((idle + 1)); else idle=0; fi
+            events=$current
+            if [ "$idle" -ge 45 ]; then
+                echo "[$(date '+%F %T')] no progress for 45 minutes; restarting the indexer" >> "$log"
+                stop_indexer
+                idle=0
+            fi
             if [ -n "$ready" ] && ! grep -qv ' 1$' <<< "$ready"; then
                 echo "[$(date '+%F %T')] all chains are synced" >> "$log"
                 just cache-dump >> "$log" 2>&1 && { stop_indexer; echo "✅ Backfill complete; commit the fee caches"; exit 0; }

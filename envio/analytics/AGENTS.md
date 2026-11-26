@@ -68,9 +68,11 @@ cached input.
 To refresh the fee caches, run `just cache-backfill` in `envio/analytics`, then commit the fee cache files.
 
 - The recipe backfills locally, restarts the indexer after a crash, and dumps the caches when all chains are synced.
+- The recipe also restarts the indexer after 45 minutes without a new event. Rate-limited HyperSync queries can stop the
+  progress while the process stays alive.
 - It continues from the stored progress. Run it again after an interruption. Use `just envio dev tui_off -r` first only
   when you need a clean database.
-- The local `ENVIO_API_TOKEN` quota controls the speed. With the free package, a full backfill takes more than a day.
+- The local `ENVIO_API_TOKEN` quota controls the speed. With the free package, a full backfill takes several days.
 - The log is `.logs/analytics-cache-backfill.log`.
 
 If you change the trace parsers or the input of a cached effect, delete its cache file and refresh it. A stale row gives
