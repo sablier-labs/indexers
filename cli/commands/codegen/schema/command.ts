@@ -1,4 +1,5 @@
 import { Command, Options } from "@effect/cli";
+import { TARGET_OPTIONS } from "../../../utils/constants.js";
 import { lazyHandler } from "../../../utils/lazy-command.js";
 
 const vendorOption = Options.choice("vendor", ["graph", "envio", "all"] as const).pipe(
@@ -6,12 +7,10 @@ const vendorOption = Options.choice("vendor", ["graph", "envio", "all"] as const
   Options.withDescription("Vendor to generate schemas for")
 );
 
-const indexerOption = Options.choice("indexer", [
-  "airdrops",
-  "analytics",
-  "streams",
-  "all",
-] as const).pipe(Options.withAlias("i"), Options.withDescription("Indexer to generate schema for"));
+const indexerOption = Options.choice("indexer", TARGET_OPTIONS).pipe(
+  Options.withAlias("i"),
+  Options.withDescription("Indexer to generate schema for")
+);
 
 export const schemaCommand = Command.make(
   "schema",

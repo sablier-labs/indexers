@@ -1,7 +1,8 @@
 import { Command, Options } from "@effect/cli";
+import { GRAPH_TARGETS } from "../../../../utils/constants.js";
 import { lazyHandler } from "../../../../utils/lazy-command.js";
 
-const indexerOption = Options.choice("indexer", ["airdrops", "streams"] as const).pipe(
+const indexerOption = Options.choice("indexer", GRAPH_TARGETS).pipe(
   Options.withAlias("i"),
   Options.withDescription("Indexer to deploy")
 );

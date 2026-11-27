@@ -1,7 +1,8 @@
 import { Command, Options } from "@effect/cli";
+import { TARGET_OPTIONS, TARGETS } from "../../utils/constants.js";
 import { lazyHandler } from "../../utils/lazy-command.js";
 
-const indexer = Options.choice("indexer", ["airdrops", "analytics", "streams"] as const);
+const indexer = Options.choice("indexer", TARGETS);
 const deployment = Options.text("deployment").pipe(
   Options.withDefault("production"),
   Options.withDescription("production, latest-nonproduction, or a prepared commit SHA")
@@ -48,9 +49,7 @@ const logs = Command.make(
 const deploy = Command.make(
   "deploy",
   {
-    indexer: Options.choice("indexer", ["airdrops", "analytics", "streams", "all"] as const).pipe(
-      Options.withDefault("all")
-    ),
+    indexer: Options.choice("indexer", TARGET_OPTIONS).pipe(Options.withDefault("all")),
     ref,
     timeout,
   },

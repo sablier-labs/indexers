@@ -4,7 +4,6 @@
  * @example
  * pnpm tsx cli print chains
  * pnpm tsx cli print chains --graph
- * pnpm tsx cli codegen (placeholder)
  */
 
 import { Command } from "@effect/cli";

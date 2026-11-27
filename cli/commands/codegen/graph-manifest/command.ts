@@ -1,7 +1,8 @@
 import { Command, Options } from "@effect/cli";
+import { GRAPH_TARGET_OPTIONS } from "../../../utils/constants.js";
 import { lazyHandler } from "../../../utils/lazy-command.js";
 
-const indexerOption = Options.choice("indexer", ["airdrops", "streams", "all"] as const).pipe(
+const indexerOption = Options.choice("indexer", GRAPH_TARGET_OPTIONS).pipe(
   Options.withAlias("i"),
   Options.withDescription("Indexer to generate manifest for")
 );
