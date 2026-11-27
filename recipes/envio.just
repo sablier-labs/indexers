@@ -3,7 +3,7 @@ import "../node_modules/@prb/devkit/just/settings.just"
 # Pin recipes to the repo root; see recipes/codegen.just for why `no-cd` is wrong here.
 set working-directory := ".."
 
-# Fetch assets from The Graph subgraphs and save them to JSON files
+# Report which indexing vendors support a chain
 @check-vendors chain_id="1":
     just cli check-vendors --chain-id {{ chain_id }}
 
@@ -137,32 +137,3 @@ _cache-check-one indexer:
 
     line_count=$(wc -l < "$cache_path" | tr -d ' ')
     echo "✅ $cache_path ($line_count lines)"
-
-# Helper to run three commands in parallel (airdrops, analytics, streams)
-@_concurrent-envio-indexers cmd1 cmd2 cmd3:
-    pnpm concurrently --group \
-        -n "airdrops,analytics,streams" \
-        -c "blue,cyan,green" \
-        "{{ cmd1 }}" \
-        "{{ cmd2 }}" \
-        "{{ cmd3 }}"
-
-# Helper to run an Envio recipe for all indexers or a specific one
-[script("bash")]
-_envio-for-each recipe indexer:
-    case "{{ indexer }}" in
-        all)
-            just envio::_concurrent-envio-indexers \
-                "just {{ recipe }} airdrops" \
-                "just {{ recipe }} analytics" \
-                "just {{ recipe }} streams"
-            ;;
-        protocols)
-            just _concurrent-indexers \
-                "just {{ recipe }} airdrops" \
-                "just {{ recipe }} streams"
-            ;;
-        *)
-            just {{ recipe }} {{ indexer }}
-            ;;
-    esac
