@@ -29,10 +29,8 @@ export const handler = () =>
 
     const results: ExportResult[] = [];
 
-    // Process each indexer (skip analytics which has no schema)
     for (const target of GRAPH_TARGETS) {
       const result = yield* Effect.gen(function* () {
-        // Using Envio because they have the most complete schema. See the User and Revenue entities.
         const schema = print(getMergedSchema(target));
         const outputPath = paths.exports.schema(target);
         yield* fs.writeFileString(outputPath, schema);

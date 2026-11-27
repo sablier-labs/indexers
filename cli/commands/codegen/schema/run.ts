@@ -10,17 +10,23 @@ import { colors, createTable, displayHeader } from "../../../utils/display.js";
 import { ProcessError, toFileOperationError } from "../../../utils/errors.js";
 import paths, { getRelative } from "../../../utils/paths.js";
 
-/**
- * Generates and writes a GraphQL schema for a specific indexer with result tracking
- */
-function generateSchemaWithResult(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
+function writeSchema(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(target, vendor));
-    const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
+    const schema = `${AUTOGEN_COMMENT}${print(getMergedSchema(target))}`;
     const outputPath = paths.schema(vendor, target);
 
-    yield* fs.writeFileString(outputPath, schema);
+    yield* fs
+      .writeFileString(outputPath, schema)
+      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
+
+    return outputPath;
+  });
+}
+
+function generateSchemaWithResult(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
+  return Effect.gen(function* () {
+    const outputPath = yield* writeSchema(vendor, target);
 
     return {
       target,
@@ -40,19 +46,9 @@ function generateSchemaWithResult(vendor: Indexer.Vendor, target: Indexer.GraphT
   );
 }
 
-/**
- * Generates and writes a GraphQL schema for a specific indexer
- */
 function generateSchema(vendor: Indexer.Vendor, target: Indexer.GraphTarget) {
   return Effect.gen(function* () {
-    const fs = yield* FileSystem.FileSystem;
-    const mergedSchema = print(getMergedSchema(target, vendor));
-    const schema = `${AUTOGEN_COMMENT}${mergedSchema}`;
-    const outputPath = paths.schema(vendor, target);
-
-    yield* fs
-      .writeFileString(outputPath, schema)
-      .pipe(Effect.mapError(toFileOperationError(outputPath, "write")));
+    const outputPath = yield* writeSchema(vendor, target);
 
     yield* Console.log(
       `✅ Generated GraphQL schema for ${_.capitalize(vendor)} vendor and ${_.capitalize(target)} target`
@@ -123,27 +119,14 @@ function displaySchemaResults(results: SchemaResult[]) {
   });
 }
 
-function generateAllIndexerSchemas(vendor: Indexer.Vendor) {
+function generateSchemas(
+  vendors: readonly Indexer.Vendor[],
+  targets: readonly Indexer.GraphTarget[]
+) {
   return Effect.gen(function* () {
     yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
 
-    // Analytics uses a manually maintained schema
-    const results = yield* Effect.forEach(GRAPH_TARGETS, (target) =>
-      generateSchemaWithResult(vendor, target)
-    );
-
-    yield* displaySchemaResults(results);
-  });
-}
-
-function generateAllVendorSchemas(indexerArg: Indexer.GraphTarget | "all") {
-  return Effect.gen(function* () {
-    yield* displayHeader("📝 GENERATING GRAPHQL SCHEMAS", "cyan");
-
-    // Build list of vendor/indexer combinations to process
-    // Analytics uses a manually maintained schema
-    const targets = indexerArg === "all" ? GRAPH_TARGETS : [indexerArg];
-    const combinations = VENDORS.flatMap((vendor) => targets.map((target) => ({ target, vendor })));
+    const combinations = vendors.flatMap((vendor) => targets.map((target) => ({ target, vendor })));
 
     const results = yield* Effect.forEach(combinations, ({ target, vendor }) =>
       generateSchemaWithResult(vendor, target)
@@ -153,27 +136,26 @@ function generateAllVendorSchemas(indexerArg: Indexer.GraphTarget | "all") {
   });
 }
 
-export const handler = (options: {
-  readonly vendor: "graph" | "envio" | "all";
+export const handler = ({
+  indexer,
+  vendor,
+}: {
+  readonly vendor: Indexer.Vendor | "all";
   readonly indexer: Indexer.Target | "all";
 }) =>
   Effect.gen(function* () {
-    const vendorArg = options.vendor;
-    const targetArg = options.indexer;
-
     // Analytics has a manually maintained schema, skip generation
-    if (targetArg === "analytics") {
+    if (indexer === "analytics") {
       yield* Console.log("⏭️  Skipping (uses manually maintained schema)");
       return;
     }
 
-    if (vendorArg === "all") {
-      return yield* generateAllVendorSchemas(targetArg);
+    if (vendor === "all" || indexer === "all") {
+      return yield* generateSchemas(
+        vendor === "all" ? VENDORS : [vendor],
+        indexer === "all" ? GRAPH_TARGETS : [indexer]
+      );
     }
 
-    if (targetArg === "all") {
-      return yield* generateAllIndexerSchemas(vendorArg);
-    }
-
-    return yield* generateSchema(vendorArg, targetArg);
+    return yield* generateSchema(vendor, indexer);
   });
