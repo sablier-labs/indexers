@@ -10,8 +10,12 @@ createEquivalenceTest({
     envio: getIndexer({ chainId: sepolia.id, indexer: "airdrops", vendor: "envio" })!.endpoint.url,
     graph: getIndexer({ chainId: sepolia.id, indexer: "airdrops", vendor: "graph" })!.endpoint.url,
   },
-  queries: {
-    envio: [AirdropsEnvio.getCampaignsWithActivities, AirdropsEnvio.getActions],
-    graph: [AirdropsGraph.getCampaignsWithActivities, AirdropsGraph.getActions],
-  },
+  queries: [
+    {
+      entity: "campaigns",
+      envio: AirdropsEnvio.getCampaignsWithActivities,
+      graph: AirdropsGraph.getCampaignsWithActivities,
+    },
+    { entity: "actions", envio: AirdropsEnvio.getActions, graph: AirdropsGraph.getActions },
+  ],
 });

@@ -260,11 +260,11 @@ export namespace LockupEnvio {
         ...TrancheFragment
       }
     }
-    query getStreams($first: Int!, $orderDirection: order_by!, $where: LockupStream_bool_exp) {
+    query getStreams($first: Int!, $where: LockupStream_bool_exp) {
       streams: LockupStream(
         distinct_on: [subgraphId]
         limit: $first
-        order_by: { subgraphId: $orderDirection }
+        order_by: { subgraphId: asc }
         where: $where
       ) {
         ...LockupStreamFragment
@@ -275,11 +275,11 @@ export namespace LockupEnvio {
   export const getActions = gql(/* GraphQL */ `
     ${AssetFragment}
     ${LockupActionFragment}
-    query getActions($first: Int!, $orderDirection: order_by!, $where: LockupAction_bool_exp) {
+    query getActions($first: Int!, $where: LockupAction_bool_exp) {
       actions: LockupAction(
         distinct_on: [subgraphId]
         limit: $first
-        order_by: { subgraphId: $orderDirection }
+        order_by: { subgraphId: asc }
         where: $where
       ) {
         ...LockupActionFragment
@@ -315,11 +315,11 @@ export namespace LockupGraph {
         ...TrancheFragment
       }
     }
-    query getStreams($first: Int!, $orderDirection: OrderDirection!, $where: LockupStream_filter) {
+    query getStreams($first: Int!, $where: LockupStream_filter) {
       streams: lockupStreams(
         first: $first
         orderBy: subgraphId
-        orderDirection: $orderDirection
+        orderDirection: asc
         where: $where
       ) {
         ...LockupStreamFragment
@@ -330,11 +330,11 @@ export namespace LockupGraph {
   export const getActions = gql(/* GraphQL */ `
     ${AssetFragment}
     ${LockupActionFragment}
-    query getActions($first: Int!, $orderDirection: OrderDirection!, $where: LockupAction_filter) {
+    query getActions($first: Int!, $where: LockupAction_filter) {
       actions: lockupActions(
         first: $first
         orderBy: subgraphId
-        orderDirection: $orderDirection
+        orderDirection: asc
         where: $where
       ) {
         ...LockupActionFragment
@@ -367,11 +367,11 @@ export namespace AirdropsEnvio {
       }
     }
     ${AirdropsActivityFragment}
-    query getCampaignsWithActivities($first: Int!, $orderDirection: order_by!, $where: Campaign_bool_exp) {
+    query getCampaignsWithActivities($first: Int!, $where: Campaign_bool_exp) {
       campaigns: Campaign(
         distinct_on: [subgraphId]
         limit: $first
-        order_by: { subgraphId: $orderDirection }
+        order_by: { subgraphId: asc }
         where: $where
       ) {
         ...CampaignFragment
@@ -385,11 +385,11 @@ export namespace AirdropsEnvio {
   export const getActions = gql(/* GraphQL */ `
     ${AssetFragment}
     ${AirdropsActionFragment}
-    query getActions($first: Int!, $orderDirection: order_by!, $where: Action_bool_exp) {
+    query getActions($first: Int!, $where: Action_bool_exp) {
       actions: Action(
         distinct_on: [subgraphId]
         limit: $first
-        order_by: { subgraphId: $orderDirection }
+        order_by: { subgraphId: asc }
         where: $where
       ) {
         ...ActionFragment
@@ -424,8 +424,8 @@ export namespace AirdropsGraph {
       }
     }
     ${AirdropsActivityFragment}
-    query getCampaignsWithActivities($first: Int!, $orderDirection: OrderDirection!, $where: Campaign_filter) {
-      campaigns(first: $first, orderBy: subgraphId, orderDirection: $orderDirection, where: $where) {
+    query getCampaignsWithActivities($first: Int!, $where: Campaign_filter) {
+      campaigns(first: $first, orderBy: subgraphId, orderDirection: asc, where: $where) {
         ...CampaignFragment
         activities(first: 1000, orderBy: timestamp, orderDirection: asc) {
           ...ActivityFragment
@@ -441,7 +441,7 @@ export namespace AirdropsGraph {
       actions(
         first: $first
         orderBy: subgraphId
-        orderDirection: desc
+        orderDirection: asc
         where: $where
       ) {
         ...ActionFragment

@@ -10,8 +10,8 @@ createEquivalenceTest({
     envio: getIndexer({ chainId: sepolia.id, indexer: "streams", vendor: "envio" })!.endpoint.url,
     graph: getIndexer({ chainId: sepolia.id, indexer: "streams", vendor: "graph" })!.endpoint.url,
   },
-  queries: {
-    envio: [LockupEnvio.getStreams, LockupEnvio.getActions],
-    graph: [LockupGraph.getStreams, LockupGraph.getActions],
-  },
+  queries: [
+    { entity: "streams", envio: LockupEnvio.getStreams, graph: LockupGraph.getStreams },
+    { entity: "actions", envio: LockupEnvio.getActions, graph: LockupGraph.getActions },
+  ],
 });
