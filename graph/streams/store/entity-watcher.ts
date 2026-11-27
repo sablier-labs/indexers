@@ -35,33 +35,3 @@ export function attributeFee(watcher: Entity.Watcher, event: ethereum.Event): Bi
   }
   return fee;
 }
-
-/* -------------------------------------------------------------------------- */
-/*                                    FLOW                                    */
-/* -------------------------------------------------------------------------- */
-
-export function incrementFlowActionCounter(watcher: Entity.Watcher): void {
-  watcher.flowActionCounter = watcher.flowActionCounter.plus(ONE);
-  watcher.save();
-}
-
-export function incrementFlowCounters(watcher: Entity.Watcher): void {
-  watcher.flowActionCounter = watcher.flowActionCounter.plus(ONE);
-  watcher.flowStreamCounter = watcher.flowStreamCounter.plus(ONE);
-  watcher.save();
-}
-
-/* -------------------------------------------------------------------------- */
-/*                                   LOCKUP                                   */
-/* -------------------------------------------------------------------------- */
-
-export function incrementLockupActionCounter(watcher: Entity.Watcher): void {
-  watcher.lockupActionCounter = watcher.lockupActionCounter.plus(ONE);
-  watcher.save();
-}
-
-export function incrementLockupCounters(watcher: Entity.Watcher): void {
-  watcher.lockupActionCounter = watcher.lockupActionCounter.plus(ONE);
-  watcher.lockupStreamCounter = watcher.lockupStreamCounter.plus(ONE);
-  watcher.save();
-}

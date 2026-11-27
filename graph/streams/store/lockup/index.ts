@@ -1,7 +1,5 @@
-import { getOrCreateAsset } from "../entity-asset";
 import { loadOrCreateLockupContract } from "../entity-contract";
 import { createDeprecatedStream, existsDeprecatedStream } from "../entity-deprecated-stream";
-import { getOrCreateWatcher } from "../entity-watcher";
 import { createAction } from "./entity-action";
 import {
   createStreamDynamic,
@@ -13,10 +11,6 @@ import {
 export namespace Store {
   export namespace Action {
     export const create = createAction;
-  }
-
-  export namespace Asset {
-    export const getOrCreate = getOrCreateAsset;
   }
 
   export namespace Contract {
@@ -33,9 +27,5 @@ export namespace Store {
     export const createLinear = createStreamLinear;
     export const createTranched = createStreamTranched;
     export const get = getStream;
-  }
-
-  export namespace Watcher {
-    export const getOrCreate = getOrCreateWatcher;
   }
 }
