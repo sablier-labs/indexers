@@ -1,4 +1,3 @@
-import { ContractFunctionExecutionError } from "viem";
 import type { Indexer } from "../../src/types.js";
 
 export namespace CriticalError {
@@ -35,14 +34,4 @@ export namespace CriticalError {
       this.name = "ContractVersionNotFoundError";
     }
   }
-}
-
-/**
- * @see https://github.com/sablier-labs/indexers/issues/150
- */
-export function isDecimalsRevertedError(error: unknown): error is ContractFunctionExecutionError {
-  return (
-    error instanceof ContractFunctionExecutionError &&
-    error.message.includes('The contract function "decimals" reverted')
-  );
 }

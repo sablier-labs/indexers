@@ -1,5 +1,3 @@
-import type { Address } from "viem";
-
 export type StreamActionCategory =
   | "Adjust"
   | "Approval"
@@ -16,19 +14,10 @@ export type StreamActionCategory =
   | "Withdraw";
 
 export namespace RPCData {
-  export enum Category {
-    Proxender = "proxenders",
-    ERC20 = "erc20",
-  }
-
   export type ERC20Metadata = {
     decimals: number;
     name: string;
     symbol: string;
-  };
-
-  export type ProxenderInfo = {
-    owner: Address;
   };
 }
 

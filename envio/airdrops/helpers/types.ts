@@ -2,11 +2,6 @@ import type { Address } from "viem";
 import type { Entity, Enum } from "../bindings.js";
 
 export namespace Params {
-  export type ActionEntities = {
-    campaign: Entity<"Campaign">;
-    watcher: Entity<"Watcher">;
-  };
-
   export type Action = {
     campaignId: string;
     category: Enum<"ActionCategory">;
