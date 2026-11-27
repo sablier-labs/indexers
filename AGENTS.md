@@ -30,10 +30,8 @@ type-checking when it is absent or stale.
 Regenerate bindings after modifying `schema/` or GraphQL files, updating `cli/commands/codegen/`, or bumping `envio`,
 `@graphprotocol/graph-ts`, or `@graphprotocol/graph-cli`.
 
-`just codegen::schema <vendor> <indexer>` always follows its generator with
-`just --quiet biome-write "envio/**/*.graphql"`. This applies to every vendor and indexer, including Graph generation
-and analytics, whose source-schema generation is skipped. Snapshot the Envio GraphQL paths before this shared-tree
-recipe for scope accounting and to attribute its resulting diffs; the formatter still processes concurrent input.
+`just codegen::schema <vendor> <indexer>` runs Biome on the public Envio schema files it generates. The recipe skips
+analytics schema generation.
 
 Public source schemas are in `schema/` for airdrops and streams, while `envio/analytics/analytics.graphql` is maintained
 directly. The tracked public Envio outputs are `envio/airdrops/{config.yaml,airdrops.graphql}` and

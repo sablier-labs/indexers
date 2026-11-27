@@ -8,8 +8,7 @@ hand-maintained mappings, helpers, and stores, follow the
 
 - Edit mappings, stores, and shared helpers in `graph/`; never hand-edit generated bindings, manifests, schemas, or
   build output.
-- Follow the root [schema ownership](../AGENTS.md#schema-rules) and [codegen guidance](../AGENTS.md#codegen), including
-  the cross-vendor GraphQL formatting effect.
+- Follow the root [schema ownership](../AGENTS.md#schema-rules) and [codegen guidance](../AGENTS.md#codegen).
 - Use `graph/common/bindings/` recipes only when a shared ERC-20 or PRB Proxy binding changes.
 
 ## Graph Recipes

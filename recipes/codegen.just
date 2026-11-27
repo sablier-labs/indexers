@@ -21,11 +21,19 @@ set working-directory := ".."
 # Codegen the GraphQL schema
 [group("envio")]
 [group("graph")]
-@schema vendor="all" indexer="all":
-    just cli codegen schema \
-        --vendor {{ vendor }} \
-        --indexer {{ indexer }}
-    just --quiet biome-write "envio/**/*.graphql"
+[positional-arguments]
+[script("bash")]
+schema vendor="all" indexer="all":
+    set -euo pipefail
+    pnpm tsx cli/index.ts codegen schema --vendor "$1" --indexer "$2"
+
+    if [[ "$1" != "graph" && "$2" != "analytics" ]]; then
+        just codegen::_public-for-each codegen::_format-envio-schema "$2"
+    fi
+
+[positional-arguments]
+@_format-envio-schema indexer:
+    just --quiet biome-write "envio/$1/$1.graphql"
 
 # ---------------------------------------------------------------------------- #
 #                                     ENVIO                                    #
@@ -82,7 +90,7 @@ _codegen-envio-bindings indexer:
 [doc("Codegen everything for the Graph indexer")]
 [group("graph")]
 @graph indexer="all":
-    just codegen::_graph-for-each codegen::_codegen-graph {{ indexer }}
+    just codegen::_public-for-each codegen::_codegen-graph {{ indexer }}
 
 @_codegen-graph indexer:
     just codegen::schema graph {{ indexer }}
@@ -92,7 +100,7 @@ _codegen-envio-bindings indexer:
 # Codegen the Graph subgraph bindings
 [group("graph")]
 @graph-bindings indexer="all":
-    just codegen::_graph-for-each codegen::_codegen-graph-bindings {{ indexer }}
+    just codegen::_public-for-each codegen::_codegen-graph-bindings {{ indexer }}
 
 [script("bash")]
 _codegen-graph-bindings indexer:
@@ -145,16 +153,17 @@ _envio-for-each recipe indexer:
             ;;
     esac
 
-# Helper to run a Graph recipe for all indexers or a specific one
+# Run a recipe for all public indexers or one selected indexer
+[positional-arguments]
 [script("bash")]
-_graph-for-each recipe indexer:
-    case "{{ indexer }}" in
+_public-for-each recipe indexer:
+    case "$2" in
         all)
             just _concurrent-indexers \
-                "just {{ recipe }} airdrops" \
-                "just {{ recipe }} streams"
+                "just $1 airdrops" \
+                "just $1 streams"
             ;;
         *)
-            just {{ recipe }} {{ indexer }}
+            just "$1" "$2"
             ;;
     esac
