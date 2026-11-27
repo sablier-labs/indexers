@@ -24,11 +24,12 @@ jobs:
 
       - name: Run the tests
         id: tests
-        continue-on-error: true
         env:
           TEST_VENDORS: true
         run: just ci-run test
 
       - name: Generate test summary
-        if: always()
-        run: bun run ./tests/summarize-test-failures.ts >> $GITHUB_STEP_SUMMARY
+        if: ${{ !cancelled() && (steps.tests.outcome == 'success' || steps.tests.outcome == 'failure') }}
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+        run: bun run ./tests/summarize-test-failures.ts >> "$GITHUB_STEP_SUMMARY"
