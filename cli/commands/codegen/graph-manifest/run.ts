@@ -1,6 +1,6 @@
 import { FileSystem } from "@effect/platform";
 import chalk from "chalk";
-import { Console, Effect, Either } from "effect";
+import { Cause, Console, Effect, Either, Exit } from "effect";
 import * as _ from "lodash-es";
 import { sablier } from "sablier";
 import type { Indexer } from "../../../../src/index.js";
@@ -74,20 +74,28 @@ function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog
     const results: ManifestResult[] = [];
 
     for (const chainId of graphChains) {
-      const chain = sablier.chains.get(chainId);
-      const manifestPath = yield* Effect.either(writeManifestToFile(target, chainId));
+      const chainName = sablier.chains.get(chainId)?.name ?? "Unknown";
+      const result = yield* Effect.exit(writeManifestToFile(target, chainId));
 
-      if (Either.isRight(manifestPath)) {
+      if (Exit.isSuccess(result)) {
         results.push({
           chainId,
-          chainName: chain?.name || "Unknown",
-          manifestPath: manifestPath.right,
+          chainName,
+          manifestPath: result.value,
           status: "generated",
         });
       } else {
+        if (Cause.isInterrupted(result.cause)) {
+          return yield* Effect.failCause(result.cause);
+        }
+        const error = Cause.squash(result.cause);
+        const message = error instanceof Error ? error.message : String(error);
+        yield* Console.error(
+          `❌ ${target} manifest for ${chainName} (${chainId}) failed with ${message}`
+        );
         results.push({
           chainId,
-          chainName: chain?.name || "Unknown",
+          chainName,
           manifestPath: "",
           status: "error",
         });
@@ -99,6 +107,9 @@ function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog
         new Error(`No manifests generated for target ${_.capitalize(target)}. This is a bug.`)
       );
     }
+
+    const generated = results.filter((r) => r.status === "generated").length;
+    const errors = results.length - generated;
 
     if (!suppressFinalLog) {
       yield* displayHeader(
@@ -126,10 +137,6 @@ function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog
 
       yield* Console.log(table.toString());
 
-      // Summary statistics
-      const generated = results.filter((r) => r.status === "generated").length;
-      const errors = results.filter((r) => r.status === "error").length;
-
       yield* Console.log("");
       const summaryTable = createTable({
         colWidths: [20, 10],
@@ -146,35 +153,54 @@ function generateAllChainManifests(target: Indexer.GraphTarget, suppressFinalLog
       yield* Console.log(summaryTable.toString());
 
       yield* Console.log("");
-      yield* Console.log(colors.success(`✅ Successfully generated ${generated} manifests`));
+      yield* Console.log(
+        errors === 0
+          ? colors.success(`✅ Successfully generated ${generated} manifests`)
+          : `Generated ${generated} of ${results.length} manifests`
+      );
       yield* Console.log(colors.dim(`📁 Output directory: ${yield* getRelative(manifestsDir)}`));
     }
 
-    return results.filter((r) => r.status === "generated").length;
+    return { errors, generated };
   });
 }
 
 function generateAllIndexerManifests(chainArg: string) {
   return Effect.gen(function* () {
-    let totalCount = 0;
-    const targets = GRAPH_TARGETS;
+    if (chainArg !== "all") {
+      for (const target of GRAPH_TARGETS) {
+        yield* generateManifest(target, chainArg);
+      }
+      return;
+    }
 
-    for (const target of targets) {
-      if (chainArg === "all") {
-        const filesGenerated = yield* generateAllChainManifests(target, true);
-        totalCount += filesGenerated;
-        yield* Console.log(
-          `✅ Generated ${filesGenerated} manifests for ${_.capitalize(target)} target`
-        );
+    const failures: string[] = [];
+    let totalCount = 0;
+    for (const target of GRAPH_TARGETS) {
+      const result = yield* Effect.either(generateAllChainManifests(target, true));
+      if (Either.isLeft(result)) {
+        failures.push(`Failed to generate ${target} manifests. ${result.left.message}`);
         continue;
       }
 
-      yield* generateManifest(target, chainArg);
+      const { errors, generated } = result.right;
+      totalCount += generated;
+      if (errors > 0) {
+        failures.push(`Failed to generate ${target} manifests (${errors} failed)`);
+      }
+      yield* Console.log(
+        errors === 0
+          ? `✅ Generated ${generated} manifests for ${_.capitalize(target)} target`
+          : `Generated ${generated} of ${generated + errors} manifests for ${_.capitalize(target)} target`
+      );
     }
 
-    if (chainArg === "all") {
-      yield* Console.log(`🎉 Generated ${totalCount} manifests in total`);
-      yield* Console.log();
+    yield* Console.log(
+      `${failures.length === 0 ? "🎉 " : ""}Generated ${totalCount} manifests in total`
+    );
+    yield* Console.log();
+    if (failures.length > 0) {
+      return yield* Effect.fail(new Error(failures.join("\n")));
     }
   });
 }
@@ -192,7 +218,12 @@ export const handler = (options: {
     }
 
     if (chainArg === "all") {
-      yield* generateAllChainManifests(targetArg);
+      const { errors } = yield* generateAllChainManifests(targetArg);
+      if (errors > 0) {
+        return yield* Effect.fail(
+          new Error(`Failed to generate ${targetArg} manifests (${errors} failed)`)
+        );
+      }
       return;
     }
 
