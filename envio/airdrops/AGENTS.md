@@ -2,13 +2,12 @@
 
 Public Envio indexer for Sablier airdrop campaigns. Its `airdrops.graphql` is generated from `schema/`.
 
-Each versioned mapping directory requires a wrapper `.ts` file for every factory contract alongside the factory's
-handler subdirectory, for example:
+For each versioned factory contract, add the TypeScript entry module at the `handler` path in the generated
+`config.yaml`. Envio imports this module at startup. Register handlers directly in the entry module or import modules
+that register them. For example, the v3.0 Merkle Instant factory entry module imports its handler registration from a
+subdirectory.
 
 ```text
 mappings/v3.0/SablierFactoryMerkleInstant.ts
 mappings/v3.0/SablierFactoryMerkleInstant/create-instant.ts
 ```
-
-The wrapper re-exports the handler. Generated `config.yaml` points to it and Envio imports it at startup, so add both
-the wrapper and subdirectory when adding a factory contract version.
