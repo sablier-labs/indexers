@@ -1,8 +1,11 @@
+import { Version } from "sablier/evm";
 import { isOfficialLockup } from "../../../../common/helpers.js";
 import { Contract } from "../../../bindings.js";
 import type { Params } from "../../../helpers/index.js";
 import { Store } from "../../../store/index.js";
 import { createMerkle, preloadCreateEntities } from "../../common/factory/index.js";
+
+const airdropsVersion = Version.Airdrops.V1_3;
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -45,7 +48,7 @@ struct Schedule {
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, event }) => {
   const lockupAddress = event.params.lockup;
-  if (!isOfficialLockup(context.log, event, lockupAddress)) {
+  if (!isOfficialLockup(context.log, event, lockupAddress, { airdropsVersion })) {
     return;
   }
   const campaignAddress = event.params.merkleLL;
@@ -53,6 +56,10 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.contractRegister(({ context, 
 });
 
 Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, event }) => {
+  const lockupAddress = event.params.lockup;
+  if (!isOfficialLockup(context.log, event, lockupAddress, { airdropsVersion })) {
+    return;
+  }
   const { baseParams } = event.params;
   const admin = baseParams.initialAdmin;
   const asset = baseParams.token;
@@ -74,7 +81,7 @@ Contract.Factory.MerkleFactory_v1_3.CreateMerkleLL.handler(async ({ context, eve
     cliffPercentage: event.params.schedule.cliffPercentage,
     expiration: baseParams.expiration,
     ipfsCID: baseParams.ipfsCID,
-    lockup: event.params.lockup,
+    lockup: lockupAddress,
     merkleRoot: baseParams.merkleRoot,
     minimumFee: event.params.fee,
     name: baseParams.campaignName,

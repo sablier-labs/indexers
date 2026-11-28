@@ -1,7 +1,11 @@
 import { FileSystem, Error as PlatformError } from "@effect/platform";
 import { NodeFileSystem } from "@effect/platform-node";
 import { Cause, Console, Effect, Exit, Layer } from "effect";
+import { sablier } from "sablier";
+import type { Version } from "sablier/evm";
+import { chains, contracts, isLockupCompatible } from "sablier/evm";
 import { describe, expect, it, vi } from "vitest";
+import { createGraphManifest } from "../../cli/commands/codegen/graph-manifest/index.js";
 import { handler } from "../../cli/commands/codegen/graph-manifest/run.js";
 import { CliEnvLive } from "../../cli/services/env.js";
 import { CliUiLive } from "../../cli/services/ui.js";
@@ -10,6 +14,59 @@ import paths from "../../cli/utils/paths.js";
 import { graphChains } from "../../src/indexers/graph.js";
 
 const ETHEREUM_WRITE_ERROR = /airdrops manifest for Ethereum \(1\).*mock disk is full/u;
+
+describe("Graph Airdrops Lockup allowlists", () => {
+  it.each(graphChains)(
+    "preserves each factory's ordered allowlist on chain %s",
+    async (chainId) => {
+      const eligibleNames = new Set<string>([
+        contracts.names.SABLIER_LOCKUP,
+        contracts.names.SABLIER_V2_LOCKUP_LINEAR,
+        contracts.names.SABLIER_V2_LOCKUP_TRANCHED,
+      ]);
+      const manifest = await Effect.runPromise(
+        createGraphManifest("airdrops", chainId).pipe(Effect.provide(NodeFileSystem.layer))
+      );
+      const factories = manifest.dataSources.filter(({ name }) => name !== "IndexerInfo");
+      expect(factories.length).toBeGreaterThan(0);
+      for (const { context, name } of factories) {
+        if (!context?.version) {
+          throw new Error(`Missing version context for ${name}`);
+        }
+        const factoryVersion = context.version.data as Version.Airdrops;
+        const addresses = sablier.releases
+          .getAll({ protocol: "lockup" })
+          .filter(({ version }) => isLockupCompatible(factoryVersion, version as Version.Lockup))
+          .flatMap(({ deployments }) =>
+            deployments.filter((deployment) => deployment.chainId === chainId)
+          )
+          .flatMap((deployment) => deployment.contracts)
+          .filter((contract) => eligibleNames.has(contract.name))
+          .map(({ address }) => ({ data: address.toLowerCase(), type: "String" }));
+        expect(context.lockups, name).toEqual({ data: addresses, type: "List" });
+      }
+    }
+  );
+
+  it("reports missing Lockup deployments", async () => {
+    const { getAll } = sablier.releases;
+    const releases = vi
+      .spyOn(sablier.releases, "getAll")
+      .mockImplementation((options) => (options?.protocol === "lockup" ? [] : getAll(options)));
+    try {
+      const result = await Effect.runPromiseExit(
+        createGraphManifest("airdrops", chains.sepolia.id).pipe(
+          Effect.provide(NodeFileSystem.layer)
+        )
+      );
+      expect(Exit.isFailure(result) && Cause.pretty(result.cause)).toContain(
+        "No contracts found for lockup on Sepolia"
+      );
+    } finally {
+      releases.mockRestore();
+    }
+  });
+});
 
 describe("Graph manifest batches", () => {
   it.each([

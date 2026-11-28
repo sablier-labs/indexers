@@ -1,9 +1,12 @@
+import { Version } from "sablier/evm";
 import { isDeprecatedContract as isDeprecatedFactory } from "../../../../common/deprecated.js";
 import { isOfficialLockup } from "../../../../common/helpers.js";
 import { Contract } from "../../../bindings.js";
 import type { Params } from "../../../helpers/index.js";
 import { Store } from "../../../store/index.js";
 import { createMerkle, preloadCreateEntities } from "../../common/factory/index.js";
+
+const airdropsVersion = Version.Airdrops.V1_2;
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -46,7 +49,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.contractRegister(({ con
     return;
   }
   const lockupAddress = event.params.lockupLinear;
-  if (!isOfficialLockup(context.log, event, lockupAddress)) {
+  if (!isOfficialLockup(context.log, event, lockupAddress, { airdropsVersion })) {
     return;
   }
   const campaignAddress = event.params.merkleLL;
@@ -54,6 +57,10 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.contractRegister(({ con
 });
 
 Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(async ({ context, event }) => {
+  const lockupAddress = event.params.lockupLinear;
+  if (!isOfficialLockup(context.log, event, lockupAddress, { airdropsVersion })) {
+    return;
+  }
   const admin = event.params.baseParams.initialAdmin;
   const { asset } = event.params.baseParams;
   const result = await preloadCreateEntities({
@@ -79,7 +86,7 @@ Contract.Factory.MerkleLockupFactory_v1_2.CreateMerkleLL.handler(async ({ contex
     cliffPercentage: undefined,
     expiration: baseParams.expiration,
     ipfsCID: baseParams.ipfsCID,
-    lockup: event.params.lockupLinear,
+    lockup: lockupAddress,
     merkleRoot: baseParams.merkleRoot,
     minimumFee: undefined,
     name: baseParams.name,

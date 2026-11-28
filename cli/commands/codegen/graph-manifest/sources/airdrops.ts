@@ -1,9 +1,6 @@
 import { Effect } from "effect";
-import * as _ from "lodash-es";
-import type { Sablier } from "sablier";
-import { sablier } from "sablier";
 import type { Version } from "sablier/evm";
-import { contracts, isLockupCompatible } from "sablier/evm";
+import { getCompatibleLockupAddresses } from "../../../../../contracts/compatible-lockups.js";
 import { CodegenError } from "../../errors.js";
 import type { GraphManifest } from "../manifest-types.js";
 import { getSources } from "./get-sources.js";
@@ -31,50 +28,17 @@ export function getAirdropsSources(chainId: number) {
 function getLockups(context: GraphManifest.Context) {
   return Effect.gen(function* () {
     const chainId = Number(context.chainId.data);
-    const lockupContracts = sablier.contracts.getAll({ chainId, protocol: "lockup" });
-    if (_.isEmpty(lockupContracts)) {
+    const addresses = getCompatibleLockupAddresses(
+      chainId,
+      context.version?.data as Version.Airdrops
+    );
+    if (!addresses) {
       return yield* Effect.fail(new CodegenError.ContractsNotFound("lockup", chainId));
     }
 
-    const data: GraphManifest.ContextItem.Address[] = [];
-
-    for (const lockupRelease of sablier.releases.getAll({ protocol: "lockup" })) {
-      const airdropsVersion = context.version?.data as Version.Airdrops;
-      const lockupVersion = lockupRelease.version as Version.Lockup;
-      if (!isLockupCompatible(airdropsVersion, lockupVersion)) {
-        continue;
-      }
-
-      for (const deployment of lockupRelease.deployments) {
-        if (deployment.chainId !== chainId) {
-          continue;
-        }
-        for (const contract of deployment.contracts) {
-          // Look only for Lockup contracts compatible with Merkle factories
-          if (!isLockupContractName(contract.name)) {
-            continue;
-          }
-
-          data.push({
-            data: contract.address.toLowerCase() as Sablier.Address,
-            type: "String",
-          });
-        }
-      }
-    }
-
     return {
-      data,
+      data: addresses.map((data) => ({ data, type: "String" })),
       type: "List",
     } satisfies GraphManifest.ContextItem.ListAddress;
   });
-}
-
-function isLockupContractName(name: string): boolean {
-  const supported = [
-    contracts.names.SABLIER_LOCKUP,
-    contracts.names.SABLIER_V2_LOCKUP_LINEAR,
-    contracts.names.SABLIER_V2_LOCKUP_TRANCHED,
-  ];
-  return supported.includes(name);
 }

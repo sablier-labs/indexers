@@ -1,9 +1,12 @@
+import { Version } from "sablier/evm";
 import { isDeprecatedContract as isDeprecatedFactory } from "../../../common/deprecated.js";
 import { isOfficialLockup } from "../../../common/helpers.js";
 import { Contract } from "../../bindings.js";
 import type { Params } from "../../helpers/index.js";
 import { Store } from "../../store/index.js";
 import { createMerkle, preloadCreateEntities } from "../common/factory/index.js";
+
+const airdropsVersion = Version.Airdrops.V1_1;
 
 /*
 ──────────────────────────────────────────────────────────────
@@ -41,7 +44,7 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.contractRegis
       return;
     }
     const lockupAddress = event.params.lockupLinear;
-    if (!isOfficialLockup(context.log, event, lockupAddress)) {
+    if (!isOfficialLockup(context.log, event, lockupAddress, { airdropsVersion })) {
       return;
     }
     const campaignAddress = event.params.merkleStreamer;
@@ -51,6 +54,10 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.contractRegis
 
 Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handler(
   async ({ context, event }) => {
+    const lockupAddress = event.params.lockupLinear;
+    if (!isOfficialLockup(context.log, event, lockupAddress, { airdropsVersion })) {
+      return;
+    }
     const result = await preloadCreateEntities({ context, event, params: event.params });
     if (!result) {
       return;
@@ -69,7 +76,7 @@ Contract.Factory.MerkleStreamerFactory_v1_1.CreateMerkleStreamerLL.handler(
       cliffPercentage: undefined,
       expiration: event.params.expiration,
       ipfsCID: event.params.ipfsCID,
-      lockup: event.params.lockupLinear,
+      lockup: lockupAddress,
       merkleRoot: event.params.merkleRoot,
       minimumFee: undefined,
       name: undefined,
