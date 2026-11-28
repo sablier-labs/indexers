@@ -11,3 +11,7 @@ subdirectory.
 mappings/v3.0/SablierFactoryMerkleInstant.ts
 mappings/v3.0/SablierFactoryMerkleInstant/create-instant.ts
 ```
+
+For linear and tranched campaign creation, pass the factory's Airdrops version to `isOfficialLockup`. In
+`contractRegister`, check the Lockup before registering the campaign. In the creation handler, check it before
+preloading entities so rejected events do not advance campaign or action counters.
